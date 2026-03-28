@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
+<script src="https://hypothes.is/embed.js" async></script>
 <title>Progress Monitoring Battery Research -- Deep Research Report</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -38,25 +39,25 @@
   @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .sidebar { display: none; } .mobile-nav { display: flex; } }
 
   /* Sidebar */
-  .sidebar { background: var(--bg-secondary); border-right: 1px solid var(--border); padding: 20px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+  .sidebar { background: var(--bg-secondary); border-right: none; padding: 20px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
   .sidebar h1 { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
   .sidebar .subtitle { font-size: 12px; color: var(--text-dim); margin-bottom: 20px; }
   .sidebar h2 { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin: 16px 0 8px; }
 
   .nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 6px; cursor: pointer; transition: all 0.15s; margin-bottom: 2px; text-decoration: none; color: var(--text-muted); font-size: 13px; }
   .nav-item:hover { background: var(--bg-card); color: var(--text-secondary); }
-  .nav-item.active { background: var(--accent-blue-bg); color: var(--accent-blue); border: 1px solid rgba(59,130,246,0.3); }
+  .nav-item.active { background: var(--accent-blue-bg); color: var(--accent-blue); }
   .nav-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
   .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px; }
-  .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 10px; text-align: center; }
+  .stat-card { background: var(--bg-card); border: none; border-radius: 8px; padding: 10px; text-align: center; }
   .stat-value { font-size: 22px; font-weight: 700; color: var(--text-primary); }
   .stat-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
 
   /* Mobile nav */
-  .mobile-nav { display: none; position: sticky; top: 0; z-index: 100; background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 12px 16px; overflow-x: auto; gap: 8px; }
-  .mobile-nav button { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); padding: 6px 12px; border-radius: 16px; font-size: 12px; white-space: nowrap; cursor: pointer; }
-  .mobile-nav button.active { background: var(--accent-blue-bg); border-color: var(--accent-blue); color: var(--accent-blue); }
+  .mobile-nav { display: none; position: sticky; top: 0; z-index: 100; background: var(--bg-secondary); border-bottom: none; padding: 12px 16px; overflow-x: auto; gap: 8px; }
+  .mobile-nav button { background: var(--bg-card); border: none; color: var(--text-muted); padding: 6px 12px; border-radius: 16px; font-size: 12px; white-space: nowrap; cursor: pointer; }
+  .mobile-nav button.active { background: var(--accent-blue-bg); color: var(--accent-blue); }
 
   /* Main content */
   .main { padding: 32px 40px; max-width: 960px; }
@@ -69,12 +70,12 @@
   .section-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5; }
 
   /* Cards */
-  .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 16px; transition: border-color 0.15s; }
-  .card:hover { border-color: var(--border-hover); }
+  .card { background: var(--bg-card); border: none; border-radius: 10px; padding: 20px; margin-bottom: 16px; transition: background 0.15s; }
+  .card:hover { background: var(--bg-hover); }
   .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; cursor: pointer; }
   .card-title { font-size: 15px; font-weight: 600; color: var(--text-primary); line-height: 1.4; }
   .card-meta { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
-  .card-body { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .card-body { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(45,51,72,0.5); }
   .card.expanded .card-body { display: block; }
   .card-toggle { color: var(--text-dim); font-size: 18px; flex-shrink: 0; transition: transform 0.2s; }
   .card.expanded .card-toggle { transform: rotate(180deg); }
@@ -114,7 +115,7 @@
   /* Construct matrix */
   .matrix-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 12px; }
   .matrix-table th { background: var(--bg-secondary); color: var(--text-dim); font-weight: 600; text-transform: uppercase; font-size: 10px; letter-spacing: 0.05em; padding: 8px 10px; text-align: left; position: sticky; top: 0; }
-  .matrix-table td { padding: 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .matrix-table td { padding: 10px; border-bottom: 1px solid rgba(45,51,72,0.4); vertical-align: top; }
   .matrix-table tr:hover td { background: var(--bg-hover); }
   .matrix-instrument { font-weight: 600; color: var(--text-primary); white-space: nowrap; }
   .matrix-construct { color: var(--text-muted); font-size: 11px; }
@@ -127,7 +128,7 @@
   /* Architecture diagram */
   .arch-row { display: flex; gap: 16px; margin-bottom: 16px; align-items: stretch; }
   @media (max-width: 700px) { .arch-row { flex-direction: column; } }
-  .arch-box { flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .arch-box { flex: 1; background: var(--bg-card); border: none; border-radius: 10px; padding: 16px; }
   .arch-box h3 { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
   .arch-box .freq { font-size: 11px; color: var(--accent-cyan); font-weight: 500; margin-bottom: 8px; }
   .arch-box ul { list-style: none; padding: 0; }
@@ -136,9 +137,9 @@
   .arch-self li::before { background: var(--accent-blue); }
   .arch-coach li::before { background: var(--accent-green); }
   .arch-goal li::before { background: var(--accent-amber); }
-  .arch-border-blue { border-color: rgba(59,130,246,0.3); }
-  .arch-border-green { border-color: rgba(34,197,94,0.3); }
-  .arch-border-amber { border-color: rgba(245,158,11,0.3); }
+  .arch-border-blue { border-left: 3px solid rgba(59,130,246,0.5); }
+  .arch-border-green { border-left: 3px solid rgba(34,197,94,0.5); }
+  .arch-border-amber { border-left: 3px solid rgba(245,158,11,0.5); }
 
   /* Source coverage */
   .source-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
@@ -148,7 +149,7 @@
   .source-count { font-size: 12px; color: var(--text-dim); width: 30px; }
 
   /* Finding highlight */
-  .finding-highlight { background: linear-gradient(135deg, var(--accent-blue-bg) 0%, var(--bg-card) 100%); border: 1px solid rgba(59,130,246,0.3); border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+  .finding-highlight { background: linear-gradient(135deg, var(--accent-blue-bg) 0%, var(--bg-card) 100%); border: none; border-radius: 10px; padding: 20px; margin-bottom: 16px; }
   .finding-highlight h3 { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
   .finding-highlight p { font-size: 13px; line-height: 1.6; color: var(--text-secondary); }
   .finding-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; background: var(--accent-blue); color: white; border-radius: 50%; font-size: 12px; font-weight: 700; margin-right: 8px; flex-shrink: 0; }
@@ -160,7 +161,7 @@
   .meter-label { font-size: 11px; color: var(--text-dim); }
 
   /* Build opp cards */
-  .build-card { background: var(--bg-card); border: 1px solid var(--border); border-left: 4px solid; border-radius: 0 10px 10px 0; padding: 16px 20px; margin-bottom: 12px; }
+  .build-card { background: var(--bg-card); border: none; border-left: 4px solid; border-radius: 0 10px 10px 0; padding: 16px 20px; margin-bottom: 12px; }
   .build-critical { border-left-color: var(--accent-red); }
   .build-high { border-left-color: var(--accent-amber); }
   .build-moderate { border-left-color: var(--accent-blue); }
@@ -169,10 +170,10 @@
 
   /* Search/filter */
   .search-bar { display: flex; gap: 8px; margin-bottom: 20px; }
-  .search-input { flex: 1; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px; color: var(--text-primary); font-size: 13px; outline: none; }
-  .search-input:focus { border-color: var(--accent-blue); }
-  .filter-btn { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); padding: 6px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; transition: all 0.15s; }
-  .filter-btn:hover, .filter-btn.active { background: var(--accent-blue-bg); border-color: var(--accent-blue); color: var(--accent-blue); }
+  .search-input { flex: 1; background: var(--bg-card); border: none; border-radius: 8px; padding: 8px 14px; color: var(--text-primary); font-size: 13px; outline: none; }
+  .search-input:focus { box-shadow: 0 0 0 2px rgba(59,130,246,0.3); }
+  .filter-btn { background: var(--bg-card); border: none; color: var(--text-muted); padding: 6px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; transition: all 0.15s; }
+  .filter-btn:hover, .filter-btn.active { background: var(--accent-blue-bg); color: var(--accent-blue); }
 </style>
 </head>
 <body>
@@ -207,6 +208,9 @@
     </a>
     <a class="nav-item" data-section="sources" onclick="showSection('sources')">
       <div class="nav-dot" style="background:var(--text-dim)"></div> Source Coverage
+    </a>
+    <a class="nav-item" data-section="method" onclick="showSection('method')">
+      <div class="nav-dot" style="background:var(--text-dim)"></div> How This Was Made
     </a>
 
     <h2>Session Stats</h2>
@@ -501,7 +505,7 @@
       <h2 class="section-title">Construct Alignment Matrix</h2>
       <p class="section-desc">For each T1 v6trans trait instrument, what behavioral PM measure could track the same subdomain?</p>
 
-      <div style="margin-bottom:20px;padding:14px 18px;background:linear-gradient(135deg, var(--accent-purple-bg) 0%, var(--bg-card) 100%);border:1px solid rgba(168,85,247,0.3);border-radius:10px;">
+      <div style="margin-bottom:20px;padding:14px 18px;background:linear-gradient(135deg, var(--accent-purple-bg) 0%, var(--bg-card) 100%);border:none;border-radius:10px;">
         <div style="font-size:14px;font-weight:600;color:var(--text-primary);margin-bottom:6px;">Key Insight: Three Measurement Roles</div>
         <div style="font-size:12px;color:var(--text-muted);line-height:1.5;">
           <strong style="color:var(--accent-red);">Mechanism (T1 only):</strong> EF instruments profile WHY a skill is low. The DDx uses this to select interventions. Not re-measured.<br>
@@ -574,7 +578,7 @@
         </tr>
       </table>
 
-      <div style="margin-top:16px;padding:12px 16px;background:var(--bg-card);border-radius:8px;border:1px solid var(--border);">
+      <div style="margin-top:16px;padding:12px 16px;background:var(--bg-card);border-radius:8px;border:none;">
         <div style="font-size:12px;color:var(--text-dim);margin-bottom:4px;">Legend</div>
         <span class="matrix-status" style="color:var(--accent-red);margin-right:16px;">MECHANISM</span> T1 only -- profiles the intervention target for DDx
         <span class="matrix-status" style="color:var(--accent-cyan);margin:0 16px;">ENABLER</span> Re-administered at T2/T3 -- confirms supportive context
@@ -885,6 +889,38 @@
           <strong style="color:var(--accent-amber)">Moderate:</strong> Coaching outcomes (meta-analyses exist), ROM (therapy RCTs), GAS (rehabilitation).<br>
           <strong style="color:var(--accent-red)">Thin:</strong> Progress monitoring battery design for coaching specifically. Construct alignment between trait and behavioral measures. Cross-population invariance for coaching instruments. These are build opportunities, not evidence gaps to be filled by more searching.
         </p>
+      </div>
+    </div>
+
+    <!-- HOW THIS WAS MADE -->
+    <div class="section" id="sec-method">
+      <h2 class="section-title">How This Was Made</h2>
+      <p class="section-desc">This report was generated in a single Claude Code session using a skill-based pipeline.</p>
+
+      <div class="card" style="background:var(--bg-card)">
+        <div class="card-title" style="margin-bottom:12px">Pipeline</div>
+        <div style="font-size:13px;color:var(--text-muted);line-height:1.7;">
+          <strong style="color:var(--text-primary)">1. Brainstorm</strong> -- collaborative scoping of 7 research threads with Eric, refining population lens (working adults), evidence gap strategy, and the mechanism-vs-outcome framing<br>
+          <strong style="color:var(--text-primary)">2. Deep Research</strong> -- <code>/deep-research</code> skill dispatched 7 parallel API agents (Semantic Scholar, OpenAlex, Europe PMC, ERIC, Papers With Code, Perplexity web, community forums) with a planner that optimized search terms from prior session learning. 148 sources merged, deduplicated by DOI, claims extracted per structured schema.<br>
+          <strong style="color:var(--text-primary)">3. Report</strong> -- single-file interactive HTML written directly by Claude Code, published to Vercel via <code>/publish-report</code> skill (git push auto-deploys). Hypothesis.io embedded for team annotation.<br>
+          <strong style="color:var(--text-primary)">4. Persistence</strong> -- findings JSON + session log committed to PM-Hub. Neo4j KG ingestion pending. Source effectiveness scores updated for future session optimization.
+        </div>
+      </div>
+
+      <div class="card" style="background:var(--bg-card);margin-top:12px">
+        <div class="card-title" style="margin-bottom:12px">Tools Used</div>
+        <div style="font-size:13px;color:var(--text-muted);line-height:1.7;">
+          <strong style="color:var(--accent-blue)">Claude Code</strong> -- orchestrator, synthesis, HTML generation<br>
+          <strong style="color:var(--accent-green)">Deep Research skill</strong> -- 14-step research pipeline with planner, fan-out agents, merge, appraisal, persistence<br>
+          <strong style="color:var(--accent-purple)">PM-Hub KG</strong> (LightRAG + Gemini) -- product context, decision records, prior research<br>
+          <strong style="color:var(--accent-cyan)">Code KG</strong> (MCP) -- instrument definitions, battery structure, scoring pipeline<br>
+          <strong style="color:var(--accent-amber)">Hypothesis.io</strong> -- inline annotation for team review (toggle the sidebar arrow at top-right)<br>
+          <strong style="color:var(--text-dim)">Vercel</strong> -- auto-deploy on git push to thriveiep-reports repo
+        </div>
+      </div>
+
+      <div style="margin-top:16px;padding:12px 16px;background:var(--bg-card);border-radius:8px;font-size:12px;color:var(--text-dim);">
+        Report generated March 28, 2026. Use the Hypothesis sidebar (top-right arrow) to annotate and comment directly on any text.
       </div>
     </div>
 
