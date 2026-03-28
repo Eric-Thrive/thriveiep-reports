@@ -586,72 +586,159 @@
     <!-- PM ARCHITECTURE -->
     <div class="section" id="sec-architecture">
       <h2 class="section-title">Recommended PM Architecture</h2>
-      <p class="section-desc">Three-tier measurement model based on ROM (Lambert), RTI/MTSS (ERIC), and multi-informant principles (De Los Reyes).</p>
+      <p class="section-desc">A three-tier measurement model that measures at different frequencies depending on how much time the student has. Draws from three evidence bases explained below.</p>
 
+      <!-- Background concepts -->
+      <div class="card">
+        <div class="card-header" onclick="toggleCard(this)">
+          <div>
+            <div class="card-title">Background: Where These Ideas Come From</div>
+            <div class="card-meta">Three fields inform this architecture</div>
+          </div>
+          <div class="card-toggle">&#9660;</div>
+        </div>
+        <div class="card-body">
+          <div class="claim">
+            <strong>Routine Outcome Monitoring (ROM)</strong> comes from psychotherapy research. The idea: give clients a very brief questionnaire at every session, track their scores over time, and alert the therapist when someone is falling behind expected progress. A meta-analysis by Lambert et al. (2018) showed this simple practice reduces client deterioration by 67% and doubles recovery rates. We want to adapt this for coaching.
+          </div>
+          <div class="claim">
+            <strong>RTI/MTSS progress monitoring</strong> comes from K-12 special education. Response to Intervention (RTI) and Multi-Tiered Systems of Support (MTSS) are frameworks where schools give students brief, frequent assessments to decide if an intervention is working. The key finding: you don't need to measure every week -- every-other-week or every 3 weeks works just as well for making good decisions (ERIC research). Growth isn't always linear, so the system needs to handle curved trajectories.
+          </div>
+          <div class="claim">
+            <strong>Multi-informant assessment</strong> means getting more than one perspective. When only the student self-reports, you get a single viewpoint that can be biased by how they're feeling that day or by wanting to look good. Adding a coach's perspective (even a quick rating) gives a second data point. Research by De Los Reyes &amp; Kazdin (2005) showed that when the student and coach disagree, the disagreement itself is meaningful -- it tells you something about the student's self-awareness or the coaching relationship.
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:24px">
+        <div class="card-header" onclick="toggleCard(this)">
+          <div>
+            <div class="card-title">Key Terms Glossary</div>
+            <div class="card-meta">Abbreviations used in the architecture below</div>
+          </div>
+          <div class="card-toggle">&#9660;</div>
+        </div>
+        <div class="card-body">
+          <div class="claim">
+            <strong>ORS (Outcome Rating Scale)</strong> -- A 4-item visual slider questionnaire that takes under 1 minute. The client marks where they are on four dimensions (personal well-being, close relationships, social life, overall). Originally from therapy; we'd adapt the dimensions to match coaching goals. Validated in 3+ randomized trials with 21,000+ patients.
+          </div>
+          <div class="claim">
+            <strong>GAS (Goal Attainment Scaling)</strong> -- A method where the coach and student define a personalized goal, then rate progress on a 5-point scale from -2 (much worse than expected) to +2 (much better than expected), with 0 = expected outcome. The power of GAS is that every student can have different goals, but you can still compare and aggregate scores across students because the scale is standardized.
+          </div>
+          <div class="claim">
+            <strong>NOT (Not-On-Track) alerting</strong> -- An algorithm that compares a student's actual progress to their expected trajectory. If they fall below the expected curve, the system flags them for the coach's attention. This is the mechanism behind ROM's effectiveness -- it catches students who are struggling before they drop out or disengage.
+          </div>
+          <div class="claim">
+            <strong>RCI (Reliable Change Index)</strong> -- A statistical formula (Jacobson &amp; Truax, 1991) that answers: "Did this student change more than you'd expect from measurement error alone?" If the RCI exceeds 1.96, you can be 95% confident the change is real, not just noise. The Hageman-Arrindell variant is better when students take similar measures repeatedly, because it accounts for practice effects (people scoring slightly better just because they've seen the questions before).
+          </div>
+          <div class="claim">
+            <strong>DIF (Differential Item Functioning)</strong> -- A statistical test that checks whether a question works the same way for different groups of people. For example: does "I take initiative at work" mean the same thing and have the same difficulty for a 35-year-old working adult vs. a 20-year-old traditional student? If not, that item has DIF and needs to be revised or scored differently for each group.
+          </div>
+          <div class="claim">
+            <strong>MIC / SDC (COSMIN framework)</strong> -- MIC is the Minimal Important Change: the smallest score change that actually matters to the student (not just statistically detectable). SDC is the Smallest Detectable Change: the smallest change the instrument can reliably detect given its measurement error. The rule: MIC must be larger than SDC, otherwise your instrument can't distinguish real meaningful change from noise. COSMIN is the international consensus framework that defines these standards.
+          </div>
+          <div class="claim">
+            <strong>Behavioral frequency items</strong> -- Questions that ask "In the past 2 weeks, how often did you [specific action]?" with response options like Never / Once / A few times / Weekly / Daily. These are more change-sensitive than agreement items ("I am the kind of person who...") because they anchor to a specific time window and ask about concrete countable actions rather than general self-concept.
+          </div>
+        </div>
+      </div>
+
+      <!-- Tier 1: Session -->
+      <div style="font-size:11px;color:var(--accent-blue);text-transform:uppercase;letter-spacing:0.08em;font-weight:600;margin-bottom:8px;">Tier 1: Every Coaching Session</div>
       <div class="arch-row">
         <div class="arch-box arch-self arch-border-blue">
-          <h3>Session-Level</h3>
-          <div class="freq">Every coaching session | &lt;2 min</div>
+          <h3>Student Quick Check-In</h3>
+          <div class="freq">Every coaching session | Under 2 minutes</div>
           <ul>
-            <li>Adapted ORS (4-6 items, visual analog)</li>
-            <li>Single-item global impression of change</li>
-            <li>NOT alerting algorithm (Lambert)</li>
+            <li><strong>Adapted ORS</strong> -- 4-6 slider items rating how things are going in areas relevant to the student's coaching goals. Takes under a minute. Tracked over time to create a progress curve.</li>
+            <li><strong>"Overall, how much have things changed?"</strong> -- A single question asking the student to rate their overall sense of progress since coaching started (1-5 scale). Simple but surprisingly effective as a progress signal.</li>
+            <li><strong>NOT alerting</strong> -- The system compares the student's scores against their expected trajectory. If they're falling behind, the coach gets a flag before the next session so they can adjust their approach.</li>
           </ul>
         </div>
         <div class="arch-box arch-coach arch-border-green">
-          <h3>Coach-Reported</h3>
-          <div class="freq">Every session | &lt;1 min</div>
+          <h3>Coach Quick Rating</h3>
+          <div class="freq">Every session | Under 1 minute</div>
           <ul>
-            <li>GAS rating (-2 to +2 per goal)</li>
-            <li>Competency observation (Boon model)</li>
-            <li>Discrepancy = clinical signal (ABC model)</li>
+            <li><strong>GAS rating per goal</strong> -- After each session, the coach rates: "Compared to what I expected, how is this student progressing on their primary goal?" on the -2 to +2 scale. Takes 15 seconds per goal.</li>
+            <li><strong>Skill observation</strong> -- Brief coach note on whether they observed the student demonstrating the target durable skill behavior during the session (yes/no/partially + optional 1-line note).</li>
+            <li><strong>When student and coach disagree</strong> -- If the student rates progress as high but the coach rates it as low (or vice versa), that discrepancy is surfaced as a conversation starter, not treated as an error.</li>
           </ul>
         </div>
       </div>
 
+      <!-- Tier 2: Sprint -->
+      <div style="font-size:11px;color:var(--accent-blue);text-transform:uppercase;letter-spacing:0.08em;font-weight:600;margin-bottom:8px;margin-top:8px;">Tier 2: Every 3 Weeks (Sprint Boundary)</div>
       <div class="arch-row">
         <div class="arch-box arch-self arch-border-blue">
-          <h3>Sprint-Level</h3>
-          <div class="freq">Every 3 weeks | ~10 min</div>
+          <h3>Targeted Behavioral Frequency Check</h3>
+          <div class="freq">Every 3 weeks | About 10 minutes</div>
           <ul>
-            <li>Targeted behavioral frequency scales</li>
-            <li>Only subdomains being coached</li>
-            <li>Adaptive: items vary by DDx targets</li>
-            <li>Piecewise growth modeling (not linear)</li>
+            <li><strong>Only the skills being coached</strong> -- If the DDx identified Initiative and Communication as this student's focus areas, they only answer questions about initiative and communication behaviors. Not all 12 skills.</li>
+            <li><strong>Behavioral frequency questions</strong> -- "In the past 2 weeks, how often did you [specific action the coach recommended]?" These are concrete and countable, anchored to the DDx intervention.</li>
+            <li><strong>Adaptive by DDx state</strong> -- A student in State 7 (EF Blocker) gets items about tool adoption ("How often did you use a written plan?"). A student in State 1 (Direct Skill Building) gets items about the skill behavior itself ("How often did you start a new task without being asked?").</li>
+            <li><strong>Growth modeling</strong> -- Scores are tracked on a curve, not assumed to be a straight line. Research shows assuming linear growth leads to wrong decisions by week 16. The system uses piecewise models that allow for fast initial gains that plateau.</li>
           </ul>
         </div>
         <div class="arch-box arch-goal arch-border-amber">
-          <h3>Goal-Based</h3>
-          <div class="freq">Every 3 weeks | ~3 min</div>
+          <h3>Goal Progress Review</h3>
+          <div class="freq">Every 3 weeks | About 3 minutes</div>
           <ul>
-            <li>GAS expanded (-2 to +2, individualized anchors)</li>
-            <li>Transfer gradient check: implementation / consistency / benefit / generalization</li>
-            <li>Aggregable across heterogeneous goals</li>
+            <li><strong>Expanded GAS</strong> -- The student and coach each independently rate progress on each active goal using the -2 to +2 scale, with personalized descriptions at each level written during goal-setting.</li>
+            <li><strong>Transfer gradient check</strong> -- For each goal, the student answers: (1) Am I doing the recommended action? (2) Am I doing it consistently, not just sometimes? (3) Is it actually helping with the target skill? (4) Am I noticing improvement in other areas too?</li>
+            <li><strong>Comparable across different goals</strong> -- Because GAS uses the same -2 to +2 scale regardless of what the goal is, you can aggregate and compare scores across students who have completely different coaching targets. A student working on initiative and a student working on communication both produce comparable progress numbers.</li>
           </ul>
         </div>
       </div>
 
+      <!-- Tier 3: Timepoint -->
+      <div style="font-size:11px;color:var(--accent-blue);text-transform:uppercase;letter-spacing:0.08em;font-weight:600;margin-bottom:8px;margin-top:8px;">Tier 3: Major Timepoints (T2 at 6-8 Weeks, T3 at End of Semester)</div>
       <div class="arch-row">
         <div class="arch-box arch-self arch-border-blue" style="flex:2">
-          <h3>Timepoint-Level</h3>
-          <div class="freq">T2 (6-8 weeks) and T3 (15 weeks) | ~15 min</div>
+          <h3>Full Progress Monitoring Battery</h3>
+          <div class="freq">T2 (mid-semester, 6-8 weeks) and T3 (end of semester, ~15 weeks) | About 15 minutes</div>
           <ul>
-            <li>Full PM battery: all 12 skills via behavioral frequency items (~51-53 items)</li>
-            <li>BMPN-18 + GMS-Bookends re-administration (already state-sensitive)</li>
-            <li>Optional: coach behavioral observation rating</li>
-            <li>RCI calculation per subscale (Hageman-Arrindell method)</li>
-            <li>DIF check across working adult vs. traditional student subgroups</li>
+            <li><strong>All 12 durable skills</strong> -- Behavioral frequency items covering every skill, not just the coached ones. This is where we detect broad transfer: are uncoached skills improving too?</li>
+            <li><strong>~51-53 items total</strong> -- Short enough to complete in one sitting. Every item uses "In the past 2 weeks, how often did you..." format.</li>
+            <li><strong>Re-administer BMPN-18 and GMS-Bookends</strong> -- These two instruments from the T1 battery already measure state-level constructs (psychological need satisfaction and motivation). Re-administering them tells us whether the coaching environment is supporting or undermining the student's basic needs.</li>
+            <li><strong>Optional: coach behavioral observation</strong> -- A structured rating form where the coach rates the student's behavioral skills across all 12 domains, providing a second perspective beyond self-report.</li>
+            <li><strong>Statistical analysis</strong> -- For each subscale, calculate the Reliable Change Index to determine whether this individual student's change is real (exceeds measurement error). Use the Hageman-Arrindell variant to account for practice effects from repeated measurement.</li>
+            <li><strong>Population fairness check</strong> -- Run DIF analysis to verify that items work equivalently for working adults and traditional-age students. If an item functions differently across groups, flag it for revision.</li>
           </ul>
         </div>
-        <div class="arch-box" style="flex:1;border-color:rgba(239,68,68,0.3)">
+        <div class="arch-box" style="flex:1;border-left:3px solid rgba(239,68,68,0.5);">
           <h3>Quality Gates</h3>
-          <div class="freq">At each measurement point</div>
+          <div class="freq">Checked at each measurement point</div>
           <ul style="list-style:none;padding:0;">
-            <li style="padding:3px 0;font-size:12px;color:var(--text-muted);">&#9745; Minimum probe reliability threshold</li>
-            <li style="padding:3px 0;font-size:12px;color:var(--text-muted);">&#9745; Effort/validity indicator check</li>
-            <li style="padding:3px 0;font-size:12px;color:var(--text-muted);">&#9745; MIC &gt; SDC per COSMIN</li>
-            <li style="padding:3px 0;font-size:12px;color:var(--text-muted);">&#9745; Cross-wave invariance</li>
+            <li style="padding:6px 0;font-size:12px;color:var(--text-muted);">&#9745; <strong>Reliability check</strong> -- Are the scores consistent enough to make decisions from? If internal consistency is too low, flag the subscale.</li>
+            <li style="padding:6px 0;font-size:12px;color:var(--text-muted);">&#9745; <strong>Effort/validity check</strong> -- Did the student engage genuinely? Detect straight-lining (same answer for everything), impossibly fast completion, or random-looking patterns.</li>
+            <li style="padding:6px 0;font-size:12px;color:var(--text-muted);">&#9745; <strong>MIC exceeds SDC</strong> -- Can this instrument actually detect changes that matter? If the smallest meaningful change is smaller than the instrument's noise floor, the instrument isn't useful for progress monitoring.</li>
+            <li style="padding:6px 0;font-size:12px;color:var(--text-muted);">&#9745; <strong>Cross-wave invariance</strong> -- Does the instrument measure the same thing at T2 as it did at T1? If the meaning of items drifts over time (e.g., students interpret "take initiative" differently after coaching), apparent change could be an artifact.</li>
           </ul>
+        </div>
+      </div>
+
+      <!-- How the tiers connect -->
+      <div class="card" style="margin-top:16px">
+        <div class="card-header" onclick="toggleCard(this)">
+          <div>
+            <div class="card-title">How the Three Tiers Work Together</div>
+            <div class="card-meta">Each tier answers a different question at a different timescale</div>
+          </div>
+          <div class="card-toggle">&#9660;</div>
+        </div>
+        <div class="card-body">
+          <div class="claim">
+            <strong>Session-level</strong> answers: "Is this student still engaged and making subjective progress?" It's an early warning system. If a student's ORS scores drop two sessions in a row, the coach knows something changed before the next formal assessment.
+          </div>
+          <div class="claim">
+            <strong>Sprint-level</strong> answers: "Is the student actually doing the recommended behaviors, and are those behaviors producing change in the targeted skill?" This is where the DDx intervention meets measurement. If the coach recommended using written plans (for a WM-constrained student), are they using them? And is their initiative actually improving as a result?
+          </div>
+          <div class="claim">
+            <strong>Timepoint-level</strong> answers: "Across the full semester, did coaching produce statistically reliable change in durable skill behaviors? Did improvement generalize beyond the coached domains?" This is the summative evaluation that feeds back into the DDx for the next coaching cycle and provides outcome data for the program.
+          </div>
+          <div class="claim">
+            <strong>The data flows up:</strong> Session data feeds the NOT algorithm. Sprint data feeds growth trajectory models. Timepoint data feeds RCI calculations and the program-level effectiveness report. At no point do we re-measure EF -- the T1 EF profile persists as the diagnostic context that explains why the student's coaching plan looks the way it does.
+          </div>
         </div>
       </div>
     </div>
