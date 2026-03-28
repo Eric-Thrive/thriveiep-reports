@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Progress Monitoring Battery Research -- Deep Research Report</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg-primary: #0f1117;
+    --bg-secondary: #181b24;
+    --bg-card: #1e2230;
+    --bg-hover: #252a3a;
+    --border: #2d3348;
+    --border-hover: #3b82f6;
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --text-dim: #64748b;
+    --accent-blue: #3b82f6;
+    --accent-blue-bg: #1e3a5f;
+    --accent-green: #22c55e;
+    --accent-green-bg: #14532d;
+    --accent-amber: #f59e0b;
+    --accent-amber-bg: #78350f;
+    --accent-red: #ef4444;
+    --accent-red-bg: #7f1d1d;
+    --accent-purple: #a855f7;
+    --accent-purple-bg: #3b0764;
+    --accent-cyan: #06b6d4;
+    --accent-cyan-bg: #164e63;
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg-primary); color: var(--text-secondary); min-height: 100vh; }
+
+  /* Layout */
+  .layout { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .sidebar { display: none; } .mobile-nav { display: flex; } }
+
+  /* Sidebar */
+  .sidebar { background: var(--bg-secondary); border-right: 1px solid var(--border); padding: 20px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+  .sidebar h1 { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+  .sidebar .subtitle { font-size: 12px; color: var(--text-dim); margin-bottom: 20px; }
+  .sidebar h2 { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin: 16px 0 8px; }
+
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 6px; cursor: pointer; transition: all 0.15s; margin-bottom: 2px; text-decoration: none; color: var(--text-muted); font-size: 13px; }
+  .nav-item:hover { background: var(--bg-card); color: var(--text-secondary); }
+  .nav-item.active { background: var(--accent-blue-bg); color: var(--accent-blue); border: 1px solid rgba(59,130,246,0.3); }
+  .nav-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px; }
+  .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 10px; text-align: center; }
+  .stat-value { font-size: 22px; font-weight: 700; color: var(--text-primary); }
+  .stat-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
+
+  /* Mobile nav */
+  .mobile-nav { display: none; position: sticky; top: 0; z-index: 100; background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 12px 16px; overflow-x: auto; gap: 8px; }
+  .mobile-nav button { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); padding: 6px 12px; border-radius: 16px; font-size: 12px; white-space: nowrap; cursor: pointer; }
+  .mobile-nav button.active { background: var(--accent-blue-bg); border-color: var(--accent-blue); color: var(--accent-blue); }
+
+  /* Main content */
+  .main { padding: 32px 40px; max-width: 960px; }
+  @media (max-width: 900px) { .main { padding: 20px 16px; } }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  h2.section-title { font-size: 24px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+  .section-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5; }
+
+  /* Cards */
+  .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 16px; transition: border-color 0.15s; }
+  .card:hover { border-color: var(--border-hover); }
+  .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; cursor: pointer; }
+  .card-title { font-size: 15px; font-weight: 600; color: var(--text-primary); line-height: 1.4; }
+  .card-meta { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+  .card-body { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .card.expanded .card-body { display: block; }
+  .card-toggle { color: var(--text-dim); font-size: 18px; flex-shrink: 0; transition: transform 0.2s; }
+  .card.expanded .card-toggle { transform: rotate(180deg); }
+
+  .claim { background: var(--bg-primary); border-left: 3px solid var(--accent-blue); padding: 12px 16px; border-radius: 0 6px 6px 0; margin-bottom: 10px; font-size: 13px; line-height: 1.5; }
+  .claim-quote { font-style: italic; color: var(--text-muted); margin-top: 6px; font-size: 12px; }
+  .claim-confidence { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: 600; text-transform: uppercase; margin-left: 6px; }
+  .confidence-high { background: var(--accent-green-bg); color: var(--accent-green); }
+  .confidence-medium { background: var(--accent-amber-bg); color: var(--accent-amber); }
+  .confidence-low { background: var(--accent-red-bg); color: var(--accent-red); }
+
+  /* Badges */
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; margin-right: 4px; }
+  .badge-blue { background: var(--accent-blue-bg); color: #93c5fd; }
+  .badge-green { background: var(--accent-green-bg); color: #86efac; }
+  .badge-amber { background: var(--accent-amber-bg); color: #fcd34d; }
+  .badge-red { background: var(--accent-red-bg); color: #fca5a5; }
+  .badge-purple { background: var(--accent-purple-bg); color: #d8b4fe; }
+  .badge-cyan { background: var(--accent-cyan-bg); color: #67e8f9; }
+
+  /* Transfer gradient viz */
+  .gradient-viz { display: flex; gap: 0; margin: 24px 0; position: relative; }
+  .gradient-step { flex: 1; padding: 16px 12px; text-align: center; position: relative; }
+  .gradient-step::after { content: ''; position: absolute; right: 0; top: 20%; height: 60%; width: 2px; }
+  .gradient-step:last-child::after { display: none; }
+  .gradient-arrow { position: absolute; right: -10px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--text-dim); z-index: 1; }
+  .gradient-step:last-child .gradient-arrow { display: none; }
+  .gradient-icon { font-size: 28px; margin-bottom: 6px; }
+  .gradient-label { font-size: 12px; font-weight: 600; color: var(--text-primary); }
+  .gradient-desc { font-size: 11px; color: var(--text-dim); margin-top: 4px; line-height: 1.3; }
+  .gradient-time { font-size: 10px; color: var(--accent-cyan); margin-top: 6px; font-weight: 500; }
+  .g1 { background: linear-gradient(135deg, #1e3a5f 0%, #1e2230 100%); border-radius: 10px 0 0 10px; }
+  .g2 { background: linear-gradient(135deg, #1a3652 0%, #1e2230 100%); }
+  .g3 { background: linear-gradient(135deg, #163244 0%, #1e2230 100%); }
+  .g4 { background: linear-gradient(135deg, #14532d 0%, #1e2230 100%); border-radius: 0 10px 10px 0; }
+
+  /* Construct matrix */
+  .matrix-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 12px; }
+  .matrix-table th { background: var(--bg-secondary); color: var(--text-dim); font-weight: 600; text-transform: uppercase; font-size: 10px; letter-spacing: 0.05em; padding: 8px 10px; text-align: left; position: sticky; top: 0; }
+  .matrix-table td { padding: 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .matrix-table tr:hover td { background: var(--bg-hover); }
+  .matrix-instrument { font-weight: 600; color: var(--text-primary); white-space: nowrap; }
+  .matrix-construct { color: var(--text-muted); font-size: 11px; }
+  .matrix-status { font-weight: 600; }
+  .status-exists { color: var(--accent-green); }
+  .status-partial { color: var(--accent-amber); }
+  .status-build { color: var(--accent-red); }
+  .status-na { color: var(--text-dim); }
+
+  /* Architecture diagram */
+  .arch-row { display: flex; gap: 16px; margin-bottom: 16px; align-items: stretch; }
+  @media (max-width: 700px) { .arch-row { flex-direction: column; } }
+  .arch-box { flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .arch-box h3 { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+  .arch-box .freq { font-size: 11px; color: var(--accent-cyan); font-weight: 500; margin-bottom: 8px; }
+  .arch-box ul { list-style: none; padding: 0; }
+  .arch-box li { font-size: 12px; color: var(--text-muted); padding: 3px 0; padding-left: 14px; position: relative; }
+  .arch-box li::before { content: ''; position: absolute; left: 0; top: 10px; width: 6px; height: 6px; border-radius: 50%; }
+  .arch-self li::before { background: var(--accent-blue); }
+  .arch-coach li::before { background: var(--accent-green); }
+  .arch-goal li::before { background: var(--accent-amber); }
+  .arch-border-blue { border-color: rgba(59,130,246,0.3); }
+  .arch-border-green { border-color: rgba(34,197,94,0.3); }
+  .arch-border-amber { border-color: rgba(245,158,11,0.3); }
+
+  /* Source coverage */
+  .source-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .source-name { font-size: 12px; color: var(--text-muted); width: 120px; text-align: right; flex-shrink: 0; }
+  .source-track { flex: 1; background: var(--bg-primary); border-radius: 4px; height: 24px; overflow: hidden; }
+  .source-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; font-weight: 600; color: var(--text-primary); min-width: 28px; transition: width 0.6s ease-out; }
+  .source-count { font-size: 12px; color: var(--text-dim); width: 30px; }
+
+  /* Finding highlight */
+  .finding-highlight { background: linear-gradient(135deg, var(--accent-blue-bg) 0%, var(--bg-card) 100%); border: 1px solid rgba(59,130,246,0.3); border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+  .finding-highlight h3 { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+  .finding-highlight p { font-size: 13px; line-height: 1.6; color: var(--text-secondary); }
+  .finding-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; background: var(--accent-blue); color: white; border-radius: 50%; font-size: 12px; font-weight: 700; margin-right: 8px; flex-shrink: 0; }
+
+  /* Evidence meter */
+  .evidence-meter { display: flex; align-items: center; gap: 8px; margin: 6px 0; }
+  .meter-track { width: 80px; height: 6px; background: var(--bg-primary); border-radius: 3px; overflow: hidden; }
+  .meter-fill { height: 100%; border-radius: 3px; }
+  .meter-label { font-size: 11px; color: var(--text-dim); }
+
+  /* Build opp cards */
+  .build-card { background: var(--bg-card); border: 1px solid var(--border); border-left: 4px solid; border-radius: 0 10px 10px 0; padding: 16px 20px; margin-bottom: 12px; }
+  .build-critical { border-left-color: var(--accent-red); }
+  .build-high { border-left-color: var(--accent-amber); }
+  .build-moderate { border-left-color: var(--accent-blue); }
+  .build-card h4 { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+  .build-card p { font-size: 12px; color: var(--text-muted); margin-top: 4px; line-height: 1.4; }
+
+  /* Search/filter */
+  .search-bar { display: flex; gap: 8px; margin-bottom: 20px; }
+  .search-input { flex: 1; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px; color: var(--text-primary); font-size: 13px; outline: none; }
+  .search-input:focus { border-color: var(--accent-blue); }
+  .filter-btn { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); padding: 6px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; transition: all 0.15s; }
+  .filter-btn:hover, .filter-btn.active { background: var(--accent-blue-bg); border-color: var(--accent-blue); color: var(--accent-blue); }
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h1>PM Battery Research</h1>
+    <div class="subtitle">Deep Research Report -- March 28, 2026</div>
+
+    <h2>Sections</h2>
+    <a class="nav-item active" data-section="overview" onclick="showSection('overview')">
+      <div class="nav-dot" style="background:var(--accent-blue)"></div> Overview
+    </a>
+    <a class="nav-item" data-section="findings" onclick="showSection('findings')">
+      <div class="nav-dot" style="background:var(--accent-green)"></div> Key Findings
+    </a>
+    <a class="nav-item" data-section="transfer" onclick="showSection('transfer')">
+      <div class="nav-dot" style="background:var(--accent-cyan)"></div> Transfer Gradient
+    </a>
+    <a class="nav-item" data-section="matrix" onclick="showSection('matrix')">
+      <div class="nav-dot" style="background:var(--accent-purple)"></div> Construct Matrix
+    </a>
+    <a class="nav-item" data-section="architecture" onclick="showSection('architecture')">
+      <div class="nav-dot" style="background:var(--accent-amber)"></div> PM Architecture
+    </a>
+    <a class="nav-item" data-section="build" onclick="showSection('build')">
+      <div class="nav-dot" style="background:var(--accent-red)"></div> Build Opportunities
+    </a>
+    <a class="nav-item" data-section="papers" onclick="showSection('papers')">
+      <div class="nav-dot" style="background:var(--text-dim)"></div> Paper Browser
+    </a>
+    <a class="nav-item" data-section="sources" onclick="showSection('sources')">
+      <div class="nav-dot" style="background:var(--text-dim)"></div> Source Coverage
+    </a>
+
+    <h2>Session Stats</h2>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-value">106</div><div class="stat-label">Papers</div></div>
+      <div class="stat-card"><div class="stat-value">42</div><div class="stat-label">Grey Lit</div></div>
+      <div class="stat-card"><div class="stat-value">83</div><div class="stat-label">Claims</div></div>
+      <div class="stat-card"><div class="stat-value">7</div><div class="stat-label">Threads</div></div>
+    </div>
+
+    <h2>Evidence Strength</h2>
+    <div style="padding:4px 10px;">
+      <div class="evidence-meter"><div class="meter-track"><div class="meter-fill" style="width:80%;background:var(--accent-green)"></div></div><div class="meter-label">Methods</div></div>
+      <div class="evidence-meter"><div class="meter-track"><div class="meter-fill" style="width:55%;background:var(--accent-amber)"></div></div><div class="meter-label">Coaching</div></div>
+      <div class="evidence-meter"><div class="meter-track"><div class="meter-fill" style="width:25%;background:var(--accent-red)"></div></div><div class="meter-label">PM-specific</div></div>
+    </div>
+  </div>
+
+  <!-- Mobile nav -->
+  <div class="mobile-nav">
+    <button class="active" onclick="showSection('overview')">Overview</button>
+    <button onclick="showSection('findings')">Findings</button>
+    <button onclick="showSection('transfer')">Transfer</button>
+    <button onclick="showSection('matrix')">Matrix</button>
+    <button onclick="showSection('architecture')">Architecture</button>
+    <button onclick="showSection('build')">Build</button>
+    <button onclick="showSection('papers')">Papers</button>
+  </div>
+
+  <!-- Main content -->
+  <div class="main">
+
+    <!-- OVERVIEW -->
+    <div class="section active" id="sec-overview">
+      <h2 class="section-title">Progress Monitoring Battery Research</h2>
+      <p class="section-desc">
+        148 sources across 7 research threads, investigating how to build a change-sensitive progress monitoring battery
+        aligned to C2A's T1 v6trans trait profiling battery. Population: working adults in NLU's LE3 accelerated degree program.
+      </p>
+
+      <div class="finding-highlight">
+        <h3>The Core Problem</h3>
+        <p>The T1 battery (17 instruments, 123 items) was designed for <strong>stability and reliability</strong> -- exactly what you want for profiling.
+        But progress monitoring requires instruments selected for <strong>responsiveness to intervention</strong>, not factor loadings.
+        Items that show change do not correspond to items grouped by factor analysis (Kopta 1994, Collins 1991).
+        This is a structural mismatch, not a sensitivity problem.</p>
+      </div>
+
+      <div class="finding-highlight">
+        <h3>What the Field Does (and Doesn't Do)</h3>
+        <p>Most coaching platforms measure <strong>goal completion and engagement</strong>, not psychometric change.
+        BetterUp is the exception -- they explicitly separate change-amenable behavioral capabilities from stable traits.
+        Therapy's Routine Outcome Monitoring (ROM) framework is the most evidence-backed pattern: brief session measures
+        with "not on track" algorithmic alerting reduces deterioration by 67% and doubles recovery rates (Lambert 2018).</p>
+      </div>
+
+      <div class="finding-highlight">
+        <h3>Near-Transfer is Real; Far-Transfer is Not</h3>
+        <p>Kassai et al. (2019, meta-analysis): EF training produces g=0.44 near-transfer but only g=0.11 far-transfer.
+        <strong>The PM battery must track the specific subdomain being coached.</strong> If a coach targets cognitive flexibility,
+        the PM instrument must measure cognitive flexibility behaviors -- not general EF.</p>
+      </div>
+    </div>
+
+    <!-- KEY FINDINGS -->
+    <div class="section" id="sec-findings">
+      <h2 class="section-title">Key Findings</h2>
+      <p class="section-desc">The 11 most important findings for C2A progress monitoring battery design, ranked by impact.</p>
+
+      <div class="card">
+        <div class="card-header" onclick="toggleCard(this)">
+          <div>
+            <div class="card-title"><span class="finding-num">1</span> Trait instruments cannot serve as progress monitors</div>
+            <div class="card-meta"><span class="badge badge-red">Structural</span> Collins 1991, Kopta 1994</div>
+          </div>
+          <div class="card-toggle">&#9660;</div>
+        </div>
+        <div class="card-body">
+          <div class="claim">Factor-analytically derived items cluster by shared variance, not by sensitivity to change. The SCL-90-R showed items cluster into three change-rate categories (acute, chronic, characterological) that do NOT correspond to factor structure.</div>
+          <div class="claim"><strong>Design implication:</strong> Item selection for the PM battery must be based on responsiveness to intervention, not construct overlap with T1 instruments. This means building new items informed by the T1 subdomain definitions but optimized for detecting change.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header" onclick="toggleCard(this)">
+          <div>
+            <div class="card-title"><span class="finding-num">2</span> Near-transfer is real; far-transfer is not (for EF)</div>
+            <div class="card-meta"><span class="badge badge-blue">Meta-analysis</span> Kassai et al. 2019 (231 cites)</div>
+          </div>
+          <div class="card-toggle">&#9660;</div>
+        </div>
+        <div class="card-body">
+          <div class="claim">EF training: near-transfer g=0.44 (significant), far-transfer g=0.11 (p=.11, not significant). However, Cartwright et al. (2020) showed domain-specific EF training embedded in academic context CAN produce far transfer.</div>
+          <div class="claim"><strong>Design implication:</strong> PM battery must measure the specific subdomain coached. C2A's contextualized coaching may fare better than abstract EF drills, but we should still track by subdomain.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header" onclick="toggleCard(this)">
+          <div>
+            <div class="card-title"><span class="finding-num">3</span> Coaching effect sizes are moderate and domain-specific</div>
+            <div class="card-meta"><span class="badge badge-green">Consensus</span> Theeboom 2013, Kraft 2018</div>
+          </div>
+          <div class="card-toggle">&#9660;</div>
+        </div>
+        <div class="card-body">
+          <div class="claim">Self-regulation: d=0.74 | Performance/skills: d=0.60 | Instruction quality: d=0.49 | Academic achievement: d=0.18</div>
+          <div class="claim">Behavioral outcomes respond more than stable traits. Self-regulation and behavioral skills are the primary PM targets.</div>
+          <div class="claim"><strong>Design implication:</strong> Instruments must detect d=0.18-0.74. Plan for COSMIN's rule: Minimal Important Change must exceed Smallest Detectable Change (Terwee 2006, 10,551 cites).</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header" onclick="toggleCard(this)">
+          <div>
+            <div class="card-title"><span class="finding-num">4</span> ROM from psychotherapy is the most transferable framework</div>
+            <div class="card-meta"><span class="badge badge-purple">Framework</span> Lambert 2018, Lutz 2022</div>
+          </div>
+          <div class="card-toggle">&#9660;</div>
+        </div>
+        <div class="card-body">
+          <div class="claim">ROM with feedback to practitioners reduces deterioration by 67% and nearly doubles reliable change rates for at-risk clients. Architecture: short self-report every session + empirically-based NOT (not-on-track) decision rules.</div>
+          <div class="claim">Key instruments: ORS (4 items, &lt;1 min), CORE-10 (10 items), OI-21 (21 items with responsiveness data). The SFSS tracked 1,906 youth with multilevel modeling for expected change trajectories.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header" onclick="toggleCard(this)">
+          <div>
+            <div class="card-title"><span class="finding-num">5</span> RCI methodology needs careful implementation</div>
+            <div class="card-meta"><span class="badge badge-amber">Methods</span> Jacobson &amp; Truax 1991 (9,861 cites)</div>
+          </div>
+          <div class="card-toggle">&#9660;</div>
+        </div>
+        <div class="card-body">
+          <div class="claim">Hageman-Arrindell method produces fewer false positives/negatives when practice effects exist (critical for repeated measures). IRT-based RCI with empirical priors improves individual change detection. Multi-timepoint RCI via multilevel models is directly applicable to C2A's multi-sprint design (Morgan-Lopez 2022).</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header" onclick="toggleCard(this)">
+          <div>
+            <div class="card-title"><span class="finding-num">6</span> Generalization requires active programming and distinct measurement</div>
+            <div class="card-meta"><span class="badge badge-cyan">Theory</span> Stokes &amp; Baer 1977, Baldwin &amp; Ford 1988</div>
+          </div>
+          <div class="card-toggle">&#9660;</div>
+        </div>
+        <div class="card-body">
+          <div class="claim">Stokes &amp; Baer (3,235 cites): Nine categories of generalization programming. Baldwin &amp; Ford (3,197 cites): Generalization (new contexts) and maintenance (durability) are distinct dimensions requiring separate measurement.</div>
+          <div class="claim"><strong>For C2A's transfer gradient:</strong> Implementation and consistency = maintenance. Narrow benefit = near-transfer. Broad transfer = far-transfer. Each level needs different items with different context specificity.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header" onclick="toggleCard(this)">
+          <div>
+            <div class="card-title"><span class="finding-num">7</span> Frequency items outperform agreement items for PM</div>
+            <div class="card-meta"><span class="badge badge-green">Empirical</span> PMC 2014 (N=1,017 IRT study)</div>
+          </div>
+          <div class="card-toggle">&#9660;</div>
+        </div>
+        <div class="card-body">
+          <div class="claim">"How often do you..." items have higher reliability and better information in the normal range than "I tend to..." items. Agreement items perform better only at extremes. For working adults not at clinical extremes, frequency format is the optimal PM design choice.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header" onclick="toggleCard(this)">
+          <div>
+            <div class="card-title"><span class="finding-num">8</span> Multi-method is non-negotiable against method variance</div>
+            <div class="card-meta"><span class="badge badge-red">Critical</span> Podsakoff 2003 (73,601 cites)</div>
+          </div>
+          <div class="card-toggle">&#9660;</div>
+        </div>
+        <div class="card-body">
+          <div class="claim">Self-report-only designs inflate apparent change through common method variance. The PM battery needs at least one non-self-report source. Best options: GAS (coach + student) and coach behavioral observation. Coach-student rating discrepancies are informative, not error (De Los Reyes 2005).</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header" onclick="toggleCard(this)">
+          <div>
+            <div class="card-title"><span class="finding-num">9</span> RTI/MTSS decision rules transfer to coaching</div>
+            <div class="card-meta"><span class="badge badge-blue">Education</span> ERIC education research</div>
+          </div>
+          <div class="card-toggle">&#9660;</div>
+        </div>
+        <div class="card-body">
+          <div class="claim">Every-other-week monitoring preserves accuracy vs. weekly (validates 3-week cadence). Nonlinear growth breaks linear decision rules through 16 weeks (use piecewise models). Probe reliability gates decision quality (establish minimum thresholds). Brief rating scales can be purpose-built from validated item pools.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header" onclick="toggleCard(this)">
+          <div>
+            <div class="card-title"><span class="finding-num">10</span> Measurement invariance is feasible across populations</div>
+            <div class="card-meta"><span class="badge badge-purple">Methods</span> Cheung &amp; Rensvold 2002 (15,129 cites)</div>
+          </div>
+          <div class="card-toggle">&#9660;</div>
+        </div>
+        <div class="card-body">
+          <div class="claim">Delta-CFI &lt;= 0.01 is the criterion. Longitudinal invariance of WAI-S confirmed across coaching sessions (N=690). DIF analysis via IRT and logistic regression is the template for comparing working adults vs. traditional students. R code tutorial available (ERIC).</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header" onclick="toggleCard(this)">
+          <div>
+            <div class="card-title"><span class="finding-num">11</span> EMA detects change as well as retrospective measures</div>
+            <div class="card-meta"><span class="badge badge-cyan">Empirical</span> JMIR 2025, 4 trials (N=412)</div>
+          </div>
+          <div class="card-toggle">&#9660;</div>
+        </div>
+        <div class="card-body">
+          <div class="claim">EMA at 3x/day achieves 72-80% compliance in 3-4 week interventions. Sensitivity to change comparable to or better than retrospective measures. Best for mood/state constructs; less tested for complex competencies. Self-efficacy shows within-person micro-temporal fluctuations detectable by EMA (cutting-edge dual-process theory).</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRANSFER GRADIENT -->
+    <div class="section" id="sec-transfer">
+      <h2 class="section-title">Transfer Gradient</h2>
+      <p class="section-desc">The progression from coached skill implementation to broad generalization, with measurement implications at each level. Based on Stokes &amp; Baer (1977), Baldwin &amp; Ford (1988), and Kassai et al. (2019).</p>
+
+      <div class="gradient-viz">
+        <div class="gradient-step g1">
+          <div class="gradient-icon">&#9881;</div>
+          <div class="gradient-label">Implementation</div>
+          <div class="gradient-desc">Student does the specific thing the coach recommended</div>
+          <div class="gradient-time">Weeks 1-3</div>
+          <div class="gradient-arrow">&#10140;</div>
+        </div>
+        <div class="gradient-step g2">
+          <div class="gradient-icon">&#9851;</div>
+          <div class="gradient-label">Consistency</div>
+          <div class="gradient-desc">Student does it reliably, not just once</div>
+          <div class="gradient-time">Weeks 3-6</div>
+          <div class="gradient-arrow">&#10140;</div>
+        </div>
+        <div class="gradient-step g3">
+          <div class="gradient-icon">&#127919;</div>
+          <div class="gradient-label">Narrow Benefit</div>
+          <div class="gradient-desc">Specific behavior produces expected improvement in target domain</div>
+          <div class="gradient-time">Weeks 6-10</div>
+          <div class="gradient-arrow">&#10140;</div>
+        </div>
+        <div class="gradient-step g4">
+          <div class="gradient-icon">&#127758;</div>
+          <div class="gradient-label">Broad Transfer</div>
+          <div class="gradient-desc">Adjacent skills/tasks also improving</div>
+          <div class="gradient-time">Weeks 10-15+</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:24px">
+        <div class="card-title" style="margin-bottom:12px">Measurement Strategy by Level</div>
+        <table class="matrix-table">
+          <tr><th>Level</th><th>What to Measure</th><th>Item Type</th><th>Evidence Base</th></tr>
+          <tr>
+            <td class="matrix-instrument">Implementation</td>
+            <td>Did the student perform the coached behavior?</td>
+            <td>Binary/frequency: "In the past week, how many times did you [coached action]?"</td>
+            <td><span class="badge badge-green">Strong</span> ROM, behavioral frequency</td>
+          </tr>
+          <tr>
+            <td class="matrix-instrument">Consistency</td>
+            <td>Is the student doing it reliably across contexts?</td>
+            <td>Frequency + context: "...at work", "...in class", "...with family"</td>
+            <td><span class="badge badge-amber">Moderate</span> Maintenance = Stokes &amp; Baer</td>
+          </tr>
+          <tr>
+            <td class="matrix-instrument">Narrow Benefit</td>
+            <td>Is the target domain improving?</td>
+            <td>Same-domain behavioral frequency: near-transfer items</td>
+            <td><span class="badge badge-green">Strong</span> Kassai g=0.44</td>
+          </tr>
+          <tr>
+            <td class="matrix-instrument">Broad Transfer</td>
+            <td>Are adjacent domains improving spontaneously?</td>
+            <td>Cross-domain behavioral frequency: far-transfer items</td>
+            <td><span class="badge badge-red">Weak</span> Kassai g=0.11 (EF); may be stronger for social skills</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- CONSTRUCT MATRIX -->
+    <div class="section" id="sec-matrix">
+      <h2 class="section-title">Construct Alignment Matrix</h2>
+      <p class="section-desc">For each T1 v6trans trait instrument, what behavioral PM measure could track the same subdomain?</p>
+
+      <table class="matrix-table">
+        <tr><th>T1 Instrument</th><th>Construct</th><th>PM Status</th><th>Proposed PM Approach</th></tr>
+        <tr>
+          <td class="matrix-instrument">ADEXI (14 items)</td>
+          <td class="matrix-construct">Working Memory + Inhibition</td>
+          <td><span class="matrix-status status-build">BUILD</span></td>
+          <td>Behavioral frequency: "How often did you forget instructions?" / "...act without thinking?" -- difficulty-framed frequency matching ADEXI subdomains</td>
+        </tr>
+        <tr>
+          <td class="matrix-instrument">C2A-CF (4 items)</td>
+          <td class="matrix-construct">Cognitive Flexibility</td>
+          <td><span class="matrix-status status-build">BUILD</span></td>
+          <td>Behavioral frequency: "How often did you try a different approach when stuck?" -- matching BRIEF-2A Shift facets</td>
+        </tr>
+        <tr>
+          <td class="matrix-instrument">BMPN-18 (18 items)</td>
+          <td class="matrix-construct">Psychological Needs (SDT)</td>
+          <td><span class="matrix-status status-exists">EXISTS</span></td>
+          <td>BMPN is already state-sensitive (recent experiences). Can re-administer with shorter recall window at T2/T3.</td>
+        </tr>
+        <tr>
+          <td class="matrix-instrument">GMS-Bookends (10 items)</td>
+          <td class="matrix-construct">Motivation (SDT)</td>
+          <td><span class="matrix-status status-exists">EXISTS</span></td>
+          <td>GMS is already state-sensitive (motivational orientation). Re-administer at T2/T3.</td>
+        </tr>
+        <tr>
+          <td class="matrix-instrument">CAAS-SF (12 items)</td>
+          <td class="matrix-construct">Career Adaptability</td>
+          <td><span class="matrix-status status-partial">PARTIAL</span></td>
+          <td>C2A-PIS4 (Initiative) covers Concern/Control. Curiosity/Confidence subdomains need behavioral frequency items.</td>
+        </tr>
+        <tr>
+          <td class="matrix-instrument">IRI (14 items)</td>
+          <td class="matrix-construct">Empathy (PT + EC)</td>
+          <td><span class="matrix-status status-build">BUILD</span></td>
+          <td>C2A-EMP4 (proposed): behavioral frequency targeting active listening, perspective-seeking, adjusting behavior. No adequate existing instrument.</td>
+        </tr>
+        <tr>
+          <td class="matrix-instrument">SFCQ (10 items)</td>
+          <td class="matrix-construct">Cultural Intelligence</td>
+          <td><span class="matrix-status status-partial">PARTIAL</span></td>
+          <td>SFCQ Skills subscale is somewhat behavioral. Could add frequency items for cross-cultural interaction behaviors.</td>
+        </tr>
+        <tr>
+          <td class="matrix-instrument">CSE-6 (6 items)</td>
+          <td class="matrix-construct">Creative Self-Efficacy</td>
+          <td><span class="matrix-status status-partial">PARTIAL</span></td>
+          <td>C2A-CSE3 exists. Self-efficacy shows within-person fluctuations detectable by EMA (Europe PMC). Add behavioral: "How often did you propose a creative solution?"</td>
+        </tr>
+        <tr>
+          <td class="matrix-instrument">C2A-NET (2 items)</td>
+          <td class="matrix-construct">Strategic Networking</td>
+          <td><span class="matrix-status status-exists">EXISTS</span></td>
+          <td>C2A-NBS6 (deprecated but available). Already behavioral frequency format.</td>
+        </tr>
+        <tr>
+          <td class="matrix-instrument">IPIP Clusters (33 items)</td>
+          <td class="matrix-construct">8 Personality Facets</td>
+          <td><span class="matrix-status status-build">BUILD</span></td>
+          <td>Hardest alignment. Each IPIP cluster needs custom behavioral frequency items targeting the specific facet actions (e.g., IPIP-INI: "How often did you start a task without being told?")</td>
+        </tr>
+      </table>
+
+      <div style="margin-top:16px;padding:12px 16px;background:var(--bg-card);border-radius:8px;border:1px solid var(--border);">
+        <div style="font-size:12px;color:var(--text-dim);margin-bottom:4px;">Legend</div>
+        <span class="matrix-status status-exists" style="margin-right:16px;">EXISTS</span> Change-sensitive measure available or instrument is already state-sensitive
+        <span class="matrix-status status-partial" style="margin:0 16px;">PARTIAL</span> Some coverage; gaps in specific subdomains
+        <span class="matrix-status status-build" style="margin-left:16px;">BUILD</span> No adequate instrument -- custom development required
+      </div>
+    </div>
+
+    <!-- PM ARCHITECTURE -->
+    <div class="section" id="sec-architecture">
+      <h2 class="section-title">Recommended PM Architecture</h2>
+      <p class="section-desc">Three-tier measurement model based on ROM (Lambert), RTI/MTSS (ERIC), and multi-informant principles (De Los Reyes).</p>
+
+      <div class="arch-row">
+        <div class="arch-box arch-self arch-border-blue">
+          <h3>Session-Level</h3>
+          <div class="freq">Every coaching session | &lt;2 min</div>
+          <ul>
+            <li>Adapted ORS (4-6 items, visual analog)</li>
+            <li>Single-item global impression of change</li>
+            <li>NOT alerting algorithm (Lambert)</li>
+          </ul>
+        </div>
+        <div class="arch-box arch-coach arch-border-green">
+          <h3>Coach-Reported</h3>
+          <div class="freq">Every session | &lt;1 min</div>
+          <ul>
+            <li>GAS rating (-2 to +2 per goal)</li>
+            <li>Competency observation (Boon model)</li>
+            <li>Discrepancy = clinical signal (ABC model)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="arch-row">
+        <div class="arch-box arch-self arch-border-blue">
+          <h3>Sprint-Level</h3>
+          <div class="freq">Every 3 weeks | ~10 min</div>
+          <ul>
+            <li>Targeted behavioral frequency scales</li>
+            <li>Only subdomains being coached</li>
+            <li>Adaptive: items vary by DDx targets</li>
+            <li>Piecewise growth modeling (not linear)</li>
+          </ul>
+        </div>
+        <div class="arch-box arch-goal arch-border-amber">
+          <h3>Goal-Based</h3>
+          <div class="freq">Every 3 weeks | ~3 min</div>
+          <ul>
+            <li>GAS expanded (-2 to +2, individualized anchors)</li>
+            <li>Transfer gradient check: implementation / consistency / benefit / generalization</li>
+            <li>Aggregable across heterogeneous goals</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="arch-row">
+        <div class="arch-box arch-self arch-border-blue" style="flex:2">
+          <h3>Timepoint-Level</h3>
+          <div class="freq">T2 (6-8 weeks) and T3 (15 weeks) | ~15 min</div>
+          <ul>
+            <li>Full PM battery: all 12 skills via behavioral frequency items (~51-53 items)</li>
+            <li>BMPN-18 + GMS-Bookends re-administration (already state-sensitive)</li>
+            <li>Optional: coach behavioral observation rating</li>
+            <li>RCI calculation per subscale (Hageman-Arrindell method)</li>
+            <li>DIF check across working adult vs. traditional student subgroups</li>
+          </ul>
+        </div>
+        <div class="arch-box" style="flex:1;border-color:rgba(239,68,68,0.3)">
+          <h3>Quality Gates</h3>
+          <div class="freq">At each measurement point</div>
+          <ul style="list-style:none;padding:0;">
+            <li style="padding:3px 0;font-size:12px;color:var(--text-muted);">&#9745; Minimum probe reliability threshold</li>
+            <li style="padding:3px 0;font-size:12px;color:var(--text-muted);">&#9745; Effort/validity indicator check</li>
+            <li style="padding:3px 0;font-size:12px;color:var(--text-muted);">&#9745; MIC &gt; SDC per COSMIN</li>
+            <li style="padding:3px 0;font-size:12px;color:var(--text-muted);">&#9745; Cross-wave invariance</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- BUILD OPPORTUNITIES -->
+    <div class="section" id="sec-build">
+      <h2 class="section-title">Build Opportunities</h2>
+      <p class="section-desc">Where no adequate instrument exists. These are custom development items informed by rigorous methods from adjacent fields.</p>
+
+      <div class="build-card build-critical">
+        <h4>Adult EF Progress Monitoring Instrument</h4>
+        <p><strong>Severity: Critical.</strong> No validated, change-sensitive EF instrument exists for adult coaching. ESQ-R and Life Skills Advocate assessments are the closest but not designed for repeated measurement. Need brief behavioral frequency items aligned to ADEXI (WM, Inhibition) and C2A-CF (Cognitive Flexibility) subdomains. Use BBRS methodology (empirically informed item selection from validated measures).</p>
+        <div style="margin-top:8px"><span class="badge badge-blue">Thread 1</span><span class="badge badge-red">Thread 3</span><span class="badge badge-amber">Thread 4</span></div>
+      </div>
+
+      <div class="build-card build-critical">
+        <h4>C2A-EMP4: Behavioral Empathy Scale (4 items)</h4>
+        <p><strong>Severity: Critical.</strong> CASES is too long (30 items) with wrong response format. No brief behavioral empathy frequency measure exists. Items should target: active listening frequency, perspective-seeking, adjusting behavior to support others, checking in on wellbeing. Map to IRI Perspective Taking + Empathic Concern facets.</p>
+        <div style="margin-top:8px"><span class="badge badge-red">Thread 3</span></div>
+      </div>
+
+      <div class="build-card build-critical">
+        <h4>C2A-SA4: Social Awareness Scale (4 items)</h4>
+        <p><strong>Severity: Critical.</strong> No validated instrument measuring behavioral frequency of social awareness for coaching. Items should target: noticing group dynamics, adapting communication across contexts, checking impact of actions on others, navigating unfamiliar social situations.</p>
+        <div style="margin-top:8px"><span class="badge badge-red">Thread 3</span></div>
+      </div>
+
+      <div class="build-card build-high">
+        <h4>IPIP-Aligned Behavioral Frequency Items</h4>
+        <p><strong>Severity: High.</strong> No behavioral frequency measures map to IPIP personality facets. Each of 8 IPIP clusters needs 3-4 custom behavioral items measuring the action manifestation of the trait (e.g., IPIP-INI "Describe yourself as someone who takes initiative" becomes "In the past 2 weeks, how often did you start a project or task without being asked?").</p>
+        <div style="margin-top:8px"><span class="badge badge-red">Thread 3</span><span class="badge badge-purple">Thread 5</span></div>
+      </div>
+
+      <div class="build-card build-moderate">
+        <h4>Coaching-Adapted ROM Toolkit</h4>
+        <p><strong>Severity: Moderate.</strong> Therapy's ORS/SRS (4 items, &lt;1 min) is the most transferable session measure but uses therapy-specific wording. Needs adaptation for coaching context: replacing "personal well-being" with goal-relevant dimensions, adding coaching-specific alliance items.</p>
+        <div style="margin-top:8px"><span class="badge badge-purple">Thread 1</span><span class="badge badge-cyan">Thread 6</span></div>
+      </div>
+
+      <div class="build-card build-moderate">
+        <h4>NOT (Not-On-Track) Alerting Algorithm</h4>
+        <p><strong>Severity: Moderate.</strong> Lambert's ROM framework reduces deterioration by 67%. Need to establish expected growth trajectories using piecewise (not linear) models, and set alert thresholds per subscale using Hageman-Arrindell RCI with multi-timepoint extension (Morgan-Lopez 2022).</p>
+        <div style="margin-top:8px"><span class="badge badge-amber">Thread 4</span><span class="badge badge-blue">Thread 1</span></div>
+      </div>
+    </div>
+
+    <!-- PAPER BROWSER -->
+    <div class="section" id="sec-papers">
+      <h2 class="section-title">Paper Browser</h2>
+      <p class="section-desc">106 academic papers + 42 practitioner sources across 7 research threads.</p>
+
+      <div class="search-bar">
+        <input class="search-input" type="text" placeholder="Search papers by title, author, or concept..." oninput="filterPapers(this.value)">
+        <button class="filter-btn active" data-thread="all" onclick="filterThread('all', this)">All</button>
+        <button class="filter-btn" data-thread="t1" onclick="filterThread('t1', this)">T1</button>
+        <button class="filter-btn" data-thread="t2" onclick="filterThread('t2', this)">T2</button>
+        <button class="filter-btn" data-thread="t3" onclick="filterThread('t3', this)">T3</button>
+        <button class="filter-btn" data-thread="t4" onclick="filterThread('t4', this)">T4</button>
+        <button class="filter-btn" data-thread="t5" onclick="filterThread('t5', this)">T5</button>
+        <button class="filter-btn" data-thread="t6" onclick="filterThread('t6', this)">T6</button>
+        <button class="filter-btn" data-thread="t7" onclick="filterThread('t7', this)">T7</button>
+      </div>
+
+      <div id="paper-list">
+        <!-- Top papers rendered inline -->
+        <div class="card paper-card" data-thread="t1 t4" data-search="jacobson truax clinical significance reliable change rci">
+          <div class="card-header" onclick="toggleCard(this)">
+            <div>
+              <div class="card-title">Clinical significance: A statistical approach to defining meaningful change</div>
+              <div class="card-meta">Jacobson &amp; Truax, 1991 | <span class="badge badge-blue">9,861 cites</span> <span class="badge badge-green">SS + OA</span></div>
+            </div>
+            <div class="card-toggle">&#9660;</div>
+          </div>
+          <div class="card-body">
+            <div class="claim">Established the Reliable Change Index (RCI) formula: RCI = (X2-X1) / Sdiff, where Sdiff = sqrt(2(SE)^2). Individual change exceeding 1.96 * Sdiff is "reliable" at p&lt;.05. Foundational method for determining whether coaching produced real change for an individual student.</div>
+          </div>
+        </div>
+
+        <div class="card paper-card" data-thread="t5" data-search="podsakoff common method variance bias self-report">
+          <div class="card-header" onclick="toggleCard(this)">
+            <div>
+              <div class="card-title">Common method biases in behavioral research</div>
+              <div class="card-meta">Podsakoff et al., 2003 | <span class="badge badge-blue">73,601 cites</span> <span class="badge badge-green">OA</span></div>
+            </div>
+            <div class="card-toggle">&#9660;</div>
+          </div>
+          <div class="card-body">
+            <div class="claim">Self-report measures carry substantial shared method variance. Remedies: temporal separation of predictor and criterion measures, obtaining measures from different sources (multi-informant), and using different response formats. Directly supports multi-method PM architecture.</div>
+          </div>
+        </div>
+
+        <div class="card paper-card" data-thread="t7" data-search="cheung rensvold measurement invariance delta cfi">
+          <div class="card-header" onclick="toggleCard(this)">
+            <div>
+              <div class="card-title">Evaluating goodness-of-fit indexes for testing measurement invariance</div>
+              <div class="card-meta">Cheung &amp; Rensvold, 2002 | <span class="badge badge-blue">15,129 cites</span> <span class="badge badge-green">OA</span></div>
+            </div>
+            <div class="card-toggle">&#9660;</div>
+          </div>
+          <div class="card-body">
+            <div class="claim">Established delta-CFI &lt;= 0.01 as the criterion for measurement invariance. Essential for confirming PM battery measures the same constructs equivalently across working adults and traditional-age students.</div>
+          </div>
+        </div>
+
+        <div class="card paper-card" data-thread="t4" data-search="terwee cosmin quality criteria responsiveness health questionnaire">
+          <div class="card-header" onclick="toggleCard(this)">
+            <div>
+              <div class="card-title">Quality criteria for health status questionnaires: responsiveness</div>
+              <div class="card-meta">Terwee et al., 2006 | <span class="badge badge-blue">10,551 cites</span> <span class="badge badge-green">OA</span></div>
+            </div>
+            <div class="card-toggle">&#9660;</div>
+          </div>
+          <div class="card-body">
+            <div class="claim">Minimal Important Change (MIC) must exceed the Smallest Detectable Change (SDC) for a measure to be useful for progress monitoring. This is the psychometric bar every C2A PM instrument must clear.</div>
+          </div>
+        </div>
+
+        <div class="card paper-card" data-thread="t2" data-search="kassai transfer executive function ef training near far">
+          <div class="card-header" onclick="toggleCard(this)">
+            <div>
+              <div class="card-title">Near- and far-transfer effects among children's executive function</div>
+              <div class="card-meta">Kassai et al., 2019 | <span class="badge badge-blue">231 cites</span> <span class="badge badge-green">SS</span></div>
+            </div>
+            <div class="card-toggle">&#9660;</div>
+          </div>
+          <div class="card-body">
+            <div class="claim">Meta-analysis: EF training near-transfer g=0.44 (significant), far-transfer g=0.11 (p=.11). PM battery must track specific subdomain coached, not general constructs.</div>
+          </div>
+        </div>
+
+        <div class="card paper-card" data-thread="t1" data-search="theeboom coaching meta-analysis self-regulation performance">
+          <div class="card-header" onclick="toggleCard(this)">
+            <div>
+              <div class="card-title">Does coaching work? A meta-analysis on individual-level effects</div>
+              <div class="card-meta">Theeboom et al., 2013 | <span class="badge badge-blue">707 cites</span> <span class="badge badge-green">OA</span></div>
+            </div>
+            <div class="card-toggle">&#9660;</div>
+          </div>
+          <div class="card-body">
+            <div class="claim">Self-regulation shows the largest coaching effect (d=0.74), followed by performance/skills (d=0.60). These should be the primary progress monitoring targets.</div>
+          </div>
+        </div>
+
+        <div class="card paper-card" data-thread="t1" data-search="lambert rom routine outcome monitoring feedback progress">
+          <div class="card-header" onclick="toggleCard(this)">
+            <div>
+              <div class="card-title">Collecting and delivering progress feedback: A meta-analysis of ROM</div>
+              <div class="card-meta">Lambert et al., 2018 | <span class="badge badge-blue">324 cites</span> <span class="badge badge-green">SS</span></div>
+            </div>
+            <div class="card-toggle">&#9660;</div>
+          </div>
+          <div class="card-body">
+            <div class="claim">ROM with feedback reduces deterioration rates and nearly doubles reliable change for at-risk clients. Architecture: brief session measures + empirically-based NOT alerting.</div>
+          </div>
+        </div>
+
+        <div class="card paper-card" data-thread="t2" data-search="stokes baer generalization programming implicit technology">
+          <div class="card-header" onclick="toggleCard(this)">
+            <div>
+              <div class="card-title">An implicit technology of generalization</div>
+              <div class="card-meta">Stokes &amp; Baer, 1977 | <span class="badge badge-blue">3,235 cites</span> <span class="badge badge-green">OA</span></div>
+            </div>
+            <div class="card-toggle">&#9660;</div>
+          </div>
+          <div class="card-body">
+            <div class="claim">Nine categories of generalization programming. Generalization does not happen automatically -- it must be designed into the intervention and separately measured.</div>
+          </div>
+        </div>
+
+        <div class="card paper-card" data-thread="t6" data-search="kiresuk sherman goal attainment scaling gas">
+          <div class="card-header" onclick="toggleCard(this)">
+            <div>
+              <div class="card-title">Goal Attainment Scaling: A general method for evaluating community programs</div>
+              <div class="card-meta">Kiresuk &amp; Sherman, 1968 | <span class="badge badge-blue">1,944 cites</span> <span class="badge badge-green">OA</span></div>
+            </div>
+            <div class="card-toggle">&#9660;</div>
+          </div>
+          <div class="card-body">
+            <div class="claim">GAS uses a -2 to +2 scale with individualized goal anchors. Enables aggregation and comparison across individuals with different goals. The key bridge between idiosyncratic coaching goals and quantitative progress data.</div>
+          </div>
+        </div>
+
+        <div class="card paper-card" data-thread="t6" data-search="shiffman ema ecological momentary assessment experience sampling recall">
+          <div class="card-header" onclick="toggleCard(this)">
+            <div>
+              <div class="card-title">Ecological momentary assessment</div>
+              <div class="card-meta">Shiffman, Stone &amp; Hufford, 2007 | <span class="badge badge-blue">6,044 cites</span> <span class="badge badge-green">OA</span></div>
+            </div>
+            <div class="card-toggle">&#9660;</div>
+          </div>
+          <div class="card-body">
+            <div class="claim">EMA minimizes recall bias and captures within-person variability in real time. Reveals behavioral trajectories invisible to pre/post measurement.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOURCE COVERAGE -->
+    <div class="section" id="sec-sources">
+      <h2 class="section-title">Source Coverage</h2>
+      <p class="section-desc">Papers found per research agent. All 7 agents dispatched at thorough depth across all source modes.</p>
+
+      <div style="margin-top:24px">
+        <div class="source-bar"><div class="source-name">Europe PMC</div><div class="source-track"><div class="source-fill" style="width:28.3%;background:var(--accent-cyan)">30</div></div></div>
+        <div class="source-bar"><div class="source-name">ERIC</div><div class="source-track"><div class="source-fill" style="width:24.5%;background:var(--accent-green)">26</div></div></div>
+        <div class="source-bar"><div class="source-name">Semantic Scholar</div><div class="source-track"><div class="source-fill" style="width:23.6%;background:var(--accent-blue)">25</div></div></div>
+        <div class="source-bar"><div class="source-name">OpenAlex</div><div class="source-track"><div class="source-fill" style="width:21.7%;background:var(--accent-purple)">23</div></div></div>
+        <div class="source-bar"><div class="source-name">Community</div><div class="source-track"><div class="source-fill" style="width:20.8%;background:var(--accent-amber)">22</div></div></div>
+        <div class="source-bar"><div class="source-name">Web/Perplexity</div><div class="source-track"><div class="source-fill" style="width:18.9%;background:var(--text-dim)">20</div></div></div>
+        <div class="source-bar"><div class="source-name">Papers w/ Code</div><div class="source-track"><div class="source-fill" style="width:2.8%;background:var(--accent-red)">3</div></div></div>
+      </div>
+
+      <div class="card" style="margin-top:24px">
+        <div class="card-title" style="margin-bottom:12px">Thread Coverage by Source</div>
+        <table class="matrix-table">
+          <tr><th>Thread</th><th>SS</th><th>OA</th><th>EPMC</th><th>ERIC</th><th>Web</th><th>Community</th></tr>
+          <tr><td>1. Coaching PM</td><td>5</td><td>5</td><td>7</td><td>8</td><td>12</td><td>10</td></tr>
+          <tr><td>2. Generalization</td><td>2</td><td>2</td><td>1</td><td>1</td><td>1</td><td>0</td></tr>
+          <tr><td>3. Construct Align</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>2</td></tr>
+          <tr><td>4. Sensitivity</td><td>5</td><td>2</td><td>4</td><td>7</td><td>3</td><td>2</td></tr>
+          <tr><td>5. MTMM</td><td>2</td><td>1</td><td>3</td><td>0</td><td>0</td><td>1</td></tr>
+          <tr><td>6. Multi-informant</td><td>4</td><td>7</td><td>5</td><td>3</td><td>5</td><td>4</td></tr>
+          <tr><td>7. Invariance</td><td>2</td><td>1</td><td>0</td><td>3</td><td>0</td><td>0</td></tr>
+        </table>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="card-title" style="margin-bottom:8px">Evidence Strength Assessment</div>
+        <p style="font-size:13px;line-height:1.6;color:var(--text-muted);">
+          <strong style="color:var(--accent-green)">Strong:</strong> Psychometric methods (RCI, COSMIN, MTMM, DIF) -- foundational papers with 1,000-73,000+ citations.<br>
+          <strong style="color:var(--accent-amber)">Moderate:</strong> Coaching outcomes (meta-analyses exist), ROM (therapy RCTs), GAS (rehabilitation).<br>
+          <strong style="color:var(--accent-red)">Thin:</strong> Progress monitoring battery design for coaching specifically. Construct alignment between trait and behavioral measures. Cross-population invariance for coaching instruments. These are build opportunities, not evidence gaps to be filled by more searching.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.mobile-nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  const navItem = document.querySelector('.nav-item[data-section="' + id + '"]');
+  if (navItem) navItem.classList.add('active');
+  document.querySelectorAll('.mobile-nav button').forEach(b => {
+    if (b.textContent.toLowerCase().includes(id.substring(0,4))) b.classList.add('active');
+  });
+}
+
+function toggleCard(header) {
+  header.closest('.card').classList.toggle('expanded');
+}
+
+function filterPapers(query) {
+  const q = query.toLowerCase();
+  document.querySelectorAll('.paper-card').forEach(card => {
+    const search = card.dataset.search || '';
+    const title = card.querySelector('.card-title')?.textContent || '';
+    card.style.display = (search + ' ' + title).toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+function filterThread(thread, btn) {
+  document.querySelectorAll('.search-bar .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.paper-card').forEach(card => {
+    if (thread === 'all') { card.style.display = ''; return; }
+    card.style.display = (card.dataset.thread || '').includes(thread) ? '' : 'none';
+  });
+}
+</script>
+
+</body>
+</html>
