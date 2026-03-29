@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C2A Report Redesign -- Mockup Playground</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+<!-- Hypothes.is annotation layer -->
+<script src="https://hypothes.is/embed.js" async></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Inter", system-ui, sans-serif;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px;
+  }
+  h1 { font-family: "Montserrat", sans-serif; font-size: 22px; font-weight: 700; color: #ffffff; margin-bottom: 4px; text-align: center; }
+  .sub { font-size: 13px; color: #888; margin-bottom: 6px; text-align: center; }
+  .hypothesis-note { font-size: 12px; color: #6a9; margin-bottom: 20px; text-align: center; }
+
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; max-width: 700px; }
+  .tab {
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 14px; border-radius: 8px;
+    border: 1px solid #333; background: #222;
+    color: #aaa; font-size: 12px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  }
+  .tab:hover { background: #2a2a3e; border-color: #555; color: #ccc; }
+  .tab.active { background: #3a7c7c; border-color: #3a7c7c; color: #fff; }
+  .tab-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: rgba(255,255,255,0.15); font-size: 11px; font-weight: 700;
+  }
+  .tab.active .tab-num { background: rgba(255,255,255,0.3); }
+
+  .phone-frame {
+    width: 410px; height: 880px; border-radius: 40px;
+    border: 6px solid #333; background: #000; overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+    position: relative;
+  }
+  .phone-notch {
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 120px; height: 28px; background: #000; border-radius: 0 0 16px 16px; z-index: 10;
+  }
+  .phone-frame iframe { width: 100%; height: 100%; border: none; background: #fcfbf8; }
+
+  .screen-label { margin-top: 16px; font-size: 14px; color: #888; text-align: center; }
+  .screen-label .num { color: #3a7c7c; font-weight: 700; }
+
+  .prompt-section { margin-top: 24px; width: 100%; max-width: 600px; }
+  .prompt-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .prompt-header span { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #666; }
+  .copy-btn { padding: 6px 12px; border-radius: 6px; border: 1px solid #444; background: #2a2a3e; color: #aaa; font-size: 12px; cursor: pointer; }
+  .copy-btn:hover { background: #3a3a4e; color: #fff; }
+  .copy-btn.copied { background: #3a7c7c; color: #fff; border-color: #3a7c7c; }
+  .prompt-box { background: #111; border: 1px solid #333; border-radius: 8px; padding: 16px; font-size: 13px; line-height: 1.6; color: #ccc; white-space: pre-wrap; }
+</style>
+</head>
+<body>
+
+<h1>C2A Start Here Report Redesign</h1>
+<p class="sub">5 screens -- accordion-free, card-based layout using C2A design tokens</p>
+<p class="hypothesis-note">Use the Hypothes.is sidebar (top-right) to highlight text and leave comments for the team.</p>
+
+<div class="tabs" id="tabs"></div>
+
+<div class="phone-frame">
+  <div class="phone-notch"></div>
+  <iframe id="preview" sandbox="allow-same-origin allow-scripts"></iframe>
+</div>
+
+<div class="screen-label" id="screenLabel"></div>
+
+<div class="prompt-section">
+  <div class="prompt-header">
+    <span>Design Notes</span>
+    <button class="copy-btn" id="copyBtn">Copy</button>
+  </div>
+  <div class="prompt-box" id="promptBox"></div>
+</div>
+
+<script>
+var screens = [
+  {
+    num: 1,
+    label: "Your Strengths",
+    file: "screen2-profile.html",
+    notes: "Screen 2: Your Strengths\n\nStrengths only (focus areas moved to Screen 3 for reveal).\nWhite cards with navy (#1297d2) left border on off-white background.\nNo cream/tan panel. Clean and celebratory.\nCTA: \"See Where to Focus\""
+  },
+  {
+    num: 2,
+    label: "Choose Your Focus",
+    file: "screen3-selection.html",
+    notes: "Screen 3: Choose Your Focus\n\nFocus areas revealed here for the first time.\nTeal left-border accent cards. Selected state: teal ring.\nGlassmorphicFooter with \"Set as my Focus Area\".\nProgress indicator: 3 of 4."
+  },
+  {
+    num: 3,
+    label: "Step 1: Who You Are",
+    file: "screen4-step1.html",
+    notes: "Focus Step 1: Who You Are Here\n\nSticky step dots (1 of 3). Definition in cream panel.\n3 static strength cards (anchor + body + bridge visible).\nGrowth edge accent callout.\nCTA: \"Next: What You Can Do\""
+  },
+  {
+    num: 4,
+    label: "Step 2: What To Do",
+    file: "screen4-step2.html",
+    notes: "Focus Step 2: What You Can Do\n\nSticky step dots (2 of 3).\nReframe comparison (is/not stacked).\nStrategy cards with expandable how-to.\nGeorgia italic script quotes.\nCTA: \"Next: The Bigger Picture\""
+  },
+  {
+    num: 5,
+    label: "Step 3: Bigger Picture",
+    file: "screen4-step3.html",
+    notes: "Focus Step 3: The Bigger Picture\n\nBorderless approach -- no cards, just clean typography sections with thin dividers.\nPattern pills, compact notices, centered Georgia italic mantra.\nMost compact layout. Magazine-article feel.\nCTA: \"Done\""
+  }
+];
+
+var tabsEl = document.getElementById('tabs');
+screens.forEach(function(s, i) {
+  var tab = document.createElement('button');
+  tab.className = 'tab' + (i === 0 ? ' active' : '');
+  var numSpan = document.createElement('span');
+  numSpan.className = 'tab-num';
+  numSpan.textContent = String(s.num);
+  tab.appendChild(numSpan);
+  tab.appendChild(document.createTextNode(' ' + s.label));
+  tab.addEventListener('click', function() { selectScreen(i); });
+  tabsEl.appendChild(tab);
+});
+
+function selectScreen(index) {
+  var s = screens[index];
+  var allTabs = document.querySelectorAll('.tab');
+  for (var i = 0; i < allTabs.length; i++) {
+    allTabs[i].className = 'tab' + (i === index ? ' active' : '');
+  }
+  document.getElementById('preview').src = s.file;
+  var labelEl = document.getElementById('screenLabel');
+  labelEl.textContent = '';
+  var numEl = document.createElement('span');
+  numEl.className = 'num';
+  numEl.textContent = 'Screen ' + s.num;
+  labelEl.appendChild(numEl);
+  labelEl.appendChild(document.createTextNode(' -- ' + s.label));
+  document.getElementById('promptBox').textContent = s.notes;
+}
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+  var text = document.getElementById('promptBox').textContent;
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(function() { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
+  });
+});
+
+selectScreen(0);
+</script>
+
+</body>
+</html>

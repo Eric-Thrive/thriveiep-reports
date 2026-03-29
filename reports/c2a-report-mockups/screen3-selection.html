@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=390, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Screen 3: Choose Your Focus</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --background: #fcfbf8; --foreground: #3c3c3c; --primary: #3a7c7c;
+    --primary-foreground: #ffffff; --card: #ffffff; --muted: #f5e8d6;
+    --muted-foreground: #666666; --border: #d8dce6; --ring: #3a7c7c;
+    --radius: 12px;
+    --shadow-soft: 0 2px 8px hsl(220 20% 70% / 0.08);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "Inter", system-ui, sans-serif; font-size: 17px; line-height: 1.6; color: var(--foreground); background: var(--background); max-width: 390px; min-height: 844px; margin: 0 auto; display: flex; flex-direction: column; }
+
+  .header { padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--background); flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; }
+  .header-left { display: flex; align-items: center; gap: 8px; }
+  .header-logo { width: 32px; height: 32px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+  .header-title { font-size: 14px; font-weight: 600; color: var(--primary); }
+  .header-action { font-size: 13px; color: var(--muted-foreground); }
+
+  .progress-bar { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 16px; background: var(--background); border-bottom: 1px solid hsl(220 15% 92%); flex-shrink: 0; }
+  .progress-dot { width: 8px; height: 8px; border-radius: 50%; background: hsl(32 52% 90%); }
+  .progress-dot.done { background: var(--primary); }
+  .progress-dot.active { background: var(--primary); width: 20px; border-radius: 4px; }
+  .progress-label { font-size: 11px; color: var(--muted-foreground); margin-left: 6px; }
+
+  .body { flex: 1; overflow-y: auto; padding: 20px; }
+  .body-inner { max-width: 512px; margin: 0 auto; }
+
+  .back-btn { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; border: none; background: transparent; cursor: pointer; color: var(--primary); transition: background 0.15s; margin-bottom: 4px; }
+  .back-btn:hover { background: hsl(32 52% 90% / 0.5); }
+  .back-btn svg { width: 20px; height: 20px; }
+
+  .heading { font-family: "Montserrat", sans-serif; font-weight: 700; font-size: 24px; line-height: 1.2; letter-spacing: -0.02em; }
+  .subtitle { font-size: 14px; color: var(--muted-foreground); margin-top: 6px; }
+  .wire-header { margin-bottom: 24px; }
+
+  .space-y-3 > * + * { margin-top: 12px; }
+  .card-accent { border-left: 4px solid var(--primary); background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow-soft); padding: 16px; cursor: pointer; transition: box-shadow 0.2s; }
+  .card-accent:hover { box-shadow: 0 4px 20px hsl(220 20% 70% / 0.12); }
+  .card-accent.selected { border: 2px solid var(--ring); border-left: 4px solid var(--primary); box-shadow: 0 0 0 2px var(--ring); background: hsl(180 36% 36% / 0.03); }
+  .skill-name { font-size: 16px; font-weight: 600; color: var(--foreground); }
+  .skill-desc { font-size: 14px; color: var(--muted-foreground); margin-top: 4px; line-height: 1.5; }
+
+  /* Footer with conditional CTA */
+  .footer { flex-shrink: 0; background: rgba(255,255,255,0.80); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid hsl(220 15% 92%); padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -8px 30px rgba(0,0,0,0.04); }
+  .footer-inner { max-width: 512px; margin: 0 auto; }
+  .btn-primary { display: flex; align-items: center; justify-content: center; width: 100%; height: 48px; border: none; border-radius: var(--radius); background: var(--primary); color: var(--primary-foreground); font-family: "Inter", sans-serif; font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: var(--shadow-soft); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="header-logo">C2A</div>
+    <span class="header-title">Cognition to Action</span>
+  </div>
+  <span class="header-action">Save &amp; Exit</span>
+</div>
+
+<!-- Top-level progress: screen 3 of 4 -->
+<div class="progress-bar">
+  <div class="progress-dot done"></div>
+  <div class="progress-dot done"></div>
+  <div class="progress-dot active"></div>
+  <div class="progress-dot"></div>
+  <span class="progress-label">3 of 4</span>
+</div>
+
+<div class="body">
+  <div class="body-inner">
+    <div class="wire-header">
+      <button class="back-btn" aria-label="Go back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+      </button>
+      <h2 class="heading">Choose your focus</h2>
+      <p class="subtitle">Based on your strengths and how your brain works, here are three areas where a little effort goes a long way. Pick the one that feels most relevant right now.</p>
+    </div>
+
+    <div class="space-y-3">
+      <div class="card-accent selected">
+        <div class="skill-name">Critical Thinking</div>
+        <div class="skill-desc">You may feel like nothing you do with thinking actually changes anything.</div>
+      </div>
+      <div class="card-accent">
+        <div class="skill-name">Resilience</div>
+        <div class="skill-desc">You may feel like nothing you do to recover actually changes anything.</div>
+      </div>
+      <div class="card-accent">
+        <div class="skill-name">Creative Problem Solving</div>
+        <div class="skill-desc">You may feel like nothing you try with creative thinking actually changes anything.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GlassmorphicFooter (shown when card is selected) -->
+<div class="footer">
+  <div class="footer-inner">
+    <button class="btn-primary">Set as my Focus Area</button>
+  </div>
+</div>
+
+</body>
+</html>
