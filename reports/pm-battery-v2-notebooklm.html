@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Research Briefing: Progress Monitoring Battery Design for the C2A Coaching Platform</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: #0f1117; color: #cbd5e1; min-height: 100vh; }
+  .layout { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+  @media (max-width: 800px) { .layout { grid-template-columns: 1fr; } .sidebar { display: none; } }
+  .sidebar { background: #181b24; padding: 20px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+  .sidebar h1 { font-size: 15px; font-weight: 700; color: #f1f5f9; margin-bottom: 4px; }
+  .sidebar .date { font-size: 12px; color: #64748b; margin-bottom: 20px; }
+  .nav-item { display: block; padding: 8px 10px; border-radius: 6px; cursor: pointer; color: #94a3b8; font-size: 13px; text-decoration: none; margin-bottom: 2px; }
+  .nav-item:hover { background: #1e2230; color: #cbd5e1; }
+  .nav-item.active { background: #1e3a5f; color: #3b82f6; }
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px; }
+  .stat { background: #1e2230; border-radius: 8px; padding: 10px; text-align: center; }
+  .stat-val { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+  .stat-lbl { font-size: 10px; color: #64748b; text-transform: uppercase; }
+  .main { padding: 32px 40px; max-width: 860px; }
+  .section { display: none; }
+  .section.active { display: block; }
+  .section-title { font-size: 22px; font-weight: 700; color: #f1f5f9; margin-bottom: 16px; }
+  .section p { font-size: 14px; line-height: 1.7; margin-bottom: 12px; }
+  .section ul { margin: 8px 0 12px 20px; font-size: 14px; line-height: 1.6; }
+  .section h3 { font-size: 16px; font-weight: 600; color: #f1f5f9; margin: 20px 0 8px; }
+  .section blockquote { background: #0f1117; border-left: 3px solid #3b82f6; padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 8px 0; font-size: 13px; color: #94a3b8; }
+  .section strong { color: #f1f5f9; }
+  .badge { display: inline-block; padding: 2px 8px; background: #1e3a5f; color: #93c5fd; border-radius: 4px; font-size: 11px; margin-right: 4px; }
+  .bib-entry { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(45,51,72,0.3); }
+  .bib-num { font-size: 11px; color: #64748b; min-width: 24px; text-align: right; padding-top: 2px; }
+  .bib-title { font-size: 13px; color: #f1f5f9; line-height: 1.4; }
+  .bib-title a { color: #3b82f6; text-decoration: none; font-size: 11px; }
+  .bib-meta { font-size: 12px; color: #94a3b8; margin-top: 2px; }
+</style>
+</head>
+<body>
+<div class="layout">
+  <div class="sidebar">
+    <h1>Research Briefing: Progress Monitoring Battery Design for the C2A Coaching Platform</h1>
+    <div class="date">2026-03-29</div>
+    <a class="nav-item active" data-section="overview" onclick="showSection('overview')">Overview</a>
+    <a class="nav-item " data-section="key_messages" onclick="showSection('key_messages')">Key Messages</a>
+    <a class="nav-item " data-section="what_problem_are_we_solving_trait_instruments_vs_progress_monitors" onclick="showSection('what_problem_are_we_solving_trait_instruments_vs_progress_monitors')">What problem are we solving? (Trait Instruments vs. Progress Monitors)</a>
+    <a class="nav-item " data-section="what_did_the_research_find" onclick="showSection('what_did_the_research_find')">What did the research find?</a>
+    <a class="nav-item " data-section="how_should_we_measure_progress_the_three_tier_architecture" onclick="showSection('how_should_we_measure_progress_the_three_tier_architecture')">How should we measure progress? (The Three-Tier Architecture)</a>
+    <a class="nav-item " data-section="what_is_the_transfer_gradient" onclick="showSection('what_is_the_transfer_gradient')">What is the transfer gradient?</a>
+    <a class="nav-item " data-section="what_do_we_need_to_build" onclick="showSection('what_do_we_need_to_build')">What do we need to build?</a>
+
+    <a class="nav-item" data-section="bibliography" onclick="showSection('bibliography')">Bibliography</a>
+    <div class="stats">
+      <div class="stat"><div class="stat-val">0</div><div class="stat-lbl">Papers</div></div>
+      <div class="stat"><div class="stat-val">0</div><div class="stat-lbl">Claims</div></div>
+    </div>
+  </div>
+  <div class="main">
+    <div class="section active" id="sec-overview">
+      <h2 class="section-title">Overview</h2>
+      <h1>Research Briefing: Progress Monitoring Battery Design for the C2A Coaching Platform</h1>
+    </div>
+
+    <div class="section " id="sec-key_messages">
+      <h2 class="section-title">Key Messages</h2>
+      <h3>1. Key Messages</h3>
+<ul>
+    <li><strong>The product team must stop using initial assessment tools like the ADEXI or C2A-CF to track student growth.</strong> Research shows that tests built to measure stable personality traits are structurally different from those built to detect change. Using the wrong tool makes it impossible to see if coaching is actually working.</li>
+    <li><strong>We must measure specific behaviors rather than brain functions to prove our platform’s value.</strong> Evidence confirms that while coaching improves specific skills, it rarely changes general brain functions like working memory. To show progress, we must track visible actions—such as "using a checklist"—rather than trying to measure raw cognitive power.</li>
+    <li><strong>Frequent feedback loops must be built directly into the platform to prevent student drop-out.</strong> Using a system of continuous check-ins can double the rate of improvement for struggling students. This data allows the platform to trigger "Not On Track" alerts so coaches can adjust their strategy immediately.</li>
+</ul>
+    </div>
+
+    <div class="section " id="sec-what_problem_are_we_solving_trait_instruments_vs_progress_monitors">
+      <h2 class="section-title">What problem are we solving? (Trait Instruments vs. Progress Monitors)</h2>
+      <h3>2. What problem are we solving? (Trait Instruments vs. Progress Monitors)</h3>
+<p>To measure progress accurately, we must distinguish between tools that measure who a person "is" (traits) and tools that measure what a person "does" (behaviors).</p>
+
+<p>Our current Tier 1 (T1) instruments are excellent for defining a student's starting point. This is known as <strong>Construct Validity</strong> (the degree to which a test measures what it claims to measure). These tools use <strong>Factor Analysis</strong> (identifying underlying patterns in data to see how items group together statistically to represent a single concept). However, research by Kopta et al. (1994) reveals a "structural mismatch." They found that items change at different speeds, falling into three categories: <strong>acute</strong> (fast-changing symptoms), <strong>chronic distress</strong> (medium-paced changes), and <strong>characterological</strong> (slow-moving personality traits).</p>
+
+<p>Most T1 items are characterological; they are designed <em>not</em> to move. Therefore, a Progress Monitoring (PM) tool requires items chosen for their <strong>Responsiveness to Intervention</strong> (how much an item score changes after coaching). We cannot simply re-administer the ADEXI; we must build items that are sensitive to change.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Dimension</th>
+      <th>T1 Trait Instruments (e.g., ADEXI, C2A-CF)</th>
+      <th>Progress Monitoring (PM) Tools</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Goal</strong></td>
+      <td>Establish a stable baseline profile.</td>
+      <td>Detect behavioral change over time.</td>
+    </tr>
+    <tr>
+      <td><strong>Item Selection Logic</strong></td>
+      <td>Based on Factor Analysis (statistical grouping).</td>
+      <td>Based on Responsiveness to Intervention (sensitivity to change).</td>
+    </tr>
+    <tr>
+      <td><strong>Outcome</strong></td>
+      <td>Identifies the "mechanism" of a struggle (e.g., Working Memory).</td>
+      <td>Measures the "functional result" (e.g., Task Completion).</td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+    <div class="section " id="sec-what_did_the_research_find">
+      <h2 class="section-title">What did the research find?</h2>
+      <h3>3. What did the research find?</h3>
+
+#### Coaching Effect Sizes
+<p>We use <strong>Effect Size</strong> (a quantitative measure of the strength of a phenomenon) to determine how well coaching works. These figures come from <strong>Meta-analyses</strong> (large studies that combine data from multiple individual studies).</p>
+<ul>
+    <li>Coaching has a "Strong" impact on <strong>Self-regulation</strong> (Effect Size: 0.74). (Strong; Theeboom et al., 2013).</li>
+    <li>Coaching has a "Strong" impact on <strong>Performance and Skills</strong> (Effect Size: 0.60). (Strong; Theeboom et al., 2013).</li>
+    <li>Coaching has a "Limited" impact on <strong>Academic Achievement</strong> (Effect Size: 0.18). (Strong; Kraft et al., 2018).</li>
+    <li>Behavioral outcomes show significantly more movement than stable traits. (Moderate; Frontiers in Psychology, 2025).</li>
+</ul>
+
+#### The Transfer Gap
+<p>A major challenge is the difference between <strong>Near Transfer</strong> (applying skills to similar tasks) and <strong>Far Transfer</strong> (applying skills to unrelated areas).</p>
+<ul>
+    <li>Training raw Executive Function (EF) skills—like trying to "grow" working memory—results in almost zero Far Transfer. (Strong; Kassai et al., 2019).</li>
+    <li>Coaching that is "contextualized" (taught within the student's actual work or school tasks) is much more likely to result in broad behavior change. (Moderate; Cartwright et al., 2020).</li>
+</ul>
+
+#### Routine Outcome Monitoring (ROM)
+<p><strong>Routine Outcome Monitoring (ROM)</strong> is a system of continuous feedback used to track client progress and adjust interventions.</p>
+<ul>
+    <li>In psychotherapy, ROM reduces the number of students who get worse and nearly doubles the rate of "reliable change" for those at risk. (Strong; Lambert et al., 2018).</li>
+    <li>Effective systems use "Not On Track" (NOT) alerts to tell practitioners when a student is failing to meet expected change trajectories. (Moderate; Lutz et al., 2022).</li>
+</ul>
+    </div>
+
+    <div class="section " id="sec-how_should_we_measure_progress_the_three_tier_architecture">
+      <h2 class="section-title">How should we measure progress? (The Three-Tier Architecture)</h2>
+      <h3>4. How should we measure progress? (The Three-Tier Architecture)</h3>
+<p>To ensure we measure real growth, we must use the <strong>Reliable Change Index (RCI)</strong> (a statistic determining if a change score is large enough to be meaningful). We will specifically use the <strong>Hageman-Arrindell method</strong> to calculate RCI, as it reduces false positives caused by "practice effects" when students take the same test multiple times. We must also guard against <strong>Common Method Variance</strong> (bias occurring when all data comes from the same source, such as only using student self-reports).</p>
+
+<p><strong>Product Note:</strong> Research shows that intermittent monitoring (every-other-week) is just as accurate as weekly monitoring. This allows us to reduce "survey fatigue" for our students.</p>
+
+<p>The proposed architecture uses three levels:</p>
+
+<ol>
+    <li><strong>Session Level (Every Session)</strong>
+        <ul>
+            <li><strong>Purpose:</strong> Immediate pulse check and engagement.</li>
+            <li><strong>Instruments:</strong> Outcome Rating Scale (ORS)—4 items, sub-1-minute completion.</li>
+        </ul>
+    </li>
+    <li><strong>Sprint Level (Every 2–3 Weeks)</strong>
+        <ul>
+            <li><strong>Purpose:</strong> Measure the frequency of specific behaviors related to the coaching goal.</li>
+            <li><strong>Instruments:</strong> Standardized behavioral frequency probes.</li>
+        </ul>
+    </li>
+    <li><strong>Timepoint Level (End of Program)</strong>
+        <ul>
+            <li><strong>Purpose:</strong> Comprehensive assessment of total progress.</li>
+            <li><strong>Instruments:</strong> GAS-Light (Goal Attainment Scaling) and comprehensive behavioral batteries.</li>
+        </ul>
+    </li>
+</ol>
+    </div>
+
+    <div class="section " id="sec-what_is_the_transfer_gradient">
+      <h2 class="section-title">What is the transfer gradient?</h2>
+      <h3>5. What is the transfer gradient?</h3>
+<p>Skills move through a "Transfer Gradient." We must track students through these four stages:</p>
+<ol>
+  <li><strong>Implementation:</strong> Does the student use the specific tool provided?</li>
+  <li><strong>Consistency:</strong> Does the student use the tool regularly over time?</li>
+  <li><strong>Narrow Benefit:</strong> Does the tool help them complete the specific task they were coached on?</li>
+  <li><strong>Broad Transfer:</strong> Does the student use similar strategies in other areas of their life?</li>
+</ol>
+
+<p><strong>Example:</strong> A student struggles with <strong>Initiative</strong> because of a <strong>Working Memory Blocker</strong>.</p>
+<ul>
+  <li><em>Implementation:</em> Student creates one written plan for a history project.</li>
+  <li><em>Consistency:</em> Student creates plans for 80% of tasks over two weeks.</li>
+  <li><em>Narrow Benefit:</em> Student finishes the history project on time.</li>
+  <li><em>Broad Transfer:</em> Student starts using written plans at their part-time job.</li>
+</ul>
+
+<p>This movement requires <strong>Generalization Programming</strong> (designing interventions specifically to ensure skills transfer to new settings). Following the framework by Stokes & Baer (1977), we will utilize their "nine categories of generalization" to ensure our coaching doesn't stay stuck in the coaching session but moves into the student's real life.</p>
+<hr />
+    </div>
+
+    <div class="section " id="sec-what_do_we_need_to_build">
+      <h2 class="section-title">What do we need to build?</h2>
+      <h3>6. What do we need to build?</h3>
+<p>We must build tools that measure <strong>Durable Skills</strong> (the outcome). We will not re-measure Executive Function (EF), as EF is merely the <strong>Mechanism</strong> (the "how" of the struggle). We measure "walking speed" (Initiative), not the "joint angle" (Working Memory).</p>
+<ul>
+    <li>
+        <blockquote><strong>[<span class='badge'>CRITICAL</span>] DDx-Aligned Durable Skill Behavioral Frequency Battery</strong></blockquote>
+        <ul>
+            <li>A 36–48 item tool measuring 12 durable skills. It uses "How often..." questions to measure the observable results of coaching.</li>
+        </ul>
+    </li>
+    <li>
+        <blockquote><strong>[<span class='badge'>HIGH</span>] Behavioral Empathy Scale (C2A-EMP4)</strong></blockquote>
+        <ul>
+            <li>A brief frequency measure for active listening and perspective-seeking.</li>
+        </ul>
+    </li>
+    <li>
+        <blockquote><strong>[<span class='badge'>HIGH</span>] Social Awareness Behavioral Scale (C2A-SA4)</strong></blockquote>
+        <ul>
+            <li>A tool to track how often a student notices and responds to social cues.</li>
+        </ul>
+    </li>
+    <li>
+        <blockquote><strong>[<span class='badge'>MODERATE</span>] IPIP-Aligned Behavioral Frequency Items</strong></blockquote>
+        <ul>
+            <li>Custom items that turn personality traits into observable actions (e.g., "How often did you start a task without being asked?").</li>
+        </ul>
+    </li>
+</ul>
+<hr />
+    </div>
+
+
+    <div class="section" id="sec-bibliography">
+      <h2 class="section-title">Bibliography</h2>
+
+    </div>
+  </div>
+</div>
+<script>
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  const nav = document.querySelector('.nav-item[data-section="' + id + '"]');
+  if (nav) nav.classList.add('active');
+}
+</script>
+</body>
+</html>
