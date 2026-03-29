@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Dev Digest - 2026-03-29</title>
+  <style>
+    :root {
+      --bg-body: #0f172a;
+      --bg-panel: #1e293b;
+      --bg-card: #1e293b;
+      --border-default: #334155;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+      --color-agentic: #3b82f6;
+      --color-durable: #8b5cf6;
+      --color-docproc: #10b981;
+      --color-education: #f59e0b;
+      --color-claude: #e8a33a;
+      --color-success: #10b981;
+      --color-warning: #f59e0b;
+      --color-error: #ef4444;
+      --content-max-width: 800px;
+      --card-radius: 8px;
+      --card-padding: 16px;
+      --section-gap: 32px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg-body); color: var(--text-primary); font-family: var(--font-stack); line-height: 1.6; }
+    .digest { max-width: var(--content-max-width); margin: 0 auto; padding: 32px 24px; }
+    section { margin-bottom: var(--section-gap); }
+    h1 { font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; }
+    h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 16px; padding-bottom: 8px; }
+    a { color: var(--color-agentic); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code { font-family: var(--font-mono); font-size: 0.85em; }
+    sup.bib-ref a { color: var(--text-secondary); font-size: 0.75rem; }
+    .digest-header { margin-bottom: var(--section-gap); }
+    .digest-header h1 { margin-bottom: 4px; }
+    .date-range { color: var(--text-secondary); font-size: 1rem; }
+    .sources { color: var(--text-muted); font-size: 0.85rem; margin-top: 2px; }
+    .generated { color: var(--text-muted); font-size: 0.8rem; margin-top: 4px; }
+    .tldr ul { list-style: none; padding: 0; }
+    .tldr li { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border-default); }
+    .tldr li:last-child { border-bottom: none; }
+    .dot { flex-shrink: 0; width: 10px; height: 10px; border-radius: 50%; margin-top: 7px; }
+    .topic-section h2 { border-left: 4px solid transparent; padding-left: 12px; border-bottom: none; }
+    .web-card { background: var(--bg-card); border-radius: var(--card-radius); padding: 12px var(--card-padding); margin-bottom: 10px; }
+    .web-title { font-weight: 500; display: block; margin-bottom: 4px; }
+    .platform-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; color: white; }
+    .engagement { color: var(--text-muted); font-size: 0.8rem; margin-left: 8px; }
+    .excerpt { color: var(--text-secondary); font-size: 0.85rem; margin-top: 6px; }
+    .why-matters { color: var(--text-muted); font-size: 0.8rem; font-style: italic; margin-top: 4px; padding-left: 8px; border-left: 2px solid var(--border-default); }
+    .bibliography ol { padding-left: 0; list-style: none; }
+    .bib-entry { padding: 6px 0; border-bottom: 1px solid var(--border-default); font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
+    .bib-entry:last-child { border-bottom: none; }
+    .ref-num { color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+    .bib-entry em { color: var(--text-muted); }
+    .bib-entry a { font-size: 0.8rem; }
+    .digest-footer { border-top: 1px solid var(--border-default); padding-top: 16px; color: var(--text-muted); font-size: 0.8rem; }
+    .source-status { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 8px; }
+    .source { display: inline-flex; align-items: center; gap: 4px; }
+    .source.ok::before { content: "\2713"; color: var(--color-success); font-weight: 700; }
+    .source.fail::before { content: "\2717"; color: var(--color-error); font-weight: 700; }
+    details { margin-bottom: 8px; }
+    summary { cursor: pointer; font-weight: 500; padding: 4px 0; color: var(--text-secondary); font-size: 0.9rem; }
+    @media (max-width: 600px) { .digest { padding: 16px; } h1 { font-size: 1.5rem; } }
+  </style>
+</head>
+<body>
+  <main class="digest">
+
+    <header class="digest-header">
+      <h1>Dev Digest</h1>
+      <p class="date-range">Last 30 days (as of March 29, 2026)</p>
+      <p class="sources">Sources: Reddit, YouTube, X/Twitter, Web, Hacker News</p>
+      <p class="generated">Generated 2026-03-29 at 12:30 ET</p>
+    </header>
+
+    <section class="tldr">
+      <h2>TL;DR</h2>
+      <ul>
+        <li>
+          <span class="dot" style="background: var(--color-agentic)"></span>
+          Agentic coding has gone mainstream: Apple Xcode 26.3, JetBrains Central, and Cursor Automations all shipped agentic features in March. 85% of developers now regularly use AI coding tools.
+          <sup class="bib-ref"><a href="#ref-5">[5-8]</a></sup>
+        </li>
+        <li>
+          <span class="dot" style="background: var(--color-docproc)"></span>
+          GLM-OCR (0.9B params) tops OmniDocBench V1.5 at 94.62, and DeepSeek-OCR 2 processes 200K pages/day. The document AI field is shifting from traditional OCR to agentic extraction pipelines.
+          <sup class="bib-ref"><a href="#ref-19">[19-22]</a></sup>
+        </li>
+        <li>
+          <span class="dot" style="background: var(--color-education)"></span>
+          57% of special ed teachers now use AI for IEPs (up from 39%), but advocates raise concerns about IDEA individualization requirements when using copy-paste AI outputs.
+          <sup class="bib-ref"><a href="#ref-25">[25-27]</a></sup>
+        </li>
+        <li>
+          <span class="dot" style="background: var(--color-claude)"></span>
+          Anthropic shipped 14+ updates in March including the accidental Mythos model leak, auto-mode for Claude Code, and subagent scaling patterns. MCP crossed 97M installs.
+          <sup class="bib-ref"><a href="#ref-31">[31-35]</a></sup>
+        </li>
+        <li>
+          <span class="dot" style="background: var(--color-durable)"></span>
+          Ed Design Lab launched a Mar 2026-Aug 2027 cohort co-designing AI-integrated durable skills assessment with employers. WEF calls skills development "AI's $15 trillion prize."
+          <sup class="bib-ref"><a href="#ref-15">[15-17]</a></sup>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Agentic Coding -->
+    <section class="topic-section">
+      <h2 style="border-left-color: var(--color-agentic)">Agentic Coding</h2>
+
+      <div class="web-card">
+        <a href="https://www.apple.com/newsroom/2026/02/xcode-26-point-3-unlocks-the-power-of-agentic-coding/" class="web-title">Xcode 26.3 Unlocks Agentic Coding with Claude and Codex Built In</a>
+        <span class="platform-badge" style="background: var(--text-muted)">Apple</span>
+        <p class="excerpt">Apple ships agentic coding natively in Xcode, with autonomous task breakdown and Claude/Codex integration. Feb 2026.</p>
+        <sup class="bib-ref"><a href="#ref-5">[5]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://blog.jetbrains.com/blog/2026/03/24/introducing-jetbrains-central-an-open-system-for-agentic-software-development/" class="web-title">JetBrains Central: An Open System for Agentic Software Development</a>
+        <span class="platform-badge" style="background: var(--text-muted)">JetBrains</span>
+        <p class="excerpt">Open system for agentic development with governance, security, and cost management. Mar 24, 2026.</p>
+        <sup class="bib-ref"><a href="#ref-6">[6]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://techcrunch.com/2026/03/05/cursor-is-rolling-out-a-new-system-for-agentic-coding/" class="web-title">Cursor Rolls Out "Automations" for Agentic Coding</a>
+        <span class="platform-badge" style="background: var(--text-muted)">TechCrunch</span>
+        <p class="excerpt">Cursor launches automations triggered by codebase changes, Slack messages, or timers. Mar 5, 2026.</p>
+        <sup class="bib-ref"><a href="#ref-7">[7]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://x.com/addyosmani/status/2013333095244800481" class="web-title">Addy Osmani: "Vibe Kanban" orchestrates multiple AI coding agents in parallel</a>
+        <span class="platform-badge" style="background: #1d9bf0">X</span>
+        <p class="excerpt">Free open-source tool to orchestrate Claude Code, Codex, and Gemini CLI from a single dashboard.</p>
+        <p class="why-matters">Relevant: We use parallel agent dispatch extensively in our skill pipeline. Vibe Kanban's approach to multi-agent orchestration mirrors our subagent pattern.</p>
+        <sup class="bib-ref"><a href="#ref-8">[8]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://x.com/Yuchenj_UW/status/2023867361112248328" class="web-title">Claude Code 1-year retrospective: "I didn't think agentic coding would take over day-to-day engineering. I was wrong."</a>
+        <span class="platform-badge" style="background: #1d9bf0">X</span>
+        <p class="excerpt">Yuchen Jin reflects on Claude Code's first year and its transformation of daily engineering workflows.</p>
+        <sup class="bib-ref"><a href="#ref-9">[9]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://x.com/zhuokaiz/status/2021692638143951252" class="web-title">GLM-5 works inside Claude Code at ~1/3 the cost of Max plan</a>
+        <span class="platform-badge" style="background: #1d9bf0">X</span>
+        <p class="excerpt">GLM-5 achieves comparable performance to Claude inside Claude Code at significantly lower cost.</p>
+        <sup class="bib-ref"><a href="#ref-10">[10]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.reddit.com/r/ClaudeCode/comments/1s0c2ts/i_cant_write_code_or_use_my_hands_i_still_built_a/" class="web-title">"I can't write code or use my hands. I still built a self-hosted AI assistant."</a>
+        <span class="platform-badge" style="background: #ff4500">Reddit</span>
+        <span class="engagement">42 pts, 22 comments</span>
+        <p class="excerpt">r/ClaudeCode user with physical disabilities built a self-hosted AI assistant using only voice and Claude Code.</p>
+        <p class="why-matters">Relevant: Directly connects to ThriveIEP's mission of technology-enabled accessibility. Demonstrates Claude Code as an accommodation tool.</p>
+        <sup class="bib-ref"><a href="#ref-1">[1]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.reddit.com/r/vibecoding/comments/1s2t14e/im_an_elected_school_board_member_with_zero/" class="web-title">School board member with zero coding experience built a civic AI system searching 20 years of public records</a>
+        <span class="platform-badge" style="background: #ff4500">Reddit</span>
+        <span class="engagement">24 pts, 82 comments</span>
+        <p class="excerpt">5-week vibe coding project by a non-developer to create a civic AI system. Extensive discussion on what non-technical users can build.</p>
+        <sup class="bib-ref"><a href="#ref-2">[2]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.reddit.com/r/ClaudeCode/comments/1s3xjn4/i_measured_claude_codes_hidden_token_overhead/" class="web-title">Claude Code's hidden token overhead measured with methodology (v2.1.84)</a>
+        <span class="platform-badge" style="background: #ff4500">Reddit</span>
+        <span class="engagement">106 pts, 39 comments</span>
+        <p class="excerpt">Detailed analysis of Claude Code's system prompt and token overhead, with reproducible methodology.</p>
+        <sup class="bib-ref"><a href="#ref-3">[3]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.youtube.com/watch?v=mN2VUw5Fb3E" class="web-title">Claude Code + Ollama = Fully Free AI Coding Forever (Tutorial)</a>
+        <span class="platform-badge" style="background: #ff0000">YouTube</span>
+        <span class="engagement">47,828 views, 1,098 likes</span>
+        <p class="excerpt">WorldofAI tutorial on running Claude Code with local Ollama models for zero-cost agentic coding. Mar 11, 2026.</p>
+        <sup class="bib-ref"><a href="#ref-4">[4]</a></sup>
+      </div>
+    </section>
+
+    <!-- Durable Skills -->
+    <section class="topic-section">
+      <h2 style="border-left-color: var(--color-durable)">Durable Skills &amp; Assessment</h2>
+
+      <div class="web-card">
+        <a href="https://eddesignlab.org/news-events/how-to-apply-for-the-ai-durable-skills-work-based-learning-design-challenge/" class="web-title">Ed Design Lab: AI + Durable Skills Work-Based Learning Design Challenge</a>
+        <span class="platform-badge" style="background: var(--text-muted)">Ed Design Lab</span>
+        <p class="excerpt">Mar 2026 - Aug 2027 cohort of 5 colleges co-designing AI-integrated work-based learning with employers for durable skills assessment.</p>
+        <p class="why-matters">Relevant: C2A measures durable skills in postsecondary settings. This cohort is building exactly what we're building, with employer validation.</p>
+        <sup class="bib-ref"><a href="#ref-15">[15]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.weforum.org/stories/2026/01/ai-learning-workforce-skills/" class="web-title">AI's $15 Trillion Prize Will Be Won by Learning and Skills</a>
+        <span class="platform-badge" style="background: var(--text-muted)">WEF</span>
+        <p class="excerpt">Jan 2026 WEF analysis arguing that AI's value will be captured through skills development, not technology alone.</p>
+        <sup class="bib-ref"><a href="#ref-16">[16]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.nciea.org/blog/measuring-durable-skills-more-than-a-test/" class="web-title">Measuring Durable Skills: More Than a Test</a>
+        <span class="platform-badge" style="background: var(--text-muted)">Center for Assessment</span>
+        <p class="excerpt">Argues durable skills assessment requires performance tasks, portfolios, and observations, not just standardized tests.</p>
+        <p class="why-matters">Relevant: C2A uses Likert-scale self-report (123 items). This article challenges whether that modality captures durable skills adequately.</p>
+        <sup class="bib-ref"><a href="#ref-17">[17]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://blog.imocha.io/soft-skills-assessment-tools" class="web-title">Top 14 Soft Skills Assessment Tools for 2026</a>
+        <span class="platform-badge" style="background: var(--text-muted)">iMocha</span>
+        <p class="excerpt">Comprehensive roundup of tools using behavioral science, neuroscience, and AI for soft skills assessment, including SJTs.</p>
+        <sup class="bib-ref"><a href="#ref-18">[18]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://eddesignlab.org/microcredentialing/microcredentials/" class="web-title">Durable Skills Micro-Credentials: 800+ Institutions Adopting</a>
+        <span class="platform-badge" style="background: var(--text-muted)">Ed Design Lab</span>
+        <p class="excerpt">800+ higher ed institutions and 125 K-12 districts now use durable skills micro-credentials.</p>
+        <sup class="bib-ref"><a href="#ref-14">[14]</a></sup>
+      </div>
+    </section>
+
+    <!-- Document Processing -->
+    <section class="topic-section">
+      <h2 style="border-left-color: var(--color-docproc)">Document Processing &amp; OCR</h2>
+
+      <div class="web-card">
+        <a href="https://x.com/Zai_org/status/2018520052941656385" class="web-title">GLM-OCR: SOTA with only 0.9B parameters for formula, table, and info extraction</a>
+        <span class="platform-badge" style="background: #1d9bf0">X</span>
+        <p class="excerpt">GLM-OCR tops OmniDocBench V1.5 at 94.62 with a fraction of the parameters of competitors.</p>
+        <p class="why-matters">Relevant: We adopted GLM-OCR for the Redactor pipeline this week (DR-048). This confirms the decision with benchmark data.</p>
+        <sup class="bib-ref"><a href="#ref-19">[19]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://x.com/UnslothAI/status/2016030864304701561" class="web-title">DeepSeek-OCR 2: 3B model achieves SOTA visual/document understanding</a>
+        <span class="platform-badge" style="background: #1d9bf0">X</span>
+        <p class="excerpt">DeepSeek releases DeepEncoder V2 with 3B params, processing 200K pages/day with SOTA accuracy.</p>
+        <sup class="bib-ref"><a href="#ref-20">[20]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://mistral.ai/news/mistral-ocr-3" class="web-title">Mistral OCR 3: Major upgrade for forms, handwriting, and tables</a>
+        <span class="platform-badge" style="background: var(--text-muted)">Mistral AI</span>
+        <p class="excerpt">Improved handling of low-quality scans, handwriting, and complex tables at $2/1000 pages ($1 with batch).</p>
+        <sup class="bib-ref"><a href="#ref-21">[21]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://medium.com/@tam.tamanna18/beyond-ocr-how-agentic-document-extraction-agents-are-transforming-complex-files-in-2026-3e4124c4c7d7" class="web-title">Beyond OCR: How Agentic Document Extraction Agents Are Transforming Complex Files</a>
+        <span class="platform-badge" style="background: var(--text-muted)">Medium</span>
+        <p class="excerpt">Jan 2026. Agentic extraction agents autonomously route documents and flag anomalies, going beyond traditional OCR.</p>
+        <p class="why-matters">Relevant: The Redactor pipeline could benefit from agentic routing for mixed document types (IEPs, 504 plans, evaluations).</p>
+        <sup class="bib-ref"><a href="#ref-22">[22]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.deeplearning.ai/short-courses/document-ai-from-ocr-to-agentic-doc-extraction/" class="web-title">DeepLearning.AI Course: Document AI from OCR to Agentic Extraction</a>
+        <span class="platform-badge" style="background: var(--text-muted)">DeepLearning.AI</span>
+        <p class="excerpt">Short course covering the evolution from OCR to agentic document extraction pipelines.</p>
+        <sup class="bib-ref"><a href="#ref-23">[23]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://research.aimultiple.com/ocr-technology/" class="web-title">State of OCR Technology 2026: Is OCR Dead or Solved?</a>
+        <span class="platform-badge" style="background: var(--text-muted)">AIMultiple</span>
+        <p class="excerpt">Analysis finds GPT-5 leads handwriting OCR at 95% accuracy; traditional OCR is being replaced by LLM-based approaches.</p>
+        <sup class="bib-ref"><a href="#ref-24">[24]</a></sup>
+      </div>
+    </section>
+
+    <!-- AI in Education -->
+    <section class="topic-section">
+      <h2 style="border-left-color: var(--color-education)">AI in Education &amp; Disability Services</h2>
+
+      <div class="web-card">
+        <a href="https://www.k12dive.com/news/artificial-intelligence-special-education-Section-504-benefits-risks-privacy-IDEA-IEP/804535/" class="web-title">AI Use in Special Ed Brings Elevated Risks: 57% of Teachers Using AI for IEPs</a>
+        <span class="platform-badge" style="background: var(--text-muted)">K-12 Dive</span>
+        <p class="excerpt">57% of special ed teachers used AI for IEPs in 2024-25, up from 39% the prior year. Raised concerns about IDEA compliance and student privacy.</p>
+        <p class="why-matters">Relevant: ThriveIEP's C2A assessment is designed to augment, not replace, individualized accommodation planning. This growth validates the market while highlighting the compliance concerns we address.</p>
+        <sup class="bib-ref"><a href="#ref-25">[25]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.edweek.org/teaching-learning/teachers-are-using-ai-to-help-write-ieps-advocates-have-concerns/2025/10" class="web-title">Teachers Using AI to Write Full IEPs: Advocates Have Concerns</a>
+        <span class="platform-badge" style="background: var(--text-muted)">EdWeek</span>
+        <p class="excerpt">15% used AI to write full IEPs (up from 8%). Advocates argue copy-paste AI IEPs may not satisfy IDEA individualization. Oct 2025.</p>
+        <sup class="bib-ref"><a href="#ref-26">[26]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.disabilityscoop.com/2025/11/18/concerns-raised-as-teachers-increasingly-use-ai-to-write-ieps/31742/" class="web-title">Concerns Raised as Teachers Increasingly Use AI to Write IEPs</a>
+        <span class="platform-badge" style="background: var(--text-muted)">Disability Scoop</span>
+        <p class="excerpt">Nov 2025. Growing concern that AI-generated IEPs lack the individualization required by IDEA, with real examples of cookie-cutter outputs.</p>
+        <sup class="bib-ref"><a href="#ref-27">[27]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.insidehighered.com/opinion/views/2025/11/26/case-ai-accommodation-opinion" class="web-title">The Case for AI as Accommodation</a>
+        <span class="platform-badge" style="background: var(--text-muted)">Inside Higher Ed</span>
+        <p class="excerpt">Nov 2025 opinion arguing AI should be formally recognized as an accommodation for students with disabilities.</p>
+        <p class="why-matters">Relevant: Aligns with our C2A positioning. If AI becomes a recognized accommodation, assessment tools like C2A that measure readiness for self-advocacy become even more valuable.</p>
+        <sup class="bib-ref"><a href="#ref-28">[28]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://journals.sagepub.com/doi/10.1177/10554181251355428" class="web-title">Integrative Review: AI Supporting Students with Disabilities in Higher Education</a>
+        <span class="platform-badge" style="background: var(--text-muted)">SAGE Journals</span>
+        <p class="excerpt">2026 integrative review synthesizing research on AI applications for students with disabilities in postsecondary settings.</p>
+        <sup class="bib-ref"><a href="#ref-29">[29]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.reddit.com/r/UCDavis/comments/1s5mu1f/new_transfer_question_about_disability_services/" class="web-title">UC Davis: Transfer student asking about disability services for HoH accommodations</a>
+        <span class="platform-badge" style="background: #ff4500">Reddit</span>
+        <span class="engagement">14 pts, 15 comments</span>
+        <p class="excerpt">Firsthand experiences of postsecondary disability services including CART, notetakers, and faculty notification. Mar 28.</p>
+        <sup class="bib-ref"><a href="#ref-30">[30]</a></sup>
+      </div>
+    </section>
+
+    <!-- Claude Ecosystem -->
+    <section class="topic-section">
+      <h2 style="border-left-color: var(--color-claude)">Claude &amp; Anthropic Ecosystem</h2>
+
+      <div class="web-card">
+        <a href="https://fortune.com/2026/03/26/anthropic-says-testing-mythos-powerful-new-ai-model-after-data-leak-reveals-its-existence-step-change-in-capabilities/" class="web-title">Anthropic Confirms "Mythos" Model After Data Leak: A "Step Change" in Capabilities</a>
+        <span class="platform-badge" style="background: var(--text-muted)">Fortune</span>
+        <p class="excerpt">Mar 26, 2026. Accidental leak reveals Mythos, described as a step change in AI capabilities. Anthropic confirms testing.</p>
+        <sup class="bib-ref"><a href="#ref-31">[31]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://techcrunch.com/2026/03/24/anthropic-hands-claude-code-more-control-but-keeps-it-on-a-leash/" class="web-title">Claude Code Gets "Auto Mode": More Control, On a Leash</a>
+        <span class="platform-badge" style="background: var(--text-muted)">TechCrunch</span>
+        <p class="excerpt">Mar 24. Research preview lets Claude Code decide which actions are safe to execute autonomously.</p>
+        <p class="why-matters">Relevant: Our skill pipeline relies heavily on Claude Code's permission model. Auto-mode could streamline the digest's multi-agent gather phase.</p>
+        <sup class="bib-ref"><a href="#ref-32">[32]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://winbuzzer.com/2026/03/24/anthropic-claude-code-subagent-mcp-advanced-patterns-xcxwbn/" class="web-title">Anthropic Shows How to Scale Claude Code with Subagents and MCP</a>
+        <span class="platform-badge" style="background: var(--text-muted)">WinBuzzer</span>
+        <p class="excerpt">Mar 24. Advanced patterns for scaling with subagents and MCP servers.</p>
+        <sup class="bib-ref"><a href="#ref-33">[33]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://dev.to/raxxostudios/best-mcp-servers-for-claude-code-in-2026-5e6k" class="web-title">Best MCP Servers for Claude Code in 2026: MCP Crossed 97M Installs</a>
+        <span class="platform-badge" style="background: var(--text-muted)">DEV Community</span>
+        <p class="excerpt">Guide to top MCP servers. MCP protocol crossed 97 million installs globally.</p>
+        <sup class="bib-ref"><a href="#ref-34">[34]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://thenewstack.io/anthropic-march-2026-roundup/" class="web-title">Anthropic's Madcap March: 14+ Launches, 5 Outages, and the Mythos Leak</a>
+        <span class="platform-badge" style="background: var(--text-muted)">The New Stack</span>
+        <p class="excerpt">Comprehensive roundup of Anthropic's unusually busy March 2026.</p>
+        <sup class="bib-ref"><a href="#ref-35">[35]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.reddit.com/r/ClaudeCode/comments/1s3xjn4/i_measured_claude_codes_hidden_token_overhead/" class="web-title">Claude Code's Hidden Token Overhead Measured with Methodology (v2.1.84)</a>
+        <span class="platform-badge" style="background: #ff4500">Reddit</span>
+        <span class="engagement">106 pts, 39 comments</span>
+        <p class="excerpt">Detailed reverse-engineering of Claude Code's system prompt size and token overhead, with reproducible methodology.</p>
+        <sup class="bib-ref"><a href="#ref-36">[36]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.youtube.com/watch?v=pvxNcQTcIy4" class="web-title">Agent Skills or MCP in the Era of Claude Code?</a>
+        <span class="platform-badge" style="background: #ff0000">YouTube</span>
+        <span class="engagement">122,141 views, 2,606 likes</span>
+        <p class="excerpt">Confluent Developer (Mar 10). Deep comparison of the skills vs MCP paradigm for Claude Code extensibility.</p>
+        <sup class="bib-ref"><a href="#ref-37">[37]</a></sup>
+      </div>
+    </section>
+
+    <!-- Bibliography -->
+    <section class="bibliography">
+      <h2>Bibliography</h2>
+      <ol>
+        <li class="bib-entry" id="ref-1"><span class="ref-num">[1]</span> r/ClaudeCode. "I can't write code or use my hands. I still built a self-hosted AI assistant." <em>Reddit</em>, 2026-03-22. <a href="https://www.reddit.com/r/ClaudeCode/comments/1s0c2ts/i_cant_write_code_or_use_my_hands_i_still_built_a/">link</a> (42 pts, 22 comments)</li>
+        <li class="bib-entry" id="ref-2"><span class="ref-num">[2]</span> r/vibecoding. "School board member with zero coding experience built civic AI system." <em>Reddit</em>, 2026-03-24. <a href="https://www.reddit.com/r/vibecoding/comments/1s2t14e/im_an_elected_school_board_member_with_zero/">link</a> (24 pts, 82 comments)</li>
+        <li class="bib-entry" id="ref-3"><span class="ref-num">[3]</span> r/ClaudeCode. "Claude Code's hidden token overhead measured." <em>Reddit</em>, 2026-03-26. <a href="https://www.reddit.com/r/ClaudeCode/comments/1s3xjn4/i_measured_claude_codes_hidden_token_overhead/">link</a> (106 pts, 39 comments)</li>
+        <li class="bib-entry" id="ref-4"><span class="ref-num">[4]</span> WorldofAI. "Claude Code + Ollama = Fully Free AI Coding." <em>YouTube</em>, 2026-03-11. <a href="https://www.youtube.com/watch?v=mN2VUw5Fb3E">link</a> (47,828 views)</li>
+        <li class="bib-entry" id="ref-5"><span class="ref-num">[5]</span> Apple Newsroom. "Xcode 26.3 Unlocks Agentic Coding." <em>Apple</em>, Feb 2026. <a href="https://www.apple.com/newsroom/2026/02/xcode-26-point-3-unlocks-the-power-of-agentic-coding/">link</a></li>
+        <li class="bib-entry" id="ref-6"><span class="ref-num">[6]</span> JetBrains Blog. "Introducing JetBrains Central for Agentic Development." <em>JetBrains</em>, 2026-03-24. <a href="https://blog.jetbrains.com/blog/2026/03/24/introducing-jetbrains-central-an-open-system-for-agentic-software-development/">link</a></li>
+        <li class="bib-entry" id="ref-7"><span class="ref-num">[7]</span> TechCrunch. "Cursor rolls out Automations for agentic coding." 2026-03-05. <a href="https://techcrunch.com/2026/03/05/cursor-is-rolling-out-a-new-system-for-agentic-coding/">link</a></li>
+        <li class="bib-entry" id="ref-8"><span class="ref-num">[8]</span> @addyosmani. "Vibe Kanban: orchestrate multiple AI coding agents." <em>X</em>. <a href="https://x.com/addyosmani/status/2013333095244800481">link</a></li>
+        <li class="bib-entry" id="ref-9"><span class="ref-num">[9]</span> @Yuchenj_UW. "Claude Code 1-year retrospective." <em>X</em>. <a href="https://x.com/Yuchenj_UW/status/2023867361112248328">link</a></li>
+        <li class="bib-entry" id="ref-10"><span class="ref-num">[10]</span> @zhuokaiz. "GLM-5 works inside Claude Code at ~1/3 the cost." <em>X</em>. <a href="https://x.com/zhuokaiz/status/2021692638143951252">link</a></li>
+        <li class="bib-entry" id="ref-11"><span class="ref-num">[11]</span> r/AI_Agents. "Agentic Coding SDLC: A Practical Delivery Model." <em>Reddit</em>, 2026-03-23. <a href="https://www.reddit.com/r/AI_Agents/comments/1s1hg2q/agentic_coding_sdlc_a_practical_delivery_model/">link</a></li>
+        <li class="bib-entry" id="ref-12"><span class="ref-num">[12]</span> Anthropic. "2026 Agentic Coding Trends Report." <a href="https://resources.anthropic.com/2026-agentic-coding-trends-report">link</a></li>
+        <li class="bib-entry" id="ref-13"><span class="ref-num">[13]</span> r/vibecoding. "AI writes security vulnerabilities fast. Open-source scanner." <em>Reddit</em>, 2026-03-23. <a href="https://www.reddit.com/r/vibecoding/comments/1s18eaw/your_ai_writes_code_fast_it_also_writes_security/">link</a></li>
+        <li class="bib-entry" id="ref-14"><span class="ref-num">[14]</span> Ed Design Lab. "Durable Skills Micro-Credentials." <a href="https://eddesignlab.org/microcredentialing/microcredentials/">link</a></li>
+        <li class="bib-entry" id="ref-15"><span class="ref-num">[15]</span> Ed Design Lab. "AI + Durable Skills Design Challenge." Mar 2026. <a href="https://eddesignlab.org/news-events/how-to-apply-for-the-ai-durable-skills-work-based-learning-design-challenge/">link</a></li>
+        <li class="bib-entry" id="ref-16"><span class="ref-num">[16]</span> World Economic Forum. "AI's $15 Trillion Prize." Jan 2026. <a href="https://www.weforum.org/stories/2026/01/ai-learning-workforce-skills/">link</a></li>
+        <li class="bib-entry" id="ref-17"><span class="ref-num">[17]</span> Center for Assessment. "Measuring Durable Skills: More Than a Test." <a href="https://www.nciea.org/blog/measuring-durable-skills-more-than-a-test/">link</a></li>
+        <li class="bib-entry" id="ref-18"><span class="ref-num">[18]</span> iMocha. "Top 14 Soft Skills Assessment Tools 2026." <a href="https://blog.imocha.io/soft-skills-assessment-tools">link</a></li>
+        <li class="bib-entry" id="ref-19"><span class="ref-num">[19]</span> @Zai_org. "GLM-OCR: SOTA with 0.9B params." <em>X</em>. <a href="https://x.com/Zai_org/status/2018520052941656385">link</a></li>
+        <li class="bib-entry" id="ref-20"><span class="ref-num">[20]</span> @UnslothAI. "DeepSeek-OCR 2 achieves SOTA." <em>X</em>. <a href="https://x.com/UnslothAI/status/2016030864304701561">link</a></li>
+        <li class="bib-entry" id="ref-21"><span class="ref-num">[21]</span> Mistral AI. "Mistral OCR 3." <a href="https://mistral.ai/news/mistral-ocr-3">link</a></li>
+        <li class="bib-entry" id="ref-22"><span class="ref-num">[22]</span> Medium. "Beyond OCR: Agentic Document Extraction." Jan 2026. <a href="https://medium.com/@tam.tamanna18/beyond-ocr-how-agentic-document-extraction-agents-are-transforming-complex-files-in-2026-3e4124c4c7d7">link</a></li>
+        <li class="bib-entry" id="ref-23"><span class="ref-num">[23]</span> DeepLearning.AI. "Document AI: OCR to Agentic Extraction." <a href="https://www.deeplearning.ai/short-courses/document-ai-from-ocr-to-agentic-doc-extraction/">link</a></li>
+        <li class="bib-entry" id="ref-24"><span class="ref-num">[24]</span> AIMultiple. "State of OCR Technology 2026." <a href="https://research.aimultiple.com/ocr-technology/">link</a></li>
+        <li class="bib-entry" id="ref-25"><span class="ref-num">[25]</span> K-12 Dive. "AI in special ed: 57% of teachers using AI for IEPs." <a href="https://www.k12dive.com/news/artificial-intelligence-special-education-Section-504-benefits-risks-privacy-IDEA-IEP/804535/">link</a></li>
+        <li class="bib-entry" id="ref-26"><span class="ref-num">[26]</span> EdWeek. "Teachers Using AI to Write Full IEPs." Oct 2025. <a href="https://www.edweek.org/teaching-learning/teachers-are-using-ai-to-help-write-ieps-advocates-have-concerns/2025/10">link</a></li>
+        <li class="bib-entry" id="ref-27"><span class="ref-num">[27]</span> Disability Scoop. "Concerns about AI-written IEPs." Nov 2025. <a href="https://www.disabilityscoop.com/2025/11/18/concerns-raised-as-teachers-increasingly-use-ai-to-write-ieps/31742/">link</a></li>
+        <li class="bib-entry" id="ref-28"><span class="ref-num">[28]</span> Inside Higher Ed. "The Case for AI as Accommodation." Nov 2025. <a href="https://www.insidehighered.com/opinion/views/2025/11/26/case-ai-accommodation-opinion">link</a></li>
+        <li class="bib-entry" id="ref-29"><span class="ref-num">[29]</span> SAGE Journals. "AI Supporting Students with Disabilities in Higher Ed." 2026. <a href="https://journals.sagepub.com/doi/10.1177/10554181251355428">link</a></li>
+        <li class="bib-entry" id="ref-30"><span class="ref-num">[30]</span> r/UCDavis. "Transfer student asking about disability services." <em>Reddit</em>, 2026-03-28. <a href="https://www.reddit.com/r/UCDavis/comments/1s5mu1f/new_transfer_question_about_disability_services/">link</a> (14 pts, 15 comments)</li>
+        <li class="bib-entry" id="ref-31"><span class="ref-num">[31]</span> Fortune. "Anthropic Confirms Mythos After Data Leak." 2026-03-26. <a href="https://fortune.com/2026/03/26/anthropic-says-testing-mythos-powerful-new-ai-model-after-data-leak-reveals-its-existence-step-change-in-capabilities/">link</a></li>
+        <li class="bib-entry" id="ref-32"><span class="ref-num">[32]</span> TechCrunch. "Claude Code Gets Auto Mode." 2026-03-24. <a href="https://techcrunch.com/2026/03/24/anthropic-hands-claude-code-more-control-but-keeps-it-on-a-leash/">link</a></li>
+        <li class="bib-entry" id="ref-33"><span class="ref-num">[33]</span> WinBuzzer. "Scaling Claude Code with Subagents and MCP." 2026-03-24. <a href="https://winbuzzer.com/2026/03/24/anthropic-claude-code-subagent-mcp-advanced-patterns-xcxwbn/">link</a></li>
+        <li class="bib-entry" id="ref-34"><span class="ref-num">[34]</span> DEV Community. "Best MCP Servers 2026; MCP at 97M installs." <a href="https://dev.to/raxxostudios/best-mcp-servers-for-claude-code-in-2026-5e6k">link</a></li>
+        <li class="bib-entry" id="ref-35"><span class="ref-num">[35]</span> The New Stack. "Anthropic's Madcap March." <a href="https://thenewstack.io/anthropic-march-2026-roundup/">link</a></li>
+        <li class="bib-entry" id="ref-36"><span class="ref-num">[36]</span> r/ClaudeCode. "Claude Code hidden token overhead measured." <em>Reddit</em>, 2026-03-26. <a href="https://www.reddit.com/r/ClaudeCode/comments/1s3xjn4/i_measured_claude_codes_hidden_token_overhead/">link</a> (106 pts, 39 comments)</li>
+        <li class="bib-entry" id="ref-37"><span class="ref-num">[37]</span> Confluent Developer. "Agent Skills or MCP?" <em>YouTube</em>, 2026-03-10. <a href="https://www.youtube.com/watch?v=pvxNcQTcIy4">link</a> (122,141 views)</li>
+      </ol>
+    </section>
+
+    <footer class="digest-footer">
+      <div class="source-status">
+        <span class="source ok">Reddit</span>
+        <span class="source ok">YouTube</span>
+        <span class="source ok">X/Twitter (via WebSearch)</span>
+        <span class="source ok">Web</span>
+        <span class="source fail">HN (0 results)</span>
+      </div>
+      <p>0 items deduplicated (first run). 37 bibliography entries across 5 topic groups.</p>
+      <p>Generated by dev-digest skill. Sources: last30days (Reddit, YouTube, HN) + WebSearch (X, web).</p>
+    </footer>
+
+  </main>
+</body>
+</html>
