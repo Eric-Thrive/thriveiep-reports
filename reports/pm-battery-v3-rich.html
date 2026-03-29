@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Research Briefing: Designing the C2A Progress Monitoring Battery</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #1B2A4A; --navy-light: #2A3F6B;
+    --coral: #FF6B6B; --coral-soft: #FF8E8E;
+    --sand: #F5E6CC; --sand-light: #FDF8F0;
+    --teal: #2B8A8A; --gold: #D4A843;
+    --slate: #4A5568; --warm-grey: #8B7E6A;
+  }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--sand-light); color: var(--navy); min-height: 100vh; }
+  .layout { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .sidebar { display: none; } }
+
+  /* Sidebar */
+  .sidebar { background: var(--navy); padding: 24px 18px; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+  .sidebar h1 { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 4px; line-height: 1.3; }
+  .sidebar .date { font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 24px; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; cursor: pointer; color: rgba(255,255,255,0.6); font-size: 13px; font-weight: 500; text-decoration: none; margin-bottom: 2px; transition: all 0.15s; }
+  .nav-item:hover { background: var(--navy-light); color: #fff; }
+  .nav-item.active { background: var(--coral); color: #fff; }
+  .nav-num { font-size: 11px; font-weight: 700; min-width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; border-radius: 6px; background: rgba(255,255,255,0.1); }
+  .nav-item.active .nav-num { background: rgba(255,255,255,0.25); }
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 20px; }
+  .stat { background: var(--navy-light); border-radius: 10px; padding: 12px; text-align: center; }
+  .stat-val { font-size: 24px; font-weight: 800; color: var(--coral); }
+  .stat-lbl { font-size: 10px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
+
+  /* Main */
+  .main { padding: 40px 48px; max-width: 920px; }
+  @media (max-width: 900px) { .main { padding: 24px 18px; } }
+  .section { display: none; }
+  .section.active { display: block; }
+  .section-title { font-size: 32px; font-weight: 800; color: var(--navy); margin-bottom: 8px; line-height: 1.2; }
+  .section-subtitle { font-size: 14px; color: var(--warm-grey); margin-bottom: 28px; }
+  .section hr { border: none; height: 2px; background: var(--sand); margin: 28px 0; }
+
+  /* Typography */
+  .section p { font-size: 15px; line-height: 1.8; margin-bottom: 14px; color: var(--slate); }
+  .section ul, .section ol { margin: 10px 0 16px 24px; font-size: 15px; line-height: 1.7; color: var(--slate); }
+  .section li { margin-bottom: 6px; }
+  .section h2 { font-size: 28px; font-weight: 800; color: var(--navy); margin: 32px 0 12px; }
+  .section h3 { font-size: 20px; font-weight: 700; color: var(--navy); margin: 24px 0 10px; }
+  .section h4 { font-size: 16px; font-weight: 700; color: var(--teal); margin: 18px 0 8px; }
+  .section strong { color: var(--navy); font-weight: 700; }
+  .section em { color: var(--coral); font-style: normal; font-weight: 600; }
+  .section blockquote { background: var(--sand); border-left: 4px solid var(--coral); padding: 16px 20px; border-radius: 0 10px 10px 0; margin: 16px 0; font-size: 14px; color: var(--navy); }
+
+  /* Tables */
+  .section table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 16px 0; border-radius: 10px; overflow: hidden; }
+  .section th { background: var(--navy); color: #fff; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 12px 14px; text-align: left; }
+  .section td { background: var(--sand-light); padding: 12px 14px; font-size: 14px; color: var(--slate); border-bottom: 1px solid var(--sand); }
+  .section tr:last-child td { border-bottom: none; }
+  .section tr:hover td { background: var(--sand); }
+
+  /* Badges */
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+  .badge-coral, .badge[class*="CRITICAL"] { background: var(--coral); color: #fff; }
+  .badge-teal, .badge[class*="HIGH"] { background: var(--teal); color: #fff; }
+  .badge-gold, .badge[class*="MODERATE"] { background: var(--gold); color: var(--navy); }
+  .badge-navy { background: var(--navy); color: #fff; }
+
+  /* Cards (for key findings, build items) */
+  .card { background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(27,42,74,0.08); }
+  .card-title { font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+  .card-metric { font-size: 36px; font-weight: 800; color: var(--coral); line-height: 1; }
+
+  /* Bibliography */
+  .bib-entry { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--sand); }
+  .bib-entry:last-child { border-bottom: none; }
+  .bib-num { font-size: 12px; color: var(--warm-grey); font-weight: 700; min-width: 28px; text-align: right; padding-top: 3px; }
+  .bib-title { font-size: 14px; color: var(--navy); font-weight: 500; line-height: 1.4; }
+  .bib-title a { color: var(--teal); text-decoration: none; font-size: 12px; font-weight: 600; }
+  .bib-title a:hover { text-decoration: underline; }
+  .bib-meta { font-size: 12px; color: var(--warm-grey); margin-top: 3px; }
+  .bib-meta .badge { font-size: 10px; padding: 1px 6px; background: var(--sand); color: var(--navy); }
+</style>
+</head>
+<body>
+<div class="layout">
+  <div class="sidebar">
+    <h1>Research Briefing: Designing the C2A Progress Monitoring Battery</h1>
+    <div class="date">2026-03-29</div>
+    <a class="nav-item active" data-section="overview" onclick="showSection('overview')">Overview</a>
+
+    <a class="nav-item" data-section="bibliography" onclick="showSection('bibliography')">Bibliography</a>
+    <div class="stats">
+      <div class="stat"><div class="stat-val">0</div><div class="stat-lbl">Papers</div></div>
+      <div class="stat"><div class="stat-val">0</div><div class="stat-lbl">Claims</div></div>
+    </div>
+  </div>
+  <div class="main">
+    <div class="section active" id="sec-overview">
+      <h2 class="section-title">Overview</h2>
+      <h1>Research Briefing: Designing the C2A Progress Monitoring Battery</h1>
+
+<p>This research briefing outlines the psychometric strategy and architectural requirements for the College to Action (C2A) Progress Monitoring (PM) battery. It synthesizes findings from 106 research papers and 42 community sources to provide the ThriveIEP product team with a roadmap for measuring student growth.</p>
+
+<h3>1. Key Messages</h3>
+
+<ul>
+    <li><strong>Executive Function is a stable mechanism, not a moving outcome.</strong> We measure Executive Function (EF)—the brain’s internal self-management system—only at intake (T1) to drive the Diagnostic (DDx) engine. We do not re-measure it to track progress. Instead, our Progress Monitoring (PM) battery tracks the "Durable Skill" behaviors (like Initiative or Collaboration) that coaching aims to improve. In simple terms, we measure the brain's "wiring" once to choose the right tools, then we measure the student’s actual "performance" to see if those tools are working.</li>
+    <li><strong>Behavioral frequency items are more sensitive to growth than "agreement" scales.</strong> To detect change in a non-clinical population of working adults, we must ask "how often" a student performs a skill (frequency) rather than asking if they "agree" they possess a certain trait. Research shows that frequency items are more reliable for detecting the small-to-moderate improvements typical in coaching, whereas agreement scales (like "I am a curious person") tend to stay static even when a student is making real progress.</li>
+    <li><strong>Routine Outcome Monitoring (ROM) is the "early warning system" for student success.</strong> Implementing ROM—the practice of using brief, session-by-session check-ins—can nearly double the rates of "Reliable Change" (improvement that is statistically real and not just a fluke). By providing coaches with "Not on Track" (NOT) alerts before a student disengages, we can move from reactive troubleshooting to proactive intervention.</li>
+</ul>
+
+<hr />
+
+<h3>2. The Structural Problem: Why Traits Cannot Monitor Progress</h3>
+
+<p>A fundamental gap exists between the instruments used to profile a student’s internal traits and those used to track their growth. The current C2A T1 battery (v6trans) is a high-fidelity profiling tool designed to group students into coaching pathways. However, it is structurally incapable of serving as a progress monitor.</p>
+
+<h3>Factor Analysis vs. Responsiveness to Change</h3>
+<p>The v6trans battery was developed using <strong>Factor Analysis</strong>, a statistical method used to group test items that "hang together" because they measure a stable, underlying trait. For example, items about "loving puzzles" and "asking questions" group together to measure Curiosity. While this ensures we accurately identify <em>who</em> a student is, it does not identify <em>how</em> they are changing.</p>
+
+<p>The problem is that instruments optimized for factor stability prioritize items that stay the same over time. For progress monitoring, we need the exact opposite: <strong>Responsiveness to Intervention</strong>, which is the ability of a test item to show change specifically after a student has been coached. As the researcher Collins (1991) noted, "Items and measures that show change do not automatically correspond to the same item groupings identified by factor analysis."</p>
+
+<h3>The Kopta Finding: Acute vs. Characterological Change</h3>
+<p>Research by <strong>Kopta et al. (1994)</strong> provides the psychometric evidence for this split. By studying the SCL-90-R (a widely used psychological assessment), they found that items cluster into three distinct change-rate categories:</p>
+<ol>
+    <li><strong>Acute:</strong> Behaviors or symptoms that change very quickly once support begins.</li>
+    <li><strong>Chronic Distress:</strong> Behaviors that require moderate time and effort to shift.</li>
+    <li><strong>Characterological:</strong> Deep-seated personality traits (like the IPIP clusters in v6trans) that rarely change.</li>
+</ol>
+
+<p>If we use characterological trait items to monitor weekly progress, we will consistently report "no change" even if the student is improving in acute or chronic behaviors. The C2A PM battery must therefore be built from items specifically selected for their responsiveness, not their factor loadings.</p>
+
+<h3>The Physical Therapy Analogy: Mechanism vs. Outcome</h3>
+<p>To understand the difference between C2A’s intake profiling and its progress monitoring, consider a physical therapy clinic:</p>
+<ul>
+    <li><strong>The Mechanism (The T1 Battery):</strong> A therapist measures a patient's <strong>joint angle</strong> or muscle tension. This is the "internal" constraint—much like <strong>Executive Function (EF)</strong> in C2A. We measure this to understand <em>why</em> the patient is struggling to walk.</li>
+    <li><strong>The Outcome (The PM Battery):</strong> The therapist measures <strong>walking speed</strong> or the ability to climb stairs. This is the "functional outcome"—much like <strong>Durable Skills</strong> (Initiative, Communication) in C2A.</li>
+</ul>
+
+<p>We do not monitor progress by re-measuring the joint angle every week; we monitor whether the patient can walk faster. Similarly, C2A uses the T1 battery (17 instruments, 123 items) as a <strong>Mechanism Profiler</strong> to understand the student's brain-based constraints. The PM battery then tracks the <strong>Durable Skill behaviors</strong> (the outcomes) that the coaching tools are designed to improve.</p>
+
+<hr />
+
+<h3>3. Evidence Review: The Science of Measuring Change</h3>
+
+<p>The design of the C2A battery is grounded in six core areas of psychometric and coaching research.</p>
+
+<h3>Design for Self-Regulation, Not Personality: Coaching Efficacy</h3>
+<p><strong>Theeboom et al. (2013)</strong> conducted a meta-analysis (a large-scale study that combines results from many other studies) to determine the standard "effect size" (a statistic, often noted as <em>d</em>, used to measure the strength of an intervention's impact) of coaching.</p>
+<ul>
+    <li><strong>The Evidence:</strong> Coaching has its strongest impact on <strong>Self-regulation</strong> (d=0.74) and <strong>Performance/Skills</strong> (d=0.60). Conversely, its impact on academic achievement (d=0.18) and stable personality traits is significantly lower.</li>
+    <li><strong>Product Takeaway:</strong> C2A's progress monitoring should focus primarily on self-regulation and behavioral skill performance. We must avoid measuring personality "traits" for growth, as these are the areas where students show the least movement.</li>
+</ul>
+
+<h3>Track Specific Subdomains: Transfer of Training</h3>
+<p>A major debate in psychology is whether training one skill (like memory) helps you in unrelated areas (like math). This is called <strong>Far Transfer</strong>.</p>
+<ul>
+    <li><strong>The Evidence:</strong> <strong>Kassai et al. (2019)</strong> found that EF training produces significant <strong>Near Transfer</strong> (improvement on tasks very similar to the training, g=0.44) but almost no <strong>Far Transfer</strong> (improvement on unrelated tasks, g=0.11). However, <strong>Cartwright et al. (2020)</strong> demonstrated that training <em>can</em> produce far transfer if it is "contextualized"—meaning it is taught within the specific environment where it will be used (like an academic or work setting).</li>
+    <li><em>Product Takeaway:</em> Because C2A coaching is contextualized to school and work, the PM battery must measure the <em>specific</em> subdomain being coached (e.g., cognitive flexibility in a work meeting) rather than a general, abstract construct.</li>
+</ul>
+
+<h3>Use Feedback to Prevent Stalling: Routine Outcome Monitoring (ROM)</h3>
+<p><strong>Lambert et al. (2018)</strong> established the gold standard for tracking progress in clinical settings, known as <strong>Routine Outcome Monitoring (ROM)</strong>.</p>
+<ul>
+    <li><strong>The Evidence:</strong> Using brief, session-by-session surveys to give coaches immediate feedback reduces student "deterioration" (getting worse) and doubles the rate of "Reliable Change."</li>
+    <li><strong>Product Takeaway:</strong> C2A should adopt a session-by-session "Pulse" check (Tier 1). If a student is "Not on Track" (NOT), the system must alert the coach immediately, allowing them to adjust the strategy before the student disengages.</li>
+</ul>
+
+<h3>Celebrate Real Growth: The Reliable Change Index (RCI)</h3>
+<p>To know if a student's score improved because of coaching or just because of random luck, we use the <strong>Reliable Change Index (RCI)</strong>.</p>
+<ul>
+    <li><strong>The Evidence:</strong> <strong>Jacobson &amp; Truax (1991)</strong> defined RCI as a statistic used to determine if a score change is larger than what would be expected by random error or the natural "noise" of the test. To improve this, we will use the <strong>Hageman-Arrindell method</strong>, which corrects for "practice effects" (the tendency for scores to improve simply because the student has seen the test before).</li>
+    <li><strong>Product Takeaway:</strong> Every C2A progress report must calculate the RCI. We only report "growth" when the change exceeds the RCI threshold. This prevents "false positives" where we celebrate progress that is actually just statistical noise.</li>
+</ul>
+
+<h3>Active Programming: Generalization vs. Maintenance</h3>
+<p><strong>Stokes &amp; Baer (1977)</strong> and <strong>Baldwin &amp; Ford (1988)</strong> argue that <strong>Generalization</strong> (using a skill in a new environment) and <strong>Maintenance</strong> (keeping a skill over time) do not happen automatically. They must be "actively programmed."</p>
+<ul>
+    <li><strong>The Evidence:</strong> Generalization is a distinct dimension of training. You can have maintenance (the student still uses the checklist in the same class) without generalization (the student uses a checklist at their new job).</li>
+    <li><strong>Product Takeaway:</strong> The PM battery must distinguish between these two. Tier 2 (Sprints) measures <em>Maintenance</em> (is the student still using the tool?), while Tier 3 (Timepoints) measures <em>Generalization</em> (is the student applying the skill to new, un-coached areas?).</li>
+</ul>
+
+<h3>Defend Against Bias: Methodological Threats</h3>
+<p><strong>Podsakoff et al. (2003)</strong> identified <strong>Common Method Variance (CMV)</strong>—a bias where scores appear related simply because they were all collected using the same method (like a self-report survey). Furthermore, <strong>Terwee et al. (2006)</strong> noted that a measure is only useful if its <strong>Minimal Important Change (MIC)</strong> (the smallest change a human actually notices) is larger than its <strong>Smallest Detectable Change (SDC)</strong> (the smallest change the math can detect).</p>
+<ul>
+    <li><strong>The Evidence:</strong> Relying only on student self-reports at T1 and T2 is a major risk for CMV.</li>
+    <li><strong>Product Takeaway:</strong> C2A must use "multi-method" monitoring. We combine student self-reports with <strong>Goal Attainment Scaling (GAS)</strong>—a method where students rate progress toward personalized goals—and coach observations to cancel out the bias of any single method.</li>
+</ul>
+
+<hr />
+
+<h3>4. The C2A Product Context: DDx Engine and States</h3>
+
+<p>The PM battery is the "sensor" for the <strong>Deterministic Diagnostic (DDx) Engine</strong>. This engine uses T1 data to map students to specific coaching pathways through a fully deterministic process (same scores always produce the same result).</p>
+
+<h3>The DDx Pipeline</h3>
+<p>The pipeline takes assessment data (13 instruments, 138 items) and runs it through a series of checks:</p>
+<ol>
+    <li><strong>Crisis Check:</strong> Identifies students in State 10 (Clinical Stabilization).</li>
+    <li><strong>EF Classification:</strong> Labels the primary EF domain for a skill as <strong>Clear</strong>, <strong>Watch</strong>, or <strong>Blocker</strong>.</li>
+    <li><strong>ARC Classification:</strong> Determines the state of the student's <strong>ARC needs</strong> (<strong>Autonomy</strong>: feeling in control; <strong>Relatedness</strong>: feeling connected; <strong>Competence</strong>: feeling effective).</li>
+    <li><strong>Strategy Matrix Lookup:</strong> Assigns the student to 1 of 10 "States" based on the intersection of EF and ARC.</li>
+</ol>
+
+<h3>Table 1: The 10 Strategy States</h3>
+<table>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Strategy Name</th>
+            <th>EF</th>
+            <th>ARC</th>
+            <th>Sequencing</th>
+            <th>Approach</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Direct Skill Building</td>
+            <td>Clear</td>
+            <td>Clear</td>
+            <td>Proceed</td>
+            <td>Skill coaching. Push growth.</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Monitor Need</td>
+            <td>Clear</td>
+            <td>Watch</td>
+            <td>Parallel</td>
+            <td>Skill coaching + monitor ARC.</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Address Need First</td>
+            <td>Clear</td>
+            <td>Blocker</td>
+            <td>Hold</td>
+            <td>Restore ARC, then skill coaching.</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Targeted Scaffold</td>
+            <td>Watch</td>
+            <td>Clear</td>
+            <td>Parallel</td>
+            <td>EF tool + skill building together.</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Scaffold + Monitor</td>
+            <td>Watch</td>
+            <td>Watch</td>
+            <td>Parallel</td>
+            <td>EF tool + ARC monitoring.</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>Compensate + Restore</td>
+            <td>Watch</td>
+            <td>Blocker</td>
+            <td>Hold</td>
+            <td>Restore ARC, then EF tool.</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>Establish Compensation</td>
+            <td>Blocker</td>
+            <td>Clear</td>
+            <td>Hold</td>
+            <td>Establish EF tool, then build skill.</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>Establish Comp + Monitor</td>
+            <td>Blocker</td>
+            <td>Watch</td>
+            <td>Hold</td>
+            <td>EF tool + ARC support.</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>Stabilize Both</td>
+            <td>Blocker</td>
+            <td>Blocker</td>
+            <td>Hold</td>
+            <td>ARC + EF tool stabilization.</td>
+        </tr>
+        <tr>
+            <td><strong>10</strong></td>
+            <td><strong>Clinical Stabilization</strong></td>
+            <td><strong>≥2 Blockers</strong></td>
+            <td><strong>≥2 Blockers</strong></td>
+            <td><strong>Halt</strong></td>
+            <td><strong>Assess broader needs + refer.</strong></td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>The Pillar Framework: Mapping 12 Skills</h3>
+<p>C2A organizes its 12 Durable Skills into 4 <strong>LE3 Pillars</strong>, representing graduate outcomes. The following table provides the precise mapping the DDx engine uses to generate content.</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Pillar</th>
+            <th>Durable Skill</th>
+            <th>Primary EF</th>
+            <th>2nd EF</th>
+            <th>1st ARC Need</th>
+            <th>2nd ARC Need</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>P1</strong></td>
+            <td>Creative Prob. Solving</td>
+            <td>Cog. Flex (CF)</td>
+            <td>Work. Mem (WM)</td>
+            <td>Autonomy</td>
+            <td>Competence</td>
+        </tr>
+        <tr>
+            <td><strong>P1</strong></td>
+            <td>Critical Thinking</td>
+            <td>Work. Mem (WM)</td>
+            <td>Cog. Flex (CF)</td>
+            <td>Competence</td>
+            <td>Autonomy</td>
+        </tr>
+        <tr>
+            <td><strong>P1</strong></td>
+            <td>Curiosity</td>
+            <td>Work. Mem (WM)</td>
+            <td>Cog. Flex (CF)</td>
+            <td>Autonomy</td>
+            <td>Competence</td>
+        </tr>
+        <tr>
+            <td><strong>P1</strong></td>
+            <td>Adaptability</td>
+            <td>Cog. Flex (CF)</td>
+            <td>Inhibition</td>
+            <td>Autonomy</td>
+            <td>Competence</td>
+        </tr>
+        <tr>
+            <td><strong>P2</strong></td>
+            <td>Initiative</td>
+            <td>Work. Mem (WM)</td>
+            <td>Inhibition</td>
+            <td>Competence</td>
+            <td>Autonomy</td>
+        </tr>
+        <tr>
+            <td><strong>P2</strong></td>
+            <td>Empathy</td>
+            <td>Inhibition</td>
+            <td>Work. Mem (WM)</td>
+            <td>Relatedness</td>
+            <td>Competence</td>
+        </tr>
+        <tr>
+            <td><strong>P2</strong></td>
+            <td>Communication</td>
+            <td>Work. Mem (WM)</td>
+            <td>Inhibition</td>
+            <td>Relatedness</td>
+            <td>Autonomy</td>
+        </tr>
+        <tr>
+            <td><strong>P3</strong></td>
+            <td>Resilience</td>
+            <td>Inhibition</td>
+            <td>Work. Mem (WM)</td>
+            <td>Competence</td>
+            <td>Autonomy</td>
+        </tr>
+        <tr>
+            <td><strong>P3</strong></td>
+            <td>Collaboration</td>
+            <td>Inhibition</td>
+            <td>Cog. Flex (CF)</td>
+            <td>Relatedness</td>
+            <td>Competence</td>
+        </tr>
+        <tr>
+            <td><strong>P4</strong></td>
+            <td>Networking</td>
+            <td>Work. Mem (WM)</td>
+            <td>Inhibition</td>
+            <td>Relatedness</td>
+            <td>Autonomy</td>
+        </tr>
+        <tr>
+            <td><strong>P4</strong></td>
+            <td>Relationship Building</td>
+            <td>Inhibition</td>
+            <td>Work. Mem (WM)</td>
+            <td>Relatedness</td>
+            <td>Autonomy</td>
+        </tr>
+        <tr>
+            <td><strong>P4</strong></td>
+            <td>Social Awareness</td>
+            <td>Cog. Flex (CF)</td>
+            <td>Inhibition</td>
+            <td>Relatedness</td>
+            <td>Competence</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Deep Dive: Initiative State 7 (Establish Compensation)</h3>
+<p>In State 7, a student’s <strong>Working Memory</strong> is a <strong>Blocker</strong>, but their ARC needs are <strong>Clear</strong>. The student knows <em>what</em> they want to do but can't "keep the plan loaded" in their head.</p>
+
+<ul>
+    <li><strong>What You Might Notice:</strong> "You know all the steps, then suddenly you can't remember what's next. It's not because you got distracted. The steps just dropped out of your head."</li>
+    <li><strong>Recommendation:</strong> Focus on "Compensation"—moving the plan out of the head and onto a tool.</li>
+    <li><strong>PM Focus:</strong> We do not measure memory capacity. We measure the frequency of tool-use: "In the past week, how often did you start a task using a written checklist?"</li>
+</ul>
+
+<hr />
+
+<h3>5. The Three-Tier Architecture</h3>
+
+<p>To balance data depth with the risk of student "survey fatigue," C2A uses a three-tier measurement cadence.</p>
+
+<h3>Tier 1: Session Level (The "Pulse")</h3>
+<p>Administered every session, taking sub-60 seconds.</p>
+<ul>
+    <li><strong>Outcome Rating Scale (ORS):</strong> A 4-item measure of general well-being and "alliance" (the bond between coach and student).</li>
+    <li><strong>Goal Attainment Scaling (GAS):</strong> A quick check-in on the specific goal set in the previous session.</li>
+    <li><strong>Purpose:</strong> Engagement. Low scores here alert the coach to a possible breakdown in the coaching relationship, not necessarily a lack of skill progress.</li>
+</ul>
+
+<h3>Tier 2: Sprint Level (The "Behavioral Probe")</h3>
+<p>Administered every 2–3 weeks at the "Sprint" boundary.</p>
+<ul>
+    <li><strong>Behavioral Frequency Items:</strong> These items are <strong>adaptive</strong>, based on the student's DDx State. We use the <strong>BBRS methodology</strong> (Brief Behavioral Rating Scales) to select the most change-sensitive items from larger validated pools.</li>
+    <li><strong>Example Items (Initiative State 7):</strong>
+        <ol>
+            <li>"How often did you start a task using a written plan or checklist?"</li>
+            <li>"How often did you write down a 'next step' before taking a break?"</li>
+            <li>"How often did you use a task app to track your priorities?"</li>
+        </ol>
+    </li>
+</ul>
+
+<h3>Tier 3: Timepoint Level (The "Audit")</h3>
+<p>Administered at major milestones (e.g., end of term).</p>
+<ul>
+    <li><strong>Reliable Change Index (RCI):</strong> We calculate RCI using the Hageman-Arrindell method to ensure progress is statistically significant.</li>
+    <li><strong>Measurement Invariance:</strong> We use the <strong>delta-CFI &lt;= 0.01 criterion</strong> to ensure the test measures the same construct over time.</li>
+    <li><strong>Differential Item Functioning (DIF):</strong> A technique to ensure the test is "fair"—meaning the items don't behave differently for working adults compared to traditional students of the same skill level.</li>
+</ul>
+
+<hr />
+
+<h3>6. The Transfer Gradient</h3>
+
+<p>Following the findings of <strong>Kassai et al. (2019)</strong>, we track the movement of a skill from coached tool-use to automaticity across four levels. Using <strong>Initiative State 7</strong> as our running example:</p>
+
+<ol>
+    <li><strong>Level 1: Implementation:</strong> The student uses the specific tool suggested by the coach. (<em>"I used the checklist we built together."</em>)</li>
+    <li><strong>Level 2: Consistency:</strong> The student uses the tool across different tasks without prompting. (<em>"I made my own checklists for three different classes this week."</em>)</li>
+    <li><strong>Level 3: Narrow Benefit (Near Transfer):</strong> The target skill (Initiative) shows improvement within the coached domain. (<em>"I am starting school assignments earlier because the cognitive load of planning is lower."</em>)</li>
+    <li><strong>Level 4: Broad Transfer (Far Transfer):</strong> Adjacent skills improve as a result of reduced cognitive load. (<em>"Because I'm not stressed about starting tasks, I have more mental energy to work with others on my Collaboration skills."</em>)</li>
+</ol>
+
+<hr />
+
+<h3>7. Build Requirements and Roadmap</h3>
+
+<p>The following table outlines the development priorities for the C2A PM system based on the current gaps in the psychometric market.</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Requirement</th>
+            <th>Severity</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>DDx-Aligned PM Battery</strong></td>
+            <td><span class='badge'>CRITICAL</span></td>
+            <td>36–48 behavioral frequency items mapped to 12 skills and 10 states. Focus on "How often..." format.</td>
+        </tr>
+        <tr>
+            <td><strong>C2A-EMP4 &amp; C2A-SA4</strong></td>
+            <td><span class='badge'>HIGH</span></td>
+            <td>4-item brief frequency scales for Behavioral Empathy and Social Awareness (replacing long, clinical tools).</td>
+        </tr>
+        <tr>
+            <td><strong>Coaching ROM Toolkit</strong></td>
+            <td><span class='badge'>HIGH</span></td>
+            <td>Adaptation of the clinical Outcome Rating Scale (ORS) for professional coaching and working adults.</td>
+        </tr>
+        <tr>
+            <td><strong>Working Adult EMA Protocol</strong></td>
+            <td><span class='badge'>MODERATE</span></td>
+            <td>Development of an Ecological Momentary Assessment (EMA) protocol (3x daily brief check-ins) for high-stakes cohorts.</td>
+        </tr>
+        <tr>
+            <td><strong>IPIP Frequency Adaptation</strong></td>
+            <td><span class='badge'>MODERATE</span></td>
+            <td>Transforming IPIP personality clusters (e.g., "I am curious") into behavioral frequency items ("How often did you ask 'why'?").</td>
+        </tr>
+    </tbody>
+</table>
+
+<hr />
+
+<h3>8. Bibliography</h3>
+
+<ol>
+    <li><strong>Podsakoff, P.M. et al. (2003).</strong> <em>Common method biases in behavioral research: A critical review of the literature and recommended remedies.</em> Journal of Applied Psychology, 88(5), 879-903. <a href='https://doi.org/10.1037/0021-9010.88.5.879' target='_blank'>[DOI: 10.1037/0021-9010.88.5.879]</a> [<strong>Foundational Methodology</strong>] (73,601 citations)</li>
+    <li><strong>Cheung, G.W. &amp; Rensvold, R.B. (2002).</strong> <em>Evaluating goodness-of-fit indexes for testing measurement invariance.</em> Structural Equation Modeling, 9(2), 233-255. <a href='https://doi.org/10.1207/s15328007sem0902_5' target='_blank'>[DOI: 10.1207/s15328007sem0902_5]</a> [<strong>Foundational Methodology</strong>] (15,129 citations)</li>
+    <li><strong>Terwee, C.B. et al. (2006).</strong> <em>Quality criteria for measurement properties of health status questionnaires.</em> Journal of Clinical Epidemiology, 60(1), 34-42. <a href='https://doi.org/10.1016/j.jclinepi.2006.03.012' target='_blank'>[DOI: 10.1016/j.jclinepi.2006.03.012]</a> [<strong>Foundational Methodology</strong>] (10,551 citations)</li>
+    <li><strong>Jacobson, N.S. &amp; Truax, P. (1991).</strong> <em>Clinical significance: A statistical approach to defining meaningful change in psychotherapy research.</em> Journal of Consulting and Clinical Psychology, 59(1), 12-19. <a href='https://doi.org/10.1037/0022-006X.59.1.12' target='_blank'>[DOI: 10.1037/0022-006X.59.1.12]</a> [<strong>Foundational Methodology</strong>] (9,861 citations)</li>
+    <li><strong>Stokes, T.F. &amp; Baer, D.M. (1977).</strong> <em>An implicit technology of generalization.</em> Journal of Applied Behavior Analysis, 10(2), 349-367. <a href='https://doi.org/10.1901/jaba.1977.10-349' target='_blank'>[DOI: 10.1901/jaba.1977.10-349]</a> [<strong>Foundational Methodology</strong>] (3,235 citations)</li>
+    <li><strong>Baldwin, T.T. &amp; Ford, J.K. (1988).</strong> <em>Transfer of training: A review and directions for future research.</em> Personnel Psychology, 41(1), 63-105. <a href='https://doi.org/10.1111/j.1744-6570.1988.tb00632.x' target='_blank'>[DOI: 10.1111/j.1744-6570.1988.tb00632.x]</a> [<strong>Foundational Methodology</strong>] (3,197 citations)</li>
+    <li><strong>De Los Reyes, A. &amp; Kazdin, A.E. (2005).</strong> <em>Informant discrepancies in the assessment of childhood psychopathology: A critical review, theoretical framework, and recommendations for further study.</em> Psychological Bulletin, 131(4), 483-509. <a href='https://doi.org/10.1037/0033-2909.131.4.483' target='_blank'>[DOI: 10.1037/0033-2909.131.4.483]</a> [<strong>Foundational Methodology</strong>] (2,455 citations)</li>
+    <li><strong>Kiresuk, T.J. &amp; Sherman, R.E. (1968).</strong> <em>Goal attainment scaling: A general method for evaluating comprehensive community mental health programs.</em> Community Mental Health Journal, 4(6), 443-453. <a href='https://doi.org/10.1007/bf01530764' target='_blank'>[DOI: 10.1007/bf01530764]</a> [<strong>Foundational Methodology</strong>] (1,944 citations)</li>
+    <li><strong>Kraft, M.A. et al. (2018).</strong> <em>The effect of teacher coaching on instruction and achievement: A meta-analysis of the causal evidence.</em> Review of Educational Research, 88(4), 547-588. [<strong>Meta-Analysis</strong>] (1,022 citations)</li>
+    <li><strong>Turner-Stokes, L. (2009).</strong> <em>Goal attainment scaling (GAS) in rehabilitation: A practical guide.</em> Clinical Rehabilitation, 23(4), 362-370. <a href='https://doi.org/10.1177/0269215508101742' target='_blank'>[DOI: 10.1177/0269215508101742]</a> [<strong>Foundational Methodology</strong>] (830 citations)</li>
+    <li><strong>Theeboom, T. et al. (2013).</strong> <em>Does coaching work? A meta-analysis on the effects of coaching on individual level outcomes in an organizational context.</em> The Journal of Positive Psychology, 9(1), 1-18. <a href='https://doi.org/10.1080/17439760.2013.837499' target='_blank'>[DOI: 10.1080/17439760.2013.837499]</a> [<strong>Meta-Analysis</strong>] (707 citations)</li>
+    <li><strong>Lambert, M.J. et al. (2018).</strong> <em>Collecting and delivering progress feedback: A meta-analysis of routine outcome monitoring.</em> Psychotherapy, 55(4), 520-537. <a href='https://doi.org/10.1037/pst0000167' target='_blank'>[DOI: 10.1037/pst0000167]</a> [<strong>Meta-Analysis</strong>] (324 citations)</li>
+    <li><strong>Kassai, R. et al. (2019).</strong> <em>Is executive function training effective? A meta-analytic review of transfer to academic achievement and a critical review of the state of the field.</em> Psychological Bulletin, 145(10). <a href='https://doi.org/10.1037/bul0000180' target='_blank'>[DOI: 10.1037/bul0000180]</a> [<strong>Meta-Analysis</strong>] (231 citations)</li>
+    <li><strong>Campbell, D.T. &amp; Fiske, D.W. (1959).</strong> <em>Convergent and discriminant validation by the multitrait-multimethod matrix.</em> Psychological Bulletin, 56(2), 81-105. <a href='https://doi.org/10.1037/h0046016' target='_blank'>[DOI: 10.1037/h0046016]</a> [<strong>Foundational Methodology</strong>]</li>
+    <li><strong>Mokkink, L.B. et al. (2010).</strong> <em>The COSMIN checklist for assessing the methodological quality of studies on measurement properties of health status measurement instruments.</em> Journal of Clinical Epidemiology. <a href='https://doi.org/10.1016/j.jclinepi.2010.02.006' target='_blank'>[DOI: 10.1016/j.jclinepi.2010.02.006]</a> [<strong>Foundational Methodology</strong>]</li>
+</ol>
+    </div>
+
+
+    <div class="section" id="sec-bibliography">
+      <h2 class="section-title">Bibliography</h2>
+
+    </div>
+  </div>
+</div>
+<script>
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  const nav = document.querySelector('.nav-item[data-section="' + id + '"]');
+  if (nav) nav.classList.add('active');
+}
+</script>
+</body>
+</html>
