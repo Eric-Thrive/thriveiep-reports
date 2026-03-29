@@ -173,6 +173,15 @@
   .search-input:focus { border-color: var(--accent-blue); }
   .filter-btn { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); padding: 6px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; transition: all 0.15s; }
   .filter-btn:hover, .filter-btn.active { background: var(--accent-blue-bg); border-color: var(--accent-blue); color: var(--accent-blue); }
+
+  /* Bibliography */
+  .bib-entry { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(45,51,72,0.3); }
+  .bib-entry:last-child { border-bottom: none; }
+  .bib-num { font-size: 11px; color: var(--text-dim); font-weight: 600; min-width: 28px; text-align: right; padding-top: 2px; }
+  .bib-content { flex: 1; }
+  .bib-search { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px; color: var(--text-primary); font-size: 13px; outline: none; width: 100%; margin-bottom: 16px; }
+  .bib-search:focus { border-color: var(--accent-blue); }
+  .bib-count { font-size: 12px; color: var(--text-dim); margin-bottom: 12px; }
 </style>
 </head>
 <body>
@@ -204,6 +213,9 @@
     </a>
     <a class="nav-item" data-section="papers" onclick="showSection('papers')">
       <div class="nav-dot" style="background:var(--text-dim)"></div> Paper Browser
+    </a>
+    <a class="nav-item" data-section="bibliography" onclick="showSection('bibliography')">
+      <div class="nav-dot" style="background:var(--accent-amber)"></div> Bibliography (106)
     </a>
     <a class="nav-item" data-section="sources" onclick="showSection('sources')">
       <div class="nav-dot" style="background:var(--text-dim)"></div> Source Coverage
@@ -936,6 +948,864 @@
       </div>
     </div>
 
+    <!-- BIBLIOGRAPHY -->
+    <div class="section" id="sec-bibliography">
+      <h2 class="section-title">Bibliography</h2>
+      <p class="section-desc">106 academic papers from 5 research APIs, sorted by citation count. Click [DOI] to access the paper, [PDF] for open access full text.</p>
+
+      <input class="bib-search" type="text" placeholder="Search by title, author, or study type..." oninput="filterBib(this.value)">
+      <div class="bib-count" id="bib-count">Showing 106 of 106 papers</div>
+
+        <div class="bib-entry" data-search="common method biases in behavioral research: a critical review of the literature and recommended remedies. philip m. podsakoff et al. ">
+          <div class="bib-num">1</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Common method biases in behavioral research: A critical review of the literature and recommended remedies. <a href="https://doi.org/10.1037/0021-9010.88.5.879" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Philip M. Podsakoff et al. (2003)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">73,601 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">OA</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="convergent and discriminant validation by the multitrait-multimethod matrix. donald t. campbell, donald w. fiske ">
+          <div class="bib-num">2</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Convergent and discriminant validation by the multitrait-multimethod matrix. <a href="https://doi.org/10.1037/h0046016" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://doi.org/10.71955/duedata-2026-qqjerx" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Donald T. Campbell, Donald W. Fiske (1959)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">16,917 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">OA</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="evaluating goodness-of-fit indexes for testing measurement invariance gordon w. cheung, roger b. rensvold ">
+          <div class="bib-num">3</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Evaluating Goodness-of-Fit Indexes for Testing Measurement Invariance <a href="https://doi.org/10.1207/s15328007sem0902_5" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Gordon W. Cheung, Roger B. Rensvold (2002)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">15,129 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">OA</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="the strengths and difficulties questionnaire: a research note robert goodman ">
+          <div class="bib-num">4</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">The Strengths and Difficulties Questionnaire: A Research Note <a href="https://doi.org/10.1111/j.1469-7610.1997.tb01545.x" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://onlinelibrary.wiley.com/doi/pdfdirect/10.1111/j.1469-7610.1997.tb01545.x" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Robert Goodman (1997)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">14,581 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">OA</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="quality criteria were proposed for measurement properties of health status questionnaires caroline b. terwee et al. ">
+          <div class="bib-num">5</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Quality criteria were proposed for measurement properties of health status questionnaires <a href="https://doi.org/10.1016/j.jclinepi.2006.03.012" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="http://www.jclinepi.com/article/S0895435606001740/pdf" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Caroline B. Terwee et al. (2006)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">10,551 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">OA</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="clinical significance: a statistical approach to defining meaningful change in psychotherapy research jacobson, n.s., truax, p. methodological">
+          <div class="bib-num">6</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Clinical significance: a statistical approach to defining meaningful change in psychotherapy research <a href="https://doi.org/10.1037//0022-006X.59.1.12" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Jacobson, N.S., Truax, P. (1991)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">9,861 cites</span><span class="badge badge-purple">methodological</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="ecological momentary assessment saul shiffman, arthur a. stone, michael r. hufford ">
+          <div class="bib-num">7</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Ecological Momentary Assessment <a href="https://doi.org/10.1146/annurev.clinpsy.3.022806.091415" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Saul Shiffman, Arthur A. Stone, Michael R. Hufford (2007)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">6,044 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">OA</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="the cosmin study reached international consensus on taxonomy, terminology, and definitions of measurement properties for health-related patient-reported outcomes lidwine b. mokkink et al. ">
+          <div class="bib-num">8</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">The COSMIN study reached international consensus on taxonomy, terminology, and definitions of measurement properties for health-related patient-reported outcomes <a href="https://doi.org/10.1016/j.jclinepi.2010.02.006" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="http://www.jclinepi.com/article/S0895435610000909/pdf" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Lidwine B. Mokkink et al. (2010)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">4,357 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">OA</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="an implicit technology of generalization&lt;sup&gt;1&lt;/sup&gt; trevor f. stokes, donald m. baer ">
+          <div class="bib-num">9</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">AN IMPLICIT TECHNOLOGY OF GENERALIZATION&lt;sup&gt;1&lt;/sup&gt; <a href="https://doi.org/10.1901/jaba.1977.10-349" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://onlinelibrary.wiley.com/doi/pdfdirect/10.1901/jaba.1977.10-349" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Trevor F. Stokes, Donald M. Baer (1977)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">3,235 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">OA</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="transfer of training: a review and directions for future research timothy t. baldwin, j. kevin ford ">
+          <div class="bib-num">10</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">TRANSFER OF TRAINING: A REVIEW AND DIRECTIONS FOR FUTURE RESEARCH <a href="https://doi.org/10.1111/j.1744-6570.1988.tb00632.x" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Timothy T. Baldwin, J. Kevin Ford (1988)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">3,197 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">OA</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="informant discrepancies in the assessment of childhood psychopathology: a critical review, theoretical framework, and recommendations for further study. andres de los reyes, alan e. kazdin ">
+          <div class="bib-num">11</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Informant Discrepancies in the Assessment of Childhood Psychopathology: A Critical Review, Theoretical Framework, and Recommendations for Further Study. <a href="https://doi.org/10.1037/0033-2909.131.4.483" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Andres De Los Reyes, Alan E. Kazdin (2005)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">2,455 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">OA</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="goal attainment scaling: a general method for evaluating comprehensive community mental health programs thomas j. kiresuk, robert e. sherman ">
+          <div class="bib-num">12</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Goal attainment scaling: A general method for evaluating comprehensive community mental health programs <a href="https://doi.org/10.1007/bf01530764" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Thomas J. Kiresuk, Robert E. Sherman (1968)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">1,944 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">OA</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="facebook use predicts declines in subjective well-being in young adults ethan kross et al. ">
+          <div class="bib-num">13</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Facebook Use Predicts Declines in Subjective Well-Being in Young Adults <a href="https://doi.org/10.1371/journal.pone.0069841" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0069841&type=printable" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Ethan Kross et al. (2013)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">1,540 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">OA</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="diary studies in organizational research sandra ohly et al. ">
+          <div class="bib-num">14</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Diary Studies in Organizational Research <a href="https://doi.org/10.1027/1866-5888/a000009" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="http://nbn-resolving.de/urn:nbn:de:bsz:352-opus-120125" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Sandra Ohly et al. (2010)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">1,035 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">OA</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="the effect of teacher coaching on instruction and achievement: a meta-analysis of the causal evidence kraft, m.a., blazar, d., hogan, d. meta-analysis">
+          <div class="bib-num">15</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">The Effect of Teacher Coaching on Instruction and Achievement: A Meta-Analysis of the Causal Evidence <a href="https://doi.org/10.3102/0034654318759268" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://journals.sagepub.com/doi/pdf/10.3102/0034654318759268" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Kraft, M.A., Blazar, D., Hogan, D. (2018)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">1,022 cites</span><span class="badge badge-purple">meta-analysis</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="goal attainment scaling (gas) in rehabilitation: a practical guide lynne turner‐stokes ">
+          <div class="bib-num">16</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Goal attainment scaling (GAS) in rehabilitation: a practical guide <a href="https://doi.org/10.1177/0269215508101742" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Lynne Turner‐Stokes (2009)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">830 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">OA</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="does coaching work? a meta-analysis on the effects of coaching on individual level outcomes in an organizational context tim theeboom, bianca beersma, a.e.m. van vianen ">
+          <div class="bib-num">17</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Does coaching work? A meta-analysis on the effects of coaching on individual level outcomes in an organizational context <a href="https://doi.org/10.1080/17439760.2013.837499" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://handle.uba.uva.nl/personal/pure/en/publications/does-coaching-work-a-metaanalysis-on-the-effects-of-coaching-on-individual-level-outcomes-in-an-organizational-context(9c1e8a09-4a06-4b20-bd60-58a4b9ecd148).html" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Tim Theeboom, Bianca Beersma, A.E.M. van Vianen (2013)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">707 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">OA</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="executive coaching enhances goal attainment, resilience and workplace well-being: a randomised controlled study anthony m. grant, linley curtayne, geraldine burton ">
+          <div class="bib-num">18</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Executive coaching enhances goal attainment, resilience and workplace well-being: a randomised controlled study <a href="https://doi.org/10.1080/17439760902992456" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Anthony M. Grant, Linley Curtayne, Geraldine Burton (2009)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">512 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">OA</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="the contribution of reliable and clinically significant change methods to evidence-based mental health chris evans, frank margison, michael barkham ">
+          <div class="bib-num">19</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">The contribution of reliable and clinically significant change methods to evidence-based mental health <a href="https://doi.org/10.1136/ebmh.1.3.70" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://ebmh.bmj.com/content/ebmental/1/3/70.full.pdf" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Chris Evans, Frank Margison, Michael Barkham (1998)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">472 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">OA</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="neurodiversity at work: a biopsychosocial model and the impact on working adults nancy doyle ">
+          <div class="bib-num">20</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Neurodiversity at work: a biopsychosocial model and the impact on working adults <a href="https://doi.org/10.1093/bmb/ldaa021" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://academic.oup.com/bmb/article-pdf/135/1/108/34865389/ldaa021.pdf" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Nancy Doyle (2020)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">403 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">OA</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="collecting and delivering progress feedback: a meta-analysis of routine outcome monitoring lambert, m.j., whipple, j.l., kleinstauber, m. meta-analysis">
+          <div class="bib-num">21</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Collecting and Delivering Progress Feedback: A Meta-Analysis of Routine Outcome Monitoring <a href="https://doi.org/10.1037/pst0000167" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Lambert, M.J., Whipple, J.L., Kleinstauber, M. (2018)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">324 cites</span><span class="badge badge-purple">meta-analysis</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="effect of a professional coaching intervention on the well-being and distress of physicians: a pilot randomized clinical trial dyrbye, l.n. et al. rct">
+          <div class="bib-num">22</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Effect of a Professional Coaching Intervention on the Well-being and Distress of Physicians: A Pilot Randomized Clinical Trial <a href="https://doi.org/10.1001/jamainternmed.2019.2425" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://jamanetwork.com/journals/jamainternalmedicine/articlepdf/2740206/jamainternal_dyrbye_2019_oi_190053.pdf" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Dyrbye, L.N. et al. (2019)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">258 cites</span><span class="badge badge-purple">RCT</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="a meta-analysis of the experimental evidence on the near- and far-transfer effects among children's executive function skills kassai, r. et al. meta-analysis">
+          <div class="bib-num">23</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">A Meta-Analysis of the Experimental Evidence on the Near- and Far-Transfer Effects Among Children's Executive Function Skills <a href="https://doi.org/10.1037/bul0000180" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Kassai, R. et al. (2019)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">231 cites</span><span class="badge badge-purple">meta-analysis</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="coaching as a developmental intervention in organisations: a systematic review of its effectiveness and the mechanisms underlying it simmy grover, adrian furnham ">
+          <div class="bib-num">24</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Coaching as a Developmental Intervention in Organisations: A Systematic Review of Its Effectiveness and the Mechanisms Underlying It <a href="https://doi.org/10.1371/journal.pone.0159137" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0159137&type=printable" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Simmy Grover, Adrian Furnham (2016)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">231 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">OA</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="cosmin guideline for systematic reviews of patient-reported outcome measures version 2.0 mokkink, l.b., elsman, e.b.m., terwee, c.b. methodological_guideline">
+          <div class="bib-num">25</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">COSMIN guideline for systematic reviews of patient-reported outcome measures version 2.0 <a href="https://doi.org/10.1007/s11136-024-03761-6" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://doi.org/10.1007/s11136-024-03761-6" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Mokkink, L.B., Elsman, E.B.M., Terwee, C.B. (2024)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">176 cites</span><span class="badge badge-purple">methodological_guideline</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="what do we really know about adhd in college students? andrea l. green, david l. rabiner ">
+          <div class="bib-num">26</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">What Do We Really Know about ADHD in College Students? <a href="https://doi.org/10.1007/s13311-012-0127-8" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://link.springer.com/content/pdf/10.1007/s13311-012-0127-8.pdf" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Andrea L. Green, David L. Rabiner (2012)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">176 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">OA</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="the standard error in the jacobson and truax reliable change index: the classical approach to the assessment of reliable change maassen, g.h. methodological">
+          <div class="bib-num">27</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">The standard error in the Jacobson and Truax Reliable Change Index: The classical approach to the assessment of reliable change <a href="https://doi.org/10.1017/S1355617704106097" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://dspace.library.uu.nl/bitstream/handle/1874/11263/Maassen_The_standard_error.pdf" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Maassen, G.H. (2004)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">132 cites</span><span class="badge badge-purple">methodological</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="efficacy of adhd coaching for adults with adhd joyce a. kubik ">
+          <div class="bib-num">28</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Efficacy of ADHD Coaching for Adults With ADHD <a href="https://doi.org/10.1177/1087054708329960" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Joyce A. Kubik (2009)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">64 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">OA</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="gas powered coaching: goal attainment scaling and its use in coaching research and practice spence, g.b. review">
+          <div class="bib-num">29</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">GAS powered coaching: Goal Attainment Scaling and its use in coaching research and practice <a href="https://doi.org/10.53841/bpsicpr.2007.2.2.155" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Spence, G.B. (2007)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">61 cites</span><span class="badge badge-purple">review</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="the merits of implementing routine outcome monitoring in clinical practice lambert, m.j., harmon, k.l. review">
+          <div class="bib-num">30</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">The merits of implementing routine outcome monitoring in clinical practice <a href="https://doi.org/10.1111/CPSP.12268" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Lambert, M.J., Harmon, K.L. (2018)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">54 cites</span><span class="badge badge-purple">review</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="reliable change and the reliable change index: still useful after all these years? blampied, n.m. review">
+          <div class="bib-num">31</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Reliable change and the reliable change index: still useful after all these years? <a href="https://doi.org/10.1017/S1754470X22000484" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://www.cambridge.org/core/services/aop-cambridge-core/content/view/75AC9F09E738AC53924DA77AE4C66D7D/S1754470X22000484a.pdf" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Blampied, N.M. (2022)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">53 cites</span><span class="badge badge-purple">review</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="establishment of a reliable change index for the gad-7 bischoff, t. et al. empirical">
+          <div class="bib-num">32</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Establishment of a reliable change index for the GAD-7 <a href="https://doi.org/10.5964/pch.v8i1.309" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://pch.psychopen.eu/article/download/309/pdf" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Bischoff, T. et al. (2020)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">47 cites</span><span class="badge badge-purple">empirical</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="near- and far-transfer effects of an executive function intervention for 2nd to 5th-grade struggling readers cartwright, k.b. et al. quasi-experimental">
+          <div class="bib-num">33</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Near- and far-transfer effects of an executive function intervention for 2nd to 5th-grade struggling readers <a href="https://doi.org/10.1016/j.cogdev.2020.100932" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Cartwright, K.B. et al. (2020)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">42 cites</span><span class="badge badge-purple">quasi-experimental</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="self-control in postsecondary settings david r. parker et al. ">
+          <div class="bib-num">34</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Self-Control in Postsecondary Settings <a href="https://doi.org/10.1177/1087054711427561" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">David R. Parker et al. (2011)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">34 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">OA</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="development and validation of 21-item outcome inventory (oi-21). wongpakaran n, wongpakaran t, kövi z ">
+          <div class="bib-num">35</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Development and validation of 21-item outcome inventory (OI-21). <a href="https://doi.org/10.1016/j.heliyon.2022.e09682" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC9193908?pdf=render" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Wongpakaran N, Wongpakaran T, Kövi Z (2022)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">19 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="an investigation of age-related differential item functioning in the eq-5d-5l using item response theory and logistic regression penton, h. et al. empirical">
+          <div class="bib-num">36</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">An Investigation of Age-Related Differential Item Functioning in the EQ-5D-5L Using Item Response Theory and Logistic Regression <a href="https://doi.org/10.1016/j.jval.2022.03.009" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="http://www.valueinhealthjournal.com/article/S1098301522001516/pdf" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Penton, H. et al. (2022)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">16 cites</span><span class="badge badge-purple">empirical</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="continuous outcome measurement in modern data-informed psychotherapies lutz, w. et al. review">
+          <div class="bib-num">37</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Continuous outcome measurement in modern data-informed psychotherapies <a href="https://doi.org/10.1002/wps.20988" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9077604" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Lutz, W. et al. (2022)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">13 cites</span><span class="badge badge-purple">review</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="adapting the multilevel model for estimation of the reliable change index (rci) with multiple timepoints and multiple sources of error morgan-lopez, a. et al. methodological">
+          <div class="bib-num">38</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Adapting the multilevel model for estimation of the reliable change index (RCI) with multiple timepoints and multiple sources of error <a href="https://doi.org/10.1002/mpr.1906" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9159694" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Morgan-Lopez, A. et al. (2022)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">13 cites</span><span class="badge badge-purple">methodological</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="ecological momentary assessment in psychotherapy research: a systematic review mink, f., lutz, w., hehlmann, m.i. systematic_review">
+          <div class="bib-num">39</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Ecological Momentary Assessment in psychotherapy research: A systematic review <a href="https://doi.org/10.1016/j.cpr.2025.102565" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://doi.org/10.1016/j.cpr.2025.102565" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Mink, F., Lutz, W., Hehlmann, M.I. (2025)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">11 cites</span><span class="badge badge-purple">systematic_review</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="matching research and practice: prediction of individual patient progress and dropout risk for basic routine outcome monitoring mutze, k. et al. empirical">
+          <div class="bib-num">40</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Matching research and practice: Prediction of individual patient progress and dropout risk for basic routine outcome monitoring <a href="https://doi.org/10.1080/10503307.2021.1930244" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Mutze, K. et al. (2021)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">11 cites</span><span class="badge badge-purple">empirical</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="how to make the most of routine outcome monitoring (rom): a multitude of clinical decisions and nuances to consider aafjes-van doorn, k., de jong, k. review">
+          <div class="bib-num">41</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">How to make the most of routine outcome monitoring (ROM): A multitude of clinical decisions and nuances to consider <a href="https://doi.org/10.1002/jclp.23438" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://scholarlypublications.universiteitleiden.nl/access/item%3A3515657/view" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Aafjes-van Doorn, K., de Jong, K. (2022)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">7 cites</span><span class="badge badge-purple">review</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="the patient-perceived helpfulness of measures scale: development and validation of a scale to assess the helpfulness of using measures in psychological treatment. di malta g et al. ">
+          <div class="bib-num">42</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">The Patient-Perceived Helpfulness of Measures Scale: Development and Validation of a Scale to Assess the Helpfulness of Using Measures in Psychological Treatment. <a href="https://doi.org/10.1177/10731911231195837" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC11134981?pdf=render" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Di Malta G et al. (2024)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">6 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="longitudinal measurement invariance of the working alliance inventory - short form across coaching sessions stefens, m. et al. psychometric_validation">
+          <div class="bib-num">43</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Longitudinal measurement invariance of the Working Alliance Inventory - Short form across coaching sessions <a href="https://doi.org/10.1186/s40359-022-00968-5" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://bmcpsychology.biomedcentral.com/counter/pdf/10.1186/s40359-022-00968-5" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Stefens, M. et al. (2022)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">5 cites</span><span class="badge badge-purple">psychometric_validation</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="dependability and usability of the dass-21 as a progress-monitoring tool for youth dwight, a.r. et al. psychometric_validation">
+          <div class="bib-num">44</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Dependability and Usability of the DASS-21 as a Progress-Monitoring Tool for Youth <a href="https://doi.org/10.1177/07342829241227758" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://journals.sagepub.com/doi/pdf/10.1177/07342829241227758" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Dwight, A.R. et al. (2024)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">4 cites</span><span class="badge badge-purple">psychometric_validation</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="symptoms of anxiety and depression in early adolescence: a multitrait-multimethod factor analytic approach karevold, e. empirical">
+          <div class="bib-num">45</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Symptoms of Anxiety and Depression in Early Adolescence: A Multitrait-Multimethod Factor Analytic Approach <a href="https://doi.org/10.4172/2469-6676.100083" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://doi.org/10.4172/2469-6676.100083" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Karevold, E. (2017)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">4 cites</span><span class="badge badge-purple">empirical</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="feasibility of a digital coaching program for improving mental well-being and emotional intelligence: pragmatic retrospective cohort study. peiper nc et al. ">
+          <div class="bib-num">46</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Feasibility of a Digital Coaching Program for Improving Mental Well-Being and Emotional Intelligence: Pragmatic Retrospective Cohort Study. <a href="https://doi.org/10.2196/71828" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC12330984?pdf=render" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Peiper NC et al. (2025)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">2 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="comparison of false positive and false negative rates of two indices of individual reliable change: jacobson-truax and hageman-arrindell methods ferrer-urbina, r. et al. simulation">
+          <div class="bib-num">47</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Comparison of false positive and false negative rates of two indices of individual reliable change: Jacobson-Truax and Hageman-Arrindell methods <a href="https://doi.org/10.3389/fpsyg.2023.1132128" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://www.frontiersin.org/articles/10.3389/fpsyg.2023.1132128/pdf" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Ferrer-Urbina, R. et al. (2023)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">2 cites</span><span class="badge badge-purple">simulation</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="italian validation of the &lt;i&gt;clinical outcomes in routine evaluation-10&lt;/i&gt; (core-10): a short measure for routine outcome monitoring in clinical practice. la tona a et al. ">
+          <div class="bib-num">48</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Italian validation of the &lt;i&gt;Clinical Outcomes in Routine Evaluation-10&lt;/i&gt; (CORE-10): a short measure for routine outcome monitoring in clinical practice. <a href="https://doi.org/10.4081/ripppo.2023.671" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://www.researchinpsychotherapy.org/index.php/rpsy/article/download/671/621" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">La Tona A et al. (2023)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">2 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="renewal of challenging behavior in an intensive outpatient clinic: replication and extension to task changes. aggarwal i et al. ">
+          <div class="bib-num">49</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Renewal of challenging behavior in an intensive outpatient clinic: Replication and extension to task changes. <a href="https://doi.org/10.1002/jaba.70057" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC12895135?pdf=render" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Aggarwal I et al. (2026)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">1 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="measurement properties of promis measures relevant to chronic skin diseases. nock mr et al. ">
+          <div class="bib-num">50</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Measurement Properties of PROMIS Measures Relevant to Chronic Skin Diseases. <a href="https://doi.org/10.1001/jamadermatol.2025.5163" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC12728729" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Nock MR et al. (2026)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">1 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="psychotherapy process dynamics and their relation to treatment success do not differ across diagnoses. seizer l et al. ">
+          <div class="bib-num">51</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Psychotherapy Process Dynamics and Their Relation to Treatment Success Do Not Differ Across Diagnoses. <a href="https://doi.org/10.1002/cpp.70222" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC12811794?pdf=render" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Seizer L et al. (2026)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">1 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="invariance and construct validity of hitop dimensions across race and ethnicity in the adolescent brain and cognitive development (abcd) study. li jj et al. ">
+          <div class="bib-num">52</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Invariance and Construct Validity of HiTOP Dimensions Across Race and Ethnicity in the Adolescent Brain and Cognitive Development (ABCD) Study. <a href="https://doi.org/10.1177/10731911251391567" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC12990327?pdf=render" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Li JJ et al. (2025)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">1 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="rethinking the subjective units of distress scale: validity and clinical utility of the suds. mattera e, zaboski b ">
+          <div class="bib-num">53</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Rethinking the Subjective Units of Distress Scale: Validity and Clinical Utility of the SUDS. <a href="https://doi.org/10.3390/clinpract15070123" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC12293913?pdf=render" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Mattera E, Zaboski B (2025)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">1 cites</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="introducing the reliable change index: an invitation to case-study research in coaching psychology murphy, m., thomas, s.d. methodological">
+          <div class="bib-num">54</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Introducing the reliable change index: An invitation to case-study research in coaching psychology <a href="https://doi.org/10.53841/bpstcp.2023.19.2.41" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Murphy, M., Thomas, S.D. (2023)</div>
+            <div style="margin-top:4px;"><span class="badge badge-blue">1 cites</span><span class="badge badge-purple">methodological</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="person-reported outcome measures for goal achievement or functional change in people undergoing rehabilitation with allied health professionals: a rapid evidence map and synthesis williams j et al. ">
+          <div class="bib-num">55</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Person-reported outcome measures for goal achievement or functional change in people undergoing rehabilitation with allied health professionals: a rapid evidence map and synthesis <a href="https://doi.org/10.21203/rs.3.rs-8562001/v1" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/api/fulltextRepo?pprId=PPR1142621&type=FILE&fileName=EMS212101-pdf.pdf&mimeType=application/pdf" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Williams J et al. (2026)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="a methodological proof-of-concept of a data-driven, personalized, blended digital health intervention for suicidal thoughts and behaviors: a case series. kuehn ks et al. ">
+          <div class="bib-num">56</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">A methodological proof-of-concept of a data-driven, personalized, blended digital health intervention for suicidal thoughts and behaviors: A case series. <a href="https://doi.org/10.1016/j.invent.2026.100917" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC12955561?pdf=render" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Kuehn KS et al. (2026)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="taking measurement-based care to school: evaluating teacher-report versions of the behavior and feelings survey and the top problems assessment. evans sc et al. ">
+          <div class="bib-num">57</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Taking measurement-based care to school: Evaluating teacher-report versions of the behavior and feelings survey and the top problems assessment. <a href="https://doi.org/10.1037/pas0001447" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC12974236?pdf=render" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Evans SC et al. (2026)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="cognitive disengagement syndrome symptoms and adhd dimensions in relation to children's daily life executive functioning deficits. miller mc et al. ">
+          <div class="bib-num">58</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Cognitive Disengagement Syndrome Symptoms and ADHD Dimensions in Relation To Children's Daily Life Executive Functioning Deficits. <a href="https://doi.org/10.1007/s10802-026-01436-z" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC12920304?pdf=render" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Miller MC et al. (2026)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="digitally enhanced routine outcome monitoring in italian psychotherapy: protocol for a longitudinal implementation study. olive mv et al. ">
+          <div class="bib-num">59</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Digitally Enhanced Routine Outcome Monitoring in Italian Psychotherapy: Protocol for a Longitudinal Implementation Study. <a href="https://doi.org/10.2196/82837" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC12954688" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Olive MV et al. (2026)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="improving outpatient psychotherapy for adults with major depressive and anxiety disorders using web-based high-frequency monitoring and feedback in autosystemic hypnotherapy: protocol for a two-arm abab crossed-therapist randomized clinical implementation trial. schiepek g, wackernagel s ">
+          <div class="bib-num">60</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Improving Outpatient Psychotherapy for Adults With Major Depressive and Anxiety Disorders Using Web-Based High-Frequency Monitoring and Feedback in Autosystemic Hypnotherapy: Protocol for a Two-Arm ABAB Crossed-Therapist Randomized Clinical Implementation Trial. <a href="https://doi.org/10.2196/78166" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC12824570" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Schiepek G, Wackernagel S (2026)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="transforming psychological practice with precision mental health: introduction to the nova project. roca p et al. ">
+          <div class="bib-num">61</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Transforming psychological practice with precision mental health: introduction to the NOVA project. <a href="https://doi.org/10.3389/fpsyg.2026.1775489" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC12983227?pdf=render" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Roca P et al. (2026)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="testing normalization process theory in a randomized trial of mental health clinics implementing digital measurement-based care. williams nj et al. ">
+          <div class="bib-num">62</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Testing normalization process theory in a randomized trial of mental health clinics implementing digital measurement-based care. <a href="https://doi.org/10.1186/s13012-026-01485-4" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC12918388?pdf=render" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Williams NJ et al. (2026)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="daily life studies on dynamic within-person fluctuations of self-efficacy in the physical activity context: a scoping review. vogelsang a et al. ">
+          <div class="bib-num">63</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Daily Life Studies on Dynamic Within-person Fluctuations of Self-efficacy in the Physical Activity Context: A Scoping Review. <a href="https://doi.org/10.1186/s40798-025-00973-z" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC12882901?pdf=render" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Vogelsang A et al. (2026)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="remote measurement-based care interventions for mental health: systematic review and meta-analysis. machleid f et al. ">
+          <div class="bib-num">64</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Remote Measurement-Based Care Interventions for Mental Health: Systematic Review and Meta-Analysis. <a href="https://doi.org/10.2196/63088" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC12849610" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Machleid F et al. (2026)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="lifestyle physical activity coaching in outpatients with major depressive disorder (pacoutpat): study protocol for a randomized controlled trial on physical activity, depression, and quality of life. stark c et al. ">
+          <div class="bib-num">65</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Lifestyle physical activity coaching in outpatients with major depressive disorder (PACOUTPAT): study protocol for a randomized controlled trial on physical activity, depression, and quality of life. <a href="https://doi.org/10.1186/s13063-026-09500-1" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC13014798?pdf=render" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Stark C et al. (2026)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="the measurement of harm reduction goals and outcomes for substance use: current state and future directions. schwebel fj et al. ">
+          <div class="bib-num">66</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">The measurement of harm reduction goals and outcomes for substance use: Current state and future directions. <a href="https://doi.org/10.1177/26320770251412852" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC13012656?pdf=render" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Schwebel FJ et al. (2026)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="coaching in higher education: a systematic review of coaching intervention on university students fazel, p., kovacs, k.e., kovacs, j. systematic_review">
+          <div class="bib-num">67</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Coaching in higher education: a systematic review of coaching intervention on university students <a href="https://doi.org/10.1080/17521882.2025.2601539" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Fazel, P., Kovacs, K.E., Kovacs, J. (2025)</div>
+            <div style="margin-top:4px;"><span class="badge badge-purple">systematic_review</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="determining clinically meaningful change: minimal clinically important difference for common depression scales in older adults with parkinson's disease. soltaninejad h et al. ">
+          <div class="bib-num">68</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Determining clinically meaningful change: minimal clinically important difference for common depression scales in older adults with parkinson's disease. <a href="https://doi.org/10.1007/s40520-025-03212-3" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC12552234?pdf=render" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Soltaninejad H et al. (2025)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="self-management measurement instruments specific to individuals with cardiovascular diseases: a systematic review protocol using cosmin methodology. barbosa de almeida ja et al. ">
+          <div class="bib-num">69</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Self-management measurement instruments specific to individuals with cardiovascular diseases: a systematic review protocol using COSMIN methodology. <a href="https://doi.org/10.1136/bmjopen-2025-104523" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC12699611?pdf=render" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Barbosa de Almeida JA et al. (2025)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="further validation study of the gender-specific binary depression screening version (gids-15) and investigation of intervention effects. pellowski js et al. ">
+          <div class="bib-num">70</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Further Validation Study of the Gender-Specific Binary Depression Screening Version (GIDS-15) and Investigation of Intervention Effects. <a href="https://doi.org/10.3390/bs15091253" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC12466554?pdf=render" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Pellowski JS et al. (2025)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="evaluating goal attainment scaling for individuals with mild cognitive impairment or dementia in rehabilitation settings. jogie p et al. ">
+          <div class="bib-num">71</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Evaluating Goal Attainment Scaling for Individuals With Mild Cognitive Impairment or Dementia in Rehabilitation Settings. <a href="https://doi.org/10.1016/j.arrct.2025.100501" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC12750371?pdf=render" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Jogie P et al. (2025)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="the youth-focused cognitive and behavioral therapy adherence measure: a multi-informant, transdiagnostic, trans-manual, adherence monitoring tool. cho e et al. ">
+          <div class="bib-num">72</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">The Youth-Focused Cognitive and Behavioral Therapy Adherence Measure: A Multi-Informant, Transdiagnostic, Trans-Manual, Adherence Monitoring Tool. <a href="https://doi.org/10.1007/s10488-025-01462-x" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC12758495?pdf=render" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Cho E et al. (2025)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="inconsistent application of the reliable change index in clinical psychology trials leads to noisy estimates of individual change crenshaw ao et al. ">
+          <div class="bib-num">73</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Inconsistent Application of the Reliable Change Index in Clinical Psychology Trials Leads to Noisy Estimates of Individual Change <a href="https://doi.org/10.31234/osf.io/d9amr_v1" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Crenshaw AO et al. (2025)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="including empirical prior information in the reliable change index. chalmers rp, campbell s ">
+          <div class="bib-num">74</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Including Empirical Prior Information in the Reliable Change Index. <a href="https://doi.org/10.1177/01466216251358492" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC12245826?pdf=render" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Chalmers RP, Campbell S (2025)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="prediction of adolescent psychotherapy outcomes using youth- and caregiver-reported symptoms data. henderson ce et al. ">
+          <div class="bib-num">75</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Prediction of adolescent psychotherapy outcomes using youth- and caregiver-reported symptoms data. <a href="https://doi.org/10.1080/10503307.2024.2394187" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC11868464?pdf=render" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Henderson CE et al. (2025)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="operationalizing goal setting as an outcome measure in trials involving patients with frailty, multimorbidity or complexity. tenison e et al. ">
+          <div class="bib-num">76</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Operationalizing goal setting as an outcome measure in trials involving patients with frailty, multimorbidity or complexity. <a href="https://doi.org/10.1016/j.conctc.2024.101411" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a> <a href="https://europepmc.org/articles/PMC11699366?pdf=render" target="_blank" style="color:var(--accent-green);text-decoration:none;font-size:11px;">[PDF]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Tenison E et al. (2025)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">EPMC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="reaching the finish line: can coaching help students graduate? kelly lack, hannah acheson-field ">
+          <div class="bib-num">77</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Reaching the Finish Line: Can Coaching Help Students Graduate?</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Kelly Lack, Hannah Acheson-Field (2025)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="executive function coaching for college students with disabilities: a systematic literature review kiera anderson, matthew t. marino ">
+          <div class="bib-num">78</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Executive Function Coaching for College Students with Disabilities: A Systematic Literature Review</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Kiera Anderson, Matthew T. Marino (2024)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="staying on task: use of self-monitoring and peer coaching to support inclusive postsecondary education stephanie devine, cynthia massey, kathryn l. haughney ">
+          <div class="bib-num">79</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Staying on Task: Use of Self-Monitoring and Peer Coaching to Support Inclusive Postsecondary Education</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Stephanie Devine, Cynthia Massey, Kathryn L. Haughney (2024)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="expanding student success: prioritizing student thriving and academic coaching within community colleges shannon fleishman ">
+          <div class="bib-num">80</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Expanding Student Success: Prioritizing Student Thriving and Academic Coaching within Community Colleges</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Shannon Fleishman (2024)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="psychometric properties of postgraduate self-determined learning questionnaire (pslq) tiew chia chun, mohd ali samsudin, melissa ng lee yen abdullah ">
+          <div class="bib-num">81</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Psychometric Properties of Postgraduate Self-Determined Learning Questionnaire (PSLQ)</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Tiew Chia Chun, Mohd Ali Samsudin, Melissa Ng Lee Yen Abdullah (2024)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="student perspectives on using the sdlmi to enhance outcomes unknown ">
+          <div class="bib-num">82</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Student Perspectives on Using the SDLMI to Enhance Outcomes</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Unknown (2024)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="using technology as a compensatory technique for executive function skill deficits during the coaching process kiera anderson, matthew t. marino ">
+          <div class="bib-num">83</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Using Technology as a Compensatory Technique for Executive Function Skill Deficits during the Coaching Process</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Kiera Anderson, Matthew T. Marino (2023)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="monitoring students' progress using word dictation: technical features of slope and growth seohyeon choi et al. ">
+          <div class="bib-num">84</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Monitoring Students' Progress Using Word Dictation: Technical Features of Slope and Growth</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Seohyeon Choi et al. (2023)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="a tutorial on cross wave measurement invariance testing with item factor analysis r. noah padgett ">
+          <div class="bib-num">85</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">A Tutorial on Cross Wave Measurement Invariance Testing with Item Factor Analysis</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">R. Noah Padgett (2023)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="gmocat: a graph-enhanced multi-objective method for computerized adaptive testing justarter (github handle) ">
+          <div class="bib-num">86</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">GMOCAT: A Graph-Enhanced Multi-Objective Method for Computerized Adaptive Testing</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">justarter (GitHub handle) (2023)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">PwC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="social, emotional, and behavioral assessment within tiered decision-making frameworks kathleen lynne lane ">
+          <div class="bib-num">87</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Social, Emotional, and Behavioral Assessment within Tiered Decision-Making Frameworks</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Kathleen Lynne Lane (2022)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="goal attainment scaling--community-based: personalized outcomes in adult autism intervention research unknown ">
+          <div class="bib-num">88</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Goal Attainment Scaling--Community-Based: Personalized Outcomes in Adult Autism Intervention Research</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Unknown (2022)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="pykt: a python library to benchmark deep learning based knowledge tracing models pykt-team ">
+          <div class="bib-num">89</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">pyKT: A Python Library to Benchmark Deep Learning based Knowledge Tracing Models</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">pykt-team (2022)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">PwC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="investigating the effects of academic coaching on college students' metacognition marc alan howlett et al. ">
+          <div class="bib-num">90</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Investigating the Effects of Academic Coaching on College Students' Metacognition</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Marc Alan Howlett et al. (2021)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="academic coaching and its relationship to student performance, retention, and credit completion jessica l. alzen et al. ">
+          <div class="bib-num">91</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Academic Coaching and Its Relationship to Student Performance, Retention, and Credit Completion</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Jessica L. Alzen et al. (2021)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="the effect of nonlinear growth on the accuracy of cbm reading decision rules ethan r. van norman ">
+          <div class="bib-num">92</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">The Effect of Nonlinear Growth on the Accuracy of CBM Reading Decision Rules</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Ethan R. Van Norman (2021)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="improving accuracy in measuring transfer of problem-solving skills kyle m. whitcomb et al. ">
+          <div class="bib-num">93</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Improving Accuracy in Measuring Transfer of Problem-Solving Skills</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Kyle M. Whitcomb et al. (2021)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="exploring coach-teacher interactions within practice-based coaching darbianne k. shannon et al. ">
+          <div class="bib-num">94</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Exploring Coach-Teacher Interactions within Practice-Based Coaching</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Darbianne K. Shannon et al. (2021)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="developing a brief behavior rating scale for progress monitoring of depression in school settings evan h. dart et al. ">
+          <div class="bib-num">95</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Developing a Brief Behavior Rating Scale for Progress Monitoring of Depression in School Settings</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Evan H. Dart et al. (2020)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="reliability, validity, factor structure, and measurement invariance of japanese caars fumio someki et al. ">
+          <div class="bib-num">96</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Reliability, Validity, Factor Structure, and Measurement Invariance of Japanese CAARS</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Fumio Someki et al. (2020)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="goal attainment scaling and coaching client core self-evaluations tee, d., shearer, d., roderique-davies, g. quasi-experimental">
+          <div class="bib-num">97</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Goal attainment scaling and coaching client core self-evaluations <a href="https://doi.org/10.53841/bpstcp.2019.15.1.47" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px;">[DOI]</a></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Tee, D., Shearer, D., Roderique-Davies, G. (2019)</div>
+            <div style="margin-top:4px;"><span class="badge badge-purple">quasi-experimental</span><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">SS</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="insidetrack coaching. intervention snapshot. supporting postsecondary success unknown ">
+          <div class="bib-num">98</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">InsideTrack Coaching. Intervention Snapshot. Supporting Postsecondary Success</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Unknown (2019)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="assessing consequential validity of early literacy progress monitoring data ethan r. van norman, peter m. nelson ">
+          <div class="bib-num">99</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Assessing Consequential Validity of Early Literacy Progress Monitoring Data</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Ethan R. Van Norman, Peter M. Nelson (2019)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="test review: ssis social-emotional learning edition alexander m. rigney ">
+          <div class="bib-num">100</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Test Review: SSIS Social-Emotional Learning Edition</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Alexander M. Rigney (2019)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="decision-making accuracy of cbm progress-monitoring data john m. hintze et al. ">
+          <div class="bib-num">101</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Decision-Making Accuracy of CBM Progress-Monitoring Data</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">John M. Hintze et al. (2018)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="improving decision making in school psychology amanda m. vanderheyden, matthew k. burns ">
+          <div class="bib-num">102</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Improving Decision Making in School Psychology</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Amanda M. VanDerHeyden, Matthew K. Burns (2018)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="cbm of reading growth: weekly versus intermittent progress monitoring joseph jenkins et al. ">
+          <div class="bib-num">103</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">CBM of Reading Growth: Weekly versus Intermittent Progress Monitoring</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Joseph Jenkins et al. (2017)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="deep knowledge tracing chris piech et al. ">
+          <div class="bib-num">104</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Deep Knowledge Tracing</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Chris Piech et al. (2015)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">PwC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="adapting the self-determined learning model of instruction for college students with disabilities unknown ">
+          <div class="bib-num">105</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Adapting the Self-Determined Learning Model of Instruction for College Students with Disabilities</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Unknown (2008)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+        <div class="bib-entry" data-search="individual growth and developmental indicators for progress monitoring and intervention decision making dale walker et al. ">
+          <div class="bib-num">106</div>
+          <div class="bib-content">
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);line-height:1.4;">Individual Growth and Developmental Indicators for Progress Monitoring and Intervention Decision Making</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Dale Walker et al. (2008)</div>
+            <div style="margin-top:4px;"><span class="badge" style="background:var(--bg-primary);color:var(--text-dim);">ERIC</span></div>
+          </div>
+        </div>
+    </div>
+
     <!-- SOURCE COVERAGE -->
     <div class="section" id="sec-sources">
       <h2 class="section-title">Source Coverage</h2>
@@ -1002,6 +1872,19 @@ function filterPapers(query) {
     const title = card.querySelector('.card-title')?.textContent || '';
     card.style.display = (search + ' ' + title).toLowerCase().includes(q) ? '' : 'none';
   });
+}
+
+
+function filterBib(query) {
+  const q = query.toLowerCase();
+  let visible = 0;
+  document.querySelectorAll('.bib-entry').forEach(entry => {
+    const search = entry.dataset.search || '';
+    const show = !q || search.includes(q);
+    entry.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  document.getElementById('bib-count').textContent = `Showing ${visible} of 106 papers`;
 }
 
 function filterThread(thread, btn) {
