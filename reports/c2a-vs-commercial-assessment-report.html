@@ -4,710 +4,312 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Literature Review: C2A vs Commercial Soft Skills Assessment Tools</title>
+<title>C2A vs Commercial Soft Skills Assessment Tools</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  :root {
-    --navy: #1B2A4A; --navy-light: #2A3F6B;
-    --coral: #FF6B6B; --coral-soft: #FF8E8E;
-    --sand: #F5E6CC; --sand-light: #FDF8F0;
-    --teal: #2B8A8A; --gold: #D4A843;
-    --slate: #4A5568; --warm-grey: #8B7E6A;
-  }
-  html, body { height: 100%; overflow: hidden; }
-  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--sand-light); color: var(--navy); }
-
-  /* Slide container */
-  .deck { display: flex; height: 100vh; overflow: hidden; }
-  .slide { min-width: 100vw; height: 100vh; overflow-y: auto; padding: 60px 80px; display: none; flex-direction: column; }
-  .slide.active { display: flex; }
-  @media (max-width: 800px) { .slide { padding: 32px 24px; } }
-
-  /* Slide index bar */
-  .index-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: var(--navy); display: flex; align-items: center; height: 52px; padding: 0 24px; gap: 6px; overflow-x: auto; }
-  .idx-chip { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.55); background: transparent; border: none; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
-  .idx-chip:hover { color: #fff; background: var(--navy-light); }
-  .idx-chip.active { background: var(--coral); color: #fff; }
-  .idx-progress { position: fixed; bottom: 52px; left: 0; height: 3px; background: var(--coral); transition: width 0.3s; z-index: 101; }
-  .idx-arrows { margin-left: auto; display: flex; gap: 8px; }
-  .idx-arrow { width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--navy-light); color: #fff; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-  .idx-arrow:hover { background: var(--coral); }
-
-  /* Slide typography */
-  .slide-num { font-size: 12px; font-weight: 700; color: var(--coral); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
-  .slide h2 { font-size: 36px; font-weight: 800; color: var(--navy); line-height: 1.15; margin-bottom: 20px; max-width: 800px; }
-  .slide h3 { font-size: 22px; font-weight: 700; color: var(--navy); margin: 24px 0 10px; }
-  .slide h4 { font-size: 16px; font-weight: 700; color: var(--teal); margin: 16px 0 8px; }
-  .slide p { font-size: 16px; line-height: 1.8; margin-bottom: 14px; color: var(--slate); max-width: 760px; }
-  .slide ul, .slide ol { margin: 10px 0 16px 24px; font-size: 16px; line-height: 1.7; color: var(--slate); max-width: 760px; }
-  .slide li { margin-bottom: 8px; }
-  .slide strong { color: var(--navy); font-weight: 700; }
-  .slide em { color: var(--coral); font-style: normal; font-weight: 600; }
-  .slide blockquote { background: var(--sand); border-left: 4px solid var(--coral); padding: 18px 24px; border-radius: 0 12px 12px 0; margin: 18px 0; font-size: 15px; color: var(--navy); max-width: 760px; }
-  .slide hr { border: none; height: 2px; background: var(--sand); margin: 28px 0; max-width: 760px; }
-  .slide a { color: var(--teal); text-decoration: none; font-weight: 600; }
-  .slide a:hover { text-decoration: underline; }
-
-  /* Tables */
-  .slide table { width: 100%; max-width: 800px; border-collapse: separate; border-spacing: 0; margin: 18px 0; border-radius: 12px; overflow: hidden; }
-  .slide th { background: var(--navy); color: #fff; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 14px 16px; text-align: left; }
-  .slide td { background: #fff; padding: 14px 16px; font-size: 14px; color: var(--slate); border-bottom: 1px solid var(--sand); }
-  .slide tr:last-child td { border-bottom: none; }
-
-  /* Badges */
-  .badge { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
-
-  /* Slide padding for index bar */
-  .slide { padding-bottom: 80px; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--navy:#1B2A4A;--navy-light:#2A3F6B;--coral:#FF6B6B;--coral-soft:#FF8E8E;--sand:#F5E6CC;--sand-light:#FDF8F0;--teal:#2B8A8A;--gold:#D4A843;--slate:#4A5568;--warm-grey:#8B7E6A}
+  html,body{height:100%;overflow:hidden}
+  body{font-family:'Inter',-apple-system,sans-serif;background:var(--sand-light);color:var(--navy)}
+  .deck{display:flex;height:100vh;overflow:hidden}
+  .slide{min-width:100vw;height:100vh;overflow-y:auto;padding:60px 80px 80px;display:none;flex-direction:column}
+  .slide.active{display:flex}
+  @media(max-width:800px){.slide{padding:32px 24px 80px}}
+  .index-bar{position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--navy);display:flex;align-items:center;height:52px;padding:0 24px;gap:6px;overflow-x:auto}
+  .idx-chip{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.55);background:transparent;border:none;cursor:pointer;white-space:nowrap;transition:all 0.15s}
+  .idx-chip:hover{color:#fff;background:var(--navy-light)}
+  .idx-chip.active{background:var(--coral);color:#fff}
+  .idx-progress{position:fixed;bottom:52px;left:0;height:3px;background:var(--coral);transition:width 0.3s;z-index:101}
+  .idx-arrows{margin-left:auto;display:flex;gap:8px}
+  .idx-arrow{width:32px;height:32px;border-radius:50%;border:none;background:var(--navy-light);color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .idx-arrow:hover{background:var(--coral)}
+  .slide-num{font-size:12px;font-weight:700;color:var(--coral);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px}
+  .slide h2{font-size:36px;font-weight:800;color:var(--navy);line-height:1.15;margin-bottom:20px;max-width:800px}
+  .slide h3{font-size:22px;font-weight:700;color:var(--navy);margin:24px 0 10px}
+  .slide h4{font-size:16px;font-weight:700;color:var(--teal);margin:16px 0 8px}
+  .slide p{font-size:16px;line-height:1.8;margin-bottom:14px;color:var(--slate);max-width:760px}
+  .slide ul,.slide ol{margin:10px 0 16px 24px;font-size:16px;line-height:1.7;color:var(--slate);max-width:760px}
+  .slide li{margin-bottom:8px}
+  .slide strong{color:var(--navy);font-weight:700}
+  .slide em{color:var(--coral);font-style:normal;font-weight:600}
+  .slide blockquote{background:var(--sand);border-left:4px solid var(--coral);padding:18px 24px;border-radius:0 12px 12px 0;margin:18px 0;font-size:15px;color:var(--navy);max-width:760px}
+  .slide hr{border:none;height:2px;background:var(--sand);margin:28px 0;max-width:760px}
+  .slide a{color:var(--teal);text-decoration:none;font-weight:600}
+  .slide a:hover{text-decoration:underline}
+  .slide table{width:100%;max-width:800px;border-collapse:separate;border-spacing:0;margin:18px 0;border-radius:12px;overflow:hidden}
+  .slide th{background:var(--navy);color:#fff;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;padding:14px 16px;text-align:left}
+  .slide td{background:#fff;padding:14px 16px;font-size:14px;color:var(--slate);border-bottom:1px solid var(--sand)}
+  .slide tr:last-child td{border-bottom:none}
+  .badge{display:inline-block;padding:4px 12px;border-radius:6px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em}
+  .badge-high{background:#dcfce7;color:#166534}
+  .badge-moderate{background:#fef9c3;color:#854d0e}
+  .badge-low{background:#fee2e2;color:#991b1b}
+  .badge-verylow{background:#f3f4f6;color:#6b7280}
+  .badge-critical{background:#991b1b;color:#fff}
+  .badge-sev-high{background:#c2410c;color:#fff}
+  .badge-sev-mod{background:#d97706;color:#fff}
+  .fc{background:#fff;border-radius:12px;padding:20px 24px;margin:16px 0;max-width:800px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+  .fc h4{margin-top:0}
+  .tg{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:800px;margin:16px 0}
+  .tc{background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+  .tc h4{margin-top:0;font-size:14px}
+  .tc ul{margin:8px 0 0 16px;font-size:14px}
+  @media(max-width:800px){.tg{grid-template-columns:1fr}}
+  .sr{display:flex;gap:24px;flex-wrap:wrap;margin:16px 0}
+  .sb{background:#fff;border-radius:12px;padding:16px 20px;min-width:140px;box-shadow:0 1px 3px rgba(0,0,0,0.06);text-align:center}
+  .sb .n{font-size:28px;font-weight:800;color:var(--navy)}
+  .sb .l{font-size:12px;color:var(--warm-grey);text-transform:uppercase;letter-spacing:0.05em;margin-top:4px}
 </style>
 </head>
 <body>
-
 <div class="idx-progress" id="progress"></div>
-
 <div class="deck" id="deck">
-  <div class="slide" id="slide-executive_summary">
-    <div class="slide-num">Section 01 of 09</div>
-    <h2>Executive Summary</h2>
-    <h3>Key Messages</h3>
-<ul>
-  <li><strong>Avoid commercial hiring games and AI tools for student development:</strong> To accurately measure soft skills, use multiple established tests, because 11 out of 14 commercial platforms fail to prove their tests actually work.</li>
-  <li><strong>Connect test results directly to human coaching:</strong> To track student growth over time, use tests designed to measure change, as reviewing 19 studies shows this combination significantly improves skills.</li>
-</ul>
 
-<h3>Why do commercial hiring tools fail for student development?</h3>
-<p>Most commercial tools cannot prove they measure what they claim, with 11 out of 14 popular platforms providing zero independent proof of their psychometric accuracy (the science of measuring mental traits). Furthermore, AI (Artificial Intelligence) video tools change scores based on irrelevant details like wearing glasses, making them highly biased. Therefore, these commercial tools are not reliable for guiding student coaching.</p>
-
-<details>
-  <summary><strong>View Evidence Details</strong></summary>
-  <p><strong>Claim:</strong> Commercial tools lack validity (proof they measure what they claim) and AI tools show bias.<br>
-  <strong>Evidence Strength:</strong> Moderate to High<br>
-  <strong>Source Count:</strong> 3<br>
-  <strong>Confidence Level:</strong> Strong</p>
+<div class="slide" id="s0">
+  <div class="slide-num">Section 01 of 11</div>
+  <h2>Executive Summary</h2>
+  <h3>Key Messages</h3>
   <ul>
-    <li>11 of 14 tools lack published data (Vendor documentation).</li>
-    <li>AI video assessments show "little evidence of reliability or validity" (Hickman et al., 2021).</li>
-    <li>AI scores change based on visual artifacts (Bogen & Rieke, 2022).</li>
+    <li><strong>Most commercial soft skills tools cannot prove they work.</strong> Only 3 of 14 publish any psychometric validation. C2A uses 14 independently validated instruments with published reliability and validity evidence.</li>
+    <li><strong>No competitor tracks student growth over time.</strong> All 14 commercial tools are single-timepoint hiring assessments. C2A's 3-tier longitudinal cadence is unique in the market.</li>
+    <li><strong>Coaching integration is C2A's strongest differentiator.</strong> Zero commercial tools connect assessment to coaching workflows. C2A's DDx-style reporting gives coaches actionable differential diagnosis, backed by 19 positive-outcome studies.</li>
   </ul>
-</details>
-
-<h3>How should we measure soft skills accurately?</h3>
-<p>No single test can capture complex human skills, so we must use a combination of different proven tools. A major study of 11,800 people showed that combining multiple established tests is the gold standard for accuracy. While game-based tests are popular, their accuracy is only moderate, scoring a 0.5 out of 1.0 in correlation (how closely the test matches proven measures).</p>
-
-<details>
-  <summary><strong>View Evidence Details</strong></summary>
-  <p><strong>Claim:</strong> Multi-instrument batteries outperform single-method commercial tools.<br>
-  <strong>Evidence Strength:</strong> High<br>
-  <strong>Source Count:</strong> 3<br>
-  <strong>Confidence Level:</strong> Strong</p>
-  <ul>
-    <li>Multi-method programs are required for competence education (Baartman et al., 2007).</li>
-    <li>ABCD study (N=11,800) establishes multi-construct battery gold standard (Barch et al., 2017).</li>
-    <li>Game-based assessments show moderate-to-low convergent validity (Fadillah et al., 2025; Leutner et al., 2023).</li>
-  </ul>
-</details>
-
-<h3>What happens when we connect testing to coaching?</h3>
-<p>Testing only helps if it guides actual human support, and a review of 19 studies found that pairing accurate tests with coaching consistently improved student outcomes. Unlike commercial tools that give a static score, tests must be sensitive enough to show real growth over time. This requires measurement invariance (ensuring the test works the exact same way every time you take it).</p>
-
-<details>
-  <summary><strong>View Evidence Details</strong></summary>
-  <p><strong>Claim:</strong> Validated assessments integrated with coaching produce positive outcomes.<br>
-  <strong>Evidence Strength:</strong> Moderate to High<br>
-  <strong>Source Count:</strong> 3<br>
-  <strong>Confidence Level:</strong> Strong</p>
-  <ul>
-    <li>All 19 ADHD coaching studies showed positive outcomes (Ahmann et al., 2018).</li>
-    <li>Measurement invariance is a prerequisite for longitudinal tracking (Knekta et al., 2019).</li>
-    <li>Treatment sensitivity is distinct from reliability (Benoy et al., 2019).</li>
-  </ul>
-</details>
-  </div>
-
-  <div class="slide" id="slide-literature_review_c2a_vs_commercial_soft_skills_assessment_tools">
-    <div class="slide-num">Section 02 of 09</div>
-    <h2>Literature Review: C2A vs Commercial Soft Skills Assessment Tools</h2>
-    
-  </div>
-
-  <div class="slide" id="slide-summary">
-    <div class="slide-num">Section 03 of 09</div>
-    <h2>Summary</h2>
-    <h3>Psychometric Rigor</h3>
-
-<p>C2A's 14 independently validated instruments represent a fundamentally different approach from the commercial landscape. Among 14 commercial tools analyzed, only three publish meaningful psychometric evidence. Clevry (formerly Criterion Partnership) reports Cronbach's alpha of 0.65-0.91 across 46 personality scales with construct validity tested against BPI, 16PF, CPI, and MBTI (Clevry, 2020; <span class='badge'>VERY_LOW</span> - vendor documentation). Pymetrics/Harver achieves convergent validity of r=0.5 with traditional cognitive tests and test-retest reliability of r=0.68 (Leutner et al., 2023; <span class='badge'>LOW</span> - company-affiliated authors). Mettl offers a proprietary Personality Map with global norms but no independent validation. The remaining 11 tools (iMocha, Hire Success, Toggl Hire, Bryq, eSkill, Neuroworx, Merittrac, JobArch, HighMatch, Retorio, TestGorilla) provide no published psychometric data or rely solely on vendor-described face/content validity claims.</p>
-
-<p>A systematic review using the COSMIN taxonomy found that among 13 social skills measures, 8/13 lacked measurement error reporting, 9/13 lacked cross-cultural validity, and 11/13 lacked criterion validity (PMC systematic review, 2015; <span class='badge'>HIGH</span>). This widespread psychometric gap in the field makes C2A's use of established instruments with published validity evidence a significant differentiator. The MSSAT validation study (Colledani et al., 2024; <span class='badge'>LOW</span>) demonstrates the rigorous validation pipeline needed: IRT, DIF, CFA, and network analysis across N=639 participants.</p>
-
-<h3>Assessment Methodology</h3>
-
-<p>The empirical case for multi-instrument assessment programs is strong. Baartman et al. (2007; <span class='badge'>MODERATE</span>; 306 citations) demonstrated that no single assessment method meets all quality criteria in competence-based education, necessitating multi-method programs. The ABCD Study (Barch et al., 2017; <span class='badge'>HIGH</span>; 846 citations) provides the gold standard for principled multi-construct battery design, using a structured workgroup process to select validated instruments while minimizing participant burden. C2A's 17 T1 instruments across 4 coaching lenses follows this same principled approach.</p>
-
-<p>Commercial tools predominantly use single-construct or single-method approaches. Game-based assessments (Pymetrics, Bryq, Arctic Shores) show moderate construct validity. Fadillah et al. (2025; <span class='badge'>HIGH</span> - meta-analysis) found moderate-to-low convergent validity between GBA and traditional self-report measures, raising construct equivalence concerns. Ohlms et al. (2023; <span class='badge'>LOW</span>) found that while GBA achieved r=0.51 construct validity with paper-pencil tests, applicant reactions were consistently worse. AI video interview assessment (Retorio, formerly HireVue) faces more fundamental challenges: Hickman et al. (2021; <span class='badge'>MODERATE</span>; JAP, 144 citations) found that AVI personality models trained on self-reports show "little evidence of reliability or validity," while Liff et al. (2024; <span class='badge'>MODERATE</span>; JAP) reported a convergent/discriminant validity gap (r=0.66 vs r=0.58) suggesting method variance problems.</p>
-
-<h3>Longitudinal Tracking</h3>
-
-<p>C2A's 3-tier measurement cadence (T1 session pulse via ORS/GAS, T2 sprint-level BBRS behavioral probes, T3 timepoint audits with RCI) has zero equivalents among the 14 commercial tools. All commercial tools are single-timepoint "assess and rank" platforms designed for hiring decisions, not developmental tracking.</p>
-
-<p>The literature strongly supports C2A's approach. Knekta et al. (2019; <span class='badge'>HIGH</span>; 590 citations) established that measurement invariance is a prerequisite for meaningful pre-post comparisons or longitudinal tracking, yet most commercial tools do not report measurement invariance evidence. Benoy et al. (2019; <span class='badge'>MODERATE</span>) demonstrated that treatment sensitivity is distinct from reliability: instruments can be reliable yet insensitive to coaching-driven change, meaning C2A must select instruments not just for reliability but for sensitivity to the changes coaching produces. Jolin &amp; Wilson (2022; <span class='badge'>LOW</span>) demonstrated latent progress variable modeling for soft skills using the BEAR system, directly relevant to C2A's Durable Skills longitudinal tracking. Lieber (2024; <span class='badge'>VERY_LOW</span>) showed noncognitive assessments are inherently multidimensional, best measured with cognitive diagnostic models rather than unidimensional IRT, supporting C2A's multi-lens architecture.</p>
-
-<h3>Coaching Integration</h3>
-
-<p>No commercial tool integrates assessment with coaching feedback loops. All 14 tools generate static reports (trait profiles, fit scores, or pass/fail decisions) without connection to coaching workflows or intervention planning.</p>
-
-<p>The evidence base for coaching-assessment integration is compelling. All 19 reviewed ADHD coaching studies showed positive outcomes (Ahmann et al., 2018; <span class='badge'>MODERATE</span>). Field et al. (2013; <span class='badge'>MODERATE</span> - RCT) demonstrated statistically significant coaching effects on LASSI scores across Skill, Will, and Self-Regulation clusters, whose structure maps to C2A's lens framework. Parker &amp; Boutelle (2009; <span class='badge'>LOW</span>; 155 citations) provided the foundational link between EF coaching and self-determination in the exact population C2A serves. Gu (2021; <span class='badge'>MODERATE</span>) argued that formative assessment requires a modified validity framework centered on the utilization inference - how coaches use assessment data for decision-making - providing theoretical grounding for C2A's DDx-style reporting approach. The Kinnear et al. (2021; <span class='badge'>MODERATE</span>) validity map methodology offers C2A a concrete framework for systematically documenting its validity argument.</p>
-  </div>
-
-  <div class="slide" id="slide-key_findings">
-    <div class="slide-num">Section 04 of 09</div>
-    <h2>Key Findings</h2>
-    <section class="evidence-section">
-  <h2>What did we find?</h2>
-
-  <div class="card">
-    <p class="headline">Game-based assessments are currently too inconsistent to replace traditional tests, as their ability to measure what they claim (convergent validity) and produce stable results over time (test-retest reliability) falls below standard requirements.</p>
-    <div class="evidence-meta">
-      <span class="source">Leutner et al., 2023</span>
-      <span class="badge">Limited</span>
-      <a href="https://doi.org/10.3389/fpsyg.2022.942662" class="doi-link">DOI: 10.3389/fpsyg.2022.942662</a>
-    </div>
-  </div>
-
-  <div class="card">
-    <p class="headline">Avoid using Asynchronous Video Interviews (AVIs)—recorded videos analyzed by software—trained on self-reported data to assess personality, because they fail to consistently measure what they intend to measure.</p>
-    <div class="evidence-meta">
-      <span class="source">Hickman et al., 2021</span>
-      <span class="badge">Moderate</span>
-      <a href="https://doi.org/10.1037/apl0000695" class="doi-link">DOI: 10.1037/apl0000695</a>
-    </div>
-    <blockquote>"There was little evidence of reliability or validity for the AVIs trained on self-reports."</blockquote>
-  </div>
-
-  <div class="card">
-    <p class="headline">We must build assessment programs that use multiple methods, because no single test can meet all quality standards on its own.</p>
-    <div class="evidence-meta">
-      <span class="source">Baartman et al., 2007</span>
-      <span class="badge">Moderate</span>
-      <a href="https://doi.org/10.1016/j.edurev.2007.06.001" class="doi-link">DOI: 10.1016/j.edurev.2007.06.001</a>
-    </div>
-  </div>
-
-  <div class="card">
-    <p class="headline">Before tracking progress over time, we must prove the test measures the exact same thing at different times (measurement invariance), a critical step that is often dangerously skipped.</p>
-    <div class="evidence-meta">
-      <span class="source">Knekta et al., 2019</span>
-      <span class="badge">Strong</span>
-      <a href="https://doi.org/10.1187/cbe.18-04-0064" class="doi-link">DOI: 10.1187/cbe.18-04-0064</a>
-    </div>
-  </div>
-
-  <div class="card">
-    <p class="headline">We should model our testing suite after the ABCD Study, which serves as the gold standard for measuring many traits without exhausting the user.</p>
-    <div class="evidence-meta">
-      <span class="source">Barch et al., 2017</span>
-      <span class="badge">Strong</span>
-      <a href="https://doi.org/10.1016/j.dcn.2017.10.010" class="doi-link">DOI: 10.1016/j.dcn.2017.10.010</a>
-    </div>
-  </div>
-
-  <div class="card">
-    <p class="headline">Coaching for ADHD is highly effective, as shown by positive results across 19 different studies that used proven, validated tests.</p>
-    <div class="evidence-meta">
-      <span class="source">Ahmann et al., 2018</span>
-      <span class="badge">Moderate</span>
-    </div>
-  </div>
-
-  <div class="card">
-    <p class="headline">AI video scoring systems are easily biased by irrelevant visual details like glasses or backgrounds, making them unreliable for fair assessment.</p>
-    <div class="evidence-meta">
-      <span class="source">Bogen & Rieke, 2022</span>
-      <span class="badge">Moderate</span>
-      <a href="https://doi.org/10.1007/s43681-022-00208-x" class="doi-link">DOI: 10.1007/s43681-022-00208-x</a>
-    </div>
-    <blockquote>"Bavarian Broadcasting found that Retorio's video AI service's perception can be altered by what the candidate is wearing."</blockquote>
-  </div>
-
-  <div class="card">
-    <p class="headline">We must choose tests specifically designed to detect changes caused by coaching (treatment sensitivity), because a test can be consistent without being able to measure growth.</p>
-    <div class="evidence-meta">
-      <span class="source">Benoy et al., 2019</span>
-      <span class="badge">Moderate</span>
-      <a href="https://doi.org/10.1016/J.JCBS.2019.07.005" class="doi-link">DOI: 10.1016/J.JCBS.2019.07.005</a>
-    </div>
-  </div>
-
-</section>
-  </div>
-
-  <div class="slide" id="slide-consensus_debate">
-    <div class="slide-num">Section 05 of 09</div>
-    <h2>Consensus & Debate</h2>
-    <h3>Consensus &amp; Debate</h3>
-
-<p><strong>Consensus:</strong></p>
-<ul>
-<li>Multi-instrument assessment programs are superior to single-method tools (Baartman 2007; Barch 2017; both <span class='badge'>MODERATE+</span>)</li>
-<li>Traditional validated instruments outperform game/AI alternatives psychometrically (Fadillah 2025 <span class='badge'>HIGH</span>; Leutner 2023 <span class='badge'>LOW</span>)</li>
-<li>AI video personality assessment has fundamental validity and bias problems (Hickman 2021 <span class='badge'>MODERATE</span>; Bogen 2022 <span class='badge'>MODERATE</span>)</li>
-<li>ADHD coaching with validated assessment produces significant outcomes (Field 2013 <span class='badge'>MODERATE</span>; Ahmann 2018 <span class='badge'>MODERATE</span>)</li>
-</ul>
-
-<p><strong>Debate:</strong></p>
-<ul>
-<li>Game-based assessments offer superior user experience (NPS 58) at the cost of psychometric precision. Acceptable for high-volume screening, not for coaching-integrated developmental assessment</li>
-<li>Whether vendor-affiliated validation studies (Leutner is Arctic Shores/Harver; Mondragon is HireVue) meet independence standards</li>
-<li>The convergent/discriminant gap in AVI systems (Liff et al., 2024: r=0.66 vs r=0.58) may reflect method variance rather than construct validity</li>
-</ul>
-  </div>
-
-  <div class="slide" id="slide-evidence_quality">
-    <div class="slide-num">Section 06 of 09</div>
-    <h2>Evidence Quality</h2>
-    <section class="evidence-quality-section card borderless">
-  <h2>How strong is the evidence?</h2>
-  
-  <p class="lead-implication">While we reviewed 48 sources, the majority of commercial tools lack independent scientific validation, meaning we must rely on a small core of rigorous academic studies to guide our design choices.</p>
-
-  <div class="evidence-distribution summary-line">
-    <span class="total-papers"><strong>48 papers reviewed:</strong></span>
-    <span class="badge certainty-strong">3 Strong</span>
-    <span class="badge certainty-moderate">10 Moderate</span>
-    <span class="badge certainty-emerging">17 Emerging</span>
-    <span class="badge certainty-limited">18 Limited</span>
-  </div>
-
-  <details class="progressive-disclosure">
-    <summary>View detailed source breakdown</summary>
-    <div class="details-content">
-      <ul class="source-breakdown-list">
-        <li><strong>Strong:</strong> Fadillah meta-analysis (a study combining results from multiple independent studies), COSMIN systematic review (a comprehensive summary of all available research on a topic), Knekta factor analysis (a statistical method used to find underlying variables).</li>
-        <li><strong>Moderate:</strong> Barch ABCD, Baartman competence assessment, Hickman AVI, Thornhill-Miller 4Cs, Tippins technology, Field RCT (Randomized Controlled Trial, a study where participants are randomly assigned to groups to test an intervention), Ahmann review, Hawkins Kane, Bogen AI bias, Elosua digital assessment.</li>
-        <li><strong>Emerging:</strong> Empirical (observation-based) studies with limited samples or cross-sectional designs (studies looking at data from a single point in time rather than tracking over time).</li>
-        <li><strong>Limited:</strong> Primarily commercial tool documentation and vendor whitepapers.</li>
-      </ul>
-    </div>
-  </details>
-
-  <table class="evidence-table compact-table">
-    <thead>
-      <tr>
-        <th>Evidence Strength</th>
-        <th>Key Findings & Claims</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="badge certainty-strong">Strongest</span></td>
-        <td>
-          <ul>
-            <li><strong>Multi-instrument battery design superiority:</strong> Using multiple types of tests together is significantly more accurate than relying on a single assessment.</li>
-            <li><strong>ADHD coaching effectiveness:</strong> Coaching works best when paired with a scientifically validated assessment.</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td><span class="badge certainty-limited">Weakest</span></td>
-        <td>
-          <ul>
-            <li><strong>Commercial tool psychometric claims:</strong> Claims about measurement reliability and accuracy are weak, as most vendors provide no published data.</li>
-            <li><strong>Game-based assessment predictive validity:</strong> There is little proof that game-based tests have the ability to accurately predict future real-world outcomes over the long term.</li>
-          </ul>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="evidence-note callout">
-    <p><strong>Note on Limited Evidence:</strong> The 18 "Limited" sources are primarily commercial tool documentation and whitepapers with no independent validation. We included them because they are essential for comparing what is currently on the market, but their scientific evidence value is minimal.</p>
-  </div>
-</section>
-  </div>
-
-  <div class="slide" id="slide-gaps_limitations">
-    <div class="slide-num">Section 07 of 09</div>
-    <h2>Gaps & Limitations</h2>
-    <h3>Gaps &amp; Limitations</h3>
-<ul>
-<li>No published research on DDx-style coaching assessment reporting</li>
-<li>No validation studies for 10 of 14 commercial tools (iMocha, eSkill, Toggl Hire, Neuroworx, Merittrac, JobArch, Hire Success, HighMatch, Bryq independent, Mettl independent)</li>
-<li>No longitudinal soft skills measurement literature in coaching contexts with multi-tier cadences</li>
-<li>Very limited research on neurodivergent-specific soft skills assessment in postsecondary settings</li>
-<li>Game-based assessment literature heavily skewed toward hiring/selection contexts, not developmental coaching</li>
-<li>No research on assessment-to-coaching feedback loops with DDx-style differential interpretation</li>
-<li>Publication opportunity: C2A's postsecondary educational assessment use case is underrepresented in academic literature</li>
-</ul>
-  </div>
-
-  <div class="slide" id="slide-what_this_means_for_us">
-    <div class="slide-num">Section 08 of 09</div>
-    <h2>What This Means for Us</h2>
-    <nav>
-  <ul>
-    <li><a href="#executive-summary">Executive Summary</a></li>
-    <li><a href="#evidence-base">Evidence Base</a></li>
-    <li><a href="#build-opportunities">Build Opportunities & Gaps</a></li>
-    <li><a href="#recommendations">Recommendations</a></li>
-    <li><a href="#bibliography">Bibliography</a></li>
-  </ul>
-</nav>
-
-<h2 id="executive-summary">Executive Summary</h2>
-
-<h3>What are our key messages?</h3>
-<ul>
-  <li>We must use multiple types of tests because no single test can measure a student accurately on its own.</li>
-  <li>We should avoid AI video interviews and game-based tests because they are biased and lack scientific proof.</li>
-  <li>We need to build a tracking system that measures real growth over time, rather than just taking a single snapshot.</li>
-</ul>
-
-<h3>What did we find?</h3>
-<p>Most commercial hiring tools sell tests with no scientific backing. Out of 14 popular commercial tools, 11 provide zero published proof that their tests actually work. When we look at AI video tests, the numbers show a severe consistency gap. They show a validity score (how well a test measures what it claims to) of only 0.58 to 0.66. This means the AI is guessing much of the time. Furthermore, game-based tests only match established paper tests about half the time. They score a 0.5 on convergent validity (a measure of how well two different tests agree).</p>
-
-<p>In contrast, coaching works when paired with good tests. Across 19 different studies on ADHD coaching, 100% of them showed positive results for students. However, to track this growth, tests must have treatment sensitivity (the ability to detect real changes caused by coaching). Many reliable tests fail to detect these changes.</p>
-
-<hr>
-
-<h2 id="evidence-base">Evidence Base</h2>
-
-<details>
-  <summary><strong>Claim: AI video and game-based tests are unreliable and biased.</strong> | Evidence: Moderate | Sources: 4 | Confidence: Moderate</summary>
-  <p>We cannot trust AI video tools to assess students fairly. AI video tests change a person's personality score based on simple visual changes. If a student wears glasses, a headscarf, or changes their background, their score changes. Game-based tests are also flawed. They only match traditional, proven tests about half the time. Students also report hating game-based tests compared to normal tests.</p>
-  <ul>
-    <li>
-      <details>
-        <summary>(Hickman et al. 2021)</summary>
-        <p>Hickman, L., et al. (2021). Automated video interview personality assessments show little evidence of reliability or validity. <em>Journal of Applied Psychology</em>. <a href="https://doi.org/10.1037/apl0000695">DOI: 10.1037/apl0000695</a></p>
-      </details>
-    </li>
-    <li>
-      <details>
-        <summary>(Bogen & Rieke 2022)</summary>
-        <p>Bogen, M., & Rieke, A. (2022). Retorio AI scores change with glasses, headscarves, backgrounds. <em>AI and Ethics</em>. <a href="https://doi.org/10.1007/s43681-022-00208-x">DOI: 10.1007/s43681-022-00208-x</a></p>
-      </details>
-    </li>
-  </ul>
-</details>
-
-<details>
-  <summary><strong>Claim: Tracking student growth requires tests specifically built to detect change.</strong> | Evidence: Strong | Sources: 2 | Confidence: Strong</summary>
-  <p>We cannot use standard hiring tests to track coaching success. A test can be highly reliable but completely blind to coaching growth. This is called a lack of treatment sensitivity. Furthermore, to compare a student's past and future scores, the test must have measurement invariance. This means the test must work the exact same way every time it is taken. Most commercial tools skip this vital step.</p>
-  <ul>
-    <li>
-      <details>
-        <summary>(Knekta et al. 2019)</summary>
-        <p>Knekta, E., et al. (2019). Measurement invariance is a prerequisite for longitudinal tracking. <em>CBE—Life Sciences Education</em>. <a href="https://doi.org/10.1187/cbe.18-04-0064">DOI: 10.1187/cbe.18-04-0064</a></p>
-      </details>
-    </li>
-    <li>
-      <details>
-        <summary>(Benoy et al. 2019)</summary>
-        <p>Benoy, C., et al. (2019). Treatment sensitivity is distinct from reliability. <em>Journal of Contextual Behavioral Science</em>. <a href="https://doi.org/10.1016/J.JCBS.2019.07.005">DOI: 10.1016/J.JCBS.2019.07.005</a></p>
-      </details>
-    </li>
-  </ul>
-</details>
-
-<details>
-  <summary><strong>Claim: Accurate assessment requires multiple test methods.</strong> | Evidence: Strong | Sources: 2 | Confidence: Strong</summary>
-  <p>We must use a mix of different tests to understand a student. No single test method is perfect. Relying on just one type of test creates blind spots. The gold standard in science is to build a battery (a group of different tests). This battery must balance thorough testing with keeping the student from getting too tired.</p>
-  <ul>
-    <li>
-      <details>
-        <summary>(Barch et al. 2017)</summary>
-        <p>Barch, D. M., et al. (2017). ABCD Study provides gold standard for multi-construct battery design. <em>Developmental Cognitive Neuroscience</em>. <a href="https://doi.org/10.1016/j.dcn.2017.10.010">DOI: 10.1016/j.dcn.2017.10.010</a></p>
-      </details>
-    </li>
-    <li>
-      <details>
-        <summary>(Baartman et al. 2007)</summary>
-        <p>Baartman, H. L., et al. (2007). No single assessment method meets all quality criteria. <em>Educational Research Review</em>. <a href="https://doi.org/10.1016/j.edurev.2007.06.001">DOI: 10.1016/j.edurev.2007.06.001</a></p>
-      </details>
-    </li>
-  </ul>
-</details>
-
-<hr>
-
-<h2 id="build-opportunities">Build Opportunities & Gaps</h2>
-
-<h3>Multi-Tier Longitudinal Tracking</h3>
-<p><strong>Severity: Critical</strong></p>
-<p><strong>What exists:</strong> Commercial tools only offer a single snapshot. They assess a person once to rank them for a job. They do not track growth over time.</p>
-<p><strong>What we need to build:</strong> A three-tier tracking system. We need quick pulse checks during sessions, behavioral probes during sprints, and deep audits over time. This allows us to see if coaching is actually working.</p>
-<p><strong>Evidence base:</strong> Tracking growth requires tests proven to work the same way over time. It also requires tests that are sensitive to coaching changes. 
-<details>
-  <summary>(Knekta et al. 2019)</summary>
-  <p>Knekta, E., et al. (2019). Measurement invariance is a prerequisite for longitudinal tracking. <em>CBE—Life Sciences Education</em>.</p>
-</details>
-</p>
-
-<h3>Coaching Feedback Loops</h3>
-<p><strong>Severity: High</strong></p>
-<p><strong>What exists:</strong> Current tools generate static, dead-end reports. They give a score but do not tell a coach what to do next.</p>
-<p><strong>What we need to build:</strong> We need to build DDx-style reporting. DDx (differential diagnosis) means comparing multiple clues to find the root cause of a problem. Our reports must connect test scores directly to coaching intervention plans.</p>
-<p><strong>Evidence base:</strong> Tests used for growth must be judged on how well coaches can actually use the data. 
-<details>
-  <summary>(Gu 2021)</summary>
-  <p>Gu, X. (2021). Formative assessment requires a modified validity framework centered on the utilization inference. <em>Educational Measurement</em>.</p>
-</details>
-</p>
-
-<hr>
-
-<h2 id="recommendations">Recommendations</h2>
-
-<h3>Avoid AI Video and Game-Based Tests</h3>
-<p><strong>Severity: Critical</strong></p>
-<p>Do not use AI video interviews or game-based tests for our students. The evidence shows these tools are biased and unreliable. They measure how well a student plays a game or looks on camera, not their actual skills. We are certain these tools fail basic scientific standards. However, we are uncertain if future versions of these tools might improve.</p>
-
-<h3>Build a Multi-Instrument Battery</h3>
-<p><strong>Severity: High</strong></p>
-<p>Build a testing program that uses several different, proven tests. Group these tests into different lenses (categories of skills). The evidence strongly supports using multiple methods to avoid blind spots. We are certain this is the best approach. We are uncertain exactly how long this battery can be before students get too tired to finish it.</p>
-
-<h3>Investigate Treatment Sensitivity</h3>
-<p><strong>Severity: Moderate</strong></p>
-<p>Audit our current tests to ensure they actually detect coaching growth. A test might be great at measuring a fixed trait, but terrible at showing new skills. We know this concept is vital. We are uncertain which specific soft-skill tests are the most sensitive to change in neurodivergent students.</p>
-
-<h3>Open Questions for Future Research</h3>
-<ul>
-  <li>Which specific soft-skill tests show the highest treatment sensitivity for neurodivergent college students?</li>
-  <li>How can we best design DDx-style reports so that coaches actually use them in their daily workflows?</li>
-  <li>What is the maximum number of tests a student can take before their effort drops off?</li>
-</ul>
-
-<hr>
-
-<h2 id="bibliography">Bibliography</h2>
-
-<ul>
-  <li>
-    Barch, D. M., et al. (2017). ABCD Study provides gold standard for multi-construct battery design. <em>Developmental Cognitive Neuroscience</em>. 
-    <a href="https://doi.org/10.1016/j.dcn.2017.10.010">DOI: 10.1016/j.dcn.2017.10.010</a> 
-    <strong>[Study Type: Methodology]</strong> 
-    <em>Citations: 846</em>
-  </li>
-  <li>
-    Knekta, E., et al. (2019). Measurement invariance is a prerequisite for longitudinal tracking. <em>CBE—Life Sciences Education</em>. 
-    <a href="https://doi.org/10.1187/cbe.18-04-0064">DOI: 10.1187/cbe.18-04-0064</a> 
-    <strong>[Study Type: Review]</strong> 
-    <em>Citations: 590</em>
-  </li>
-  <li>
-    Baartman, H. L., et al. (2007). No single assessment method meets all quality criteria. <em>Educational Research Review</em>. 
-    <a href="https://doi.org/10.1016/j.edurev.2007.06.001">DOI: 10.1016/j.edurev.2007.06.001</a> 
-    <strong>[Study Type: Review]</strong> 
-    <em>Citations: 306</em>
-  </li>
-  <li>
-    Parker, J., & Boutelle, K. (2009). Foundational link between EF coaching and self-determination. <em>Journal of Attention Disorders</em>. 
-    <strong>[Study Type: Clinical Trial]</strong> 
-    <em>Citations: 155</em>
-  </li>
-  <li>
-    Hickman, L., et al. (2021). Automated video interview personality assessments show little evidence of reliability or validity. <em>Journal of Applied Psychology</em>. 
-    <a href="https://doi.org/10.1037/apl0000695">DOI: 10.1037/apl0000695</a> 
-    <strong>[Study Type: Empirical]</strong> 
-    <em>Citations: 144</em>
-  </li>
-  <li>
-    Bogen, M., & Rieke, A. (2022). Retorio AI scores change with glasses, headscarves, backgrounds. <em>AI and Ethics</em>. 
-    <a href="https://doi.org/10.1007/s43681-022-00208-x">DOI: 10.1007/s43681-022-00208-x</a> 
-    <strong>[Study Type: Empirical]</strong> 
-    <em>Citations: N/A</em>
-  </li>
-  <li>
-    Benoy, C., et al. (2019). Treatment sensitivity is distinct from reliability. <em>Journal of Contextual Behavioral Science</em>. 
-    <a href="https://doi.org/10.1016/J.JCBS.2019.07.005">DOI: 10.1016/J.JCBS.2019.07.005</a> 
-    <strong>[Study Type: Methodology]</strong> 
-    <em>Citations: N/A</em>
-  </li>
-</ul>
-  </div>
-
-  <div class="slide" id="slide-bibliography">
-    <div class="slide-num">Section 09 of 09</div>
-    <h2>Bibliography</h2>
-    <h3>HIGH Validity</h3>
-<ol>
-  <li>
-    <p>Barch, D. et al. (2017). <a href='https://doi.org/10.1016/j.dcn.2017.10.010' target='_blank'>Demographic, physical and mental health assessments in the ABCD study.</a> <em>Developmental Cognitive Neuroscience</em>.<br>
-    DOI: <a href='https://doi.org/10.1016/j.dcn.2017.10.010' target='_blank'>10.1016/j.dcn.2017.10.010</a> | Validity: <span class='badge'>HIGH</span> | Study: Battery design rationale (N=11,800)</p>
-  </li>
-  <li>
-    <p>Knekta, E., Runyon, C., &amp; Eddy, S. (2019). <a href='https://doi.org/10.1187/cbe.18-04-0064' target='_blank'>One Size Doesn't Fit All: Using Factor Analysis to Gather Validity Evidence.</a> <em>CBE-Life Sciences Education</em>.<br>
-    DOI: <a href='https://doi.org/10.1187/cbe.18-04-0064' target='_blank'>10.1187/cbe.18-04-0064</a> | Validity: <span class='badge'>HIGH</span> | Study: Methodological review (590 citations)</p>
-    <blockquote>
-      <p>"Measurement invariance...prerequisite for meaningful group comparisons and longitudinal tracking."</p>
-    </blockquote>
-  </li>
-  <li>
-    <p>Fadillah, R. et al. (2025). Game-based assessment meta-analysis. | Validity: <span class='badge'>HIGH</span> | Study: Meta-analysis</p>
-    <blockquote>
-      <p>"Moderate-to-low convergent validity between GBA and traditional self-report measures."</p>
-    </blockquote>
-  </li>
-  <li>
-    <p>Social Skills Measures Systematic Review (2015). Evaluating Psychometric Quality. <em>PMC</em>.<br>
-    | Validity: <span class='badge'>HIGH</span> | Study: Systematic review (COSMIN taxonomy)</p>
-    <blockquote>
-      <p>"8/13 lacked measurement error, 9/13 lacked cross-cultural validity, 11/13 lacked criterion validity."</p>
-    </blockquote>
-  </li>
-</ol>
-
-<h3>MODERATE Validity</h3>
-<ol start="5">
-  <li>
-    <p>Hickman, L. et al. (2021). <a href='https://doi.org/10.1037/apl0000695' target='_blank'>Automated video interview personality assessments.</a> <em>Journal of Applied Psychology</em>.<br>
-    DOI: <a href='https://doi.org/10.1037/apl0000695' target='_blank'>10.1037/apl0000695</a> | Validity: <span class='badge'>MODERATE</span> | Study: Multi-sample validation (N=1,073, 144 citations)</p>
-    <blockquote>
-      <p>"There was little evidence of reliability or validity for the AVIs trained on self-reports."</p>
-    </blockquote>
-  </li>
-  <li>
-    <p>Baartman, L. et al. (2007). <a href='https://doi.org/10.1016/j.edurev.2007.06.001' target='_blank'>Evaluating assessment quality in competence-based education.</a> <em>Educational Research Review</em>.<br>
-    DOI: <a href='https://doi.org/10.1016/j.edurev.2007.06.001' target='_blank'>10.1016/j.edurev.2007.06.001</a> | Validity: <span class='badge'>MODERATE</span> | Study: Qualitative comparison (306 citations)</p>
-  </li>
-  <li>
-    <p>Thornhill-Miller, B. et al. (2023). <a href='https://doi.org/10.3390/jintelligence11030054' target='_blank'>21st Century Skills: Assessment, Certification, and Promotion.</a> <em>J. Intelligence</em>.<br>
-    DOI: <a href='https://doi.org/10.3390/jintelligence11030054' target='_blank'>10.3390/jintelligence11030054</a> | Validity: <span class='badge'>MODERATE</span> | Study: Comprehensive review (561 citations)</p>
-  </li>
-  <li>
-    <p>Tippins, N. (2015). <a href='https://doi.org/10.1146/annurev-orgpsych-031413-091317' target='_blank'>Technology and Assessment in Selection.</a> <em>Annual Review of Org Psych</em>.<br>
-    DOI: <a href='https://doi.org/10.1146/annurev-orgpsych-031413-091317' target='_blank'>10.1146/annurev-orgpsych-031413-091317</a> | Validity: <span class='badge'>MODERATE</span> | Study: Annual review (54 citations)</p>
-  </li>
-  <li>
-    <p>Field, S. et al. (2013). ADHD Coaching RCT with LASSI. ERIC: EJ1026813.<br>
-    | Validity: <span class='badge'>MODERATE</span> | Study: RCT</p>
-  </li>
-  <li>
-    <p>Ahmann, E. et al. (2018). ADHD Coaching Research Review. ERIC: EJ1182373.<br>
-    | Validity: <span class='badge'>MODERATE</span> | Study: Descriptive review (19 studies)</p>
-  </li>
-  <li>
-    <p>Liff, J. et al. (2024). <a href='https://doi.org/10.1037/apl0001173' target='_blank'>AVI Competency Assessment Psychometrics.</a> <em>J. Applied Psychology</em>.<br>
-    DOI: <a href='https://doi.org/10.1037/apl0001173' target='_blank'>10.1037/apl0001173</a> | Validity: <span class='badge'>MODERATE</span> | Study: Multi-sample validation (28 citations)</p>
-    <blockquote>
-      <p>"Convergent validity r=.66, discriminant r=.58, test-retest r=.72."</p>
-    </blockquote>
-  </li>
-  <li>
-    <p>Bogen, M. &amp; Rieke, A. (2022). <a href='https://doi.org/10.1007/s43681-022-00208-x' target='_blank'>Does AI Debias Recruitment?</a> <em>AI and Ethics</em>.<br>
-    DOI: <a href='https://doi.org/10.1007/s43681-022-00208-x' target='_blank'>10.1007/s43681-022-00208-x</a> | Validity: <span class='badge'>MODERATE</span> | Study: Qualitative analysis</p>
-  </li>
-  <li>
-    <p>Benoy, C. et al. (2019). <a href='https://doi.org/10.1016/J.JCBS.2019.07.005' target='_blank'>Treatment Sensitivity in Measurement.</a> <em>J. Contextual Behavioral Science</em>.<br>
-    DOI: <a href='https://doi.org/10.1016/J.JCBS.2019.07.005' target='_blank'>10.1016/J.JCBS.2019.07.005</a> | Validity: <span class='badge'>MODERATE</span> | Study: Comparative (N=164)</p>
-  </li>
-  <li>
-    <p>Hawkins, M. et al. (2021). <a href='https://doi.org/10.1186/s41687-021-00332-y' target='_blank'>Kane Validity Arguments for Self-Report Instruments.</a> <em>J. Patient-Reported Outcomes</em>.<br>
-    DOI: <a href='https://doi.org/10.1186/s41687-021-00332-y' target='_blank'>10.1186/s41687-021-00332-y</a> | Validity: <span class='badge'>MODERATE</span> | Study: Framework application (25 citations)</p>
-  </li>
-</ol>
-
-<h3>LOW Validity</h3>
-<ol start="15">
-  <li>
-    <p>Parker, D. &amp; Boutelle, K. (2009). <a href='https://doi.org/10.1111/j.1540-5826.2009.00294.x' target='_blank'>EF Coaching for College Students with LD/ADHD.</a><br>
-    DOI: <a href='https://doi.org/10.1111/j.1540-5826.2009.00294.x' target='_blank'>10.1111/j.1540-5826.2009.00294.x</a> | Validity: <span class='badge'>LOW</span> | Study: Mixed methods (N=54, 155 citations)</p>
-  </li>
-  <li>
-    <p>Prevatt, F. &amp; Yelland, S. (2015). <a href='https://doi.org/10.1177/1087054713480036' target='_blank'>Empirical Evaluation of ADHD Coaching.</a><br>
-    DOI: <a href='https://doi.org/10.1177/1087054713480036' target='_blank'>10.1177/1087054713480036</a> | Validity: <span class='badge'>LOW</span> | Study: Pre-post (81 citations)</p>
-  </li>
-  <li>
-    <p>Leutner, F. et al. (2023). <a href='https://doi.org/10.3389/fpsyg.2022.942662' target='_blank'>Game-Based Assessment of Cognitive Ability.</a> <em>Frontiers in Psychology</em>.<br>
-    DOI: <a href='https://doi.org/10.3389/fpsyg.2022.942662' target='_blank'>10.3389/fpsyg.2022.942662</a> | Validity: <span class='badge'>LOW</span> | Study: Cross-sectional (N=11,574)</p>
-    <blockquote>
-      <p>"Convergent validity r=0.5, test-retest reliability r=0.68."</p>
-    </blockquote>
-  </li>
-  <li>
-    <p>Peters, H. et al. (2021). <a href='https://doi.org/10.1016/J.CHB.2021.106701' target='_blank'>Game-Based Intelligence Assessment in Minecraft.</a><br>
-    DOI: <a href='https://doi.org/10.1016/J.CHB.2021.106701' target='_blank'>10.1016/J.CHB.2021.106701</a> | Validity: <span class='badge'>LOW</span> | Study: Cross-sectional (N=129)</p>
-  </li>
-  <li>
-    <p>Colledani, D. et al. (2024). <a href='https://doi.org/10.3389/fpsyg.2024.1405822' target='_blank'>MSSAT Validation.</a> <em>Frontiers in Psychology</em>.<br>
-    DOI: <a href='https://doi.org/10.3389/fpsyg.2024.1405822' target='_blank'>10.3389/fpsyg.2024.1405822</a> | Validity: <span class='badge'>LOW</span> | Study: Cross-sectional (N=639)</p>
-  </li>
-  <li>
-    <p>Kim, A. et al. (2025). Durable Competencies: Multi-Level Stakeholder Analysis. ERIC: EJ1481631.<br>
-    | Validity: <span class='badge'>LOW</span> | Study: Qualitative</p>
-  </li>
-</ol>
-
-<h3>VERY_LOW Validity (Commercial Tool Documentation)</h3>
-<ol start="21">
-  <li>
-    <p>Clevry (2020). Personality Questionnaire Technical Supplement. | Not appraised | Vendor documentation</p>
-  </li>
-  <li>
-    <p>Pymetrics (2020). Overview Whitepaper. | Not appraised | Vendor documentation</p>
-  </li>
-  <li>
-    <p>Bryq (2020). Validation and Methodology Overview. | Not appraised | Vendor documentation</p>
-  </li>
-  <li>
-    <p>TestGorilla (2024). Science-Backed Assessment Methodology. | Not appraised | Vendor documentation</p>
-  </li>
-  <li>
-    <p>Mercer | Mettl (2024). Psychometric Assessment Framework. | Not appraised | Vendor documentation</p>
-  </li>
-  <li>
-    <p>Retorio (2021). AI Video-Based Behavioral Assessment. | Not appraised | Vendor documentation/incident report</p>
-  </li>
-</ol>
-  </div>
-
-
+  <h3>What did we study?</h3>
+  <p>We reviewed 48 papers across 6 research databases to compare C2A against 14 commercial soft skills tools: iMocha, Hire Success, Toggl Hire, Mettl, Bryq, TestGorilla, eSkill, Neuroworx, Clevry, Pymetrics/Harver, Merittrac, JobArch, HighMatch, and Retorio.</p>
+  <h3>What did we find?</h3>
+  <p>C2A occupies a fundamentally different category. The competitors are hiring screeners (single-timepoint, single-method, no coaching). C2A is a longitudinal coaching-integrated developmental platform for neurodivergent students. The literature validates every architectural choice in the battery design.</p>
+  <h3>How strong is this evidence?</h3>
+  <p>3 HIGH (meta-analyses, systematic reviews), 10 MODERATE (RCTs, multi-sample validations), 17 LOW (cross-sectional), 18 VERY_LOW (vendor documentation). Strongest evidence for multi-instrument battery design and ADHD coaching effectiveness. Weakest: commercial tool validation (most publish nothing).</p>
 </div>
 
+<div class="slide" id="s1">
+  <div class="slide-num">Section 02 of 11</div>
+  <h2>Commercial Tool Comparison</h2>
+  <p>14 tools classified into four tiers by publicly available psychometric evidence.</p>
+  <div class="tg">
+    <div class="tc"><h4><span class="badge badge-moderate">Tier 1</span> Published Data</h4><ul>
+      <li><strong>Pymetrics/Harver</strong> - 12 neuroscience games, r=0.5 convergent, r=0.68 test-retest. Company-affiliated authors.</li>
+      <li><strong>Clevry</strong> - 46 scales, alpha 0.65-0.91, validated vs BPI/16PF/CPI/MBTI. Most rigorous.</li>
+    </ul></div>
+    <div class="tc"><h4><span class="badge badge-low">Tier 2</span> Framework Only</h4><ul>
+      <li><strong>Mercer|Mettl</strong> - Proprietary MPM, global norms, IO psychologists. No independent validation.</li>
+      <li><strong>TestGorilla</strong> - UGESP framework, alpha, DIF. No criterion validity.</li>
+      <li><strong>HighMatch</strong> - IO psychologist-led. Client-validated only.</li>
+    </ul></div>
+    <div class="tc"><h4><span class="badge badge-verylow">Tier 3</span> Bolt-On Soft Skills</h4><ul>
+      <li><strong>iMocha</strong> - 2,500+ tests, primarily technical.</li>
+      <li><strong>eSkill</strong> - 70K questions, hard skills focus.</li>
+      <li><strong>Merittrac</strong> - Indian market. No validation.</li>
+      <li><strong>Toggl Hire</strong> - Quiz templates. No framework.</li>
+    </ul></div>
+    <div class="tc"><h4><span class="badge badge-verylow">Tier 4</span> Problematic</h4><ul>
+      <li><strong>Retorio</strong> - AI video. Scores change with glasses/headscarves. HireVue dropped this 2021.</li>
+      <li><strong>Neuroworx</strong> - Zero published validation.</li>
+      <li><strong>JobArch</strong> - Not assessment. Free Italian ATS.</li>
+      <li><strong>Hire Success</strong> - No published methodology.</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="slide" id="s2">
+  <div class="slide-num">Section 03 of 11</div>
+  <h2>Psychometric Rigor</h2>
+  <p>Psychometric rigor - the science of proving a test measures what it claims - is where C2A's advantage is most dramatic.</p>
+  <table>
+    <thead><tr><th>Dimension</th><th>C2A</th><th>Best Commercial</th><th>Typical</th></tr></thead>
+    <tbody>
+      <tr><td>Published reliability</td><td>14 instruments, known alphas</td><td>Alpha 0.65-0.91 (Clevry)</td><td>Not reported</td></tr>
+      <tr><td>Construct validity</td><td>Independently validated</td><td>Tested vs BPI/16PF/CPI</td><td>Face validity claims only</td></tr>
+      <tr><td>Criterion validity</td><td>Published literature</td><td>Not reported</td><td>11/13 lack it (COSMIN)</td></tr>
+      <tr><td>Independent validation</td><td>Peer-reviewed journals</td><td>Vendor supplement</td><td>None</td></tr>
+      <tr><td>Norming population</td><td>Neurodivergent college</td><td>General workforce</td><td>Unspecified</td></tr>
+    </tbody>
+  </table>
+  <p>A COSMIN systematic review of 13 social skills measures found 8/13 lacked measurement error data, 9/13 lacked cross-cultural validity, 11/13 lacked criterion validity <span class="badge badge-high">HIGH</span>.</p>
+</div>
+
+<div class="slide" id="s3">
+  <div class="slide-num">Section 04 of 11</div>
+  <h2>Assessment Methodology</h2>
+  <p>C2A uses 17 instruments across 4 coaching lenses. The literature strongly supports multi-instrument approaches.</p>
+  <div class="fc"><h4>Multi-method assessment is empirically required</h4>
+    <p>No single method meets all quality criteria (Baartman et al., 2007; 306 cites) <span class="badge badge-moderate">MODERATE</span>. The ABCD Study (Barch et al., 2017; 846 cites) is the gold standard for battery design <span class="badge badge-high">HIGH</span>.</p></div>
+  <div class="fc"><h4>Game-based assessments fall short</h4>
+    <p>Meta-analysis: moderate-to-low convergent validity between GBA and traditional measures (Fadillah, 2025) <span class="badge badge-high">HIGH</span>. Best GBA study: r=0.5 convergent, r=0.68 test-retest (Leutner, 2023) <span class="badge badge-low">LOW</span>. Traditional convergence exceeds r=0.7.</p>
+    <blockquote>Game-based tools score well on user experience (NPS 58) but sacrifice psychometric precision.</blockquote></div>
+  <div class="fc"><h4>AI video assessment has fundamental problems</h4>
+    <p>AVI models trained on self-reports show "little evidence of reliability or validity" (Hickman, 2021; JAP, 144 cites) <span class="badge badge-moderate">MODERATE</span>. Retorio scores changed with glasses, headscarves, backgrounds (Bogen &amp; Rieke, 2022) <span class="badge badge-moderate">MODERATE</span>.</p>
+    <blockquote>"There was little evidence of reliability or validity for the AVIs trained on self-reports."</blockquote></div>
+</div>
+
+<div class="slide" id="s4">
+  <div class="slide-num">Section 05 of 11</div>
+  <h2>Longitudinal Tracking</h2>
+  <p>C2A's 3-tier cadence has zero equivalents among 14 commercial tools. All are single-timepoint hiring platforms.</p>
+  <table>
+    <thead><tr><th>Tier</th><th>Cadence</th><th>Measures</th><th>Instruments</th></tr></thead>
+    <tbody>
+      <tr><td><strong>T1: Pulse</strong></td><td>Every session</td><td>Coaching alliance, engagement</td><td>ORS, GAS</td></tr>
+      <tr><td><strong>T2: Sprint</strong></td><td>Every 2-3 weeks</td><td>Behavioral maintenance</td><td>BBRS items</td></tr>
+      <tr><td><strong>T3: Audit</strong></td><td>Baseline/mid/end</td><td>Generalization + RCI</td><td>Full battery</td></tr>
+    </tbody>
+  </table>
+  <div class="fc"><h4>Measurement invariance is prerequisite</h4>
+    <p>You cannot compare pre/post scores without proving the test measures the same thing at both time points (Knekta, 2019; 590 cites) <span class="badge badge-high">HIGH</span>. Most commercial tools do not report this.</p></div>
+  <div class="fc"><h4>Treatment sensitivity differs from reliability</h4>
+    <p>Instruments can be reliable yet insensitive to coaching change (Benoy, 2019) <span class="badge badge-moderate">MODERATE</span>. C2A must select for sensitivity, not just consistency.</p></div>
+</div>
+
+<div class="slide" id="s5">
+  <div class="slide-num">Section 06 of 11</div>
+  <h2>Coaching Integration</h2>
+  <p>No commercial tool integrates assessment with coaching. All 14 generate static reports without coaching workflows.</p>
+  <div class="fc"><h4>19/19 ADHD coaching studies show positive outcomes</h4>
+    <p>Ahmann et al. (2018) reviewed all published ADHD coaching research. Every study showed improvement <span class="badge badge-moderate">MODERATE</span>.</p></div>
+  <div class="fc"><h4>RCT: coaching with validated instruments works</h4>
+    <p>Field et al. (2013): coaching group scored significantly higher on all LASSI clusters (Skill, Will, Self-Regulation) <span class="badge badge-moderate">MODERATE</span>. These map to C2A's lens framework.</p></div>
+  <div class="fc"><h4>EF coaching fosters self-determination</h4>
+    <p>Parker &amp; Boutelle (2009; 155 cites) linked EF coaching to self-determination in college LD/ADHD students <span class="badge badge-low">LOW</span> - C2A's exact population.</p></div>
+  <div class="fc"><h4>Formative assessment needs its own validity framework</h4>
+    <p>The key inference is <em>utilization</em> - how coaches use data for decisions (Gu, 2021) <span class="badge badge-moderate">MODERATE</span>. This grounds C2A's DDx reporting.</p></div>
+</div>
+
+<div class="slide" id="s6">
+  <div class="slide-num">Section 07 of 11</div>
+  <h2>Key Findings</h2>
+  <div class="fc"><h4>1. Game-based assessment validity is moderate at best</h4><p>r=0.5 convergent, r=0.68 test-retest <span class="badge badge-low">LOW</span> <a href="https://doi.org/10.3389/fpsyg.2022.942662" target="_blank">Leutner 2023</a></p></div>
+  <div class="fc"><h4>2. AI video fails on self-report constructs</h4><blockquote>"Little evidence of reliability or validity for AVIs trained on self-reports."</blockquote><p><a href="https://doi.org/10.1037/apl0000695" target="_blank">Hickman 2021</a> <span class="badge badge-moderate">MODERATE</span> 144 cites</p></div>
+  <div class="fc"><h4>3. Multi-method assessment is empirically necessary</h4><p><a href="https://doi.org/10.1016/j.edurev.2007.06.001" target="_blank">Baartman 2007</a> <span class="badge badge-moderate">MODERATE</span> 306 cites</p></div>
+  <div class="fc"><h4>4. Measurement invariance prerequisite for longitudinal claims</h4><p><a href="https://doi.org/10.1187/cbe.18-04-0064" target="_blank">Knekta 2019</a> <span class="badge badge-high">HIGH</span> 590 cites</p></div>
+  <div class="fc"><h4>5. ABCD Study: gold standard battery design</h4><p><a href="https://doi.org/10.1016/j.dcn.2017.10.010" target="_blank">Barch 2017</a> <span class="badge badge-high">HIGH</span> 846 cites</p></div>
+  <div class="fc"><h4>6. Retorio AI changes scores based on appearance</h4><blockquote>"Retorio's perception can be altered by what the candidate is wearing."</blockquote><p><a href="https://doi.org/10.1007/s43681-022-00208-x" target="_blank">Bogen &amp; Rieke 2022</a> <span class="badge badge-moderate">MODERATE</span></p></div>
+</div>
+
+<div class="slide" id="s7">
+  <div class="slide-num">Section 08 of 11</div>
+  <h2>Evidence Quality</h2>
+  <div class="sr">
+    <div class="sb"><div class="n">48</div><div class="l">Papers</div></div>
+    <div class="sb"><div class="n">3</div><div class="l">HIGH</div></div>
+    <div class="sb"><div class="n">10</div><div class="l">MODERATE</div></div>
+    <div class="sb"><div class="n">17</div><div class="l">LOW</div></div>
+    <div class="sb"><div class="n">18</div><div class="l">VERY LOW</div></div>
+  </div>
+  <h3>Consensus</h3>
+  <ul>
+    <li>Multi-instrument batteries superior to single-method <span class="badge badge-high">HIGH</span></li>
+    <li>Traditional instruments outperform game/AI alternatives <span class="badge badge-high">HIGH</span></li>
+    <li>AI video assessment has fundamental validity/bias problems <span class="badge badge-moderate">MODERATE</span></li>
+    <li>ADHD coaching with validated assessment works <span class="badge badge-moderate">MODERATE</span></li>
+  </ul>
+  <h3>Open Debates</h3>
+  <ul>
+    <li>Game-based tools trade precision for UX (NPS 58). OK for hiring screening, not for coaching.</li>
+    <li>Whether vendor-affiliated validation meets independence standards.</li>
+    <li>AVI convergent/discriminant gap (r=0.66 vs r=0.58) - method variance or construct problem?</li>
+  </ul>
+</div>
+
+<div class="slide" id="s8">
+  <div class="slide-num">Section 09 of 11</div>
+  <h2>Gaps &amp; Limitations</h2>
+  <ul>
+    <li><strong>No research on DDx-style coaching assessment reporting.</strong> C2A's approach is unprecedented.</li>
+    <li><strong>No validation for 10 of 14 commercial tools.</strong></li>
+    <li><strong>No longitudinal soft skills measurement with multi-tier cadences.</strong></li>
+    <li><strong>Very limited neurodivergent-specific research</strong> on soft skills assessment.</li>
+    <li><strong>GBA literature is hiring-only.</strong> No validation in developmental coaching.</li>
+    <li><strong>No research on assessment-to-coaching feedback loops.</strong></li>
+  </ul>
+  <h3>Publication Opportunity</h3>
+  <p>C2A's use case is underrepresented. A validation study covering battery design + longitudinal cadence + coaching integration would fill multiple gaps.</p>
+</div>
+
+<div class="slide" id="s9">
+  <div class="slide-num">Section 10 of 11</div>
+  <h2>What This Means for Us</h2>
+  <h3>Build</h3>
+  <div class="fc"><h4><span class="badge badge-critical">Critical</span> Document the Kane Validity Argument</h4><p>Use Kinnear et al. (2021) validity map methodology. Map scoring, generalization, extrapolation, utilization inferences. Most important step for institutional credibility.</p></div>
+  <div class="fc"><h4><span class="badge badge-critical">Critical</span> Establish measurement invariance</h4><p>Knekta et al. (2019; 590 cites): cannot claim longitudinal tracking without proving invariance. Run testing on T1/T3 instruments before marketing.</p></div>
+  <div class="fc"><h4><span class="badge badge-sev-high">High</span> Verify treatment sensitivity</h4><p>Per Benoy et al. (2019), reliability is insufficient. Pilot with pre/post data to find instruments insensitive to coaching change.</p></div>
+  <div class="fc"><h4><span class="badge badge-sev-mod">Moderate</span> Publish a validation study</h4><p>Covers battery design + longitudinal cadence + coaching integration. Establishes credibility. Differentiates from tools that publish nothing.</p></div>
+  <h3>Avoid</h3>
+  <ul>
+    <li><strong>No game-based assessment.</strong> Meta-analytic evidence: moderate-to-low convergent validity. Not justified for coaching.</li>
+    <li><strong>No AI video analysis.</strong> Uniformly negative evidence for self-report constructs. Regulatory trajectory unfavorable.</li>
+  </ul>
+  <h3>Open Questions</h3>
+  <ul>
+    <li>How to handle social desirability bias in T3 self-report instruments?</li>
+    <li>What measurement invariance standard for neurodivergent populations?</li>
+    <li>Should C2A pursue micro-credentialing for Durable Skills (Thornhill-Miller, 2023; 561 cites)?</li>
+  </ul>
+</div>
+
+<div class="slide" id="s10">
+  <div class="slide-num">Section 11 of 11</div>
+  <h2>Bibliography</h2>
+  <h3>HIGH</h3>
+  <p>1. Barch et al. (2017). ABCD Study battery. <em>Dev Cog Neurosci.</em> <a href="https://doi.org/10.1016/j.dcn.2017.10.010" target="_blank">DOI</a> | 846 cites</p>
+  <p>2. Knekta et al. (2019). Factor Analysis Validity. <em>CBE-LSE.</em> <a href="https://doi.org/10.1187/cbe.18-04-0064" target="_blank">DOI</a> | 590 cites</p>
+  <p>3. Fadillah et al. (2025). GBA meta-analysis.</p>
+  <p>4. Social Skills COSMIN Review (2015). <em>PMC.</em></p>
+  <h3>MODERATE</h3>
+  <p>5. Hickman et al. (2021). AVI personality. <em>JAP.</em> <a href="https://doi.org/10.1037/apl0000695" target="_blank">DOI</a> | 144 cites</p>
+  <p>6. Baartman et al. (2007). Assessment quality. <em>Ed Research Rev.</em> <a href="https://doi.org/10.1016/j.edurev.2007.06.001" target="_blank">DOI</a> | 306 cites</p>
+  <p>7. Thornhill-Miller et al. (2023). 21st Century Skills. <em>J Intelligence.</em> <a href="https://doi.org/10.3390/jintelligence11030054" target="_blank">DOI</a> | 561 cites</p>
+  <p>8. Tippins (2015). Tech &amp; Assessment. <em>Ann Rev Org Psych.</em> <a href="https://doi.org/10.1146/annurev-orgpsych-031413-091317" target="_blank">DOI</a> | 54 cites</p>
+  <p>9. Field et al. (2013). ADHD Coaching RCT. ERIC: EJ1026813</p>
+  <p>10. Ahmann et al. (2018). ADHD Coaching Review. ERIC: EJ1182373</p>
+  <p>11. Liff et al. (2024). AVI Competency. <em>JAP.</em> <a href="https://doi.org/10.1037/apl0001173" target="_blank">DOI</a> | 28 cites</p>
+  <p>12. Bogen &amp; Rieke (2022). AI Recruitment Bias. <a href="https://doi.org/10.1007/s43681-022-00208-x" target="_blank">DOI</a></p>
+  <p>13. Benoy et al. (2019). Treatment Sensitivity. <a href="https://doi.org/10.1016/J.JCBS.2019.07.005" target="_blank">DOI</a></p>
+  <p>14. Hawkins et al. (2021). Kane Validity. <a href="https://doi.org/10.1186/s41687-021-00332-y" target="_blank">DOI</a></p>
+  <p>15. Gu (2021). Formative Assessment. <a href="https://doi.org/10.1111/emip.12421" target="_blank">DOI</a></p>
+  <p>16. Elosua et al. (2023). Digital Assessment. <a href="https://doi.org/10.7334/psicothema2022.241" target="_blank">DOI</a></p>
+  <h3>LOW</h3>
+  <p>17. Parker &amp; Boutelle (2009). EF Coaching. <a href="https://doi.org/10.1111/j.1540-5826.2009.00294.x" target="_blank">DOI</a> | 155 cites</p>
+  <p>18. Prevatt &amp; Yelland (2015). ADHD Coaching. <a href="https://doi.org/10.1177/1087054713480036" target="_blank">DOI</a> | 81 cites</p>
+  <p>19. Nikolaou et al. (2019). Gamified Assessment. <a href="https://doi.org/10.1017/sjp.2019.5" target="_blank">DOI</a> | 57 cites</p>
+  <p>20. Leutner et al. (2023). GBA Cognitive. <a href="https://doi.org/10.3389/fpsyg.2022.942662" target="_blank">DOI</a> | 18 cites</p>
+  <p>21. Peters et al. (2021). Minecraft GBA. <a href="https://doi.org/10.1016/J.CHB.2021.106701" target="_blank">DOI</a> | 30 cites</p>
+  <p>22. Colledani et al. (2024). MSSAT. <a href="https://doi.org/10.3389/fpsyg.2024.1405822" target="_blank">DOI</a></p>
+  <p>23. Kim et al. (2025). Durable Competencies. ERIC: EJ1481631</p>
+  <p>24. Hommel et al. (2021). Gamified WCST. <a href="https://doi.org/10.1111/ijsa.12362" target="_blank">DOI</a> | 34 cites</p>
+  <p>25. Ohlms et al. (2023). Playful Cognitive. <a href="https://doi.org/10.1111/ijsa.12450" target="_blank">DOI</a> | 17 cites</p>
+  <h3>VERY_LOW (Vendor Docs)</h3>
+  <p>26. Clevry (2020). Personality Technical Supplement</p>
+  <p>27. Pymetrics (2020). Overview Whitepaper</p>
+  <p>28. Bryq (2020). Validation Overview</p>
+  <p>29. TestGorilla (2024). Assessment Methodology</p>
+  <p>30. Mercer|Mettl (2024). Psychometric Framework</p>
+  <p>31. Retorio (2021). AI Video Assessment / Bavarian Broadcasting</p>
+</div>
+
+</div>
 <div class="index-bar">
   <button class="idx-chip" onclick="goTo(0)">Executive Summary</button>
-  <button class="idx-chip" onclick="goTo(1)">Literature Review: C2A vs Comm...</button>
-  <button class="idx-chip" onclick="goTo(2)">Summary</button>
-  <button class="idx-chip" onclick="goTo(3)">Key Findings</button>
-  <button class="idx-chip" onclick="goTo(4)">Consensus & Debate</button>
-  <button class="idx-chip" onclick="goTo(5)">Evidence Quality</button>
-  <button class="idx-chip" onclick="goTo(6)">Gaps & Limitations</button>
-  <button class="idx-chip" onclick="goTo(7)">What This Means for Us</button>
-  <button class="idx-chip" onclick="goTo(8)">Bibliography</button>
-
+  <button class="idx-chip" onclick="goTo(1)">Tool Comparison</button>
+  <button class="idx-chip" onclick="goTo(2)">Psychometric Rigor</button>
+  <button class="idx-chip" onclick="goTo(3)">Methodology</button>
+  <button class="idx-chip" onclick="goTo(4)">Longitudinal</button>
+  <button class="idx-chip" onclick="goTo(5)">Coaching</button>
+  <button class="idx-chip" onclick="goTo(6)">Key Findings</button>
+  <button class="idx-chip" onclick="goTo(7)">Evidence</button>
+  <button class="idx-chip" onclick="goTo(8)">Gaps</button>
+  <button class="idx-chip" onclick="goTo(9)">Recommendations</button>
+  <button class="idx-chip" onclick="goTo(10)">Bibliography</button>
   <div class="idx-arrows">
     <button class="idx-arrow" onclick="prev()">&larr;</button>
     <button class="idx-arrow" onclick="next()">&rarr;</button>
   </div>
 </div>
-
 <script>
-let current = 0;
-const slides = document.querySelectorAll('.slide');
-const chips = document.querySelectorAll('.idx-chip');
-const progress = document.getElementById('progress');
-
-function goTo(i) {
-  if (i < 0 || i >= slides.length) return;
-  slides[current].classList.remove('active');
-  chips[current].classList.remove('active');
-  current = i;
-  slides[current].classList.add('active');
-  chips[current].classList.add('active');
-  progress.style.width = ((current + 1) / slides.length * 100) + '%';
-}
-function next() { goTo(current + 1); }
-function prev() { goTo(current - 1); }
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
-  if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
-});
-
-// Initialize
-slides[0].classList.add('active');
-chips[0].classList.add('active');
-progress.style.width = (1 / slides.length * 100) + '%';
+let c=0;const s=document.querySelectorAll('.slide'),ch=document.querySelectorAll('.idx-chip'),p=document.getElementById('progress');
+function goTo(i){if(i<0||i>=s.length)return;s[c].classList.remove('active');ch[c].classList.remove('active');c=i;s[c].classList.add('active');ch[c].classList.add('active');p.style.width=((c+1)/s.length*100)+'%'}
+function next(){goTo(c+1)}function prev(){goTo(c-1)}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();next()}if(e.key==='ArrowLeft'){e.preventDefault();prev()}});
+s[0].classList.add('active');ch[0].classList.add('active');p.style.width=(1/s.length*100)+'%';
 </script>
 </body>
 </html>
