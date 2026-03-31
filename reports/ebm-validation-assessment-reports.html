@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>EBM Validation for Assessment Reports - Research Brief</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #1B2A4A; --navy-light: #2A3F6B;
+    --coral: #FF6B6B; --coral-soft: #FF8E8E;
+    --sand: #F5E6CC; --sand-light: #FDF8F0;
+    --teal: #2B8A8A; --gold: #D4A843;
+    --slate: #4A5568; --warm-grey: #8B7E6A;
+  }
+  html, body { height: 100%; overflow: hidden; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--sand-light); color: var(--navy); }
+  .deck { display: flex; height: 100vh; overflow: hidden; }
+  .slide { min-width: 100vw; height: 100vh; overflow-y: auto; padding: 60px 80px 80px; display: none; flex-direction: column; }
+  .slide.active { display: flex; }
+  @media (max-width: 800px) { .slide { padding: 32px 24px 80px; } }
+  .index-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: var(--navy); display: flex; align-items: center; height: 52px; padding: 0 24px; gap: 6px; overflow-x: auto; }
+  .idx-chip { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.55); background: transparent; border: none; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+  .idx-chip:hover { color: #fff; background: var(--navy-light); }
+  .idx-chip.active { background: var(--coral); color: #fff; }
+  .idx-progress { position: fixed; bottom: 52px; left: 0; height: 3px; background: var(--coral); transition: width 0.3s; z-index: 101; }
+  .idx-arrows { margin-left: auto; display: flex; gap: 8px; }
+  .idx-arrow { width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--navy-light); color: #fff; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .idx-arrow:hover { background: var(--coral); }
+  .slide-num { font-size: 12px; font-weight: 700; color: var(--coral); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .slide h2 { font-size: 36px; font-weight: 800; color: var(--navy); line-height: 1.15; margin-bottom: 20px; max-width: 800px; }
+  .slide h3 { font-size: 22px; font-weight: 700; color: var(--navy); margin: 24px 0 10px; }
+  .slide h4 { font-size: 16px; font-weight: 700; color: var(--teal); margin: 16px 0 8px; }
+  .slide p { font-size: 16px; line-height: 1.8; margin-bottom: 14px; color: var(--slate); max-width: 760px; }
+  .slide ul, .slide ol { margin: 10px 0 16px 24px; font-size: 16px; line-height: 1.7; color: var(--slate); max-width: 760px; }
+  .slide li { margin-bottom: 8px; }
+  .slide strong { color: var(--navy); font-weight: 700; }
+  .slide em { color: var(--coral); font-style: normal; font-weight: 600; }
+  .slide blockquote { background: var(--sand); border-left: 4px solid var(--coral); padding: 18px 24px; border-radius: 0 12px 12px 0; margin: 18px 0; font-size: 15px; color: var(--navy); max-width: 760px; }
+  .slide hr { border: none; height: 2px; background: var(--sand); margin: 28px 0; max-width: 760px; }
+  .slide a { color: var(--teal); text-decoration: none; font-weight: 600; }
+  .slide a:hover { text-decoration: underline; }
+  .slide table { width: 100%; max-width: 800px; border-collapse: separate; border-spacing: 0; margin: 18px 0; border-radius: 12px; overflow: hidden; }
+  .slide th { background: var(--navy); color: #fff; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 14px 16px; text-align: left; }
+  .slide td { background: #fff; padding: 14px 16px; font-size: 14px; color: var(--slate); border-bottom: 1px solid var(--sand); }
+  .slide tr:last-child td { border-bottom: none; }
+  .badge { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+  .badge-high { background: #C6F6D5; color: #276749; }
+  .badge-moderate { background: #FEFCBF; color: #975A16; }
+  .badge-low { background: #FED7D7; color: #9B2C2C; }
+  .badge-critical { background: var(--coral); color: #fff; }
+  .badge-action { background: var(--teal); color: #fff; }
+  .finding-card { background: #fff; border-radius: 12px; padding: 20px 24px; margin: 16px 0; max-width: 800px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .finding-card h4 { margin-top: 0; }
+  details { margin: 12px 0; max-width: 760px; }
+  details summary { cursor: pointer; font-weight: 600; color: var(--teal); padding: 8px 0; }
+  details[open] summary { margin-bottom: 8px; }
+  .key-msg { background: var(--navy); color: #fff; border-radius: 12px; padding: 24px 28px; margin: 16px 0; max-width: 800px; }
+  .key-msg ul { color: rgba(255,255,255,0.9); }
+  .key-msg strong { color: var(--coral-soft); }
+  .meta-line { font-size: 13px; color: var(--warm-grey); margin-bottom: 24px; }
+</style>
+</head>
+<body>
+<div class="idx-progress" id="progress"></div>
+<div class="deck" id="deck">
+
+<!-- SLIDE 1: Executive Summary -->
+<div class="slide" id="slide-exec">
+  <div class="slide-num">Section 1 of 11</div>
+  <h2>Can We Build a Safety Net for AI-Generated Assessment Reports?</h2>
+  <p class="meta-line">Research Brief / 51 sources across 7 databases / March 30, 2026</p>
+
+  <div class="key-msg">
+    <ul>
+      <li><strong>No one has done this before.</strong> Applying constraint-based validation to AI-generated psychometric assessment reports is genuinely novel. The grant landscape is empty.</li>
+      <li><strong>The building blocks are ready.</strong> Energy-based models, probabilistic soft logic, and neuro-symbolic verification are mature research tools. Clinical teams are already validating AI reports with transferable methods.</li>
+      <li><strong>Federal funding is wide open.</strong> SBIR programs are about to reopen after a 6-month pause. ED/IES explicitly funds AI assessment tools for students with disabilities. A proposal prepared now gets a 4-8 week head start.</li>
+    </ul>
+  </div>
+
+  <h3>What problem are we solving?</h3>
+  <p>C2A's DDx engine (Differential Diagnosis engine, a pattern-matching system) generates coaching reports from 12 skill dimensions. Each skill gets its own interpretation. But nobody checks whether the <em>combined</em> narrative makes sense across all 12 skills. A student might get contradictory advice, or a critical discrepancy between skills might go unmentioned.</p>
+
+  <h3>What did we find?</h3>
+  <p>We reviewed 51 sources across AI/ML, education, clinical medicine, and federal funding. Three research threads converge: energy-based models can score whole documents for internal consistency (146-1,758 citations). Neuro-symbolic systems that can <em>veto</em> bad outputs show the strongest clinical results (2026 systematic review). And clinical teams have already built practical validation rubrics for AI-generated reports.</p>
+
+  <h3>Is it fundable?</h3>
+  <p>Highly. The ED/IES SBIR Phase IB program (fit score: 5 out of 5) is designed exactly for this: adding a new AI component to an existing evidence-based education technology product. Award size: $250K for 9 months, with $1M Phase II follow-on. The SBIR reauthorization bill passed both chambers of Congress in March 2026 and is awaiting presidential signature.</p>
+
+  <h3>What should we do?</h3>
+  <p>Draft the ED/IES SBIR Phase IB proposal now. Build a lightweight prototype (pairwise skill constraints using Probabilistic Soft Logic) in parallel to generate preliminary data. The practical framing is "neuro-symbolic constraint validation" (what we build) with "energy-based theoretical grounding" (what makes it novel to grant reviewers).</p>
+</div>
+
+<!-- SLIDE 2: Three Research Threads -->
+<div class="slide" id="slide-threads">
+  <div class="slide-num">Section 2 of 11</div>
+  <h2>Three Research Threads That Converge on Our Problem</h2>
+
+  <div class="finding-card">
+    <h4>Thread 1: Energy-Based Text Validation</h4>
+    <p><span class="badge badge-moderate">MODERATE evidence</span></p>
+    <p>An energy-based model (EBM) assigns a single score to any input-output pair. Low score means "this output is compatible with this input." High score means "something is off." Yann LeCun defined this framework in 2006 (1,758 citations). In 2020, Deng et al. showed that scoring <em>entire documents</em> this way beats scoring one word at a time. In 2022, Kumar et al. (MuCoLa) proved you can compose multiple constraints into one energy function.</p>
+    <blockquote>For C2A: each of 12 skill dimensions contributes one energy term. The combined energy checks whether the full narrative is internally consistent. If Working Memory scores high but Processing Speed scores low, the report <em>must</em> mention that discrepancy, or the energy goes up.</blockquote>
+  </div>
+
+  <div class="finding-card">
+    <h4>Thread 2: Neuro-Symbolic Verification</h4>
+    <p><span class="badge badge-high">HIGH evidence</span> (PRISMA systematic review)</p>
+    <p>"Neuro-symbolic" means combining a neural network (the LLM that writes the report) with a symbolic system (a logic engine that checks the rules). Gorenshtein et al. (2026) reviewed all published approaches in clinical medicine. Their key finding: <em>"Gains increase with symbolic authority. The strongest results come from iterative validation where the symbolic layer can veto outputs."</em></p>
+    <blockquote>Translation: Letting the constraint checker <em>reject</em> bad reports (not just flag them) produces the best outcomes. C2A's DDx engine already works this way. It is deterministic and rule-based. Adding a constraint validation layer extends this architecture naturally.</blockquote>
+  </div>
+
+  <div class="finding-card">
+    <h4>Thread 3: Clinical Report Validation Methods</h4>
+    <p><span class="badge badge-low">LOW evidence</span> (proof-of-concept studies, N=6-29)</p>
+    <p>All 7 clinical papers are from 2025-2026. This field is moving fast. Key methods: (1) Binary codebook decomposition, where you break a report into yes/no checkable items, achieves Cohen's kappa of 0.80 for AI psychiatric reports. (2) A 4-criterion rubric for LLM-generated clinical letters shows 3.5% hallucination rate and 86.2% coding accuracy. (3) "AI sparring," where a second AI model validates the first, is emerging as a governance pattern.</p>
+    <blockquote>These methods transfer directly to DDx report validation. Break each report into verifiable binary items: "Did the report correctly reference the accommodation category? Y/N." "Does the psychometric score in the narrative match the source data? Y/N."</blockquote>
+  </div>
+</div>
+
+<!-- SLIDE 3: The Self-Consistency Ceiling -->
+<div class="slide" id="slide-ceiling">
+  <div class="slide-num">Section 3 of 11</div>
+  <h2>Why "Just Ask the AI to Check Itself" Is Not Enough</h2>
+
+  <div class="finding-card">
+    <h4>Self-Consistency Has a Mathematical Ceiling</h4>
+    <p><span class="badge badge-high">HIGH evidence</span> (Nature, 493 citations)</p>
+    <p>The most common approach to checking AI outputs is "self-consistency": generate the same answer multiple times and see if they agree. Farquhar et al. (2024, <em>Nature</em>) introduced semantic entropy, which improves on this by measuring uncertainty at the level of meaning, not just word choice. But Xue et al. (2025) proved mathematically that self-consistency approaches hit a performance ceiling near supervised oracle levels.</p>
+    <blockquote>This is a key grant argument: self-checking is not just imperfect, it has a <em>provable upper bound</em>. An external validation layer using structural constraints can exceed that bound because it checks things the LLM literally cannot see about its own output.</blockquote>
+  </div>
+
+  <div class="finding-card">
+    <h4>"Smooth Falsehoods" Are the Real Threat</h4>
+    <p><span class="badge badge-low">VERY LOW evidence</span> (preprint, 0 citations)</p>
+    <p>Miya (2025) introduced the concept of "smooth falsehoods" in the Eidoku paper: statements that are highly probable (they sound right) but are structurally disconnected from the ground truth. Probability-based verifiers cannot detect these because the statement <em>is</em> probable. Only structural constraint checking can.</p>
+    <blockquote>In C2A terms: a report that sounds clinically plausible but recommends Band-5 accommodations for a student scoring in Band 1. The language is smooth and confident. But the structure is wrong. An energy function or constraint solver catches this; self-consistency does not.</blockquote>
+  </div>
+</div>
+
+<!-- SLIDE 4: Approach Comparison -->
+<div class="slide" id="slide-comparison">
+  <div class="slide-num">Section 4 of 11</div>
+  <h2>Five Approaches Compared: Which Validation Layer to Build?</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Criterion</th>
+        <th>Full EBM</th>
+        <th>PSL Rules</th>
+        <th>Z3/CSP Solver</th>
+        <th>Rule Engine</th>
+        <th>LLM Self-Check</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Handles 12-dimension combos</strong></td><td>Excellent</td><td>Very Good</td><td>Good</td><td>Poor</td><td>Fair</td></tr>
+      <tr><td><strong>Auditable (can explain why)</strong></td><td>Poor</td><td>Excellent</td><td>Excellent</td><td>Excellent</td><td>Poor</td></tr>
+      <tr><td><strong>Build complexity</strong></td><td>Very High</td><td>Moderate</td><td>Moderate</td><td>Low</td><td>Low</td></tr>
+      <tr><td><strong>Grant appeal (novelty)</strong></td><td>Very High</td><td>High</td><td>Moderate</td><td>Low</td><td>Low</td></tr>
+      <tr><td><strong>Production-ready today</strong></td><td>No</td><td>Moderate</td><td>Moderate</td><td>Yes</td><td>Yes</td></tr>
+      <tr><td><strong>Scales to 12 dimensions</strong></td><td>Good</td><td>Good</td><td>Good</td><td>Exponential</td><td>Good</td></tr>
+      <tr><td><strong>C2A fit</strong></td><td>Moderate</td><td><strong>Excellent</strong></td><td>Good</td><td>Good (current)</td><td>Fair</td></tr>
+    </tbody>
+  </table>
+
+  <h3>What is PSL?</h3>
+  <p>Probabilistic Soft Logic (PSL) uses weighted logic rules with continuous truth values between 0 and 1, instead of strict true/false. This matters for assessment reports because skill scores fall on a spectrum, not in binary categories. A rule like <em>"IF Working Memory is high AND Processing Speed is low, THEN the report should mention this discrepancy"</em> can have a weight of 0.9, meaning it is strongly preferred but not absolutely required.</p>
+
+  <h3>Recommendation</h3>
+  <p><span class="badge badge-action">START HERE</span> PSL rules for the grant proposal and MVP. <span class="badge badge-moderate">AUGMENT</span> with Z3 solver for hard safety constraints (e.g., "never recommend clinical interventions beyond coaching scope"). <span class="badge badge-moderate">COMPARE</span> against current DDx template matching and LLM self-check as baselines.</p>
+</div>
+
+<!-- SLIDE 5: Novelty Assessment -->
+<div class="slide" id="slide-novelty">
+  <div class="slide-num">Section 5 of 11</div>
+  <h2>Is This Actually Novel?</h2>
+
+  <div class="key-msg">
+    <ul>
+      <li><strong>Yes, with qualification.</strong> No published work applies energy-based models, PSL, or neuro-symbolic constraint satisfaction to multi-dimensional psychometric profile narrative validation.</li>
+    </ul>
+  </div>
+
+  <h3>What is the closest existing work?</h3>
+  <ul>
+    <li><strong>Clinical ICD-10 coding</strong> (Yu, 2025): Neuro-symbolic verification for structured diagnostic codes. Close in method, but codes are discrete labels, not narratives.</li>
+    <li><strong>Psychiatric documentation</strong> (Gulegen et al., 2026): Binary codebook validation for AI-generated reports. Close in domain, but no energy-based or constraint-satisfaction approach.</li>
+    <li><strong>WISC-R automated analysis</strong> (Replogle & Eicke, 1985): The earliest precedent for automated multi-subtest battery interpretation. No validation layer. Forty years old.</li>
+    <li><strong>MuCoLa constrained generation</strong> (Kumar et al., 2022): Constraint composition for text generation. General-purpose, not assessment-specific.</li>
+  </ul>
+
+  <h3>What kind of contribution is this?</h3>
+  <p>This is an <em>engineering application</em> of known techniques (EBMs, PSL, constrained decoding) to a <em>new domain</em> (psychometric assessment report validation). It is publishable as a novel application paper at venues like AIED, LAK, EDM, or the AAAI Special Track on AI for Social Impact. It is defensible as an SBIR Phase I feasibility study. It is NOT a fundamental algorithmic contribution.</p>
+
+  <h3>What would a research collaborator need to see?</h3>
+  <ol>
+    <li>A formal specification of the constraint space (12 dimensions &times; 4-5 bands &times; cross-skill rules)</li>
+    <li>A proof-of-concept PSL rule set running on real C2A student profiles</li>
+    <li>Comparison against the current DDx template matching baseline</li>
+    <li>Cohen's kappa or similar inter-rater reliability metric for validated vs. unvalidated reports</li>
+  </ol>
+</div>
+
+<!-- SLIDE 6: Funding Opportunities -->
+<div class="slide" id="slide-funding">
+  <div class="slide-num">Section 6 of 11</div>
+  <h2>Funding: Where the Money Is</h2>
+
+  <div class="finding-card">
+    <h4>Critical Timing</h4>
+    <p>The SBIR Reauthorization Act (S. 3971) passed the Senate on March 3 and the House on March 17, 2026. Presidential signature is expected in early April. All SBIR/STTR programs have been paused since September 30, 2025. Once signed, agencies will compress solicitation timelines. <strong>Companies with proposals ready will have a 4-8 week head start.</strong></p>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Program</th>
+        <th>Agency</th>
+        <th>Award</th>
+        <th>Fit</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>SBIR Phase IB</strong></td><td>ED/IES</td><td>$250K + $1M Phase II</td><td><span class="badge badge-high">5/5</span></td><td>Paused (reauth)</td></tr>
+      <tr><td><strong>Trustworthy AI SBIR</strong></td><td>NSF</td><td>$275K + $1M</td><td><span class="badge badge-high">4/5</span></td><td>Paused (reauth)</td></tr>
+      <tr><td><strong>FIPSE AI in Postsecondary</strong></td><td>ED</td><td>$750K - $4M</td><td><span class="badge badge-high">4/5</span></td><td>Active</td></tr>
+      <tr><td><strong>NCSER Research Grants</strong></td><td>IES</td><td>$1.2M - $3.2M (4yr)</td><td><span class="badge badge-moderate">3/5</span></td><td>Uncertain</td></tr>
+      <tr><td><strong>Trustworthy AI SBIR</strong></td><td>NIST</td><td>~$400K</td><td><span class="badge badge-moderate">3/5</span></td><td>Paused</td></tr>
+      <tr><td><strong>SBIR Omnibus</strong></td><td>NIH</td><td>$293K - $1.9M</td><td><span class="badge badge-moderate">3/5</span></td><td>Less affected</td></tr>
+      <tr><td><strong>AI Research Institutes</strong></td><td>NSF+IES</td><td>$10M - $20M</td><td><span class="badge badge-low">2/5</span></td><td>Partnership only</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Top Recommendation</h3>
+  <p><span class="badge badge-critical">PRIORITY</span> Draft the ED/IES SBIR Phase IB proposal now. Phase IB is designed for adding a <em>new AI component</em> to an <em>existing research-based edtech product</em>. That is exactly what a neuro-symbolic validation layer for C2A's DDx engine is. Fall 2026 solicitation expected.</p>
+</div>
+
+<!-- SLIDE 7: Architecture Feasibility -->
+<div class="slide" id="slide-architecture">
+  <div class="slide-num">Section 7 of 11</div>
+  <h2>Architecture: How Complex Is This Really?</h2>
+
+  <h3>The Math Is Manageable</h3>
+  <p>12 skill dimensions &times; 5 interpretive bands = 60 possible single-dimension states. Pairwise constraints: C(12,2) = 66 pairs. With 4-5 rules per pair, that is roughly 300 pairwise rules. PSL (Bach et al., 2015) demonstrated inference on millions of ground atoms. 300 rules is trivial by comparison.</p>
+  <p>Full 12-dimensional joint constraints are tractable because most skill dimensions are approximately conditionally independent given the coaching lens (Executive Function, SDT, Motivation, Resilience). Each lens groups 3 skills that interact strongly; cross-lens interactions are weaker.</p>
+
+  <h3>Minimum Viable Version</h3>
+  <p><span class="badge badge-action">START</span> with pairwise constraints only (66 pairs). This captures the most important discrepancies, like high Working Memory with low Processing Speed. <span class="badge badge-moderate">THEN</span> add coaching-lens-level constraints (4 groups of 3 skills) for cross-group coherence.</p>
+
+  <h3>Recommended Tool Stack</h3>
+  <table>
+    <thead>
+      <tr><th>Tool</th><th>Role</th><th>Stars</th><th>Maturity</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Outlines</strong></td><td>Structural constraints during generation (JSON schema, required fields)</td><td>13,600</td><td>Production</td></tr>
+      <tr><td><strong>PSL</strong></td><td>Cross-skill consistency validation post-generation</td><td>312</td><td>Research</td></tr>
+      <tr><td><strong>Z3</strong></td><td>Hard safety constraints (never recommend beyond coaching scope)</td><td>N/A</td><td>Production</td></tr>
+      <tr><td><strong>DeepProbLog</strong></td><td>Neural predicates + probabilistic logic (future)</td><td>307</td><td>Research</td></tr>
+      <tr><td><strong>Guidance</strong></td><td>Programmatic LLM control with inline constraints</td><td>21,400</td><td>Production</td></tr>
+    </tbody>
+  </table>
+
+  <h3>What C2A Already Has</h3>
+  <p>The DDx engine is not starting from zero. <code>getConstraintSourcesForSkill()</code> already maps each skill to its constraint sources. The 10-state pattern-matching architecture already has veto-like behavior. The <code>DecomposedIR</code> pattern already breaks reports into independent sections. Adding PSL is <em>extending</em> existing constraint infrastructure, not building from scratch.</p>
+</div>
+
+<!-- SLIDE 8: Phase I Scope -->
+<div class="slide" id="slide-scope">
+  <div class="slide-num">Section 8 of 11</div>
+  <h2>Minimum Viable Research Scope: A 9-Month Phase I</h2>
+
+  <div class="finding-card">
+    <h4>Aim 1: Constraint Space Formalization (Months 1-3)</h4>
+    <ul>
+      <li>Formalize 12 skill dimensions &times; 4-5 interpretive bands as a constraint graph</li>
+      <li>Enumerate cross-skill consistency rules via expert elicitation from the C2A clinical team</li>
+      <li>Encode rules in PSL with continuous truth values</li>
+      <li><strong>Deliverable:</strong> PSL rule specification + validation against 50 real C2A profiles</li>
+    </ul>
+  </div>
+
+  <div class="finding-card">
+    <h4>Aim 2: Validation Layer Prototype (Months 3-6)</h4>
+    <ul>
+      <li>Implement PSL-based validation layer in the DDx report pipeline</li>
+      <li>Generate candidate report narratives via LLM</li>
+      <li>Score narratives against the constraint graph</li>
+      <li>Compare: PSL validation vs. current DDx template matching vs. LLM self-check</li>
+      <li><strong>Metrics:</strong> constraint violation rate, inter-rater reliability (Cohen's kappa), generation latency</li>
+    </ul>
+  </div>
+
+  <div class="finding-card">
+    <h4>Aim 3: Feasibility Assessment (Months 6-9)</h4>
+    <ul>
+      <li>Pilot with 20 real student profiles from C2A</li>
+      <li>Expert panel review: 3 coaches rate validated vs. unvalidated reports</li>
+      <li>Analyze: false positive rate, constraint coverage, latency overhead</li>
+      <li>Cost-effectiveness: validation layer compute cost vs. coach review time saved</li>
+      <li><strong>Deliverable:</strong> Phase I final report with go/no-go for Phase II</li>
+    </ul>
+  </div>
+
+  <h3>Team and Budget</h3>
+  <p><strong>PI:</strong> Psychometrician or clinical psychologist with assessment expertise. <strong>Co-PI:</strong> CS researcher with neuro-symbolic AI background. <strong>Engineering:</strong> 1 developer from ThriveIEP team. <strong>Part-time:</strong> 2-3 coaches for expert panel review. <strong>Budget:</strong> $200K-$250K (fits ED/IES SBIR and NSF SBIR limits).</p>
+</div>
+
+<!-- SLIDE 9: What This Means for Us -->
+<div class="slide" id="slide-actions">
+  <div class="slide-num">Section 9 of 11</div>
+  <h2>What This Means for Us</h2>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">CRITICAL</span> Draft the ED/IES SBIR Phase IB proposal immediately</h4>
+    <p>Frame as: "Adding a neuro-symbolic validation layer to an existing AI-powered assessment battery for postsecondary students with disabilities." The SBIR reauthorization will be signed within weeks. Have the proposal 80% drafted before the solicitation drops. Evidence: ED/IES SBIR FY2025 awarded 26 projects with direct C2A analogs. Fit score: 5/5.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">CRITICAL</span> Prepare the NSF Project Pitch (2-3 pages)</h4>
+    <p>The NSF SBIR Trustworthy AI subtopic is a direct match. NSF uses Project Pitch as an entry point before full proposals. Submit the pitch as soon as programs reopen. Evidence: NSF AI topic explicitly names "validation, bias mitigation, transparency." Fit score: 4/5.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-action">HIGH</span> Build a lightweight prototype in parallel</h4>
+    <p>Implement pairwise skill constraints (66 pairs) using PSL or Z3 in the DDx pipeline. This generates preliminary data for the grant and tests feasibility before committing to a full proposal. The existing <code>getConstraintSourcesForSkill()</code> already provides the constraint infrastructure.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-action">HIGH</span> Identify a university co-PI</h4>
+    <p>ED/IES SBIR favors small-business/university partnerships. FIPSE ($750K-$4M) requires a postsecondary institution as lead. Contact the National AI Institute for Exceptional Education (University at Buffalo) about partnership, and recruit a psychometrician or assessment researcher as co-PI.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">MODERATE</span> Collect preliminary C2A validation data now</h4>
+    <p>Inter-rater reliability metrics, user satisfaction scores, accommodation recommendation accuracy. These numbers strengthen any federal proposal. Evidence: 64% of AI-CDSS studies report only technical metrics (Waldock et al., 2026 meta-analysis). Including workflow data will differentiate C2A.</p>
+  </div>
+
+  <h3>Open Questions Needing Further Research</h3>
+  <ul>
+    <li>How many validated report examples does PSL need for rule weight learning?</li>
+    <li>Is the latency budget achievable (<100ms for 300 rules)?</li>
+    <li>Does adding a "validation layer" change C2A's regulatory classification under FERPA/ADA?</li>
+  </ul>
+</div>
+
+<!-- SLIDE 10: Evidence Quality -->
+<div class="slide" id="slide-evidence">
+  <div class="slide-num">Section 10 of 11</div>
+  <h2>Evidence Quality</h2>
+
+  <p>51 sources reviewed across 7 databases. Evidence distribution:</p>
+  <p>
+    <span class="badge badge-high">4 HIGH</span>&nbsp;
+    <span class="badge badge-moderate">22 MODERATE</span>&nbsp;
+    <span class="badge badge-low">9 LOW</span>&nbsp;
+    <span class="badge" style="background:#E2E8F0;color:#4A5568;">5 VERY LOW</span>&nbsp;
+    <span class="badge" style="background:#EDF2F7;color:#718096;">11 N/A</span>
+  </p>
+
+  <h3>Strongest Evidence</h3>
+  <table>
+    <thead><tr><th>Finding</th><th>Source</th><th>Strength</th></tr></thead>
+    <tbody>
+      <tr><td>Self-consistency ceiling for hallucination detection</td><td>Farquhar et al., 2024, <em>Nature</em> (493 citations)</td><td><span class="badge badge-high">HIGH</span></td></tr>
+      <tr><td>Symbolic veto authority yields strongest clinical results</td><td>Gorenshtein et al., 2026, PRISMA systematic review</td><td><span class="badge badge-high">HIGH</span></td></tr>
+      <tr><td>LLMs match experts in clinical summarization (with caveats)</td><td>Van Veen et al., 2024, <em>Nature Medicine</em> (577 citations)</td><td><span class="badge badge-high">HIGH</span></td></tr>
+      <tr><td>PSL scales to millions of ground atoms</td><td>Bach et al., 2015 (129 citations)</td><td><span class="badge badge-moderate">MODERATE</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Weakest Evidence (Use With Caution)</h3>
+  <table>
+    <thead><tr><th>Finding</th><th>Source</th><th>Concern</th></tr></thead>
+    <tbody>
+      <tr><td>Zero-hallucination ICD-10 coding</td><td>Yu, 2025 (preprint, 0 citations)</td><td>Unreplicated, no peer review</td></tr>
+      <tr><td>"Smooth falsehoods" concept</td><td>Miya, 2025 (preprint, 0 citations)</td><td>Compelling idea, no validation</td></tr>
+      <tr><td>Computer-generated narrative reports</td><td>Mathews, 1973 (conference report)</td><td>Historical only, pre-AI</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Key Limitations</h3>
+  <ul>
+    <li>0 papers received full checklist appraisal (medium-depth scoping session)</li>
+    <li>All claims are abstract-only (no full-text verification performed)</li>
+    <li>Community sources (5) are capped at LOW confidence by design</li>
+    <li>Funding information from grey literature (agency websites, legislative tracking)</li>
+  </ul>
+</div>
+
+<!-- SLIDE 11: Bibliography -->
+<div class="slide" id="slide-bib">
+  <div class="slide-num">Section 11 of 11</div>
+  <h2>Bibliography</h2>
+  <p class="meta-line">37 cited sources, sorted by evidence strength (HIGH first, then MODERATE, LOW, VERY LOW)</p>
+
+  <h3><span class="badge badge-high">HIGH</span> Evidence</h3>
+  <ol>
+    <li>Gorenshtein, A. et al. (2026). Neuro-Symbolic LLM Integration in Clinical Medicine: A Systematic Review. <a href="https://doi.org/10.21203/rs.3.rs-8902022/v1" target="_blank">DOI: 10.21203/rs.3.rs-8902022/v1</a></li>
+    <li>Farquhar, S. et al. (2024). Detecting hallucinations using semantic entropy. <em>Nature</em>. <a href="https://doi.org/10.1038/s41586-024-07421-0" target="_blank">DOI: 10.1038/s41586-024-07421-0</a></li>
+    <li>Van Veen, D. et al. (2024). Adapted LLMs can outperform medical experts in clinical text summarization. <em>Nature Medicine</em>. <a href="https://doi.org/10.1038/s41591-024-02855-5" target="_blank">DOI: 10.1038/s41591-024-02855-5</a></li>
+    <li>Waldock, W. et al. (2026). AI-based CDSS Performance: Systematic Review and Meta-Analysis (ROADMAP). <a href="https://doi.org/10.1371/journal.pdig.0001310" target="_blank">DOI: 10.1371/journal.pdig.0001310</a></li>
+  </ol>
+
+  <h3><span class="badge badge-moderate">MODERATE</span> Evidence</h3>
+  <ol start="5">
+    <li>LeCun, Y. et al. (2006). A Tutorial on Energy-Based Learning. 1,758 citations.</li>
+    <li>Bach, S. et al. (2015). Hinge-Loss MRFs and Probabilistic Soft Logic. <a href="https://doi.org/10.48550/arxiv.1505.04406" target="_blank">DOI</a>. 129 citations.</li>
+    <li>Richardson, M. &amp; Domingos, P. (2006). Markov Logic Networks. <em>Machine Learning</em>. <a href="https://doi.org/10.1007/s10994-006-5833-1" target="_blank">DOI</a>. 2,661 citations.</li>
+    <li>Hu, Z. et al. (2016). Harnessing Deep Neural Networks with Logic Rules. <em>ACL</em>. <a href="https://doi.org/10.18653/v1/p16-1228" target="_blank">DOI</a>. 438 citations.</li>
+    <li>Liu, N. et al. (2022). Composable Diffusion Models. <a href="https://doi.org/10.48550/arXiv.2206.01714" target="_blank">DOI</a>. 680 citations.</li>
+    <li>Deng, Y. et al. (2020). Residual Energy-Based Models for Text Generation. <em>ICLR</em>. <a href="https://doi.org/10.48550/arxiv.2004.11714" target="_blank">DOI</a>. 146 citations.</li>
+    <li>Kumar, S. et al. (2022). MuCoLa: Constrained Sampling from LMs. <em>EMNLP</em>. <a href="https://doi.org/10.18653/v1/2022.emnlp-main.144" target="_blank">DOI</a>. 70 citations.</li>
+    <li>Mireshghallah, F. et al. (2022). Mix and Match: Energy Language Models. <em>ACL</em>. <a href="https://doi.org/10.18653/v1/2022.acl-long.31" target="_blank">DOI</a>. 39 citations.</li>
+    <li>Lu, X. et al. (2021). NeuroLogic Decoding. <em>NAACL</em>. <a href="https://doi.org/10.18653/v1/2021.naacl-main.339" target="_blank">DOI</a>. 54 citations.</li>
+    <li>Belanger, D. &amp; McCallum, A. (2015). Structured Prediction Energy Networks. <em>ICML</em>. <a href="https://doi.org/10.48550/arXiv.1511.06350" target="_blank">DOI</a>. 227 citations.</li>
+    <li>Dragone, P. et al. (2021). Nester: Neuro-Symbolic Constraint Programming. 23 citations.</li>
+    <li>Liu, S. et al. (2016). PSL-Based Event Classification. <em>AAAI</em>. <a href="https://doi.org/10.1609/aaai.v30i1.10375" target="_blank">DOI</a>. 68 citations.</li>
+    <li>Williamson, D. et al. (2012). Framework for Automated Scoring Evaluation. <a href="https://eric.ed.gov/?id=EJ959585" target="_blank">ERIC: EJ959585</a>.</li>
+    <li>Ferrara, S. &amp; Qunbar, S. (2022). Validity Arguments for AI Scores. <a href="https://eric.ed.gov/?id=EJ1350409" target="_blank">ERIC: EJ1350409</a>.</li>
+    <li>Bejar, I. (2011). Validity-Based QC for Automated Scoring. <a href="https://eric.ed.gov/?id=EJ934581" target="_blank">ERIC: EJ934581</a>.</li>
+    <li>Rupp, A. (2018). Automated Scoring Systems Design. <a href="https://eric.ed.gov/?id=EJ1179709" target="_blank">ERIC: EJ1179709</a>.</li>
+    <li>Ercikan, K. &amp; McCaffrey, D. (2022). ECD for AI Scoring. <a href="https://eric.ed.gov/?id=EJ1350375" target="_blank">ERIC: EJ1350375</a>.</li>
+    <li>Clauser, B., Kane, M. &amp; Swanson, D. (2002). Validity Issues for Automated Scoring. <a href="https://eric.ed.gov/?id=EJ667256" target="_blank">ERIC: EJ667256</a>.</li>
+    <li>Shen, Y. et al. (2026). Automated Report Generation in Ophthalmology. <a href="https://doi.org/10.1007/s40123-026-01316-1" target="_blank">DOI</a>.</li>
+    <li>Xia, M. et al. (2026). DREAM Report: AI Hallucinations in Clinical Content. <a href="https://doi.org/10.2967/jnumed.125.270653" target="_blank">DOI</a>.</li>
+    <li>Dawid, A. &amp; LeCun, Y. (2023). Latent Variable EBMs. <a href="https://doi.org/10.1088/1742-5468/ad292b" target="_blank">DOI</a>.</li>
+    <li>Manhaeve, R. et al. (2018). DeepProbLog. <em>NeurIPS</em>. <a href="https://doi.org/10.48550/arXiv.1805.10872" target="_blank">DOI</a>.</li>
+    <li>Zhang, K. et al. (2025). Structured Discourse for Factual Consistency. <a href="https://doi.org/10.18653/v1/2025.findings-acl.46" target="_blank">DOI</a>.</li>
+  </ol>
+
+  <details>
+    <summary>LOW and VERY LOW evidence (14 sources)</summary>
+    <ol start="28">
+      <li>Gulegen, B. et al. (2026). AI-generated psychiatric documentation. <a href="https://doi.org/10.3389/fpsyt.2026.1621532" target="_blank">DOI</a>. LOW (N=6).</li>
+      <li>Aiumtrakul, N. et al. (2026). LLM PA letter quality assessment. <a href="https://doi.org/10.3389/fdgth.2026.1767648" target="_blank">DOI</a>. LOW (N=29).</li>
+      <li>Ahn, S. &amp; Kim, J. (2026). S-ACAD Framework. <a href="https://doi.org/10.2196/90273" target="_blank">DOI</a>. LOW.</li>
+      <li>Xue, Y. et al. (2025). Beyond Self-Consistency. <a href="https://doi.org/10.48550/arXiv.2502.15845" target="_blank">DOI</a>. LOW (preprint).</li>
+      <li>Nakharu, S. &amp; Kumar, P. (2025). Hallucination Detection Review. <a href="https://doi.org/10.52783/jisem.v10i60s.13133" target="_blank">DOI</a>. LOW.</li>
+      <li>Replogle, W. &amp; Eicke, F. (1985). WISC-R Automated Analysis. <a href="https://eric.ed.gov/?id=EJ332672" target="_blank">ERIC: EJ332672</a>. LOW.</li>
+      <li>Lieber, H. (2024). Multidimensionality in Noncognitive Assessment. <a href="https://eric.ed.gov/?id=ED663512" target="_blank">ERIC: ED663512</a>. LOW.</li>
+      <li>Miya, S. (2025). Eidoku: Neuro-Symbolic Verification Gate. <a href="https://doi.org/10.48550/arXiv.2512.20664" target="_blank">DOI</a>. VERY LOW (0 citations).</li>
+      <li>Yu, Y. (2025). Hybrid-Code v2: Zero-Hallucination ICD-10. VERY LOW (0 citations).</li>
+      <li>Mathews, W. (1973). Humanizing Assessment Reports. <a href="https://eric.ed.gov/?id=ED090907" target="_blank">ERIC: ED090907</a>. VERY LOW.</li>
+    </ol>
+  </details>
+</div>
+
+</div>
+<div class="index-bar">
+  <button class="idx-chip" onclick="goTo(0)">Executive Summary</button>
+  <button class="idx-chip" onclick="goTo(1)">Three Threads</button>
+  <button class="idx-chip" onclick="goTo(2)">Self-Check Ceiling</button>
+  <button class="idx-chip" onclick="goTo(3)">Approaches</button>
+  <button class="idx-chip" onclick="goTo(4)">Novelty</button>
+  <button class="idx-chip" onclick="goTo(5)">Funding</button>
+  <button class="idx-chip" onclick="goTo(6)">Architecture</button>
+  <button class="idx-chip" onclick="goTo(7)">Phase I Scope</button>
+  <button class="idx-chip" onclick="goTo(8)">Actions</button>
+  <button class="idx-chip" onclick="goTo(9)">Evidence</button>
+  <button class="idx-chip" onclick="goTo(10)">Bibliography</button>
+  <div class="idx-arrows">
+    <button class="idx-arrow" onclick="prev()">&larr;</button>
+    <button class="idx-arrow" onclick="next()">&rarr;</button>
+  </div>
+</div>
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const chips = document.querySelectorAll('.idx-chip');
+const progress = document.getElementById('progress');
+function goTo(i) {
+  if (i < 0 || i >= slides.length) return;
+  slides[current].classList.remove('active');
+  chips[current].classList.remove('active');
+  current = i;
+  slides[current].classList.add('active');
+  chips[current].classList.add('active');
+  progress.style.width = ((current + 1) / slides.length * 100) + '%';
+}
+function next() { goTo(current + 1); }
+function prev() { goTo(current - 1); }
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+});
+slides[0].classList.add('active');
+chips[0].classList.add('active');
+progress.style.width = (1 / slides.length * 100) + '%';
+</script>
+</body>
+</html>
