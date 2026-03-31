@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>C2A Pilot Data Collection Plan -- PRD v2</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #1B2A4A; --navy-light: #2A3F6B;
+    --coral: #FF6B6B; --coral-soft: #FF8E8E;
+    --sand: #F5E6CC; --sand-light: #FDF8F0;
+    --teal: #2B8A8A; --gold: #D4A843;
+    --slate: #4A5568; --warm-grey: #8B7E6A;
+  }
+  html, body { height: 100%; overflow: hidden; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--sand-light); color: var(--navy); }
+  .deck { display: flex; height: 100vh; overflow: hidden; }
+  .slide { min-width: 100vw; height: 100vh; overflow-y: auto; padding: 60px 80px 80px; display: none; flex-direction: column; }
+  .slide.active { display: flex; }
+  @media (max-width: 800px) { .slide { padding: 32px 24px 80px; } }
+  .index-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: var(--navy); display: flex; align-items: center; height: 52px; padding: 0 24px; gap: 6px; overflow-x: auto; }
+  .idx-chip { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.55); background: transparent; border: none; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+  .idx-chip:hover { color: #fff; background: var(--navy-light); }
+  .idx-chip.active { background: var(--coral); color: #fff; }
+  .idx-progress { position: fixed; bottom: 52px; left: 0; height: 3px; background: var(--coral); transition: width 0.3s; z-index: 101; }
+  .idx-arrows { margin-left: auto; display: flex; gap: 8px; }
+  .idx-arrow { width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--navy-light); color: #fff; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .idx-arrow:hover { background: var(--coral); }
+  .slide-num { font-size: 12px; font-weight: 700; color: var(--coral); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .slide h2 { font-size: 36px; font-weight: 800; color: var(--navy); line-height: 1.15; margin-bottom: 20px; max-width: 800px; }
+  .slide h3 { font-size: 22px; font-weight: 700; color: var(--navy); margin: 24px 0 10px; }
+  .slide h4 { font-size: 16px; font-weight: 700; color: var(--teal); margin: 16px 0 8px; }
+  .slide p { font-size: 16px; line-height: 1.8; margin-bottom: 14px; color: var(--slate); max-width: 760px; }
+  .slide ul, .slide ol { margin: 10px 0 16px 24px; font-size: 16px; line-height: 1.7; color: var(--slate); max-width: 760px; }
+  .slide li { margin-bottom: 8px; }
+  .slide strong { color: var(--navy); font-weight: 700; }
+  .slide em { color: var(--coral); font-style: normal; font-weight: 600; }
+  .slide blockquote { background: var(--sand); border-left: 4px solid var(--coral); padding: 18px 24px; border-radius: 0 12px 12px 0; margin: 18px 0; font-size: 15px; color: var(--navy); max-width: 760px; }
+  .slide hr { border: none; height: 2px; background: var(--sand); margin: 28px 0; max-width: 760px; }
+  .slide a { color: var(--teal); text-decoration: none; font-weight: 600; }
+  .slide a:hover { text-decoration: underline; }
+  .slide table { width: 100%; max-width: 800px; border-collapse: separate; border-spacing: 0; margin: 18px 0; border-radius: 12px; overflow: hidden; }
+  .slide th { background: var(--navy); color: #fff; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 14px 16px; text-align: left; }
+  .slide td { background: #fff; padding: 14px 16px; font-size: 14px; color: var(--slate); border-bottom: 1px solid var(--sand); }
+  .slide tr:last-child td { border-bottom: none; }
+  .badge { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+  .badge-critical { background: #FED7D7; color: #C53030; }
+  .badge-high { background: #FEEBC8; color: #C05621; }
+  .badge-moderate { background: #C6F6D5; color: #276749; }
+  .badge-new { background: #BEE3F8; color: #2A4365; }
+  .badge-p0 { background: var(--coral); color: #fff; }
+  .badge-p1 { background: var(--gold); color: var(--navy); }
+  .badge-p2 { background: var(--sand); color: var(--warm-grey); }
+  .badge-covered { background: #C6F6D5; color: #276749; }
+  .badge-gap { background: #FED7D7; color: #C53030; }
+  .badge-manual { background: var(--sand); color: var(--warm-grey); }
+  .finding-card { background: #fff; border-radius: 12px; padding: 20px 24px; margin: 16px 0; max-width: 800px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .finding-card h4 { margin-top: 0; }
+  .goal-card { background: #fff; border-radius: 12px; padding: 24px; margin: 14px 0; max-width: 800px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border-left: 4px solid var(--teal); }
+  .goal-card h4 { margin-top: 0; color: var(--navy); }
+  .ws-card { background: #fff; border-radius: 12px; padding: 20px 24px; margin: 14px 0; max-width: 800px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .phase-block { background: var(--navy); color: #fff; border-radius: 12px; padding: 20px 24px; margin: 14px 0; max-width: 800px; }
+  .phase-block h4 { color: var(--coral-soft); margin-top: 0; }
+  .phase-block p { color: rgba(255,255,255,0.8); }
+  .metric-row { display: flex; gap: 16px; flex-wrap: wrap; margin: 12px 0; }
+  .metric-card { background: #fff; border-radius: 10px; padding: 16px 20px; flex: 1; min-width: 200px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .metric-card .metric-value { font-size: 28px; font-weight: 800; color: var(--navy); }
+  .metric-card .metric-label { font-size: 12px; color: var(--warm-grey); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-top: 4px; }
+  .tier-card { border-radius: 12px; padding: 20px 24px; margin: 14px 0; max-width: 800px; }
+  .tier-expand { background: #C6F6D5; border-left: 4px solid #276749; }
+  .tier-modify { background: #FEEBC8; border-left: 4px solid #C05621; }
+  .tier-hold { background: #FED7D7; border-left: 4px solid #C53030; }
+  .tier-card h4 { margin-top: 0; }
+  details { margin: 12px 0; max-width: 760px; }
+  details summary { cursor: pointer; font-weight: 600; color: var(--teal); padding: 8px 0; }
+  details[open] summary { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<div class="idx-progress" id="progress"></div>
+<div class="deck" id="deck">
+
+<!-- SLIDE 1: Executive Summary -->
+<div class="slide" id="slide-exec-summary">
+  <div class="slide-num">Section 1 of 14</div>
+  <h2>C2A Pilot Data Collection Plan</h2>
+  <p style="font-size: 14px; color: var(--warm-grey); margin-bottom: 24px;"><strong>PRD v2</strong> &middot; March 31, 2026 &middot; THR-252 &middot; Owner: Eric Falke</p>
+
+  <h3>Key Messages</h3>
+  <ul>
+    <li><strong>This is THE data collection plan for the NLU pilot.</strong> Every evidence stream -- automated telemetry, student input, advisor feedback, admin rollups -- lives here. No separate "qualitative" vs "quantitative" systems.</li>
+    <li><strong>The SOW requires feedback from both students AND advisors.</strong> Version 1 had zero advisor instrumentation. Version 2 adds advisor report tracking, coaching session logs, and structured advisor feedback as P0.</li>
+    <li><strong>Eight workstreams, four build phases, one rollout decision framework.</strong> The findings memo doesn't just need data -- it needs a recommendation. Predefined thresholds (expand / modify / hold) make that recommendation evidence-driven.</li>
+  </ul>
+
+  <hr>
+
+  <h3>What are we building?</h3>
+  <p>A measurement layer for C2A that captures how students experience the assessment, how they engage with their Start Here Report, whether advisors access and use the results, and how both groups feel about the process. Elizabeth's evidence protocol defines what the case study needs. This PRD defines what the software captures to produce that evidence.</p>
+
+  <h3>What changed in v2?</h3>
+  <ul>
+    <li><span class="badge badge-new">New</span> <strong>WS7: Advisor Tracking</strong> -- report access, coaching session log, time-to-first-view</li>
+    <li><span class="badge badge-new">New</span> <strong>WS8: Structured Feedback</strong> -- student effort score (CES), advisor post-session check-in</li>
+    <li><span class="badge badge-new">New</span> <strong>Rollout Decision Framework</strong> -- three tiers with specific thresholds</li>
+    <li><span class="badge badge-new">New</span> <strong>Evidence Coverage Audit</strong> -- every SOW evidence need mapped to a workstream</li>
+  </ul>
+</div>
+
+<!-- SLIDE 2: Problem Statement -->
+<div class="slide" id="slide-problem">
+  <div class="slide-num">Section 2 of 14</div>
+  <h2>The Problem</h2>
+
+  <blockquote>
+    The SOW requires a findings memo with usage data, insights, and a rollout recommendation. C2A currently captures completion and scores. It does not capture how students experience the assessment, whether they read their reports, or whether advisors use the results. That data cannot be reconstructed after the fact.
+  </blockquote>
+
+  <p>ThriveIEP is running a 15-student design partner pilot with NLU. C2A is a strengths-based assessment battery: 17 instruments, 123 items across 3 sprints, generating a personalized "Start Here Report" for each student and their advisor.</p>
+
+  <p>Elizabeth's evidence protocol (Notion doc, March 18) defines what the case study needs. Manual items like advisor observations and student interviews are her responsibility. Everything the software can capture, it must. This plan covers:</p>
+
+  <ul>
+    <li><strong>Assessment behavior</strong> -- where students linger, quit, or rush</li>
+    <li><strong>Report engagement</strong> -- which pages students and advisors view, and for how long</li>
+    <li><strong>Coaching pipeline</strong> -- did the advisor see the report? Did coaching happen? Was C2A referenced?</li>
+    <li><strong>Structured feedback</strong> -- student effort scores and advisor utility ratings</li>
+    <li><strong>Qualitative touchpoints</strong> -- pre/post articulation prompts embedded at natural seams</li>
+  </ul>
+
+  <h4>Dependencies</h4>
+  <table>
+    <thead><tr><th>Issue</th><th>Relationship</th></tr></thead>
+    <tbody>
+      <tr><td>THR-94 (Usage analytics instrumentation)</td><td>Provides platform-side data</td></tr>
+      <tr><td>THR-248 (Case study framework review)</td><td>Elizabeth's evidence protocol (requirements input)</td></tr>
+      <tr><td>THR-106 (Pilot findings white paper)</td><td>Consumes this plan's output</td></tr>
+      <tr><td>THR-92 (Feedback collection mechanism)</td><td>Blocked by this work</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SLIDE 3: Goals -->
+<div class="slide" id="slide-goals">
+  <div class="slide-num">Section 3 of 14</div>
+  <h2>Goals</h2>
+
+  <div class="goal-card">
+    <h4>G1: Prove C2A changes student self-understanding and advisor behavior</h4>
+    <p>Generate credible evidence that students engage with their assessment results and that advisors incorporate C2A findings into coaching. This is the core claim the NLU case study must support.</p>
+  </div>
+
+  <div class="goal-card">
+    <h4>G2: Understand how students actually experience C2A</h4>
+    <p>Capture behavioral signals (linger time, save-exit patterns, report section engagement) that reveal where students struggle, disengage, or find value. Not just whether they finished, but <em>how</em>.</p>
+  </div>
+
+  <div class="goal-card">
+    <h4>G3: Close the advisor feedback loop</h4>
+    <p>Instrument whether advisors access reports, which sections they review, whether coaching sessions occur, and whether C2A results are referenced. Without this, the assessment-to-coaching pipeline is a black box.</p>
+  </div>
+
+  <div class="goal-card">
+    <h4>G4: Collect structured feedback from both students and advisors</h4>
+    <p>The SOW explicitly requires feedback from both groups. Effort scores, structured check-ins, and open-text prompts must all be captured in the software -- not left to manual collection.</p>
+  </div>
+
+  <div class="goal-card">
+    <h4>G5: Build reusable analytics infrastructure</h4>
+    <p>The telemetry layer should outlive the NLU pilot. Every future deployment (Tufts, etc.) needs the same usage data. Build once, configure per-deployment via <code>deploymentId</code>.</p>
+  </div>
+</div>
+
+<!-- SLIDE 4: Non-Goals -->
+<div class="slide" id="slide-non-goals">
+  <div class="slide-num">Section 4 of 14</div>
+  <h2>Non-Goals</h2>
+
+  <div class="finding-card">
+    <h4>Not building Mixpanel</h4>
+    <p>The event schema serves C2A's assessment-to-coaching pipeline. No session replay, heatmaps, or funnel builder.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>Not real-time monitoring</h4>
+    <p>Admin views are for periodic review (weekly, per-session), not live ops dashboards.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>Not xAPI/Caliper compliant</h4>
+    <p>We adopt the event model (actor/verb/object/timestamp) without the spec overhead. Formal compliance is overkill for 15 students.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>Not student-facing analytics</h4>
+    <p>Students see their Start Here Report. They do not see their own usage analytics.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>Not automated coaching quality scoring</h4>
+    <p>We instrument whether coaching happened and whether reports were accessed, not whether coaching was good.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>Not IRB-grade research infrastructure</h4>
+    <p>This is a design partner pilot, not a clinical trial. Data collection serves product evaluation and the SOW findings memo.</p>
+  </div>
+</div>
+
+<!-- SLIDE 5: Evidence Coverage Audit -->
+<div class="slide" id="slide-audit">
+  <div class="slide-num">Section 5 of 14</div>
+  <h2>Evidence Coverage Audit</h2>
+  <p>Every evidence need mapped to a workstream. Gaps from v1 are now closed.</p>
+
+  <table>
+    <thead><tr><th>Evidence Needed</th><th>Captured By</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Assessment completion rates</td><td>WS3</td><td><span class="badge badge-covered">Covered</span></td></tr>
+      <tr><td>Time-to-complete per sprint</td><td>WS3</td><td><span class="badge badge-covered">Covered</span></td></tr>
+      <tr><td>Drop-off / save-exit points</td><td>WS3</td><td><span class="badge badge-covered">Covered</span></td></tr>
+      <tr><td>Item-level linger time</td><td>WS3</td><td><span class="badge badge-covered">Covered</span></td></tr>
+      <tr><td>Report page views + dwell time</td><td>WS2</td><td><span class="badge badge-covered">Covered</span></td></tr>
+      <tr><td>Report section engagement</td><td>WS2</td><td><span class="badge badge-covered">Covered</span></td></tr>
+      <tr><td>Pre/post student self-articulation</td><td>WS6</td><td><span class="badge badge-covered">Covered</span></td></tr>
+      <tr><td>Student effort/satisfaction</td><td>WS8</td><td><span class="badge badge-new">New in v2</span></td></tr>
+      <tr><td>Advisor report access + sections</td><td>WS7</td><td><span class="badge badge-new">New in v2</span></td></tr>
+      <tr><td>Advisor feedback on report utility</td><td>WS8</td><td><span class="badge badge-new">New in v2</span></td></tr>
+      <tr><td>Coaching session occurred (Y/N)</td><td>WS7</td><td><span class="badge badge-new">New in v2</span></td></tr>
+      <tr><td>Whether advisor referenced C2A</td><td>WS7</td><td><span class="badge badge-new">New in v2</span></td></tr>
+      <tr><td>Rollout recommendation criteria</td><td>Decision Framework</td><td><span class="badge badge-new">New in v2</span></td></tr>
+      <tr><td>Advisor observation notes</td><td>Manual (Elizabeth)</td><td><span class="badge badge-manual">Out of scope</span></td></tr>
+      <tr><td>Student interview transcripts</td><td>Manual (Elizabeth)</td><td><span class="badge badge-manual">Out of scope</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SLIDE 6: Requirements P0 (WS1-3) -->
+<div class="slide" id="slide-reqs-p0a">
+  <div class="slide-num">Section 6 of 14</div>
+  <h2>P0 Requirements: Telemetry <span class="badge badge-p0">Must-Have</span></h2>
+
+  <div class="ws-card">
+    <h4>WS1: Analytics Events Layer</h4>
+    <ul>
+      <li><code>c2aAnalyticsEvents</code> table with <code>deploymentId</code> for multi-deployment reuse</li>
+      <li>Client-side <code>useAnalytics()</code> hook: batches events, fires on page unload</li>
+      <li><code>POST /api/c2a/analytics/events</code> -- batch insert, fire-and-forget</li>
+      <li>10 event types covering assessment, report, advisor, and feedback actions</li>
+    </ul>
+    <p><strong>Acceptance:</strong> Events in DB within 5s. No UX impact (async, non-blocking).</p>
+  </div>
+
+  <div class="ws-card">
+    <h4>WS2: Report Engagement Tracking</h4>
+    <ul>
+      <li><code>usePageTracker</code> on all 5 report pages -- works for both student and advisor views</li>
+      <li>Tracks: entry/exit timestamps, dwell time, scroll depth (25/50/75/100%), accordion opens per skill</li>
+    </ul>
+    <p><strong>Acceptance:</strong> Per-student AND per-advisor report page view matrix in admin.</p>
+  </div>
+
+  <div class="ws-card">
+    <h4>WS3: Assessment Behavior Tracking</h4>
+    <ul>
+      <li><code>itemDisplayedAt</code> timestamp + <code>dwellTimeMs</code> per item response</li>
+      <li>Save-exit events with item index, sprint, elapsed time</li>
+      <li>Sprint-level: duration, pause count, items per minute</li>
+    </ul>
+    <p><strong>Acceptance:</strong> "Completion topology" showing exact item where each student saved/exited or lingered.</p>
+  </div>
+</div>
+
+<!-- SLIDE 7: Requirements P0 (WS4, WS7, WS8) -->
+<div class="slide" id="slide-reqs-p0b">
+  <div class="slide-num">Section 7 of 14</div>
+  <h2>P0 Requirements: Feedback &amp; Visibility <span class="badge badge-p0">Must-Have</span></h2>
+
+  <div class="ws-card">
+    <h4>WS4: Admin Analytics Dashboard (MVP)</h4>
+    <ul>
+      <li>New "Analytics" tab on admin panel</li>
+      <li>Student Funnel: name, sprint status + duration, report viewed, advisor accessed, coaching logged</li>
+      <li>Group Summary row + CSV export</li>
+    </ul>
+    <p><strong>Acceptance:</strong> At a glance: who's stuck, who viewed reports, which advisors engaged.</p>
+  </div>
+
+  <div class="ws-card" style="border-left: 3px solid #3182CE;">
+    <h4><span class="badge badge-new">New</span> WS7: Advisor Tracking</h4>
+    <ul>
+      <li>Track advisor report access: <code>advisor_report_viewed</code> events with sections + dwell time</li>
+      <li>Coaching session log: date, duration, "referenced C2A?" (Y/N), optional notes</li>
+      <li><code>c2aCoachingSessions</code> table linked to advisor and student</li>
+    </ul>
+    <p><strong>Acceptance:</strong> Elizabeth can answer "Did the advisor see the report before the coaching session?" for every student.</p>
+  </div>
+
+  <div class="ws-card" style="border-left: 3px solid #3182CE;">
+    <h4><span class="badge badge-new">New</span> WS8: Structured Feedback</h4>
+    <ul>
+      <li>Student: CES score (1-7) after Sprint 3 -- "How much effort did this require?"</li>
+      <li>Advisor: 3-question check-in after first coaching session -- "Did the report help? Which sections? What's missing?"</li>
+      <li><code>c2aFeedbackResponses</code> table, exportable from admin</li>
+    </ul>
+    <p><strong>Acceptance:</strong> Findings memo reports both student effort and advisor utility without manual collection.</p>
+  </div>
+</div>
+
+<!-- SLIDE 8: Requirements P1 + P2 -->
+<div class="slide" id="slide-reqs-p1p2">
+  <div class="slide-num">Section 8 of 14</div>
+  <h2>P1 &amp; P2 Requirements</h2>
+
+  <h3><span class="badge badge-p1">P1</span> Should-Have</h3>
+
+  <div class="ws-card">
+    <h4>WS5: Email Notifications</h4>
+    <ul>
+      <li>Template system with merge fields, audit trail</li>
+      <li>Triggers: sprint completion, report view, inactive 7+ days, coaching logged</li>
+      <li>Admin UI: editor, trigger config, manual send</li>
+      <li>Built on existing Postmark infrastructure</li>
+    </ul>
+    <p><strong>Acceptance:</strong> Advisor gets email within 5 min of student completing assessment.</p>
+  </div>
+
+  <div class="ws-card">
+    <h4>WS6: Embedded Qualitative Touchpoints</h4>
+    <ul>
+      <li>Pre-Sprint-1: "How do you learn best? What tends to get in your way?"</li>
+      <li>Post-report-view: "What surprised you? What feels right?"</li>
+      <li><code>c2aQualitativeResponses</code> table, exportable</li>
+    </ul>
+    <p><strong>Acceptance:</strong> Pre/post text pairs per student for articulation change analysis.</p>
+  </div>
+
+  <h3><span class="badge badge-p2">P2</span> Future Considerations</h3>
+  <ul>
+    <li>Group-level rollup for multi-cohort comparisons</li>
+    <li>Progress monitoring for returning students (quarterly re-deployment)</li>
+    <li>Automated coaching fidelity correlation (report view timestamps vs coaching dates)</li>
+    <li>A/B testing framework for report formats</li>
+    <li>Longitudinal articulation tracking across assessment cycles</li>
+  </ul>
+</div>
+
+<!-- SLIDE 9: Rollout Decision Framework -->
+<div class="slide" id="slide-rollout">
+  <div class="slide-num">Section 9 of 14</div>
+  <h2>Rollout Decision Framework</h2>
+  <p>The findings memo must end with a recommendation. These criteria make it evidence-driven.</p>
+
+  <div class="tier-card tier-expand">
+    <h4 style="color: #276749;">Recommend Expansion</h4>
+    <p style="color: #276749;">ALL of the following:</p>
+    <ul style="color: #276749;">
+      <li>Assessment completion rate &ge; 80% (12/15 students)</li>
+      <li>Report view rate &ge; 70% of completers (3+ of 5 pages)</li>
+      <li>Advisor report access rate &ge; 60%</li>
+      <li>At least 1 coaching session logged per student</li>
+      <li>Median student effort score &le; 4 (moderate or below on 1-7 CES)</li>
+      <li>Majority of advisors report "yes, the report helped me prepare"</li>
+    </ul>
+  </div>
+
+  <div class="tier-card tier-modify">
+    <h4 style="color: #C05621;">Recommend with Modifications</h4>
+    <p style="color: #C05621;">ANY of the following:</p>
+    <ul style="color: #C05621;">
+      <li>Completion rate 60-79% (identify and fix friction points)</li>
+      <li>Report view rate 50-69% (report UX or notification timing needs work)</li>
+      <li>High effort scores (median &gt; 4) -- assessment too burdensome</li>
+      <li>Advisors not accessing reports -- notification or access flow issue</li>
+    </ul>
+  </div>
+
+  <div class="tier-card tier-hold">
+    <h4 style="color: #C53030;">Do Not Recommend (Yet)</h4>
+    <p style="color: #C53030;">ANY of the following:</p>
+    <ul style="color: #C53030;">
+      <li>Completion rate &lt; 60% -- fundamental UX or engagement problem</li>
+      <li>Advisors not logging coaching sessions -- intervention pipeline is broken</li>
+      <li>Student effort scores consistently 6-7 -- assessment too burdensome to scale</li>
+    </ul>
+  </div>
+</div>
+
+<!-- SLIDE 10: Success Metrics -->
+<div class="slide" id="slide-metrics">
+  <div class="slide-num">Section 10 of 14</div>
+  <h2>Success Metrics</h2>
+
+  <h3>Leading Indicators (within weeks of pilot start)</h3>
+  <div class="metric-row">
+    <div class="metric-card">
+      <div class="metric-value">&ge;80%</div>
+      <div class="metric-label">Assessment completion (12/15 finish all 3 sprints)</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">&ge;70%</div>
+      <div class="metric-label">Report view rate (3+ of 5 pages)</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">&ge;60%</div>
+      <div class="metric-label">Advisor report access (within 7 days)</div>
+    </div>
+  </div>
+  <div class="metric-row">
+    <div class="metric-card">
+      <div class="metric-value">Baseline</div>
+      <div class="metric-label">Median sprint duration</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">Baseline</div>
+      <div class="metric-label">Save-exit rate per sprint</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">100%</div>
+      <div class="metric-label">Notification delivery (system health)</div>
+    </div>
+  </div>
+
+  <h3>Lagging Indicators (by end of pilot)</h3>
+  <ul>
+    <li><strong>Coaching session rate:</strong> target = 1+ session per student with advisor</li>
+    <li><strong>Student effort score:</strong> target median &le; 4 on 1-7 CES</li>
+    <li><strong>Advisor utility rating:</strong> majority "yes" on "Did the report help?"</li>
+    <li><strong>Pre/post articulation change:</strong> measurable increase in specificity</li>
+    <li><strong>Findings memo completeness:</strong> all SOW data points captured without reconstruction</li>
+  </ul>
+</div>
+
+<!-- SLIDE 11: Technical Approach -->
+<div class="slide" id="slide-technical">
+  <div class="slide-num">Section 11 of 14</div>
+  <h2>Technical Approach</h2>
+
+  <h3>New Schema (5 tables)</h3>
+  <table>
+    <thead><tr><th>Table</th><th>Purpose</th><th>WS</th></tr></thead>
+    <tbody>
+      <tr><td><code>c2aAnalyticsEvents</code></td><td>Generic event store with <code>deploymentId</code></td><td>WS1</td></tr>
+      <tr><td><code>c2aCoachingSessions</code></td><td>Advisor coaching session logs</td><td>WS7</td></tr>
+      <tr><td><code>c2aFeedbackResponses</code></td><td>Structured feedback (student CES, advisor check-in)</td><td>WS8</td></tr>
+      <tr><td><code>c2aEmailTemplates</code> + <code>Sends</code></td><td>Notification templates and audit trail</td><td>WS5</td></tr>
+      <tr><td><code>c2aQualitativeResponses</code></td><td>Open-text touchpoint responses</td><td>WS6</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Existing Table Modifications</h3>
+  <table>
+    <thead><tr><th>Table</th><th>New Columns</th></tr></thead>
+    <tbody>
+      <tr><td><code>c2aItemResponses</code></td><td><code>itemDisplayedAt</code>, <code>dwellTimeMs</code></td></tr>
+      <tr><td><code>c2aAssessmentSessions</code></td><td><code>pauseCount</code>, <code>saveExitEvents</code> (jsonb)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>New Client Hooks</h3>
+  <ul>
+    <li><code>useAnalytics()</code> -- event batching + beacon</li>
+    <li><code>usePageTracker()</code> -- report page engagement (student + advisor)</li>
+    <li><code>useItemTimer()</code> -- assessment item dwell time</li>
+  </ul>
+
+  <h3>Patterns to Reuse</h3>
+  <ul>
+    <li><code>trackStartHereViewed</code> fire-and-forget (existing)</li>
+    <li><code>ScoringPipelineVisualizerPage</code> tab layout (dashboard)</li>
+    <li>Postmark email infrastructure (existing)</li>
+    <li>shadcn/ui table components (dashboard)</li>
+  </ul>
+</div>
+
+<!-- SLIDE 12: Build Sequence -->
+<div class="slide" id="slide-build">
+  <div class="slide-num">Section 12 of 14</div>
+  <h2>Build Sequence</h2>
+
+  <div class="phase-block">
+    <h4>Phase A: Telemetry Foundation</h4>
+    <p>WS1 (events table + hook) &rarr; WS3 (assessment behavior) &rarr; WS2 (report engagement)</p>
+    <p>Events layer is the foundation. Assessment behavior and report engagement are the core evidence.</p>
+  </div>
+
+  <div class="phase-block">
+    <h4>Phase B: Advisor Feedback Loop</h4>
+    <p>WS7 (advisor tracking) &rarr; WS8 (structured feedback)</p>
+    <p>Closes the advisor gap. SOW requires feedback from both students and advisors. This is new in v2.</p>
+  </div>
+
+  <div class="phase-block">
+    <h4>Phase C: Admin Visibility</h4>
+    <p>WS4 (admin dashboard MVP with advisor columns)</p>
+    <p>Data without visibility is useless. Dashboard makes all evidence streams queryable and exportable.</p>
+  </div>
+
+  <div class="phase-block">
+    <h4>Phase D: Engagement Layer</h4>
+    <p>WS5 (notifications) &rarr; WS6 (qualitative touchpoints)</p>
+    <p>Improves the pilot experience. Core evidence collection works without these.</p>
+  </div>
+</div>
+
+<!-- SLIDE 13: Open Questions -->
+<div class="slide" id="slide-questions">
+  <div class="slide-num">Section 13 of 14</div>
+  <h2>Open Questions</h2>
+
+  <table>
+    <thead><tr><th>#</th><th>Question</th><th>Owner</th><th>Blocking?</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>What is the pilot timeline? When must the findings memo be delivered?</td><td>Eric / Elizabeth</td><td><span class="badge badge-critical">Yes</span></td></tr>
+      <tr><td>2</td><td>Do NLU advisors already have C2A accounts, or need onboarding?</td><td>Eric</td><td><span class="badge badge-critical">Yes</span></td></tr>
+      <tr><td>3</td><td>Does NLU need direct dashboard access, or Elizabeth mediates?</td><td>Elizabeth</td><td>No</td></tr>
+      <tr><td>4</td><td>Are qualitative prompts (WS6) in software scope or Qualtrics?</td><td>Elizabeth</td><td>No</td></tr>
+      <tr><td>5</td><td>Email sender: @thriveiep.com or noreply@?</td><td>Eric</td><td>No</td></tr>
+      <tr><td>6</td><td>"New student vs returning" for quarterly re-deployment?</td><td>Both</td><td>No (P2)</td></tr>
+      <tr><td>7</td><td>Should advisor coaching log be mandatory or optional?</td><td>Elizabeth</td><td>No</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SLIDE 14: What This Means for Us -->
+<div class="slide" id="slide-next">
+  <div class="slide-num">Section 14 of 14</div>
+  <h2>What This Means for Us</h2>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">Critical</span> Build the events layer before the pilot generates data</h4>
+    <p>Every day of pilot usage without instrumentation is data we can never recover. WS1 must deploy before or immediately after students start Sprint 1.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">Critical</span> Resolve blocking questions with Elizabeth this week</h4>
+    <p>The pilot timeline (#1) determines build urgency. Whether NLU advisors have accounts (#2) determines whether Phase B can start. Both need answers before coding begins.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-high">High</span> Advisor instrumentation is not optional</h4>
+    <p>The SOW says "feedback from students AND advisors/coaches." Version 1 had zero advisor data. If the findings memo can't answer "Did advisors use C2A results?", the case study has a hole. WS7 + WS8 are now P0.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-high">High</span> Design the schema for multi-deployment from day one</h4>
+    <p>Adding <code>deploymentId</code> to the events table costs nothing now and prevents a painful migration when Tufts comes online.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">Moderate</span> Coordinate WS6 touchpoints with Elizabeth's protocol</h4>
+    <p>The pre/post articulation prompts overlap with her evidence protocol. If she's collecting this via interviews, embedding it in software is redundant. If not, embedding captures responses at maximum salience. Decide before Phase D.</p>
+  </div>
+
+  <h3>Open Research Questions</h3>
+  <ul>
+    <li>How should we define "linger time" thresholds? No consensus on meaningful hesitation vs. normal reading for Likert items.</li>
+    <li>What's the right unit of "coaching fidelity" for a 15-student postsecondary pilot? (Meadan et al., 2023 was K-12.)</li>
+    <li>Should pre/post articulation change be measured by text similarity algorithms, human coding, or both?</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="index-bar">
+  <button class="idx-chip" onclick="goTo(0)">Summary</button>
+  <button class="idx-chip" onclick="goTo(1)">Problem</button>
+  <button class="idx-chip" onclick="goTo(2)">Goals</button>
+  <button class="idx-chip" onclick="goTo(3)">Non-Goals</button>
+  <button class="idx-chip" onclick="goTo(4)">Audit</button>
+  <button class="idx-chip" onclick="goTo(5)">P0: Telemetry</button>
+  <button class="idx-chip" onclick="goTo(6)">P0: Feedback</button>
+  <button class="idx-chip" onclick="goTo(7)">P1/P2</button>
+  <button class="idx-chip" onclick="goTo(8)">Rollout</button>
+  <button class="idx-chip" onclick="goTo(9)">Metrics</button>
+  <button class="idx-chip" onclick="goTo(10)">Technical</button>
+  <button class="idx-chip" onclick="goTo(11)">Build Plan</button>
+  <button class="idx-chip" onclick="goTo(12)">Questions</button>
+  <button class="idx-chip" onclick="goTo(13)">Next Steps</button>
+  <div class="idx-arrows">
+    <button class="idx-arrow" onclick="prev()">&larr;</button>
+    <button class="idx-arrow" onclick="next()">&rarr;</button>
+  </div>
+</div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const chips = document.querySelectorAll('.idx-chip');
+const progress = document.getElementById('progress');
+function goTo(i) {
+  if (i < 0 || i >= slides.length) return;
+  slides[current].classList.remove('active');
+  chips[current].classList.remove('active');
+  current = i;
+  slides[current].classList.add('active');
+  chips[current].classList.add('active');
+  progress.style.width = ((current + 1) / slides.length * 100) + '%';
+}
+function next() { goTo(current + 1); }
+function prev() { goTo(current - 1); }
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+});
+slides[0].classList.add('active');
+chips[0].classList.add('active');
+progress.style.width = (1 / slides.length * 100) + '%';
+</script>
+</body>
+</html>
