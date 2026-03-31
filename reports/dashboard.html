@@ -13,583 +13,467 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     line-height: 1.6;
     padding: 1rem;
-    max-width: 960px;
+    max-width: 1200px;
     margin: 0 auto;
   }
   a { color: #60a5fa; text-decoration: none; }
   a:hover { text-decoration: underline; }
 
   /* Header */
-  .header { text-align: center; margin-bottom: 1.5rem; padding: 1.5rem 0 1rem; }
-  .header h1 { font-size: 1.75rem; font-weight: 700; color: #f1f5f9; margin-bottom: 0.25rem; }
+  .header { text-align: center; margin-bottom: 1.5rem; padding: 1.5rem 1rem; background: #1e293b; border: 1px solid #334155; border-radius: 12px; }
+  .header h1 { font-size: 1.75rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.25rem; }
   .header .subtitle { font-size: 1rem; color: #94a3b8; }
-  .header .generated { font-size: 0.8rem; color: #64748b; margin-top: 0.25rem; }
-
-  /* Panels */
-  .panel {
-    background: #1e293b;
-    border: 1px solid #334155;
-    border-radius: 0.75rem;
-    padding: 1.25rem;
-    margin-bottom: 1rem;
-  }
-  .panel-title {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #94a3b8;
-    margin-bottom: 0.75rem;
-  }
+  .header .generated { font-size: 0.75rem; color: #64748b; margin-top: 0.5rem; }
 
   /* Milestone Bar */
-  .milestones {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 0.75rem;
-  }
-  .milestone {
-    background: #0f172a;
-    border-radius: 0.5rem;
-    padding: 0.75rem 1rem;
-    border-left: 4px solid;
-  }
-  .milestone.amber { border-left-color: #f59e0b; }
-  .milestone.blue { border-left-color: #3b82f6; }
-  .milestone.red { border-left-color: #ef4444; }
-  .milestone .ms-name { font-weight: 600; font-size: 0.9rem; color: #f1f5f9; }
-  .milestone .ms-date { font-size: 0.8rem; color: #94a3b8; }
-  .milestone .ms-days { font-size: 0.8rem; font-weight: 600; margin-top: 0.25rem; }
-  .milestone.amber .ms-days { color: #f59e0b; }
-  .milestone.blue .ms-days { color: #60a5fa; }
-  .milestone .ms-issues { font-size: 0.75rem; color: #64748b; margin-top: 0.15rem; }
+  .milestones { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+  .milestone { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 1rem 1.25rem; display: flex; align-items: center; gap: 1rem; }
+  .milestone .badge { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; padding: 0.25rem 0.6rem; border-radius: 6px; white-space: nowrap; letter-spacing: 0.05em; }
+  .milestone .badge.red { background: #ef4444; color: #fff; }
+  .milestone .badge.blue { background: #3b82f6; color: #fff; }
+  .milestone .info { flex: 1; min-width: 0; }
+  .milestone .info .name { font-weight: 600; font-size: 0.95rem; color: #f1f5f9; }
+  .milestone .info .meta { font-size: 0.8rem; color: #94a3b8; }
+  .milestone .days { font-size: 1.5rem; font-weight: 700; white-space: nowrap; }
+  .milestone .days.red { color: #ef4444; }
+  .milestone .days.blue { color: #60a5fa; }
+  .milestone .days small { font-size: 0.65rem; font-weight: 400; color: #94a3b8; display: block; text-align: center; }
 
-  /* Focus Picks */
-  .focus-card {
-    background: #0f172a;
-    border-radius: 0.5rem;
-    padding: 0.75rem 1rem;
-    margin-bottom: 0.5rem;
-    border-left: 4px solid #3b82f6;
-    display: flex;
-    gap: 0.75rem;
-    align-items: flex-start;
-  }
-  .focus-num {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #3b82f6;
-    min-width: 1.5rem;
-    text-align: center;
-    line-height: 1.4;
-  }
-  .focus-body .focus-title { font-weight: 600; color: #f1f5f9; font-size: 0.9rem; }
-  .focus-body .focus-meta { font-size: 0.8rem; color: #94a3b8; }
-  .focus-body .focus-why { font-size: 0.8rem; color: #64748b; margin-top: 0.15rem; }
+  /* Section titles */
+  .section-title { font-size: 1.1rem; font-weight: 700; color: #f1f5f9; margin: 1.5rem 0 0.75rem; padding-bottom: 0.4rem; border-bottom: 1px solid #334155; }
+
+  /* Focus picks */
+  .focus-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+  .focus-card { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 1rem 1.25rem; border-left: 4px solid; }
+  .focus-card .fc-title { font-weight: 700; font-size: 0.95rem; color: #f1f5f9; margin-bottom: 0.3rem; }
+  .focus-card .fc-source { font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem; }
+  .focus-card .fc-why { font-size: 0.85rem; color: #cbd5e1; }
 
   /* Calendar */
-  .cal-today { margin-bottom: 0.75rem; }
-  .cal-day-title { font-weight: 600; color: #f1f5f9; font-size: 0.95rem; margin-bottom: 0.4rem; }
-  .cal-event {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.3rem 0;
-    font-size: 0.85rem;
-  }
-  .cal-time { color: #94a3b8; min-width: 120px; font-size: 0.8rem; white-space: nowrap; }
-  .cal-name { color: #e2e8f0; }
+  .cal-panel { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 1.25rem; margin-bottom: 1.5rem; }
+  .cal-day-label { font-weight: 700; font-size: 0.95rem; color: #f1f5f9; margin-bottom: 0.5rem; }
+  .cal-item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.4rem 0; font-size: 0.85rem; }
+  .cal-item + .cal-item { border-top: 1px solid #1e293b; }
+  .cal-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+  .cal-time { color: #94a3b8; white-space: nowrap; min-width: 110px; flex-shrink: 0; }
+  .cal-label { color: #e2e8f0; }
   .cal-loc { color: #64748b; font-size: 0.8rem; }
-  .type-badge {
-    display: inline-block;
-    font-size: 0.65rem;
-    font-weight: 600;
-    padding: 0.1rem 0.4rem;
-    border-radius: 9999px;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    white-space: nowrap;
-  }
-  .type-team { background: #5ba8c820; color: #5ba8c8; }
-  .type-client { background: #e8a33a20; color: #e8a33a; }
-  .type-tutoring { background: #a78bfa20; color: #a78bfa; }
-  .type-work { background: #64748b30; color: #94a3b8; }
-  .type-gtm { background: #34d39920; color: #34d399; }
-  .type-personal { background: #f472b620; color: #f472b6; }
-  .type-shared { background: #64748b20; color: #94a3b8; }
 
-  /* Details / Accordions */
-  details { margin-bottom: 0.5rem; }
-  details summary {
-    cursor: pointer;
-    list-style: none;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.4rem 0;
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: #e2e8f0;
-    user-select: none;
-  }
-  details summary::-webkit-details-marker { display: none; }
-  details summary::before {
-    content: "\25B6";
-    font-size: 0.65rem;
-    transition: transform 0.15s;
-    color: #64748b;
-  }
-  details[open] summary::before { transform: rotate(90deg); }
-  .accordion-body { padding: 0.25rem 0 0.25rem 1.25rem; }
+  /* Accordions */
+  details { background: #1e293b; border: 1px solid #334155; border-radius: 10px; margin-bottom: 0.75rem; }
+  details[open] > summary { border-bottom: 1px solid #334155; }
+  summary { cursor: pointer; padding: 0.85rem 1.25rem; font-weight: 600; font-size: 0.9rem; color: #f1f5f9; list-style: none; display: flex; align-items: center; gap: 0.5rem; user-select: none; }
+  summary::-webkit-details-marker { display: none; }
+  summary::before { content: "\25B6"; font-size: 0.6rem; transition: transform 0.2s; color: #64748b; }
+  details[open] > summary::before { transform: rotate(90deg); }
+  .acc-content { padding: 0.5rem 1.25rem 1rem; }
+  .acc-badge { font-size: 0.7rem; font-weight: 600; padding: 0.15rem 0.5rem; border-radius: 4px; margin-left: auto; }
 
   /* Issue rows */
-  .issue-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.35rem 0;
-    border-bottom: 1px solid #334155;
-    font-size: 0.85rem;
-  }
+  .issue-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; padding: 0.6rem 0; font-size: 0.85rem; border-bottom: 1px solid #0f172a; }
   .issue-row:last-child { border-bottom: none; }
-  .issue-id { color: #60a5fa; font-weight: 600; font-size: 0.8rem; white-space: nowrap; }
+  .issue-id { font-family: "SF Mono", "Fira Code", monospace; font-size: 0.8rem; color: #60a5fa; font-weight: 600; white-space: nowrap; }
   .issue-title { color: #e2e8f0; flex: 1; min-width: 150px; }
-  .issue-assignee { color: #64748b; font-size: 0.8rem; }
-  .issue-due { color: #94a3b8; font-size: 0.75rem; white-space: nowrap; }
-  .issue-note { color: #64748b; font-size: 0.75rem; font-style: italic; }
-  .priority-badge {
-    display: inline-block;
-    font-size: 0.6rem;
-    font-weight: 700;
-    padding: 0.1rem 0.35rem;
-    border-radius: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-  }
-  .p-urgent { background: #ef444420; color: #ef4444; }
-  .p-high { background: #f59e0b20; color: #f59e0b; }
-  .p-medium { background: #3b82f620; color: #3b82f6; }
-  .p-normal { background: #64748b20; color: #94a3b8; }
-  .p-low { background: #94a3b820; color: #cbd5e1; }
+  .issue-meta { font-size: 0.75rem; color: #64748b; white-space: nowrap; }
+  .priority-badge { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; padding: 0.1rem 0.45rem; border-radius: 4px; color: #fff; white-space: nowrap; letter-spacing: 0.03em; }
+  .p-urgent { background: #ef4444; }
+  .p-high { background: #f59e0b; }
+  .p-medium { background: #3b82f6; }
+  .p-normal { background: #64748b; }
+  .p-low { background: #94a3b8; }
 
-  .project-badge {
-    display: inline-block;
-    font-size: 0.6rem;
-    font-weight: 600;
-    padding: 0.1rem 0.35rem;
-    border-radius: 4px;
-    background: #33415540;
-    color: #94a3b8;
-    white-space: nowrap;
-  }
-
-  .accent-label {
-    display: inline-block;
-    width: 4px;
-    height: 1rem;
-    border-radius: 2px;
-    margin-right: 0.25rem;
-    vertical-align: middle;
-  }
-  .accent-red { background: #ef4444; }
-  .accent-amber { background: #f59e0b; }
-  .accent-blue { background: #3b82f6; }
-  .accent-gray { background: #64748b; }
-  .accent-green { background: #22c55e; }
-
-  /* Git Activity */
-  .git-stat { font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.25rem; }
-  .git-stat strong { color: #e2e8f0; }
-  .git-commit-list { padding-left: 1.25rem; margin-top: 0.35rem; }
-  .git-commit-list li { font-size: 0.8rem; color: #94a3b8; margin-bottom: 0.15rem; }
+  /* Git activity */
+  .git-panel { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 1.25rem; margin-bottom: 1.5rem; }
+  .git-stat { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem; font-size: 0.85rem; }
+  .git-chip { background: #334155; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.8rem; color: #cbd5e1; }
+  .git-sub { font-size: 0.8rem; color: #94a3b8; margin-top: 0.35rem; }
 
   /* Footer */
-  .footer {
-    font-size: 0.8rem;
-    color: #64748b;
-    padding: 0.75rem 0;
-    border-top: 1px solid #334155;
-    margin-top: 0.5rem;
-  }
-  .footer-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 0.5rem;
-  }
-  .footer-item strong { color: #94a3b8; }
-  .footer-healthy { color: #34d399; }
-  .footer-muted { color: #64748b; }
+  .footer { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 1rem 1.25rem; font-size: 0.8rem; color: #94a3b8; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; }
+  .footer-warn { color: #f59e0b; font-weight: 600; }
 
   /* Responsive */
   @media (max-width: 600px) {
     body { padding: 0.5rem; }
-    .header h1 { font-size: 1.35rem; }
-    .milestones { grid-template-columns: 1fr; }
-    .cal-time { min-width: 90px; }
+    .header h1 { font-size: 1.3rem; }
+    .cal-time { min-width: 80px; font-size: 0.78rem; }
     .issue-row { font-size: 0.8rem; }
   }
 </style>
 </head>
 <body>
 
-<!-- 1. Header -->
+<!-- HEADER -->
 <div class="header">
   <h1>ThriveIEP Dashboard</h1>
-  <div class="subtitle">Week of March 23 - March 29</div>
-  <div class="generated">Generated March 26, 2026 at 9:15 AM EDT</div>
+  <div class="subtitle">Week of March 30 - April 5</div>
+  <div class="generated">Generated March 31, 2026 at 10:30 AM EDT</div>
 </div>
 
-<!-- 2. Milestone Bar -->
-<div class="panel">
-  <div class="panel-title">Milestones</div>
-  <div class="milestones">
-    <div class="milestone amber">
-      <div class="ms-name">M3: Pilot Profiles</div>
-      <div class="ms-date">In progress</div>
-      <div class="ms-days">Active</div>
-      <div class="ms-issues">10 active / 1 done in 48h</div>
+<!-- MILESTONE BAR -->
+<div class="milestones">
+  <div class="milestone">
+    <div class="days red">0<small>days</small></div>
+    <div class="info">
+      <div class="name">M4: Phase 2 Complete</div>
+      <div class="meta">March 31, 2026 <span class="badge red">TODAY!</span></div>
+      <div class="meta">10 active / 1 done today</div>
     </div>
-    <div class="milestone amber">
-      <div class="ms-name">M4: Phase 2 Complete</div>
-      <div class="ms-date">March 31, 2026</div>
-      <div class="ms-days">5 days remaining</div>
-      <div class="ms-issues">5 days to deadline</div>
-    </div>
-    <div class="milestone blue">
-      <div class="ms-name">M5: Phase 3 Ready</div>
-      <div class="ms-date">April 30, 2026</div>
-      <div class="ms-days">35 days remaining</div>
-      <div class="ms-issues">35 days out</div>
+  </div>
+  <div class="milestone">
+    <div class="days blue">30<small>days</small></div>
+    <div class="info">
+      <div class="name">M5: Phase 3 Ready</div>
+      <div class="meta">April 30, 2026</div>
+      <div class="meta">Scale to 750 profiles</div>
     </div>
   </div>
 </div>
 
-<!-- 3. Focus Picks -->
-<div class="panel">
-  <div class="panel-title">Focus Picks</div>
-  <div class="focus-card">
-    <div class="focus-num">1</div>
-    <div class="focus-body">
-      <div class="focus-title">Finalize phone report for Elizabeth review</div>
-      <div class="focus-meta">THR-244 &middot; C2A</div>
-      <div class="focus-why">Why now: Blocks Soham's THR-207. 12 commits yesterday on redesign, push to review-ready.</div>
-    </div>
+<!-- FOCUS PICKS -->
+<div class="section-title">Focus Picks</div>
+<div class="focus-grid">
+  <div class="focus-card" style="border-left-color: #3b82f6;">
+    <div class="fc-title">Roadmap conversation with Elizabeth</div>
+    <div class="fc-source">Source: Mar 30 standup + team meeting</div>
+    <div class="fc-why">M4 deadline day. Align on M4 status, M5 plan, longitudinal measures, Apr 1 NLU deployment to 45 students.</div>
   </div>
-  <div class="focus-card">
-    <div class="focus-num">2</div>
-    <div class="focus-body">
-      <div class="focus-title">Scoring verification writeup + golden test case</div>
-      <div class="focus-meta">THR-236 &middot; C2A &middot; Due: March 31</div>
-      <div class="focus-why">Why now: M4 deadline in 5 days. Pipeline transparency features added, need golden test case.</div>
-    </div>
+  <div class="focus-card" style="border-left-color: #3b82f6;">
+    <div class="fc-title">THR-94: Usage analytics implementation</div>
+    <div class="fc-source">Source: Linear THR-94</div>
+    <div class="fc-why">OVERDUE (due Mar 30). Must ship before Wednesday NLU deployment. Elizabeth explicitly said "immediately" priority.</div>
   </div>
-  <div class="focus-card">
-    <div class="focus-num">3</div>
-    <div class="focus-body">
-      <div class="focus-title">DDx content generation</div>
-      <div class="focus-meta">THR-199 &middot; C2A</div>
-      <div class="focus-why">Why now: M3 deliverable. 10-state engine built, content pipeline next.</div>
-    </div>
+  <div class="focus-card" style="border-left-color: #8b5cf6;">
+    <div class="fc-title">Networking outreach -- Northeastern conference proposal</div>
+    <div class="fc-source">Source: HubSpot (13 days stale) + Gmail</div>
+    <div class="fc-why">13 business days since last outreach (red zone). Conference proposal is natural touchpoint for pipeline deal at 40%.</div>
   </div>
 </div>
 
-<!-- 4. Calendar -->
-<div class="panel">
-  <div class="panel-title">Calendar</div>
+<!-- CALENDAR -->
+<div class="section-title">Calendar</div>
+<div class="cal-panel">
+  <div class="cal-day-label">Today -- Monday, March 31</div>
 
-  <div class="cal-today">
-    <div class="cal-day-title">Today - Thursday, March 26</div>
-    <div class="cal-event">
-      <span class="cal-time">All Day</span>
-      <span class="cal-name">Boston Trash</span>
-      <span class="type-badge type-personal">personal</span>
-    </div>
-    <div class="cal-event">
-      <span class="cal-time">9:30 AM - 2:30 PM</span>
-      <span class="cal-name">ThriveIEP In Person Work Block</span>
-      <span class="type-badge type-work">work</span>
-      <span class="cal-loc">CiC Kendall</span>
-    </div>
-    <div class="cal-event">
-      <span class="cal-time">4:30 PM - 5:00 PM</span>
-      <span class="cal-name">Jack</span>
-      <span class="type-badge type-tutoring">tutoring</span>
-    </div>
-    <div class="cal-event">
-      <span class="cal-time">6:00 PM - 7:00 PM</span>
-      <span class="cal-name">Isaiah Virtual</span>
-      <span class="type-badge type-tutoring">tutoring</span>
-    </div>
+  <div class="cal-item">
+    <span class="cal-dot" style="background:#f472b6;"></span>
+    <span class="cal-time">All Day</span>
+    <span class="cal-label">Gpa Ernie's Bday</span>
+  </div>
+  <div class="cal-item">
+    <span class="cal-dot" style="background:#64748b;"></span>
+    <span class="cal-time">9:30 AM - 2:00 PM</span>
+    <span class="cal-label">ThriveIEP In Person Work Block <span class="cal-loc">CiC - Kendall</span></span>
+  </div>
+  <div class="cal-item">
+    <span class="cal-dot" style="background:#f472b6;"></span>
+    <span class="cal-time">3:00 - 5:00 PM</span>
+    <span class="cal-label">N tennis prac</span>
+  </div>
+  <div class="cal-item">
+    <span class="cal-dot" style="background:#a78bfa;"></span>
+    <span class="cal-time">4:30 - 5:00 PM</span>
+    <span class="cal-label">Jack</span>
   </div>
 
-  <details>
-    <summary>This Week</summary>
-    <div class="accordion-body">
+  <details style="background:transparent; border:none; margin-top:0.75rem;">
+    <summary style="padding:0.5rem 0; font-size:0.85rem; color:#94a3b8;">This Week</summary>
+    <div class="acc-content" style="padding:0.25rem 0 0;">
 
-      <div class="cal-day-title" style="margin-top:0.5rem;">Friday, March 27</div>
-      <div class="cal-event">
+      <div class="cal-day-label" style="margin-top:0.75rem;">Wednesday, April 1</div>
+      <div class="cal-item">
+        <span class="cal-dot" style="background:#5ba8c8;"></span>
+        <span class="cal-time">10:00 - 10:15 AM</span>
+        <span class="cal-label">ThriveIEP Standup</span>
+      </div>
+
+      <div class="cal-day-label" style="margin-top:0.75rem;">Thursday, April 2</div>
+      <div class="cal-item">
+        <span class="cal-dot" style="background:#64748b;"></span>
+        <span class="cal-time">9:30 AM - 2:30 PM</span>
+        <span class="cal-label">ThriveIEP Work Block</span>
+      </div>
+      <div class="cal-item">
+        <span class="cal-dot" style="background:#a78bfa;"></span>
+        <span class="cal-time">4:30 PM</span>
+        <span class="cal-label">Jack</span>
+      </div>
+      <div class="cal-item">
+        <span class="cal-dot" style="background:#a78bfa;"></span>
+        <span class="cal-time">6:00 PM</span>
+        <span class="cal-label">Vera</span>
+      </div>
+      <div class="cal-item">
+        <span class="cal-dot" style="background:#a78bfa;"></span>
+        <span class="cal-time">6:00 PM</span>
+        <span class="cal-label">Isaiah Virtual</span>
+      </div>
+
+      <div class="cal-day-label" style="margin-top:0.75rem;">Friday, April 3</div>
+      <div class="cal-item">
+        <span class="cal-dot" style="background:#34d399;"></span>
+        <span class="cal-time">9:30 - 10:15 AM</span>
+        <span class="cal-label">ThriveIEP GTM</span>
+      </div>
+      <div class="cal-item">
+        <span class="cal-dot" style="background:#5ba8c8;"></span>
+        <span class="cal-time">10:30 - 10:45 AM</span>
+        <span class="cal-label">ThriveIEP Standup</span>
+      </div>
+      <div class="cal-item">
+        <span class="cal-dot" style="background:#a78bfa;"></span>
+        <span class="cal-time">2:30 - 3:30 PM</span>
+        <span class="cal-label">Nehmet</span>
+      </div>
+
+      <div class="cal-day-label" style="margin-top:0.75rem;">Saturday, April 4</div>
+      <div class="cal-item">
+        <span class="cal-dot" style="background:#f472b6;"></span>
+        <span class="cal-time">1:00 - 2:00 PM</span>
+        <span class="cal-label">W soccer practice</span>
+      </div>
+      <div class="cal-item">
+        <span class="cal-dot" style="background:#f472b6;"></span>
+        <span class="cal-time">2:00 - 4:00 PM</span>
+        <span class="cal-label">Nat MIT</span>
+      </div>
+
+      <div class="cal-day-label" style="margin-top:0.75rem;">Sunday, April 5</div>
+      <div class="cal-item">
+        <span class="cal-dot" style="background:#f472b6;"></span>
         <span class="cal-time">All Day</span>
-        <span class="cal-name">RE EXAM</span>
-        <span class="type-badge type-shared">shared</span>
+        <span class="cal-label">Easter Sunday</span>
       </div>
-      <div class="cal-event">
-        <span class="cal-time">9:30 AM</span>
-        <span class="cal-name">ThriveIEP GTM</span>
-        <span class="type-badge type-gtm">gtm</span>
+      <div class="cal-item">
+        <span class="cal-dot" style="background:#5ba8c8;"></span>
+        <span class="cal-time">7:30 - 8:30 AM</span>
+        <span class="cal-label">ThriveIEP Team Meeting</span>
       </div>
-      <div class="cal-event">
-        <span class="cal-time">10:30 AM</span>
-        <span class="cal-name">ThriveIEP Standup</span>
-        <span class="type-badge type-team">team</span>
+      <div class="cal-item">
+        <span class="cal-dot" style="background:#5ba8c8;"></span>
+        <span class="cal-time">10:00 - 10:15 AM</span>
+        <span class="cal-label">ThriveIEP Standup</span>
       </div>
-      <div class="cal-event">
-        <span class="cal-time">2:30 PM</span>
-        <span class="cal-name">Nehmet</span>
-        <span class="type-badge type-tutoring">tutoring</span>
+      <div class="cal-item">
+        <span class="cal-dot" style="background:#a78bfa;"></span>
+        <span class="cal-time">3:15 - 4:15 PM</span>
+        <span class="cal-label">George</span>
       </div>
-
-      <div class="cal-day-title" style="margin-top:0.75rem;">Saturday, March 28</div>
-      <div class="cal-event">
-        <span class="cal-time">All Day</span>
-        <span class="cal-name">TY Summit</span>
-        <span class="type-badge type-shared">shared</span>
+      <div class="cal-item">
+        <span class="cal-dot" style="background:#a78bfa;"></span>
+        <span class="cal-time">6:00 - 7:00 PM</span>
+        <span class="cal-label">Vera</span>
       </div>
-      <div class="cal-event">
-        <span class="cal-time">2:00 PM</span>
-        <span class="cal-name">Nat MIT</span>
-        <span class="type-badge type-personal">personal</span>
-      </div>
-
-      <div class="cal-day-title" style="margin-top:0.75rem;">Sunday, March 29</div>
-      <div class="cal-event">
-        <span class="cal-time">7:30 AM</span>
-        <span class="cal-name">ThriveIEP Team Meeting</span>
-        <span class="type-badge type-team">team</span>
-      </div>
-
-    </div>
-  </details>
-</div>
-
-<!-- 5. Issues -->
-<div class="panel">
-  <div class="panel-title">Issues</div>
-
-  <!-- Overdue: none, so This Week starts open -->
-  <details open>
-    <summary><span class="accent-label accent-amber"></span> This Week</summary>
-    <div class="accordion-body">
-      <div class="issue-row">
-        <span class="issue-id">THR-236</span>
-        <span class="priority-badge p-high">High</span>
-        <span class="project-badge">C2A</span>
-        <span class="issue-title">Scoring verification writeup</span>
-        <span class="issue-due">Due Mar 31</span>
-        <span class="issue-assignee">Eric</span>
-        <span class="issue-note">(active: 3 commits)</span>
-      </div>
-      <div class="issue-row">
-        <span class="issue-id">THR-21</span>
-        <span class="project-badge">C2A</span>
-        <span class="issue-title">Build Assessment Platform MVP</span>
-        <span class="issue-due">Due Mar 31</span>
-        <span class="issue-assignee">Eric</span>
-      </div>
-    </div>
-  </details>
-
-  <details>
-    <summary><span class="accent-label accent-blue"></span> In Progress</summary>
-    <div class="accordion-body">
-      <div class="issue-row">
-        <span class="issue-id">THR-244</span>
-        <span class="priority-badge p-high">High</span>
-        <span class="project-badge">C2A</span>
-        <span class="issue-title">Phone report mockup (mobile-first)</span>
-        <span class="issue-assignee">Eric</span>
-        <span class="issue-note">(active: 12 commits)</span>
-      </div>
-      <div class="issue-row">
-        <span class="issue-id">THR-199</span>
-        <span class="priority-badge p-high">High</span>
-        <span class="project-badge">C2A</span>
-        <span class="issue-title">DDx pattern matching engine</span>
-        <span class="issue-assignee">Eric</span>
-      </div>
-      <div class="issue-row">
-        <span class="issue-id">THR-198</span>
-        <span class="priority-badge p-high">High</span>
-        <span class="project-badge">C2A</span>
-        <span class="issue-title">Interpretation template library</span>
-        <span class="issue-assignee">Eric</span>
-      </div>
-      <div class="issue-row">
-        <span class="issue-id">THR-94</span>
-        <span class="priority-badge p-high">High</span>
-        <span class="project-badge">C2A</span>
-        <span class="issue-title">Usage analytics instrumentation</span>
-        <span class="issue-due">Due Mar 30</span>
-        <span class="issue-assignee">Eric</span>
-      </div>
-      <div class="issue-row">
-        <span class="issue-id">THR-207</span>
-        <span class="priority-badge p-high">High</span>
-        <span class="project-badge">C2A</span>
-        <span class="issue-title">App UI assembly + student report view</span>
-        <span class="issue-due">Due Apr 7</span>
-        <span class="issue-assignee">Soham</span>
-      </div>
-      <div class="issue-row">
-        <span class="issue-id">THR-196</span>
-        <span class="priority-badge p-high">High</span>
-        <span class="project-badge">C2A</span>
-        <span class="issue-title">Profile data model and schema extension</span>
-        <span class="issue-assignee">Eric</span>
-      </div>
-      <div class="issue-row">
-        <span class="issue-id">THR-22</span>
-        <span class="project-badge">C2A</span>
-        <span class="issue-title">Profile Generation Engine</span>
-        <span class="issue-due">Due Apr 15</span>
-        <span class="issue-assignee">Eric</span>
-      </div>
-      <div class="issue-row">
-        <span class="issue-id">THR-251</span>
-        <span class="priority-badge p-low">Low</span>
-        <span class="project-badge">Team/Admin</span>
-        <span class="issue-title">Infrastructure &amp; tooling catch-all</span>
-        <span class="issue-assignee">Eric</span>
-      </div>
-    </div>
-  </details>
-
-  <details>
-    <summary><span class="accent-label accent-gray"></span> Todo</summary>
-    <div class="accordion-body">
-      <div class="issue-row">
-        <span class="issue-id">THR-248</span>
-        <span class="priority-badge p-medium">Medium</span>
-        <span class="project-badge">C2A</span>
-        <span class="issue-title">Review NLU case study framework</span>
-        <span class="issue-assignee">Eric</span>
-      </div>
-      <div class="issue-row">
-        <span class="issue-id">THR-239</span>
-        <span class="priority-badge p-medium">Medium</span>
-        <span class="project-badge">Team/Admin</span>
-        <span class="issue-title">Create DAG pipeline prompt skill</span>
-        <span class="issue-assignee">Eric</span>
-      </div>
-      <div class="issue-row">
-        <span class="issue-id">THR-187</span>
-        <span class="priority-badge p-medium">Medium</span>
-        <span class="project-badge">C2A</span>
-        <span class="issue-title">Property tests -- Student API</span>
-        <span class="issue-assignee">Soham</span>
-      </div>
-      <div class="issue-row">
-        <span class="issue-id">THR-182</span>
-        <span class="priority-badge p-medium">Medium</span>
-        <span class="project-badge">C2A</span>
-        <span class="issue-title">Property tests -- Registry and admin</span>
-        <span class="issue-assignee">Soham</span>
-      </div>
-      <div class="issue-row">
-        <span class="issue-id">THR-180</span>
-        <span class="priority-badge p-medium">Medium</span>
-        <span class="project-badge">C2A</span>
-        <span class="issue-title">Admin UI (timepoint management)</span>
-        <span class="issue-assignee">Soham</span>
-      </div>
-      <div class="issue-row">
-        <span class="issue-id">THR-224</span>
-        <span class="priority-badge p-low">Low</span>
-        <span class="issue-title">Student TLDR rollup summary</span>
-        <span class="issue-assignee">Eric</span>
-      </div>
-      <div class="issue-row">
-        <span class="issue-id">THR-221</span>
-        <span class="priority-badge p-medium">Medium</span>
-        <span class="project-badge">AE</span>
-        <span class="issue-title">Review AE AI pipeline</span>
-        <span class="issue-assignee">Soham</span>
-      </div>
-      <div class="issue-row">
-        <span class="issue-id">THR-62</span>
-        <span class="priority-badge p-high">High</span>
-        <span class="project-badge">AE</span>
-        <span class="issue-title">Deploy dev enhancements to production</span>
-      </div>
-      <div class="issue-row">
-        <span class="issue-id">THR-14</span>
-        <span class="priority-badge p-high">High</span>
-        <span class="project-badge">AE</span>
-        <span class="issue-title">Fix sample report link access</span>
-        <span class="issue-assignee">Eric</span>
-      </div>
-    </div>
-  </details>
-
-  <details>
-    <summary><span class="accent-label accent-green"></span> Recently Completed</summary>
-    <div class="accordion-body">
-      <div class="issue-row">
-        <span class="issue-id">THR-249</span>
-        <span class="issue-title">Two-layer knowledge graph infrastructure</span>
-        <span class="issue-note">Done Mar 22</span>
+      <div class="cal-item">
+        <span class="cal-dot" style="background:#f472b6;"></span>
+        <span class="cal-time">5:30 - 7:00 PM</span>
+        <span class="cal-label">W soccer</span>
       </div>
     </div>
   </details>
 </div>
 
-<!-- 6. Git Activity -->
-<div class="panel">
-  <div class="panel-title">Git Activity</div>
+<!-- ISSUES -->
+<div class="section-title">Issues</div>
 
-  <div class="git-stat"><strong>Commits since last dashboard:</strong> AE: 19 | PM-Hub: 20</div>
-  <div class="git-stat"><strong>Eric:</strong> 39 commits &mdash; THR-244 (12), THR-236 (4), untracked (23)</div>
-
-  <details style="margin-top:0.75rem;">
-    <summary>Active issues (confirmed by commits)</summary>
-    <div class="accordion-body">
-      <div class="git-stat" style="margin-top:0.25rem;"><strong>THR-244:</strong> 12 AE commits</div>
-      <ul class="git-commit-list">
-        <li>Report redesign, welcome screen, copy updates</li>
-        <li>Profile and focus screen implementation</li>
-      </ul>
-      <div class="git-stat" style="margin-top:0.5rem;"><strong>THR-236:</strong> 3 AE + 1 PM-Hub commits</div>
-      <ul class="git-commit-list">
-        <li>Top-3 selection audit, tier alignment</li>
-        <li>Pipeline visualizer groundwork</li>
-      </ul>
+<!-- Overdue - open -->
+<details open>
+  <summary>
+    <span style="color:#ef4444;">Overdue</span>
+    <span class="acc-badge" style="background:#ef4444; color:#fff;">3</span>
+  </summary>
+  <div class="acc-content">
+    <div class="issue-row">
+      <span class="issue-id">THR-94</span>
+      <span class="issue-title">C2A: Usage analytics instrumentation</span>
+      <span class="priority-badge p-high">High</span>
+      <span class="issue-meta">C2A</span>
+      <span class="issue-meta">Due Mar 30</span>
+      <span class="issue-meta">Eric</span>
     </div>
-  </details>
-
-  <details>
-    <summary>Untracked work highlights</summary>
-    <div class="accordion-body">
-      <ul class="git-commit-list" style="margin-top:0.25rem;">
-        <li>deep-research skill + infrastructure sharing</li>
-        <li>SSH keepalive + tunnel health monitor</li>
-        <li>Neo4j KG backfill (5 research sessions)</li>
-        <li>research-persist.sh atomic wrapper</li>
-        <li>PaddleOCR deep research for PI Redactor</li>
-        <li>KG index rebuilds + session handoffs</li>
-      </ul>
+    <div class="issue-row">
+      <span class="issue-id">THR-236</span>
+      <span class="issue-title">C2A: Scoring/psychometric verification writeup</span>
+      <span class="priority-badge p-high">High</span>
+      <span class="issue-meta">C2A</span>
+      <span class="issue-meta">Due Mar 31</span>
+      <span class="issue-meta">Eric</span>
     </div>
-  </details>
+    <div class="issue-row">
+      <span class="issue-id">THR-21</span>
+      <span class="issue-title">Build: Assessment Platform MVP</span>
+      <span class="priority-badge p-normal">Normal</span>
+      <span class="issue-meta">C2A</span>
+      <span class="issue-meta">Due Mar 31</span>
+      <span class="issue-meta">Eric</span>
+    </div>
+  </div>
+</details>
+
+<!-- This Week -->
+<details>
+  <summary>
+    <span style="color:#f59e0b;">This Week</span>
+    <span class="acc-badge" style="background:#f59e0b; color:#0f172a;">1</span>
+  </summary>
+  <div class="acc-content">
+    <div class="issue-row">
+      <span class="issue-id">THR-207</span>
+      <span class="issue-title">C2A: App UI assembly + student report view</span>
+      <span class="priority-badge p-high">High</span>
+      <span class="issue-meta">C2A</span>
+      <span class="issue-meta">Due Apr 7</span>
+      <span class="issue-meta">Soham</span>
+    </div>
+  </div>
+</details>
+
+<!-- Upcoming -->
+<details>
+  <summary>
+    <span style="color:#3b82f6;">Upcoming</span>
+    <span class="acc-badge" style="background:#3b82f6; color:#fff;">1</span>
+  </summary>
+  <div class="acc-content">
+    <div class="issue-row">
+      <span class="issue-id">THR-22</span>
+      <span class="issue-title">Build: Profile Generation Engine</span>
+      <span class="priority-badge p-normal">Normal</span>
+      <span class="issue-meta">C2A</span>
+      <span class="issue-meta">Due Apr 15</span>
+      <span class="issue-meta">Eric</span>
+    </div>
+  </div>
+</details>
+
+<!-- Backlog -->
+<details>
+  <summary>
+    <span style="color:#94a3b8;">Backlog</span>
+    <span class="acc-badge" style="background:#475569; color:#e2e8f0;">9</span>
+  </summary>
+  <div class="acc-content">
+    <div class="issue-row">
+      <span class="issue-id">THR-244</span>
+      <span class="issue-title">C2A: Phone report mockup</span>
+      <span class="priority-badge p-high">High</span>
+      <span class="issue-meta">C2A</span>
+      <span class="issue-meta">No date</span>
+      <span class="issue-meta">Eric</span>
+    </div>
+    <div class="issue-row">
+      <span class="issue-id">THR-198</span>
+      <span class="issue-title">C2A M3: Interpretation template library</span>
+      <span class="priority-badge p-high">High</span>
+      <span class="issue-meta">C2A</span>
+      <span class="issue-meta">No date</span>
+      <span class="issue-meta">Eric</span>
+    </div>
+    <div class="issue-row">
+      <span class="issue-id">THR-199</span>
+      <span class="issue-title">C2A M3: DDx pattern matching engine</span>
+      <span class="priority-badge p-high">High</span>
+      <span class="issue-meta">C2A</span>
+      <span class="issue-meta">No date</span>
+      <span class="issue-meta">Eric</span>
+    </div>
+    <div class="issue-row">
+      <span class="issue-id">THR-196</span>
+      <span class="issue-title">C2A M3: Profile data model and schema extension</span>
+      <span class="priority-badge p-high">High</span>
+      <span class="issue-meta">C2A</span>
+      <span class="issue-meta">No date</span>
+      <span class="issue-meta">Eric</span>
+    </div>
+    <div class="issue-row">
+      <span class="issue-id">THR-251</span>
+      <span class="issue-title">Infrastructure &amp; tooling catch-all</span>
+      <span class="priority-badge p-low">Low</span>
+      <span class="issue-meta">Team/Admin</span>
+      <span class="issue-meta">No date</span>
+      <span class="issue-meta">Eric</span>
+    </div>
+    <div class="issue-row">
+      <span class="issue-id">THR-248</span>
+      <span class="issue-title">NLU: Review case study framework</span>
+      <span class="priority-badge p-medium">Medium</span>
+      <span class="issue-meta">C2A</span>
+      <span class="issue-meta">No date</span>
+      <span class="issue-meta">Eric</span>
+    </div>
+    <div class="issue-row">
+      <span class="issue-id">THR-239</span>
+      <span class="issue-title">Create DAG pipeline prompt skill</span>
+      <span class="priority-badge p-medium">Medium</span>
+      <span class="issue-meta">Team/Admin</span>
+      <span class="issue-meta">No date</span>
+      <span class="issue-meta">Eric</span>
+    </div>
+    <div class="issue-row">
+      <span class="issue-id">THR-62</span>
+      <span class="issue-title">Deploy dev enhancements to production</span>
+      <span class="priority-badge p-high">High</span>
+      <span class="issue-meta">AE</span>
+      <span class="issue-meta">No date</span>
+    </div>
+    <div class="issue-row">
+      <span class="issue-id">THR-14</span>
+      <span class="issue-title">Fix sample report link access</span>
+      <span class="priority-badge p-high">High</span>
+      <span class="issue-meta">AE</span>
+      <span class="issue-meta">No date</span>
+      <span class="issue-meta">Eric</span>
+    </div>
+  </div>
+</details>
+
+<!-- Recently Completed -->
+<details>
+  <summary>
+    <span style="color:#34d399;">Recently Completed</span>
+    <span class="acc-badge" style="background:#065f46; color:#34d399;">1</span>
+  </summary>
+  <div class="acc-content">
+    <div class="issue-row">
+      <span class="issue-id">THR-23</span>
+      <span class="issue-title" style="text-decoration:line-through; color:#94a3b8;">Build: Recommendations Engine</span>
+      <span class="issue-meta">C2A</span>
+      <span class="issue-meta" style="color:#34d399;">Completed Mar 31</span>
+    </div>
+  </div>
+</details>
+
+<!-- GIT ACTIVITY -->
+<div class="section-title">Git Activity</div>
+<div class="git-panel">
+  <div style="font-weight:600; margin-bottom:0.5rem; color:#f1f5f9;">Eric: 173 commits</div>
+  <div class="git-stat">
+    <span class="git-chip">AE: 70</span>
+    <span class="git-chip">PM-Hub: 90</span>
+    <span class="git-chip">Redactor: 13</span>
+  </div>
+  <div class="git-sub" style="margin-top:0.75rem; font-weight:600; color:#cbd5e1;">THR References</div>
+  <div class="git-stat" style="margin-top:0.35rem;">
+    <span class="git-chip">THR-236: 20+ commits</span>
+    <span class="git-chip">THR-244: 10+</span>
+    <span class="git-chip">THR-204: 5+</span>
+    <span class="git-chip">THR-251: 2</span>
+  </div>
+  <div class="git-sub" style="margin-top:0.5rem;">Proposed transitions: none (all already In Progress)</div>
+  <div class="git-sub">~140 commits without THR reference (session handoffs, research, KG rebuilds, skill development)</div>
 </div>
 
-<!-- 7. Footer -->
+<!-- FOOTER -->
 <div class="footer">
-  <div class="footer-grid">
-    <div class="footer-item"><strong>Networking:</strong> <span class="footer-healthy">Healthy</span> (last HubSpot activity: March 25)</div>
-    <div class="footer-item"><strong>Pipeline:</strong> 11 deals (3 won: NLU $40K, Prepare2Bloom $5K, TriTogether $1K)</div>
-    <div class="footer-item"><strong>Data gaps:</strong> Gmail subjects partially resolved; Slack quiet (no messages 24h)</div>
-    <div class="footer-item"><strong>Notion To-Dos:</strong> <span class="footer-muted">skipped</span></div>
+  <div>
+    <span class="footer-warn">Networking: 13 business days since last outreach (nudge needed)</span>
   </div>
+  <div>Data gaps: none</div>
+  <div><a href="/">View all reports</a></div>
 </div>
 
+<script>
+  // No JS needed -- native details/summary handles all accordions
+</script>
 </body>
 </html>
