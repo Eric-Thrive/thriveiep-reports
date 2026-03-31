@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>ThriveIEP Product Roadmap -- March 31, 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #1B2A4A; --navy-light: #2A3F6B;
+    --coral: #FF6B6B; --coral-soft: #FF8E8E;
+    --sand: #F5E6CC; --sand-light: #FDF8F0;
+    --teal: #2B8A8A; --gold: #D4A843;
+    --slate: #4A5568; --warm-grey: #8B7E6A;
+    --green: #38A169; --green-light: #C6F6D5;
+    --amber: #D69E2E; --amber-light: #FEFCBF;
+    --red: #E53E3E; --red-light: #FED7D7;
+  }
+  html, body { height: 100%; overflow: hidden; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--sand-light); color: var(--navy); }
+  .deck { display: flex; height: 100vh; overflow: hidden; }
+  .slide { min-width: 100vw; height: 100vh; overflow-y: auto; padding: 60px 80px 80px; display: none; flex-direction: column; }
+  .slide.active { display: flex; }
+  @media (max-width: 800px) { .slide { padding: 32px 24px 80px; } }
+  .index-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: var(--navy); display: flex; align-items: center; height: 52px; padding: 0 24px; gap: 6px; overflow-x: auto; }
+  .idx-chip { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.55); background: transparent; border: none; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+  .idx-chip:hover { color: #fff; background: var(--navy-light); }
+  .idx-chip.active { background: var(--coral); color: #fff; }
+  .idx-progress { position: fixed; bottom: 52px; left: 0; height: 3px; background: var(--coral); transition: width 0.3s; z-index: 101; }
+  .idx-arrows { margin-left: auto; display: flex; gap: 8px; }
+  .idx-arrow { width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--navy-light); color: #fff; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .idx-arrow:hover { background: var(--coral); }
+  .slide-num { font-size: 12px; font-weight: 700; color: var(--coral); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .slide h2 { font-size: 36px; font-weight: 800; color: var(--navy); line-height: 1.15; margin-bottom: 20px; max-width: 800px; }
+  .slide h3 { font-size: 22px; font-weight: 700; color: var(--navy); margin: 24px 0 10px; }
+  .slide h4 { font-size: 16px; font-weight: 700; color: var(--teal); margin: 16px 0 8px; }
+  .slide p { font-size: 16px; line-height: 1.8; margin-bottom: 14px; color: var(--slate); max-width: 760px; }
+  .slide ul, .slide ol { margin: 10px 0 16px 24px; font-size: 16px; line-height: 1.7; color: var(--slate); max-width: 760px; }
+  .slide li { margin-bottom: 8px; }
+  .slide strong { color: var(--navy); font-weight: 700; }
+  .slide em { color: var(--coral); font-style: normal; font-weight: 600; }
+  .slide blockquote { background: var(--sand); border-left: 4px solid var(--coral); padding: 18px 24px; border-radius: 0 12px 12px 0; margin: 18px 0; font-size: 15px; color: var(--navy); max-width: 760px; }
+  .slide hr { border: none; height: 2px; background: var(--sand); margin: 28px 0; max-width: 760px; }
+  .slide a { color: var(--teal); text-decoration: none; font-weight: 600; }
+  .slide a:hover { text-decoration: underline; }
+  .slide table { width: 100%; max-width: 800px; border-collapse: separate; border-spacing: 0; margin: 18px 0; border-radius: 12px; overflow: hidden; }
+  .slide th { background: var(--navy); color: #fff; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 14px 16px; text-align: left; }
+  .slide td { background: #fff; padding: 14px 16px; font-size: 14px; color: var(--slate); border-bottom: 1px solid var(--sand); }
+  .slide tr:last-child td { border-bottom: none; }
+  .badge { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+  .badge-done { background: var(--green-light); color: var(--green); }
+  .badge-progress { background: var(--amber-light); color: var(--amber); }
+  .badge-risk { background: var(--red-light); color: var(--red); }
+  .badge-deferred { background: var(--sand); color: var(--warm-grey); }
+  .badge-upcoming { background: #EBF4FF; color: var(--navy-light); }
+  .finding-card { background: #fff; border-radius: 12px; padding: 20px 24px; margin: 16px 0; max-width: 800px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .finding-card h4 { margin-top: 0; }
+  .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; max-width: 800px; margin: 20px 0; }
+  .metric-card { background: #fff; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .metric-card .number { font-size: 36px; font-weight: 800; color: var(--navy); }
+  .metric-card .label { font-size: 13px; color: var(--warm-grey); font-weight: 600; margin-top: 4px; }
+  .timeline { position: relative; max-width: 800px; margin: 24px 0; padding-left: 40px; }
+  .timeline::before { content: ''; position: absolute; left: 16px; top: 0; bottom: 0; width: 3px; background: var(--sand); }
+  .tl-item { position: relative; margin-bottom: 28px; }
+  .tl-dot { position: absolute; left: -32px; top: 4px; width: 14px; height: 14px; border-radius: 50%; border: 3px solid; }
+  .tl-dot.done { border-color: var(--green); background: var(--green); }
+  .tl-dot.active { border-color: var(--coral); background: var(--coral); box-shadow: 0 0 0 4px rgba(255,107,107,0.2); }
+  .tl-dot.future { border-color: var(--sand); background: var(--sand-light); }
+  .tl-dot.deferred { border-color: var(--warm-grey); background: var(--sand-light); }
+  .tl-date { font-size: 12px; font-weight: 700; color: var(--coral); text-transform: uppercase; letter-spacing: 0.08em; }
+  .tl-title { font-size: 18px; font-weight: 700; color: var(--navy); margin: 4px 0; }
+  .tl-desc { font-size: 14px; color: var(--slate); line-height: 1.6; }
+  .gantt { max-width: 800px; margin: 24px 0; }
+  .gantt-row { display: flex; align-items: center; margin-bottom: 8px; }
+  .gantt-label { width: 140px; font-size: 13px; font-weight: 600; color: var(--navy); flex-shrink: 0; }
+  .gantt-track { flex: 1; height: 28px; background: var(--sand); border-radius: 6px; position: relative; overflow: hidden; }
+  .gantt-bar { height: 100%; border-radius: 6px; position: absolute; display: flex; align-items: center; padding: 0 8px; font-size: 11px; font-weight: 700; color: #fff; white-space: nowrap; }
+  .gantt-bar.done { background: var(--green); }
+  .gantt-bar.active { background: var(--coral); }
+  .gantt-bar.planned { background: var(--navy-light); opacity: 0.6; }
+  .gantt-bar.deferred { background: var(--warm-grey); opacity: 0.5; }
+  .gantt-months { display: flex; margin-left: 140px; margin-bottom: 6px; }
+  .gantt-month { flex: 1; font-size: 10px; font-weight: 600; color: var(--warm-grey); text-transform: uppercase; letter-spacing: 0.08em; }
+  .gantt-today { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--coral); z-index: 10; }
+  .agenda-item { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 20px; max-width: 760px; }
+  .agenda-num { width: 36px; height: 36px; border-radius: 50%; background: var(--navy); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; flex-shrink: 0; }
+  .agenda-content { flex: 1; }
+  .agenda-content h4 { margin-top: 2px; color: var(--navy); }
+  .agenda-content p { font-size: 14px; margin-top: 4px; }
+  .agenda-time { font-size: 12px; font-weight: 600; color: var(--warm-grey); }
+</style>
+</head>
+<body>
+<div class="idx-progress" id="progress"></div>
+<div class="deck" id="deck">
+
+<!-- SLIDE 1: Title -->
+<div class="slide" id="slide-title">
+  <div class="slide-num">ThriveIEP Internal</div>
+  <h2>Product Roadmap Update</h2>
+  <p>March 31, 2026 | Eric & Elizabeth</p>
+  <hr>
+  <h3>Where We Are Across Products</h3>
+  <table>
+    <thead>
+      <tr><th>Product</th><th>Status</th><th>Next Milestone</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>C2A Assessment</strong></td><td><span class="badge badge-done">Pilot Live</span></td><td>Data collection plan, coach view timeline, Technical White Paper</td></tr>
+      <tr><td><strong>PI Redactor</strong></td><td><span class="badge badge-progress">Active Dev</span></td><td>Presidio + GLiNER hybrid deployed on Aptible, benchmark on real IEPs</td></tr>
+      <tr><td><strong>Bloom Report</strong></td><td><span class="badge badge-upcoming">Needs Scope</span></td><td>Productize for Shayna / Prepare to Bloom</td></tr>
+      <tr><td><strong>Accommodation Engine</strong></td><td><span class="badge badge-deferred">Stable</span></td><td>Maintenance only</td></tr>
+    </tbody>
+  </table>
+  <blockquote>
+    <strong>Key questions for today:</strong> How do we allocate time across these products? What does NLU need to hear about deferred items? When do we scope Bloom as a product for Shayna?
+  </blockquote>
+</div>
+
+<!-- SLIDE 1b: Product Portfolio -->
+<div class="slide" id="slide-products">
+  <div class="slide-num">Product Portfolio</div>
+  <h2>Three Active Products</h2>
+  <hr>
+
+  <div class="finding-card">
+    <h4>C2A Assessment <span class="badge badge-done">Revenue</span></h4>
+    <p><strong>NLU design partner contract.</strong> Assessment platform live in production. 15 pilot students taking battery. Profiles and recommendations complete. Coach view and orientation deferred from pilot scope, new date TBD.</p>
+    <p><strong>What's left:</strong> Data collection plan, pilot findings memo, Technical White Paper, coach view (post-pilot).</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>PI Redactor <span class="badge badge-progress">Active Build</span></h4>
+    <p><strong>Major architecture refactor just completed (Session 246).</strong> Replaced spawn-per-request Presidio with persistent Flask + GLiNER hybrid service. Net -2,618 lines. Dockerfile ready for Aptible deployment.</p>
+    <p><strong>What's next:</strong> Soham runs Phase 0 benchmark on real IEPs, deploy to Aptible, evaluate GLiNER model candidates. Research shows hybrid NER beats pure LLM approaches (96% vs 79% F1).</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>Bloom Report <span class="badge badge-upcoming">Needs Productization</span></h4>
+    <p><strong>Currently generates custom placement reports for Shayna Abraham / Prepare to Bloom.</strong> Working but not productized. Need to scope: recurring revenue model, self-service workflow, additional customers beyond Shayna.</p>
+    <p><strong>Trade-off:</strong> Every hour on Bloom is an hour not on C2A or Redactor. What's the priority and timeline?</p>
+  </div>
+</div>
+
+<!-- SLIDE 2: Proposed Agenda -->
+<div class="slide" id="slide-agenda">
+  <div class="slide-num">Agenda</div>
+  <h2>Proposed Meeting Agenda</h2>
+  <p>Roadmap alignment session with Elizabeth. 45-60 minutes.</p>
+  <hr>
+  <div class="agenda-item">
+    <div class="agenda-num">1</div>
+    <div class="agenda-content">
+      <h4>SOW Status Check</h4>
+      <p>Walk through Phases 0-2 completion, M2 invoice confirmation, what's been delivered vs contracted.</p>
+      <div class="agenda-time">5 min</div>
+    </div>
+  </div>
+  <div class="agenda-item">
+    <div class="agenda-num">2</div>
+    <div class="agenda-content">
+      <h4>Deferred Items: Coach View & Orientation</h4>
+      <p>Confirm scope change. Agree on new delivery date for THR-24 (Coach View) and THR-91 (Coach Orientation). What does NLU need to hear?</p>
+      <div class="agenda-time">10 min</div>
+    </div>
+  </div>
+  <div class="agenda-item">
+    <div class="agenda-num">3</div>
+    <div class="agenda-content">
+      <h4>Pilot Data Collection Plan</h4>
+      <p>Review Elizabeth's Case Study Framework (Notion doc from March 18). Align on what metrics, feedback, and outcomes we're collecting. Feeds into the SOW-required pilot findings memo.</p>
+      <div class="agenda-time">10 min</div>
+    </div>
+  </div>
+  <div class="agenda-item">
+    <div class="agenda-num">4</div>
+    <div class="agenda-content">
+      <h4>M3 Payment Trigger: Technical White Paper</h4>
+      <p>The final $20K requires NLU acceptance of a usage report AND a Technical White Paper describing scoring methodology. Scope the white paper content and timeline.</p>
+      <div class="agenda-time">10 min</div>
+    </div>
+  </div>
+  <div class="agenda-item">
+    <div class="agenda-num">5</div>
+    <div class="agenda-content">
+      <h4>Instrument IP & Proprietary Measures</h4>
+      <p>Most battery instruments are public domain. When/whether to develop proprietary measures. Affects IP valuation, Technical Continuity Kit, and future pricing.</p>
+      <div class="agenda-time">5 min</div>
+    </div>
+  </div>
+  <div class="agenda-item">
+    <div class="agenda-num">6</div>
+    <div class="agenda-content">
+      <h4>Updated Timeline & NLU Communication</h4>
+      <p>Agree on revised milestone dates. Draft talking points for NLU on scope changes. Schedule NLU check-in if needed.</p>
+      <div class="agenda-time">10 min</div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 3: What's Done -->
+<div class="slide" id="slide-done">
+  <div class="slide-num">C2A Delivery</div>
+  <h2>What We've Delivered</h2>
+  <p>Phases 0-2 are substantially complete. 59 of 136 issues closed.</p>
+  <hr>
+  <table>
+    <thead>
+      <tr><th>SOW Deliverable</th><th>Status</th><th>Key Issues</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Phase 0 alignment summary</td><td><span class="badge badge-done">Done</span></td><td>THR-16</td></tr>
+      <tr><td>Kickoff meeting + deck</td><td><span class="badge badge-done">Done</span></td><td>THR-86, THR-134</td></tr>
+      <tr><td>Implementation brief + timeline</td><td><span class="badge badge-done">Done</span></td><td>THR-12, THR-20</td></tr>
+      <tr><td>FERPA architecture</td><td><span class="badge badge-done">Done</span></td><td>THR-52, THR-109, THR-110</td></tr>
+      <tr><td>Assessment platform (17 instruments, 123 items)</td><td><span class="badge badge-done">Done</span></td><td>THR-21, THR-31, THR-32</td></tr>
+      <tr><td>Student auth + onboarding</td><td><span class="badge badge-done">Done</span></td><td>THR-29, THR-176, THR-179</td></tr>
+      <tr><td>C2A Profiles generated</td><td><span class="badge badge-done">Done</span></td><td>THR-22, THR-197, THR-201</td></tr>
+      <tr><td>Recommendations engine</td><td><span class="badge badge-done">Done</span></td><td>THR-23</td></tr>
+      <tr><td>Admin tools (roster, batch import, timepoints)</td><td><span class="badge badge-done">Done</span></td><td>THR-226, THR-227, THR-234</td></tr>
+      <tr><td>Production environment (Aptible)</td><td><span class="badge badge-done">Done</span></td><td>THR-181</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SLIDE 4: Deferred & Open -->
+<div class="slide" id="slide-deferred">
+  <div class="slide-num">C2A Open Items</div>
+  <h2>Deferred & Open Items</h2>
+  <hr>
+  <h3>Deferred from Phase 2</h3>
+  <div class="finding-card">
+    <h4>Coach/Advisor View <span class="badge badge-deferred">Deferred</span></h4>
+    <p>THR-24 | Not needed during beta pilot. New date TBD after NLU alignment.</p>
+  </div>
+  <div class="finding-card">
+    <h4>Coach Orientation Materials <span class="badge badge-deferred">Deferred</span></h4>
+    <p>THR-91 | Deferred with coach view. SOW requires "virtual advisor/coach orientation."</p>
+  </div>
+
+  <h3>Open / In Progress</h3>
+  <div class="finding-card">
+    <h4>Scoring Verification Writeup <span class="badge badge-progress">In Progress</span></h4>
+    <p>THR-236 | Golden test case documenting pipeline correctness. Foundational for Technical White Paper.</p>
+  </div>
+  <div class="finding-card">
+    <h4>DDx Pattern Matching Engine <span class="badge badge-progress">In Progress</span></h4>
+    <p>THR-199 | Cross-lens diagnosis for profile generation. Core M3 work.</p>
+  </div>
+  <div class="finding-card">
+    <h4>Phone Report Mockup <span class="badge badge-progress">In Progress</span></h4>
+    <p>THR-244 | Mobile-first C2A Start Here Report design.</p>
+  </div>
+  <div class="finding-card">
+    <h4>Feedback Collection Setup <span class="badge badge-risk">Not Started</span></h4>
+    <p>THR-92 | SOW requires "structured feedback from students and advisors." Blocked by data collection plan.</p>
+  </div>
+</div>
+
+<!-- SLIDE 5: Timeline Visualization -->
+<div class="slide" id="slide-timeline">
+  <div class="slide-num">C2A Timeline</div>
+  <h2>Project Timeline</h2>
+  <p>SOW term: February 1 - December 31, 2026. Today is March 31 (vertical red line).</p>
+  <hr>
+
+  <div class="gantt">
+    <div class="gantt-months">
+      <div class="gantt-month">Jan</div>
+      <div class="gantt-month">Feb</div>
+      <div class="gantt-month">Mar</div>
+      <div class="gantt-month">Apr</div>
+      <div class="gantt-month">May</div>
+      <div class="gantt-month">Jun</div>
+      <div class="gantt-month">Jul-Dec</div>
+    </div>
+
+    <div class="gantt-row">
+      <div class="gantt-label">Phase 0</div>
+      <div class="gantt-track">
+        <div class="gantt-bar done" style="left: 1%; width: 10%;">Jan 5 - Feb 5</div>
+        <div class="gantt-today" style="left: 24.7%;"></div>
+      </div>
+    </div>
+    <div class="gantt-row">
+      <div class="gantt-label">Phase 1</div>
+      <div class="gantt-track">
+        <div class="gantt-bar done" style="left: 8.5%; width: 4%;">Feb 1-15</div>
+        <div class="gantt-today" style="left: 24.7%;"></div>
+      </div>
+    </div>
+    <div class="gantt-row">
+      <div class="gantt-label">Phase 2: Core</div>
+      <div class="gantt-track">
+        <div class="gantt-bar done" style="left: 12.5%; width: 12%;">Feb 15 - Mar 30</div>
+        <div class="gantt-today" style="left: 24.7%;"></div>
+      </div>
+    </div>
+    <div class="gantt-row">
+      <div class="gantt-label">M1: $15K</div>
+      <div class="gantt-track">
+        <div class="gantt-bar done" style="left: 12.5%; width: 2%;">Paid</div>
+        <div class="gantt-today" style="left: 24.7%;"></div>
+      </div>
+    </div>
+    <div class="gantt-row">
+      <div class="gantt-label">M2: $15K</div>
+      <div class="gantt-track">
+        <div class="gantt-bar done" style="left: 24%; width: 2%;">Ready</div>
+        <div class="gantt-today" style="left: 24.7%;"></div>
+      </div>
+    </div>
+    <div class="gantt-row">
+      <div class="gantt-label">Coach View</div>
+      <div class="gantt-track">
+        <div class="gantt-bar deferred" style="left: 30%; width: 10%;">TBD (Deferred)</div>
+        <div class="gantt-today" style="left: 24.7%;"></div>
+      </div>
+    </div>
+    <div class="gantt-row">
+      <div class="gantt-label">Pilot Data</div>
+      <div class="gantt-track">
+        <div class="gantt-bar planned" style="left: 24%; width: 12%;">Apr - May</div>
+        <div class="gantt-today" style="left: 24.7%;"></div>
+      </div>
+    </div>
+    <div class="gantt-row">
+      <div class="gantt-label">White Paper</div>
+      <div class="gantt-track">
+        <div class="gantt-bar planned" style="left: 30%; width: 14%;">May - Jun</div>
+        <div class="gantt-today" style="left: 24.7%;"></div>
+      </div>
+    </div>
+    <div class="gantt-row">
+      <div class="gantt-label">Phase 3</div>
+      <div class="gantt-track">
+        <div class="gantt-bar planned" style="left: 25%; width: 75%;">Apr 1 - Dec 31</div>
+        <div class="gantt-today" style="left: 24.7%;"></div>
+      </div>
+    </div>
+    <div class="gantt-row">
+      <div class="gantt-label">M3: $20K</div>
+      <div class="gantt-track">
+        <div class="gantt-bar planned" style="left: 44%; width: 2%;">~Jun</div>
+        <div class="gantt-today" style="left: 24.7%;"></div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Milestone Timeline</h3>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot done"></div>
+      <div class="tl-date">Feb 15 (Complete)</div>
+      <div class="tl-title">M1: Phase 1 Complete</div>
+      <div class="tl-desc">Kickoff, infrastructure, FERPA architecture. <span class="badge badge-done">$15K Invoiced</span></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot done"></div>
+      <div class="tl-date">Mar 15 (Complete)</div>
+      <div class="tl-title">M2: Assessment MVP</div>
+      <div class="tl-desc">Production live, 15 students can take assessment, exports functional. <span class="badge badge-done">$15K Ready to Invoice</span></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot active"></div>
+      <div class="tl-date">Now (In Progress)</div>
+      <div class="tl-title">M3: Pilot Profiles</div>
+      <div class="tl-desc">Profile generation, DDx engine, mobile report, data collection plan. 45% complete.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot deferred"></div>
+      <div class="tl-date">TBD (Deferred)</div>
+      <div class="tl-title">M4: Coach View & Orientation</div>
+      <div class="tl-desc">Deferred from pilot scope. New date pending NLU alignment.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot future"></div>
+      <div class="tl-date">Target: June 2026</div>
+      <div class="tl-title">M5: Phase 3 + Final Payment</div>
+      <div class="tl-desc">Admin dashboard, scale to 750 profiles, Technical White Paper + usage report. <span class="badge badge-upcoming">$10K Trigger</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6: Payment Triggers -->
+<div class="slide" id="slide-payments">
+  <div class="slide-num">C2A Payments</div>
+  <h2>Payment Milestones</h2>
+  <p>Total contract value: $40,000 (signed Feb 16, 2026). Two of three milestones complete.</p>
+  <hr>
+
+  <div class="finding-card">
+    <h4>Milestone 1: Contract Execution + Phase 0/1 <span class="badge badge-done">$15,000 Invoiced</span></h4>
+    <p>Triggered by NLU acceptance of Phase 0 alignment summary and Phase 1 kickoff readiness.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>Milestone 2: Production Go-Live <span class="badge badge-done">$15,000 Ready</span></h4>
+    <p>Production C2A environment available for agreed cohorts. Exports and support processes functioning. SOW requires NLU written acceptance within 10 business days of notification.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>Milestone 3: Final Deliverables <span class="badge badge-upcoming">$10,000 Pending</span></h4>
+    <p>Requires NLU written acceptance of <strong>both</strong>:</p>
+    <ul>
+      <li>First Phase 3 usage/insights report</li>
+      <li>Technical White Paper (scoring methodology, construct definitions, reliability/validity evidence)</li>
+    </ul>
+    <p>See THR-254 for white paper scope. Target: June 2026.</p>
+  </div>
+
+  <blockquote>
+    <strong>Action:</strong> Send M2 completion notification to NLU to start the 10-business-day acceptance clock. Draft should reference SOW Section 4.2.
+  </blockquote>
+</div>
+
+<!-- SLIDE 7: Roadmap New Items -->
+<div class="slide" id="slide-roadmap">
+  <div class="slide-num">Linear Updates</div>
+  <h2>New Roadmap Items</h2>
+  <p>Issues created during today's SOW audit (March 31, 2026).</p>
+  <hr>
+
+  <table>
+    <thead>
+      <tr><th>Issue</th><th>Title</th><th>Milestone</th><th>Priority</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>THR-252</td><td>Define pilot data collection plan</td><td>M3</td><td><span class="badge badge-risk">High</span></td></tr>
+      <tr><td>THR-253</td><td>Document instrument IP status</td><td>-</td><td><span class="badge badge-deferred">Low</span></td></tr>
+      <tr><td>THR-254</td><td>Technical White Paper for NLU</td><td>M5</td><td><span class="badge badge-risk">High</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Existing Issues Retagged</h3>
+  <ul>
+    <li><strong>THR-92</strong> (feedback collection) moved to M3, blocked by THR-252</li>
+    <li><strong>THR-106</strong> (pilot findings memo) needs M5 milestone tag</li>
+    <li><strong>THR-17/18/19</strong> (licensing) to be superseded by THR-253</li>
+    <li><strong>THR-24</strong> (coach view) annotated as deferred</li>
+    <li><strong>THR-91</strong> (coach orientation) deferred with coach view</li>
+    <li><strong>30+ issues</strong> tagged to correct milestones for accurate progress tracking</li>
+  </ul>
+</div>
+
+<!-- SLIDE 7: Decisions Needed -->
+<div class="slide" id="slide-decisions">
+  <div class="slide-num">Decisions</div>
+  <h2>Decisions Needed Today</h2>
+  <hr>
+
+  <h3>C2A / NLU</h3>
+  <div class="finding-card">
+    <h4>1. New M4 target date for Coach View <span class="badge badge-risk">Decide</span></h4>
+    <p>When should we deliver THR-24 and THR-91? Options: fold into Phase 3 (summer), or set a specific April/May date. What does NLU expect?</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>2. NLU communication on scope changes <span class="badge badge-risk">Decide</span></h4>
+    <p>How do we message the coach view deferral? Position as "prioritizing student experience first" or request formal SOW amendment?</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>3. Case Study Framework <span class="badge badge-progress">Locate</span></h4>
+    <p>Elizabeth's Notion doc from March 18 ("NLU Pilot -- Case Study Framework & Evidence Protocol") is not in the shared workspace. Need to re-share and align on data collection plan.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>4. M2 acceptance notification <span class="badge badge-progress">Draft</span></h4>
+    <p>Production is live. Formally notify NLU per SOW Section 4.2 to start the 10-day acceptance window and trigger the $15K invoice.</p>
+  </div>
+
+  <h3>Cross-Product Resource Allocation</h3>
+  <div class="finding-card">
+    <h4>5. Redactor: Aptible deployment timeline <span class="badge badge-upcoming">Plan</span></h4>
+    <p>Architecture refactor is done. Soham needs to run GLiNER benchmarks, then deploy to Aptible. How much of Soham's time goes here vs C2A?</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>6. Bloom: Productize for Shayna <span class="badge badge-risk">Scope</span></h4>
+    <p>Bloom generates placement reports for Prepare to Bloom but is not a product yet. What does "product" mean here? Recurring billing? Self-serve? More customers? When do we invest time?</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>7. Technical White Paper timeline <span class="badge badge-upcoming">Plan</span></h4>
+    <p>THR-254 is the final $10K trigger. Needs pilot data (internal consistency) plus scoring documentation. Target June?</p>
+  </div>
+
+  <blockquote>
+    <strong>Next steps after this meeting:</strong> Update Linear milestones with agreed dates, draft NLU communication, schedule NLU check-in, scope Bloom productization.
+  </blockquote>
+</div>
+
+</div>
+
+<div class="index-bar">
+  <button class="idx-chip" onclick="goTo(0)">Overview</button>
+  <button class="idx-chip" onclick="goTo(1)">Products</button>
+  <button class="idx-chip" onclick="goTo(2)">Agenda</button>
+  <button class="idx-chip" onclick="goTo(3)">Delivered</button>
+  <button class="idx-chip" onclick="goTo(4)">Deferred</button>
+  <button class="idx-chip" onclick="goTo(5)">Timeline</button>
+  <button class="idx-chip" onclick="goTo(6)">Payments</button>
+  <button class="idx-chip" onclick="goTo(7)">New Issues</button>
+  <button class="idx-chip" onclick="goTo(8)">Decisions</button>
+  <div class="idx-arrows">
+    <button class="idx-arrow" onclick="prev()">&larr;</button>
+    <button class="idx-arrow" onclick="next()">&rarr;</button>
+  </div>
+</div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const chips = document.querySelectorAll('.idx-chip');
+const progress = document.getElementById('progress');
+function goTo(i) {
+  if (i < 0 || i >= slides.length) return;
+  slides[current].classList.remove('active');
+  chips[current].classList.remove('active');
+  current = i;
+  slides[current].classList.add('active');
+  chips[current].classList.add('active');
+  progress.style.width = ((current + 1) / slides.length * 100) + '%';
+}
+function next() { goTo(current + 1); }
+function prev() { goTo(current - 1); }
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+});
+slides[0].classList.add('active');
+chips[0].classList.add('active');
+progress.style.width = (1 / slides.length * 100) + '%';
+</script>
+</body>
+</html>
