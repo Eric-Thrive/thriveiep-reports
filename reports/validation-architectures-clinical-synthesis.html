@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Validation Architectures for Multi-Agent Clinical Document Synthesis</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #1B2A4A; --navy-light: #2A3F6B;
+    --coral: #FF6B6B; --coral-soft: #FF8E8E;
+    --sand: #F5E6CC; --sand-light: #FDF8F0;
+    --teal: #2B8A8A; --gold: #D4A843;
+    --slate: #4A5568; --warm-grey: #8B7E6A;
+  }
+  html, body { height: 100%; overflow: hidden; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--sand-light); color: var(--navy); }
+  .deck { display: flex; height: 100vh; overflow: hidden; }
+  .slide { min-width: 100vw; height: 100vh; overflow-y: auto; padding: 60px 80px 80px; display: none; flex-direction: column; }
+  .slide.active { display: flex; }
+  @media (max-width: 800px) { .slide { padding: 32px 24px 80px; } }
+  .index-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: var(--navy); display: flex; align-items: center; height: 52px; padding: 0 24px; gap: 6px; overflow-x: auto; }
+  .idx-chip { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.55); background: transparent; border: none; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+  .idx-chip:hover { color: #fff; background: var(--navy-light); }
+  .idx-chip.active { background: var(--coral); color: #fff; }
+  .idx-progress { position: fixed; bottom: 52px; left: 0; height: 3px; background: var(--coral); transition: width 0.3s; z-index: 101; }
+  .idx-arrows { margin-left: auto; display: flex; gap: 8px; }
+  .idx-arrow { width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--navy-light); color: #fff; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .idx-arrow:hover { background: var(--coral); }
+  .slide-num { font-size: 12px; font-weight: 700; color: var(--coral); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .slide h2 { font-size: 36px; font-weight: 800; color: var(--navy); line-height: 1.15; margin-bottom: 20px; max-width: 800px; }
+  .slide h3 { font-size: 22px; font-weight: 700; color: var(--navy); margin: 24px 0 10px; }
+  .slide h4 { font-size: 16px; font-weight: 700; color: var(--teal); margin: 16px 0 8px; }
+  .slide p { font-size: 16px; line-height: 1.8; margin-bottom: 14px; color: var(--slate); max-width: 760px; }
+  .slide ul, .slide ol { margin: 10px 0 16px 24px; font-size: 16px; line-height: 1.7; color: var(--slate); max-width: 760px; }
+  .slide li { margin-bottom: 8px; }
+  .slide strong { color: var(--navy); font-weight: 700; }
+  .slide em { color: var(--coral); font-style: normal; font-weight: 600; }
+  .slide blockquote { background: var(--sand); border-left: 4px solid var(--coral); padding: 18px 24px; border-radius: 0 12px 12px 0; margin: 18px 0; font-size: 15px; color: var(--navy); max-width: 760px; }
+  .slide hr { border: none; height: 2px; background: var(--sand); margin: 28px 0; max-width: 760px; }
+  .slide a { color: var(--teal); text-decoration: none; font-weight: 600; }
+  .slide a:hover { text-decoration: underline; }
+  .slide table { width: 100%; max-width: 800px; border-collapse: separate; border-spacing: 0; margin: 18px 0; border-radius: 12px; overflow: hidden; }
+  .slide th { background: var(--navy); color: #fff; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 14px 16px; text-align: left; }
+  .slide td { background: #fff; padding: 14px 16px; font-size: 14px; color: var(--slate); border-bottom: 1px solid var(--sand); }
+  .slide tr:last-child td { border-bottom: none; }
+  .badge { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+  .badge-critical { background: #FED7D7; color: #C53030; }
+  .badge-high { background: #FEFCBF; color: #975A16; }
+  .badge-moderate { background: #C6F6D5; color: #276749; }
+  .badge-low { background: #E2E8F0; color: #4A5568; }
+  .finding-card { background: #fff; border-radius: 12px; padding: 20px 24px; margin: 16px 0; max-width: 800px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .finding-card h4 { margin-top: 0; }
+  details { margin: 12px 0; max-width: 760px; }
+  details summary { cursor: pointer; font-weight: 600; color: var(--teal); padding: 8px 0; }
+  details[open] summary { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<div class="idx-progress" id="progress"></div>
+<div class="deck" id="deck">
+
+<div class="slide" id="slide-exec">
+  <div class="slide-num">Section 1 of 10</div>
+  <h2>How Do You Validate AI-Generated Clinical Reports?</h2>
+  <h4>Key Messages</h4>
+  <ul>
+    <li><strong>No one has built a complete validation system for multi-agent clinical report pipelines.</strong> The literature solves pieces (hallucination detection, constrained output, fact-checking) but no one has combined them. This is a genuine gap and a fundable research contribution.</li>
+    <li><strong>Five distinct validation approaches exist, each catching different error types.</strong> The best architecture layers them like Swiss cheese: no single layer catches everything, but stacked together they provide robust defense.</li>
+    <li><strong>The Bloom Report pipeline is already architecturally sound.</strong> Its design (free generation followed by post-hoc QA) matches the research consensus. Tight constraints during generation degrade clinical reasoning.</li>
+  </ul>
+  <hr>
+  <h4>What did we search?</h4>
+  <p>156 sources across 8 research channels: academic databases (Semantic Scholar, OpenAlex, Europe PMC, ERIC), implementation repositories (Papers With Code), community practitioner discussions, grey literature, and library documentation. This builds on a prior 51-paper session focused on energy-based models.</p>
+  <h4>What did we find?</h4>
+  <p>Clinical AI documentation hallucination rates range from 1.47% to 61.6%, yet only 7% of published studies do external validation (<a href="https://doi.org/10.3389/fdgth.2026.1761601" target="_blank">Khoruzhaya 2026</a>). Multi-agent LLM systems fail 41-87% of the time on benchmarks, with 79% of failures caused by specification and coordination problems, not model capability (<a href="https://arxiv.org/abs/2503.13657" target="_blank">Cemri 2025</a>). The value of multi-agent systems comes from validation and error-catching, not raw performance.</p>
+  <h4>What does it mean for us?</h4>
+  <p>The Bloom pipeline can serve as a proving ground for a layered validation architecture. Stage the build: lightweight guardrails now (ships with AE integration), a hybrid neuro-symbolic verifier for SBIR Phase I, and conformal prediction for Phase II. The architecture transfers directly to C2A psychometric report validation afterward.</p>
+</div>
+
+<div class="slide" id="slide-problem">
+  <div class="slide-num">Section 2 of 10</div>
+  <h2>The Problem: AI Reports That Sound Right but Get Things Wrong</h2>
+  <p>When an AI system synthesizes clinical documents into a placement recommendation, it can produce text that reads like an expert wrote it. But underneath that fluency, errors hide. A date gets shifted by a year. A diagnosis from one evaluator gets attributed to another. A placement is recommended without documenting that lower levels of care were tried first.</p>
+  <p>These are not hypothetical risks. The research quantifies them:</p>
+  <div class="finding-card">
+    <h4>Hallucination rates span two orders of magnitude</h4>
+    <p><span class="badge badge-critical">CRITICAL</span> Across published clinical AI summarization studies, hallucination rates range from 1.47% to 61.6%. The massive spread reflects inconsistent evaluation methods, not inconsistent AI. Most studies use only internal validation. (<a href="https://doi.org/10.3389/fdgth.2026.1761601" target="_blank">Khoruzhaya 2026, MEDAI-LLM-SUMM</a>)</p>
+  </div>
+  <div class="finding-card">
+    <h4>Multi-agent systems fail more often than you think</h4>
+    <p><span class="badge badge-high">HIGH</span> Analysis of 150+ tasks across 5 popular frameworks found 14 distinct failure modes in 3 categories. 42% are specification/design issues, 37% are inter-agent coordination failures, 21% are task verification failures. Single-pass end-of-pipeline QA catches only the last category. (<a href="https://arxiv.org/abs/2503.13657" target="_blank">Cemri 2025, kappa=0.88</a>)</p>
+  </div>
+  <div class="finding-card">
+    <h4>Cross-document contradictions are the hardest problem</h4>
+    <p><span class="badge badge-high">HIGH</span> Self-contradiction detection accuracy ranges from 0.006 to 0.456. Pairwise contradictions across documents are easier (F1=89.5% for self-contradictions, 70.9% for pairwise), but conditional contradictions remain largely unsolved. (<a href="https://arxiv.org/abs/2504.00180" target="_blank">arXiv 2504.00180</a>; <a href="https://arxiv.org/abs/2510.03418" target="_blank">LegalWiz</a>)</p>
+  </div>
+</div>
+
+<div class="slide" id="slide-approaches">
+  <div class="slide-num">Section 3 of 10</div>
+  <h2>Five Families of Validation Architecture</h2>
+  <p>The literature reveals five distinct approaches to validating AI-generated reports. Each catches different error types. No single approach is sufficient alone.</p>
+  <table>
+    <thead>
+      <tr><th>Approach</th><th>What It Catches</th><th>Key Papers</th><th>Maturity</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Schema/Grammar Constraints</strong></td><td>Malformed outputs, missing fields, wrong types</td><td>XGrammar (1.6K stars), Outlines (13.6K stars), CRANE 2025</td><td><span class="badge badge-moderate">PRODUCTION</span></td></tr>
+      <tr><td><strong>Factual Consistency</strong></td><td>Hallucinated facts, source-summary divergence</td><td>FActScore (1,147 cites), FactCC (308 stars), SelfCheckGPT (810 cites)</td><td><span class="badge badge-moderate">PRODUCTION</span></td></tr>
+      <tr><td><strong>Uncertainty Quantification</strong></td><td>Low-confidence claims, domain-dependent reliability</td><td>Semantic Entropy (Nature, 1,041 cites), ConU, Conformal LM</td><td><span class="badge badge-high">RESEARCH</span></td></tr>
+      <tr><td><strong>Neuro-Symbolic Verification</strong></td><td>Logic constraint violations AND semantic quality</td><td>NSVIF (Z3), Gorenshtein 2026, Hybrid-Code v2</td><td><span class="badge badge-high">EMERGING</span></td></tr>
+      <tr><td><strong>Contradiction Handling</strong></td><td>Cross-document conflicts, partial truths</td><td>Dempster-Shafer (Xiao 2024), Paraconsistent Logic (Allen 2025), ArgRAG</td><td><span class="badge badge-critical">EARLY</span></td></tr>
+    </tbody>
+  </table>
+  <blockquote>
+    <strong>The CRANE finding (2025) is architecturally critical:</strong> Overly restrictive constraints during generation degrade the LLM's reasoning quality. Structural constraints must be applied at generation time, but semantic validation must happen post-generation. This validates Bloom's existing pattern of free synthesis (Agent 3) followed by post-hoc QA (Agent 4).
+  </blockquote>
+</div>
+
+<div class="slide" id="slide-approach-a">
+  <div class="slide-num">Section 4 of 10</div>
+  <h2>Approach A: Swiss Cheese Guardrails</h2>
+  <p><span class="badge badge-moderate">2-4 WEEKS</span> Stack multiple lightweight validation layers. No single layer catches everything, but combined they provide ~60-70% error reduction.</p>
+  <h3>The Layers</h3>
+  <ol>
+    <li><strong>JSON Schema validation</strong> on all agent outputs (Bloom already has 4 schemas defined)</li>
+    <li><strong>Age/date math verification</strong> (deterministic: compute from DOB, compare to stated ages)</li>
+    <li><strong>Source attribution checker</strong> (every clinical claim must cite a source document)</li>
+    <li><strong>Formatting regex</strong> (no em-dashes, abbreviation policy, ICD-10 codes present)</li>
+    <li><strong>Section completeness</strong> (all 10 required report sections present)</li>
+    <li><strong>Word count enforcement</strong> (target 1,200 words)</li>
+    <li><strong>LLM-as-judge</strong> with structured rubric for narrative quality</li>
+  </ol>
+  <h3>Evidence</h3>
+  <p>The "Swiss Cheese Model" reference architecture (<a href="https://arxiv.org/abs/2408.02205" target="_blank">arXiv 2408.02205</a>) formalizes this pattern: multi-layered guardrails across quality attributes, pipeline stages, and artifacts. Practitioner consensus confirms that Pydantic/schema validation eliminates more bugs than prompt engineering, model upgrades, or retry logic combined (corroborated across 4 independent practitioner reports, Q1 2026).</p>
+  <blockquote><strong>Verdict:</strong> Not grant-worthy on its own, but the right foundation. Every subsequent approach builds on this base.</blockquote>
+</div>
+
+<div class="slide" id="slide-approach-b">
+  <div class="slide-num">Section 5 of 10</div>
+  <h2>Approach B: Hybrid Neuro-Symbolic Verifier</h2>
+  <p><span class="badge badge-high">6-10 WEEKS</span> Split validation into logic constraints (handled by a Z3 SMT solver) and semantic constraints (handled by LLM-as-judge). A solver aggregates the verdict. Catches ~85% of errors.</p>
+  <h3>The NSVIF Architecture</h3>
+  <p>The closest existing system is <em>NSVIF</em> (Neuro-Symbolic Verification on Instruction Following, <a href="https://arxiv.org/abs/2601.17789" target="_blank">arXiv 2601.17789</a>). Its three-agent design maps directly to what Bloom needs:</p>
+  <ul>
+    <li><strong>Formulation Agent:</strong> Extracts verifiable constraints from the report as a Z3 program</li>
+    <li><strong>Checking Agent:</strong> Classifies each constraint as logic (run Z3) or semantic (run LLM-as-judge)</li>
+    <li><strong>Solver Agent:</strong> Z3 aggregates logic verdicts + semantic scores into a composite pass/fail</li>
+  </ul>
+  <h3>What Z3 Can Check in Bloom Reports</h3>
+  <table>
+    <thead><tr><th>Constraint Type</th><th>Example</th><th>Verification</th></tr></thead>
+    <tbody>
+      <tr><td>Date ordering</td><td>Admission date before discharge date</td><td>Z3 integer arithmetic</td></tr>
+      <tr><td>Age math</td><td>DOB + event date = stated age</td><td>Z3 date arithmetic</td></tr>
+      <tr><td>Placement sequence</td><td>No overlapping admissions</td><td>Z3 interval constraints</td></tr>
+      <tr><td>Citation completeness</td><td>Every F.I.D. claim has a source</td><td>Z3 set membership</td></tr>
+      <tr><td>BBI compliance</td><td>If residential recommended, lower levels documented</td><td>Z3 implication</td></tr>
+    </tbody>
+  </table>
+  <h3>Evidence</h3>
+  <p>Z3+LLM integration is no longer exotic. Multiple independent implementations converge on this pattern: neuro-symbolic compliance at 86%+ correctness (<a href="https://arxiv.org/abs/2601.06181" target="_blank">arXiv 2601.06181</a>), ConstraintLLM with 2x improvement over baselines (EMNLP 2025), and Hybrid-Code v2 achieving zero-hallucination clinical ICD-10 coding via symbolic veto.</p>
+  <p>A PRISMA systematic review (<a href="https://doi.org/10.21203/rs.3.rs-8902022/v1" target="_blank">Gorenshtein 2026</a>) found that across four neuro-symbolic integration approaches, gains increase with symbolic authority. Full veto power produces the strongest clinical results.</p>
+  <blockquote><strong>Grant framing:</strong> "Neuro-symbolic validation for AI-generated clinical placement profiles." Novel enough for SBIR Phase I. Concrete deliverables. Measurable error reduction.</blockquote>
+</div>
+
+<div class="slide" id="slide-approach-c">
+  <div class="slide-num">Section 6 of 10</div>
+  <h2>Approach C: Atomic Fact Verification + Semantic Entropy</h2>
+  <p><span class="badge badge-high">8-12 WEEKS</span> Decompose the report into atomic clinical claims, verify each against source documents, and flag uncertain claims using statistical methods. Catches ~90% of errors with formal guarantees.</p>
+  <h3>The Pipeline</h3>
+  <ol>
+    <li><strong>Decompose:</strong> Break the synthesis into atomic facts using FActScore methodology (<a href="https://doi.org/10.48550/arXiv.2305.14251" target="_blank">Min 2023, 1,147 citations</a>). Each fact is a single verifiable claim: "Student was admitted to Vive on 2022-06-15," "Dr. Smith diagnosed ASD," "3 incidents/week of emotional dysregulation."</li>
+    <li><strong>Verify:</strong> Check each atomic fact against the reconciled timeline and source extractions. FactCC (<a href="https://github.com/salesforce/factCC" target="_blank">Salesforce, 308 stars</a>) provides a trained classifier for this.</li>
+    <li><strong>Quantify uncertainty:</strong> Sample Agent 3 multiple times and compute semantic entropy (<a href="https://doi.org/10.1038/s41586-024-07421-0" target="_blank">Farquhar 2024, Nature, 1,041 citations</a>) over generated claims. High entropy means low confidence, which means flag for human review.</li>
+    <li><strong>Conformal filtering:</strong> Apply calibrated confidence threshold with coverage guarantee. Conditional validity (<a href="https://arxiv.org/abs/2406.09714" target="_blank">Cherian/Candes 2024</a>) adjusts thresholds per report section because different clinical domains have different reliability profiles.</li>
+  </ol>
+  <blockquote><strong>Practical constraint:</strong> Conformal prediction has zero practitioner production adoption as of Q1 2026, despite solid academic results. The gap between paper and production is real. Calibration data (labeled correct/incorrect clinical reports) is required.</blockquote>
+</div>
+
+<div class="slide" id="slide-approach-d">
+  <div class="slide-num">Section 7 of 10</div>
+  <h2>Approach D: Full Neuro-Symbolic Stack</h2>
+  <p><span class="badge badge-critical">16+ WEEKS</span> Combine Probabilistic Soft Logic (PSL) for soft constraints, Z3 for hard constraints, conformal prediction for coverage guarantees, and Dempster-Shafer theory for multi-source evidence fusion.</p>
+  <h3>What Each Layer Adds</h3>
+  <ul>
+    <li><strong>Agent 2 evolution (Dempster-Shafer):</strong> Replace manual source hierarchy rules with formal evidence combination. Each source document gets a reliability weight. Conflicts are resolved mathematically. (<a href="https://doi.org/10.1016/j.inffus.2023.102082" target="_blank">Xiao 2024</a>)</li>
+    <li><strong>Agent 3 evolution (PSL):</strong> Encode clinical rules as weighted first-order logic with continuous truth values [0,1]. Example: <code>IF residential_recommended AND no_failed_lower_levels THEN invalid [weight=0.95]</code>. (<a href="https://doi.org/10.48550/arxiv.1505.04406" target="_blank">Bach 2015, 129 citations</a>)</li>
+    <li><strong>Agent 4 evolution:</strong> Z3 for hard constraints + conformal prediction for statistical guarantees + semantic entropy for uncertainty detection</li>
+    <li><strong>Cross-agent (Allen's interval algebra):</strong> Temporal knowledge graph for timeline representation with formal consistency checking. (<a href="https://doi.org/10.1093/jamia/ocaa126" target="_blank">Li 2020, Time Event Ontology</a>)</li>
+  </ul>
+  <h3>The C2A Transfer</h3>
+  <p>PSL is particularly natural for psychometric assessment validation:</p>
+  <p><code>IF band(WorkingMemory) >= 4 AND band(ProcessingSpeed) &lt;= 2 THEN narrative_mentions(discrepancy) [weight=0.9]</code></p>
+  <ul>
+    <li>Bloom extraction &#8594; C2A scoring pipeline</li>
+    <li>Bloom reconciliation &#8594; C2A cross-instrument consistency (12 skills x 14 instruments)</li>
+    <li>Bloom synthesis &#8594; C2A DDx interpretation engine</li>
+    <li>Bloom validation &#8594; C2A profile summary validation</li>
+  </ul>
+  <blockquote><strong>Grant framing:</strong> "Integrated neuro-symbolic validation architecture for multi-agent clinical document synthesis." Phase II story. Publishable. Strongest formal guarantees.</blockquote>
+</div>
+
+<div class="slide" id="slide-comparison">
+  <div class="slide-num">Section 8 of 10</div>
+  <h2>Head-to-Head: Build Cost vs. Error Reduction</h2>
+  <table>
+    <thead>
+      <tr><th>Approach</th><th>Build Time</th><th>Error Reduction</th><th>Guarantees?</th><th>Grant-Worthy?</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>A: Swiss Cheese</strong></td><td>2-4 weeks</td><td>~60-70%</td><td>No</td><td>No</td></tr>
+      <tr><td><strong>B: Hybrid Z3+LLM</strong></td><td>6-10 weeks</td><td>~85%</td><td>Logic only</td><td>Yes (Phase I)</td></tr>
+      <tr><td><strong>C: FActScore + Entropy</strong></td><td>8-12 weeks</td><td>~90%</td><td>Statistical</td><td>Yes (Phase I/II)</td></tr>
+      <tr><td><strong>D: Full Stack</strong></td><td>16+ weeks</td><td>~95%</td><td>Logic + Statistical</td><td>Yes (Phase II)</td></tr>
+    </tbody>
+  </table>
+  <h3>The Staged Path</h3>
+  <div class="finding-card">
+    <h4>Stage 1: Now (ship with AE integration)</h4>
+    <p>Implement Approach A. Engineering, not research. JSON schema validation, deterministic checks, and an LLM-as-judge with a structured rubric. Makes Bloom Reports production-usable.</p>
+  </div>
+  <div class="finding-card">
+    <h4>Stage 2: SBIR Phase I (6-10 weeks)</h4>
+    <p>Implement Approach B. The NSVIF-style hybrid verifier is novel enough for a Phase I proposal and produces measurable error reduction data against Stage 1 as baseline.</p>
+  </div>
+  <div class="finding-card">
+    <h4>Stage 3: SBIR Phase II (research contribution)</h4>
+    <p>Add elements of C and D. Conformal prediction and PSL are the publishable contributions. Phase II funds calibration data collection and C2A transfer learning.</p>
+  </div>
+  <h3>Key Practitioner Insight</h3>
+  <p>A single reasoning model as LLM-as-judge outperforms multi-agent judge configurations for clinical EHR evaluation (ICC=0.818 vs 0.768 for multi-agent). The judge model matters less than reference quality. (<a href="https://doi.org/10.1038/s41746-025-02005-2" target="_blank">Croxford 2025, npj Digital Medicine</a>)</p>
+</div>
+
+<div class="slide" id="slide-funding">
+  <div class="slide-num">Section 9 of 10</div>
+  <h2>Funding Landscape: This Is Fundable</h2>
+  <p>No existing SBIR awards target AI validation for educational or clinical report generation. Confirmed opportunity gap with minimal competition.</p>
+  <table>
+    <thead><tr><th>Program</th><th>Fit</th><th>Angle</th></tr></thead>
+    <tbody>
+      <tr><td><strong>ED/IES SBIR Phase IB</strong></td><td><span class="badge badge-moderate">5/5</span></td><td>"New AI component added to existing research-based edtech product."</td></tr>
+      <tr><td><strong>NIH HHS (waiver-eligible)</strong></td><td><span class="badge badge-moderate">4/5</span></td><td>AI for clinical documentation quality. Heterogeneous data integration.</td></tr>
+      <tr><td><strong>NSF SBIR Trustworthy AI</strong></td><td><span class="badge badge-moderate">4/5</span></td><td>Validation guarantees for AI-generated clinical narratives.</td></tr>
+      <tr><td><strong>FIPSE</strong></td><td><span class="badge badge-moderate">4/5</span></td><td>$169M pool for postsecondary innovation. C2A assessment angle.</td></tr>
+      <tr><td><strong>NIST SBIR</strong></td><td><span class="badge badge-low">3/5</span></td><td>AI safety/validation tools.</td></tr>
+    </tbody>
+  </table>
+  <h3>Grant Narrative</h3>
+  <p>The problem statement writes itself: clinical AI hallucination rates span 1.47-61.6%, only 7% of studies do external validation, and no integrated validation system exists for multi-agent clinical document synthesis. The product (Bloom Reports) is a working 4-agent pipeline with real clinical users. The research contribution is a layered neuro-symbolic validation architecture with formal guarantees.</p>
+  <p>SBIR reauthorization (S. 3971) passed both chambers March 2026. This secures the funding pipeline for several years.</p>
+</div>
+
+<div class="slide" id="slide-recommendations">
+  <div class="slide-num">Section 10 of 10</div>
+  <h2>What This Means for Us</h2>
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">CRITICAL</span> Bloom's Agent 4 single-pass QA is insufficient</h4>
+    <p>MAST taxonomy shows single-pass end-of-pipeline verification misses 79% of multi-agent failures (specification + coordination errors occur upstream). Evolve Agent 4 into a multi-layer validation pipeline with checks at each agent handoff.</p>
+  </div>
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">CRITICAL</span> Keep source hierarchy rules for contradiction resolution</h4>
+    <p>Automated cross-document contradiction detection remains largely unsolved (accuracy 0.006-0.456). Bloom's manual source hierarchy is pragmatically stronger than any published automated approach. Do not replace this with AI.</p>
+  </div>
+  <div class="finding-card">
+    <h4><span class="badge badge-high">HIGH</span> Use a single reasoning model for Agent 4</h4>
+    <p>Clinical LLM-as-judge research shows a single reasoning model achieves higher inter-rater reliability (ICC=0.818) than multi-agent judge configurations. Ground it in source documents, not prompt-only evaluation.</p>
+  </div>
+  <div class="finding-card">
+    <h4><span class="badge badge-high">HIGH</span> Add deterministic checks for date/age math now</h4>
+    <p>Simple deterministic validators (compute age from DOB, verify date ordering, check placement sequence) catch a large class of factual errors with zero LLM cost. Add these before the LLM judge runs.</p>
+  </div>
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">MODERATE</span> Structure Agent 4 output for future conformal calibration</h4>
+    <p>Have Agent 4 output per-claim confidence scores (0-1) alongside pass/fail verdicts. This creates the calibration dataset needed for Stage 3 without changing the current workflow.</p>
+  </div>
+  <h3>Open Questions</h3>
+  <ul>
+    <li>Do we have enough labeled Bloom Protocol cases to calibrate conformal prediction, or is data collection part of the grant scope?</li>
+    <li>Should Agent 4 use a different model family than Agent 3 to avoid self-enhancement bias?</li>
+    <li>Is the SBIR timeline near-term (1-3 months) or exploratory (6+ months)?</li>
+    <li>Kona/EBM: real company, credible team, no benchmarks. Park and monitor?</li>
+  </ul>
+  <hr>
+  <p><strong>Research date:</strong> April 1, 2026 | <strong>Sources:</strong> 156 across 8 channels | <strong>Prior session:</strong> 51 papers on EBM validation (March 30, 2026)</p>
+  <p><strong>Key references:</strong> Farquhar 2024 (Nature, 1,041 cites) | FActScore (1,147 cites) | LLM-as-Judge (7,615 cites) | NSVIF (Z3 hybrid) | Cemri 2025 (14 MAS failure modes) | Khoruzhaya 2026 (clinical hallucination rates)</p>
+</div>
+
+</div>
+<div class="index-bar">
+  <button class="idx-chip" onclick="goTo(0)">Executive Summary</button>
+  <button class="idx-chip" onclick="goTo(1)">The Problem</button>
+  <button class="idx-chip" onclick="goTo(2)">Five Approaches</button>
+  <button class="idx-chip" onclick="goTo(3)">A: Swiss Cheese</button>
+  <button class="idx-chip" onclick="goTo(4)">B: Z3 Hybrid</button>
+  <button class="idx-chip" onclick="goTo(5)">C: FActScore+Entropy</button>
+  <button class="idx-chip" onclick="goTo(6)">D: Full Stack</button>
+  <button class="idx-chip" onclick="goTo(7)">Comparison</button>
+  <button class="idx-chip" onclick="goTo(8)">Funding</button>
+  <button class="idx-chip" onclick="goTo(9)">Recommendations</button>
+  <div class="idx-arrows">
+    <button class="idx-arrow" onclick="prev()">&larr;</button>
+    <button class="idx-arrow" onclick="next()">&rarr;</button>
+  </div>
+</div>
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const chips = document.querySelectorAll('.idx-chip');
+const progress = document.getElementById('progress');
+function goTo(i) {
+  if (i < 0 || i >= slides.length) return;
+  slides[current].classList.remove('active');
+  chips[current].classList.remove('active');
+  current = i;
+  slides[current].classList.add('active');
+  chips[current].classList.add('active');
+  progress.style.width = ((current + 1) / slides.length * 100) + '%';
+}
+function next() { goTo(current + 1); }
+function prev() { goTo(current - 1); }
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+});
+slides[0].classList.add('active');
+chips[0].classList.add('active');
+progress.style.width = (1 / slides.length * 100) + '%';
+</script>
+</body>
+</html>
