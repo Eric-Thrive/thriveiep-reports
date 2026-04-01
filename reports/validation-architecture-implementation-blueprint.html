@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Validation Architecture &amp; Implementation Blueprint for Multi-Agent Clinical Document Synthesis</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #1B2A4A; --navy-light: #2A3F6B;
+    --coral: #FF6B6B; --coral-soft: #FF8E8E;
+    --sand: #F5E6CC; --sand-light: #FDF8F0;
+    --teal: #2B8A8A; --gold: #D4A843;
+    --slate: #4A5568; --warm-grey: #8B7E6A;
+  }
+  html, body { height: 100%; overflow: hidden; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--sand-light); color: var(--navy); }
+  .deck { display: flex; height: 100vh; overflow: hidden; }
+  .slide { min-width: 100vw; height: 100vh; overflow-y: auto; padding: 60px 80px 80px; display: none; flex-direction: column; }
+  .slide.active { display: flex; }
+  @media (max-width: 800px) { .slide { padding: 32px 24px 80px; } }
+  .index-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: var(--navy); display: flex; align-items: center; height: 52px; padding: 0 24px; gap: 6px; overflow-x: auto; }
+  .idx-chip { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.55); background: transparent; border: none; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+  .idx-chip:hover { color: #fff; background: var(--navy-light); }
+  .idx-chip.active { background: var(--coral); color: #fff; }
+  .idx-progress { position: fixed; bottom: 52px; left: 0; height: 3px; background: var(--coral); transition: width 0.3s; z-index: 101; }
+  .idx-arrows { margin-left: auto; display: flex; gap: 8px; }
+  .idx-arrow { width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--navy-light); color: #fff; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .idx-arrow:hover { background: var(--coral); }
+  .slide-num { font-size: 12px; font-weight: 700; color: var(--coral); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .slide h2 { font-size: 36px; font-weight: 800; color: var(--navy); line-height: 1.15; margin-bottom: 20px; max-width: 800px; }
+  .slide h3 { font-size: 22px; font-weight: 700; color: var(--navy); margin: 24px 0 10px; }
+  .slide h4 { font-size: 16px; font-weight: 700; color: var(--teal); margin: 16px 0 8px; }
+  .slide p { font-size: 16px; line-height: 1.8; margin-bottom: 14px; color: var(--slate); max-width: 760px; }
+  .slide ul, .slide ol { margin: 10px 0 16px 24px; font-size: 16px; line-height: 1.7; color: var(--slate); max-width: 760px; }
+  .slide li { margin-bottom: 8px; }
+  .slide strong { color: var(--navy); font-weight: 700; }
+  .slide em { color: var(--coral); font-style: normal; font-weight: 600; }
+  .slide blockquote { background: var(--sand); border-left: 4px solid var(--coral); padding: 18px 24px; border-radius: 0 12px 12px 0; margin: 18px 0; font-size: 15px; color: var(--navy); max-width: 760px; }
+  .slide hr { border: none; height: 2px; background: var(--sand); margin: 28px 0; max-width: 760px; }
+  .slide a { color: var(--teal); text-decoration: none; font-weight: 600; }
+  .slide a:hover { text-decoration: underline; }
+  .slide table { width: 100%; max-width: 800px; border-collapse: separate; border-spacing: 0; margin: 18px 0; border-radius: 12px; overflow: hidden; }
+  .slide th { background: var(--navy); color: #fff; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 14px 16px; text-align: left; }
+  .slide td { background: #fff; padding: 14px 16px; font-size: 14px; color: var(--slate); border-bottom: 1px solid var(--sand); }
+  .slide tr:last-child td { border-bottom: none; }
+  .badge { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+  .badge-critical { background: #FED7D7; color: #C53030; }
+  .badge-high { background: #FEFCBF; color: #975A16; }
+  .badge-moderate { background: #C6F6D5; color: #276749; }
+  .badge-low { background: #E2E8F0; color: #4A5568; }
+  .finding-card { background: #fff; border-radius: 12px; padding: 20px 24px; margin: 16px 0; max-width: 800px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .finding-card h4 { margin-top: 0; }
+  details { margin: 12px 0; max-width: 760px; }
+  details summary { cursor: pointer; font-weight: 600; color: var(--teal); padding: 8px 0; }
+  details[open] summary { margin-bottom: 8px; }
+  .bib-section { margin: 18px 0 8px; }
+  .bib-section h4 { font-size: 15px; font-weight: 700; color: var(--navy); margin: 18px 0 6px; border-bottom: 2px solid var(--sand); padding-bottom: 6px; }
+  .bib-entry { font-size: 13px; line-height: 1.6; color: var(--slate); margin-bottom: 8px; max-width: 800px; }
+  .bib-entry a { font-weight: 500; }
+  .bib-meta { font-size: 11px; color: var(--warm-grey); }
+</style>
+</head>
+<body>
+<div class="idx-progress" id="progress"></div>
+<div class="deck" id="deck">
+
+<!-- ========== SLIDE 1: EXECUTIVE SUMMARY ========== -->
+<div class="slide" id="slide-exec">
+  <div class="slide-num">Section 1 of 14</div>
+  <h2>Validation Architecture &amp; Implementation Blueprint for Multi-Agent Clinical Document Synthesis</h2>
+  <h4>Key Messages</h4>
+  <ul>
+    <li><strong>No one has built a complete validation system for multi-agent clinical report pipelines.</strong> This is a fundable gap. Production-ready tools exist for 4 of 7 validation categories. The remaining 3 gaps (contradiction detection, temporal consistency, black-box uncertainty quantification) are where SBIR novelty lives.</li>
+    <li><strong>Bloom's existing architecture (free generation + post-hoc QA) matches research consensus.</strong> Tight constraints during generation degrade clinical reasoning quality (CRANE 2025). Validate after, not during.</li>
+    <li><strong>Stage 1 build: ~3-4.5 weeks total.</strong> That is ~2.5-3.5 weeks of non-coding work (schema design, rubric creation, threshold calibration) plus 3-5 days of coding with agentic tools.</li>
+  </ul>
+  <hr>
+  <h4>What did we search?</h4>
+  <p>204 sources across 2 sessions and 8 research channels: academic databases (Semantic Scholar, OpenAlex, Europe PMC, ERIC), implementation repositories (Papers With Code), community practitioner discussions, grey literature, and library documentation. Builds on a prior 51-paper session focused on energy-based models (March 30, 2026).</p>
+  <h4>What did we find?</h4>
+  <p>Clinical AI hallucination rates range from 1.47% to 61.6%, yet only 7% of published studies do external validation. <em>MiniCheck</em> (a 770-million-parameter model, small enough for a single GPU) achieves GPT-4-level fact-checking accuracy at 400x lower cost. Z3, the leading formal logic solver, is available in both Python and TypeScript (npm package via WebAssembly). Cross-model judging is mandatory because Claude shows ~25% self-preference bias when evaluating its own outputs.</p>
+  <h4>What it means</h4>
+  <p>Build Stage 1 now with <em>Instructor</em> + <em>MiniCheck</em> + Claude-as-judge (cross-model). Stage 2 (Z3 hybrid verifier) for SBIR Phase I. Stage 3 (conformal prediction + PSL) for SBIR Phase II. The tool stack is ready. The non-coding work (rubric design, constraint formalization, calibration) is the bottleneck, not the code.</p>
+</div>
+
+<!-- ========== SLIDE 2: THE PROBLEM ========== -->
+<div class="slide" id="slide-problem">
+  <div class="slide-num">Section 2 of 14</div>
+  <h2>The Problem: AI Reports That Sound Right but Get Things Wrong</h2>
+  <p>When an AI system synthesizes clinical documents into a placement recommendation, it can produce text that reads like an expert wrote it. But underneath that fluency, errors hide. A date gets shifted by a year. A diagnosis from one evaluator gets attributed to another. A placement is recommended without documenting that lower levels of care were tried first.</p>
+  <p>These are not hypothetical risks. The research quantifies them:</p>
+  <div class="finding-card">
+    <h4>Hallucination rates span two orders of magnitude</h4>
+    <p><span class="badge badge-critical">CRITICAL</span> Across published clinical AI summarization studies, hallucination rates range from 1.47% to 61.6%. The massive spread reflects inconsistent evaluation methods, not inconsistent AI. Most studies use only internal validation. (<a href="https://doi.org/10.3389/fdgth.2026.1761601" target="_blank">Khoruzhaya 2026, MEDAI-LLM-SUMM</a>)</p>
+  </div>
+  <div class="finding-card">
+    <h4>Multi-agent systems fail more often than you think</h4>
+    <p><span class="badge badge-high">HIGH</span> Analysis of 150+ tasks across 5 popular frameworks found 14 distinct failure modes in 3 categories. 42% are specification/design issues, 37% are inter-agent coordination failures, 21% are task verification failures. Single-pass end-of-pipeline QA catches only the last category. (<a href="https://arxiv.org/abs/2503.13657" target="_blank">Cemri 2025, kappa=0.88</a>)</p>
+  </div>
+  <div class="finding-card">
+    <h4>MiniCheck proves cost-effective detection is achievable</h4>
+    <p><span class="badge badge-moderate">PRODUCTION</span> MiniCheck-FT5, a 770-million-parameter model (small enough to run on a single GPU), achieves GPT-4-level accuracy on fact-checking benchmarks at 400x lower cost. This makes real-time claim verification economically viable for production pipelines. (<a href="https://doi.org/10.48550/arXiv.2404.10774" target="_blank">Tang 2024, EMNLP 2024, 197 citations</a>)</p>
+  </div>
+  <div class="finding-card">
+    <h4>Cross-document contradictions are the hardest problem</h4>
+    <p><span class="badge badge-high">HIGH</span> Self-contradiction detection accuracy ranges from 0.006 to 0.456. Pairwise contradictions across documents are easier (F1=89.5% for self-contradictions, 70.9% for pairwise), but conditional contradictions remain largely unsolved. (<a href="https://arxiv.org/abs/2504.00180" target="_blank">arXiv 2504.00180</a>; <a href="https://arxiv.org/abs/2510.03418" target="_blank">LegalWiz</a>)</p>
+  </div>
+  <div class="finding-card">
+    <h4>False positive multiplication limits guard stacking</h4>
+    <p><span class="badge badge-high">HIGH</span> Stacking 5 independent guards each at 90% accuracy yields a 41% system false positive rate (1 - 0.9^5 = 0.41). To stay below 5% system FPR, each guard needs 99%+ accuracy. Design fewer, better checks rather than many mediocre ones.</p>
+  </div>
+</div>
+
+<!-- ========== SLIDE 3: FIVE FAMILIES ========== -->
+<div class="slide" id="slide-families">
+  <div class="slide-num">Section 3 of 14</div>
+  <h2>Five Families of Validation Architecture</h2>
+  <p>The literature reveals five distinct approaches to validating AI-generated reports. Each catches different error types. No single approach is sufficient alone. "Maturity" here means whether production-quality, installable tools exist today.</p>
+  <table>
+    <thead>
+      <tr><th>Approach</th><th>What It Catches</th><th>Key Tools</th><th>Maturity</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Schema/Grammar Constraints</strong></td><td>Malformed outputs, missing fields, wrong types</td><td>Claude native (GA Jan 2026), Instructor (12.6K stars), Outlines (13.6K stars)</td><td><span class="badge badge-moderate">PRODUCTION</span></td></tr>
+      <tr><td><strong>Factual Consistency</strong></td><td>Hallucinated facts, source-summary divergence</td><td>MiniCheck (770M, 203 stars), AlignScore (355M, 156 stars), FActScore (426 stars)</td><td><span class="badge badge-moderate">PRODUCTION</span></td></tr>
+      <tr><td><strong>Uncertainty Quantification</strong></td><td>Low-confidence claims, domain-dependent reliability</td><td>Semantic Entropy (needs model internals), MAPIE (1.5K stars, no NLG support)</td><td><span class="badge badge-high">RESEARCH</span></td></tr>
+      <tr><td><strong>Neuro-Symbolic Verification</strong></td><td>Logic constraint violations AND semantic quality</td><td>Z3 (12.1K stars, Python + TypeScript WASM), PSL (312 stars, last updated 2024)</td><td><span class="badge badge-high">EMERGING</span></td></tr>
+      <tr><td><strong>Contradiction Handling</strong></td><td>Cross-document conflicts, partial truths</td><td>DocNLI (69 stars, unmaintained since 2021), no cross-document tool exists</td><td><span class="badge badge-critical">EARLY</span></td></tr>
+    </tbody>
+  </table>
+  <blockquote>
+    <strong>The CRANE finding (2025) is architecturally critical:</strong> Overly restrictive constraints during generation degrade the LLM's reasoning quality (<a href="https://arxiv.org/abs/2502.09061" target="_blank">arXiv 2502.09061</a>). Structural constraints must be applied at generation time, but semantic validation must happen post-generation. This validates Bloom's existing pattern of free synthesis (Agent 3) followed by post-hoc QA (Agent 4).
+  </blockquote>
+  <blockquote>
+    <strong>Claude native structured outputs</strong> (GA January 2026) commoditize basic JSON schema enforcement. But they do not replace <em>Instructor</em> for complex nested Pydantic validation with automatic retry and validation error feedback. Use Claude native for simple schemas, Instructor for anything with cross-field rules.
+  </blockquote>
+</div>
+
+<!-- ========== SLIDE 4: STAGE 1 GUARDRAILS ========== -->
+<div class="slide" id="slide-stage1">
+  <div class="slide-num">Section 4 of 14</div>
+  <h2>Stage 1: Swiss Cheese Guardrails</h2>
+  <p><span class="badge badge-moderate">3-4.5 WEEKS</span> Stack multiple lightweight validation layers. No single layer catches everything, but combined they provide ~60-70% error reduction. The "Swiss Cheese Model" (<a href="https://arxiv.org/abs/2408.02205" target="_blank">arXiv 2408.02205</a>) formalizes this pattern: multi-layered guardrails across quality attributes, pipeline stages, and artifacts.</p>
+  <h3>The Layers</h3>
+  <table>
+    <thead><tr><th>Layer</th><th>Tool</th><th>Stars</th><th>Claude Support</th><th>Dev Time</th></tr></thead>
+    <tbody>
+      <tr><td>JSON Schema</td><td>Claude native structured outputs</td><td>--</td><td>Native</td><td>1-2 days</td></tr>
+      <tr><td>Pydantic + retry</td><td>Instructor</td><td>12.6K</td><td>Full</td><td>2-3 days</td></tr>
+      <tr><td>Fact checking</td><td>MiniCheck (770M)</td><td>203</td><td>Black-box</td><td>3-5 days</td></tr>
+      <tr><td>Source attribution</td><td>Custom regex</td><td>--</td><td>N/A</td><td>1-2 days</td></tr>
+      <tr><td>Narrative quality</td><td>Claude-as-judge (cross-model)</td><td>--</td><td>Native</td><td>3-5 days</td></tr>
+      <tr><td>Age/date math</td><td>Custom deterministic</td><td>--</td><td>N/A</td><td>0.5 days</td></tr>
+      <tr><td>Formatting</td><td>Custom regex (existing)</td><td>--</td><td>N/A</td><td>Done</td></tr>
+    </tbody>
+  </table>
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">CRITICAL</span> Cross-model judging is mandatory</h4>
+    <p>Claude 3.5 Sonnet shows ~25% self-preference bias when evaluating its own outputs. GPT-4 shows ~10%. Use a different model family (GPT-4o or Gemini Pro) to judge Claude-generated clinical narratives. Position bias also flips verdicts in 10-30% of pairwise comparisons, so randomize response order in evaluation prompts.</p>
+  </div>
+  <div class="finding-card">
+    <h4><span class="badge badge-high">HIGH</span> False positive multiplication constrains architecture</h4>
+    <p>Stacking 5 guards at 90% accuracy = 41% system false positive rate. To stay under 5% system FPR, each individual guard needs 99%+ accuracy. Practical implication: design 3-4 high-accuracy checks rather than 7+ mediocre ones. Sequence them from cheapest/fastest (regex) to most expensive (LLM-as-judge).</p>
+  </div>
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">STAGE 1 TOTAL</span></h4>
+    <p><strong>Non-coding work:</strong> ~2.5-3.5 weeks (schema design, rubric creation, bias testing, threshold calibration, integration testing). <strong>Coding:</strong> 3-5 days with agentic tools. The non-coding work is the bottleneck.</p>
+  </div>
+  <blockquote><strong>Verdict:</strong> Not grant-worthy on its own, but the right foundation. Every subsequent approach builds on this base. Practitioner consensus confirms that Pydantic/schema validation eliminates more bugs than prompt engineering, model upgrades, or retry logic combined.</blockquote>
+</div>
+
+<!-- ========== SLIDE 5: STAGE 1 TOOLING DEEP-DIVE ========== -->
+<div class="slide" id="slide-tools">
+  <div class="slide-num">Section 5 of 14</div>
+  <h2>Stage 1: Tooling Deep-Dive</h2>
+  <h3>Structured Output Tools</h3>
+  <table>
+    <thead><tr><th>Tool</th><th>Stars</th><th>Claude</th><th>Language</th><th>Best For</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Claude native</strong></td><td>--</td><td>Native</td><td>TS/Python</td><td>Basic JSON schema enforcement</td></tr>
+      <tr><td><strong>Instructor</strong></td><td>12.6K</td><td>Full</td><td>Python+TS</td><td>Pydantic validation + retry</td></tr>
+      <tr><td><strong>Guardrails AI</strong></td><td>6.6K</td><td>Full</td><td>Python</td><td>Modular validators, Hub ecosystem</td></tr>
+      <tr><td><strong>Outlines</strong></td><td>13.6K</td><td>Via API</td><td>Python</td><td>Self-hosted constrained decoding</td></tr>
+      <tr><td><strong>SGLang</strong></td><td>25.3K</td><td>Self-hosted</td><td>Python</td><td>High-throughput serving</td></tr>
+      <tr><td><strong>NeMo Guardrails</strong></td><td>2.8K</td><td>Config</td><td>Python</td><td>Dialog flow control (Colang DSL)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Fact-Checking Tools</h3>
+  <table>
+    <thead><tr><th>Tool</th><th>Size</th><th>Accuracy</th><th>Cost vs GPT-4</th><th>Best For</th></tr></thead>
+    <tbody>
+      <tr><td><strong>MiniCheck</strong></td><td>770M</td><td>GPT-4 level</td><td>400x cheaper</td><td>Claim verification</td></tr>
+      <tr><td><strong>AlignScore</strong></td><td>355M</td><td>Beats ChatGPT on 22 datasets</td><td>500x cheaper</td><td>Lightweight checking</td></tr>
+      <tr><td><strong>FActScore</strong></td><td>LLM-based</td><td>Gold standard</td><td>1x (uses LLM)</td><td>Atomic fact analysis</td></tr>
+      <tr><td><strong>SelfCheckGPT</strong></td><td>Any LLM</td><td>Good, fails on confident hallucinations</td><td>N+1 calls</td><td>Black-box only</td></tr>
+      <tr><td><strong>RAGAS</strong></td><td>LLM-based</td><td>Moderate (simple queries)</td><td>1x</td><td>RAG pipeline eval</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Observability Platforms (recommended: Arize Phoenix)</h3>
+  <table>
+    <thead><tr><th>Platform</th><th>Cost</th><th>OSS?</th><th>Claude Support</th><th>Key Feature</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Arize Phoenix</strong></td><td>Free</td><td>Yes (EL2)</td><td>Native</td><td>OpenTelemetry, self-hostable</td></tr>
+      <tr><td><strong>Braintrust</strong></td><td>$249/mo</td><td>Partial</td><td>Yes</td><td>7 SDKs, Stripe/Notion use</td></tr>
+      <tr><td><strong>DeepEval</strong></td><td>$19.99/seat</td><td>Yes (14K stars)</td><td>Yes</td><td>14+ metrics, pytest</td></tr>
+      <tr><td><strong>LangSmith</strong></td><td>$39/seat</td><td>No</td><td>Via LangChain</td><td>LangChain native</td></tr>
+      <tr><td><strong>Galileo</strong></td><td>$100/mo</td><td>No</td><td>Yes</td><td>Luna-2 fine-tuned models</td></tr>
+    </tbody>
+  </table>
+
+  <blockquote><strong>Critical production caveat:</strong> "Constrained decoding degrades instruction-tuned model performance on generation tasks" (Schall &amp; de Melo, RANLP 2025). Use structured output for metadata routing; allow free-form text for clinical narratives. Do not force the clinical synthesis agent to output JSON mid-generation.</blockquote>
+</div>
+
+<!-- ========== SLIDE 6: STAGE 2 Z3 HYBRID ========== -->
+<div class="slide" id="slide-stage2">
+  <div class="slide-num">Section 6 of 14</div>
+  <h2>Stage 2: Hybrid Z3+LLM Verifier</h2>
+  <p><span class="badge badge-high">6-9 WEEKS</span> Split validation into two kinds: logic constraints (handled by Z3, a solver that checks whether logical statements can all be true at the same time) and semantic constraints (handled by an LLM-as-judge, which evaluates meaning and quality). A solver aggregates the verdict. Catches ~85% of errors.</p>
+  <h3>The NSVIF Architecture</h3>
+  <p>The closest existing system is <em>NSVIF</em> (Neuro-Symbolic Verification on Instruction Following, <a href="https://arxiv.org/abs/2601.17789" target="_blank">arXiv 2601.17789</a>). Its three-agent design maps directly to what Bloom needs:</p>
+  <ul>
+    <li><strong>Formulation Agent:</strong> Extracts verifiable constraints from the report as a Z3 program</li>
+    <li><strong>Checking Agent:</strong> Classifies each constraint as logic (run Z3) or semantic (run LLM-as-judge)</li>
+    <li><strong>Solver Agent:</strong> Z3 aggregates logic verdicts + semantic scores into a composite pass/fail</li>
+  </ul>
+  <h3>What Z3 Can Check in Bloom Reports</h3>
+  <table>
+    <thead><tr><th>Constraint Type</th><th>Example</th><th>Verification</th></tr></thead>
+    <tbody>
+      <tr><td>Date ordering</td><td>Admission date before discharge date</td><td>Z3 integer arithmetic</td></tr>
+      <tr><td>Age math</td><td>DOB + event date = stated age</td><td>Z3 date arithmetic</td></tr>
+      <tr><td>Placement sequence</td><td>No overlapping admissions</td><td>Z3 interval constraints</td></tr>
+      <tr><td>Citation completeness</td><td>Every F.I.D. claim has a source</td><td>Z3 set membership</td></tr>
+      <tr><td>BBI compliance</td><td>If residential recommended, lower levels documented</td><td>Z3 implication</td></tr>
+    </tbody>
+  </table>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">NEW</span> Z3 TypeScript: Node.js integration without Python microservice</h4>
+    <p>The npm package <code>z3-solver</code> uses WebAssembly to run Z3 directly in Node.js. This means Bloom's existing TypeScript codebase can embed formal verification without a Python sidecar. Install with <code>npm install z3-solver</code>.</p>
+  </div>
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">NEW</span> Z3+LLM proven in clinical domains</h4>
+    <p>Singh et al. (2026) autoformalize clinical findings from radiology reports and verify diagnostic claims against a knowledge base. Winston et al. (2026) translate natural-language policies into SMT-LIB-2.0 constraints checked at runtime. Both demonstrate the Z3+LLM pattern works on real clinical text, not just toy examples.</p>
+  </div>
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">NEW</span> Prometheus 2: open-weight judge at ~300x savings</h4>
+    <p>Prometheus (7B parameters, 1K GitHub stars) achieves 0.897 Pearson correlation with human evaluators using custom rubrics. At ~300x cheaper than GPT-4, it offers a self-hosted alternative for the semantic constraint judge. Caveat: fine-tuned judges generalize poorly outside their training domain, so clinical rubric calibration is essential.</p>
+  </div>
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">NEW</span> Neuro-symbolic gains: +21.9% median in clinical apps</h4>
+    <p>A PRISMA systematic review (<a href="https://doi.org/10.21203/rs.3.rs-8902022/v1" target="_blank">Gorenshtein 2026</a>) found that across four neuro-symbolic integration patterns, gains increase with symbolic authority. Iterative validation (where the logic solver can veto the LLM) produces the strongest clinical results.</p>
+  </div>
+
+  <h3>Stage 2 Development Estimate</h3>
+  <table>
+    <thead><tr><th>Component</th><th>Tool</th><th>Dev Time (non-coding)</th></tr></thead>
+    <tbody>
+      <tr><td>Hard constraints</td><td>Z3 (Python or TS)</td><td>2-3 weeks (constraint formalization)</td></tr>
+      <tr><td>Soft constraints</td><td>Prometheus 2 or Claude-as-judge</td><td>1-2 weeks (rubric + calibration)</td></tr>
+      <tr><td>Atomic decomposition</td><td>FActScore</td><td>1 week</td></tr>
+      <tr><td>Verdict aggregation</td><td>Custom Z3</td><td>1 week</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Stage 2 total:</strong> ~5-7 weeks non-coding + 1-2 weeks coding</p>
+  <blockquote><strong>Grant framing:</strong> "Neuro-symbolic validation for AI-generated clinical placement profiles." Novel enough for SBIR Phase I. Concrete deliverables. Measurable error reduction against Stage 1 baseline.</blockquote>
+</div>
+
+<!-- ========== SLIDE 7: STAGE 3 FULL STACK ========== -->
+<div class="slide" id="slide-stage3">
+  <div class="slide-num">Section 7 of 14</div>
+  <h2>Stage 3: Conformal Prediction + PSL</h2>
+  <p><span class="badge badge-critical">12-19 WEEKS</span> Add statistical guarantees (conformal prediction) and soft constraint reasoning (Probabilistic Soft Logic) to the Z3 foundation. This is the SBIR Phase II research contribution.</p>
+  <h3>Honest Tooling Assessment</h3>
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">CRITICAL</span> All strong UQ methods need logit access</h4>
+    <p><strong>Uncertainty Quantification (UQ)</strong> means measuring how confident the AI is in each claim. The best methods (semantic entropy, Semantic Entropy Probes, COPU) all require access to the model's internal probability scores ("logits"). Claude's API does not expose logits. This is the single biggest blocker for Stage 3. <em>SelfCheckGPT</em> is the best available proxy for API-only UQ, but it is expensive (N+1 API calls per check) and fails on confidently stated hallucinations.</p>
+  </div>
+  <div class="finding-card">
+    <h4><span class="badge badge-high">HIGH</span> MAPIE: mature but wrong domain</h4>
+    <p><em>MAPIE</em> (1.5K stars) provides conformal prediction (a method that gives statistical coverage guarantees like "95% of predictions will contain the true answer") for classification and regression. It works with scikit-learn. But it has <strong>no support for open-ended text generation</strong>. COPU (2025) is the first practical conformal prediction method for NLG, but remains a research prototype requiring logit access.</p>
+  </div>
+  <div class="finding-card">
+    <h4><span class="badge badge-high">HIGH</span> PSL: powerful concept, maintenance risk</h4>
+    <p><em>Probabilistic Soft Logic</em> (PSL, 312 stars, <a href="https://doi.org/10.1613/jair.5238" target="_blank">Bach 2015, 129 citations</a>) encodes rules as weighted first-order logic with continuous truth values [0,1]. Example: <code>IF residential_recommended AND no_failed_lower_levels THEN invalid [weight=0.95]</code>. But PSL is Java/Groovy, last commit was 2024, and it is not actively maintained.</p>
+  </div>
+  <div class="finding-card">
+    <h4><span class="badge badge-low">LOW</span> Conformal prediction: zero production adoption</h4>
+    <p>As of Q1 2026, zero practitioner production adoption reports exist for conformal prediction in NLG, despite solid academic results at EMNLP 2025, ICLR 2025, and NeurIPS 2024. The gap between paper and production is real. Calibration data (labeled correct/incorrect clinical reports) must be collected as part of the grant scope.</p>
+  </div>
+
+  <h3>The C2A Transfer</h3>
+  <p>PSL is particularly natural for psychometric assessment validation:</p>
+  <p><code>IF band(WorkingMemory) &gt;= 4 AND band(ProcessingSpeed) &lt;= 2 THEN narrative_mentions(discrepancy) [weight=0.9]</code></p>
+  <ul>
+    <li>Bloom extraction &#8594; C2A scoring pipeline</li>
+    <li>Bloom reconciliation &#8594; C2A cross-instrument consistency (12 skills x 14 instruments)</li>
+    <li>Bloom synthesis &#8594; C2A DDx interpretation engine</li>
+    <li>Bloom validation &#8594; C2A profile summary validation</li>
+  </ul>
+
+  <h3>What Each Layer Adds</h3>
+  <ul>
+    <li><strong>Agent 2 evolution (Dempster-Shafer):</strong> Replace manual source hierarchy rules with formal evidence combination. Each source document gets a reliability weight. Conflicts are resolved mathematically. (<a href="https://doi.org/10.1016/j.inffus.2023.102082" target="_blank">Xiao 2024</a>)</li>
+    <li><strong>Agent 4 evolution:</strong> Z3 for hard constraints + conformal prediction for statistical guarantees + semantic entropy for uncertainty detection</li>
+    <li><strong>Cross-agent (Allen's interval algebra):</strong> Temporal knowledge graph for timeline representation with formal consistency checking. (<a href="https://doi.org/10.1093/jamia/ocaa126" target="_blank">Li 2020, Time Event Ontology</a>)</li>
+  </ul>
+  <p><strong>Stage 3 total:</strong> ~8-12 weeks non-coding + 2-3 weeks coding + calibration data collection (4-6 weeks)</p>
+  <blockquote><strong>Grant framing:</strong> "Integrated neuro-symbolic validation architecture for multi-agent clinical document synthesis." Phase II story. Publishable. Strongest formal guarantees. But requires calibration data that does not yet exist.</blockquote>
+</div>
+
+<!-- ========== SLIDE 8: GAPS = NOVELTY ========== -->
+<div class="slide" id="slide-gaps">
+  <div class="slide-num">Section 8 of 14</div>
+  <h2>Tooling Gaps = SBIR Novelty</h2>
+  <p>Four validation categories have no production-ready tools. These gaps define the research contribution for SBIR. Everything else is integration engineering.</p>
+  <table>
+    <thead><tr><th>Gap</th><th>Current Best Tool</th><th>Why Insufficient</th><th>Opportunity</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Cross-document contradiction</strong></td>
+        <td>DocNLI (69 stars, 2021)</td>
+        <td>Unmaintained, no clinical adaptation, sentence-level only</td>
+        <td>Bloom's source hierarchy is pragmatically stronger. Formalizing it with Z3 rules is novel.</td>
+      </tr>
+      <tr>
+        <td><strong>Temporal consistency</strong></td>
+        <td>None (Z3 can encode)</td>
+        <td>No clinical timeline validator exists at all</td>
+        <td>Allen interval algebra + Z3 for placement timeline checking. First clinical implementation.</td>
+      </tr>
+      <tr>
+        <td><strong>Multi-agent consistency</strong></td>
+        <td>None</td>
+        <td>No tool validates cross-agent output consistency</td>
+        <td>Bloom's 4-agent pipeline is the proving ground. Inter-agent schema contracts are novel.</td>
+      </tr>
+      <tr>
+        <td><strong>Black-box UQ for API LLMs</strong></td>
+        <td>SelfCheckGPT (608 stars)</td>
+        <td>Expensive (N+1 calls), fails on confident hallucinations</td>
+        <td>FActScore decomposition + sampling is best workaround. Formal UQ awaits Anthropic logprob roadmap.</td>
+      </tr>
+    </tbody>
+  </table>
+  <blockquote><strong>"These 4 gaps define the SBIR research contribution. Everything else is integration engineering."</strong> A Phase I proposal targeting cross-document contradiction + temporal consistency using Z3 formalization has no existing competition in the literature. The Phase II extension to conformal prediction and soft logic adds the publishable academic contribution.</blockquote>
+  <h3>What This Means Practically</h3>
+  <ul>
+    <li><strong>Stage 1</strong> uses only production-ready tools. No research risk. Ship it.</li>
+    <li><strong>Stage 2</strong> applies a production tool (Z3) to a novel domain (clinical report validation). Moderate research risk, high grant value.</li>
+    <li><strong>Stage 3</strong> requires fundamental tool development (conformal prediction for NLG, PSL port to JS). High research risk, highest grant value.</li>
+  </ul>
+</div>
+
+<!-- ========== SLIDE 9: TIMELINE ========== -->
+<div class="slide" id="slide-timeline">
+  <div class="slide-num">Section 9 of 14</div>
+  <h2>Development Timeline</h2>
+
+  <h3>Stage 1: Swiss Cheese (Now)</h3>
+  <table>
+    <thead><tr><th>Activity</th><th>Non-Coding Time</th></tr></thead>
+    <tbody>
+      <tr><td>Schema design (refine 4 existing schemas)</td><td>2-3 days</td></tr>
+      <tr><td>MiniCheck microservice architecture</td><td>2 days</td></tr>
+      <tr><td>Clinical rubric design (BBI, F.I.D., LOC)</td><td>3-5 days</td></tr>
+      <tr><td>Cross-model judge bias testing</td><td>2-3 days</td></tr>
+      <tr><td>Threshold calibration</td><td>3-5 days</td></tr>
+      <tr><td>Integration testing with real reports</td><td>3-5 days</td></tr>
+      <tr><td>Coding (with agentic tools)</td><td>3-5 days</td></tr>
+      <tr><td><strong>Total</strong></td><td><strong>~3-4.5 weeks</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Stage 2: Z3 Hybrid (SBIR Phase I)</h3>
+  <table>
+    <thead><tr><th>Activity</th><th>Non-Coding Time</th></tr></thead>
+    <tbody>
+      <tr><td>Clinical constraint formalization (SMT)</td><td>2-3 weeks</td></tr>
+      <tr><td>Judge rubric design + calibration</td><td>1-2 weeks</td></tr>
+      <tr><td>FActScore integration testing</td><td>1 week</td></tr>
+      <tr><td>Error reduction measurement vs Stage 1</td><td>1 week</td></tr>
+      <tr><td>Coding (with agentic tools)</td><td>1-2 weeks</td></tr>
+      <tr><td><strong>Total</strong></td><td><strong>~6-9 weeks</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Stage 3: Conformal + PSL (SBIR Phase II)</h3>
+  <table>
+    <thead><tr><th>Activity</th><th>Non-Coding Time</th></tr></thead>
+    <tbody>
+      <tr><td>Calibration data collection (labeled reports)</td><td>4-6 weeks</td></tr>
+      <tr><td>PSL rule encoding (port from Java)</td><td>2-3 weeks</td></tr>
+      <tr><td>Conformal prediction adaptation</td><td>2-3 weeks</td></tr>
+      <tr><td>C2A transfer validation</td><td>2-4 weeks</td></tr>
+      <tr><td>Coding</td><td>2-3 weeks</td></tr>
+      <tr><td><strong>Total</strong></td><td><strong>~12-19 weeks</strong></td></tr>
+    </tbody>
+  </table>
+
+  <blockquote><strong>Key insight:</strong> The bottleneck is not code. Agentic coding tools compress implementation time by 3-5x. The bottleneck is clinical domain expertise: designing rubrics, formalizing constraints in SMT, calibrating thresholds against real reports, and collecting labeled data. This is where the SBIR budget goes.</blockquote>
+</div>
+
+<!-- ========== SLIDE 10: COMPARISON ========== -->
+<div class="slide" id="slide-comparison">
+  <div class="slide-num">Section 10 of 14</div>
+  <h2>Head-to-Head: Build Cost vs. Error Reduction</h2>
+  <table>
+    <thead>
+      <tr><th>Approach</th><th>Build Time</th><th>Error Reduction</th><th>Guarantees</th><th>Grant-Worthy</th><th>Key Tools</th><th>Platform</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>A: Swiss Cheese</strong></td><td>3-4.5 weeks</td><td>~60-70%</td><td>No</td><td>No</td><td>Instructor, MiniCheck, Claude-judge</td><td>Arize Phoenix</td></tr>
+      <tr><td><strong>B: Z3 Hybrid</strong></td><td>6-9 weeks</td><td>~85%</td><td>Logic</td><td>Yes (Phase I)</td><td>Z3, FActScore, Prometheus 2</td><td>Arize Phoenix</td></tr>
+      <tr><td><strong>C+D: Full Stack</strong></td><td>12-19 weeks</td><td>~90-95%</td><td>Logic+Statistical</td><td>Yes (Phase II)</td><td>MAPIE, PSL, Dempster-Shafer</td><td>Custom</td></tr>
+    </tbody>
+  </table>
+  <h3>The Staged Path</h3>
+  <div class="finding-card">
+    <h4>Stage 1: Now (ship with AE integration)</h4>
+    <p>Implement Approach A. Engineering, not research. JSON schema validation, deterministic checks, MiniCheck for fact-checking, and a cross-model LLM-as-judge with a structured rubric. Makes Bloom Reports production-usable. Observable via Arize Phoenix (free, self-hosted).</p>
+  </div>
+  <div class="finding-card">
+    <h4>Stage 2: SBIR Phase I (6-9 weeks)</h4>
+    <p>Implement Approach B. The NSVIF-style hybrid verifier is novel enough for a Phase I proposal. Z3 TypeScript bindings keep the implementation in Node.js. Measurable error reduction data against Stage 1 baseline is the deliverable.</p>
+  </div>
+  <div class="finding-card">
+    <h4>Stage 3: SBIR Phase II (research contribution)</h4>
+    <p>Add conformal prediction and PSL. These are the publishable contributions. Phase II funds calibration data collection and C2A transfer learning. Requires Anthropic to release logprob/logit access for strongest UQ methods.</p>
+  </div>
+  <h3>Key Practitioner Insight</h3>
+  <p>A single reasoning model as LLM-as-judge outperforms multi-agent judge configurations for clinical EHR evaluation (ICC=0.818 vs 0.768 for multi-agent). The judge model matters less than reference quality. (<a href="https://doi.org/10.1038/s41746-025-02005-2" target="_blank">Croxford 2025, npj Digital Medicine</a>)</p>
+</div>
+
+<!-- ========== SLIDE 11: FUNDING ========== -->
+<div class="slide" id="slide-funding">
+  <div class="slide-num">Section 11 of 14</div>
+  <h2>Funding Landscape: This Is Fundable</h2>
+  <p>No existing SBIR awards target AI validation for educational or clinical report generation. Confirmed opportunity gap with minimal competition.</p>
+  <table>
+    <thead><tr><th>Program</th><th>Fit</th><th>Angle</th></tr></thead>
+    <tbody>
+      <tr><td><strong>ED/IES SBIR Phase IB</strong></td><td><span class="badge badge-moderate">5/5</span></td><td>"New AI component added to existing research-based edtech product." Stage 2 Z3 verifier + Instructor + MiniCheck stack.</td></tr>
+      <tr><td><strong>NIH HHS (waiver-eligible)</strong></td><td><span class="badge badge-moderate">4/5</span></td><td>AI for clinical documentation quality. Z3+LLM verification with FActScore decomposition.</td></tr>
+      <tr><td><strong>NSF SBIR Trustworthy AI</strong></td><td><span class="badge badge-moderate">4/5</span></td><td>Validation guarantees for AI-generated clinical narratives. Conformal prediction + PSL.</td></tr>
+      <tr><td><strong>FIPSE</strong></td><td><span class="badge badge-moderate">4/5</span></td><td>$169M pool for postsecondary innovation. C2A assessment angle with PSL transfer.</td></tr>
+      <tr><td><strong>NIST SBIR</strong></td><td><span class="badge badge-low">3/5</span></td><td>AI safety/validation tools. Arize Phoenix + custom validators.</td></tr>
+    </tbody>
+  </table>
+  <h3>Grant Narrative</h3>
+  <p>The problem statement writes itself: clinical AI hallucination rates span 1.47-61.6%, only 7% of studies do external validation, and no integrated validation system exists for multi-agent clinical document synthesis. The product (Bloom Reports) is a working 4-agent pipeline with real clinical users. The research contribution is a layered neuro-symbolic validation architecture with formal guarantees.</p>
+  <p>The tooling landscape strengthens the proposal: production-ready components (Instructor, MiniCheck, Z3, Arize Phoenix) demonstrate feasibility while the 4 tooling gaps (contradiction, temporal, multi-agent, black-box UQ) define genuine research contributions. Reviewers want to see that you know what exists and what does not.</p>
+  <p>SBIR reauthorization (S. 3971) passed both chambers March 2026. This secures the funding pipeline for several years.</p>
+</div>
+
+<!-- ========== SLIDE 12: RECOMMENDATIONS ========== -->
+<div class="slide" id="slide-recommendations">
+  <div class="slide-num">Section 12 of 14</div>
+  <h2>Recommendations: Concrete Next Steps</h2>
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">CRITICAL</span> Build Stage 1 now with Instructor + MiniCheck + cross-model Claude-as-judge</h4>
+    <p>The tool stack is mature. Instructor (12.6K stars) handles Pydantic validation with retry. MiniCheck (770M) handles fact-checking at 400x less than GPT-4. Use GPT-4o or Gemini Pro (not Claude) as the narrative quality judge to avoid 25% self-preference bias. Ship this with the next AE integration.</p>
+  </div>
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">CRITICAL</span> Keep source hierarchy rules for contradiction resolution</h4>
+    <p>Automated cross-document contradiction detection remains largely unsolved (accuracy 0.006-0.456). DocNLI (69 stars) is unmaintained since 2021. Bloom's manual source hierarchy is pragmatically stronger than any published automated approach. Do not replace this with AI. Instead, formalize it as Z3 constraints in Stage 2.</p>
+  </div>
+  <div class="finding-card">
+    <h4><span class="badge badge-high">HIGH</span> Use Z3 TypeScript bindings for Stage 2</h4>
+    <p>The npm package <code>z3-solver</code> (WASM) runs Z3 directly in Node.js. This keeps the Stage 2 verifier in Bloom's existing TypeScript codebase without a Python microservice. Proven in two 2026 clinical papers (Singh, Winston).</p>
+  </div>
+  <div class="finding-card">
+    <h4><span class="badge badge-high">HIGH</span> Use Arize Phoenix for validation pipeline observability</h4>
+    <p>Free, self-hosted (Elastic License 2.0), OpenTelemetry-native, 50+ instrumentations. Best for teams wanting combined observability and evaluation without vendor lock-in. Claude support is native.</p>
+  </div>
+  <div class="finding-card">
+    <h4><span class="badge badge-high">HIGH</span> Structure Agent 4 output with per-claim confidence scores now</h4>
+    <p>Have Agent 4 output per-claim confidence scores (0-1) alongside pass/fail verdicts. This creates the calibration dataset needed for Stage 3 conformal prediction without changing the current workflow. Start collecting labeled data before you need it.</p>
+  </div>
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">MODERATE</span> Use different model family for judging</h4>
+    <p>Claude shows ~25% self-preference bias; GPT-4 shows ~10%. For highest reliability, use GPT-4o or Gemini Pro to evaluate Claude-generated outputs. Also randomize response order to mitigate 10-30% position bias in pairwise comparisons.</p>
+  </div>
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">MODERATE</span> Track Anthropic logprob/logit roadmap</h4>
+    <p>Logit access would unlock semantic entropy (Nature, 1,041 citations), SEPs, and COPU for true uncertainty quantification. Without it, SelfCheckGPT (expensive, unreliable on confident hallucinations) is the only option. This is the difference between Stage 3 being feasible or aspirational.</p>
+  </div>
+  <hr>
+  <p><strong>Research date:</strong> April 1, 2026 | <strong>Sources:</strong> 204 across 2 sessions | <strong>Prior session:</strong> 51 papers on EBM validation (March 30, 2026)</p>
+</div>
+
+<!-- ========== SLIDE 13: BIBLIOGRAPHY ========== -->
+<div class="slide" id="slide-bibliography">
+  <div class="slide-num">Section 13 of 14</div>
+  <h2>Bibliography (204 Sources)</h2>
+
+  <div class="bib-section">
+    <h4>1. Structured Output Validation (9)</h4>
+    <div class="bib-entry">Guardrails AI (2023). Open-source validation framework. GitHub: guardrails-ai/guardrails. <span class="bib-meta">6,618 stars.</span> <a href="https://github.com/guardrails-ai/guardrails" target="_blank">GitHub</a></div>
+    <div class="bib-entry">Liu, J. (2023). Instructor: Structured Outputs for LLMs. GitHub: 567-labs/instructor. <span class="bib-meta">12,666 stars. 3M+ monthly PyPI downloads.</span> <a href="https://github.com/567-labs/instructor" target="_blank">GitHub</a></div>
+    <div class="bib-entry">Rebedea, T. et al. (2023). "NeMo Guardrails: A Toolkit for Controllable and Safe LLM Applications with Programmable Rails." EMNLP 2023 Demo. <span class="bib-meta">285 citations.</span> DOI: <a href="https://doi.org/10.48550/arXiv.2310.10501" target="_blank">10.48550/arXiv.2310.10501</a></div>
+    <div class="bib-entry">Willard, B.T. &amp; Louf, R. (2023). "Efficient Guided Generation for Large Language Models." <span class="bib-meta">98 citations. Outlines: 13,610 stars.</span> DOI: <a href="https://doi.org/10.48550/arXiv.2307.09702" target="_blank">10.48550/arXiv.2307.09702</a>. <a href="https://github.com/outlines-dev/outlines" target="_blank">GitHub</a></div>
+    <div class="bib-entry">Zheng, L. et al. (2023). "SGLang: Efficient Execution of Structured Language Model Programs." NeurIPS 2024. <span class="bib-meta">663 citations. 25,312 stars.</span> DOI: <a href="https://doi.org/10.52202/079017-2000" target="_blank">10.52202/079017-2000</a>. <a href="https://github.com/sgl-project/sglang" target="_blank">GitHub</a></div>
+    <div class="bib-entry">Dong, Y. et al. (2024). "XGrammar: Flexible and Efficient Structured Generation Engine for Large Language Models." <span class="bib-meta">40 citations. 1,609 stars.</span> DOI: <a href="https://doi.org/10.48550/arXiv.2411.15100" target="_blank">10.48550/arXiv.2411.15100</a>. <a href="https://github.com/mlc-ai/xgrammar" target="_blank">GitHub</a></div>
+    <div class="bib-entry">Agarwal, B. et al. (2025). "Think Inside the JSON: Reinforcement Strategy for Strict LLM Schema Adherence." <span class="bib-meta">14 citations.</span> DOI: <a href="https://doi.org/10.48550/arXiv.2502.14905" target="_blank">10.48550/arXiv.2502.14905</a></div>
+    <div class="bib-entry">Geng, S. et al. (2025). "JSONSchemaBench: A Rigorous Benchmark of Structured Outputs for Language Models." <span class="bib-meta">36 citations.</span> <a href="https://github.com/guidance-ai/jsonschemabench" target="_blank">GitHub</a></div>
+    <div class="bib-entry">Schall, M. &amp; de Melo, G. (2025). "The Hidden Cost of Structure: How Constrained Decoding Affects Language Model Performance." RANLP 2025. <span class="bib-meta">2 citations.</span> DOI: <a href="https://doi.org/10.26615/978-954-452-098-4-124" target="_blank">10.26615/978-954-452-098-4-124</a></div>
+  </div>
+
+  <div class="bib-section">
+    <h4>2. Factual Consistency Checking (9)</h4>
+    <div class="bib-entry">Kryscinski, W. et al. (2019). "Evaluating the Factual Consistency of Abstractive Text Summarization." EMNLP 2020. <span class="bib-meta">902 citations. FactCC: 308 stars.</span> DOI: <a href="https://doi.org/10.18653/v1/2020.emnlp-main.750" target="_blank">10.18653/v1/2020.emnlp-main.750</a>. <a href="https://github.com/salesforce/factCC" target="_blank">GitHub</a></div>
+    <div class="bib-entry">Min, S. et al. (2023). "FActScore: Fine-grained Atomic Evaluation of Factual Precision in Long Form Text Generation." EMNLP 2023. <span class="bib-meta">1,147 citations. 426 stars.</span> DOI: <a href="https://doi.org/10.48550/arXiv.2305.14251" target="_blank">10.48550/arXiv.2305.14251</a></div>
+    <div class="bib-entry">Manakul, P. et al. (2023). "SelfCheckGPT: Zero-Resource Black-Box Hallucination Detection." EMNLP 2023. <span class="bib-meta">810 citations. 608 stars.</span> DOI: <a href="https://doi.org/10.48550/arXiv.2303.08896" target="_blank">10.48550/arXiv.2303.08896</a>. <a href="https://github.com/potsawee/selfcheckgpt" target="_blank">GitHub</a></div>
+    <div class="bib-entry">Shahul, E.S. et al. (2023). "RAGAs: Automated Evaluation of Retrieval Augmented Generation." EACL 2024. <span class="bib-meta">557 citations. 13,191 stars.</span> DOI: <a href="https://doi.org/10.48550/arXiv.2309.15217" target="_blank">10.48550/arXiv.2309.15217</a>. <a href="https://github.com/explodinggradients/ragas" target="_blank">GitHub</a></div>
+    <div class="bib-entry">Zha, Y. et al. (2023). "AlignScore: Evaluating Factual Consistency with A Unified Alignment Function." ACL 2023. <span class="bib-meta">317 citations. 156 stars.</span> DOI: <a href="https://doi.org/10.48550/arXiv.2305.16739" target="_blank">10.48550/arXiv.2305.16739</a>. <a href="https://github.com/yuh-zha/AlignScore" target="_blank">GitHub</a></div>
+    <div class="bib-entry">Tang, L. et al. (2024). "MiniCheck: Efficient Fact-Checking of LLMs on Grounding Documents." EMNLP 2024. <span class="bib-meta">197 citations. 203 stars.</span> DOI: <a href="https://doi.org/10.48550/arXiv.2404.10774" target="_blank">10.48550/arXiv.2404.10774</a>. <a href="https://github.com/Liyan06/MiniCheck" target="_blank">GitHub</a></div>
+    <div class="bib-entry">Alansari, A. &amp; Luqman, H. (2025). "Large Language Models Hallucination: A Comprehensive Survey." <span class="bib-meta">13 citations.</span> DOI: <a href="https://doi.org/10.48550/arXiv.2510.06265" target="_blank">10.48550/arXiv.2510.06265</a></div>
+    <div class="bib-entry">Neha, F. et al. (2025). "Retrieval-Augmented Generation (RAG) in Healthcare: A Comprehensive Review." AI (MDPI). <span class="bib-meta">28 citations.</span> DOI: <a href="https://doi.org/10.3390/ai6090226" target="_blank">10.3390/ai6090226</a></div>
+    <div class="bib-entry">Sawczyn, A. et al. (2025). "FactSelfCheck: Fact-Level Black-Box Hallucination Detection for LLMs." EACL 2025. <span class="bib-meta">7 citations.</span> DOI: <a href="https://doi.org/10.48550/arXiv.2503.17229" target="_blank">10.48550/arXiv.2503.17229</a></div>
+  </div>
+
+  <div class="bib-section">
+    <h4>3. Uncertainty Quantification (5)</h4>
+    <div class="bib-entry">Taquet, V. et al. (2022). MAPIE: Model Agnostic Prediction Interval Estimator. <span class="bib-meta">1,527 stars.</span> <a href="https://github.com/scikit-learn-contrib/MAPIE" target="_blank">GitHub</a></div>
+    <div class="bib-entry">Kuhn, L. et al. (2023). "Semantic Uncertainty: Linguistic Invariances for Uncertainty Estimation in NLG." ICLR 2023. <span class="bib-meta">598 citations. 411 stars.</span> DOI: <a href="https://doi.org/10.48550/arXiv.2302.09664" target="_blank">10.48550/arXiv.2302.09664</a></div>
+    <div class="bib-entry">Farquhar, S. et al. (2024). "Detecting hallucinations in large language models using semantic entropy." Nature. <span class="bib-meta">1,041 citations.</span> DOI: <a href="https://doi.org/10.1038/s41586-024-07421-0" target="_blank">10.1038/s41586-024-07421-0</a></div>
+    <div class="bib-entry">Kossen, J. et al. (2024). "Semantic Entropy Probes: Robust and Cheap Hallucination Detection in LLMs." <span class="bib-meta">155 citations.</span> DOI: <a href="https://doi.org/10.48550/arXiv.2406.15927" target="_blank">10.48550/arXiv.2406.15927</a></div>
+    <div class="bib-entry">Wang, S. et al. (2025). "COPU: Conformal Prediction for Uncertainty Quantification in NLG." <span class="bib-meta">3 citations.</span> DOI: <a href="https://doi.org/10.48550/arXiv.2502.12601" target="_blank">10.48550/arXiv.2502.12601</a></div>
+  </div>
+
+  <div class="bib-section">
+    <h4>4. Neuro-Symbolic / SMT Verification (7)</h4>
+    <div class="bib-entry">de Moura, L. &amp; Bjorner, N. (2008). "Z3: An Efficient SMT Solver." TACAS 2008. <span class="bib-meta">12,113 stars.</span> DOI: <a href="https://doi.org/10.1007/978-3-540-78800-3_24" target="_blank">10.1007/978-3-540-78800-3_24</a>. <a href="https://github.com/Z3Prover/z3" target="_blank">GitHub</a></div>
+    <div class="bib-entry">Bach, S. et al. (2017). "Hinge-Loss Markov Random Fields and Probabilistic Soft Logic." JAIR. <span class="bib-meta">129 citations. 312 stars.</span> DOI: <a href="https://doi.org/10.1613/jair.5238" target="_blank">10.1613/jair.5238</a>. <a href="https://github.com/linqs/psl" target="_blank">GitHub</a></div>
+    <div class="bib-entry">NSVIF (2026). "Neuro-Symbolic Verification on Instruction Following." <a href="https://arxiv.org/abs/2601.17789" target="_blank">arXiv 2601.17789</a></div>
+    <div class="bib-entry">ConstraintLLM (2025). "2x improvement over baselines for constrained generation." EMNLP 2025.</div>
+    <div class="bib-entry">Gorenshtein, A. et al. (2026). "Neuro-symbolic LLM Integration in Clinical Medicine: A Systematic Review." Research Square. <span class="bib-meta">PMID: 41756413.</span> DOI: <a href="https://doi.org/10.21203/rs.3.rs-8902022/v1" target="_blank">10.21203/rs.3.rs-8902022/v1</a></div>
+    <div class="bib-entry">Singh, V. et al. (2026). "Toward Guarantees for Clinical Reasoning in Vision Language Models via Formal Verification." DOI: <a href="https://doi.org/10.48550/arXiv.2602.24111" target="_blank">10.48550/arXiv.2602.24111</a></div>
+    <div class="bib-entry">Winston, C. et al. (2026). "Solver-Aided Verification of Policy Compliance in Tool-Augmented LLM Agents."</div>
+  </div>
+
+  <div class="bib-section">
+    <h4>5. LLM-as-Judge (7)</h4>
+    <div class="bib-entry">Kim, S. et al. (2023). "Prometheus: Inducing Fine-grained Evaluation Capability in Language Models." ICLR 2024. <span class="bib-meta">431 citations. 1,063 stars.</span> DOI: <a href="https://doi.org/10.48550/arXiv.2310.08491" target="_blank">10.48550/arXiv.2310.08491</a>. <a href="https://github.com/prometheus-eval/prometheus-eval" target="_blank">GitHub</a></div>
+    <div class="bib-entry">Li, J. et al. (2023). "Generative Judge for Evaluating Alignment (Auto-J)." ICLR 2024. <span class="bib-meta">164 citations. 248 stars.</span> DOI: <a href="https://doi.org/10.48550/arXiv.2310.05470" target="_blank">10.48550/arXiv.2310.05470</a>. <a href="https://github.com/GAIR-NLP/auto-j" target="_blank">GitHub</a></div>
+    <div class="bib-entry">Zheng, L. et al. (2023). "Judging LLM-as-a-judge with MT-Bench and Chatbot Arena." NeurIPS 2023. <span class="bib-meta">7,615 citations. FastChat: 39,455 stars.</span> DOI: <a href="https://doi.org/10.52202/075280-2020" target="_blank">10.52202/075280-2020</a>. <a href="https://github.com/lm-sys/FastChat" target="_blank">GitHub</a></div>
+    <div class="bib-entry">Zhu, L. et al. (2023). "JudgeLM: Fine-tuned Large Language Models are Scalable Judges." ICLR 2025 Spotlight. <span class="bib-meta">299 citations. 424 stars.</span> DOI: <a href="https://doi.org/10.48550/arXiv.2310.17631" target="_blank">10.48550/arXiv.2310.17631</a>. <a href="https://github.com/baaivision/JudgeLM" target="_blank">GitHub</a></div>
+    <div class="bib-entry">Vu, T. et al. (2024). "FLAMe: Foundational Autoraters." EMNLP 2024. <span class="bib-meta">85 citations.</span> DOI: <a href="https://doi.org/10.48550/arXiv.2407.10817" target="_blank">10.48550/arXiv.2407.10817</a></div>
+    <div class="bib-entry">Findeis, A. et al. (2025). "Can External Validation Tools Improve Annotation Quality for LLM-as-a-Judge?" ACL 2025. <span class="bib-meta">6 citations.</span> DOI: <a href="https://doi.org/10.18653/v1/2025.acl-long.779" target="_blank">10.18653/v1/2025.acl-long.779</a>. <a href="https://github.com/apple/ml-agent-evaluator" target="_blank">GitHub</a></div>
+    <div class="bib-entry">Pombal, J. et al. (2025). "M-Prometheus: A Suite of Open Multilingual LLM Judges." <span class="bib-meta">27 citations.</span> DOI: <a href="https://doi.org/10.48550/arXiv.2504.04953" target="_blank">10.48550/arXiv.2504.04953</a></div>
+  </div>
+
+  <div class="bib-section">
+    <h4>6. Contradiction Detection (2)</h4>
+    <div class="bib-entry">Koreeda, Y. &amp; Manning, C.D. (2021). "ContractNLI: A Dataset for Document-level NLI for Contracts." EMNLP Findings 2021. <span class="bib-meta">148 citations. 9 stars.</span> DOI: <a href="https://doi.org/10.18653/v1/2021.findings-emnlp.164" target="_blank">10.18653/v1/2021.findings-emnlp.164</a>. <a href="https://github.com/stanfordnlp/contract-nli" target="_blank">GitHub</a></div>
+    <div class="bib-entry">Yin, W. et al. (2021). "DocNLI: A Large-scale Dataset for Document-level NLI." ACL Findings 2021. <span class="bib-meta">107 citations. 69 stars.</span> DOI: <a href="https://doi.org/10.18653/v1/2021.findings-acl.435" target="_blank">10.18653/v1/2021.findings-acl.435</a>. <a href="https://github.com/salesforce/DocNLI" target="_blank">GitHub</a></div>
+  </div>
+
+  <div class="bib-section">
+    <h4>7. Multi-Agent Systems (3)</h4>
+    <div class="bib-entry">Cemri, M. et al. (2025). "Multi-Agent Software Testing: A Systematic Classification of Failure Modes." <span class="bib-meta">kappa=0.88, 14 failure modes, 150+ tasks.</span> <a href="https://arxiv.org/abs/2503.13657" target="_blank">arXiv 2503.13657</a></div>
+    <div class="bib-entry">Swiss Cheese Model for AI Guardrails (2024). "Multi-layered guardrails across quality attributes, pipeline stages, and artifacts." <a href="https://arxiv.org/abs/2408.02205" target="_blank">arXiv 2408.02205</a></div>
+    <div class="bib-entry">LegalWiz (2025). "Cross-document contradiction detection in legal domains." <a href="https://arxiv.org/abs/2510.03418" target="_blank">arXiv 2510.03418</a></div>
+  </div>
+
+  <div class="bib-section">
+    <h4>8. Clinical AI Validation (6)</h4>
+    <div class="bib-entry">Li, F. et al. (2020). "Time Event Ontology: Temporal knowledge graph for clinical timeline representation." JAMIA. DOI: <a href="https://doi.org/10.1093/jamia/ocaa126" target="_blank">10.1093/jamia/ocaa126</a></div>
+    <div class="bib-entry">Xiao, F. (2024). "Dempster-Shafer evidence fusion for multi-source clinical data." Information Fusion. DOI: <a href="https://doi.org/10.1016/j.inffus.2023.102082" target="_blank">10.1016/j.inffus.2023.102082</a></div>
+    <div class="bib-entry">Cherian, J. &amp; Candes, E. (2024). "Conditional conformal validity for clinical domain adaptation." <a href="https://arxiv.org/abs/2406.09714" target="_blank">arXiv 2406.09714</a></div>
+    <div class="bib-entry">Allen, C. (2025). "Paraconsistent logic for clinical reasoning under contradiction."</div>
+    <div class="bib-entry">Croxford, E. et al. (2025). "Single reasoning model as LLM-as-judge for clinical EHR evaluation." npj Digital Medicine. <span class="bib-meta">ICC=0.818.</span> DOI: <a href="https://doi.org/10.1038/s41746-025-02005-2" target="_blank">10.1038/s41746-025-02005-2</a></div>
+    <div class="bib-entry">Khoruzhaya, S. et al. (2026). "MEDAI-LLM-SUMM: Clinical AI hallucination rates 1.47-61.6%." Frontiers in Digital Health. DOI: <a href="https://doi.org/10.3389/fdgth.2026.1761601" target="_blank">10.3389/fdgth.2026.1761601</a></div>
+  </div>
+
+  <div class="bib-section">
+    <h4>9. Education / Assessment Validity (4)</h4>
+    <div class="bib-entry">CRANE (2025). "Constraint-aware generation: overly restrictive constraints degrade LLM reasoning." <a href="https://arxiv.org/abs/2502.09061" target="_blank">arXiv 2502.09061</a></div>
+    <div class="bib-entry">Cross-document contradiction detection (2025). "Self-contradiction accuracy 0.006-0.456; pairwise F1=89.5%." <a href="https://arxiv.org/abs/2504.00180" target="_blank">arXiv 2504.00180</a></div>
+    <div class="bib-entry">Neuro-symbolic compliance verification (2026). "86%+ correctness for policy compliance." <a href="https://arxiv.org/abs/2601.06181" target="_blank">arXiv 2601.06181</a></div>
+    <div class="bib-entry">Hybrid-Code v2 (2026). "Zero-hallucination clinical ICD-10 coding via symbolic veto."</div>
+  </div>
+
+  <div class="bib-section">
+    <h4>10. Commercial Platforms &amp; Community (22)</h4>
+    <div class="bib-entry">Cleanlab AI (2024). "Hallucination detection benchmarking: TLM vs RAGAS vs G-eval vs DeepEval." <a href="https://cleanlab.ai/blog/rag-tlm-hallucination-benchmarking/" target="_blank">cleanlab.ai</a></div>
+    <div class="bib-entry">Arize AI (2025). "Comparing LLM Evaluation Platforms." <a href="https://arize.com/llm-evaluation-platforms-top-frameworks" target="_blank">arize.com</a></div>
+    <div class="bib-entry">Braintrust (2025). "Arize Phoenix vs. Braintrust." <a href="https://www.braintrust.dev/articles/arize-phoenix-vs-braintrust" target="_blank">braintrust.dev</a></div>
+    <div class="bib-entry">Couch, S.P. (2025). "Exploring Biases in GPT-4o, Claude, and Qwen2.5 Judgements." <a href="https://www.simonpcouch.com/blog/2025-01-30-llm-biases/" target="_blank">simonpcouch.com</a></div>
+    <div class="bib-entry">Confident AI (2025). "LLM Evaluation Playbook." <a href="https://www.confident-ai.com/blog/the-ultimate-llm-evaluation-playbook" target="_blank">confident-ai.com</a></div>
+    <div class="bib-entry">Datadog (2025). "LLM guardrails: Best practices for deploying LLM apps." <a href="https://www.datadoghq.com/blog/llm-guardrails-best-practices/" target="_blank">datadoghq.com</a></div>
+    <div class="bib-entry">Firecrawl (2025). "Best LLM Observability Tools in 2026." <a href="https://www.firecrawl.dev/blog/best-llm-observability-tools" target="_blank">firecrawl.dev</a></div>
+    <div class="bib-entry">Instructor team (2025). "Understanding Semantic Validation with Structured Outputs." <a href="https://python.useinstructor.com/blog/2025/05/20/understanding-semantic-validation-with-structured-outputs/" target="_blank">useinstructor.com</a></div>
+    <div class="bib-entry">LangWatch (2025). "The 4 Best LLM Evaluation Platforms in 2025." <a href="https://langwatch.ai/blog/the-4-best-llm-evaluation-platforms-in-2025" target="_blank">langwatch.ai</a></div>
+    <div class="bib-entry">Leanware (2025). "LLM Guardrails: Strategies &amp; Best Practices." <a href="https://www.leanware.co/insights/llm-guardrails" target="_blank">leanware.co</a></div>
+    <div class="bib-entry">McGinnis, W. (2025). "Comparing Python Libraries for Structured LLM Extraction." <a href="https://mcginniscommawill.com/posts/2025-11-27-structured-extraction-with-llms/" target="_blank">mcginniscommawill.com</a></div>
+    <div class="bib-entry">aisecurityandsafety.org (2026). "NeMo Guardrails vs Guardrails AI." <a href="https://aisecurityandsafety.org/en/compare/nemo-guardrails-vs-guardrails-ai/" target="_blank">aisecurityandsafety.org</a></div>
+    <div class="bib-entry">Fast.io (2026). "Best Guardrails Tools for AI Agents in 2026." <a href="https://fast.io/resources/best-guardrails-tools-ai-agents/" target="_blank">fast.io</a></div>
+    <div class="bib-entry">Galileo AI (2026). "7 Best LLM Eval Platforms Compared." <a href="https://galileo.ai/blog/best-llm-eval-platforms-compared" target="_blank">galileo.ai</a></div>
+    <div class="bib-entry">Maxim AI (2026). "5 Best Tools to Implement Guardrails for AI Applications." <a href="https://www.getmaxim.ai/articles/5-best-tools-to-implement-guardrails-for-ai-applications/" target="_blank">getmaxim.ai</a></div>
+    <div class="bib-entry">NebulaGG (2026). "Top 5 Structured Output Libraries for LLMs in 2026." DEV Community. <a href="https://dev.to/nebulagg/top-5-structured-output-libraries-for-llms-in-2026-48g0" target="_blank">dev.to</a></div>
+    <div class="bib-entry">PremAI (2026). "Production LLM Guardrails: NeMo, Guardrails AI, Llama Guard Compared." <a href="https://blog.premai.io/production-llm-guardrails-nemo-guardrails-ai-llama-guard-compared/" target="_blank">premai.io</a></div>
+    <div class="bib-entry">substrate-guard team (2026). "Emergent Formal Verification: How an Autonomous AI Ecosystem Discovered Z3." DOI: <a href="https://doi.org/10.48550/arXiv.2603.21149" target="_blank">10.48550/arXiv.2603.21149</a></div>
+    <div class="bib-entry">TECHSY (2026). "8 Best LLM Structured Output Libraries, Ranked." <a href="https://techsy.io/blog/best-llm-structured-output-libraries" target="_blank">techsy.io</a></div>
+    <div class="bib-entry">UltraduneAI (2026). "RAGAS vs DeepEval vs Braintrust vs LangSmith vs Arize Phoenix." DEV Community. <a href="https://dev.to/ultraduneai/eval-006-llm-evaluation-tools-ragas-vs-deepeval-vs-braintrust-vs-langsmith-vs-arize-phoenix-3p11" target="_blank">dev.to</a></div>
+    <div class="bib-entry">vadim.blog (2026). "LLM as Judge: What AI Engineers Get Wrong About Automated Evaluation." <a href="https://vadim.blog/llm-as-judge" target="_blank">vadim.blog</a></div>
+    <div class="bib-entry">Wilkins, C. (2026). "LLM Structured Outputs: Schema Validation for Real Pipelines." <a href="https://collinwilkins.com/articles/structured-output" target="_blank">collinwilkins.com</a></div>
+  </div>
+
+  <div class="bib-section">
+    <h4>11. Conformal Prediction (3)</h4>
+    <div class="bib-entry">Cherian, J. &amp; Candes, E. (2024). "Conditional conformal validity." <a href="https://arxiv.org/abs/2406.09714" target="_blank">arXiv 2406.09714</a></div>
+    <div class="bib-entry">Wang, S. et al. (2025). "COPU: First practical conformal prediction method for NLG." <span class="bib-meta">3 citations.</span> DOI: <a href="https://doi.org/10.48550/arXiv.2502.12601" target="_blank">10.48550/arXiv.2502.12601</a></div>
+    <div class="bib-entry">Taquet, V. et al. (2022). MAPIE. <span class="bib-meta">1,527 stars.</span> <a href="https://github.com/scikit-learn-contrib/MAPIE" target="_blank">GitHub</a></div>
+  </div>
+
+  <div class="bib-section">
+    <h4>12. Energy-Based Models / Constrained Generation (5)</h4>
+    <div class="bib-entry">Belanger, D. &amp; McCallum, A. (2016). "Structured Prediction Energy Networks (SPEN)." ICML 2016. <span class="bib-meta">132 stars.</span></div>
+    <div class="bib-entry">Manhaeve, R. et al. (2018). "DeepProbLog: Neural Probabilistic Logic Programming." NeurIPS 2018. <span class="bib-meta">307 stars.</span></div>
+    <div class="bib-entry">Qin, L. et al. (2022). "COLD Decoding: Energy-based Constrained Text Generation with Langevin Dynamics." NeurIPS 2022. <span class="bib-meta">190 citations.</span></div>
+    <div class="bib-entry">Kona / EBM papers (2024). "Energy-based models for constrained clinical text generation." <a href="https://arxiv.org/abs/2412.01112" target="_blank">arXiv 2412.01112</a></div>
+    <div class="bib-entry">substrate-guard (2026). "Emergent Formal Verification via Z3 in autonomous AI ecosystems." DOI: <a href="https://doi.org/10.48550/arXiv.2603.21149" target="_blank">10.48550/arXiv.2603.21149</a></div>
+  </div>
+
+  <div class="bib-section">
+    <h4>13. Commercial Platform Pricing Reference (7)</h4>
+    <div class="bib-entry"><strong>Galileo:</strong> $100/mo, Luna-2 models (fine-tuned Llama 3B/8B), $0.02/1M tokens, Claude support.</div>
+    <div class="bib-entry"><strong>Braintrust:</strong> Free (14-day retention), Pro $249/mo (50K scores), 7 language SDKs. Used by Stripe and Notion.</div>
+    <div class="bib-entry"><strong>LangSmith:</strong> $39/seat/mo, LangChain-native, Claude via LangChain integration.</div>
+    <div class="bib-entry"><strong>Arize Phoenix:</strong> Free OSS (Elastic License 2.0), OpenTelemetry-native, self-hostable, Claude support.</div>
+    <div class="bib-entry"><strong>DeepEval:</strong> $19.99/seat/mo, 14+ metrics, 14K stars, pytest-compatible.</div>
+    <div class="bib-entry"><strong>W&amp;B Weave:</strong> Usage-based pricing, @weave.op decorator, natural extension for W&amp;B users.</div>
+    <div class="bib-entry"><strong>Patronus AI:</strong> Enterprise-only pricing, Lynx 8B hallucination model, GLIDER 3.8B judge, SOC 2 Type 2.</div>
+  </div>
+
+  <p style="margin-top: 24px; font-size: 13px; color: var(--warm-grey);"><strong>Note:</strong> 145 sources from Session 1 (validation architectures) + 59 sources from Session 2 (tooling landscape) = 204 total. Some papers appear in multiple categories where relevant. Community and practitioner sources (22) were coded by provenance (independent vs vendor), engagement score, and bias notes. Eight of 22 community sources are vendor-authored and were flagged with bias notes in the findings JSON.</p>
+</div>
+
+<!-- ========== SLIDE 14: QUICK REFERENCE ========== -->
+<div class="slide" id="slide-quickref">
+  <div class="slide-num">Section 14 of 14</div>
+  <h2>Tool Quick-Reference</h2>
+  <p>One table for the build team. Copy this slide.</p>
+  <table>
+    <thead><tr><th>Tool</th><th>Category</th><th>Stars</th><th>Language</th><th>Claude</th><th>Cost</th><th>Install</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Claude Structured Outputs</strong></td><td>Schema</td><td>--</td><td>TS/Python</td><td>Native</td><td>API pricing</td><td>Built-in</td></tr>
+      <tr><td><strong>Instructor</strong></td><td>Schema</td><td>12.6K</td><td>Python+TS</td><td>Full</td><td>Free OSS</td><td>pip install instructor</td></tr>
+      <tr><td><strong>Guardrails AI</strong></td><td>Schema</td><td>6.6K</td><td>Python</td><td>Full</td><td>Free OSS</td><td>pip install guardrails-ai</td></tr>
+      <tr><td><strong>MiniCheck</strong></td><td>Fact-check</td><td>203</td><td>Python</td><td>Black-box</td><td>Free OSS</td><td>pip install minicheck</td></tr>
+      <tr><td><strong>AlignScore</strong></td><td>Fact-check</td><td>156</td><td>Python</td><td>Black-box</td><td>Free OSS</td><td>pip install alignscore</td></tr>
+      <tr><td><strong>FActScore</strong></td><td>Fact-check</td><td>426</td><td>Python</td><td>Black-box</td><td>Free OSS</td><td>pip install factscore</td></tr>
+      <tr><td><strong>SelfCheckGPT</strong></td><td>Fact-check</td><td>608</td><td>Python</td><td>API-native</td><td>Free OSS</td><td>pip install selfcheckgpt</td></tr>
+      <tr><td><strong>RAGAS</strong></td><td>RAG Eval</td><td>13.2K</td><td>Python</td><td>Via LLM</td><td>Free OSS</td><td>pip install ragas</td></tr>
+      <tr><td><strong>Z3</strong></td><td>SMT Solver</td><td>12.1K</td><td>Python+TS</td><td>N/A</td><td>Free OSS</td><td>pip install z3-solver / npm z3-solver</td></tr>
+      <tr><td><strong>PSL</strong></td><td>Soft Logic</td><td>312</td><td>Java</td><td>N/A</td><td>Free OSS</td><td>Maven</td></tr>
+      <tr><td><strong>Prometheus 2</strong></td><td>Judge</td><td>1K</td><td>Python</td><td>Self-hosted</td><td>Free OSS</td><td>HuggingFace</td></tr>
+      <tr><td><strong>MAPIE</strong></td><td>Conformal</td><td>1.5K</td><td>Python</td><td>N/A</td><td>Free OSS</td><td>pip install mapie</td></tr>
+      <tr><td><strong>Arize Phoenix</strong></td><td>Observability</td><td>--</td><td>Python+TS</td><td>Native</td><td>Free OSS</td><td>pip install arize-phoenix</td></tr>
+      <tr><td><strong>DeepEval</strong></td><td>Eval</td><td>14K</td><td>Python</td><td>Yes</td><td>$19.99/seat</td><td>pip install deepeval</td></tr>
+      <tr><td><strong>Braintrust</strong></td><td>Eval</td><td>--</td><td>7 langs</td><td>Yes</td><td>$249/mo</td><td>SDK</td></tr>
+      <tr><td><strong>DocNLI</strong></td><td>NLI</td><td>69</td><td>Python</td><td>N/A</td><td>Free OSS</td><td>GitHub</td></tr>
+    </tbody>
+  </table>
+  <blockquote><strong>Stage 1 starter stack:</strong> Claude Structured Outputs + Instructor + MiniCheck + cross-model Claude-as-judge + Arize Phoenix. Total cost: API usage only. All free OSS. Install time: under 1 hour.</blockquote>
+</div>
+
+</div>
+<div class="index-bar">
+  <button class="idx-chip" onclick="goTo(0)">Executive Summary</button>
+  <button class="idx-chip" onclick="goTo(1)">The Problem</button>
+  <button class="idx-chip" onclick="goTo(2)">Five Families</button>
+  <button class="idx-chip" onclick="goTo(3)">Stage 1: Guardrails</button>
+  <button class="idx-chip" onclick="goTo(4)">Stage 1: Tools</button>
+  <button class="idx-chip" onclick="goTo(5)">Stage 2: Z3 Hybrid</button>
+  <button class="idx-chip" onclick="goTo(6)">Stage 3: Full Stack</button>
+  <button class="idx-chip" onclick="goTo(7)">Gaps = Novelty</button>
+  <button class="idx-chip" onclick="goTo(8)">Timeline</button>
+  <button class="idx-chip" onclick="goTo(9)">Comparison</button>
+  <button class="idx-chip" onclick="goTo(10)">Funding</button>
+  <button class="idx-chip" onclick="goTo(11)">Recommendations</button>
+  <button class="idx-chip" onclick="goTo(12)">Bibliography</button>
+  <button class="idx-chip" onclick="goTo(13)">Quick Reference</button>
+  <div class="idx-arrows">
+    <button class="idx-arrow" onclick="prev()">&larr;</button>
+    <button class="idx-arrow" onclick="next()">&rarr;</button>
+  </div>
+</div>
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const chips = document.querySelectorAll('.idx-chip');
+const progress = document.getElementById('progress');
+function goTo(i) {
+  if (i < 0 || i >= slides.length) return;
+  slides[current].classList.remove('active');
+  chips[current].classList.remove('active');
+  current = i;
+  slides[current].classList.add('active');
+  chips[current].classList.add('active');
+  progress.style.width = ((current + 1) / slides.length * 100) + '%';
+}
+function next() { goTo(current + 1); }
+function prev() { goTo(current - 1); }
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+});
+slides[0].classList.add('active');
+chips[0].classList.add('active');
+progress.style.width = (1 / slides.length * 100) + '%';
+</script>
+</body>
+</html>
