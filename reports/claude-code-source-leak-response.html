@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Claude Code Source Leak: Developer Response Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #1B2A4A; --navy-light: #2A3F6B;
+    --coral: #FF6B6B; --coral-soft: #FF8E8E;
+    --sand: #F5E6CC; --sand-light: #FDF8F0;
+    --teal: #2B8A8A; --gold: #D4A843;
+    --slate: #4A5568; --warm-grey: #8B7E6A;
+  }
+  html, body { height: 100%; overflow: hidden; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--sand-light); color: var(--navy); }
+  .deck { display: flex; height: 100vh; overflow: hidden; }
+  .slide { min-width: 100vw; height: 100vh; overflow-y: auto; padding: 60px 80px 80px; display: none; flex-direction: column; }
+  .slide.active { display: flex; }
+  @media (max-width: 800px) { .slide { padding: 32px 24px 80px; } }
+  .index-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: var(--navy); display: flex; align-items: center; height: 52px; padding: 0 24px; gap: 6px; overflow-x: auto; }
+  .idx-chip { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.55); background: transparent; border: none; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+  .idx-chip:hover { color: #fff; background: var(--navy-light); }
+  .idx-chip.active { background: var(--coral); color: #fff; }
+  .idx-progress { position: fixed; bottom: 52px; left: 0; height: 3px; background: var(--coral); transition: width 0.3s; z-index: 101; }
+  .idx-arrows { margin-left: auto; display: flex; gap: 8px; }
+  .idx-arrow { width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--navy-light); color: #fff; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .idx-arrow:hover { background: var(--coral); }
+  .slide-num { font-size: 12px; font-weight: 700; color: var(--coral); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .slide h2 { font-size: 36px; font-weight: 800; color: var(--navy); line-height: 1.15; margin-bottom: 20px; max-width: 800px; }
+  .slide h3 { font-size: 22px; font-weight: 700; color: var(--navy); margin: 24px 0 10px; }
+  .slide h4 { font-size: 16px; font-weight: 700; color: var(--teal); margin: 16px 0 8px; }
+  .slide p { font-size: 16px; line-height: 1.8; margin-bottom: 14px; color: var(--slate); max-width: 760px; }
+  .slide ul, .slide ol { margin: 10px 0 16px 24px; font-size: 16px; line-height: 1.7; color: var(--slate); max-width: 760px; }
+  .slide li { margin-bottom: 8px; }
+  .slide strong { color: var(--navy); font-weight: 700; }
+  .slide em { color: var(--coral); font-style: normal; font-weight: 600; }
+  .slide blockquote { background: var(--sand); border-left: 4px solid var(--coral); padding: 18px 24px; border-radius: 0 12px 12px 0; margin: 18px 0; font-size: 15px; color: var(--navy); max-width: 760px; }
+  .slide hr { border: none; height: 2px; background: var(--sand); margin: 28px 0; max-width: 760px; }
+  .slide a { color: var(--teal); text-decoration: none; font-weight: 600; }
+  .slide a:hover { text-decoration: underline; }
+  .slide table { width: 100%; max-width: 800px; border-collapse: separate; border-spacing: 0; margin: 18px 0; border-radius: 12px; overflow: hidden; }
+  .slide th { background: var(--navy); color: #fff; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 14px 16px; text-align: left; }
+  .slide td { background: #fff; padding: 14px 16px; font-size: 14px; color: var(--slate); border-bottom: 1px solid var(--sand); }
+  .slide tr:last-child td { border-bottom: none; }
+  .badge { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+  .badge-critical { background: #FEE2E2; color: #DC2626; }
+  .badge-high { background: #FEF3C7; color: #D97706; }
+  .badge-moderate { background: #DBEAFE; color: #2563EB; }
+  .badge-low { background: #D1FAE5; color: #059669; }
+  .badge-community { background: var(--sand); color: var(--warm-grey); }
+  .finding-card { background: #fff; border-radius: 12px; padding: 20px 24px; margin: 16px 0; max-width: 800px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .finding-card h4 { margin-top: 0; }
+  details { margin: 12px 0; max-width: 760px; }
+  details summary { cursor: pointer; font-weight: 600; color: var(--teal); padding: 8px 0; }
+  details[open] summary { margin-bottom: 8px; }
+  .code-block { background: var(--navy); color: #e2e8f0; border-radius: 8px; padding: 16px 20px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px; line-height: 1.6; overflow-x: auto; margin: 12px 0; max-width: 800px; white-space: pre-wrap; word-break: break-all; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 800px; }
+  @media (max-width: 800px) { .two-col { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="idx-progress" id="progress"></div>
+<div class="deck" id="deck">
+
+<!-- SLIDE 1: Executive Summary -->
+<div class="slide" id="slide-exec">
+  <div class="slide-num">Section 1 of 12</div>
+  <h2>Claude Code Source Leak: What You Need to Know Right Now</h2>
+
+  <h3>Key Messages</h3>
+  <ul>
+    <li><strong>Your data is safe, but your toolchain needs attention.</strong> Anthropic's Claude Code accidentally shipped its full source code in an npm package. No API keys, model weights, or user data were exposed. But a separate, unrelated supply chain attack on the axios npm package <em>did</em> deploy malware on the same day.</li>
+    <li><strong>Check for axios compromise first.</strong> The axios attack (versions 1.14.1 and 0.30.4) installed a Remote Access Trojan on affected machines. This is the more urgent threat.</li>
+    <li><strong>Switch to the native Claude Code installer.</strong> Anthropic now recommends bypassing npm entirely for Claude Code updates. This eliminates exposure to the npm supply chain.</li>
+  </ul>
+
+  <hr>
+
+  <h3>What happened?</h3>
+  <p>On March 31, 2026, Anthropic published Claude Code version 2.1.88 to npm with a "source map" file accidentally included. A source map is a debugging artifact that maps compressed code back to the original, readable source. It exposed approximately 512,000 lines of TypeScript across 1,900 files. Security researcher Chaofan Shou spotted it and posted publicly. Within hours, the code was archived on GitHub.</p>
+
+  <h3>Is this actually dangerous?</h3>
+  <p>For most developers: <strong>no immediate danger</strong>. The leak exposed how Claude Code works internally, not your conversations, files, or credentials. Think of it like someone publishing the blueprint for a bank vault door. The vault itself (your data, API keys) was never opened.</p>
+  <p>The medium-term risk is that attackers can now study Claude Code's exact security logic and potentially craft more targeted attacks against users who open malicious repositories.</p>
+
+  <h3>Has this happened before?</h3>
+  <p>Yes. This is Anthropic's <strong>second identical mistake</strong>. The same source map exposure occurred in February 2025. A separate CMS misconfiguration on March 26 leaked internal documents. Three configuration-level exposures in thirteen months raises fair questions about release processes for a tool trusted with filesystem and terminal access.</p>
+</div>
+
+<!-- SLIDE 2: Summary -->
+<div class="slide" id="slide-summary">
+  <div class="slide-num">Section 2 of 12</div>
+  <h2>What Happened: The Full Picture</h2>
+
+  <p>On March 31, 2026, version 2.1.88 of <strong>@anthropic-ai/claude-code</strong> shipped to npm with a 59.8 MB source map file (<code>cli.js.map</code>). This file allowed anyone to reconstruct Anthropic's complete TypeScript codebase: approximately 1,900 files and 512,000 lines of code.</p>
+
+  <h3>The Root Cause</h3>
+  <p>Claude Code uses <strong>Bun</strong> as its JavaScript bundler. Bun generates source maps by default. A missing <code>*.map</code> entry in the project's <code>.npmignore</code> file meant the source map was included in the published package. The map file pointed to a zip archive hosted on Anthropic's Cloudflare R2 storage bucket, which anyone could download.</p>
+
+  <blockquote>"A single misconfigured .npmignore or files field in package.json can expose everything." &mdash; Gabriel Anhaia, dev.to analysis</blockquote>
+
+  <h3>Anthropic's Response</h3>
+  <blockquote>"Earlier today, a Claude Code release included some internal source code. No sensitive customer data or credentials were involved or exposed. This was a release packaging issue caused by human error, not a security breach. We're rolling out measures to prevent this from happening again." &mdash; Anthropic spokesperson, Fortune, 2026-03-31</blockquote>
+
+  <h3>The Same-Day Coincidence</h3>
+  <p>Completely unrelated: the <strong>axios</strong> npm package (100M+ weekly downloads) was also compromised on March 31 by a North Korean threat actor. This was an actual malicious attack, not an accident. Two npm supply chain disasters in one day.</p>
+</div>
+
+<!-- SLIDE 3: What Was Leaked -->
+<div class="slide" id="slide-leaked">
+  <div class="slide-num">Section 3 of 12</div>
+  <h2>What Was Exposed</h2>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-high">HIGH INTEREST</span> System Prompts &amp; Tool Definitions</h4>
+    <p>The full instruction set that governs how Claude Code behaves: how it asks for permission, which tools it can use, and what safety guardrails it follows. This is the "agentic harness" that sits around the AI model itself.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-high">HIGH INTEREST</span> 44 Unreleased Feature Flags</h4>
+    <p>Fully built but not yet shipped capabilities, sitting behind compile-time flags:</p>
+    <ul>
+      <li>Background agents running 24/7 with GitHub webhooks and push notifications</li>
+      <li>One Claude orchestrating multiple worker Claudes, each with restricted tools</li>
+      <li>Cron scheduling for agents (create, delete, list jobs)</li>
+      <li>Full voice command mode with its own CLI entrypoint</li>
+      <li>Browser control via Playwright (real browser, not just web fetch)</li>
+      <li>Agents that can sleep and self-resume without user prompts</li>
+      <li>Persistent memory across sessions without external storage</li>
+    </ul>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">NOTABLE</span> Internal Model Codenames</h4>
+    <p><strong>Capybara</strong> (Claude 4.6 variant), <strong>Fennec</strong> (Opus 4.6), <strong>Numbat</strong> (prelaunch Haiku), <strong>Tengu</strong> (experimental). These confirm Anthropic's upcoming model tiers and naming conventions.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">SECURITY</span> Bash Validator Logic &amp; Bypass Env Vars</h4>
+    <p><code>bashSecurity.ts</code>: 2,500+ lines of bash command validation. Plus two environment variables that disable safety features entirely: <code>CLAUDE_CODE_ABLATION_BASELINE</code> (disables all safety) and <code>DISABLE_COMMAND_INJECTION_CHECK</code> (skips injection guard). Presumably for internal testing, but now public knowledge.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">CONTROVERSIAL</span> "Undercover Mode"</h4>
+    <p>A subsystem that tells Claude Code to hide all evidence of AI authorship when Anthropic employees contribute to public open-source repositories. The system prompt says: "Do not blow your cover." Heated debate on Hacker News about the ethics of undisclosed AI contributions.</p>
+  </div>
+
+  <h3>What Was NOT Leaked</h3>
+  <div class="two-col">
+    <div class="finding-card">
+      <h4>Safe</h4>
+      <ul>
+        <li>Model weights and training data</li>
+        <li>API keys, tokens, or customer credentials</li>
+        <li>User conversation data</li>
+        <li>Server-side infrastructure code</li>
+      </ul>
+    </div>
+    <div class="finding-card">
+      <h4>Exposed</h4>
+      <ul>
+        <li>Client-side agentic harness code</li>
+        <li>System prompts and tool definitions</li>
+        <li>Security validation logic</li>
+        <li>Unreleased feature roadmap</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4: Axios Attack -->
+<div class="slide" id="slide-axios">
+  <div class="slide-num">Section 4 of 12</div>
+  <h2>The axios Supply Chain Attack (Same Day, Unrelated)</h2>
+
+  <p><span class="badge badge-critical">CRITICAL</span> This is the more urgent threat from March 31.</p>
+
+  <p>The <strong>axios</strong> HTTP library, one of npm's most popular packages with over 100 million weekly downloads, was compromised by threat actor <strong>UNC1069</strong> (attributed to North Korea by Google GTIG). The attacker hijacked the primary maintainer's npm account.</p>
+
+  <h3>What Happened</h3>
+  <ul>
+    <li>Attacker changed the maintainer's email to a Proton Mail address they controlled</li>
+    <li>Published two malicious versions: <strong>axios@1.14.1</strong> and <strong>axios@0.30.4</strong></li>
+    <li>Both contained a phantom dependency (<code>plain-crypto-js@4.x</code>) with a <code>postinstall</code> hook</li>
+    <li>The hook downloaded a platform-specific <strong>Remote Access Trojan</strong> (RAT)</li>
+    <li>Three payloads (Windows, macOS, Linux) were pre-staged 18 hours in advance</li>
+    <li>Attack window: <strong>00:21 to 03:29 UTC</strong> on March 31, 2026</li>
+    <li>After installing, the dropper deleted itself and falsified its own version number</li>
+  </ul>
+
+  <h3>Check Your Machine Now</h3>
+  <div class="code-block"># Check lockfiles for compromised versions
+grep -E '1\.14\.1|0\.30\.4' package-lock.json yarn.lock bun.lockb 2>/dev/null
+
+# Check for phantom dependency (the malware delivery package)
+ls node_modules/plain-crypto-js 2>/dev/null &amp;&amp; echo 'POTENTIALLY COMPROMISED'</div>
+
+  <p><strong>If you find either indicator:</strong> treat the machine as fully compromised. Isolate it from your network. Rotate all credentials stored on or accessed from that machine. Reimage the operating system.</p>
+</div>
+
+<!-- SLIDE 5: Immediate Actions -->
+<div class="slide" id="slide-immediate">
+  <div class="slide-num">Section 5 of 12</div>
+  <h2>Immediate Actions (Today)</h2>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">CRITICAL</span> 1. Check for axios RAT</h4>
+    <p>Run the commands from the previous slide. This is the highest-priority action because it involves active malware, not just source code exposure.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-high">HIGH</span> 2. Pin Claude Code to a Safe Version</h4>
+    <p>Do <strong>not</strong> run version 2.1.88 (the leaked version).</p>
+    <p><strong>Option A</strong> (preferred): Migrate to the native installer, which bypasses npm entirely:</p>
+    <div class="code-block">curl -fsSL https://claude.ai/install.sh | bash</div>
+    <p><strong>Option B</strong>: Downgrade via npm to the last known-safe version:</p>
+    <div class="code-block">npm install -g @anthropic-ai/claude-code@2.1.86</div>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-high">HIGH</span> 3. Rotate API Keys</h4>
+    <p>If you ran version 2.1.88 with custom MCP configurations that reference credentials (database connection strings, API tokens, etc.), rotate those credentials now. The leaked source code reveals exactly how Claude Code reads and processes MCP server configurations.</p>
+  </div>
+</div>
+
+<!-- SLIDE 6: Short-Term Actions -->
+<div class="slide" id="slide-shortterm">
+  <div class="slide-num">Section 6 of 12</div>
+  <h2>Short-Term Actions (This Week)</h2>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">MODERATE</span> 4. Audit Your npm Publish Pipeline</h4>
+    <p>If you maintain any npm packages, verify that source maps and debug artifacts are excluded from your published packages:</p>
+    <div class="code-block"># Preview exactly what npm will publish
+npm pack --dry-run</div>
+    <p>Add a CI/CD pre-publish check that blocks source maps:</p>
+    <div class="code-block">set -euo pipefail
+npm pack >/dev/null
+PKG="$(ls *.tgz | head -n1)"
+WORKDIR="$(mktemp -d)"
+tar -xzf "$PKG" -C "$WORKDIR"
+if find "$WORKDIR/package" -type f | grep -E '\.map$' >/dev/null; then
+  echo "FAIL: sourcemap found in package"
+  exit 1
+fi</div>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">MODERATE</span> 5. Harden Your Supply Chain</h4>
+    <ul>
+      <li>Always commit lockfiles and use <code>npm ci</code> (not <code>npm install</code>) in CI/CD for reproducible builds</li>
+      <li>Consider <code>npm config set min-release-age 3</code> for 48-72 hour quarantine on new package versions</li>
+      <li>Use <code>--ignore-scripts</code> in CI/CD to block postinstall hooks</li>
+      <li>Evaluate <a href="https://socket.dev" target="_blank">Socket.dev</a>, Snyk, or <code>npm audit</code> for dependency monitoring</li>
+    </ul>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">MODERATE</span> 6. Review Claude Code Permissions</h4>
+    <ul>
+      <li>Audit <code>.claude/settings.json</code> for hooks that execute on session start</li>
+      <li>Review MCP server configurations for sensitive credential references</li>
+      <li>The leaked code shows exact hook and MCP orchestration logic, so attackers now know exactly what surfaces to target</li>
+    </ul>
+  </div>
+</div>
+
+<!-- SLIDE 7: Medium-Term Actions -->
+<div class="slide" id="slide-medterm">
+  <div class="slide-num">Section 7 of 12</div>
+  <h2>Medium-Term Actions (Ongoing)</h2>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">MODERATE</span> 7. AI Tool Governance Posture</h4>
+    <ul>
+      <li>Add "third-party AI tool incidents" as a category in your incident response playbook</li>
+      <li>Review AI acceptable use policies against now-known but previously undisclosed features: background agents, remote settings polling, kill switches</li>
+      <li>Monitor Anthropic's security advisories for follow-up patches</li>
+    </ul>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">MODERATE</span> 8. npm Publishing Best Practices</h4>
+    <p>If you publish npm packages:</p>
+    <ul>
+      <li>Use an explicit <code>files</code> whitelist in <code>package.json</code> instead of relying on <code>.npmignore</code> blocklists. Whitelists are safer than blocklists because they fail closed.</li>
+      <li>Configure Bun, webpack, or esbuild to skip source map generation for production builds</li>
+      <li>Add a CI check that rejects packages containing <code>.map</code> files or <code>sourceMappingURL</code> references</li>
+    </ul>
+    <blockquote>"Source maps are source code. Treating them like harmless debug files is a critical vulnerability."</blockquote>
+  </div>
+</div>
+
+<!-- SLIDE 8: Consensus & Debate -->
+<div class="slide" id="slide-consensus">
+  <div class="slide-num">Section 8 of 12</div>
+  <h2>Where the Community Agrees and Disagrees</h2>
+
+  <h3>Strong Consensus</h3>
+  <p>These points are corroborated across Hacker News, Reddit, The Register, Fortune, and dev.to:</p>
+  <ul>
+    <li>The source leak is <strong>not an emergency</strong> for most Claude Code users. No API keys, model weights, or user data were exposed.</li>
+    <li>The concurrent axios attack <strong>is potentially dangerous</strong>. Check your lockfiles immediately.</li>
+    <li>Migrating from npm to the native installer is the right move going forward.</li>
+    <li>The "Undercover Mode" revelation is ethically concerning but not a security risk.</li>
+  </ul>
+
+  <h3>Contested Points</h3>
+
+  <div class="finding-card">
+    <h4>How serious is the security validator exposure?</h4>
+    <p><strong>One side:</strong> Exposing <code>bashSecurity.ts</code> logic and bypass environment variables meaningfully lowers the cost of crafting attacks against Claude Code users.</p>
+    <p><strong>Other side:</strong> Claude Code's security model already assumes the client is untrusted. The server-side model does the real security enforcement.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>Does the repeat matter?</h4>
+    <p><strong>One side:</strong> Two identical source map exposures (Feb 2025, Mar 2026) plus a CMS leak (Mar 26, 2026) raise legitimate questions about Anthropic's release processes for a tool trusted with deep filesystem access.</p>
+    <p><strong>Other side:</strong> Configuration errors happen at every company. The impact is limited because the code was partially known through prior reverse engineering (CCLeaks).</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>Competitive blueprint or nothing new?</h4>
+    <p><strong>Fortune:</strong> This gives competitors "a literal blueprint for constructing high-agency, commercially viable AI agents."</p>
+    <p><strong>The Register:</strong> Much was already known. This is "a useful comparison point and update source" rather than a revelation.</p>
+  </div>
+</div>
+
+<!-- SLIDE 9: Evidence Quality -->
+<div class="slide" id="slide-evidence">
+  <div class="slide-num">Section 9 of 12</div>
+  <h2>Evidence Quality</h2>
+
+  <table>
+    <thead>
+      <tr><th>Metric</th><th>Value</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Total sources reviewed</td><td><strong>27</strong></td></tr>
+      <tr><td>Source types</td><td>News articles, HN threads, dev blogs, Reddit, YouTube</td></tr>
+      <tr><td>Claims extracted</td><td>14</td></tr>
+      <tr><td>Concepts identified</td><td>8</td></tr>
+      <tr><td>Cross-source corroboration</td><td>10+ independent sources on core facts</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Confidence Assessment</h3>
+
+  <div class="two-col">
+    <div class="finding-card">
+      <h4><span class="badge badge-critical">HIGH CONFIDENCE</span></h4>
+      <p>Factual claims about what was leaked and how. Corroborated across 10+ independent sources including direct inspection of the code.</p>
+    </div>
+    <div class="finding-card">
+      <h4><span class="badge badge-high">MEDIUM CONFIDENCE</span></h4>
+      <p>Severity assessment and security implications. The exposed code is still being analyzed. Attack vectors are theoretical, not demonstrated.</p>
+    </div>
+  </div>
+
+  <p><strong>Note:</strong> All 27 sources are community/news sources, not peer-reviewed research. The GRADE evidence framework does not apply. Confidence is based on cross-source corroboration and direct code inspection rather than study design quality.</p>
+</div>
+
+<!-- SLIDE 10: Gaps -->
+<div class="slide" id="slide-gaps">
+  <div class="slide-num">Section 10 of 12</div>
+  <h2>Gaps and Open Questions</h2>
+
+  <ul>
+    <li><strong>No CVE assigned.</strong> No formal vulnerability identifier has been issued for the source map leak itself. The prior vulnerabilities (CVE-2025-59536, CVE-2026-21852) were for different issues that have been patched.</li>
+    <li><strong>Are the bypass env vars functional?</strong> The exposed code contains <code>CLAUDE_CODE_ABLATION_BASELINE</code> and <code>DISABLE_COMMAND_INJECTION_CHECK</code>, but it is unclear whether these are active in the distributed binary or only in internal builds.</li>
+    <li><strong>New attack surfaces unknown.</strong> No analysis exists of whether the exposed orchestration logic creates attack surfaces beyond the already-patched CVEs. The Check Point vulnerabilities showed that hooks and MCP configs could be weaponized. The leaked code makes studying these surfaces cheaper.</li>
+    <li><strong>Competitive impact is speculative.</strong> Whether competitors can meaningfully accelerate their products using the leaked code depends on factors we cannot assess from community sources alone.</li>
+    <li><strong>Community sources are inherently unverified.</strong> Factual claims are corroborated across multiple sources, but details may shift as deeper analysis emerges over the coming days.</li>
+  </ul>
+</div>
+
+<!-- SLIDE 11: What This Means for Us -->
+<div class="slide" id="slide-action">
+  <div class="slide-num">Section 11 of 12</div>
+  <h2>What This Means for Us</h2>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">CRITICAL</span> Scan for the axios RAT now</h4>
+    <p>This is the one action that cannot wait. The axios supply chain attack deployed actual malware. Check lockfiles for versions 1.14.1 and 0.30.4, and check for the <code>plain-crypto-js</code> phantom dependency. If present, the machine is compromised.</p>
+    <p><strong>Evidence:</strong> StepSecurity forensic analysis, The Hacker News report, Google GTIG attribution</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-high">HIGH</span> Switch Claude Code to the native installer</h4>
+    <p>Anthropic now recommends the native installer over npm. This removes the npm supply chain as an attack surface for your primary development tool. The native installer auto-updates directly from Anthropic's servers.</p>
+    <p><strong>Evidence:</strong> Anthropic's recommendation (Fortune), community consensus across 10+ sources</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-high">HIGH</span> Rotate credentials referenced in MCP configs</h4>
+    <p>The leaked code shows exactly how Claude Code reads MCP server configurations and processes credentials. If your <code>.claude/settings.json</code> or MCP configs reference database connection strings, API keys, or other secrets, rotate them. The credentials themselves were not leaked, but the code that processes them was.</p>
+    <p><strong>Evidence:</strong> Check Point CVE-2026-21852 (patched, but demonstrates the attack surface)</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">MODERATE</span> Add source map checks to your CI pipeline</h4>
+    <p>Anthropic's mistake is a class of error that any team using Bun, webpack, or esbuild can make. A five-line CI check prevents it permanently.</p>
+    <p><strong>Evidence:</strong> Same root cause recurring at Anthropic (Feb 2025, Mar 2026)</p>
+    <p><strong>Uncertainty:</strong> Mostly relevant if you publish npm packages</p>
+  </div>
+
+  <hr>
+
+  <h3>Open Questions for Further Investigation</h3>
+  <ul>
+    <li>Are the exposed safety bypass environment variables (<code>CLAUDE_CODE_ABLATION_BASELINE</code>) active in the distributed binary, or do they require internal build flags?</li>
+    <li>Does the exposed hook/MCP orchestration logic create new, unpatched attack surfaces beyond CVE-2025-59536 and CVE-2026-21852?</li>
+    <li>Will Anthropic release a formal security advisory or post-incident report?</li>
+  </ul>
+</div>
+
+<!-- SLIDE 12: Bibliography -->
+<div class="slide" id="slide-bib">
+  <div class="slide-num">Section 12 of 12</div>
+  <h2>Bibliography</h2>
+
+  <ol>
+    <li><strong>Fortune</strong> (2026-03-31). Anthropic leaks its own AI coding tool's source code in second major security breach. <a href="https://fortune.com/2026/03/31/anthropic-source-code-claude-code-data-leak-second-security-lapse-days-after-accidentally-revealing-mythos/" target="_blank">URL</a> <span class="badge badge-community">Engagement: 90</span>
+      <blockquote>"Earlier today, a Claude Code release included some internal source code. No sensitive customer data or credentials were involved or exposed."</blockquote>
+    </li>
+    <li><strong>The Register</strong> (2026-03-31). Anthropic goes nude, exposes Claude Code source by accident. <a href="https://www.theregister.com/2026/03/31/anthropic_claude_code_source_code/" target="_blank">URL</a> <span class="badge badge-community">Engagement: 88</span>
+      <blockquote>"A single misconfigured .npmignore or files field in package.json can expose everything."</blockquote>
+    </li>
+    <li><strong>HN #47584540</strong> (2026-03-31). Claude Code's source code has been leaked via a map file in their npm registry. <a href="https://news.ycombinator.com/item?id=47584540" target="_blank">URL</a> <span class="badge badge-community">Engagement: 95</span></li>
+    <li><strong>HN #47586778</strong> (2026-03-31). The Claude Code Source Leak: fake tools, frustration regexes, undercover mode. <a href="https://news.ycombinator.com/item?id=47586778" target="_blank">URL</a> <span class="badge badge-community">Engagement: 90</span></li>
+    <li><strong>dev.to/gabrielanhaia</strong> (2026-03-31). Claude Code's Entire Source Code Was Just Leaked via npm Source Maps. <a href="https://dev.to/gabrielanhaia/claude-codes-entire-source-code-was-just-leaked-via-npm-source-maps-heres-whats-inside-cjo" target="_blank">URL</a> <span class="badge badge-community">Engagement: 80</span></li>
+    <li><strong>The AI Corner</strong> (2026-03-31). Claude Code Source Code Leaked: What's Inside. <a href="https://www.the-ai-corner.com/p/claude-code-source-code-leaked-2026" target="_blank">URL</a> <span class="badge badge-community">Engagement: 82</span></li>
+    <li><strong>Penligent AI</strong> (2026-03-31). Claude Code Source Map Leak: What Was Exposed and What It Means. <a href="https://www.penligent.ai/hackinglabs/ar/claude-code-source-map-leak-what-was-exposed-and-what-it-means/" target="_blank">URL</a> <span class="badge badge-community">Engagement: 72</span></li>
+    <li><strong>David Borish</strong> (2026-03-31). Anthropic's Claude Code Source Code Leaked. <a href="https://www.davidborish.com/post/anthropic-s-claude-code-source-code-leaked-and-here-s-what-it-shows" target="_blank">URL</a> <span class="badge badge-community">Engagement: 62</span></li>
+    <li><strong>Economic Times</strong> (2026-03-31). Claude Code Source Code Leaked: What It Reveals. <a href="https://economictimes.indiatimes.com/news/international/us/claude-code-source-code-leak-did-anthropic-just-expose-its-ai-secrets-hidden-models-and-undercover-coding-strategy-to-the-world/articleshow/129930888.cms" target="_blank">URL</a> <span class="badge badge-community">Engagement: 70</span></li>
+    <li><strong>Check Point Research</strong> (2026-02-25). Check Point Researchers Expose Critical Claude Code Flaws (CVE-2025-59536, CVE-2026-21852). <a href="https://blog.checkpoint.com/research/check-point-researchers-expose-critical-claude-code-flaws/" target="_blank">URL</a> <span class="badge badge-community">Engagement: 78</span>
+      <blockquote>"Simply opening a malicious repository could trigger hidden execution on a developer's machine."</blockquote>
+    </li>
+    <li><strong>StepSecurity</strong> (2026-03-31). Supply Chain Compromise of axios npm Package. <a href="https://stepsecurity.io/blog/axios-compromised-on-npm" target="_blank">URL</a> <span class="badge badge-community">Engagement: 78</span></li>
+    <li><strong>The Hacker News</strong> (2026-03-31). Axios Supply Chain Attack Pushes Cross-Platform RAT. <a href="https://thehackernews.com/2026/03/axios-supply-chain-attack-pushes-cross.html" target="_blank">URL</a> <span class="badge badge-community">Engagement: 82</span></li>
+    <li><strong>r/LocalLLaMA</strong> (2026-03-31). Claude code source code has been leaked via a map file. <span class="badge badge-community">Engagement: 85</span></li>
+    <li><strong>Fortune</strong> (2026-03-26). Exclusive: Anthropic left details of unreleased AI model in unsecured data store. <a href="https://fortune.com/2026/03/26/anthropic-leaked-unreleased-model-exclusive-event-security-issues-cybersecurity-unsecured-data-store/" target="_blank">URL</a> <span class="badge badge-community">Engagement: 75</span></li>
+  </ol>
+
+  <hr>
+  <p><strong>Research conducted:</strong> March 31, 2026 | <strong>Depth:</strong> Medium | <strong>Source mode:</strong> Community | <strong>Sources reviewed:</strong> 27 | <strong>Agents used:</strong> research-community, Perplexity, WebSearch</p>
+</div>
+
+</div>
+<div class="index-bar">
+  <button class="idx-chip" onclick="goTo(0)">Executive Summary</button>
+  <button class="idx-chip" onclick="goTo(1)">What Happened</button>
+  <button class="idx-chip" onclick="goTo(2)">What Was Exposed</button>
+  <button class="idx-chip" onclick="goTo(3)">axios Attack</button>
+  <button class="idx-chip" onclick="goTo(4)">Immediate Actions</button>
+  <button class="idx-chip" onclick="goTo(5)">Short-Term</button>
+  <button class="idx-chip" onclick="goTo(6)">Medium-Term</button>
+  <button class="idx-chip" onclick="goTo(7)">Consensus</button>
+  <button class="idx-chip" onclick="goTo(8)">Evidence</button>
+  <button class="idx-chip" onclick="goTo(9)">Gaps</button>
+  <button class="idx-chip" onclick="goTo(10)">What This Means</button>
+  <button class="idx-chip" onclick="goTo(11)">Bibliography</button>
+  <div class="idx-arrows">
+    <button class="idx-arrow" onclick="prev()">&larr;</button>
+    <button class="idx-arrow" onclick="next()">&rarr;</button>
+  </div>
+</div>
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const chips = document.querySelectorAll('.idx-chip');
+const progress = document.getElementById('progress');
+function goTo(i) {
+  if (i < 0 || i >= slides.length) return;
+  slides[current].classList.remove('active');
+  chips[current].classList.remove('active');
+  current = i;
+  slides[current].classList.add('active');
+  chips[current].classList.add('active');
+  progress.style.width = ((current + 1) / slides.length * 100) + '%';
+}
+function next() { goTo(current + 1); }
+function prev() { goTo(current - 1); }
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+});
+slides[0].classList.add('active');
+chips[0].classList.add('active');
+progress.style.width = (1 / slides.length * 100) + '%';
+</script>
+</body>
+</html>
