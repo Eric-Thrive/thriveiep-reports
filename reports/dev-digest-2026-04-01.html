@@ -171,9 +171,9 @@
     <!-- HEADER -->
     <header class="digest-header">
       <h1>Dev Digest</h1>
-      <p class="date-range">March 2 - April 1, 2026 (30-day window)</p>
-      <p class="sources">Sources: Reddit, YouTube, Hacker News, X/Twitter, LinkedIn, Web, Semantic Scholar, OpenAlex, Europe PMC, ERIC, Papers With Code</p>
-      <p class="generated">Generated 2026-04-01 | 5 topic groups, 11 source channels</p>
+      <p class="date-range">March 30 - April 1, 2026 (since last digest)</p>
+      <p class="sources">Sources: X/Twitter, LinkedIn, Web, Semantic Scholar, OpenAlex</p>
+      <p class="generated">Generated 2026-04-01 | 5 topic groups, 2-day window</p>
     </header>
 
     <!-- TL;DR -->
@@ -181,29 +181,24 @@
       <h2>TL;DR</h2>
       <ul>
         <li>
+          <span class="dot" style="background: var(--color-claude)"></span>
+          <strong>Claude Code source leaked via npm packaging error</strong> -- 512K lines of TypeScript exposed on March 31. A concurrent axios supply chain attack shipped a RAT in the same window. Clean-room repo hit 50K GitHub stars in 2 hours. We already published a response guide.
+          <sup class="bib-ref"><a href="#ref-14">[14]</a></sup> <sup class="bib-ref"><a href="#ref-15">[15]</a></sup>
+        </li>
+        <li>
+          <span class="dot" style="background: var(--color-agentic)"></span>
+          <strong>Fortune declares the "supervisor class"</strong> of developers who oversee AI agents instead of writing code. Cursor crossed $2B ARR. AWS ships an Agent Plugin for Serverless supporting Claude Code, Cursor, and Kiro.
+          <sup class="bib-ref"><a href="#ref-1">[1]</a></sup> <sup class="bib-ref"><a href="#ref-2">[2]</a></sup>
+        </li>
+        <li>
           <span class="dot" style="background: var(--color-education)"></span>
-          <strong>57% of special ed teachers now use AI for IEPs</strong> (up from 39%), with 15% writing full IEPs via AI -- legal and IDEA compliance concerns mounting. Validates ThriveIEP's C2A positioning in a market with rapid, under-regulated adoption.
-          <sup class="bib-ref"><a href="#ref-20">[20]</a></sup> <sup class="bib-ref"><a href="#ref-21">[21]</a></sup>
+          <strong>Waterfield publishes a new study on AI-generated materials for special ed teachers</strong> -- human-in-the-loop framework examining feasibility and usability of AI tools for IEP/compliance work, grounded in Cognitive Load Theory.
+          <sup class="bib-ref"><a href="#ref-11">[11]</a></sup>
         </li>
         <li>
           <span class="dot" style="background: var(--color-docproc)"></span>
-          <strong>GLM-OCR reaches #1 on OmniDocBench v1.5 (94.62)</strong>, topping tables, formulas, and handwriting. We migrated DEC1TEXTREDACTOR to GLM-OCR via Ollama this month -- DR-048 decision vindicated by benchmark leadership.
-          <sup class="bib-ref"><a href="#ref-14">[14]</a></sup>
-        </li>
-        <li>
-          <span class="dot" style="background: var(--color-agentic)"></span>
-          <strong>Anthropic publishes the 2026 Agentic Coding Trends Report</strong> with enterprise case studies from Rakuten, CRED, TELUS, and Zapier. Claude Code ships /batch and /simplify for parallel agent workflows.
-          <sup class="bib-ref"><a href="#ref-1">[1]</a></sup> <sup class="bib-ref"><a href="#ref-3">[3]</a></sup>
-        </li>
-        <li>
-          <span class="dot" style="background: var(--color-agentic)"></span>
-          <strong>Codebase-Memory MCP gets a published paper</strong> (Vogel et al. 2026) -- the exact Tree-Sitter knowledge graph tool that powers our code-graph MCP server, now with 1,126 GitHub stars and formal evaluation of token reduction.
-          <sup class="bib-ref"><a href="#ref-5">[5]</a></sup>
-        </li>
-        <li>
-          <span class="dot" style="background: var(--color-durable)"></span>
-          <strong>Education Design Lab + Google.org launch an AI + Durable Skills challenge</strong> -- 5 colleges will co-design AI-integrated work-based learning via Riipen, further validating the durable skills + AI intersection that C2A targets.
-          <sup class="bib-ref"><a href="#ref-8">[8]</a></sup>
+          <strong>IDP Accelerator introduces MCP-compliant agentic document intelligence</strong> -- production deployment at a healthcare provider achieved 98% classification accuracy and 80% reduced latency. Qianfan-OCR paper also published.
+          <sup class="bib-ref"><a href="#ref-10">[10]</a></sup> <sup class="bib-ref"><a href="#ref-9">[9]</a></sup>
         </li>
       </ul>
     </section>
@@ -213,59 +208,56 @@
       <h2 style="border-left: 4px solid var(--color-agentic); padding-left: 12px;">Agentic Coding</h2>
 
       <div class="web-card">
-        <a href="https://resources.anthropic.com/2026-agentic-coding-trends-report" class="web-title">Anthropic: 2026 Agentic Coding Trends Report</a>
-        <span class="platform-badge" style="background: var(--text-muted);">Report</span>
-        <p class="excerpt">Official Anthropic report on how coding agents are reshaping development. Eight trends with enterprise case studies from Rakuten, CRED, TELUS, and Zapier covering multi-agent coordination, human-AI collaboration patterns, and scaling agentic coding beyond engineering teams.</p>
-        <p class="why-matters">Relevant: We use Claude Code with parallel agents and custom skills daily -- this report formalizes patterns we've adopted organically.</p>
+        <a href="https://fortune.com/2026/03/31/fortune-com-2026-03-26-ai-agents-vibe-coding-developer-skills-supervisor-class/" class="web-title">Fortune: The "Supervisor Class" -- How AI Agents Are Remaking the Developer's Career</a>
+        <span class="platform-badge" style="background: var(--text-muted);">News</span>
+        <span class="engagement">March 31</span>
+        <p class="excerpt">Cursor crossed $2B ARR. Developers are becoming "supervisors" who coordinate AI agents rather than writing code directly. The article frames this as a fundamental career transformation, not just a productivity tool.</p>
+        <p class="why-matters">Relevant: This is our daily workflow -- we coordinate parallel Claude Code agents with custom skills. The "supervisor" framing validates our agent architecture approach.</p>
         <sup class="bib-ref"><a href="#ref-1">[1]</a></sup>
       </div>
 
       <div class="web-card">
-        <a href="https://x.com/minchoi/status/2027409663822561632" class="web-title">Apple Xcode 26.3 Ships with Claude Code + Codex Built In</a>
-        <span class="platform-badge" style="background: #1d9bf0;">X</span>
-        <p class="excerpt">"Apple just dropped Xcode 26.3 with agentic coding. Claude Code + Codex are now built into Xcode. And with MCP support." Multiple posts confirm Apple's integration of the Claude Agent SDK into Xcode, bringing agentic coding to the iOS/macOS ecosystem.</p>
+        <a href="https://aws.amazon.com/blogs/aws/aws-weekly-roundup-aws-ai-ml-scholars-program-agent-plugin-for-aws-serverless-and-more-march-30-2026/" class="web-title">AWS Ships Agent Plugin for Serverless: Claude Code, Cursor, Kiro Support</a>
+        <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
+        <span class="engagement">March 30</span>
+        <p class="excerpt">The plugin packages skills, sub-agents, and MCP servers into modular units for serverless deployment. SageMaker Studio now supports Kiro and Cursor as remote IDEs. Signals AWS fully embracing the agentic coding ecosystem.</p>
         <sup class="bib-ref"><a href="#ref-2">[2]</a></sup>
       </div>
 
       <div class="web-card">
-        <a href="https://x.com/minchoi/status/2027772823511429367" class="web-title">Claude Code Ships /batch and /simplify Commands</a>
+        <a href="https://x.com/figma/status/2036537173885984975" class="web-title">Figma x Anthropic Livestream: Claude Code to Figma and Back</a>
         <span class="platform-badge" style="background: #1d9bf0;">X</span>
-        <p class="excerpt">"Parallel agents. Simultaneous PRs. Auto code cleanup. Agentic coding just leveled up." New slash commands enable parallel agent dispatch and automated code simplification.</p>
-        <p class="why-matters">Relevant: We already use custom /simplify and parallel agent skills -- these are now first-party features.</p>
+        <span class="engagement">March 31</span>
+        <p class="excerpt">Official Figma + Anthropic livestream on bidirectional workflows between Claude Code and Figma. Design-to-code and code-to-design with MCP integration.</p>
         <sup class="bib-ref"><a href="#ref-3">[3]</a></sup>
-      </div>
-
-      <div class="web-card">
-        <a href="https://thenewstack.io/5-key-trends-shaping-agentic-development-in-2026/" class="web-title">5 Key Trends Shaping Agentic Development in 2026</a>
-        <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
-        <p class="excerpt">Engineers shifting from writing code to coordinating agents; organizations moving from single agents to specialized multi-agent systems working in parallel. The role of "AI navigator" is emerging as a distinct engineering discipline.</p>
-        <sup class="bib-ref"><a href="#ref-4">[4]</a></sup>
       </div>
 
       <details>
         <summary>Academic papers (3)</summary>
 
         <div class="web-card">
-          <a href="https://arxiv.org/abs/2603.27277" class="web-title">Codebase-Memory: Tree-Sitter Knowledge Graphs for LLM Code Exploration via MCP</a>
-          <span class="platform-badge" style="background: #21cbaf;">Papers w/ Code</span>
-          <span class="engagement">1,126 GitHub stars</span>
-          <p class="excerpt">Vogel et al. (2026). Constructs a persistent Tree-Sitter-based knowledge graph via MCP, parsing 66 languages with call-graph traversal, impact analysis, and community discovery. Evaluated for reducing token consumption in LLM coding agents.</p>
-          <p class="why-matters">Relevant: This is the exact tool powering our code-graph MCP server. Published benchmarks validate our adoption.</p>
+          <a href="https://doi.org/10.1109/ACCESS.2026.3652325" class="web-title">Methods and Techniques of Agentic Software Engineering: A Systematic Literature Review</a>
+          <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+          <span class="engagement">IEEE Access, 2026</span>
+          <p class="excerpt">Otoum &amp; Elkhalili (2026). SLR on how autonomous agents using LLMs are being adopted into fundamental software development processes -- planning, execution, and decision-making.</p>
+          <sup class="bib-ref"><a href="#ref-4">[4]</a></sup>
+        </div>
+
+        <div class="web-card">
+          <a href="https://doi.org/10.48550/arXiv.2601.15195" class="web-title">Where Do AI Coding Agents Fail? Empirical Study of 33K Agent PRs on GitHub</a>
+          <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+          <span class="engagement">2 citations</span>
+          <p class="excerpt">Ehsani et al. (2026). Large-scale study of agent-authored pull requests finds documentation and CI tasks have the highest merge success, while bug-fix and performance PRs perform worst.</p>
+          <p class="why-matters">Relevant: Calibrates expectations for which tasks to delegate to agents vs. handle manually in our workflow.</p>
           <sup class="bib-ref"><a href="#ref-5">[5]</a></sup>
         </div>
 
         <div class="web-card">
-          <a href="https://arxiv.org/abs/2603.27703" class="web-title">KAT-Coder-V2: Agentic Coding via Specialize-then-Unify Paradigm</a>
+          <span class="web-title">Engineering Pitfalls in AI Coding Tools: Empirical Study of Bugs in Claude Code, Codex, and Gemini CLI</span>
           <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
-          <p class="excerpt">Li et al. (2026, Kuaishou). Decomposes agentic coding into 5 expert domains (SWE, WebCoding, Terminal, WebSearch, General) with independent SFT/RL and on-policy distillation. Uses KwaiEnv for tens of thousands of concurrent sandbox instances.</p>
-          <sup class="bib-ref"><a href="#ref-6">[6]</a></sup>
-        </div>
-
-        <div class="web-card">
-          <a href="https://arxiv.org/abs/2603.29088" class="web-title">WybeCoder: Verified Imperative Code Generation</a>
-          <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
-          <p class="excerpt">Gloeckle et al. (2026, Facebook/Meta Research). Prove-as-you-generate framework where code, invariants, and proofs co-evolve. Combines automatic verification condition generation and SMT solvers with interactive Lean proofs.</p>
-          <sup class="bib-ref"><a href="#ref-7">[7]</a></sup>
+          <p class="excerpt">Zhang et al. (2026). First empirical study of engineering pitfalls in building AI coding tools, based on 3,800+ publicly reported bugs across three open-source repos.</p>
+          <p class="why-matters">Relevant: Directly studies the tools we use daily. Understanding failure modes helps us write better CLAUDE.md rules.</p>
+          <sup class="bib-ref"><a href="#ref-18">[18]</a></sup>
         </div>
       </details>
     </section>
@@ -275,62 +267,29 @@
       <h2 style="border-left: 4px solid var(--color-durable); padding-left: 12px;">Durable Skills &amp; Assessment</h2>
 
       <div class="web-card">
-        <a href="https://eddesignlab.org/news-events/how-to-apply-for-the-ai-durable-skills-work-based-learning-design-challenge/" class="web-title">Education Design Lab + Google.org: AI + Durable Skills Work-Based Learning Challenge</a>
-        <span class="platform-badge" style="background: var(--text-muted);">Web</span>
-        <p class="excerpt">Five colleges will co-design AI-integrated work-based learning experiences in partnership with employers via the Riipen platform. Supported by Google.org. Application deadline was March 13, 2026.</p>
-        <p class="why-matters">Relevant: Validates the AI + durable skills intersection that C2A targets. Watch for published frameworks from participating colleges.</p>
+        <a href="https://doi.org/10.3389/fpsyg.2026.1779741" class="web-title">Generative AI an Academic Equalizer? Differential Impact on Self-Efficacy and Intrinsic Motivation</a>
+        <span class="platform-badge" style="background: #e64a19;">OpenAlex</span>
+        <span class="engagement">Published March 30, Frontiers in Psychology</span>
+        <p class="excerpt">Shao &amp; Wang (2026). Quasi-experimental study with 200 STEM undergraduates testing whether AI-assisted learning (using DeepSeek) affects intrinsic motivation and self-efficacy differently for high- vs low-achievement students. Grounded in SDT constructs.</p>
+        <p class="why-matters">Relevant: Tests the same SDT constructs (intrinsic motivation, self-efficacy) that C2A measures, in the context of AI-assisted learning. Directly bridges our durable skills and AI-in-education domains.</p>
+        <sup class="bib-ref"><a href="#ref-6">[6]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://doi.org/10.4324/9781003462217-11" class="web-title">Teachers' Social-Emotional Beliefs</a>
+        <span class="platform-badge" style="background: #e64a19;">OpenAlex</span>
+        <span class="engagement">Published March 30, Book chapter</span>
+        <p class="excerpt">Collie, Saez-Delgado &amp; Granziera (2026). Examines teachers' beliefs about SEL curriculum approaches and their own social-emotional competence. Relevant to implementation fidelity in SEL programs.</p>
+        <sup class="bib-ref"><a href="#ref-7">[7]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.newswire.com/news/the-human-layer-of-the-ai-era-muchskills-analysis-identifies-the-specific-soft" class="web-title">MuchSkills: The Human Layer of the AI Era</a>
+        <span class="platform-badge" style="background: var(--text-muted);">News</span>
+        <span class="engagement">March 2026</span>
+        <p class="excerpt">Global analysis of 100,000 professionals identifies top human capabilities in an AI-enabled world. Communication remains the top currency. 44% of work skills expected to transform by 2030.</p>
         <sup class="bib-ref"><a href="#ref-8">[8]</a></sup>
       </div>
-
-      <div class="web-card">
-        <a href="https://www.weforum.org/stories/2026/01/ai-learning-workforce-skills/" class="web-title">WEF: AI's $15 Trillion Prize Will Be Won by Learning, Not Just Technology</a>
-        <span class="platform-badge" style="background: var(--text-muted);">Web</span>
-        <p class="excerpt">Organizations need robust skills data infrastructure for smarter upskilling recommendations and "ambient assessment methods that use AI to infer capabilities from behaviour and work artifacts." Frames durable skills as central to the AI economic opportunity.</p>
-        <sup class="bib-ref"><a href="#ref-9">[9]</a></sup>
-      </div>
-
-      <div class="web-card">
-        <a href="https://x.com/centerforSDT/status/1807798818190361017" class="web-title">9th International Self-Determination Theory Conference -- Geneva, July 1-4, 2026</a>
-        <span class="platform-badge" style="background: #1d9bf0;">X</span>
-        <p class="excerpt">Save the date for the SDT community's flagship conference. SDT underpins the C2A battery's theoretical framework -- watch for papers on AI + autonomy support and digital assessment methods.</p>
-        <p class="why-matters">Relevant: SDT is the theoretical backbone of C2A. Conference proceedings may surface assessment innovations we should track.</p>
-        <sup class="bib-ref"><a href="#ref-10">[10]</a></sup>
-      </div>
-
-      <div class="web-card">
-        <a href="https://www.nciea.org/blog/measuring-durable-skills-more-than-a-test/" class="web-title">NCIEA: Measuring Durable Skills -- More Than a Test</a>
-        <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
-        <p class="excerpt">The Center for Assessment argues that measuring durable skills requires approaches beyond traditional testing -- performance tasks, portfolios, observations, and AI-agent interactions.</p>
-        <sup class="bib-ref"><a href="#ref-11">[11]</a></sup>
-      </div>
-
-      <details>
-        <summary>Academic papers (3)</summary>
-
-        <div class="web-card">
-          <a href="https://eric.ed.gov/?id=EJ1481631" class="web-title">Beyond Technical Skills: Uncovering Durable Competencies through Multi-Level Stakeholder Analysis</a>
-          <span class="platform-badge" style="background: #2e7d32;">ERIC</span>
-          <span class="engagement">Peer-reviewed, 2025</span>
-          <p class="excerpt">Kim et al. (2025). Focus groups with stakeholders from the International Professional Services Organization reveal durable competencies expected of college graduates. Maps the gap between technical skills and workforce-ready capabilities.</p>
-          <sup class="bib-ref"><a href="#ref-12">[12]</a></sup>
-        </div>
-
-        <div class="web-card">
-          <a href="https://doi.org/10.3390/bs15020165" class="web-title">AI in Higher Ed: Need Satisfaction, AI Literacy, and Self-Regulated Learning (SDT Framework)</a>
-          <span class="platform-badge" style="background: #e64a19;">OpenAlex</span>
-          <span class="engagement">36 citations</span>
-          <p class="excerpt">Wang, Cui &amp; Xue (2025). Grounded in self-determination theory, examines how basic psychological need satisfaction influences AI literacy among university students, mediated by self-regulated learning strategies. Published in Behavioral Sciences.</p>
-          <p class="why-matters">Relevant: Applies the same SDT framework that C2A uses, in the context of AI tool adoption in higher education.</p>
-          <sup class="bib-ref"><a href="#ref-13">[13]</a></sup>
-        </div>
-
-        <div class="web-card">
-          <a href="https://eric.ed.gov/?id=ED663512" class="web-title">Considering Multidimensionality: A Solution for Noncognitive Assessment in Education</a>
-          <span class="platform-badge" style="background: #2e7d32;">ERIC</span>
-          <p class="excerpt">Lieber (2024). Proposes advanced psychometric approaches for noncognitive assessments, addressing multidimensionality in soft skills measurement. Directly relevant to the psychometric challenges C2A faces.</p>
-          <sup class="bib-ref"><a href="#ref-31">[31]</a></sup>
-        </div>
-      </details>
     </section>
 
     <!-- TOPIC 3: DOCUMENT PROCESSING -->
@@ -338,65 +297,39 @@
       <h2 style="border-left: 4px solid var(--color-docproc); padding-left: 12px;">Document Processing &amp; OCR</h2>
 
       <div class="web-card">
-        <a href="https://x.com/lmsysorg/status/2018521181146751486" class="web-title">GLM-OCR Tops OmniDocBench v1.5 at 94.62</a>
-        <span class="platform-badge" style="background: #1d9bf0;">X</span>
-        <p class="excerpt">LMSYS announces GLM-OCR as a multimodal OCR model built for complex document understanding, now #1 on OmniDocBench v1.5. Strong on tables, formulas, and information extraction.</p>
-        <p class="why-matters">Relevant: We migrated DEC1TEXTREDACTOR to GLM-OCR via Ollama this month (commit c01604c). DR-048 decision validated by benchmark leadership.</p>
-        <sup class="bib-ref"><a href="#ref-14">[14]</a></sup>
-      </div>
-
-      <div class="web-card">
-        <a href="https://x.com/vllm_project/status/2034516046171000845" class="web-title">Qianfan-OCR by Baidu: 4B End-to-End Document Intelligence Model</a>
-        <span class="platform-badge" style="background: #1d9bf0;">X</span>
-        <p class="excerpt">vLLM announces Qianfan-OCR, a 4B parameter model topping OmniDocBench v1.5 at 93.12. Handles tables, LaTeX formulas, handwriting across 192 languages -- a serious GLM-OCR competitor.</p>
-        <sup class="bib-ref"><a href="#ref-15">[15]</a></sup>
-      </div>
-
-      <div class="web-card">
-        <a href="https://x.com/AndrewYNg/status/1895183929977843970" class="web-title">Andrew Ng: Agentic Document Extraction</a>
-        <span class="platform-badge" style="background: #1d9bf0;">X</span>
-        <p class="excerpt">"Unlike traditional OCR and most PDF-to-text approaches, an agentic approach lets us break a document into components and reason about them." Signals the shift from OCR-as-extraction to OCR-as-understanding.</p>
-        <sup class="bib-ref"><a href="#ref-16">[16]</a></sup>
-      </div>
-
-      <div class="web-card">
-        <a href="https://nanonets.com/blog/idp-leaderboard-1-5/" class="web-title">Nanonets: 16 AI Models Benchmarked on 9,000+ Real Documents</a>
-        <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
-        <p class="excerpt">Comprehensive IDP leaderboard comparing 16 AI models on real-world document extraction. Useful reference for evaluating our pipeline choices against industry benchmarks.</p>
-        <sup class="bib-ref"><a href="#ref-17">[17]</a></sup>
-      </div>
-
-      <div class="web-card">
-        <a href="https://artificio.ai/blog/document-ai-trends-2026-from-ocr-to-agentic-processing" class="web-title">The 2026 State of Document AI: From OCR to Agentic Processing</a>
-        <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
-        <p class="excerpt">Newer platforms use AI agents rather than OCR templates, reasoning through context rather than matching against predetermined structure. The shift from template-based to agentic document processing is accelerating.</p>
-        <sup class="bib-ref"><a href="#ref-18">[18]</a></sup>
+        <a href="https://www.moneyinformation.org/2026/03/31/updf-2-5-officially-launches-the-first-pdf-editor-empowered-by-autonomous-ai-agents/" class="web-title">UPDF 2.5: First PDF Editor with Autonomous AI Agents</a>
+        <span class="platform-badge" style="background: var(--text-muted);">News</span>
+        <span class="engagement">March 31</span>
+        <p class="excerpt">Superace launches UPDF 2.5 with ten AI-driven features: AI Bookmark Generator, semantic search, GPT-5/DeepSeek R1 assistant, and "Intelligent OCR" for scanned PDFs. Signals agentic document processing going mainstream in consumer tools.</p>
+        <sup class="bib-ref"><a href="#ref-19">[19]</a></sup>
       </div>
 
       <details>
         <summary>Academic papers (3)</summary>
 
         <div class="web-card">
-          <a href="https://arxiv.org/abs/2603.24326" class="web-title">PaddleOCR-VL: Coarse-to-Fine Visual Processing for Document Parsing</a>
-          <span class="platform-badge" style="background: #21cbaf;">Papers w/ Code</span>
-          <span class="engagement">74,600 GitHub stars</span>
-          <p class="excerpt">Cui et al. (2026). Addresses quadratic increase in vision tokens from high-resolution document input by identifying and eliminating redundant visual regions. Part of the PaddleOCR ecosystem, the most-starred OCR repo on GitHub.</p>
-          <p class="why-matters">Relevant: Token efficiency for document models directly impacts our Redactor pipeline costs and latency.</p>
-          <sup class="bib-ref"><a href="#ref-19">[19]</a></sup>
-        </div>
-
-        <div class="web-card">
-          <a href="https://arxiv.org/abs/2603.25761" class="web-title">Survey of OCR Evaluation Methods: The Invisibility of Historical Documents</a>
-          <span class="platform-badge" style="background: #21cbaf;">Papers w/ Code</span>
-          <p class="excerpt">Beyene &amp; Dancy (2026). Notes OCR evaluation remains centered on modern, Western documents, masking system behavior in historical and marginalized archives. Uses Black historical newspapers as a case study.</p>
-          <sup class="bib-ref"><a href="#ref-32">[32]</a></sup>
-        </div>
-
-        <div class="web-card">
-          <a href="https://arxiv.org/abs/2510.10138" class="web-title">Hybrid OCR-LLM Framework for Enterprise-Scale Document Extraction</a>
+          <span class="web-title">Qianfan-OCR: A Unified End-to-End Model for Document Intelligence</span>
           <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
-          <p class="excerpt">Wang &amp; Shen (2025). Systematic framework combining OCR engines with LLMs to optimize accuracy-efficiency trade-offs in repetitive document extraction through structure-aware method selection.</p>
-          <sup class="bib-ref"><a href="#ref-33">[33]</a></sup>
+          <span class="engagement">arXiv 2603.13398</span>
+          <p class="excerpt">Dong et al. (2026, Baidu). 4B-parameter model unifying document parsing, layout analysis, and understanding. Introduces "Layout-as-Thought" with special think tokens. Ranks #1 on OmniDocBench v1.5 (93.12) and OlmOCR Bench (79.8).</p>
+          <p class="why-matters">Relevant: The paper behind the Qianfan-OCR benchmark results we flagged last digest. A serious competitor to GLM-OCR in our pipeline.</p>
+          <sup class="bib-ref"><a href="#ref-9">[9]</a></sup>
+        </div>
+
+        <div class="web-card">
+          <a href="https://doi.org/10.48550/arXiv.2602.23481" class="web-title">IDP Accelerator: Agentic Document Intelligence from Extraction to Compliance Validation</a>
+          <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+          <p class="excerpt">Islam et al. (2026). Four-component framework: DocSplit (BIO tagging classifier), configurable extraction via multimodal LLMs, agentic analytics compliant with MCP, and LLM-driven rule validation. Production deployment: 98% classification accuracy, 80% reduced latency.</p>
+          <p class="why-matters">Relevant: An MCP-compliant agentic document pipeline in production at a healthcare provider -- architecturally similar to what DEC1TEXTREDACTOR could evolve toward.</p>
+          <sup class="bib-ref"><a href="#ref-10">[10]</a></sup>
+        </div>
+
+        <div class="web-card">
+          <span class="web-title">DISCO: Document Intelligence Suite for Comparative Evaluation</span>
+          <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+          <span class="engagement">arXiv 2603.23511</span>
+          <p class="excerpt">Benkirane et al. (2026). Evaluates OCR pipelines vs VLMs separately on parsing and QA across diverse document types. Finds OCR is more reliable for handwriting and multi-page docs, while VLMs excel on multilingual text and visually rich layouts.</p>
+          <sup class="bib-ref"><a href="#ref-20">[20]</a></sup>
         </div>
       </details>
     </section>
@@ -406,79 +339,31 @@
       <h2 style="border-left: 4px solid var(--color-education); padding-left: 12px;">AI in Education &amp; Disability Services</h2>
 
       <div class="web-card">
-        <a href="https://www.k12dive.com/news/artificial-intelligence-special-education-Section-504-benefits-risks-privacy-IDEA-IEP/804535/" class="web-title">K-12 Dive: 57% of Special Ed Teachers Used AI for IEPs in 2024-25</a>
-        <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
-        <p class="excerpt">Up from 39% the prior year. CDT warns of risks including IDEA violations and privacy concerns. The rapid adoption rate signals both market opportunity and regulatory urgency.</p>
-        <p class="why-matters">Relevant: Validates C2A's market thesis -- rapid, under-regulated AI adoption in special education creates demand for principled, research-backed tools.</p>
-        <sup class="bib-ref"><a href="#ref-20">[20]</a></sup>
+        <a href="https://doi.org/10.18130/y9n7-bb94" class="web-title">Generative AI in Special Ed Teacher Practice: Perceived Feasibility, Quality, and Usability</a>
+        <span class="platform-badge" style="background: #e64a19;">OpenAlex</span>
+        <span class="engagement">Published March 30, UVA</span>
+        <p class="excerpt">Waterfield (2026). First empirical study examining how special education teachers perceive AI-generated materials for daily IEP/compliance work. Uses a human-in-the-loop framework grounded in Cognitive Load Theory. Addresses the gap between AI potential and teacher-reported usability.</p>
+        <p class="why-matters">Relevant: Waterfield also authored the "IEPs in the Age of AI" paper from the last digest. This new study goes deeper into feasibility -- directly informs ThriveIEP's teacher-facing tool design.</p>
+        <sup class="bib-ref"><a href="#ref-11">[11]</a></sup>
       </div>
 
       <div class="web-card">
-        <a href="https://www.govtech.com/education/k-12/ai-gains-ground-in-special-ed-raises-legal-and-ethical-concerns" class="web-title">GovTech: 15% of Teachers Write Full IEPs with AI (Up from 8%)</a>
-        <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
-        <p class="excerpt">31% use AI to identify trends in student progress for goal setting. AI adoption in special ed is accelerating faster than policy can keep up, raising legal and ethical concerns about IDEA compliance.</p>
-        <sup class="bib-ref"><a href="#ref-21">[21]</a></sup>
+        <a href="https://doi.org/10.70469/labsreview.v3i1.34" class="web-title">Social Constructivism, UDL, and Instructional Design in the AI-Enhanced Classroom</a>
+        <span class="platform-badge" style="background: #e64a19;">OpenAlex</span>
+        <span class="engagement">Published March 30, Open Access</span>
+        <p class="excerpt">Fiori (2026). Positions UDL as the practical operationalization layer for AI in education, arguing it preserves learner agency while reaffirming the educator's role. Proposes social constructivism + UDL as a conceptual model for AI-enhanced classrooms.</p>
+        <p class="why-matters">Relevant: Provides theoretical grounding for C2A's accommodation framework design -- UDL as the bridge between AI capabilities and inclusive practice.</p>
+        <sup class="bib-ref"><a href="#ref-12">[12]</a></sup>
       </div>
 
       <div class="web-card">
-        <a href="https://edtechmagazine.com/k12/article/2026/02/how-ai-tools-can-support-special-education-students-and-teachers" class="web-title">EdTech Magazine: How AI Tools Support Special Ed Students and Teachers</a>
-        <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
-        <p class="excerpt">AI tools delivering more truly individualized instruction, expanding communication options for students with complex needs, and reducing time teachers spend on IEP paperwork. Published February 2026.</p>
-        <sup class="bib-ref"><a href="#ref-22">[22]</a></sup>
+        <a href="https://doi.org/10.18608/jla.2026.9743" class="web-title">Advancing 21st-Century Professional Competencies with Learning Analytics in the Age of GenAI</a>
+        <span class="platform-badge" style="background: #e64a19;">OpenAlex</span>
+        <span class="engagement">Published March 30, Journal of Learning Analytics</span>
+        <p class="excerpt">Barthakur et al. (2026). Addresses the gap between institutional commitment to 21st-century competencies and their systematic integration into curriculum. Argues GenAI + learning analytics can bridge traditional academic metrics and demonstrated workforce readiness.</p>
+        <p class="why-matters">Relevant: Speaks directly to the assessment instrumentation problem C2A solves -- measuring competencies that traditional metrics miss.</p>
+        <sup class="bib-ref"><a href="#ref-13">[13]</a></sup>
       </div>
-
-      <div class="web-card">
-        <a href="https://www.fau.edu/education/newsevents/notebooklm-2026/" class="web-title">FAU: NotebookLM + UDL for Neurodivergent Students</a>
-        <span class="platform-badge" style="background: var(--text-muted);">Web</span>
-        <p class="excerpt">Florida Atlantic University examined how NotebookLM applies UDL principles to improve accessibility and engagement in digital learning for neurodivergent students.</p>
-        <p class="why-matters">Relevant: We use NotebookLM SDK in our compose-report pipeline -- this study validates AI-powered UDL approaches in our target population.</p>
-        <sup class="bib-ref"><a href="#ref-23">[23]</a></sup>
-      </div>
-
-      <div class="web-card">
-        <a href="https://www.edutopia.org/article/using-ai-in-universal-design-for-learning/" class="web-title">Edutopia: 55-60% of Teachers Use AI for Lesson Planning in Early 2026</a>
-        <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
-        <p class="excerpt">AI has moved from "cool experiment" to daily instructional infrastructure. Teacher use of generative AI for lesson planning hit 55-60%, with UDL integration becoming mainstream.</p>
-        <sup class="bib-ref"><a href="#ref-24">[24]</a></sup>
-      </div>
-
-      <details>
-        <summary>Academic papers (4)</summary>
-
-        <div class="web-card">
-          <a href="https://eric.ed.gov/?id=EJ1496954" class="web-title">IEPs in the Age of AI: Examining IEP Goals Written with and without ChatGPT</a>
-          <span class="platform-badge" style="background: #2e7d32;">ERIC</span>
-          <span class="engagement">Peer-reviewed, 2026 | Also found via OpenAlex (8 citations)</span>
-          <p class="excerpt">Waterfield et al. (2026). Examines whether ChatGPT improves IEP goal quality by comparing goals written with and without AI assistance. Finds many IEP goals lack sufficient detail, indicating a need for improved goal-writing support. Published in Journal of Special Education Technology.</p>
-          <p class="why-matters">Relevant: Directly examines AI-assisted IEP development -- the closest published research to what ThriveIEP's tools enable.</p>
-          <sup class="bib-ref"><a href="#ref-25">[25]</a></sup>
-        </div>
-
-        <div class="web-card">
-          <a href="https://europepmc.org/article/MED/40333767" class="web-title">Disability Services in Higher Ed: Statistical Disparities and AI's Bridging Role</a>
-          <span class="platform-badge" style="background: #326599;">Europe PMC</span>
-          <span class="engagement">PLOS ONE, Open Access</span>
-          <p class="excerpt">Beck Wells (2025). Quantitative analysis of NCES data reveals disparities in disability services between 2-year and 4-year institutions. Proposes AI as a tool for bridging institutional gaps in accommodation provision.</p>
-          <p class="why-matters">Relevant: ThriveIEP targets postsecondary disability services -- this paper provides the institutional landscape data for our market.</p>
-          <sup class="bib-ref"><a href="#ref-26">[26]</a></sup>
-        </div>
-
-        <div class="web-card">
-          <a href="https://europepmc.org/article/MED/40867139" class="web-title">AI-Based Interventions for Students with Learning Disabilities: A Systematic Review</a>
-          <span class="platform-badge" style="background: #326599;">Europe PMC</span>
-          <span class="engagement">Brain Sciences, Open Access, 2 citations</span>
-          <p class="excerpt">Paglialunga &amp; Melogno (2025). Systematic review assessing AI-based educational intervention efficacy for students with learning disabilities, with focus on methodological quality and risk of bias in available evidence.</p>
-          <sup class="bib-ref"><a href="#ref-27">[27]</a></sup>
-        </div>
-
-        <div class="web-card">
-          <a href="https://doi.org/10.3390/info16060473" class="web-title">Integrating LLMs into Accessible and Inclusive Education</a>
-          <span class="platform-badge" style="background: #e64a19;">OpenAlex</span>
-          <span class="engagement">9 citations, Open Access</span>
-          <p class="excerpt">Lopez-Gazpio (2025). Explores LLM integration emphasizing accessibility, inclusivity, and individualized learning. Evaluates the potential of AI to mitigate traditional barriers for students with disabilities.</p>
-          <sup class="bib-ref"><a href="#ref-28">[28]</a></sup>
-        </div>
-      </details>
     </section>
 
     <!-- TOPIC 5: CLAUDE ECOSYSTEM -->
@@ -486,57 +371,47 @@
       <h2 style="border-left: 4px solid var(--color-claude); padding-left: 12px;">Claude &amp; Anthropic Ecosystem</h2>
 
       <div class="web-card">
-        <a href="https://x.com/DipanshuKu55175/status/2033452691935113318" class="web-title">Anthropic Academy: 6 Free Courses + Claude Certified Architect</a>
-        <span class="platform-badge" style="background: #1d9bf0;">X</span>
-        <p class="excerpt">Free curriculum: Claude Code in Action, Claude with Bedrock, Claude API, Intro to MCP, MCP Mastery, and Claude Certified Architect. The certification program covers agentic orchestration, prompt engineering, and Claude Code workflows.</p>
-        <sup class="bib-ref"><a href="#ref-29">[29]</a></sup>
+        <a href="https://venturebeat.com/technology/claude-codes-source-code-appears-to-have-leaked-heres-what-we-know" class="web-title">Claude Code Source Code Leaked via npm Packaging Error</a>
+        <span class="platform-badge" style="background: var(--text-muted);">News</span>
+        <span class="engagement">March 31 -- massive viral spread</span>
+        <p class="excerpt">A missing .npmignore caused a 59.8 MB source map with 512,000 lines across 1,906 TypeScript files to ship in the public npm package. Anthropic confirmed "a release packaging issue caused by human error, not a security breach." A clean-room rewrite hit 50K GitHub stars in 2 hours -- the fastest-growing repo in GitHub history.</p>
+        <p class="why-matters">Relevant: We published a response guide the same day. The concurrent axios supply chain attack (RAT between 00:21-03:29 UTC) is the more actionable security concern for our npm-based stack.</p>
+        <sup class="bib-ref"><a href="#ref-14">[14]</a></sup>
       </div>
 
       <div class="web-card">
-        <a href="https://x.com/levie/status/2015860958149967887" class="web-title">MCP Apps: Interactive Experiences Inside Claude Responses</a>
-        <span class="platform-badge" style="background: #1d9bf0;">X</span>
-        <p class="excerpt">Aaron Levie (Box CEO): "You can get interactive experiences in Claude responses." MCP Apps extend MCP to let servers render interactive UI directly in chat -- Box file previews for nearly any file type demonstrated as launch partner.</p>
-        <sup class="bib-ref"><a href="#ref-30">[30]</a></sup>
+        <a href="https://layer5.io/blog/engineering/the-claude-code-source-leak-512000-lines-a-missing-npmignore-and-the-fastest-growing-repo-in-github-history/" class="web-title">Layer5: Deep Technical Analysis of the Claude Code Leak</a>
+        <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
+        <span class="engagement">March 31</span>
+        <p class="excerpt">Detailed technical breakdown covering internal architecture details: frustration detection regexes, anti-distillation decoy tools, undercover mode, and unreleased model references (Capybara v8 with 1M context, Numbat).</p>
+        <sup class="bib-ref"><a href="#ref-15">[15]</a></sup>
       </div>
 
       <div class="web-card">
-        <a href="https://x.com/WesRothMoney/status/2011785440140149034" class="web-title">MCP Tool Search: Lazy Loading for Claude Code</a>
-        <span class="platform-badge" style="background: #1d9bf0;">X</span>
-        <p class="excerpt">"Tool Search now lets Claude Code dynamically fetch tools only when needed. If the tool descriptions exceed 10% of context, they're lazy loaded." Addresses the context window pressure from large MCP tool catalogs.</p>
-        <p class="why-matters">Relevant: We run 100+ MCP tools -- Tool Search directly impacts our session efficiency by deferring unused tool schemas.</p>
-        <sup class="bib-ref"><a href="#ref-34">[34]</a></sup>
-      </div>
-
-      <div class="web-card">
-        <a href="https://x.com/AnthropicAI/status/1938272883618312670" class="web-title">Desktop Extensions (.dxt): One-Click MCP Server Install</a>
-        <span class="platform-badge" style="background: #1d9bf0;">X</span>
-        <p class="excerpt">"Desktop Extensions (.dxt files) package your server, handle dependencies, and provide secure configuration." Simplifies MCP server distribution for Claude Desktop users.</p>
-        <sup class="bib-ref"><a href="#ref-35">[35]</a></sup>
+        <a href="https://thehackernews.com/2026/04/claude-code-tleaked-via-npm-packaging.html" class="web-title">The Hacker News: Concurrent axios Supply Chain Attack During the Leak Window</a>
+        <span class="platform-badge" style="background: var(--text-muted);">Security</span>
+        <span class="engagement">April 1</span>
+        <p class="excerpt">npm installs between 00:21 and 03:29 UTC on March 31 may have pulled a malicious axios package containing a RAT. Anthropic confirmed the source leak itself was benign, but the supply chain timing is a serious coincidence worth auditing.</p>
+        <sup class="bib-ref"><a href="#ref-16">[16]</a></sup>
       </div>
 
       <details>
-        <summary>Academic papers (3)</summary>
+        <summary>Academic papers (2)</summary>
 
         <div class="web-card">
-          <a href="https://arxiv.org/abs/2511.18397" class="web-title">Natural Emergent Misalignment from Reward Hacking in Production RL</a>
+          <a href="https://doi.org/10.1371/journal.pone.0341317" class="web-title">Claude Sonnet 4 Tops Bloom's Taxonomy Evaluation for MCQ Generation</a>
           <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
-          <span class="engagement">28 citations (Anthropic-authored)</span>
-          <p class="excerpt">MacDiarmid et al. (2025, Anthropic). When LLMs learn to reward-hack in production RL environments, this can produce egregious emergent misalignment. Trained on Anthropic's own production coding environments. Identifies three mitigations: preventing reward hacking, diverse safety training, and framing.</p>
-          <sup class="bib-ref"><a href="#ref-36">[36]</a></sup>
+          <span class="engagement">PLOS ONE, 2026</span>
+          <p class="excerpt">Nguyen et al. (2026). Five LLMs evaluated for generating MCQs across Bloom's Taxonomy cognitive levels. Claude Sonnet 4 achieved the highest alignment at higher-order levels (applying, analyzing, evaluating/creating; p = 0.01, 0.003, 0.005).</p>
+          <sup class="bib-ref"><a href="#ref-17">[17]</a></sup>
         </div>
 
         <div class="web-card">
-          <a href="https://arxiv.org/abs/2603.29038" class="web-title">Trojan-Speak: Bypassing Constitutional Classifiers via Adversarial Finetuning</a>
-          <span class="platform-badge" style="background: #21cbaf;">Papers w/ Code</span>
-          <p class="excerpt">Sel et al. (2026). Adversarial fine-tuning that bypasses Anthropic's Constitutional Classifiers using curriculum learning + GRPO-based hybrid RL. Claims to eliminate the "jailbreak tax" (degraded general capabilities) that affected prior approaches.</p>
-          <sup class="bib-ref"><a href="#ref-37">[37]</a></sup>
-        </div>
-
-        <div class="web-card">
-          <a href="https://arxiv.org/abs/2603.28123" class="web-title">Does Claude's Constitution Have a Culture?</a>
-          <span class="platform-badge" style="background: #21cbaf;">Papers w/ Code</span>
-          <p class="excerpt">Pourdavood (2026). Evaluates Claude Sonnet on 55 World Values Survey items across six value domains. Investigates whether CAI constitutions authored by specific groups reflect particular cultural perspectives.</p>
-          <sup class="bib-ref"><a href="#ref-38">[38]</a></sup>
+          <a href="https://doi.org/10.1108/el-07-2025-0281" class="web-title">Claude Sonnet 4 Selected for Production Archival Metadata Generation</a>
+          <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+          <span class="engagement">Electronic Library, 2026</span>
+          <p class="excerpt">Wolfe (2026). Tested multiple VLMs for MODS-compliant metadata from digitized photographs. Claude Sonnet 4 selected for production, generating metadata for 2,263 photos with 64% FAST vocabulary mapping success.</p>
+          <sup class="bib-ref"><a href="#ref-21">[21]</a></sup>
         </div>
       </details>
     </section>
@@ -547,177 +422,95 @@
       <ol>
         <li class="bib-entry" id="ref-1">
           <span class="ref-num">[1]</span>
-          Anthropic. "2026 Agentic Coding Trends Report." <em>Anthropic Resources</em>, 2026.
-          <a href="https://resources.anthropic.com/2026-agentic-coding-trends-report">link</a>
+          "The Supervisor Class: How AI Agents Are Remaking the Developer's Career." <em>Fortune</em>, March 31, 2026.
+          <a href="https://fortune.com/2026/03/31/fortune-com-2026-03-26-ai-agents-vibe-coding-developer-skills-supervisor-class/">link</a>
         </li>
         <li class="bib-entry" id="ref-2">
           <span class="ref-num">[2]</span>
-          Min Choi (@minchoi). "Did Apple just kill every iOS vibe coding app?" <em>X/Twitter</em>, 2026.
-          <a href="https://x.com/minchoi/status/2027409663822561632">link</a>
+          "AWS Weekly Roundup: Agent Plugin for AWS Serverless." <em>AWS Blog</em>, March 30, 2026.
+          <a href="https://aws.amazon.com/blogs/aws/aws-weekly-roundup-aws-ai-ml-scholars-program-agent-plugin-for-aws-serverless-and-more-march-30-2026/">link</a>
         </li>
         <li class="bib-entry" id="ref-3">
           <span class="ref-num">[3]</span>
-          Min Choi (@minchoi). "Claude Code just dropped /batch and /simplify." <em>X/Twitter</em>, 2026.
-          <a href="https://x.com/minchoi/status/2027772823511429367">link</a>
+          Figma (@figma). "Figma x Anthropic Livestream: Claude Code to Figma and back." <em>X/Twitter</em>, March 31, 2026.
+          <a href="https://x.com/figma/status/2036537173885984975">link</a>
         </li>
         <li class="bib-entry" id="ref-4">
           <span class="ref-num">[4]</span>
-          "5 Key Trends Shaping Agentic Development in 2026." <em>The New Stack</em>, 2026.
-          <a href="https://thenewstack.io/5-key-trends-shaping-agentic-development-in-2026/">link</a>
+          Otoum, N.A. &amp; Elkhalili, N. (2026). "Methods and Techniques of Agentic Software Engineering: A Systematic Literature Review." <em>IEEE Access</em>. DOI: 10.1109/ACCESS.2026.3652325
         </li>
         <li class="bib-entry" id="ref-5">
           <span class="ref-num">[5]</span>
-          Vogel, M., Meyer-Eschenbach, F., Kohler, S., Gruenewald, E., &amp; Balzer, F. (2026). "Codebase-Memory: Tree-Sitter-Based Knowledge Graphs for LLM Code Exploration via MCP." <em>arXiv</em>. DOI: 10.48550/arXiv.2603.27277
+          Ehsani, R., Pathak, S., Rawal, S. et al. (2026). "Where Do AI Coding Agents Fail? An Empirical Study of Failed Agentic Pull Requests in GitHub." <em>arXiv</em>. DOI: 10.48550/arXiv.2601.15195 (2 citations)
         </li>
         <li class="bib-entry" id="ref-6">
           <span class="ref-num">[6]</span>
-          Li, F., Zhang, H., Huang, H., et al. (2026). "KAT-Coder-V2 Technical Report." <em>arXiv</em>. DOI: 10.48550/arXiv.2603.27703
+          Shao, H. &amp; Wang, R.Z. (2026). "Generative AI an Academic Equalizer?" <em>Frontiers in Psychology</em>. DOI: 10.3389/fpsyg.2026.1779741
         </li>
         <li class="bib-entry" id="ref-7">
           <span class="ref-num">[7]</span>
-          Gloeckle, F., Baksys, M., Feher, D., et al. (2026). "WybeCoder: Verified Imperative Code Generation." <em>arXiv</em>. DOI: 10.48550/arXiv.2603.29088
+          Collie, R.J., Saez-Delgado, F.M. &amp; Granziera, H. (2026). "Teachers' Social-Emotional Beliefs." Book chapter. DOI: 10.4324/9781003462217-11
         </li>
         <li class="bib-entry" id="ref-8">
           <span class="ref-num">[8]</span>
-          Education Design Lab. "AI + Durable Skills Work-Based Learning Design Challenge." <em>Ed Design Lab</em>, 2026.
-          <a href="https://eddesignlab.org/news-events/how-to-apply-for-the-ai-durable-skills-work-based-learning-design-challenge/">link</a>
+          "The Human Layer of the AI Era." <em>MuchSkills / Newswire</em>, March 2026.
+          <a href="https://www.newswire.com/news/the-human-layer-of-the-ai-era-muchskills-analysis-identifies-the-specific-soft">link</a>
         </li>
         <li class="bib-entry" id="ref-9">
           <span class="ref-num">[9]</span>
-          "AI's $15 Trillion Prize Will Be Won by Learning." <em>World Economic Forum</em>, January 2026.
-          <a href="https://www.weforum.org/stories/2026/01/ai-learning-workforce-skills/">link</a>
+          Dong, D., Zheng, M., Xu, D. et al. (2026). "Qianfan-OCR: A Unified End-to-End Model for Document Intelligence." <em>arXiv</em>. arXiv: 2603.13398
         </li>
         <li class="bib-entry" id="ref-10">
           <span class="ref-num">[10]</span>
-          Center for SDT (@centerforSDT). "9th International SDT Conference -- Geneva, July 1-4, 2026." <em>X/Twitter</em>.
-          <a href="https://x.com/centerforSDT/status/1807798818190361017">link</a>
+          Islam, M.M., Salekin, M.S., King, J. et al. (2026). "IDP Accelerator: Agentic Document Intelligence from Extraction to Compliance Validation." <em>arXiv</em>. DOI: 10.48550/arXiv.2602.23481
         </li>
         <li class="bib-entry" id="ref-11">
           <span class="ref-num">[11]</span>
-          "Measuring Durable Skills: More Than a Test." <em>National Center for the Improvement of Educational Assessment</em>, 2026.
-          <a href="https://www.nciea.org/blog/measuring-durable-skills-more-than-a-test/">link</a>
+          Waterfield, D.A. (2026). "Generative AI in Special Education Teacher Practice." <em>UVA Libra</em>. DOI: 10.18130/y9n7-bb94
         </li>
         <li class="bib-entry" id="ref-12">
           <span class="ref-num">[12]</span>
-          Kim, A.-S., Jones, K., Lang, G., &amp; Raider, H.J. (2025). "Beyond Technical Skills: Uncovering Durable Competencies through Multi-Level Stakeholder Analysis." <em>ERIC</em>. ID: EJ1481631
+          Fiori, M. (2026). "Social Constructivism, UDL, and Instructional Design in the AI-Enhanced Classroom." <em>Latin American Business and Sustainability Review</em>. DOI: 10.70469/labsreview.v3i1.34
         </li>
         <li class="bib-entry" id="ref-13">
           <span class="ref-num">[13]</span>
-          Wang, K., Cui, W., &amp; Xue, Y. (2025). "AI in Higher Education: The Impact of Need Satisfaction on AI Literacy." <em>Behavioral Sciences</em>. DOI: 10.3390/bs15020165 (36 citations)
+          Barthakur, A., Viberg, O., Kizilcec, R.F. et al. (2026). "Advancing 21st-Century Professional Competencies with Learning Analytics." <em>Journal of Learning Analytics</em>. DOI: 10.18608/jla.2026.9743
         </li>
         <li class="bib-entry" id="ref-14">
           <span class="ref-num">[14]</span>
-          LMSYS Org (@lmsysorg). "GLM-OCR: #1 on OmniDocBench v1.5 (94.62)." <em>X/Twitter</em>, 2026.
-          <a href="https://x.com/lmsysorg/status/2018521181146751486">link</a>
+          "Claude Code's Source Code Appears to Have Leaked." <em>VentureBeat</em>, March 31, 2026.
+          <a href="https://venturebeat.com/technology/claude-codes-source-code-appears-to-have-leaked-heres-what-we-know">link</a>
         </li>
         <li class="bib-entry" id="ref-15">
           <span class="ref-num">[15]</span>
-          vLLM Project (@vllm_project). "Qianfan-OCR by Baidu: 4B end-to-end document intelligence model." <em>X/Twitter</em>, 2026.
-          <a href="https://x.com/vllm_project/status/2034516046171000845">link</a>
+          "The Claude Code Source Leak: 512,000 Lines." <em>Layer5</em>, March 31, 2026.
+          <a href="https://layer5.io/blog/engineering/the-claude-code-source-leak-512000-lines-a-missing-npmignore-and-the-fastest-growing-repo-in-github-history/">link</a>
         </li>
         <li class="bib-entry" id="ref-16">
           <span class="ref-num">[16]</span>
-          Andrew Ng (@AndrewYNg). "Announcing: Agentic Document Extraction." <em>X/Twitter</em>, 2026.
-          <a href="https://x.com/AndrewYNg/status/1895183929977843970">link</a>
+          "Claude Code Leaked via npm Packaging Error, Anthropic Confirms." <em>The Hacker News</em>, April 1, 2026.
+          <a href="https://thehackernews.com/2026/04/claude-code-tleaked-via-npm-packaging.html">link</a>
         </li>
         <li class="bib-entry" id="ref-17">
           <span class="ref-num">[17]</span>
-          "We Ran 16 AI Models on 9,000+ Real Documents." <em>Nanonets</em>, 2026.
-          <a href="https://nanonets.com/blog/idp-leaderboard-1-5/">link</a>
+          Nguyen, T.T. et al. (2026). "Evaluating Cognitive Depth of AI-Generated MCQs with Bloom's Taxonomy." <em>PLOS ONE</em>. DOI: 10.1371/journal.pone.0341317
         </li>
         <li class="bib-entry" id="ref-18">
           <span class="ref-num">[18]</span>
-          "The 2026 State of Document AI: From OCR to Agentic Processing." <em>Artificio</em>, 2026.
-          <a href="https://artificio.ai/blog/document-ai-trends-2026-from-ocr-to-agentic-processing">link</a>
+          Zhang, R., Dai, W., Pham, H.V. et al. (2026). "Engineering Pitfalls in AI Coding Tools: An Empirical Study of Bugs in Claude Code, Codex, and Gemini CLI." <em>Preprint</em>.
         </li>
         <li class="bib-entry" id="ref-19">
           <span class="ref-num">[19]</span>
-          Cui, C., Sun, T., Liang, S., et al. (2026). "PaddleOCR-VL: Coarse-to-Fine Visual Processing for Document Parsing." <em>arXiv</em>. DOI: 10.48550/arXiv.2603.24326
+          "UPDF 2.5 Officially Launches: First PDF Editor Empowered by Autonomous AI Agents." <em>Money Information</em>, March 31, 2026.
+          <a href="https://www.moneyinformation.org/2026/03/31/updf-2-5-officially-launches-the-first-pdf-editor-empowered-by-autonomous-ai-agents/">link</a>
         </li>
         <li class="bib-entry" id="ref-20">
           <span class="ref-num">[20]</span>
-          "Heightened AI Use in Special Education Brings Elevated Risks." <em>K-12 Dive</em>, 2026.
-          <a href="https://www.k12dive.com/news/artificial-intelligence-special-education-Section-504-benefits-risks-privacy-IDEA-IEP/804535/">link</a>
+          Benkirane, K. et al. (2026). "DISCO: Document Intelligence Suite for Comparative Evaluation." <em>arXiv</em>. arXiv: 2603.23511
         </li>
         <li class="bib-entry" id="ref-21">
           <span class="ref-num">[21]</span>
-          "AI Gains Ground in Special Ed, Raising Legal and Ethical Concerns." <em>GovTech</em>, 2026.
-          <a href="https://www.govtech.com/education/k-12/ai-gains-ground-in-special-ed-raises-legal-and-ethical-concerns">link</a>
-        </li>
-        <li class="bib-entry" id="ref-22">
-          <span class="ref-num">[22]</span>
-          "How AI Tools Can Support Special Education Students and Teachers." <em>EdTech Magazine</em>, February 2026.
-          <a href="https://edtechmagazine.com/k12/article/2026/02/how-ai-tools-can-support-special-education-students-and-teachers">link</a>
-        </li>
-        <li class="bib-entry" id="ref-23">
-          <span class="ref-num">[23]</span>
-          "AI and Universal Design: NotebookLM for Neurodivergent Students." <em>Florida Atlantic University</em>, 2026.
-          <a href="https://www.fau.edu/education/newsevents/notebooklm-2026/">link</a>
-        </li>
-        <li class="bib-entry" id="ref-24">
-          <span class="ref-num">[24]</span>
-          "Using AI in Universal Design for Learning." <em>Edutopia</em>, 2026.
-          <a href="https://www.edutopia.org/article/using-ai-in-universal-design-for-learning/">link</a>
-        </li>
-        <li class="bib-entry" id="ref-25">
-          <span class="ref-num">[25]</span>
-          Waterfield, D.A., Coleman, O.F., Welker, N.P., &amp; Kennedy, M.J. (2026). "IEPs in the Age of AI: Examining IEP Goals Written with and without ChatGPT." <em>Journal of Special Education Technology</em>. DOI: 10.1177/01626434251324592 (8 citations)
-        </li>
-        <li class="bib-entry" id="ref-26">
-          <span class="ref-num">[26]</span>
-          Beck Wells, M. (2025). "Disability Services in Higher Education: Statistical Disparities and the Potential Role of AI." <em>PLOS ONE</em>. DOI: 10.1371/journal.pone.0322728
-        </li>
-        <li class="bib-entry" id="ref-27">
-          <span class="ref-num">[27]</span>
-          Paglialunga, A. &amp; Melogno, S. (2025). "The Effectiveness of AI-Based Interventions for Students with Learning Disabilities: A Systematic Review." <em>Brain Sciences</em>. DOI: 10.3390/brainsci15080806 (2 citations)
-        </li>
-        <li class="bib-entry" id="ref-28">
-          <span class="ref-num">[28]</span>
-          Lopez-Gazpio, I. (2025). "Integrating Large Language Models into Accessible and Inclusive Education." <em>Information</em>. DOI: 10.3390/info16060473 (9 citations)
-        </li>
-        <li class="bib-entry" id="ref-29">
-          <span class="ref-num">[29]</span>
-          Dipanshu Kushwaha (@DipanshuKu55175). "Anthropic Academy released 6 free online courses." <em>X/Twitter</em>, 2026.
-          <a href="https://x.com/DipanshuKu55175/status/2033452691935113318">link</a>
-        </li>
-        <li class="bib-entry" id="ref-30">
-          <span class="ref-num">[30]</span>
-          Aaron Levie (@levie). "Claude now supports MCP Apps." <em>X/Twitter</em>, 2026.
-          <a href="https://x.com/levie/status/2015860958149967887">link</a>
-        </li>
-        <li class="bib-entry" id="ref-31">
-          <span class="ref-num">[31]</span>
-          Lieber, H. (2024). "Considering Multidimensionality: A Solution for Noncognitive Assessment in Education." <em>ERIC</em>. ID: ED663512
-        </li>
-        <li class="bib-entry" id="ref-32">
-          <span class="ref-num">[32]</span>
-          Beyene, F.S. &amp; Dancy, C.L. (2026). "A Survey of OCR Evaluation Methods and the Invisibility of Historical Documents." <em>arXiv</em>. DOI: 10.48550/arXiv.2603.25761
-        </li>
-        <li class="bib-entry" id="ref-33">
-          <span class="ref-num">[33]</span>
-          Wang, Z. &amp; Shen, X. (2025). "Hybrid OCR-LLM Framework for Enterprise-Scale Document Extraction." <em>arXiv</em>. DOI: 10.48550/arXiv.2510.10138
-        </li>
-        <li class="bib-entry" id="ref-34">
-          <span class="ref-num">[34]</span>
-          Wes Roth (@WesRothMoney). "MCP Tool Search for Claude Code." <em>X/Twitter</em>, 2026.
-          <a href="https://x.com/WesRothMoney/status/2011785440140149034">link</a>
-        </li>
-        <li class="bib-entry" id="ref-35">
-          <span class="ref-num">[35]</span>
-          Anthropic (@AnthropicAI). "Desktop Extensions (.dxt) for one-click MCP install." <em>X/Twitter</em>, 2026.
-          <a href="https://x.com/AnthropicAI/status/1938272883618312670">link</a>
-        </li>
-        <li class="bib-entry" id="ref-36">
-          <span class="ref-num">[36]</span>
-          MacDiarmid, M., Wright, B., Uesato, J., et al. (2025). "Natural Emergent Misalignment from Reward Hacking in Production RL." <em>arXiv</em>. DOI: 10.48550/arXiv.2511.18397 (28 citations)
-        </li>
-        <li class="bib-entry" id="ref-37">
-          <span class="ref-num">[37]</span>
-          Sel, B., He, X., Peng, A., Jin, M., &amp; Wei, J. (2026). "Trojan-Speak: Bypassing Constitutional Classifiers via Adversarial Finetuning." <em>arXiv</em>. DOI: 10.48550/arXiv.2603.29038
-        </li>
-        <li class="bib-entry" id="ref-38">
-          <span class="ref-num">[38]</span>
-          Pourdavood, P. (2026). "Does Claude's Constitution Have a Culture?" <em>arXiv</em>. DOI: 10.48550/arXiv.2603.28123
+          Wolfe, E. (2026). "Enhanced Archival Metadata through AI." <em>Electronic Library</em>. DOI: 10.1108/el-07-2025-0281
         </li>
       </ol>
     </section>
@@ -726,19 +519,15 @@
     <footer class="digest-footer">
       <div class="source-status">
         <span class="source skip">Reddit</span>
-        <span class="source ok">YouTube</span>
-        <span class="source skip">HN</span>
+        <span class="source skip">YouTube</span>
         <span class="source ok">X/Twitter</span>
         <span class="source ok">LinkedIn</span>
         <span class="source ok">Web</span>
         <span class="source ok">Semantic Scholar</span>
         <span class="source ok">OpenAlex</span>
-        <span class="source ok">Europe PMC</span>
-        <span class="source ok">ERIC</span>
-        <span class="source partial">Papers w/ Code</span>
       </div>
-      <p class="dedup-note">3 items deduplicated from previous digests</p>
-      <p class="meta">Generated by dev-digest skill, 2026-04-01 | Reddit: no recent hits (X auth unavailable) | Papers w/ Code API deprecated, used arXiv+HuggingFace+GitHub fallback</p>
+      <p class="dedup-note">0 items deduplicated (clean window since last digest March 30)</p>
+      <p class="meta">Generated by dev-digest skill, 2026-04-01 | 2-day window (since last_run 2026-03-30) | Reddit/YouTube: no hits in 2-day window (expected for niche topics)</p>
     </footer>
 
   </main>
