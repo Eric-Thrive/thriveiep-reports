@@ -127,12 +127,12 @@
       <tr><td><strong>Schema/Grammar Constraints</strong></td><td>Malformed outputs, missing fields, wrong types</td><td>Claude native (GA Jan 2026), Instructor (12.6K stars), Outlines (13.6K stars)</td><td><span class="badge badge-moderate">PRODUCTION</span></td></tr>
       <tr><td><strong>Factual Consistency</strong></td><td>Hallucinated facts, source-summary divergence</td><td>MiniCheck (770M, 203 stars), AlignScore (355M, 156 stars), FActScore (426 stars)</td><td><span class="badge badge-moderate">PRODUCTION</span></td></tr>
       <tr><td><strong>Uncertainty Quantification</strong></td><td>Low-confidence claims, domain-dependent reliability</td><td>Semantic Entropy (needs model internals), MAPIE (1.5K stars, no NLG support)</td><td><span class="badge badge-high">RESEARCH</span></td></tr>
-      <tr><td><strong>Neuro-Symbolic Verification</strong></td><td>Logic constraint violations AND semantic quality</td><td>Z3 (12.1K stars, Python + TypeScript WASM), PSL (312 stars, last updated 2024)</td><td><span class="badge badge-high">EMERGING</span></td></tr>
+      <tr><td><strong>Neuro-Symbolic Verification</strong></td><td>Logic constraint violations AND semantic quality</td><td>Z3 (12.1K stars, Python + TS WASM), EORM (55M EBM, 90.7%), NSVIF (Z3+LLM, 100% on Code2Inv)</td><td><span class="badge badge-moderate">MATURING</span></td></tr>
       <tr><td><strong>Contradiction Handling</strong></td><td>Cross-document conflicts, partial truths</td><td>DocNLI (69 stars, unmaintained since 2021), no cross-document tool exists</td><td><span class="badge badge-critical">EARLY</span></td></tr>
     </tbody>
   </table>
   <blockquote>
-    <strong>The CRANE finding (2025) is architecturally critical:</strong> Overly restrictive constraints during generation degrade the LLM's reasoning quality (<a href="https://arxiv.org/abs/2502.09061" target="_blank">arXiv 2502.09061</a>). Structural constraints must be applied at generation time, but semantic validation must happen post-generation. This validates Bloom's existing pattern of free synthesis (Agent 3) followed by post-hoc QA (Agent 4).
+    <strong>The CRANE finding (2025) is architecturally critical:</strong> Overly restrictive constraints during generation degrade the LLM's reasoning quality (<a href="https://arxiv.org/abs/2502.09061" target="_blank">arXiv 2502.09061</a>). However, <strong>DCCD (Draft-Conditioned Constrained Decoding, March 2026)</strong> resolves this: generate an unconstrained draft first, then apply constraints in a refinement pass, improving accuracy by up to 24 percentage points over direct constrained decoding (<a href="https://arxiv.org/abs/2603.03305" target="_blank">arXiv 2603.03305</a>). This formally validates Bloom's existing pattern of free synthesis (Agent 3) followed by post-hoc QA (Agent 4).
   </blockquote>
   <blockquote>
     <strong>Claude native structured outputs</strong> (GA January 2026) commoditize basic JSON schema enforcement. But they do not replace <em>Instructor</em> for complex nested Pydantic validation with automatic retry and validation error feedback. Use Claude native for simple schemas, Instructor for anything with cross-field rules.
@@ -185,7 +185,7 @@
       <tr><td><strong>Guardrails AI</strong></td><td>6.6K</td><td>Full</td><td>Python</td><td>Modular validators, Hub ecosystem</td></tr>
       <tr><td><strong>Outlines</strong></td><td>13.6K</td><td>Via API</td><td>Python</td><td>Self-hosted constrained decoding</td></tr>
       <tr><td><strong>SGLang</strong></td><td>25.3K</td><td>Self-hosted</td><td>Python</td><td>High-throughput serving</td></tr>
-      <tr><td><strong>NeMo Guardrails</strong></td><td>2.8K</td><td>Config</td><td>Python</td><td>Dialog flow control (Colang DSL)</td></tr>
+      <tr><td><strong>NeMo Guardrails</strong></td><td>2.8K</td><td>Config</td><td>Python</td><td>Pipeline-stage validation (IORails engine, 40% faster in 2026), LangGraph integration</td></tr>
     </tbody>
   </table>
 
@@ -194,6 +194,8 @@
     <thead><tr><th>Tool</th><th>Size</th><th>Accuracy</th><th>Cost vs Frontier</th><th>Best For</th></tr></thead>
     <tbody>
       <tr><td><strong>MiniCheck</strong></td><td>770M</td><td>Frontier-level</td><td>400x cheaper</td><td>Claim verification</td></tr>
+      <tr><td><strong>Bespoke-MiniCheck</strong></td><td>7B</td><td>#1 on LLM-AggreFact (77.4%)</td><td>~200x cheaper</td><td>SOTA claim verification (Ollama, HuggingFace)</td></tr>
+      <tr><td><strong>Patronus Lynx</strong></td><td>70B</td><td>+8.3% over frontier on PubMedQA</td><td>Enterprise</td><td>Medical/clinical fact-checking</td></tr>
       <tr><td><strong>AlignScore</strong></td><td>355M</td><td>Beats frontier models on 22 datasets</td><td>500x cheaper</td><td>Lightweight checking</td></tr>
       <tr><td><strong>FActScore</strong></td><td>LLM-based</td><td>Gold standard</td><td>1x (uses LLM)</td><td>Atomic fact analysis</td></tr>
       <tr><td><strong>SelfCheckGPT</strong></td><td>Any LLM</td><td>Good, fails on confident hallucinations</td><td>N+1 calls</td><td>Black-box only</td></tr>
@@ -213,7 +215,7 @@
     </tbody>
   </table>
 
-  <blockquote><strong>Critical production caveat:</strong> "Constrained decoding degrades instruction-tuned model performance on generation tasks" (Schall &amp; de Melo, RANLP 2025). Use structured output for metadata routing; allow free-form text for clinical narratives. Do not force the clinical synthesis agent to output JSON mid-generation.</blockquote>
+  <blockquote><strong>Critical production caveat:</strong> "Constrained decoding degrades instruction-tuned model performance on generation tasks" (Schall &amp; de Melo, RANLP 2025). <strong>DCCD (March 2026)</strong> resolves this by generating unconstrained first, then applying constraints (+24pp accuracy). For Bloom: use structured output for metadata routing; allow free-form text for clinical narratives; apply constraints in a refinement pass, not during generation.</blockquote>
 </div>
 
 <!-- ========== SLIDE 6: STAGE 2 Z3 HYBRID ========== -->
@@ -245,8 +247,12 @@
     <p>The npm package <code>z3-solver</code> uses WebAssembly to run Z3 directly in Node.js. This means Bloom's existing TypeScript codebase can embed formal verification without a Python sidecar. Install with <code>npm install z3-solver</code>.</p>
   </div>
   <div class="finding-card">
-    <h4><span class="badge badge-moderate">NEW</span> Z3+LLM proven in clinical domains</h4>
-    <p>Singh et al. (2026) autoformalize clinical findings from radiology reports and verify diagnostic claims against a knowledge base. Winston et al. (2026) translate natural-language policies into SMT-LIB-2.0 constraints checked at runtime. Both demonstrate the Z3+LLM pattern works on real clinical text, not just toy examples.</p>
+    <h4><span class="badge badge-moderate">NEW</span> Z3+LLM proven in clinical domains and at scale</h4>
+    <p>Singh et al. (2026) autoformalize clinical findings from radiology reports and verify diagnostic claims against a knowledge base. Winston et al. (2026) translate natural-language policies into SMT-LIB-2.0 constraints checked at runtime. LLM-guided loop invariant synthesis with Z3 achieved <strong>100% coverage (133/133)</strong> on the Code2Inv benchmark, up from the previous best of 107/133. The Z3+LLM pattern is production-proven, not experimental.</p>
+  </div>
+  <div class="finding-card">
+    <h4><span class="badge badge-high">UPDATE</span> Energy-Based Models are now a practical alternative</h4>
+    <p><strong>EORM</strong> (Energy Outcome Reward Model, 55M parameters) achieves 90.7% accuracy on GSM8k while being <strong>127x smaller</strong> than typical reward models. The EBR-LLM framework can localize failures to specific constraint violations, which is exactly what Bloom Agent 4 needs. A formal bijection between autoregressive and energy-based models was established in late 2025 (<a href="https://arxiv.org/abs/2512.15605" target="_blank">arXiv 2512.15605</a>). EBMs should be considered alongside Z3 for Stage 2, not parked as speculative.</p>
   </div>
   <div class="finding-card">
     <h4><span class="badge badge-moderate">NEW</span> Prometheus 2: open-weight judge at ~300x savings</h4>
@@ -290,8 +296,8 @@
     <p><em>Probabilistic Soft Logic</em> (PSL, 312 stars, <a href="https://doi.org/10.1613/jair.5238" target="_blank">Bach 2015, 129 citations</a>) encodes rules as weighted first-order logic with continuous truth values [0,1]. Example: <code>IF residential_recommended AND no_failed_lower_levels THEN invalid [weight=0.95]</code>. But PSL is Java/Groovy, last commit was 2024, and it is not actively maintained.</p>
   </div>
   <div class="finding-card">
-    <h4><span class="badge badge-low">LOW</span> Conformal prediction: zero production adoption</h4>
-    <p>As of Q1 2026, zero practitioner production adoption reports exist for conformal prediction in NLG, despite solid academic results at EMNLP 2025, ICLR 2025, and NeurIPS 2024. The gap between paper and production is real. Calibration data (labeled correct/incorrect clinical reports) must be collected as part of the grant scope.</p>
+    <h4><span class="badge badge-high">UPDATE</span> Conformal prediction: emerging frameworks, pre-production</h4>
+    <p>A comprehensive <strong>TACL survey</strong> (<a href="https://direct.mit.edu/tacl/article/doi/10.1162/tacl_a_00715/125278" target="_blank">2026</a>) now provides the authoritative review of conformal prediction for NLP. The <strong>TECP framework</strong> (Token-Entropy Conformal Prediction) combines log-probability-based token-entropy with split conformal prediction. Factuality guarantee methods using deducibility graphs ensure coherent reasoning chains. Still pre-production, but the theoretical tooling is maturing faster than expected. Calibration data must still be collected as part of the grant scope.</p>
   </div>
 
   <h3>The C2A Transfer</h3>
@@ -306,9 +312,9 @@
 
   <h3>What Each Layer Adds</h3>
   <ul>
-    <li><strong>Agent 2 evolution (Dempster-Shafer):</strong> Replace manual source hierarchy rules with formal evidence combination. Each source document gets a reliability weight. Conflicts are resolved mathematically. (<a href="https://doi.org/10.1016/j.inffus.2023.102082" target="_blank">Xiao 2024</a>)</li>
-    <li><strong>Agent 4 evolution:</strong> Z3 for hard constraints + conformal prediction for statistical guarantees + semantic entropy for uncertainty detection</li>
-    <li><strong>Cross-agent (Allen's interval algebra):</strong> Temporal knowledge graph for timeline representation with formal consistency checking. (<a href="https://doi.org/10.1093/jamia/ocaa126" target="_blank">Li 2020, Time Event Ontology</a>)</li>
+    <li><strong>Agent 2 evolution (Dempster-Shafer):</strong> Replace manual source hierarchy rules with formal evidence combination. Each source document gets a reliability weight. Conflicts are resolved mathematically. Now <strong>demonstrated with current LLMs in production</strong>: researchers fused GPT-5, Claude Opus 4, and Grok3 outputs via D-S theory for materials discovery (March 2026, <a href="https://www.hpcwire.com/aiwire/2026/03/20/researchers-develop-ai-framework-to-accelerate-alloy-discovery/" target="_blank">AIwire</a>). No longer theoretical.</li>
+    <li><strong>Agent 4 evolution:</strong> Z3 for hard constraints + EORM/EBM for lightweight constraint verification + conformal prediction (TECP) for statistical guarantees</li>
+    <li><strong>Cross-agent (TIMER + Allen's interval algebra):</strong> The <strong>TIMER framework</strong> (<a href="https://www.nature.com/articles/s41746-025-01965-9" target="_blank">Nature npj Digital Medicine, 2026</a>) provides time-aware instruction tuning that improves LLM temporal reasoning by 6.6% on clinical benchmarks. Combine with Allen interval algebra + Z3 for placement timeline checking.</li>
   </ul>
   <p><strong>Stage 3 total:</strong> ~8-12 weeks non-coding + 2-3 weeks coding + calibration data collection (4-6 weeks)</p>
   <blockquote><strong>Grant framing:</strong> "Integrated neuro-symbolic validation architecture for multi-agent clinical document synthesis." Phase II story. Publishable. Strongest formal guarantees. But requires calibration data that does not yet exist.</blockquote>
@@ -330,9 +336,9 @@
       </tr>
       <tr>
         <td><strong>Temporal consistency</strong></td>
-        <td>None (Z3 can encode)</td>
-        <td>No clinical timeline validator exists at all</td>
-        <td>Allen interval algebra + Z3 for placement timeline checking. First clinical implementation.</td>
+        <td>TIMER framework (Nature npj DM, 2026)</td>
+        <td>TIMER improves LLM temporal reasoning by 6.6% but is not a standalone validator. No off-the-shelf clinical timeline checker exists.</td>
+        <td>TIMER + Allen interval algebra + Z3 for placement timeline checking. Build on TIMER's clinical temporal datasets.</td>
       </tr>
       <tr>
         <td><strong>Multi-agent consistency</strong></td>
@@ -487,11 +493,19 @@
     <p>Claude models show ~25% self-preference bias; GPT models show ~10%. For highest reliability, use GPT-5.4 or Gemini 3.1 Pro to evaluate Claude-generated outputs. Also randomize response order to mitigate 10-30% position bias in pairwise comparisons. Current model lineup: Claude Opus 4.6 / Sonnet 4.6 for generation, GPT-5.4 Thinking or Gemini 3.1 Pro for judging.</p>
   </div>
   <div class="finding-card">
+    <h4><span class="badge badge-moderate">MODERATE</span> Evaluate EORM (55M EBM) as lightweight Stage 2 alternative</h4>
+    <p>Energy Outcome Reward Model (55M params) achieves 90.7% accuracy while being 127x smaller than typical reward models. Can localize failures to specific constraint violations. Consider alongside Z3 for Stage 2 validation, not as a speculative future option.</p>
+  </div>
+  <div class="finding-card">
     <h4><span class="badge badge-moderate">MODERATE</span> Track Anthropic logprob/logit roadmap</h4>
-    <p>Logit access would unlock semantic entropy (Nature, 1,041 citations), SEPs, and COPU for true uncertainty quantification. Without it, SelfCheckGPT (expensive, unreliable on confident hallucinations) is the only option. This is the difference between Stage 3 being feasible or aspirational.</p>
+    <p>Logit access would unlock semantic entropy (Nature, 1,041 citations), EVSE (EACL 2026), and TECP for true uncertainty quantification. Without it, SelfCheckGPT (expensive, unreliable on confident hallucinations) is the only option. The TACL survey (2026) confirms conformal prediction is maturing but still pre-production.</p>
+  </div>
+  <div class="finding-card">
+    <h4><span class="badge badge-low">NEW</span> NeMo Guardrails IORails engine for pipeline-stage validation</h4>
+    <p>NeMo Guardrails 2026 update includes the IORails engine (parallel content-safety, topic-safety, jailbreak detection) with <code>check_async</code> for standalone input/output validation without conversation flow. 40% performance improvement. Consider for Stage 1 input filtering before LLM calls.</p>
   </div>
   <hr>
-  <p><strong>Research date:</strong> April 1, 2026 | <strong>Sources:</strong> 204 across 2 sessions | <strong>Prior session:</strong> 51 papers on EBM validation (March 30, 2026)</p>
+  <p><strong>Research date:</strong> April 1, 2026 (updated with March 2026 developments) | <strong>Sources:</strong> 204+ across 2 sessions + targeted updates | <strong>Prior session:</strong> 51 papers on EBM validation (March 30, 2026)</p>
 </div>
 
 <!-- ========== SLIDE 13: BIBLIOGRAPHY ========== -->
