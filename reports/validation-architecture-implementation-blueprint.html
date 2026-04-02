@@ -81,7 +81,7 @@
   <h4>What did we search?</h4>
   <p>204 sources across 2 sessions and 8 research channels: academic databases (Semantic Scholar, OpenAlex, Europe PMC, ERIC), implementation repositories (Papers With Code), community practitioner discussions, grey literature, and library documentation. Builds on a prior 51-paper session focused on energy-based models (March 30, 2026).</p>
   <h4>What did we find?</h4>
-  <p>Clinical AI hallucination rates range from 1.47% to 61.6%, yet only 7% of published studies do external validation. <em>MiniCheck</em> (a 770-million-parameter model, small enough for a single GPU) achieves GPT-4-level fact-checking accuracy at 400x lower cost. Z3, the leading formal logic solver, is available in both Python and TypeScript (npm package via WebAssembly). Cross-model judging is mandatory because Claude shows ~25% self-preference bias when evaluating its own outputs.</p>
+  <p>Clinical AI hallucination rates range from 1.47% to 61.6%, yet only 7% of published studies do external validation. <em>MiniCheck</em> (a 770-million-parameter model, small enough for a single GPU) achieves frontier-model-level fact-checking accuracy at a fraction of the cost. Z3, the leading formal logic solver, is available in both Python and TypeScript (npm package via WebAssembly). Cross-model judging is mandatory because Claude shows ~25% self-preference bias when evaluating its own outputs.</p>
   <h4>What it means</h4>
   <p>Build Stage 1 now with <em>Instructor</em> + <em>MiniCheck</em> + Claude-as-judge (cross-model). Stage 2 (Z3 hybrid verifier) for SBIR Phase I. Stage 3 (conformal prediction + PSL) for SBIR Phase II. The tool stack is ready. The non-coding work (rubric design, constraint formalization, calibration) is the bottleneck, not the code.</p>
 </div>
@@ -102,7 +102,7 @@
   </div>
   <div class="finding-card">
     <h4>MiniCheck proves cost-effective detection is achievable</h4>
-    <p><span class="badge badge-moderate">PRODUCTION</span> MiniCheck-FT5, a 770-million-parameter model (small enough to run on a single GPU), achieves GPT-4-level accuracy on fact-checking benchmarks at 400x lower cost. This makes real-time claim verification economically viable for production pipelines. (<a href="https://doi.org/10.48550/arXiv.2404.10774" target="_blank">Tang 2024, EMNLP 2024, 197 citations</a>)</p>
+    <p><span class="badge badge-moderate">PRODUCTION</span> MiniCheck-FT5, a 770-million-parameter model (small enough to run on a single GPU), achieves frontier-model-level accuracy on fact-checking benchmarks at a fraction of the cost. This makes real-time claim verification economically viable for production pipelines. (<a href="https://doi.org/10.48550/arXiv.2404.10774" target="_blank">Tang 2024, EMNLP 2024, 197 citations</a>)</p>
   </div>
   <div class="finding-card">
     <h4>Cross-document contradictions are the hardest problem</h4>
@@ -159,7 +159,7 @@
   </table>
   <div class="finding-card">
     <h4><span class="badge badge-critical">CRITICAL</span> Cross-model judging is mandatory</h4>
-    <p>Claude 3.5 Sonnet shows ~25% self-preference bias when evaluating its own outputs. GPT-4 shows ~10%. Use a different model family (GPT-4o or Gemini Pro) to judge Claude-generated clinical narratives. Position bias also flips verdicts in 10-30% of pairwise comparisons, so randomize response order in evaluation prompts.</p>
+    <p>Claude models show ~25% self-preference bias when evaluating their own outputs. GPT models show ~10%. Use a different model family (GPT-5.4 or Gemini 3.1 Pro) to judge Claude-generated clinical narratives. Position bias also flips verdicts in 10-30% of pairwise comparisons, so randomize response order in evaluation prompts. (Note: bias percentages measured on earlier model generations but the pattern persists across model families.)</p>
   </div>
   <div class="finding-card">
     <h4><span class="badge badge-high">HIGH</span> False positive multiplication constrains architecture</h4>
@@ -191,10 +191,10 @@
 
   <h3>Fact-Checking Tools</h3>
   <table>
-    <thead><tr><th>Tool</th><th>Size</th><th>Accuracy</th><th>Cost vs GPT-4</th><th>Best For</th></tr></thead>
+    <thead><tr><th>Tool</th><th>Size</th><th>Accuracy</th><th>Cost vs Frontier</th><th>Best For</th></tr></thead>
     <tbody>
-      <tr><td><strong>MiniCheck</strong></td><td>770M</td><td>GPT-4 level</td><td>400x cheaper</td><td>Claim verification</td></tr>
-      <tr><td><strong>AlignScore</strong></td><td>355M</td><td>Beats ChatGPT on 22 datasets</td><td>500x cheaper</td><td>Lightweight checking</td></tr>
+      <tr><td><strong>MiniCheck</strong></td><td>770M</td><td>Frontier-level</td><td>400x cheaper</td><td>Claim verification</td></tr>
+      <tr><td><strong>AlignScore</strong></td><td>355M</td><td>Beats frontier models on 22 datasets</td><td>500x cheaper</td><td>Lightweight checking</td></tr>
       <tr><td><strong>FActScore</strong></td><td>LLM-based</td><td>Gold standard</td><td>1x (uses LLM)</td><td>Atomic fact analysis</td></tr>
       <tr><td><strong>SelfCheckGPT</strong></td><td>Any LLM</td><td>Good, fails on confident hallucinations</td><td>N+1 calls</td><td>Black-box only</td></tr>
       <tr><td><strong>RAGAS</strong></td><td>LLM-based</td><td>Moderate (simple queries)</td><td>1x</td><td>RAG pipeline eval</td></tr>
@@ -250,7 +250,7 @@
   </div>
   <div class="finding-card">
     <h4><span class="badge badge-moderate">NEW</span> Prometheus 2: open-weight judge at ~300x savings</h4>
-    <p>Prometheus (7B parameters, 1K GitHub stars) achieves 0.897 Pearson correlation with human evaluators using custom rubrics. At ~300x cheaper than GPT-4, it offers a self-hosted alternative for the semantic constraint judge. Caveat: fine-tuned judges generalize poorly outside their training domain, so clinical rubric calibration is essential.</p>
+    <p>Prometheus (7B parameters, 1K GitHub stars) achieves 0.897 Pearson correlation with human evaluators using custom rubrics. At ~300x cheaper than frontier API models, it offers a self-hosted alternative for the semantic constraint judge. Caveat: fine-tuned judges generalize poorly outside their training domain, so clinical rubric calibration is essential.</p>
   </div>
   <div class="finding-card">
     <h4><span class="badge badge-moderate">NEW</span> Neuro-symbolic gains: +21.9% median in clinical apps</h4>
@@ -464,7 +464,7 @@
   <h2>Recommendations: Concrete Next Steps</h2>
   <div class="finding-card">
     <h4><span class="badge badge-critical">CRITICAL</span> Build Stage 1 now with Instructor + MiniCheck + cross-model Claude-as-judge</h4>
-    <p>The tool stack is mature. Instructor (12.6K stars) handles Pydantic validation with retry. MiniCheck (770M) handles fact-checking at 400x less than GPT-4. Use GPT-4o or Gemini Pro (not Claude) as the narrative quality judge to avoid 25% self-preference bias. Ship this with the next AE integration.</p>
+    <p>The tool stack is mature. Instructor v1.11+ (12.6K stars) handles Pydantic validation with retry for Claude Sonnet 4.6 and Opus 4.6. MiniCheck (770M) and Bespoke-MiniCheck-7B handle fact-checking at a fraction of frontier model cost. Use GPT-5.4 or Gemini 3.1 Pro (not Claude) as the narrative quality judge to avoid self-preference bias. Ship this with the next AE integration.</p>
   </div>
   <div class="finding-card">
     <h4><span class="badge badge-critical">CRITICAL</span> Keep source hierarchy rules for contradiction resolution</h4>
@@ -484,7 +484,7 @@
   </div>
   <div class="finding-card">
     <h4><span class="badge badge-moderate">MODERATE</span> Use different model family for judging</h4>
-    <p>Claude shows ~25% self-preference bias; GPT-4 shows ~10%. For highest reliability, use GPT-4o or Gemini Pro to evaluate Claude-generated outputs. Also randomize response order to mitigate 10-30% position bias in pairwise comparisons.</p>
+    <p>Claude models show ~25% self-preference bias; GPT models show ~10%. For highest reliability, use GPT-5.4 or Gemini 3.1 Pro to evaluate Claude-generated outputs. Also randomize response order to mitigate 10-30% position bias in pairwise comparisons. Current model lineup: Claude Opus 4.6 / Sonnet 4.6 for generation, GPT-5.4 Thinking or Gemini 3.1 Pro for judging.</p>
   </div>
   <div class="finding-card">
     <h4><span class="badge badge-moderate">MODERATE</span> Track Anthropic logprob/logit roadmap</h4>
