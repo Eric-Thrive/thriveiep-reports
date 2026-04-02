@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>C2A Student &amp; Coach Invite Guide</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; display: flex; flex-direction: column; }
+  .header { padding: 24px 40px; background: #1e293b; border-bottom: 1px solid #334155; }
+  .header h1 { font-size: 24px; font-weight: 700; color: #f8fafc; }
+  .header p { font-size: 14px; color: #94a3b8; margin-top: 4px; }
+  .slide-container { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 32px 40px; overflow-y: auto; }
+  .step-indicator { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; justify-content: center; }
+  .step-dot { width: 12px; height: 12px; border-radius: 50%; background: #334155; cursor: pointer; transition: all 0.2s; }
+  .step-dot.active { background: #3b82f6; transform: scale(1.3); }
+  .step-dot:hover { background: #60a5fa; }
+  .step-info { text-align: center; margin-bottom: 20px; }
+  .step-number { font-size: 13px; font-weight: 600; color: #3b82f6; text-transform: uppercase; letter-spacing: 0.05em; }
+  .step-title { font-size: 20px; font-weight: 600; color: #f1f5f9; margin-top: 4px; }
+  .step-desc { font-size: 14px; color: #94a3b8; margin-top: 6px; max-width: 700px; line-height: 1.5; }
+  .slide { display: none; width: 100%; align-items: center; flex-direction: column; }
+  .slide.active { display: flex; }
+  .nav { display: flex; gap: 12px; padding: 20px 40px; background: #1e293b; border-top: 1px solid #334155; justify-content: center; align-items: center; }
+  .nav button { padding: 10px 24px; border-radius: 8px; border: 1px solid #334155; background: #1e293b; color: #e2e8f0; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+  .nav button:hover:not(:disabled) { background: #334155; border-color: #475569; }
+  .nav button:disabled { opacity: 0.3; cursor: not-allowed; }
+  .nav button.primary { background: #3b82f6; border-color: #3b82f6; color: white; }
+  .nav button.primary:hover:not(:disabled) { background: #2563eb; }
+  .nav .page { font-size: 14px; color: #64748b; min-width: 80px; text-align: center; }
+  .callout { margin-top: 16px; padding: 12px 20px; background: #1e3a5f; border: 1px solid #2563eb33; border-radius: 8px; font-size: 13px; color: #93c5fd; max-width: 700px; text-align: center; line-height: 1.5; }
+  .callout.warn { background: #3b1f1f; border-color: #ef444433; color: #fca5a5; }
+  .callout.success { background: #1a3a2a; border-color: #22c55e33; color: #86efac; }
+
+  /* Wireframe mockup styles */
+  .mockup { max-width: 760px; width: 100%; border-radius: 12px; border: 1px solid #334155; box-shadow: 0 20px 60px rgba(0,0,0,0.4); overflow: hidden; background: #1e293b; }
+  .mockup-toolbar { padding: 12px 16px; background: #0f172a; border-bottom: 1px solid #334155; display: flex; align-items: center; gap: 8px; }
+  .mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .mockup-dot.red { background: #ef4444; }
+  .mockup-dot.yellow { background: #eab308; }
+  .mockup-dot.green { background: #22c55e; }
+  .mockup-url { margin-left: 12px; font-size: 12px; color: #64748b; font-family: monospace; background: #1e293b; padding: 4px 12px; border-radius: 4px; flex: 1; }
+  .mockup-body { padding: 24px; }
+  .mockup h2 { font-size: 18px; color: #f1f5f9; margin-bottom: 16px; font-weight: 600; }
+  .mockup h3 { font-size: 15px; color: #cbd5e1; margin-bottom: 12px; font-weight: 600; }
+
+  /* Form mockup */
+  .mock-form { display: flex; flex-direction: column; gap: 12px; }
+  .mock-field { display: flex; flex-direction: column; gap: 4px; }
+  .mock-field label { font-size: 12px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; }
+  .mock-field .input { padding: 8px 12px; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #e2e8f0; font-size: 14px; }
+  .mock-field .input.placeholder { color: #475569; }
+  .mock-field .input.filled { color: #e2e8f0; }
+  .mock-field .optional { font-size: 11px; color: #64748b; font-weight: 400; text-transform: none; letter-spacing: 0; }
+  .mock-select { position: relative; }
+  .mock-select::after { content: "\25BE"; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #64748b; pointer-events: none; }
+  .mock-row { display: flex; gap: 12px; }
+  .mock-row > .mock-field { flex: 1; }
+  .mock-btn { padding: 10px 20px; border-radius: 8px; border: none; font-size: 14px; font-weight: 600; cursor: default; display: inline-block; text-align: center; }
+  .mock-btn.primary { background: #3b82f6; color: white; }
+  .mock-btn.secondary { background: transparent; border: 1px solid #334155; color: #94a3b8; }
+  .mock-btn.disabled { opacity: 0.4; }
+  .mock-btn.danger { background: #dc2626; color: white; }
+  .mock-btn.success { background: #16a34a; color: white; }
+  .mock-divider { border: none; border-top: 1px solid #334155; margin: 8px 0; }
+  .mock-tabs { display: flex; border-bottom: 2px solid #334155; margin-bottom: 16px; }
+  .mock-tab { padding: 8px 16px; font-size: 14px; font-weight: 500; color: #64748b; border-bottom: 2px solid transparent; margin-bottom: -2px; cursor: default; }
+  .mock-tab.active { color: #3b82f6; border-bottom-color: #3b82f6; }
+
+  /* Table mockup */
+  .mock-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .mock-table th { text-align: left; padding: 8px 10px; font-weight: 600; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid #334155; background: #0f172a; }
+  .mock-table td { padding: 8px 10px; color: #e2e8f0; border-bottom: 1px solid #1e293b; }
+  .mock-table tr:hover td { background: #1e293b; }
+  .mock-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+  .mock-badge.orange { background: #92400e; color: #fbbf24; }
+  .mock-badge.green { background: #14532d; color: #4ade80; }
+  .mock-badge.blue { background: #1e3a5f; color: #60a5fa; }
+  .mock-badge.gray { background: #334155; color: #94a3b8; }
+  .mock-checkbox { width: 14px; height: 14px; border: 1px solid #475569; border-radius: 3px; display: inline-block; vertical-align: middle; background: #0f172a; }
+  .mock-checkbox.checked { background: #3b82f6; border-color: #3b82f6; position: relative; }
+  .mock-checkbox.checked::after { content: "\2713"; color: white; font-size: 10px; position: absolute; top: -1px; left: 2px; }
+
+  /* Filter bar */
+  .mock-filters { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .mock-filter { padding: 6px 12px; background: #0f172a; border: 1px solid #334155; border-radius: 6px; font-size: 12px; color: #94a3b8; display: flex; align-items: center; gap: 4px; }
+  .mock-filter .caret { font-size: 8px; }
+
+  /* Email preview */
+  .mock-email { background: #f8fafc; border-radius: 8px; padding: 20px; color: #1e293b; max-width: 500px; margin: 0 auto; }
+  .mock-email h4 { font-size: 16px; margin-bottom: 8px; color: #0f172a; }
+  .mock-email p { font-size: 13px; line-height: 1.5; color: #475569; margin-bottom: 12px; }
+  .mock-email .cred-box { background: #fef9c3; border: 1px solid #eab308; border-radius: 8px; padding: 12px 16px; margin: 12px 0; text-align: center; }
+  .mock-email .cred-box strong { display: block; font-size: 14px; color: #1e293b; margin-bottom: 4px; }
+  .mock-email .cred-box span { font-size: 24px; font-weight: 700; color: #0f172a; letter-spacing: 4px; }
+  .mock-email .signin-btn { display: block; width: 200px; margin: 16px auto 0; padding: 10px; background: #3b82f6; color: white; text-align: center; border-radius: 8px; font-weight: 600; font-size: 14px; text-decoration: none; }
+  .mock-email .security { font-size: 11px; color: #94a3b8; text-align: center; margin-top: 12px; }
+
+  /* Expandable section */
+  .mock-expand { border: 1px solid #334155; border-radius: 8px; margin-top: 8px; overflow: hidden; }
+  .mock-expand-header { padding: 10px 14px; background: #0f172a; display: flex; align-items: center; gap: 8px; cursor: default; font-size: 13px; color: #94a3b8; }
+  .mock-expand-header .arrow { font-size: 10px; transition: transform 0.2s; }
+  .mock-expand-header .arrow.open { transform: rotate(90deg); }
+  .mock-expand-body { padding: 14px; }
+
+  /* Bulk action bar */
+  .mock-action-bar { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: #1e3a5f; border: 1px solid #2563eb33; border-radius: 8px; margin-bottom: 12px; }
+  .mock-action-bar span { font-size: 13px; color: #93c5fd; }
+
+  /* CSV preview */
+  .mock-csv { font-family: "SF Mono", "Fira Code", monospace; font-size: 11px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 12px; overflow-x: auto; white-space: pre; color: #94a3b8; line-height: 1.6; }
+  .mock-csv .header-row { color: #3b82f6; font-weight: 600; }
+  .mock-csv .new-col { color: #4ade80; }
+
+  /* Notes list */
+  .notes { max-width: 700px; margin-top: 16px; }
+  .notes li { font-size: 13px; color: #94a3b8; margin-bottom: 6px; line-height: 1.5; padding-left: 4px; }
+  .notes li strong { color: #cbd5e1; }
+
+  /* Quick ref */
+  .quick-ref { max-width: 700px; width: 100%; }
+  .quick-ref .flow { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+  .quick-ref .flow-label { font-size: 13px; font-weight: 600; color: #3b82f6; min-width: 100px; }
+  .quick-ref .flow-step { padding: 4px 10px; background: #1e293b; border: 1px solid #334155; border-radius: 6px; font-size: 12px; color: #cbd5e1; }
+  .quick-ref .flow-arrow { color: #475569; font-size: 12px; }
+
+  /* New badge */
+  .new-indicator { display: inline-block; padding: 1px 6px; background: #16a34a; color: white; font-size: 9px; font-weight: 700; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.05em; vertical-align: middle; margin-left: 6px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>C2A Student &amp; Coach Invite Guide</h1>
+  <p>Admin walkthrough for creating users, sending invites, managing the roster, and batch importing students</p>
+</div>
+
+<div class="slide-container">
+  <div class="step-indicator">
+    <div class="step-dot active" onclick="goTo(0)"></div>
+    <div class="step-dot" onclick="goTo(1)"></div>
+    <div class="step-dot" onclick="goTo(2)"></div>
+    <div class="step-dot" onclick="goTo(3)"></div>
+    <div class="step-dot" onclick="goTo(4)"></div>
+    <div class="step-dot" onclick="goTo(5)"></div>
+    <div class="step-dot" onclick="goTo(6)"></div>
+    <div class="step-dot" onclick="goTo(7)"></div>
+    <div class="step-dot" onclick="goTo(8)"></div>
+    <div class="step-dot" onclick="goTo(9)"></div>
+    <div class="step-dot" onclick="goTo(10)"></div>
+    <div class="step-dot" onclick="goTo(11)"></div>
+  </div>
+
+  <!-- Slide 1: Overview -->
+  <div class="slide active" data-idx="0">
+    <div class="step-info">
+      <div class="step-number">Overview</div>
+      <div class="step-title">C2A Student &amp; Coach Invite System</div>
+      <div class="step-desc">Two ways to add students to C2A: single invite (Add Student dialog) or batch import (CSV upload + roster invites). Both paths end with the student receiving a branded email with their login PIN.</div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-body" style="text-align: center; padding: 40px 24px;">
+        <div style="display: flex; justify-content: center; gap: 40px; margin-bottom: 32px;">
+          <div style="text-align: center;">
+            <div style="width: 80px; height: 80px; border-radius: 16px; background: #1e3a5f; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 32px;">+</div>
+            <div style="font-size: 14px; font-weight: 600; color: #f1f5f9;">Single Invite</div>
+            <div style="font-size: 12px; color: #64748b; margin-top: 4px;">Email sent immediately<br>User created on success</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="width: 80px; height: 80px; border-radius: 16px; background: #1e3a5f; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 24px;">CSV</div>
+            <div style="font-size: 14px; font-weight: 600; color: #f1f5f9;">Batch Import</div>
+            <div style="font-size: 12px; color: #64748b; margin-top: 4px;">Phase 1: Import (dormant)<br>Phase 2: Send Invites</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 12px;">
+          <div style="padding: 8px 16px; background: #14532d; border-radius: 8px; font-size: 13px; color: #4ade80;">Email sent first</div>
+          <div style="color: #475569;">&rarr;</div>
+          <div style="padding: 8px 16px; background: #14532d; border-radius: 8px; font-size: 13px; color: #4ade80;">DB record created</div>
+          <div style="color: #475569;">&rarr;</div>
+          <div style="padding: 8px 16px; background: #14532d; border-radius: 8px; font-size: 13px; color: #4ade80;">Student can log in</div>
+        </div>
+      </div>
+    </div>
+    <div class="callout">Safety guarantee: the invite email is sent <strong>before</strong> the database record is created. If email delivery fails, no orphaned account is created.</div>
+  </div>
+
+  <!-- Slide 2: Invite Dialog - User Details -->
+  <div class="slide" data-idx="1">
+    <div class="step-info">
+      <div class="step-number">Section 3 &middot; Step 1</div>
+      <div class="step-title">Enter User Details</div>
+      <div class="step-desc">Fill in the required fields plus optional organization and coach assignment. The dialog opens from Admin Dashboard &gt; Create C2A User.</div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-toolbar">
+        <div class="mockup-dot red"></div>
+        <div class="mockup-dot yellow"></div>
+        <div class="mockup-dot green"></div>
+        <div class="mockup-url">c2a.thriveiep.com/admin</div>
+      </div>
+      <div class="mockup-body">
+        <div class="mock-tabs">
+          <div class="mock-tab active">Invite New User</div>
+          <div class="mock-tab">Add Existing User</div>
+        </div>
+        <div class="mock-form">
+          <div class="mock-field">
+            <label>Email address *</label>
+            <div class="input filled">jane.doe@university.edu</div>
+          </div>
+          <div class="mock-row">
+            <div class="mock-field">
+              <label>Role *</label>
+              <div class="input mock-select"><div class="input filled" style="padding-right: 24px;">Student &nbsp; &#9662;</div></div>
+            </div>
+            <div class="mock-field">
+              <label>Username *</label>
+              <div class="input filled">janedoe</div>
+            </div>
+          </div>
+          <hr class="mock-divider">
+          <div class="mock-row">
+            <div class="mock-field">
+              <label>Organization <span class="optional">(optional)</span><span class="new-indicator">New</span></label>
+              <div class="input filled" style="padding-right: 24px;">NLU Pilot Cohort &nbsp; &#9662;</div>
+            </div>
+            <div class="mock-field">
+              <label>Assign Coach <span class="optional">(optional)</span><span class="new-indicator">New</span></label>
+              <div class="input filled" style="padding-right: 24px;">Dr. Smith &nbsp; &#9662;</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ul class="notes">
+      <li><strong>Organization</strong> dropdown lists existing orgs. Server validates the org exists before assignment.</li>
+      <li><strong>Coach</strong> dropdown lists users with the Coach role. Server validates the coach role.</li>
+      <li>Both fields only appear when organizations or coaches exist in the system.</li>
+    </ul>
+  </div>
+
+  <!-- Slide 3: Sender + Timepoint -->
+  <div class="slide" data-idx="2">
+    <div class="step-info">
+      <div class="step-number">Section 3 &middot; Steps 2-3</div>
+      <div class="step-title">Choose Sender &amp; Assign Timepoint</div>
+      <div class="step-desc">Select which admin the invite email comes from, and optionally assign the student to an assessment timepoint immediately.</div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-toolbar">
+        <div class="mockup-dot red"></div>
+        <div class="mockup-dot yellow"></div>
+        <div class="mockup-dot green"></div>
+        <div class="mockup-url">c2a.thriveiep.com/admin</div>
+      </div>
+      <div class="mockup-body">
+        <div class="mock-form">
+          <div class="mock-field">
+            <label>Send from *</label>
+            <div class="input filled" style="padding-right: 24px;">Elizabeth McWhorter &lt;elizabeth@thriveiep.com&gt; &nbsp; &#9662;</div>
+          </div>
+          <div class="mock-field">
+            <label>Assign to timepoint <span class="optional">(optional)</span></label>
+            <div class="input filled" style="padding-right: 24px;">NLU Pilot T1 v6trans &nbsp; &#9662;</div>
+          </div>
+        </div>
+        <div style="margin-top: 20px; padding: 14px; background: #0f172a; border-radius: 8px; border: 1px solid #334155;">
+          <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">How the sender is used:</div>
+          <div style="font-size: 12px; color: #94a3b8; line-height: 1.6;">
+            &bull; Email <strong style="color:#cbd5e1">From</strong> header shows the selected admin's name and email<br>
+            &bull; <strong style="color:#cbd5e1">Reply-To</strong> is also set to this address<br>
+            &bull; If only one @thriveiep.com admin exists, they are auto-selected
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="callout">Timepoint assignment is optional here. You can assign students later from the Timepoint detail page.</div>
+  </div>
+
+  <!-- Slide 4: Email Customization + Templates -->
+  <div class="slide" data-idx="3">
+    <div class="step-info">
+      <div class="step-number">Section 3 &middot; Step 4</div>
+      <div class="step-title">Customize Invite Email &amp; Templates<span class="new-indicator">New</span></div>
+      <div class="step-desc">Customize the email subject and body, or load a saved template. Save your customizations as a named template for reuse across future invites.</div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-toolbar">
+        <div class="mockup-dot red"></div>
+        <div class="mockup-dot yellow"></div>
+        <div class="mockup-dot green"></div>
+        <div class="mockup-url">c2a.thriveiep.com/admin</div>
+      </div>
+      <div class="mockup-body">
+        <div class="mock-expand">
+          <div class="mock-expand-header"><span class="arrow open">&#9654;</span> Customize invite email</div>
+          <div class="mock-expand-body">
+            <div class="mock-form">
+              <div class="mock-field">
+                <label>Email template<span class="new-indicator">New</span></label>
+                <div class="input filled" style="padding-right: 24px;">NLU Pilot Spring 2026 &nbsp; &#9662;</div>
+              </div>
+              <div class="mock-field">
+                <label>Subject</label>
+                <div class="input filled">Welcome to C2A - NLU Pilot Spring 2026</div>
+              </div>
+              <div class="mock-field">
+                <label>Message <span class="optional">2,000 char max</span></label>
+                <div class="input filled" style="min-height: 60px; line-height: 1.4;">You've been selected for the NLU Pilot program. Use the credentials below to sign in and complete your assessment sprints.</div>
+              </div>
+              <div style="display: flex; gap: 8px; align-items: center; margin-top: 4px;">
+                <span class="mock-btn secondary" style="font-size: 12px; padding: 6px 12px;">Save as template</span>
+                <span style="font-size: 11px; color: #475569;">Login credentials and sign-in button are added automatically.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top: 16px; text-align: right;">
+          <span class="mock-btn primary">Send Invite</span>
+        </div>
+      </div>
+    </div>
+    <ul class="notes">
+      <li><strong>Load template:</strong> Select from dropdown &rarr; subject and body pre-fill. You can still edit before sending.</li>
+      <li><strong>Save template:</strong> Click "Save as template" &rarr; enter a unique name. Available for all admins.</li>
+      <li><strong>Delete template:</strong> API only for now: <code style="background:#334155;padding:2px 6px;border-radius:3px;font-size:11px;">DELETE /api/c2a/admin/email-templates/:id</code></li>
+      <li>Templates store plain text only. No dynamic variables. Credentials box is always appended.</li>
+    </ul>
+  </div>
+
+  <!-- Slide 5: Email Preview -->
+  <div class="slide" data-idx="4">
+    <div class="step-info">
+      <div class="step-number">Section 3 &middot; Email Preview</div>
+      <div class="step-title">What the Student Receives</div>
+      <div class="step-desc">Regardless of custom message or template, every invite email includes a styled credentials box with the username, PIN, sign-in button, and security note.</div>
+    </div>
+    <div class="mockup" style="background: #f1f5f9;">
+      <div class="mockup-body" style="padding: 32px;">
+        <div class="mock-email">
+          <div style="text-align: center; margin-bottom: 16px;">
+            <div style="font-size: 20px; font-weight: 700; color: #1e3a8a;">ThriveIEP</div>
+          </div>
+          <h4>Welcome to C2A - NLU Pilot Spring 2026</h4>
+          <p>You've been selected for the NLU Pilot program. Use the credentials below to sign in and complete your assessment sprints.</p>
+          <div class="cred-box">
+            <strong>Username: janedoe</strong>
+            <span>7 2 4 1</span>
+          </div>
+          <a class="signin-btn">SIGN IN</a>
+          <div class="security">Keep your PIN private. You can change it after signing in.</div>
+        </div>
+      </div>
+    </div>
+    <div class="callout">The custom message appears above the credentials box. Subject line becomes the email subject. You do NOT need to include login details in your message.</div>
+  </div>
+
+  <!-- Slide 6: Add Existing User -->
+  <div class="slide" data-idx="5">
+    <div class="step-info">
+      <div class="step-number">Section 4</div>
+      <div class="step-title">Adding an Existing Thrive User</div>
+      <div class="step-desc">Enroll someone who already has a Thrive account into C2A without sending a new email. They log in with their existing credentials.</div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-toolbar">
+        <div class="mockup-dot red"></div>
+        <div class="mockup-dot yellow"></div>
+        <div class="mockup-dot green"></div>
+        <div class="mockup-url">c2a.thriveiep.com/admin</div>
+      </div>
+      <div class="mockup-body">
+        <div class="mock-tabs">
+          <div class="mock-tab">Invite New User</div>
+          <div class="mock-tab active">Add Existing User</div>
+        </div>
+        <div class="mock-field" style="margin-bottom: 12px;">
+          <div class="input placeholder">Search by name or email...</div>
+        </div>
+        <table class="mock-table">
+          <thead><tr><th>Name</th><th>Email</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr style="background: #1e3a5f;"><td style="color:#60a5fa;">Alex Rivera</td><td>alex.r@university.edu</td><td><span class="mock-badge blue">Selected</span></td></tr>
+            <tr><td>Maria Chen</td><td>m.chen@university.edu</td><td></td></tr>
+            <tr><td>Sam Johnson</td><td>s.johnson@university.edu</td><td><span class="mock-badge gray">C2A</span></td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top: 16px; display: flex; gap: 12px; align-items: center;">
+          <div class="mock-field" style="flex: 1;">
+            <div class="input filled" style="padding-right: 24px;">NLU Pilot T1 v6trans &nbsp; &#9662;</div>
+          </div>
+          <span class="mock-btn primary">Add to C2A</span>
+        </div>
+      </div>
+    </div>
+    <ul class="notes">
+      <li>No email is sent. The C2A module is appended to the user's <code style="background:#334155;padding:2px 6px;border-radius:3px;font-size:11px;">assignedModules</code>.</li>
+      <li>Users already enrolled show a "C2A" badge and cannot be selected again.</li>
+    </ul>
+  </div>
+
+  <!-- Slide 7: Student Roster -->
+  <div class="slide" data-idx="6">
+    <div class="step-info">
+      <div class="step-number">Section 6<span class="new-indicator">New</span></div>
+      <div class="step-title">Student Roster with Filters</div>
+      <div class="step-desc">The central view for managing C2A students. Filter by status, organization, and coach. New Organization and Coach columns show assignment data.</div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-toolbar">
+        <div class="mockup-dot red"></div>
+        <div class="mockup-dot yellow"></div>
+        <div class="mockup-dot green"></div>
+        <div class="mockup-url">c2a.thriveiep.com/admin/c2a/students</div>
+      </div>
+      <div class="mockup-body">
+        <h2>Student Roster</h2>
+        <div class="mock-filters">
+          <div class="mock-filter">Timepoint: All <span class="caret">&#9662;</span></div>
+          <div class="mock-filter" style="border-color: #3b82f6; color: #60a5fa;">Status: Not Invited <span class="caret">&#9662;</span><span class="new-indicator">New</span></div>
+          <div class="mock-filter">Organization: All <span class="caret">&#9662;</span><span class="new-indicator">New</span></div>
+          <div class="mock-filter">Coach: All <span class="caret">&#9662;</span><span class="new-indicator">New</span></div>
+        </div>
+        <div class="mock-action-bar">
+          <span class="mock-checkbox checked"></span>
+          <span>3 students selected</span>
+          <span class="mock-btn primary" style="font-size: 12px; padding: 6px 14px; margin-left: auto;">Send Invites</span>
+        </div>
+        <table class="mock-table">
+          <thead><tr><th style="width:30px;"></th><th>Username</th><th>Email</th><th>Organization<span class="new-indicator">New</span></th><th>Coach<span class="new-indicator">New</span></th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td><span class="mock-checkbox checked"></span></td><td>janedoe</td><td>jane.doe@uni.edu</td><td>NLU Pilot</td><td>Dr. Smith</td><td><span class="mock-badge orange">Not Invited</span></td></tr>
+            <tr><td><span class="mock-checkbox checked"></span></td><td>alexr</td><td>alex.r@uni.edu</td><td>NLU Pilot</td><td>Dr. Smith</td><td><span class="mock-badge orange">Not Invited</span></td></tr>
+            <tr><td><span class="mock-checkbox checked"></span></td><td>mariachen</td><td>m.chen@uni.edu</td><td>--</td><td>--</td><td><span class="mock-badge orange">Not Invited</span></td></tr>
+            <tr><td><span class="mock-checkbox"></span></td><td>samj</td><td>sam.j@uni.edu</td><td>NLU Pilot</td><td>Dr. Jones</td><td><span class="mock-badge green">Invited</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <ul class="notes">
+      <li><strong>Status filter</strong> values: Not Invited, Not Started, In Progress, Completed, Unlocked</li>
+      <li><strong>Organization</strong> and <strong>Coach</strong> filters only appear when relevant data exists</li>
+      <li>Filters combine with AND logic</li>
+    </ul>
+  </div>
+
+  <!-- Slide 8: Send Invites Dialog -->
+  <div class="slide" data-idx="7">
+    <div class="step-info">
+      <div class="step-number">Section 7 &middot; Phase 2<span class="new-indicator">New</span></div>
+      <div class="step-title">Send Invites Dialog</div>
+      <div class="step-desc">After selecting students on the roster, open the Send Invites dialog to choose a sender, pick a template, customize the email, and send.</div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-toolbar">
+        <div class="mockup-dot red"></div>
+        <div class="mockup-dot yellow"></div>
+        <div class="mockup-dot green"></div>
+        <div class="mockup-url">c2a.thriveiep.com/admin/c2a/students</div>
+      </div>
+      <div class="mockup-body">
+        <h2>Send PIN Invites</h2>
+        <div style="font-size: 13px; color: #94a3b8; margin-bottom: 16px;">Sending invites to <strong style="color:#f1f5f9;">3 students</strong></div>
+        <div class="callout warn" style="max-width: 100%; text-align: left; margin: 0 0 16px 0; font-size: 12px;">Some selected students have already been invited. They will receive a new PIN (replacing the old one).</div>
+        <div class="mock-form">
+          <div class="mock-field">
+            <label>Send from *</label>
+            <div class="input filled" style="padding-right: 24px;">Elizabeth McWhorter &lt;elizabeth@thriveiep.com&gt; &nbsp; &#9662;</div>
+          </div>
+          <div class="mock-expand">
+            <div class="mock-expand-header"><span class="arrow open">&#9654;</span> Customize invite email</div>
+            <div class="mock-expand-body">
+              <div class="mock-form">
+                <div class="mock-field">
+                  <label>Email template</label>
+                  <div class="input filled" style="padding-right: 24px;">NLU Pilot Spring 2026 &nbsp; &#9662;</div>
+                </div>
+                <div class="mock-field">
+                  <label>Subject</label>
+                  <div class="input filled">Welcome to C2A - NLU Pilot Spring 2026</div>
+                </div>
+                <div class="mock-field">
+                  <label>Message</label>
+                  <div class="input filled" style="min-height: 48px; line-height: 1.4;">You've been selected for the NLU Pilot program...</div>
+                </div>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                  <span class="mock-btn secondary" style="font-size: 12px; padding: 6px 12px;">Save as template</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top: 12px; text-align: right;">
+            <span class="mock-btn secondary" style="margin-right: 8px;">Cancel</span>
+            <span class="mock-btn primary">Send 3 Invites</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="callout">Each student gets a <strong>unique PIN</strong> generated at send time. Re-invited students get a new PIN; the old one is invalidated.</div>
+  </div>
+
+  <!-- Slide 9: Batch Import Phase 1 -->
+  <div class="slide" data-idx="8">
+    <div class="step-info">
+      <div class="step-number">Section 7 &middot; Phase 1</div>
+      <div class="step-title">Batch Import: CSV Upload</div>
+      <div class="step-desc">Upload a CSV to create many students at once in a dormant state. New columns for organization and coach_email enable assignment during import.</div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-toolbar">
+        <div class="mockup-dot red"></div>
+        <div class="mockup-dot yellow"></div>
+        <div class="mockup-dot green"></div>
+        <div class="mockup-url">c2a.thriveiep.com/admin/c2a/batch-import</div>
+      </div>
+      <div class="mockup-body">
+        <h2>Batch Import Students</h2>
+        <div class="mock-csv"><span class="header-row">email,role,username,first_name,last_name,<span class="new-col">organization</span>,<span class="new-col">coach_email</span></span>
+jane.doe@uni.edu,student,janedoe,Jane,Doe,<span class="new-col">NLU Pilot Cohort</span>,<span class="new-col">smith@thriveiep.com</span>
+alex.r@uni.edu,student,alexr,Alex,Rivera,<span class="new-col">NLU Pilot Cohort</span>,<span class="new-col">smith@thriveiep.com</span>
+m.chen@uni.edu,student,mariachen,Maria,Chen,,
+coach1@uni.edu,coach,drjones,David,Jones,,</div>
+        <div style="margin-top: 16px;">
+          <div class="mock-field">
+            <label>Assign to timepoint <span class="optional">(optional)</span></label>
+            <div class="input filled" style="padding-right: 24px;">NLU Pilot T1 v6trans &nbsp; &#9662;</div>
+          </div>
+        </div>
+        <div style="margin-top: 16px; text-align: right;">
+          <span class="mock-btn primary">Import</span>
+        </div>
+      </div>
+    </div>
+    <ul class="notes">
+      <li><strong>organization</strong>: Matched case-insensitively against existing orgs. Also accepts <code style="background:#334155;padding:2px 6px;border-radius:3px;font-size:11px;">organisation</code>. Row fails if not found.</li>
+      <li><strong>coach_email</strong>: Must match a user with the Coach role. Row fails if not found.</li>
+      <li><strong>Per-row atomicity</strong>: Each row is wrapped in a DB transaction. One row's failure doesn't affect others.</li>
+      <li>Students are created <strong>dormant</strong> (no PIN, no email). Go to the Roster to send invites.</li>
+    </ul>
+  </div>
+
+  <!-- Slide 10: Batch Import Results -->
+  <div class="slide" data-idx="9">
+    <div class="step-info">
+      <div class="step-number">Section 7 &middot; Post-Import</div>
+      <div class="step-title">Import Results &amp; Next Steps</div>
+      <div class="step-desc">After import, review the results and navigate to the Student Roster to send invites to the newly imported students.</div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-toolbar">
+        <div class="mockup-dot red"></div>
+        <div class="mockup-dot yellow"></div>
+        <div class="mockup-dot green"></div>
+        <div class="mockup-url">c2a.thriveiep.com/admin/c2a/batch-import</div>
+      </div>
+      <div class="mockup-body">
+        <h2>Import Complete</h2>
+        <div style="display: flex; gap: 16px; margin-bottom: 20px;">
+          <div style="flex:1; padding: 12px; background: #14532d; border-radius: 8px; text-align: center;">
+            <div style="font-size: 24px; font-weight: 700; color: #4ade80;">3</div>
+            <div style="font-size: 12px; color: #86efac;">Created</div>
+          </div>
+          <div style="flex:1; padding: 12px; background: #7f1d1d; border-radius: 8px; text-align: center;">
+            <div style="font-size: 24px; font-weight: 700; color: #fca5a5;">1</div>
+            <div style="font-size: 12px; color: #fecaca;">Failed</div>
+          </div>
+        </div>
+        <table class="mock-table" style="font-size: 12px;">
+          <thead><tr><th>Email</th><th>Status</th><th>Reason</th></tr></thead>
+          <tbody>
+            <tr><td>jane.doe@uni.edu</td><td><span class="mock-badge green">Created</span></td><td>--</td></tr>
+            <tr><td>alex.r@uni.edu</td><td><span class="mock-badge green">Created</span></td><td>--</td></tr>
+            <tr><td>m.chen@uni.edu</td><td><span class="mock-badge green">Created</span></td><td>--</td></tr>
+            <tr><td>bad@uni.edu</td><td><span style="color:#fca5a5;">Failed</span></td><td style="color:#fca5a5;">Organization not found: "Nonexistent Org"</td></tr>
+          </tbody>
+        </table>
+        <div class="callout warn" style="max-width: 100%; margin-top: 16px;">These students were imported without credentials. Go to the <strong>Student Roster</strong> to send invite emails.</div>
+        <div style="margin-top: 12px; text-align: center;">
+          <span class="mock-btn primary">Go to Student Roster &rarr;</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 11: Troubleshooting -->
+  <div class="slide" data-idx="10">
+    <div class="step-info">
+      <div class="step-number">Section 5</div>
+      <div class="step-title">Troubleshooting</div>
+      <div class="step-desc">Common problems and solutions for the invite and batch import workflows.</div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-body" style="padding: 20px;">
+        <table class="mock-table" style="font-size: 12px;">
+          <thead><tr><th style="width:30%;">Problem</th><th style="width:30%;">Cause</th><th>Solution</th></tr></thead>
+          <tbody>
+            <tr><td>"Send Invite" stays disabled</td><td>Missing required field or no sender</td><td>Fill all fields and select a sender</td></tr>
+            <tr><td>"Email already exists"</td><td>Another user has this email</td><td>Use "Add Existing User" tab instead</td></tr>
+            <tr><td>"Username already exists"</td><td>Duplicate username</td><td>Choose a different username</td></tr>
+            <tr><td>No senders in dropdown</td><td>No @thriveiep.com admins</td><td>Contact developer to verify admin accounts</td></tr>
+            <tr><td>User can't log in</td><td>Email in spam folder</td><td>Check spam. Admin can reset PIN.</td></tr>
+            <tr style="background: #0d2818;">
+              <td>"Organization not found"<span class="new-indicator">New</span></td>
+              <td>CSV org name doesn't match</td>
+              <td>Check spelling. Case-insensitive but exact match. Create org first if needed.</td>
+            </tr>
+            <tr style="background: #0d2818;">
+              <td>"Coach not found"<span class="new-indicator">New</span></td>
+              <td>coach_email not a Coach-role user</td>
+              <td>Verify email and Coach role assignment.</td>
+            </tr>
+            <tr style="background: #0d2818;">
+              <td>"Template name exists"<span class="new-indicator">New</span></td>
+              <td>Duplicate template name</td>
+              <td>Choose a different name or delete the existing template.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 12: Quick Reference -->
+  <div class="slide" data-idx="11">
+    <div class="step-info">
+      <div class="step-number">Quick Reference</div>
+      <div class="step-title">Workflow Paths at a Glance</div>
+      <div class="step-desc">All the ways to get students into C2A and manage them.</div>
+    </div>
+    <div class="quick-ref">
+      <div class="flow">
+        <span class="flow-label">Single invite</span>
+        <span class="flow-step">Admin Dashboard</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">Create C2A User</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">Fill form</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step" style="background:#14532d;border-color:#22c55e44;color:#4ade80;">Send Invite</span>
+      </div>
+      <div class="flow">
+        <span class="flow-label">Add existing</span>
+        <span class="flow-step">Admin Dashboard</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">Create C2A User</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">Add Existing tab</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step" style="background:#14532d;border-color:#22c55e44;color:#4ade80;">Add to C2A</span>
+      </div>
+      <div class="flow">
+        <span class="flow-label">Batch import</span>
+        <span class="flow-step">Admin Dashboard</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">Batch Import</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">Upload CSV</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step" style="background:#92400e;border-color:#eab30844;color:#fbbf24;">Import (dormant)</span>
+      </div>
+      <div class="flow">
+        <span class="flow-label">Send invites</span>
+        <span class="flow-step">Student Roster</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">Select students</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step" style="background:#14532d;border-color:#22c55e44;color:#4ade80;">Send Invites</span>
+      </div>
+      <div class="flow">
+        <span class="flow-label">Filter roster</span>
+        <span class="flow-step">Student Roster</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">Status / Org / Coach dropdowns</span>
+      </div>
+    </div>
+    <div style="margin-top: 24px; max-width: 700px;">
+      <h3 style="font-size: 15px; color: #f1f5f9; margin-bottom: 12px;">Related Guides</h3>
+      <ul class="notes">
+        <li><strong>Admin Timepoint Workflow Guide</strong> -- creating timepoints, configuring batteries, assigning students</li>
+        <li><strong>PIN Auth Design Record (DR-045)</strong> -- technical details of the PIN authentication system</li>
+      </ul>
+    </div>
+    <div class="callout success" style="margin-top: 20px;">Guide last verified: April 2, 2026. Source files tracked via <code style="background:#14532d;padding:2px 6px;border-radius:3px;font-size:11px;">guide_sources</code> frontmatter for automated staleness detection.</div>
+  </div>
+</div>
+
+<div class="nav">
+  <button id="prevBtn" onclick="prev()" disabled>&larr; Previous</button>
+  <span class="page" id="pageNum">1 / 12</span>
+  <button id="nextBtn" class="primary" onclick="next()">Next &rarr;</button>
+</div>
+
+<script>
+let current = 0;
+const total = 12;
+function goTo(i) {
+  document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.step-dot').forEach(d => d.classList.remove('active'));
+  current = Math.max(0, Math.min(total - 1, i));
+  document.querySelectorAll('.slide')[current].classList.add('active');
+  document.querySelectorAll('.step-dot')[current].classList.add('active');
+  document.getElementById('pageNum').textContent = (current + 1) + ' / ' + total;
+  document.getElementById('prevBtn').disabled = current === 0;
+  document.getElementById('nextBtn').disabled = current === total - 1;
+}
+function next() { goTo(current + 1); }
+function prev() { goTo(current - 1); }
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+});
+goTo(0);
+</script>
+</body>
+</html>
