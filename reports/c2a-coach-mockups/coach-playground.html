@@ -104,7 +104,12 @@
   .screen-label { margin-top: 16px; font-size: 14px; color: #888; text-align: center; }
   .screen-label .num { color: #3a7c7c; font-weight: 700; }
 
-  .prompt-section { margin-top: 24px; width: 1200px; max-width: 95vw; }
+  .prompt-section { margin-top: 24px; width: 1200px; max-width: 95vw; display: none; }
+  .prompt-section.open { display: block; }
+  .prompt-toggle { margin-top: 16px; display: flex; align-items: center; gap: 6px; cursor: pointer; background: none; border: 1px solid #333; border-radius: 6px; padding: 6px 12px; color: #666; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; transition: all 0.2s; }
+  .prompt-toggle:hover { border-color: #555; color: #aaa; }
+  .prompt-toggle .arrow { transition: transform 0.2s; }
+  .prompt-toggle.open .arrow { transform: rotate(90deg); }
   .prompt-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
   .prompt-header span { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #666; }
   .copy-btn { padding: 6px 12px; border-radius: 6px; border: 1px solid #444; background: #2a2a3e; color: #aaa; font-size: 12px; cursor: pointer; }
@@ -140,7 +145,11 @@
 
 <div class="screen-label" id="screenLabel"></div>
 
-<div class="prompt-section">
+<button class="prompt-toggle" id="notesToggle">
+  <span class="arrow">&#9654;</span> Design Notes
+</button>
+
+<div class="prompt-section" id="notesSection">
   <div class="prompt-header">
     <span>Design Notes</span>
     <button class="copy-btn" id="copyBtn">Copy</button>
@@ -212,6 +221,13 @@ document.getElementById('copyBtn').addEventListener('click', function() {
     btn.classList.add('copied');
     setTimeout(function() { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
   });
+});
+
+document.getElementById('notesToggle').addEventListener('click', function() {
+  var section = document.getElementById('notesSection');
+  var toggle = document.getElementById('notesToggle');
+  section.classList.toggle('open');
+  toggle.classList.toggle('open');
 });
 
 selectScreen(0);
