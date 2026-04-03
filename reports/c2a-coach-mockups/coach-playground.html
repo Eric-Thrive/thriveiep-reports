@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C2A Coach View MVP -- Mockup Playground</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+<!-- Hypothes.is annotation layer -->
+<script src="https://hypothes.is/embed.js" async></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Inter", system-ui, sans-serif;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px;
+  }
+  h1 { font-family: "Montserrat", sans-serif; font-size: 22px; font-weight: 700; color: #ffffff; margin-bottom: 4px; text-align: center; }
+  .sub { font-size: 13px; color: #888; margin-bottom: 6px; text-align: center; }
+  .hypothesis-note { font-size: 12px; color: #6a9; margin-bottom: 12px; text-align: center; }
+
+  .deferred-box {
+    max-width: 700px;
+    background: #222;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #999;
+  }
+  .deferred-box strong { color: #ccc; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; max-width: 700px; }
+  .tab {
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 14px; border-radius: 8px;
+    border: 1px solid #333; background: #222;
+    color: #aaa; font-size: 12px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  }
+  .tab:hover { background: #2a2a3e; border-color: #555; color: #ccc; }
+  .tab.active { background: #3a7c7c; border-color: #3a7c7c; color: #fff; }
+  .tab-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: rgba(255,255,255,0.15); font-size: 11px; font-weight: 700;
+  }
+  .tab.active .tab-num { background: rgba(255,255,255,0.3); }
+
+  .browser-frame {
+    width: 1200px; max-width: 95vw;
+    border-radius: 12px;
+    border: 2px solid #333;
+    background: #000;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+  }
+  .browser-chrome {
+    background: #2a2a3e;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .browser-dots {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .browser-dots span {
+    width: 12px; height: 12px; border-radius: 50%;
+  }
+  .dot-red { background: #ff5f57; }
+  .dot-yellow { background: #febc2e; }
+  .dot-green { background: #28c840; }
+  .url-bar {
+    flex: 1;
+    background: #1a1a2e;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 12px;
+    color: #aaa;
+    font-family: "Inter", monospace;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .browser-frame iframe {
+    width: 100%;
+    height: 80vh;
+    border: none;
+    background: #fff;
+    display: block;
+  }
+
+  .screen-label { margin-top: 16px; font-size: 14px; color: #888; text-align: center; }
+  .screen-label .num { color: #3a7c7c; font-weight: 700; }
+
+  .prompt-section { margin-top: 24px; width: 1200px; max-width: 95vw; }
+  .prompt-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .prompt-header span { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #666; }
+  .copy-btn { padding: 6px 12px; border-radius: 6px; border: 1px solid #444; background: #2a2a3e; color: #aaa; font-size: 12px; cursor: pointer; }
+  .copy-btn:hover { background: #3a3a4e; color: #fff; }
+  .copy-btn.copied { background: #3a7c7c; color: #fff; border-color: #3a7c7c; }
+  .prompt-box { background: #111; border: 1px solid #333; border-radius: 8px; padding: 16px; font-size: 13px; line-height: 1.6; color: #ccc; white-space: pre-wrap; }
+</style>
+</head>
+<body>
+
+<h1>C2A Coach View MVP</h1>
+<p class="sub">3 screens -- desktop-first dashboard using C2A design tokens</p>
+<p class="hypothesis-note">Use the Hypothes.is sidebar (top-right) to highlight and comment for the team.</p>
+
+<div class="deferred-box">
+  <strong>What This Mockup Does NOT Show</strong><br>
+  Deferred: Notification cadence (Phase D), full DDx coach text (later design pass), longitudinal comparison (needs T2 data), mobile layout (desktop-only for pilot), Assessment Progress / Sources / Notes tabs (placeholder content only).
+</div>
+
+<div class="tabs" id="tabs"></div>
+
+<div class="browser-frame">
+  <div class="browser-chrome">
+    <div class="browser-dots">
+      <span class="dot-red"></span>
+      <span class="dot-yellow"></span>
+      <span class="dot-green"></span>
+    </div>
+    <div class="url-bar" id="urlBar"></div>
+  </div>
+  <iframe id="preview" sandbox="allow-same-origin allow-scripts"></iframe>
+</div>
+
+<div class="screen-label" id="screenLabel"></div>
+
+<div class="prompt-section">
+  <div class="prompt-header">
+    <span>Design Notes</span>
+    <button class="copy-btn" id="copyBtn">Copy</button>
+  </div>
+  <div class="prompt-box" id="promptBox"></div>
+</div>
+
+<script>
+var screens = [
+  {
+    num: 1,
+    label: "Coach Roster",
+    file: "coach-roster.html",
+    url: "app.thriveiep.com/c2a/coach/dashboard",
+    notes: "Screen 1: Coach Student Roster\n\nDesktop-first layout. Top row: 4 aggregate stat cards.\nMain area: student list table with sprint status pills, focus area pills, and cohort column.\nColor coding: green (completed), amber (in progress), gray (not started).\nRed attention badge for students inactive 7+ days.\nFocus Areas column shows tier-colored skill pills for students who have completed assessment.\n\nReuses patterns from: StudentRosterPage.tsx (table), ScoringPipelineVisualizerPage.tsx (tabs/panels).\nCoach labels: Blocker (red), Watch (blue), Clear (green)."
+  },
+  {
+    num: 2,
+    label: "Student Detail",
+    file: "coach-detail.html",
+    url: "app.thriveiep.com/c2a/coach/students/jordan-m/detail",
+    notes: "Screen 2: Coach Student Detail (Jordan M.)\n\nBack arrow returns to roster. Header shows student name + status badges.\nOverview tab (active): 60/40 two-column layout.\nLeft: EF Profile Rollup (3 domains with bars + pillar impact table), Motivation & Core Needs (ARC + GMS with score bars), 4 pillar skill cards (2x2 grid, 12 skills total).\nRight: Coaching Prep (4 contextual prompts), Focus Area Tracker (active/queued status with intervention progress).\n\nEF rollup is the key Elizabeth ask. Shows constraint cascade clearly.\nTier cutpoints: < 40 Blocker, 40-54 Watch, >= 55 Clear.\nCoach labels are PROPOSED vocabulary (not yet in codebase)."
+  },
+  {
+    num: 3,
+    label: "Cohort Analytics",
+    file: "coach-cohort.html",
+    url: "app.thriveiep.com/c2a/coach/cohort-analytics",
+    notes: "Screen 3: Cohort Analytics\n\nFocus Area Distribution: horizontal bar chart showing most common focus areas across cohort.\nTier Distribution by Pillar: stacked segment bars per pillar.\nGroup Score Change Over Time: placeholder for T2 longitudinal data (expected May 2026).\nStudents Needing Attention: Marcus R. (8d) and Devon L. (13d) with badges.\n\nThis page powers Elizabeth's Question 3: 'Does the coach use the profile differently than they would have without it?'"
+  }
+];
+
+var tabsEl = document.getElementById('tabs');
+screens.forEach(function(s, i) {
+  var tab = document.createElement('button');
+  tab.className = 'tab' + (i === 0 ? ' active' : '');
+  var numSpan = document.createElement('span');
+  numSpan.className = 'tab-num';
+  numSpan.textContent = String(s.num);
+  tab.appendChild(numSpan);
+  tab.appendChild(document.createTextNode(' ' + s.label));
+  tab.addEventListener('click', function() { selectScreen(i); });
+  tabsEl.appendChild(tab);
+});
+
+function selectScreen(index) {
+  var s = screens[index];
+  var allTabs = document.querySelectorAll('.tab');
+  for (var i = 0; i < allTabs.length; i++) {
+    allTabs[i].className = 'tab' + (i === index ? ' active' : '');
+  }
+  document.getElementById('preview').src = s.file;
+  document.getElementById('urlBar').textContent = s.url;
+  var labelEl = document.getElementById('screenLabel');
+  labelEl.textContent = '';
+  var numEl = document.createElement('span');
+  numEl.className = 'num';
+  numEl.textContent = 'Screen ' + s.num;
+  labelEl.appendChild(numEl);
+  labelEl.appendChild(document.createTextNode(' -- ' + s.label));
+  document.getElementById('promptBox').textContent = s.notes;
+}
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+  var text = document.getElementById('promptBox').textContent;
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(function() { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
+  });
+});
+
+selectScreen(0);
+</script>
+
+</body>
+</html>

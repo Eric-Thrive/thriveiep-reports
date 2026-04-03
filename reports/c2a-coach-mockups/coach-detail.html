@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta name="robots" content="noindex, nofollow">
+<title>C2A Coach View -- Jordan M. Detail (Mockup)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;family=Montserrat:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .signature-gradient {
+            background: linear-gradient(135deg, #001a17 0%, #00312c 100%);
+        }
+        .tinted-shadow:hover {
+            box-shadow: 0 12px 32px -4px rgba(27, 42, 74, 0.06);
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e3e2e0; border-radius: 10px; }
+    </style>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-surface-variant": "#45464e",
+                        "outline-variant": "#c5c6cf",
+                        "surface-container": "#efeeeb",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#1a1c1a",
+                        "secondary": "#4f5e81",
+                        "surface": "#faf9f6",
+                        "outline": "#75777f",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#e3e2e0",
+                        "surface-dim": "#dbdad7",
+                        "primary": "#001a17",
+                        "surface-container-high": "#e9e8e5",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f4f3f1",
+                        "background": "#faf9f6",
+                        "secondary-container": "#c5d4fd",
+                        "error": "#ba1a1a",
+                        "on-primary-container": "#2ba296",
+                        "primary-container": "#00312c",
+                        "primary-fixed-dim": "#6bd8cb",
+                        "tertiary-fixed": "#ffddb0",
+                        "on-tertiary-container": "#ae8c5b",
+                        "on-tertiary-fixed-variant": "#5c4218",
+                    },
+                    fontFamily: {
+                        "headline": ["Montserrat", "Plus Jakarta Sans"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-[#fcfbf8] font-body text-on-surface">
+<!-- Top Demo Banner -->
+<div class="h-8 bg-[#1B2A4A] flex items-center justify-center w-full fixed top-0 z-[60]">
+<span class="text-white text-[10px] font-bold tracking-[0.2em]">DEMO DATA -- NOT REAL STUDENTS</span>
+</div>
+<!-- Shared TopAppBar -->
+<header class="bg-[#1B2A4A] flex justify-between items-center w-full px-12 h-16 fixed top-8 z-50 shadow-lg shadow-[#1B2A4A]/10">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-white font-headline tracking-tight">ThriveIEP</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-[#6bd8cb] border-b-2 border-[#6bd8cb] pb-1 font-['Plus_Jakarta_Sans'] tracking-tight transition-colors" href="#">Dashboard</a>
+<a class="text-slate-300 hover:text-white transition-colors" href="#">Reports</a>
+<a class="text-slate-300 hover:text-white transition-colors" href="#">Settings</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-300 hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="flex items-center gap-3 ml-2 border-l border-white/10 pl-4">
+<span class="material-symbols-outlined text-slate-300" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Shared SideNavBar -->
+<aside class="fixed left-0 top-24 h-[calc(100vh-64px)] w-64 bg-[#faf9f6] border-r border-[#f4f3f1] flex flex-col pt-8 z-40">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 bg-[#1B2A4A] rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="school">school</span>
+</div>
+<div>
+<h2 class="text-lg font-black text-[#1B2A4A] font-['Inter'] uppercase tracking-wider">Coach View</h2>
+<p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">NLU Pilot</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-[#f4f3f1] hover:text-[#1B2A4A] transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-['Inter'] uppercase tracking-wider text-sm">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#001a17] font-bold border-r-4 border-[#3a7c7c] bg-[#f4f3f1] transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-['Inter'] uppercase tracking-wider text-sm">Student Roster</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-[#f4f3f1] hover:text-[#1B2A4A] transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-['Inter'] uppercase tracking-wider text-sm">Cohort Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-[#f4f3f1] hover:text-[#1B2A4A] transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span class="font-['Inter'] uppercase tracking-wider text-sm">Help Center</span>
+</a>
+</nav>
+<div class="p-4 px-6 border-t border-[#f4f3f1]">
+<button class="w-full py-3 bg-[#3a7c7c] text-white rounded-lg font-bold text-xs uppercase tracking-widest shadow-lg">
+                New Cohort
+            </button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-64 mt-24 px-12 pb-12 pt-8 min-h-screen">
+
+<!-- Back link + Header -->
+<div class="pt-8 mb-8">
+<a href="#" class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#3a7c7c] hover:underline mb-4">
+<span class="material-symbols-outlined text-lg">arrow_back</span>
+Back to My Students
+</a>
+<h1 class="font-headline text-[28px] font-bold text-[#3c3c3c] -tracking-[0.02em] leading-tight mb-3">Jordan M.</h1>
+<div class="flex items-center gap-2 mb-6">
+<span class="px-3 py-1 rounded-full bg-[#f0f0f0] text-[#666] text-xs font-semibold">STEM Access</span>
+<span class="px-3 py-1 rounded-full bg-[#f0fdf4] text-[#16a34a] text-xs font-semibold">All Sprints Complete</span>
+<span class="px-3 py-1 rounded-full bg-[#eff6ff] text-[#2563eb] text-xs font-semibold">Report Viewed</span>
+</div>
+<div class="inline-flex items-center bg-[#f4f3f1] rounded-full p-1">
+<button class="px-5 py-2 rounded-full bg-[#3a7c7c] text-white text-sm font-semibold transition-colors">Overview</button>
+<button class="px-5 py-2 rounded-full bg-transparent text-[#888] text-sm font-semibold transition-colors hover:text-[#3c3c3c]">Assessment Progress</button>
+<button class="px-5 py-2 rounded-full bg-transparent text-[#888] text-sm font-semibold transition-colors hover:text-[#3c3c3c]">Sources</button>
+<button class="px-5 py-2 rounded-full bg-transparent text-[#888] text-sm font-semibold transition-colors hover:text-[#3c3c3c]">Notes &amp; Feedback</button>
+</div>
+</div>
+
+<!-- Two-column grid -->
+<div class="grid grid-cols-10 gap-8">
+
+<!-- LEFT COLUMN -->
+<div class="col-span-6 space-y-8">
+
+<!-- Card 1: Executive Function Profile -->
+<div class="bg-white border border-[#e5e5e5] rounded-xl p-6 shadow-sm">
+<h2 class="text-lg font-bold font-headline text-[#3c3c3c]">Executive Function Profile</h2>
+<p class="text-sm text-[#666] mt-1 mb-1">How Jordan's cognitive foundations affect skill performance</p>
+<p class="text-xs italic text-slate-400 mb-6">Proposed visualization -- feedback welcome on format</p>
+
+<!-- Working Memory -->
+<div class="mb-5">
+<div class="flex justify-between items-center text-sm mb-1.5">
+<span class="font-semibold text-[#3c3c3c]">Working Memory</span>
+<span class="text-[10px] px-2.5 py-0.5 bg-[#fef2f2] text-[#dc2626] rounded-full font-bold">Constrains 4 skills</span>
+</div>
+<div class="h-2 w-full bg-[#f0f0f0] rounded-full overflow-hidden">
+<div class="h-full bg-[#dc2626] rounded-full" style="width: 38%"></div>
+</div>
+<div class="text-[10px] font-semibold text-slate-400 tracking-wider mt-1">38 / 100</div>
+</div>
+
+<!-- Inhibition -->
+<div class="mb-5">
+<div class="flex justify-between items-center text-sm mb-1.5">
+<span class="font-semibold text-[#3c3c3c]">Inhibition</span>
+<span class="text-[10px] px-2.5 py-0.5 bg-[#eff6ff] text-[#2563eb] rounded-full font-bold">Constrains 2 skills</span>
+</div>
+<div class="h-2 w-full bg-[#f0f0f0] rounded-full overflow-hidden">
+<div class="h-full bg-[#2563eb] rounded-full" style="width: 52%"></div>
+</div>
+<div class="text-[10px] font-semibold text-slate-400 tracking-wider mt-1">52 / 100</div>
+</div>
+
+<!-- Cognitive Flexibility -->
+<div class="mb-5">
+<div class="flex justify-between items-center text-sm mb-1.5">
+<span class="font-semibold text-[#3c3c3c]">Cognitive Flexibility</span>
+<span class="text-[10px] px-2.5 py-0.5 bg-[#f0fdf4] text-[#16a34a] rounded-full font-bold">No constraints</span>
+</div>
+<div class="h-2 w-full bg-[#f0f0f0] rounded-full overflow-hidden">
+<div class="h-full bg-[#16a34a] rounded-full" style="width: 65%"></div>
+</div>
+<div class="text-[10px] font-semibold text-slate-400 tracking-wider mt-1">65 / 100</div>
+</div>
+
+<!-- Pillar Impact Table -->
+<h3 class="text-sm font-bold text-[#3c3c3c] mt-6 mb-3">Pillar Impact</h3>
+<table class="w-full text-sm">
+<thead>
+<tr class="border-b border-[#e5e5e5]">
+<th class="text-left py-2 text-[11px] font-bold text-slate-500 uppercase tracking-wide">Pillar</th>
+<th class="text-left py-2 text-[11px] font-bold text-slate-500 uppercase tracking-wide">Constrained Skills</th>
+<th class="text-right py-2 text-[11px] font-bold text-slate-500 uppercase tracking-wide">Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-[#f0f0f0]">
+<td class="py-2.5 text-[#3c3c3c]">Creative &amp; Curious Thinkers</td>
+<td class="py-2.5 text-slate-500">None (Adaptability cross-listed to P3)</td>
+<td class="py-2.5 text-right"><span class="px-2 py-0.5 bg-[#f0fdf4] text-[#16a34a] text-[10px] font-bold rounded-full">LOW</span></td>
+</tr>
+<tr class="border-b border-[#f0f0f0]">
+<td class="py-2.5 text-[#3c3c3c]">Leaders with Purpose &amp; Agency</td>
+<td class="py-2.5 text-slate-500">Initiative [WM], Communication [WM+IH]</td>
+<td class="py-2.5 text-right"><span class="px-2 py-0.5 bg-[#eff6ff] text-[#2563eb] text-[10px] font-bold rounded-full">MODERATE</span></td>
+</tr>
+<tr class="border-b border-[#f0f0f0]">
+<td class="py-2.5 text-[#3c3c3c]">Thrivers in Change</td>
+<td class="py-2.5 text-slate-500">Adaptability [WM+IH], Resilience [WM]</td>
+<td class="py-2.5 text-right"><span class="px-2 py-0.5 bg-[#fef2f2] text-[#dc2626] text-[10px] font-bold rounded-full">HIGH</span></td>
+</tr>
+<tr>
+<td class="py-2.5 text-[#3c3c3c]">Network Builders</td>
+<td class="py-2.5 text-slate-500">No EF constraints</td>
+<td class="py-2.5 text-right"><span class="px-2 py-0.5 bg-[#f0fdf4] text-[#16a34a] text-[10px] font-bold rounded-full">LOW</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<!-- Card 2: Motivation & Core Needs -->
+<div class="bg-white border border-[#e5e5e5] rounded-xl p-6 shadow-sm">
+<h2 class="text-lg font-bold font-headline text-[#3c3c3c]">Motivation &amp; Core Needs</h2>
+<p class="text-sm text-[#666] mt-1 mb-6">Whether Jordan's sense of choice, effectiveness, and connection are being met</p>
+
+<div class="grid grid-cols-2 gap-8">
+<!-- ARC Profile -->
+<div>
+<div class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-4">ARC PROFILE</div>
+
+<!-- Autonomy -->
+<div class="mb-5">
+<div class="flex justify-between items-center text-sm mb-1.5">
+<span class="font-semibold text-[#3c3c3c]">Autonomy</span>
+</div>
+<div class="h-2 w-full bg-[#f0f0f0] rounded-full overflow-hidden">
+<div class="h-full bg-[#2563eb] rounded-full" style="width: 42%"></div>
+</div>
+<div class="flex justify-between items-center mt-1">
+<div class="text-[10px] font-semibold text-slate-400 tracking-wider">42 / 100</div>
+<div class="text-xs text-slate-400">Satisfaction low</div>
+</div>
+</div>
+
+<!-- Relatedness -->
+<div class="mb-5">
+<div class="flex justify-between items-center text-sm mb-1.5">
+<span class="font-semibold text-[#3c3c3c]">Relatedness</span>
+</div>
+<div class="h-2 w-full bg-[#f0f0f0] rounded-full overflow-hidden">
+<div class="h-full bg-[#16a34a] rounded-full" style="width: 68%"></div>
+</div>
+<div class="text-[10px] font-semibold text-slate-400 tracking-wider mt-1">68 / 100</div>
+</div>
+
+<!-- Competence -->
+<div class="mb-5">
+<div class="flex justify-between items-center text-sm mb-1.5">
+<span class="font-semibold text-[#3c3c3c]">Competence</span>
+</div>
+<div class="h-2 w-full bg-[#f0f0f0] rounded-full overflow-hidden">
+<div class="h-full bg-[#16a34a] rounded-full" style="width: 55%"></div>
+</div>
+<div class="text-[10px] font-semibold text-slate-400 tracking-wider mt-1">55 / 100</div>
+</div>
+</div>
+
+<!-- GMS Motivation -->
+<div>
+<div class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-4">GMS MOTIVATION</div>
+
+<!-- Intrinsic Motivation -->
+<div class="mb-5">
+<div class="flex justify-between items-center text-sm mb-1.5">
+<span class="font-semibold text-[#3c3c3c]">Intrinsic Motivation</span>
+</div>
+<div class="h-2 w-full bg-[#f0f0f0] rounded-full overflow-hidden">
+<div class="h-full bg-[#16a34a] rounded-full" style="width: 61%"></div>
+</div>
+<div class="text-[10px] font-semibold text-slate-400 tracking-wider mt-1">61 / 100</div>
+</div>
+
+<!-- Amotivation -->
+<div class="mb-2">
+<div class="flex justify-between items-center text-sm mb-1.5">
+<span class="font-semibold text-[#3c3c3c]">Amotivation</span>
+</div>
+<div class="h-2 w-full bg-[#f0f0f0] rounded-full overflow-hidden">
+<div class="h-full bg-[#16a34a] rounded-full" style="width: 28%"></div>
+</div>
+<div class="text-[10px] font-semibold text-slate-400 tracking-wider mt-1">28 / 100</div>
+</div>
+<p class="text-xs italic text-slate-400">(lower = healthier on this scale)</p>
+</div>
+</div>
+
+<p class="text-xs italic text-slate-400 mt-4">C2A battery measures 2 GMS facets.</p>
+</div>
+
+<!-- Card 3: Four Pillar Cards -->
+<div class="grid grid-cols-2 gap-6">
+
+<!-- P1: Creative & Curious Thinkers -->
+<div class="bg-white border border-[#e5e5e5] rounded-xl p-5 shadow-sm">
+<h3 class="font-bold text-[#3c3c3c] mb-3">Creative &amp; Curious Thinkers</h3>
+
+<div class="flex items-center justify-between py-2.5 border-b border-[#f0f0f0]">
+<div class="flex items-center gap-1.5">
+<span class="text-sm text-[#3c3c3c]">Creative Problem Solving</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-sm font-semibold">68</span>
+<span class="px-2 py-0.5 bg-[#f0fdf4] text-[#16a34a] text-[10px] font-bold rounded">Clear</span>
+</div>
+</div>
+
+<div class="flex items-center justify-between py-2.5 border-b border-[#f0f0f0]">
+<div class="flex items-center gap-1.5">
+<span class="text-sm text-[#3c3c3c]">Critical Thinking</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-sm font-semibold">55</span>
+<span class="px-2 py-0.5 bg-[#f0fdf4] text-[#16a34a] text-[10px] font-bold rounded">Clear</span>
+</div>
+</div>
+
+<div class="flex items-center justify-between py-2.5">
+<div class="flex items-center gap-1.5">
+<span class="text-sm text-[#3c3c3c]">Curiosity</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-sm font-semibold">72</span>
+<span class="px-2 py-0.5 bg-[#f0fdf4] text-[#16a34a] text-[10px] font-bold rounded">Clear</span>
+</div>
+</div>
+</div>
+
+<!-- P2: Leaders with Purpose & Agency -->
+<div class="bg-white border border-[#e5e5e5] rounded-xl p-5 shadow-sm">
+<h3 class="font-bold text-[#3c3c3c] mb-3">Leaders with Purpose &amp; Agency</h3>
+
+<div class="flex items-center justify-between py-2.5 border-b border-[#f0f0f0]">
+<div class="flex items-center gap-1.5">
+<span class="text-sm text-[#3c3c3c]">Initiative</span>
+<span class="bg-[#f5f5f5] text-[#888] px-1.5 py-0.5 rounded text-[8px] ml-1">WM</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-sm font-semibold">42</span>
+<span class="px-2 py-0.5 bg-[#eff6ff] text-[#2563eb] text-[10px] font-bold rounded">Watch</span>
+</div>
+</div>
+
+<div class="flex items-center justify-between py-2.5 border-b border-[#f0f0f0]">
+<div class="flex items-center gap-1.5">
+<span class="text-sm text-[#3c3c3c]">Empathy</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-sm font-semibold">61</span>
+<span class="px-2 py-0.5 bg-[#f0fdf4] text-[#16a34a] text-[10px] font-bold rounded">Clear</span>
+</div>
+</div>
+
+<div class="flex items-center justify-between py-2.5">
+<div class="flex items-center gap-1.5">
+<span class="text-sm text-[#3c3c3c]">Communication</span>
+<span class="bg-[#f5f5f5] text-[#888] px-1.5 py-0.5 rounded text-[8px] ml-1">WM+IH</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-sm font-semibold">48</span>
+<span class="px-2 py-0.5 bg-[#eff6ff] text-[#2563eb] text-[10px] font-bold rounded">Watch</span>
+</div>
+</div>
+</div>
+
+<!-- P3: Thrivers in Change -->
+<div class="bg-white border border-[#e5e5e5] rounded-xl p-5 shadow-sm">
+<h3 class="font-bold text-[#3c3c3c] mb-3">Thrivers in Change</h3>
+
+<div class="flex items-center justify-between py-2.5 border-b border-[#f0f0f0]">
+<div class="flex items-center gap-1.5">
+<span class="text-sm text-[#3c3c3c]">Adaptability</span>
+<span class="bg-[#f5f5f5] text-[#888] px-1.5 py-0.5 rounded text-[8px] ml-1">WM+IH</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-sm font-semibold">28</span>
+<span class="px-2 py-0.5 bg-[#fef2f2] text-[#dc2626] text-[10px] font-bold rounded">Blocker</span>
+</div>
+</div>
+
+<div class="flex items-center justify-between py-2.5 border-b border-[#f0f0f0]">
+<div class="flex items-center gap-1.5">
+<span class="text-sm text-[#3c3c3c]">Resilience</span>
+<span class="bg-[#f5f5f5] text-[#888] px-1.5 py-0.5 rounded text-[8px] ml-1">WM</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-sm font-semibold">38</span>
+<span class="px-2 py-0.5 bg-[#fef2f2] text-[#dc2626] text-[10px] font-bold rounded">Blocker</span>
+</div>
+</div>
+
+<div class="flex items-center justify-between py-2.5">
+<div class="flex items-center gap-1.5">
+<span class="text-sm text-[#3c3c3c]">Collaboration</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-sm font-semibold">65</span>
+<span class="px-2 py-0.5 bg-[#f0fdf4] text-[#16a34a] text-[10px] font-bold rounded">Clear</span>
+</div>
+</div>
+</div>
+
+<!-- P4: Network Builders -->
+<div class="bg-white border border-[#e5e5e5] rounded-xl p-5 shadow-sm">
+<h3 class="font-bold text-[#3c3c3c] mb-3">Network Builders</h3>
+
+<div class="flex items-center justify-between py-2.5 border-b border-[#f0f0f0]">
+<div class="flex items-center gap-1.5">
+<span class="text-sm text-[#3c3c3c]">Networking</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-sm font-semibold">44</span>
+<span class="px-2 py-0.5 bg-[#eff6ff] text-[#2563eb] text-[10px] font-bold rounded">Watch</span>
+</div>
+</div>
+
+<div class="flex items-center justify-between py-2.5 border-b border-[#f0f0f0]">
+<div class="flex items-center gap-1.5">
+<span class="text-sm text-[#3c3c3c]">Relationship Building</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-sm font-semibold">58</span>
+<span class="px-2 py-0.5 bg-[#f0fdf4] text-[#16a34a] text-[10px] font-bold rounded">Clear</span>
+</div>
+</div>
+
+<div class="flex items-center justify-between py-2.5">
+<div class="flex items-center gap-1.5">
+<span class="text-sm text-[#3c3c3c]">Social Awareness</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-sm font-semibold">63</span>
+<span class="px-2 py-0.5 bg-[#f0fdf4] text-[#16a34a] text-[10px] font-bold rounded">Clear</span>
+</div>
+</div>
+</div>
+
+</div><!-- end pillar grid -->
+
+</div><!-- end left column -->
+
+<!-- RIGHT COLUMN -->
+<div class="col-span-4 space-y-8">
+
+<!-- Card 1: Coaching Prep -->
+<div class="bg-white border border-[#e5e5e5] rounded-xl p-6 shadow-sm">
+<div class="flex items-center gap-2 mb-5">
+<span class="material-symbols-outlined text-[#3a7c7c]" data-icon="school">school</span>
+<h2 class="text-lg font-bold font-headline text-[#3c3c3c]">Coaching Prep</h2>
+</div>
+
+<div class="bg-[#f5e8d6] p-4 rounded-xl mb-3">
+<div class="text-[10px] font-bold uppercase tracking-wider text-[#8c7355] mb-1">PRIORITY: THRIVERS IN CHANGE (2 BLOCKERS)</div>
+<p class="text-sm text-[#5c4a33]">Adaptability (28) and Resilience (38) are both Blockers in this pillar. Working Memory constrains both. Before coaching on coping strategies, check whether Jordan can hold multiple approaches in mind. Scaffold with written frameworks.</p>
+</div>
+
+<div class="bg-[#f5e8d6] p-4 rounded-xl mb-3">
+<div class="text-[10px] font-bold uppercase tracking-wider text-[#8c7355] mb-1">EF PATTERN</div>
+<p class="text-sm text-[#5c4a33]">Working Memory affects 4 skills across 3 pillars. Look for a common thread: does Jordan struggle when tasks require holding multiple pieces of information? External memory aids (lists, visual maps) may unlock progress across all four.</p>
+</div>
+
+<div class="bg-[#f5e8d6] p-4 rounded-xl mb-3">
+<div class="text-[10px] font-bold uppercase tracking-wider text-[#8c7355] mb-1">ARC CONTEXT</div>
+<p class="text-sm text-[#5c4a33]">Autonomy satisfaction is low (42, Watch). Watch for signs that coaching feels prescriptive. Frame suggestions as options ("You could try...") rather than directives.</p>
+</div>
+
+<div class="bg-[#f5e8d6] p-4 rounded-xl mb-3">
+<div class="text-[10px] font-bold uppercase tracking-wider text-[#8c7355] mb-1">BUILD ON STRENGTHS</div>
+<p class="text-sm text-[#5c4a33]">P1 is entirely Clear: Curiosity (72), CPS (68), CT (55). Jordan likes exploring new ideas. Frame Resilience work as a creative challenge, not a deficit to fix.</p>
+</div>
+</div>
+
+<!-- Card 2: Focus Areas -->
+<div class="bg-white border border-[#e5e5e5] rounded-xl p-6 shadow-sm">
+<h3 class="text-lg font-bold font-headline text-[#3c3c3c] mb-4">Focus Area Tracker</h3>
+
+<!-- Focus Area 1: Active -->
+<div class="mb-5 p-4 bg-[#fef2f2]/30 border border-[#dc2626]/10 rounded-lg">
+  <div class="flex items-center justify-between mb-2">
+    <div class="flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-[#dc2626]"></span>
+      <span class="font-semibold text-sm text-[#3c3c3c]">Adaptability</span>
+      <span class="px-2 py-0.5 bg-[#fef2f2] text-[#dc2626] text-[10px] font-bold rounded">Blocker</span>
+    </div>
+    <span class="px-2 py-0.5 bg-[#16a34a]/10 text-[#16a34a] text-[10px] font-bold rounded-full uppercase">Active</span>
+  </div>
+  <div class="ml-4 space-y-1.5 text-xs text-slate-500">
+    <div class="flex justify-between"><span>Intervention assigned</span><span class="text-[#3c3c3c] font-medium">Written decision frameworks</span></div>
+    <div class="flex justify-between"><span>Check-ins completed</span><span class="text-[#3c3c3c] font-medium">1 of 3</span></div>
+    <div class="flex justify-between"><span>Last coaching session</span><span class="text-[#3c3c3c] font-medium">March 28</span></div>
+    <div class="flex justify-between"><span>Coach notes</span><span class="text-[#3c3c3c] font-medium">2 entries</span></div>
+  </div>
+  <a class="text-[#3a7c7c] text-xs font-semibold mt-2 inline-block hover:underline" href="#">View in Start Here Report</a>
+</div>
+
+<!-- Focus Area 2: Queued -->
+<div class="mb-5 p-4 bg-[#fef2f2]/10 border border-[#e5e5e5] rounded-lg">
+  <div class="flex items-center justify-between mb-2">
+    <div class="flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-[#dc2626]"></span>
+      <span class="font-semibold text-sm text-[#3c3c3c]">Resilience</span>
+      <span class="px-2 py-0.5 bg-[#fef2f2] text-[#dc2626] text-[10px] font-bold rounded">Blocker</span>
+    </div>
+    <span class="px-2 py-0.5 bg-slate-100 text-slate-500 text-[10px] font-bold rounded-full uppercase">Queued</span>
+  </div>
+  <div class="ml-4 text-xs text-slate-400 italic">
+    Waiting for Adaptability to reach Watch tier before starting
+  </div>
+  <a class="text-[#3a7c7c] text-xs font-semibold mt-2 inline-block hover:underline" href="#">View in Start Here Report</a>
+</div>
+
+<!-- Focus Area 3: Queued -->
+<div class="p-4 bg-[#eff6ff]/10 border border-[#e5e5e5] rounded-lg">
+  <div class="flex items-center justify-between mb-2">
+    <div class="flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-[#2563eb]"></span>
+      <span class="font-semibold text-sm text-[#3c3c3c]">Initiative</span>
+      <span class="px-2 py-0.5 bg-[#eff6ff] text-[#2563eb] text-[10px] font-bold rounded">Watch</span>
+    </div>
+    <span class="px-2 py-0.5 bg-slate-100 text-slate-500 text-[10px] font-bold rounded-full uppercase">Queued</span>
+  </div>
+  <div class="ml-4 text-xs text-slate-400 italic">
+    Next priority after Resilience
+  </div>
+  <a class="text-[#3a7c7c] text-xs font-semibold mt-2 inline-block hover:underline" href="#">View in Start Here Report</a>
+</div>
+</div>
+
+</div><!-- end right column -->
+
+</div><!-- end two-column grid -->
+
+</main>
+</body></html>

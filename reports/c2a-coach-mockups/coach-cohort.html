@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta name="robots" content="noindex, nofollow">
+<title>C2A Coach View -- Cohort Analytics (Mockup)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;family=Montserrat:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .signature-gradient {
+            background: linear-gradient(135deg, #001a17 0%, #00312c 100%);
+        }
+        .tinted-shadow:hover {
+            box-shadow: 0 12px 32px -4px rgba(27, 42, 74, 0.06);
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e3e2e0; border-radius: 10px; }
+    </style>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-surface-variant": "#45464e",
+                        "outline-variant": "#c5c6cf",
+                        "surface-container": "#efeeeb",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#1a1c1a",
+                        "secondary": "#4f5e81",
+                        "surface": "#faf9f6",
+                        "outline": "#75777f",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#e3e2e0",
+                        "surface-dim": "#dbdad7",
+                        "primary": "#001a17",
+                        "surface-container-high": "#e9e8e5",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f4f3f1",
+                        "background": "#faf9f6",
+                        "secondary-container": "#c5d4fd",
+                        "error": "#ba1a1a",
+                        "on-primary-container": "#2ba296",
+                        "primary-container": "#00312c",
+                        "primary-fixed-dim": "#6bd8cb",
+                        "tertiary-fixed": "#ffddb0",
+                        "on-tertiary-container": "#ae8c5b",
+                        "on-tertiary-fixed-variant": "#5c4218",
+                    },
+                    fontFamily: {
+                        "headline": ["Montserrat", "Plus Jakarta Sans"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-[#fcfbf8] font-body text-on-surface">
+<!-- Top Demo Banner -->
+<div class="h-8 bg-[#1B2A4A] flex items-center justify-center w-full fixed top-0 z-[60]">
+<span class="text-white text-[10px] font-bold tracking-[0.2em]">DEMO DATA -- NOT REAL STUDENTS</span>
+</div>
+<!-- Shared TopAppBar -->
+<header class="bg-[#1B2A4A] flex justify-between items-center w-full px-12 h-16 fixed top-8 z-50 shadow-lg shadow-[#1B2A4A]/10">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-white font-headline tracking-tight">ThriveIEP</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-[#6bd8cb] border-b-2 border-[#6bd8cb] pb-1 font-['Plus_Jakarta_Sans'] tracking-tight transition-colors" href="#">Dashboard</a>
+<a class="text-slate-300 hover:text-white transition-colors" href="#">Reports</a>
+<a class="text-slate-300 hover:text-white transition-colors" href="#">Settings</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-300 hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="flex items-center gap-3 ml-2 border-l border-white/10 pl-4">
+<span class="material-symbols-outlined text-slate-300" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Shared SideNavBar -->
+<aside class="fixed left-0 top-24 h-[calc(100vh-64px)] w-64 bg-[#faf9f6] border-r border-[#f4f3f1] flex flex-col pt-8 z-40">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 bg-[#1B2A4A] rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="school">school</span>
+</div>
+<div>
+<h2 class="text-lg font-black text-[#1B2A4A] font-['Inter'] uppercase tracking-wider">Coach View</h2>
+<p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">NLU Pilot</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-[#f4f3f1] hover:text-[#1B2A4A] transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-['Inter'] uppercase tracking-wider text-sm">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-[#f4f3f1] hover:text-[#1B2A4A] transition-all duration-200 rounded-lg" href="coach-roster.html">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-['Inter'] uppercase tracking-wider text-sm">Student Roster</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#001a17] font-bold border-r-4 border-[#3a7c7c] bg-[#f4f3f1] transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-['Inter'] uppercase tracking-wider text-sm">Cohort Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-[#f4f3f1] hover:text-[#1B2A4A] transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span class="font-['Inter'] uppercase tracking-wider text-sm">Help Center</span>
+</a>
+</nav>
+<div class="p-4 px-6 border-t border-[#f4f3f1]">
+<button class="w-full py-3 bg-[#3a7c7c] text-white rounded-lg font-bold text-xs uppercase tracking-widest shadow-lg">
+                New Cohort
+            </button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-64 mt-24 px-12 pb-12 pt-8 min-h-screen">
+<!-- Header Section -->
+<header class="flex justify-between items-end mb-10">
+<div>
+<h1 class="font-headline text-[28px] font-bold text-[#3c3c3c] -tracking-[0.02em] leading-tight">Cohort Analytics</h1>
+<p class="font-body text-sm text-[#666] mt-1">NLU Pilot -- Spring 2026</p>
+</div>
+<div class="relative">
+<button class="flex items-center gap-3 bg-white border border-[#e5e5e5] px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-[#f4f3f1] transition-colors shadow-sm">
+                    All Cohorts
+                    <span class="material-symbols-outlined text-lg" data-icon="expand_more">expand_more</span>
+</button>
+</div>
+</header>
+
+<!-- Section 1: Focus Area Distribution -->
+<section class="bg-white border border-[#e5e5e5] rounded-xl p-6 mb-8">
+<h3 class="text-lg font-bold text-[#3c3c3c]">Focus Area Distribution</h3>
+<p class="text-sm text-[#666] mb-6">Most common focus areas selected by students</p>
+
+<div class="flex items-center gap-4 py-3 border-b border-[#f0f0f0]">
+  <span class="text-sm text-[#3c3c3c] w-40">Adaptability</span>
+  <div class="flex-1 h-6 bg-[#f0f0f0] rounded-full overflow-hidden">
+    <div class="h-full bg-[#dc2626] rounded-full" style="width: 60%"></div>
+  </div>
+  <span class="text-xs font-semibold text-slate-500 w-20 text-right">3 students</span>
+  <span class="px-2 py-0.5 bg-[#fef2f2] text-[#dc2626] text-[10px] font-bold rounded">Blocker</span>
+</div>
+
+<div class="flex items-center gap-4 py-3 border-b border-[#f0f0f0]">
+  <span class="text-sm text-[#3c3c3c] w-40">Resilience</span>
+  <div class="flex-1 h-6 bg-[#f0f0f0] rounded-full overflow-hidden">
+    <div class="h-full bg-[#dc2626] rounded-full" style="width: 40%"></div>
+  </div>
+  <span class="text-xs font-semibold text-slate-500 w-20 text-right">2 students</span>
+  <span class="px-2 py-0.5 bg-[#fef2f2] text-[#dc2626] text-[10px] font-bold rounded">Blocker</span>
+</div>
+
+<div class="flex items-center gap-4 py-3 border-b border-[#f0f0f0]">
+  <span class="text-sm text-[#3c3c3c] w-40">Initiative</span>
+  <div class="flex-1 h-6 bg-[#f0f0f0] rounded-full overflow-hidden">
+    <div class="h-full bg-[#2563eb] rounded-full" style="width: 40%"></div>
+  </div>
+  <span class="text-xs font-semibold text-slate-500 w-20 text-right">2 students</span>
+  <span class="px-2 py-0.5 bg-[#eff6ff] text-[#2563eb] text-[10px] font-bold rounded">Watch</span>
+</div>
+
+<div class="flex items-center gap-4 py-3 border-b border-[#f0f0f0]">
+  <span class="text-sm text-[#3c3c3c] w-40">Communication</span>
+  <div class="flex-1 h-6 bg-[#f0f0f0] rounded-full overflow-hidden">
+    <div class="h-full bg-[#2563eb] rounded-full" style="width: 40%"></div>
+  </div>
+  <span class="text-xs font-semibold text-slate-500 w-20 text-right">2 students</span>
+  <span class="px-2 py-0.5 bg-[#eff6ff] text-[#2563eb] text-[10px] font-bold rounded">Watch</span>
+</div>
+
+<div class="flex items-center gap-4 py-3 border-b border-[#f0f0f0]">
+  <span class="text-sm text-[#3c3c3c] w-40">Networking</span>
+  <div class="flex-1 h-6 bg-[#f0f0f0] rounded-full overflow-hidden">
+    <div class="h-full bg-[#2563eb] rounded-full" style="width: 20%"></div>
+  </div>
+  <span class="text-xs font-semibold text-slate-500 w-20 text-right">1 student</span>
+  <span class="px-2 py-0.5 bg-[#eff6ff] text-[#2563eb] text-[10px] font-bold rounded">Watch</span>
+</div>
+
+<div class="flex items-center gap-4 py-3">
+  <span class="text-sm text-[#3c3c3c] w-40">Critical Thinking</span>
+  <div class="flex-1 h-6 bg-[#f0f0f0] rounded-full overflow-hidden">
+    <div class="h-full bg-[#2563eb] rounded-full" style="width: 20%"></div>
+  </div>
+  <span class="text-xs font-semibold text-slate-500 w-20 text-right">1 student</span>
+  <span class="px-2 py-0.5 bg-[#eff6ff] text-[#2563eb] text-[10px] font-bold rounded">Watch</span>
+</div>
+</section>
+
+<!-- Section 2: Tier Distribution by Pillar -->
+<section class="bg-white border border-[#e5e5e5] rounded-xl p-6 mb-8">
+<h3 class="text-lg font-bold text-[#3c3c3c]">Tier Distribution by Pillar</h3>
+<p class="text-sm text-[#666] mb-6">How many students fall into each tier per pillar</p>
+
+<div class="grid grid-cols-2 gap-6">
+<!-- P1 -->
+<div class="bg-[#fafaf8] rounded-lg p-4">
+  <h4 class="text-sm font-bold text-[#3c3c3c] mb-3">Creative & Curious Thinkers</h4>
+  <div class="flex h-4 rounded-full overflow-hidden mb-2">
+    <div class="bg-[#16a34a]" style="width: 80%" title="4 Clear"></div>
+    <div class="bg-[#2563eb]" style="width: 20%" title="1 Watch"></div>
+  </div>
+  <div class="flex justify-between text-[10px] text-slate-400">
+    <span>0 Blocker</span><span>1 Watch</span><span>4 Clear</span>
+  </div>
+</div>
+
+<!-- P2 -->
+<div class="bg-[#fafaf8] rounded-lg p-4">
+  <h4 class="text-sm font-bold text-[#3c3c3c] mb-3">Leaders with Purpose & Agency</h4>
+  <div class="flex h-4 rounded-full overflow-hidden mb-2">
+    <div class="bg-[#16a34a]" style="width: 40%" title="2 Clear"></div>
+    <div class="bg-[#2563eb]" style="width: 60%" title="3 Watch"></div>
+  </div>
+  <div class="flex justify-between text-[10px] text-slate-400">
+    <span>0 Blocker</span><span>3 Watch</span><span>2 Clear</span>
+  </div>
+</div>
+
+<!-- P3 -->
+<div class="bg-[#fafaf8] rounded-lg p-4">
+  <h4 class="text-sm font-bold text-[#3c3c3c] mb-3">Thrivers in Change</h4>
+  <div class="flex h-4 rounded-full overflow-hidden mb-2">
+    <div class="bg-[#16a34a]" style="width: 40%" title="2 Clear"></div>
+    <div class="bg-[#2563eb]" style="width: 20%" title="1 Watch"></div>
+    <div class="bg-[#dc2626]" style="width: 40%" title="2 Blocker"></div>
+  </div>
+  <div class="flex justify-between text-[10px] text-slate-400">
+    <span>2 Blocker</span><span>1 Watch</span><span>2 Clear</span>
+  </div>
+</div>
+
+<!-- P4 -->
+<div class="bg-[#fafaf8] rounded-lg p-4">
+  <h4 class="text-sm font-bold text-[#3c3c3c] mb-3">Network Builders</h4>
+  <div class="flex h-4 rounded-full overflow-hidden mb-2">
+    <div class="bg-[#16a34a]" style="width: 60%" title="3 Clear"></div>
+    <div class="bg-[#2563eb]" style="width: 40%" title="2 Watch"></div>
+  </div>
+  <div class="flex justify-between text-[10px] text-slate-400">
+    <span>0 Blocker</span><span>2 Watch</span><span>3 Clear</span>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- Section 3: Group Score Change -->
+<section class="bg-white border border-[#e5e5e5] rounded-xl p-6 mb-8">
+<h3 class="text-lg font-bold text-[#3c3c3c]">Group Score Change Over Time</h3>
+<p class="text-sm text-[#666] mb-6">Average score movement per skill across timepoints</p>
+
+<div class="border-2 border-dashed border-[#d1d5db] rounded-xl p-8 flex flex-col items-center justify-center text-center">
+  <span class="material-symbols-outlined text-4xl text-slate-300 mb-3" data-icon="trending_up">trending_up</span>
+  <p class="text-sm text-slate-500 mb-6">Score change data will populate when T2 assessment data is available. Expected: May 2026.</p>
+
+  <!-- Wireframe hint table -->
+  <div class="w-full max-w-2xl">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="border-b border-[#e5e5e5]">
+          <th class="px-4 py-2 text-[11px] font-bold text-slate-300 uppercase tracking-[0.05em]">Skill</th>
+          <th class="px-4 py-2 text-[11px] font-bold text-slate-300 uppercase tracking-[0.05em]">T1 Avg</th>
+          <th class="px-4 py-2 text-[11px] font-bold text-slate-300 uppercase tracking-[0.05em]">T2 Avg</th>
+          <th class="px-4 py-2 text-[11px] font-bold text-slate-300 uppercase tracking-[0.05em]">Change</th>
+          <th class="px-4 py-2 text-[11px] font-bold text-slate-300 uppercase tracking-[0.05em]">Trend</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-b border-[#f0f0f0]">
+          <td class="px-4 py-3"><div class="h-3 w-24 bg-slate-100 rounded"></div></td>
+          <td class="px-4 py-3"><div class="h-3 w-10 bg-slate-100 rounded"></div></td>
+          <td class="px-4 py-3"><div class="h-3 w-10 bg-slate-100 rounded"></div></td>
+          <td class="px-4 py-3"><div class="h-3 w-12 bg-slate-100 rounded"></div></td>
+          <td class="px-4 py-3"><div class="h-3 w-6 bg-slate-100 rounded"></div></td>
+        </tr>
+        <tr class="border-b border-[#f0f0f0]">
+          <td class="px-4 py-3"><div class="h-3 w-20 bg-slate-100 rounded"></div></td>
+          <td class="px-4 py-3"><div class="h-3 w-10 bg-slate-100 rounded"></div></td>
+          <td class="px-4 py-3"><div class="h-3 w-10 bg-slate-100 rounded"></div></td>
+          <td class="px-4 py-3"><div class="h-3 w-12 bg-slate-100 rounded"></div></td>
+          <td class="px-4 py-3"><div class="h-3 w-6 bg-slate-100 rounded"></div></td>
+        </tr>
+        <tr class="border-b border-[#f0f0f0]">
+          <td class="px-4 py-3"><div class="h-3 w-28 bg-slate-100 rounded"></div></td>
+          <td class="px-4 py-3"><div class="h-3 w-10 bg-slate-100 rounded"></div></td>
+          <td class="px-4 py-3"><div class="h-3 w-10 bg-slate-100 rounded"></div></td>
+          <td class="px-4 py-3"><div class="h-3 w-12 bg-slate-100 rounded"></div></td>
+          <td class="px-4 py-3"><div class="h-3 w-6 bg-slate-100 rounded"></div></td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3"><div class="h-3 w-16 bg-slate-100 rounded"></div></td>
+          <td class="px-4 py-3"><div class="h-3 w-10 bg-slate-100 rounded"></div></td>
+          <td class="px-4 py-3"><div class="h-3 w-10 bg-slate-100 rounded"></div></td>
+          <td class="px-4 py-3"><div class="h-3 w-12 bg-slate-100 rounded"></div></td>
+          <td class="px-4 py-3"><div class="h-3 w-6 bg-slate-100 rounded"></div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</section>
+
+<!-- Section 4: Students Needing Attention -->
+<section class="bg-white border border-[#e5e5e5] rounded-xl p-6">
+<h3 class="text-lg font-bold text-[#3c3c3c]">Students Needing Attention</h3>
+<p class="text-sm text-[#666] mb-6">Inactive, stalled, or missing engagement</p>
+
+<div class="flex items-center justify-between py-3 border-b border-[#f0f0f0]">
+  <div class="flex items-center gap-3">
+    <div class="w-8 h-8 rounded-full bg-[#00312c]/10 flex items-center justify-center text-[#001a17] font-bold text-xs">MR</div>
+    <div>
+      <span class="font-semibold text-sm">Marcus R.</span>
+      <span class="text-xs text-slate-400 ml-2">First Gen Bridge</span>
+    </div>
+  </div>
+  <div class="flex items-center gap-3">
+    <span class="text-xs text-slate-500">Sprint 2 stalled, 8 days inactive</span>
+    <span class="px-2.5 py-0.5 bg-[#fef2f2] text-[#dc2626] text-[10px] font-bold rounded-full border border-[#dc2626]/10">Inactive 8d</span>
+    <button class="text-[#3a7c7c] text-xs font-semibold hover:underline">View Detail</button>
+  </div>
+</div>
+<div class="flex items-center justify-between py-3">
+  <div class="flex items-center gap-3">
+    <div class="w-8 h-8 rounded-full bg-[#ae8c5b]/20 flex items-center justify-center text-[#5c4218] font-bold text-xs">DL</div>
+    <div>
+      <span class="font-semibold text-sm">Devon L.</span>
+      <span class="text-xs text-slate-400 ml-2">First Gen Bridge</span>
+    </div>
+  </div>
+  <div class="flex items-center gap-3">
+    <span class="text-xs text-slate-500">Sprint 1 stalled, 13 days inactive</span>
+    <span class="px-2.5 py-0.5 bg-[#fef2f2] text-[#dc2626] text-[10px] font-bold rounded-full border border-[#dc2626]/10">Inactive 13d</span>
+    <button class="text-[#3a7c7c] text-xs font-semibold hover:underline">View Detail</button>
+  </div>
+</div>
+</section>
+
+</main>
+</body></html>

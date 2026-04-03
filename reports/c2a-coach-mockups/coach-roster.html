@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta name="robots" content="noindex, nofollow">
+<title>C2A Coach View -- Student Roster (Mockup)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;family=Montserrat:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .signature-gradient {
+            background: linear-gradient(135deg, #001a17 0%, #00312c 100%);
+        }
+        .tinted-shadow:hover {
+            box-shadow: 0 12px 32px -4px rgba(27, 42, 74, 0.06);
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e3e2e0; border-radius: 10px; }
+    </style>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-surface-variant": "#45464e",
+                        "outline-variant": "#c5c6cf",
+                        "surface-container": "#efeeeb",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#1a1c1a",
+                        "secondary": "#4f5e81",
+                        "surface": "#faf9f6",
+                        "outline": "#75777f",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#e3e2e0",
+                        "surface-dim": "#dbdad7",
+                        "primary": "#001a17",
+                        "surface-container-high": "#e9e8e5",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f4f3f1",
+                        "background": "#faf9f6",
+                        "secondary-container": "#c5d4fd",
+                        "error": "#ba1a1a",
+                        "on-primary-container": "#2ba296",
+                        "primary-container": "#00312c",
+                        "primary-fixed-dim": "#6bd8cb",
+                        "tertiary-fixed": "#ffddb0",
+                        "on-tertiary-container": "#ae8c5b",
+                        "on-tertiary-fixed-variant": "#5c4218",
+                    },
+                    fontFamily: {
+                        "headline": ["Montserrat", "Plus Jakarta Sans"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-[#fcfbf8] font-body text-on-surface">
+<!-- Top Demo Banner -->
+<div class="h-8 bg-[#1B2A4A] flex items-center justify-center w-full fixed top-0 z-[60]">
+<span class="text-white text-[10px] font-bold tracking-[0.2em]">DEMO DATA -- NOT REAL STUDENTS</span>
+</div>
+<!-- Shared TopAppBar -->
+<header class="bg-[#1B2A4A] flex justify-between items-center w-full px-12 h-16 fixed top-8 z-50 shadow-lg shadow-[#1B2A4A]/10">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-white font-headline tracking-tight">ThriveIEP</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-[#6bd8cb] border-b-2 border-[#6bd8cb] pb-1 font-['Plus_Jakarta_Sans'] tracking-tight transition-colors" href="#">Dashboard</a>
+<a class="text-slate-300 hover:text-white transition-colors" href="#">Reports</a>
+<a class="text-slate-300 hover:text-white transition-colors" href="#">Settings</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-300 hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="flex items-center gap-3 ml-2 border-l border-white/10 pl-4">
+<span class="material-symbols-outlined text-slate-300" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Shared SideNavBar -->
+<aside class="fixed left-0 top-24 h-[calc(100vh-64px)] w-64 bg-[#faf9f6] border-r border-[#f4f3f1] flex flex-col pt-8 z-40">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 bg-[#1B2A4A] rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="school">school</span>
+</div>
+<div>
+<h2 class="text-lg font-black text-[#1B2A4A] font-['Inter'] uppercase tracking-wider">Coach View</h2>
+<p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">NLU Pilot</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-[#f4f3f1] hover:text-[#1B2A4A] transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-['Inter'] uppercase tracking-wider text-sm">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#001a17] font-bold border-r-4 border-[#3a7c7c] bg-[#f4f3f1] transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-['Inter'] uppercase tracking-wider text-sm">Student Roster</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-[#f4f3f1] hover:text-[#1B2A4A] transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-['Inter'] uppercase tracking-wider text-sm">Cohort Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-[#f4f3f1] hover:text-[#1B2A4A] transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span class="font-['Inter'] uppercase tracking-wider text-sm">Help Center</span>
+</a>
+</nav>
+<div class="p-4 px-6 border-t border-[#f4f3f1]">
+<button class="w-full py-3 bg-[#3a7c7c] text-white rounded-lg font-bold text-xs uppercase tracking-widest shadow-lg">
+                New Cohort
+            </button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-64 mt-24 px-12 pb-12 min-h-screen">
+<!-- Header Section -->
+<header class="flex justify-between items-end mb-10 pt-8">
+<div>
+<h1 class="font-headline text-[28px] font-bold text-[#3c3c3c] -tracking-[0.02em] leading-tight">My Students</h1>
+<p class="font-body text-sm text-[#666] mt-1">NLU Pilot -- Spring 2026</p>
+</div>
+<div class="relative">
+<button class="flex items-center gap-3 bg-white border border-[#e5e5e5] px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-[#f4f3f1] transition-colors shadow-sm">
+                    All Cohorts
+                    <span class="material-symbols-outlined text-lg" data-icon="expand_more">expand_more</span>
+</button>
+</div>
+</header>
+<!-- Stat Cards -->
+<div class="grid grid-cols-4 gap-6 mb-10">
+<div class="bg-white p-6 rounded-xl border border-[#e5e5e5] tinted-shadow transition-all group">
+<p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1">Total</p>
+<div class="flex items-end justify-between">
+<h3 class="text-2xl font-bold font-headline">5 Students Assigned</h3>
+<span class="material-symbols-outlined text-[#3a7c7c]/40 group-hover:text-[#3a7c7c] transition-colors" data-icon="assignment_ind">assignment_ind</span>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl border border-[#e5e5e5] tinted-shadow transition-all group">
+<p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1">Completion</p>
+<div class="flex items-end justify-between">
+<h3 class="text-2xl font-bold font-headline">2 Completed All Sprints</h3>
+<span class="material-symbols-outlined text-[#16a34a]/40 group-hover:text-[#16a34a] transition-colors" data-icon="verified">verified</span>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl border border-[#e5e5e5] tinted-shadow transition-all group">
+<p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1">Engagement</p>
+<div class="flex items-end justify-between">
+<h3 class="text-2xl font-bold font-headline">2 Viewed Report</h3>
+<span class="material-symbols-outlined text-[#3a7c7c]/40 group-hover:text-[#3a7c7c] transition-colors" data-icon="visibility">visibility</span>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl border border-[#e5e5e5] tinted-shadow transition-all group">
+<p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1">Attention</p>
+<div class="flex items-end justify-between">
+<h3 class="text-2xl font-bold font-headline text-[#dc2626]">2 Need Attention</h3>
+<span class="material-symbols-outlined text-[#dc2626]/40 group-hover:text-[#dc2626] transition-colors" data-icon="priority_high">priority_high</span>
+</div>
+</div>
+</div>
+<!-- Data Table -->
+<section class="bg-white border border-[#e5e5e5] rounded-xl shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-[#f8f8f6]">
+<th class="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-[0.05em]">Student</th>
+<th class="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-[0.05em]">Cohort</th>
+<th class="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-[0.05em]">Sprint 1</th>
+<th class="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-[0.05em]">Sprint 2</th>
+<th class="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-[0.05em]">Sprint 3</th>
+<th class="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-[0.05em]">Report Viewed</th>
+<th class="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-[0.05em]">Focus Areas</th>
+<th class="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-[0.05em]">Last Active</th>
+<th class="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-[0.05em]">Status</th>
+<th class="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-[0.05em]">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#f0f0f0]">
+<!-- Jordan M. -->
+<tr class="hover:bg-[#fafaf8] transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-[#c5d4fd]/30 flex items-center justify-center text-[#1B2A4A] font-bold text-xs">JM</div>
+<span class="font-semibold text-sm">Jordan M.</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-slate-600">STEM Access</td>
+<td class="px-6 py-5"><span class="flex items-center gap-2 text-xs font-medium"><span class="w-2.5 h-2.5 rounded-full bg-[#16a34a]"></span> Done</span></td>
+<td class="px-6 py-5"><span class="flex items-center gap-2 text-xs font-medium"><span class="w-2.5 h-2.5 rounded-full bg-[#16a34a]"></span> Done</span></td>
+<td class="px-6 py-5"><span class="flex items-center gap-2 text-xs font-medium"><span class="w-2.5 h-2.5 rounded-full bg-[#16a34a]"></span> Done</span></td>
+<td class="px-6 py-5"><span class="px-2.5 py-0.5 rounded-full bg-[#f0fdf4] text-[#16a34a] text-[10px] font-bold uppercase tracking-wider">Yes</span></td>
+<td class="px-6 py-5"><div class="flex flex-wrap gap-1"><span class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-[#fef2f2] text-[#dc2626]">Adaptability</span><span class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-[#fef2f2] text-[#dc2626]">Resilience</span><span class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-[#eff6ff] text-[#2563eb]">Initiative</span></div></td>
+<td class="px-6 py-5 text-sm text-slate-500">Today</td>
+<td class="px-6 py-5"></td>
+<td class="px-6 py-5"><button class="text-[#3a7c7c] hover:underline font-semibold text-xs tracking-wide">View Detail</button></td>
+</tr>
+<!-- Aisha T. -->
+<tr class="hover:bg-[#fafaf8] transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-[#ffddb0]/30 flex items-center justify-center text-[#5c4218] font-bold text-xs">AT</div>
+<span class="font-semibold text-sm">Aisha T.</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-slate-600">STEM Access</td>
+<td class="px-6 py-5"><span class="flex items-center gap-2 text-xs font-medium"><span class="w-2.5 h-2.5 rounded-full bg-[#16a34a]"></span> Done</span></td>
+<td class="px-6 py-5"><span class="flex items-center gap-2 text-xs font-medium"><span class="w-2.5 h-2.5 rounded-full bg-[#16a34a]"></span> Done</span></td>
+<td class="px-6 py-5"><span class="flex items-center gap-2 text-xs font-medium text-[#f59e0b]"><span class="w-2.5 h-2.5 rounded-full bg-[#f59e0b]"></span> In Progress</span></td>
+<td class="px-6 py-5"><span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-500 text-[10px] font-bold uppercase tracking-wider">No</span></td>
+<td class="px-6 py-5"><span class="text-xs italic text-slate-400">Pending</span></td>
+<td class="px-6 py-5 text-sm text-slate-500">2 days ago</td>
+<td class="px-6 py-5"></td>
+<td class="px-6 py-5"><button class="text-[#3a7c7c] hover:underline font-semibold text-xs tracking-wide">View Detail</button></td>
+</tr>
+<!-- Marcus R. -->
+<tr class="hover:bg-[#fafaf8] transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-[#00312c]/10 flex items-center justify-center text-[#001a17] font-bold text-xs">MR</div>
+<span class="font-semibold text-sm">Marcus R.</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-slate-600">First Gen Bridge</td>
+<td class="px-6 py-5"><span class="flex items-center gap-2 text-xs font-medium"><span class="w-2.5 h-2.5 rounded-full bg-[#16a34a]"></span> Done</span></td>
+<td class="px-6 py-5"><span class="flex items-center gap-2 text-xs font-medium text-[#f59e0b]"><span class="w-2.5 h-2.5 rounded-full bg-[#f59e0b]"></span> In Progress</span></td>
+<td class="px-6 py-5"><span class="flex items-center gap-2 text-xs font-medium text-slate-400"><span class="w-2.5 h-2.5 rounded-full bg-[#d1d5db]"></span> Not Started</span></td>
+<td class="px-6 py-5"><span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-500 text-[10px] font-bold uppercase tracking-wider">No</span></td>
+<td class="px-6 py-5"><span class="text-xs italic text-slate-400">Pending</span></td>
+<td class="px-6 py-5 text-sm text-slate-500">8 days ago</td>
+<td class="px-6 py-5"><span class="px-2.5 py-0.5 rounded-full bg-[#fef2f2] text-[#dc2626] text-[10px] font-bold uppercase tracking-wider border border-[#dc2626]/10">Inactive 8d</span></td>
+<td class="px-6 py-5"><button class="text-[#3a7c7c] hover:underline font-semibold text-xs tracking-wide">View Detail</button></td>
+</tr>
+<!-- Priya K. -->
+<tr class="hover:bg-[#fafaf8] transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-[#6bd8cb]/20 flex items-center justify-center text-[#2ba296] font-bold text-xs">PK</div>
+<span class="font-semibold text-sm">Priya K.</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-slate-600">STEM Access</td>
+<td class="px-6 py-5"><span class="flex items-center gap-2 text-xs font-medium"><span class="w-2.5 h-2.5 rounded-full bg-[#16a34a]"></span> Done</span></td>
+<td class="px-6 py-5"><span class="flex items-center gap-2 text-xs font-medium"><span class="w-2.5 h-2.5 rounded-full bg-[#16a34a]"></span> Done</span></td>
+<td class="px-6 py-5"><span class="flex items-center gap-2 text-xs font-medium"><span class="w-2.5 h-2.5 rounded-full bg-[#16a34a]"></span> Done</span></td>
+<td class="px-6 py-5"><span class="px-2.5 py-0.5 rounded-full bg-[#f0fdf4] text-[#16a34a] text-[10px] font-bold uppercase tracking-wider">Yes</span></td>
+<td class="px-6 py-5"><div class="flex flex-wrap gap-1"><span class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-[#eff6ff] text-[#2563eb]">Communication</span><span class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-[#eff6ff] text-[#2563eb]">Networking</span><span class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-[#fef2f2] text-[#dc2626]">Adaptability</span></div></td>
+<td class="px-6 py-5 text-sm text-slate-500">1 day ago</td>
+<td class="px-6 py-5"></td>
+<td class="px-6 py-5"><button class="text-[#3a7c7c] hover:underline font-semibold text-xs tracking-wide">View Detail</button></td>
+</tr>
+<!-- Devon L. -->
+<tr class="hover:bg-[#fafaf8] transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-[#ae8c5b]/20 flex items-center justify-center text-[#5c4218] font-bold text-xs">DL</div>
+<span class="font-semibold text-sm">Devon L.</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-slate-600">First Gen Bridge</td>
+<td class="px-6 py-5"><span class="flex items-center gap-2 text-xs font-medium text-[#f59e0b]"><span class="w-2.5 h-2.5 rounded-full bg-[#f59e0b]"></span> In Progress</span></td>
+<td class="px-6 py-5"><span class="flex items-center gap-2 text-xs font-medium text-slate-400"><span class="w-2.5 h-2.5 rounded-full bg-[#d1d5db]"></span> Not Started</span></td>
+<td class="px-6 py-5"><span class="flex items-center gap-2 text-xs font-medium text-slate-400"><span class="w-2.5 h-2.5 rounded-full bg-[#d1d5db]"></span> Not Started</span></td>
+<td class="px-6 py-5"><span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-500 text-[10px] font-bold uppercase tracking-wider">No</span></td>
+<td class="px-6 py-5"><span class="text-xs italic text-slate-400">Pending</span></td>
+<td class="px-6 py-5 text-sm text-slate-500">13 days ago</td>
+<td class="px-6 py-5"><span class="px-2.5 py-0.5 rounded-full bg-[#fef2f2] text-[#dc2626] text-[10px] font-bold uppercase tracking-wider border border-[#dc2626]/10">Inactive 13d</span></td>
+<td class="px-6 py-5"><button class="text-[#3a7c7c] hover:underline font-semibold text-xs tracking-wide">View Detail</button></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 bg-[#f8f8f6] flex justify-between items-center text-xs text-slate-400">
+<span>Showing 5 of 5 Students</span>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded border border-[#e5e5e5] flex items-center justify-center hover:bg-white transition-colors"><span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span></button>
+<button class="w-8 h-8 rounded border border-[#e5e5e5] flex items-center justify-center hover:bg-white transition-colors"><span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span></button>
+</div>
+</div>
+</section>
+</main>
+</body></html>
