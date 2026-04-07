@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Dev Digest - 2026-04-07</title>
+  <style>
+    :root {
+      --bg-body: #0f172a;
+      --bg-panel: #1e293b;
+      --bg-card: #1e293b;
+      --border-default: #334155;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+      --color-agentic: #3b82f6;
+      --color-durable: #8b5cf6;
+      --color-docproc: #10b981;
+      --color-education: #f59e0b;
+      --color-claude: #e8a33a;
+      --color-success: #10b981;
+      --color-warning: #f59e0b;
+      --color-error: #ef4444;
+      --content-max-width: 800px;
+      --card-radius: 8px;
+      --card-padding: 16px;
+      --section-gap: 32px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-body);
+      color: var(--text-primary);
+      font-family: var(--font-stack);
+      line-height: 1.6;
+      padding: 24px;
+    }
+    .digest {
+      max-width: var(--content-max-width);
+      margin: 0 auto;
+    }
+    h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+    h2 { font-size: 1.3rem; font-weight: 600; margin-bottom: 16px; margin-top: var(--section-gap); }
+    a { color: var(--color-agentic); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .digest-header { margin-bottom: var(--section-gap); }
+    .date-range { color: var(--text-secondary); font-size: 0.9rem; }
+    .sources { color: var(--text-muted); font-size: 0.8rem; margin-top: 4px; }
+    .generated { color: var(--text-muted); font-size: 0.75rem; margin-top: 2px; }
+    .tldr { background: var(--bg-panel); border-radius: var(--card-radius); padding: var(--card-padding); margin-bottom: var(--section-gap); }
+    .tldr ul { list-style: none; padding: 0; }
+    .tldr li { padding: 8px 0; border-bottom: 1px solid var(--border-default); display: flex; align-items: baseline; gap: 8px; }
+    .tldr li:last-child { border-bottom: none; }
+    .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+    .topic-section { margin-bottom: var(--section-gap); }
+    .web-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-default);
+      border-radius: var(--card-radius);
+      padding: var(--card-padding);
+      margin-bottom: 12px;
+    }
+    .web-title { font-weight: 600; font-size: 0.95rem; }
+    .platform-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: white;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .engagement { color: var(--text-muted); font-size: 0.75rem; margin-left: 8px; }
+    .excerpt { color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px; }
+    .why-matters {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-style: italic;
+      margin-top: 4px;
+      padding-left: 8px;
+      border-left: 2px solid var(--border-default);
+    }
+    .academic-badge { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; }
+    sup.bib-ref { font-size: 0.7rem; }
+    sup.bib-ref a { color: var(--text-muted); }
+    .bibliography { margin-top: var(--section-gap); }
+    .bibliography ol { padding-left: 24px; }
+    .bib-entry { color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 8px; line-height: 1.5; }
+    .ref-num { color: var(--text-muted); font-weight: 600; }
+    .digest-footer {
+      margin-top: var(--section-gap);
+      padding-top: 16px;
+      border-top: 1px solid var(--border-default);
+    }
+    .source-status { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+    .source { padding: 2px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 500; }
+    .source.ok { background: rgba(16,185,129,0.15); color: var(--color-success); }
+    .source.partial { background: rgba(245,158,11,0.15); color: var(--color-warning); }
+    .source.fail { background: rgba(239,68,68,0.15); color: var(--color-error); }
+    .dedup-note { color: var(--text-muted); font-size: 0.75rem; }
+    .meta { color: var(--text-muted); font-size: 0.7rem; margin-top: 4px; }
+    details { margin-top: 8px; }
+    summary { cursor: pointer; color: var(--text-secondary); font-size: 0.85rem; }
+    @media (max-width: 600px) {
+      .digest { padding: 16px; }
+      h1 { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="digest">
+
+    <!-- Header -->
+    <header class="digest-header">
+      <h1>Dev Digest</h1>
+      <p class="date-range">April 3 - 7, 2026</p>
+      <p class="sources">Sources: Reddit, YouTube, X, LinkedIn, Web, Semantic Scholar, OpenAlex, ERIC, Europe PMC, Papers with Code</p>
+      <p class="generated">Generated 2026-04-07 at 00:15</p>
+    </header>
+
+    <!-- TL;DR -->
+    <section class="tldr">
+      <h2>TL;DR</h2>
+      <ul>
+        <li>
+          <span class="dot" style="background: var(--color-claude)"></span>
+          <span>Anthropic blocked OpenClaw from Claude Pro/Max subscriptions on April 4, forcing third-party agent frameworks onto pay-as-you-go billing -- a cost model shift for anyone running autonomous agents at scale.
+          <sup class="bib-ref"><a href="#ref-1">[1]</a></sup></span>
+        </li>
+        <li>
+          <span class="dot" style="background: var(--color-docproc)"></span>
+          <span>PRvL, a new open-source LLM PII redaction benchmark, compares fine-tuned models on redaction accuracy, semantic preservation, and PII leakage -- directly relevant to our Presidio + LLM verification pipeline.
+          <sup class="bib-ref"><a href="#ref-14">[14]</a></sup></span>
+        </li>
+        <li>
+          <span class="dot" style="background: var(--color-docproc)"></span>
+          <span>Mistral OCR 3 claims 74% improvement over OCR 2 at $2/1K pages, and Andrew Ng launched an "Agentic Document Extraction" course -- agentic OCR is becoming the standard approach.
+          <sup class="bib-ref"><a href="#ref-10">[10]</a></sup> <sup class="bib-ref"><a href="#ref-11">[11]</a></sup></span>
+        </li>
+        <li>
+          <span class="dot" style="background: var(--color-education)"></span>
+          <span>57% of special education teachers now use AI for IEPs (up 18% YoY), and a new Journal of Special Education Technology study compares AI-written vs. human-written IEP goals.
+          <sup class="bib-ref"><a href="#ref-17">[17]</a></sup> <sup class="bib-ref"><a href="#ref-20">[20]</a></sup></span>
+        </li>
+        <li>
+          <span class="dot" style="background: var(--color-agentic)"></span>
+          <span>JetBrains previewed Central for agentic AI development and is retiring Code With Me -- pair programming is giving way to agent delegation as the default workflow.
+          <sup class="bib-ref"><a href="#ref-4">[4]</a></sup></span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Topic 1: Agentic Coding -->
+    <section class="topic-section">
+      <h2 style="border-left: 4px solid var(--color-agentic); padding-left: 12px;">Agentic Coding</h2>
+
+      <div class="web-card">
+        <a href="https://missing.csail.mit.edu/2026/agentic-coding/" class="web-title">MIT Missing Semester Adds "Agentic Coding" Module</a>
+        <span class="platform-badge" style="background: var(--text-muted);">Web</span>
+        <p class="excerpt">MIT's widely-followed "Missing Semester" series now includes an agentic coding lecture, signaling the shift from niche workflow to foundational developer skill.</p>
+        <sup class="bib-ref"><a href="#ref-2">[2]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.devclass.com/ai-ml/2026/03/26/jetbrains-shifts-to-agentic-dev-with-central-retires-pair-programming/5211637" class="web-title">JetBrains Shifts to Agentic Dev with Central, Retires Pair Programming</a>
+        <span class="platform-badge" style="background: var(--text-muted);">Web</span>
+        <p class="excerpt">JetBrains previewed Central for agentic AI software development and announced it will retire the Code With Me human pair programming feature. The move reflects the industry's bet that AI agent delegation will replace real-time human pairing.</p>
+        <sup class="bib-ref"><a href="#ref-4">[4]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.digitalapplied.com/blog/ai-coding-assistants-april-2026-cursor-copilot-claude" class="web-title">AI Coding Assistants April 2026: Cursor Composer 2 vs Copilot Agent vs Claude Code</a>
+        <span class="platform-badge" style="background: var(--text-muted);">Web</span>
+        <p class="excerpt">Cursor shipped Composer 2 on March 19 (61.3 on CursorBench, 37% improvement). All three major tools converging on agentic capabilities -- the differentiator is now IDE vs. terminal preference, not raw capability.</p>
+        <sup class="bib-ref"><a href="#ref-3">[3]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.semanticscholar.org/paper/ed32e5bb11a9e5e2f03ea805782e8670a6e10efd" class="web-title">AlphaEvolve: A Coding Agent for Scientific and Algorithmic Discovery</a>
+        <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+        <span class="engagement">352 citations</span>
+        <p class="excerpt">An evolutionary coding agent that orchestrates an ensemble of LLMs to iteratively generate, evaluate, and refine code solutions for open scientific problems and computational infrastructure optimization.</p>
+        <p class="academic-badge">Novikov et al. (2025) | DOI: 10.48550/arXiv.2506.13131</p>
+        <sup class="bib-ref"><a href="#ref-5">[5]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.semanticscholar.org/paper/d712280b0d51ff648eb2091c619bc55a2e1164fa" class="web-title">Demystifying LLM-Based Software Engineering Agents (Agentless)</a>
+        <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+        <span class="engagement">92 citations</span>
+        <p class="excerpt">Builds Agentless -- a three-phase localization/repair/validation approach that questions whether complex agent scaffolding is always necessary, providing a strong baseline on SWE-bench.</p>
+        <p class="academic-badge">Xia et al. (2025) | DOI: 10.1145/3715754</p>
+        <sup class="bib-ref"><a href="#ref-6">[6]</a></sup>
+      </div>
+    </section>
+
+    <!-- Topic 2: Durable Skills & Assessment -->
+    <section class="topic-section">
+      <h2 style="border-left: 4px solid var(--color-durable); padding-left: 12px;">Durable Skills &amp; Assessment</h2>
+
+      <div class="web-card">
+        <a href="https://www.oecd.org/en/about/projects/rethinking-assessment-of-social-and-emotional-skills.html" class="web-title">OECD Survey on Social and Emotional Skills: 2026 Main Data Collection</a>
+        <span class="platform-badge" style="background: var(--text-muted);">Web</span>
+        <p class="excerpt">The OECD's three-year project (2025-2027) enters its main data collection phase in 2026, aiming to provide valid, reliable, and comparable data on social and emotional skills across countries. Includes development of new optional assessment components.</p>
+        <p class="why-matters">Relevant: C2A battery measures durable skills -- OECD's framework and measurement approach could inform our psychometric validation strategy.</p>
+        <sup class="bib-ref"><a href="#ref-7">[7]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.oecd.org/en/publications/innovative-tools-for-the-direct-assessment-of-social-and-emotional-skills_eed9bb04-en.html" class="web-title">OECD: Innovative Tools for Direct Assessment of Social and Emotional Skills</a>
+        <span class="platform-badge" style="background: var(--text-muted);">Web</span>
+        <p class="excerpt">Documents nearly 60 behavioral assessment tools (tasks and digital games) reviewed for reliability, construct validity, ecological validity, and feasibility. A potential reference for C2A instrument design.</p>
+        <sup class="bib-ref"><a href="#ref-8">[8]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://doi.org/10.1080/15391523.2025.2478424" class="web-title">The AI Motivation Scale (AIMS): A Self-Determination Theory Perspective</a>
+        <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+        <span class="engagement">20 citations</span>
+        <p class="excerpt">Develops and validates the AI Motivation Scale grounded in SDT. With 20 citations already in 2025, it shows rapid uptake -- the first SDT-based scale for measuring motivation to use AI tools.</p>
+        <p class="why-matters">Relevant: SDT is our theoretical foundation for C2A -- this scale's validation methodology could inform our own psychometric approach.</p>
+        <p class="academic-badge">Li, King, Chai, Zhai, Lee (2025) | DOI: 10.1080/15391523.2025.2478424</p>
+        <sup class="bib-ref"><a href="#ref-9">[9]</a></sup>
+      </div>
+    </section>
+
+    <!-- Topic 3: Document Processing & OCR -->
+    <section class="topic-section">
+      <h2 style="border-left: 4px solid var(--color-docproc); padding-left: 12px;">Document Processing &amp; OCR</h2>
+
+      <div class="web-card">
+        <a href="https://x.com/rohanpaul_ai/status/2001712697818374419" class="web-title">Mistral OCR 3: 74% Improvement Over OCR 2</a>
+        <span class="platform-badge" style="background: #1d9bf0;">X</span>
+        <p class="excerpt">Mistral AI released OCR 3 -- handles forms, cursive notes, low-quality scans. $2 per 1,000 pages ($1 via batch). Claims 74% overall wins over OCR 2 on diverse document types.</p>
+        <p class="why-matters">Relevant: Our GLM-OCR pipeline could benchmark against Mistral OCR 3 as a quality reference, especially for handwritten IEP content.</p>
+        <sup class="bib-ref"><a href="#ref-10">[10]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://x.com/AndrewYNg/status/2011494188152733971" class="web-title">Andrew Ng Course: Document AI -- From OCR to Agentic Doc Extraction</a>
+        <span class="platform-badge" style="background: #1d9bf0;">X</span>
+        <p class="excerpt">New DeepLearning.AI course with LandingAI teaching how to build agents that convert unstructured files into structured data. Agentic OCR achieves 90%+ pass-through rates vs 60-70% with legacy systems.</p>
+        <sup class="bib-ref"><a href="#ref-11">[11]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://mistral.ai/solutions/document-ai" class="web-title">Mistral AI: Enterprise Document AI &amp; OCR</a>
+        <span class="platform-badge" style="background: var(--text-muted);">Web</span>
+        <p class="excerpt">Mistral now positions document AI as a full enterprise solution: OCR, classification, entity extraction, and compliance redaction in one pipeline. Processing up to 2,000 pages/minute per node.</p>
+        <sup class="bib-ref"><a href="#ref-12">[12]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://reducto.ai/" class="web-title">Reducto: Agentic OCR That Reviews and Corrects Outputs</a>
+        <span class="platform-badge" style="background: var(--text-muted);">Web</span>
+        <p class="excerpt">Reducto uses agentic OCR that reviews and corrects outputs in real-time for near-perfect results on edge cases. An architecture pattern similar to our LLM verification layer.</p>
+        <p class="why-matters">Relevant: Our sandwich architecture (Presidio + LLM verifier) uses the same review-and-correct pattern -- Reducto validates this approach at production scale.</p>
+        <sup class="bib-ref"><a href="#ref-13">[13]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.semanticscholar.org/paper/0f238d4ba2e6a4706b8aa3d5ca34ee70a7baa6d0" class="web-title">PRvL: Quantifying LLM Capabilities for PII Redaction</a>
+        <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+        <span class="engagement">4 citations</span>
+        <p class="excerpt">Evaluates LLM architectures for PII redaction -- measures redaction performance, semantic preservation, and PII leakage. Releases PRvL, an open-source suite of fine-tuned models and evaluation tools for general-purpose PII redaction.</p>
+        <p class="why-matters">Relevant: Directly comparable to our Presidio + qwen2.5:7b pipeline. Their evaluation framework (precision, leakage, semantic preservation) maps to our F-beta=2 optimization.</p>
+        <p class="academic-badge">Garza, Kotal, Piplai et al. (2025) | DOI: 10.1109/TPS-ISA67132.2025.00025</p>
+        <sup class="bib-ref"><a href="#ref-14">[14]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.semanticscholar.org/paper/0ba06d9ecc0bc6f154c85bed539ace7ad46befce" class="web-title">Hybrid Rule-Based NLP and ML Approach for PII Detection in Financial Documents</a>
+        <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+        <span class="engagement">7 citations</span>
+        <p class="excerpt">A scalable hybrid approach integrating rule-based NLP, ML, and custom NER for PII anonymization. Achieves 94.7% precision, 89.4% recall. Published in Nature Scientific Reports.</p>
+        <p class="why-matters">Relevant: Our hybrid approach (Presidio rules + dslim NER + LLM verifier) follows the same layered architecture. Their 89.4% recall benchmark is a useful comparison point.</p>
+        <p class="academic-badge">Mishra, Pagare, Sharma (2025) | DOI: 10.1038/s41598-025-04971-9</p>
+        <sup class="bib-ref"><a href="#ref-15">[15]</a></sup>
+      </div>
+    </section>
+
+    <!-- Topic 4: AI in Education & Disability Services -->
+    <section class="topic-section">
+      <h2 style="border-left: 4px solid var(--color-education); padding-left: 12px;">AI in Education &amp; Disability Services</h2>
+
+      <div class="web-card">
+        <a href="https://edtechmagazine.com/k12/article/2026/02/how-ai-tools-can-support-special-education-students-and-teachers" class="web-title">How AI Tools Can Support Special Education Students and Teachers</a>
+        <span class="platform-badge" style="background: var(--text-muted);">Web</span>
+        <p class="excerpt">EdTech Magazine (Feb 2026) surveys the landscape of AI tools in special education, covering personalized learning, adaptive technologies, and teacher productivity gains.</p>
+        <sup class="bib-ref"><a href="#ref-16">[16]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.k12dive.com/news/artificial-intelligence-special-education-Section-504-benefits-risks-privacy-IDEA-IEP/804535/" class="web-title">57% of Special Ed Teachers Now Use AI for IEPs</a>
+        <span class="platform-badge" style="background: var(--text-muted);">Web</span>
+        <p class="excerpt">K-12 Dive reports 57% of licensed special ed teachers used AI for IEPs/504 plans in 2024-25, up 18% YoY. 30% use it to summarize IEP content, 28% to choose accommodations. Teachers save up to 6 weeks/year. Key concerns: IDEA compliance, student privacy, AI bias.</p>
+        <p class="why-matters">Relevant: Validates ThriveIEP's market thesis. Transparency with families is the top recommendation -- relevant to our coaching model.</p>
+        <sup class="bib-ref"><a href="#ref-17">[17]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.nextgenlearning.org/articles/ai-and-special-education-mitigating-bias-and-improving-support-for-learners" class="web-title">AI in Special Education: Mitigating Bias and Improving Support</a>
+        <span class="platform-badge" style="background: var(--text-muted);">Web</span>
+        <p class="excerpt">NGLC examines how LLMs trained on literature that inadequately represents disability experiences create bias risks. Recommends proactive disclosure when AI is used in IEP development.</p>
+        <sup class="bib-ref"><a href="#ref-18">[18]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://europepmc.org/article/MED/41619372" class="web-title">AI Impact on Quality of Life for Individuals with Intellectual Disabilities (Meta-Analysis)</a>
+        <span class="platform-badge" style="background: #326599;">Europe PMC</span>
+        <p class="excerpt">A 2026 PRISMA-compliant systematic review and meta-analysis examining AI-based interventions on quality of life outcomes for individuals with intellectual disabilities in Saudi Arabia.</p>
+        <p class="academic-badge">Al-Naim (2026) | DOI: 10.1016/j.actpsy.2026.106348</p>
+        <sup class="bib-ref"><a href="#ref-19">[19]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://journals.sagepub.com/doi/pdf/10.1177/01626434251324592" class="web-title">IEPs in the Age of AI: Examining IEP Goals Written with and Without ChatGPT</a>
+        <span class="platform-badge" style="background: #e64a19;">OpenAlex</span>
+        <span class="engagement">8 citations</span>
+        <p class="excerpt">University of Virginia study comparing AI-generated vs. human-written IEP goals. Research indicates many human-written IEP goals lack sufficient detail, and AI may help improve specificity -- but raises questions about individualization.</p>
+        <p class="why-matters">Relevant: Directly validates ThriveIEP's positioning. Understanding how AI affects IEP goal quality informs our product design.</p>
+        <p class="academic-badge">Waterfield, Coleman, Welker et al. (2025) | DOI: 10.1177/01626434251324592</p>
+        <sup class="bib-ref"><a href="#ref-20">[20]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://europepmc.org/articles/PMC12866462?pdf=render" class="web-title">AI in Neurodevelopmental Disorders: Management and Research</a>
+        <span class="platform-badge" style="background: #326599;">Europe PMC</span>
+        <p class="excerpt">2026 review of AI applications in diagnosis, treatment, and monitoring of neurodevelopmental disorders. Covers traditional ML (logistic regression, random forests) through deep learning (CNNs, transformers) for medical imaging, speech, and behavioral signals.</p>
+        <p class="academic-badge">Mohamed, Ben-Jaafar, Frimpong et al. (2026) | DOI: 10.1186/s40001-025-03740-8</p>
+        <sup class="bib-ref"><a href="#ref-21">[21]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://eric.ed.gov/?id=EJ1490320" class="web-title">Special Ed Pre-Service Teachers' AI Attitudes: Mediating Role of AI Literacy and Anxiety</a>
+        <span class="platform-badge" style="background: #2e7d32;">ERIC</span>
+        <p class="excerpt">255 pre-service special ed teachers surveyed. AI literacy and AI anxiety significantly mediate the relationship between personality traits and attitudes toward AI. Findings emphasize increasing AI literacy for effective technology integration.</p>
+        <p class="academic-badge">Sumer-Dodur (2025) | ERIC ID: EJ1490320</p>
+        <sup class="bib-ref"><a href="#ref-22">[22]</a></sup>
+      </div>
+    </section>
+
+    <!-- Topic 5: Claude & Anthropic Ecosystem -->
+    <section class="topic-section">
+      <h2 style="border-left: 4px solid var(--color-claude); padding-left: 12px;">Claude &amp; Anthropic Ecosystem</h2>
+
+      <div class="web-card">
+        <a href="https://techcrunch.com/2026/04/04/anthropic-says-claude-code-subscribers-will-need-to-pay-extra-for-openclaw-support/" class="web-title">Anthropic Blocks OpenClaw from Claude Subscriptions</a>
+        <span class="platform-badge" style="background: var(--text-muted);">Web</span>
+        <p class="excerpt">Effective April 4, Anthropic blocked Claude Pro/Max subscribers from using flat-rate plans with OpenClaw and other third-party agent frameworks. Users must move to pay-as-you-go billing for autonomous agent workloads.</p>
+        <p class="why-matters">Relevant: Affects cost planning for any Claude-based autonomous workflows. Our Claude Code usage pattern (skills, agents) stays within first-party tooling.</p>
+        <sup class="bib-ref"><a href="#ref-1">[1]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://releasebot.io/updates/anthropic/claude-code" class="web-title">Claude Code: Named Subagents, /powerup Lessons, Performance Improvements</a>
+        <span class="platform-badge" style="background: var(--text-muted);">Web</span>
+        <p class="excerpt">Recent Claude Code updates include named subagents in @ mentions, interactive /powerup lessons, flicker-free alt-screen rendering, stronger resume support, and fixes for long-session stability. Also: broader PowerShell support and privacy tightening.</p>
+        <sup class="bib-ref"><a href="#ref-23">[23]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://platform.claude.com/docs/en/release-notes/overview" class="web-title">API: max_tokens Raised to 300K on Batch API; 1M Context Beta Retiring April 30</a>
+        <span class="platform-badge" style="background: var(--text-muted);">Web</span>
+        <p class="excerpt">max_tokens cap raised to 300K on Message Batches API for Opus 4.6 and Sonnet 4.6. The 1M context window beta for Sonnet 4.5/4.0 retires April 30 -- migrate to Sonnet/Opus 4.6 for native 1M context.</p>
+        <sup class="bib-ref"><a href="#ref-24">[24]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://x.com/testingcatalog/status/2015857358006616441" class="web-title">MCP Apps: Interactive UI Widgets in Claude Responses</a>
+        <span class="platform-badge" style="background: #1d9bf0;">X</span>
+        <p class="excerpt">MCP Apps is a new extension to MCP that lets any MCP server deliver an interactive interface within any supporting AI product. Opens the door for richer tool interactions beyond text-only responses.</p>
+        <sup class="bib-ref"><a href="#ref-25">[25]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://arxiv.org/abs/2603.28123" class="web-title">Does Claude's Constitution Have a Culture?</a>
+        <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+        <p class="excerpt">Evaluates Claude Sonnet on 55 World Values Survey items. Claude's value profile most closely resembles Northern European/Anglophone countries, extending beyond the range of all surveyed populations on most items. Cultural context prompts adjust framing but not substantive positions.</p>
+        <p class="academic-badge">Pourdavood (2026) | ArXiv: 2603.28123</p>
+        <sup class="bib-ref"><a href="#ref-26">[26]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://arxiv.org/abs/2603.29038" class="web-title">Trojan-Speak: Bypassing Constitutional Classifiers via Adversarial Finetuning</a>
+        <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+        <p class="excerpt">Demonstrates that fine-tuning APIs create attack surfaces where curriculum learning + GRPO-based RL can bypass Anthropic's Constitutional Classifiers with 99%+ evasion and less than 5% capability degradation on 14B+ parameter models.</p>
+        <p class="academic-badge">Sel, He, Peng, Jin, Wei (2026) | ArXiv: 2603.29038</p>
+        <sup class="bib-ref"><a href="#ref-27">[27]</a></sup>
+      </div>
+    </section>
+
+    <!-- Bibliography -->
+    <section class="bibliography">
+      <h2>Bibliography</h2>
+      <ol>
+        <li class="bib-entry" id="ref-1">
+          <span class="ref-num">[1]</span>
+          "Anthropic Says Claude Code Subscribers Will Need to Pay Extra for OpenClaw." <em>TechCrunch</em>, 2026-04-04.
+          <a href="https://techcrunch.com/2026/04/04/anthropic-says-claude-code-subscribers-will-need-to-pay-extra-for-openclaw-support/">link</a>
+        </li>
+        <li class="bib-entry" id="ref-2">
+          <span class="ref-num">[2]</span>
+          "Agentic Coding." <em>MIT Missing Semester</em>, 2026.
+          <a href="https://missing.csail.mit.edu/2026/agentic-coding/">link</a>
+        </li>
+        <li class="bib-entry" id="ref-3">
+          <span class="ref-num">[3]</span>
+          "AI Coding Assistants April 2026: Rankings and Review." <em>Digital Applied</em>, 2026-04.
+          <a href="https://www.digitalapplied.com/blog/ai-coding-assistants-april-2026-cursor-copilot-claude">link</a>
+        </li>
+        <li class="bib-entry" id="ref-4">
+          <span class="ref-num">[4]</span>
+          "JetBrains Shifts to Agentic Dev with Central, Retires Pair Programming." <em>DevClass</em>, 2026-03-26.
+          <a href="https://www.devclass.com/ai-ml/2026/03/26/jetbrains-shifts-to-agentic-dev-with-central-retires-pair-programming/5211637">link</a>
+        </li>
+        <li class="bib-entry" id="ref-5">
+          <span class="ref-num">[5]</span>
+          Novikov, A. et al. (2025). "AlphaEvolve: A Coding Agent for Scientific and Algorithmic Discovery." <em>arXiv:2506.13131</em>. DOI: 10.48550/arXiv.2506.13131 (352 citations)
+        </li>
+        <li class="bib-entry" id="ref-6">
+          <span class="ref-num">[6]</span>
+          Xia, C. et al. (2025). "Demystifying LLM-Based Software Engineering Agents." DOI: 10.1145/3715754 (92 citations)
+        </li>
+        <li class="bib-entry" id="ref-7">
+          <span class="ref-num">[7]</span>
+          "Rethinking Assessment of Social and Emotional Skills." <em>OECD</em>, 2025-2027.
+          <a href="https://www.oecd.org/en/about/projects/rethinking-assessment-of-social-and-emotional-skills.html">link</a>
+        </li>
+        <li class="bib-entry" id="ref-8">
+          <span class="ref-num">[8]</span>
+          "Innovative Tools for the Direct Assessment of Social and Emotional Skills." <em>OECD Publishing</em>.
+          <a href="https://www.oecd.org/en/publications/innovative-tools-for-the-direct-assessment-of-social-and-emotional-skills_eed9bb04-en.html">link</a>
+        </li>
+        <li class="bib-entry" id="ref-9">
+          <span class="ref-num">[9]</span>
+          Li, J., King, R.B., Chai, C., Zhai, X., Lee, V.W.Y. (2025). "The AI Motivation Scale (AIMS): A Self-Determination Theory Perspective." DOI: 10.1080/15391523.2025.2478424 (20 citations)
+        </li>
+        <li class="bib-entry" id="ref-10">
+          <span class="ref-num">[10]</span>
+          @rohanpaul_ai. "Mistral AI released Mistral OCR 3." <em>X</em>, 2026.
+          <a href="https://x.com/rohanpaul_ai/status/2001712697818374419">link</a>
+        </li>
+        <li class="bib-entry" id="ref-11">
+          <span class="ref-num">[11]</span>
+          @AndrewYNg. "New course: Document AI: From OCR to Agentic Doc Extraction." <em>X</em>, 2026.
+          <a href="https://x.com/AndrewYNg/status/2011494188152733971">link</a>
+        </li>
+        <li class="bib-entry" id="ref-12">
+          <span class="ref-num">[12]</span>
+          "Enterprise Document AI &amp; OCR." <em>Mistral AI</em>.
+          <a href="https://mistral.ai/solutions/document-ai">link</a>
+        </li>
+        <li class="bib-entry" id="ref-13">
+          <span class="ref-num">[13]</span>
+          "Reducto: AI Document Parsing &amp; Extraction Software." <em>Reducto</em>.
+          <a href="https://reducto.ai/">link</a>
+        </li>
+        <li class="bib-entry" id="ref-14">
+          <span class="ref-num">[14]</span>
+          Garza, L. et al. (2025). "PRvL: Quantifying the Capabilities and Risks of Large Language Models for PII Redaction." DOI: 10.1109/TPS-ISA67132.2025.00025 (4 citations)
+        </li>
+        <li class="bib-entry" id="ref-15">
+          <span class="ref-num">[15]</span>
+          Mishra, K., Pagare, H., Sharma, K. (2025). "A Hybrid Rule-Based NLP and Machine Learning Approach for PII Detection." <em>Scientific Reports</em>. DOI: 10.1038/s41598-025-04971-9 (7 citations)
+        </li>
+        <li class="bib-entry" id="ref-16">
+          <span class="ref-num">[16]</span>
+          "How AI Tools Can Support Special Education Students and Teachers." <em>EdTech Magazine</em>, 2026-02.
+          <a href="https://edtechmagazine.com/k12/article/2026/02/how-ai-tools-can-support-special-education-students-and-teachers">link</a>
+        </li>
+        <li class="bib-entry" id="ref-17">
+          <span class="ref-num">[17]</span>
+          "Heightened AI Use in Special Education Brings Elevated Risks." <em>K-12 Dive</em>.
+          <a href="https://www.k12dive.com/news/artificial-intelligence-special-education-Section-504-benefits-risks-privacy-IDEA-IEP/804535/">link</a>
+        </li>
+        <li class="bib-entry" id="ref-18">
+          <span class="ref-num">[18]</span>
+          "AI in Special Education: Mitigating Bias and Improving Support for Learners." <em>NGLC</em>.
+          <a href="https://www.nextgenlearning.org/articles/ai-and-special-education-mitigating-bias-and-improving-support-for-learners">link</a>
+        </li>
+        <li class="bib-entry" id="ref-19">
+          <span class="ref-num">[19]</span>
+          Al-Naim, N.A.A. (2026). "AI Impact on Quality of Life for Individuals with Intellectual Disabilities." <em>Acta Psychologica</em>. DOI: 10.1016/j.actpsy.2026.106348
+        </li>
+        <li class="bib-entry" id="ref-20">
+          <span class="ref-num">[20]</span>
+          Waterfield, D.A. et al. (2025). "IEPs in the Age of AI: Examining IEP Goals Written with and Without ChatGPT." <em>J. Special Education Technology</em>. DOI: 10.1177/01626434251324592 (8 citations)
+        </li>
+        <li class="bib-entry" id="ref-21">
+          <span class="ref-num">[21]</span>
+          Mohamed, S. et al. (2026). "Applying AI in Neurodevelopmental Disorders Management." <em>European J. Medical Research</em>. DOI: 10.1186/s40001-025-03740-8
+        </li>
+        <li class="bib-entry" id="ref-22">
+          <span class="ref-num">[22]</span>
+          Sumer-Dodur, H.M. (2025). "Special Ed Pre-Service Teachers' AI Attitudes: AI Literacy and Anxiety." ERIC ID: EJ1490320
+        </li>
+        <li class="bib-entry" id="ref-23">
+          <span class="ref-num">[23]</span>
+          "Claude Code Release Notes." <em>Releasebot</em>, April 2026.
+          <a href="https://releasebot.io/updates/anthropic/claude-code">link</a>
+        </li>
+        <li class="bib-entry" id="ref-24">
+          <span class="ref-num">[24]</span>
+          "Claude Platform Release Notes." <em>Anthropic</em>.
+          <a href="https://platform.claude.com/docs/en/release-notes/overview">link</a>
+        </li>
+        <li class="bib-entry" id="ref-25">
+          <span class="ref-num">[25]</span>
+          @testingcatalog. "Anthropic released interactive apps for Claude [MCP Apps]." <em>X</em>, 2026.
+          <a href="https://x.com/testingcatalog/status/2015857358006616441">link</a>
+        </li>
+        <li class="bib-entry" id="ref-26">
+          <span class="ref-num">[26]</span>
+          Pourdavood, P. (2026). "Does Claude's Constitution Have a Culture?" <em>arXiv:2603.28123</em>
+        </li>
+        <li class="bib-entry" id="ref-27">
+          <span class="ref-num">[27]</span>
+          Sel, B. et al. (2026). "Trojan-Speak: Bypassing Constitutional Classifiers via Adversarial Finetuning." <em>arXiv:2603.29038</em>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Footer -->
+    <footer class="digest-footer">
+      <div class="source-status">
+        <span class="source partial">Reddit (no hits in window)</span>
+        <span class="source ok">YouTube</span>
+        <span class="source ok">X</span>
+        <span class="source ok">LinkedIn</span>
+        <span class="source ok">Web</span>
+        <span class="source ok">Semantic Scholar</span>
+        <span class="source ok">OpenAlex</span>
+        <span class="source ok">ERIC</span>
+        <span class="source ok">Europe PMC</span>
+        <span class="source partial">Papers w/ Code (API issues)</span>
+      </div>
+      <p class="dedup-note">8 items deduplicated from previous digests</p>
+      <p class="meta">Generated by dev-digest skill, 2026-04-07 | Window: April 3-7 (4 days) | 17 parallel research agents</p>
+    </footer>
+
+  </main>
+</body>
+</html>
