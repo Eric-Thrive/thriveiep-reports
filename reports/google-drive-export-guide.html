@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Google Drive Export Guide - ThriveIEP</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #1B2A4A; --navy-light: #2A3F6B;
+    --coral: #FF6B6B; --coral-soft: #FF8E8E;
+    --sand: #F5E6CC; --sand-light: #FDF8F0;
+    --teal: #2B8A8A; --gold: #D4A843;
+    --slate: #4A5568; --warm-grey: #8B7E6A;
+  }
+  html, body { height: 100%; overflow: hidden; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--sand-light); color: var(--navy); }
+  .deck { display: flex; height: 100vh; overflow: hidden; }
+  .slide { min-width: 100vw; height: 100vh; overflow-y: auto; padding: 60px 80px 80px; display: none; flex-direction: column; }
+  .slide.active { display: flex; }
+  @media (max-width: 800px) { .slide { padding: 32px 24px 80px; } }
+  .index-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: var(--navy); display: flex; align-items: center; height: 52px; padding: 0 24px; gap: 6px; overflow-x: auto; }
+  .idx-chip { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.55); background: transparent; border: none; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+  .idx-chip:hover { color: #fff; background: var(--navy-light); }
+  .idx-chip.active { background: var(--coral); color: #fff; }
+  .idx-progress { position: fixed; bottom: 52px; left: 0; height: 3px; background: var(--coral); transition: width 0.3s; z-index: 101; }
+  .idx-arrows { margin-left: auto; display: flex; gap: 8px; }
+  .idx-arrow { width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--navy-light); color: #fff; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .idx-arrow:hover { background: var(--coral); }
+  .slide-num { font-size: 12px; font-weight: 700; color: var(--coral); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .slide h2 { font-size: 36px; font-weight: 800; color: var(--navy); line-height: 1.15; margin-bottom: 20px; max-width: 800px; }
+  .slide h3 { font-size: 22px; font-weight: 700; color: var(--navy); margin: 24px 0 10px; }
+  .slide h4 { font-size: 16px; font-weight: 700; color: var(--teal); margin: 16px 0 8px; }
+  .slide p { font-size: 16px; line-height: 1.8; margin-bottom: 14px; color: var(--slate); max-width: 760px; }
+  .slide ul, .slide ol { margin: 10px 0 16px 24px; font-size: 16px; line-height: 1.7; color: var(--slate); max-width: 760px; }
+  .slide li { margin-bottom: 8px; }
+  .slide strong { color: var(--navy); font-weight: 700; }
+  .slide em { color: var(--coral); font-style: normal; font-weight: 600; }
+  .slide blockquote { background: var(--sand); border-left: 4px solid var(--coral); padding: 18px 24px; border-radius: 0 12px 12px 0; margin: 18px 0; font-size: 15px; color: var(--navy); max-width: 760px; }
+  .slide hr { border: none; height: 2px; background: var(--sand); margin: 28px 0; max-width: 760px; }
+  .slide a { color: var(--teal); text-decoration: none; font-weight: 600; }
+  .slide a:hover { text-decoration: underline; }
+  .slide table { width: 100%; max-width: 800px; border-collapse: separate; border-spacing: 0; margin: 18px 0; border-radius: 12px; overflow: hidden; }
+  .slide th { background: var(--navy); color: #fff; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 14px 16px; text-align: left; }
+  .slide td { background: #fff; padding: 14px 16px; font-size: 14px; color: var(--slate); border-bottom: 1px solid var(--sand); }
+  .slide tr:last-child td { border-bottom: none; }
+  .badge { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+  .finding-card { background: #fff; border-radius: 12px; padding: 20px 24px; margin: 16px 0; max-width: 800px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .finding-card h4 { margin-top: 0; }
+  details { margin: 12px 0; max-width: 760px; }
+  details summary { cursor: pointer; font-weight: 600; color: var(--teal); padding: 8px 0; }
+  details[open] summary { margin-bottom: 8px; }
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .mockup-row { display: flex; flex-wrap: wrap; gap: 24px; margin: 24px 0; }
+  .mockup-label { font-size: 12px; color: var(--warm-grey); margin-bottom: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; text-align: center; }
+  .mockup-btn { display: flex; align-items: center; gap: 12px; width: 280px; padding: 12px 16px; border-radius: 8px; border: 1px solid #E2E8F0; font-family: 'Avenir', 'Avenir Next', -apple-system, sans-serif; font-size: 14px; font-weight: 500; min-height: 44px; box-sizing: border-box; }
+  .mockup-btn--active { background: #F1F5F9; color: #334155; cursor: pointer; }
+  .mockup-btn--loading { background: #F8FAFC; color: #94A3B8; cursor: not-allowed; opacity: 0.6; }
+  .mockup-dropdown { margin-top: 4px; border: 1px solid #E2E8F0; border-radius: 8px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden; font-family: 'Avenir', 'Avenir Next', -apple-system, sans-serif; font-size: 14px; }
+  .mockup-dropdown-item { display: flex; align-items: center; padding: 10px 12px; color: #334155; }
+  .mockup-dropdown-item + .mockup-dropdown-item { border-top: 1px solid #F1F5F9; }
+  .mockup-badge-default { margin-left: auto; font-size: 12px; padding: 2px 8px; border-radius: 9999px; background: #DBEAFE; color: #1D4ED8; }
+  .step-card { background: #fff; border-radius: 12px; padding: 20px 24px; margin: 12px 0; max-width: 760px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .step-number { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--coral); color: #fff; font-size: 14px; font-weight: 700; margin-right: 10px; }
+  .role-badge { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; background: var(--sand); color: var(--warm-grey); }
+  .role-badge--admin { background: #FEE2E2; color: #991B1B; }
+  .role-badge--all { background: #D1FAE5; color: #065F46; }
+</style>
+</head>
+<body>
+<div class="idx-progress" id="progress"></div>
+<div class="deck" id="deck">
+
+<!-- Slide 1: Title -->
+<div class="slide" id="slide-title">
+  <div class="slide-num">Section 1 of 7</div>
+  <h2>Google Drive Export Guide</h2>
+  <p><strong>ThriveIEP</strong> &middot; User Guide &middot; April 2026</p>
+  <hr>
+  <p>This guide shows you how to export completed assessment reports to Google Drive as editable Google Docs or PDFs. It covers first-time setup, the export workflow, troubleshooting, and administrator controls.</p>
+  <hr>
+  <h3>Who is this for?</h3>
+  <p>Educators and administrators who use ThriveIEP report pages (K-12, Tutoring, or Post-Secondary) and want to save reports to Google Drive for sharing, archiving, or compliance.</p>
+  <h3>What you'll learn</h3>
+  <ul>
+    <li>How to connect your organization's Google Drive (one-time setup)</li>
+    <li>How to export any report as a Google Doc or PDF</li>
+    <li>What to do when something goes wrong</li>
+    <li>How administrators can manage the connection</li>
+  </ul>
+</div>
+
+<!-- Slide 2: Overview + Button States -->
+<div class="slide" id="slide-overview">
+  <div class="slide-num">Section 2 of 7</div>
+  <h2>Overview</h2>
+  <p>The <strong>Send to Google</strong> button lives in the report sidebar, next to Print and Download. It exports completed assessment reports directly to your organization's Google Drive.</p>
+  <p>Two export formats are available: an editable <strong>Google Doc</strong> (great for collaboration) or a <strong>PDF stored in Drive</strong> (great for archiving and compliance).</p>
+  <p>Before anyone can export, the organization's Google Drive must be connected. This is a one-time setup that any team member can do. Once connected, everyone in the organization can export.</p>
+
+  <hr>
+  <h3>Button States at a Glance</h3>
+  <p>The sidebar button changes appearance depending on your organization's connection status:</p>
+
+  <div class="mockup-row">
+    <!-- State 1: Disconnected -->
+    <div>
+      <p class="mockup-label">Not Connected</p>
+      <div class="mockup-btn mockup-btn--active">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" x2="2" y1="12" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><line x1="6" x2="6.01" y1="16" y2="16"/><line x1="10" x2="10.01" y1="16" y2="16"/></svg>
+        <span style="flex: 1; text-align: left;">Connect Google Drive</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.5;"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+      </div>
+    </div>
+
+    <!-- State 2: Loading -->
+    <div>
+      <p class="mockup-label">Loading</p>
+      <div class="mockup-btn mockup-btn--loading">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+        <span style="flex: 1; text-align: left;">Checking Google...</span>
+      </div>
+    </div>
+
+    <!-- State 3: Connected -->
+    <div>
+      <p class="mockup-label">Connected</p>
+      <div class="mockup-btn mockup-btn--active">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" x2="2" y1="12" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><line x1="6" x2="6.01" y1="16" y2="16"/><line x1="10" x2="10.01" y1="16" y2="16"/></svg>
+        <span style="flex: 1; text-align: left;">Send to Google</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dropdown open -->
+  <p class="mockup-label" style="text-align: left;">Export Dropdown (Open)</p>
+  <div style="width: 280px;">
+    <div class="mockup-btn mockup-btn--active">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" x2="2" y1="12" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><line x1="6" x2="6.01" y1="16" y2="16"/><line x1="10" x2="10.01" y1="16" y2="16"/></svg>
+      <span style="flex: 1; text-align: left;">Send to Google</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+    </div>
+    <div class="mockup-dropdown">
+      <div class="mockup-dropdown-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; flex-shrink: 0;"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+        <span>Google Doc</span>
+        <span class="mockup-badge-default">default</span>
+      </div>
+      <div class="mockup-dropdown-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; flex-shrink: 0;"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+        <span>PDF to Drive</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 3: Connecting Google Drive -->
+<div class="slide" id="slide-connecting">
+  <div class="slide-num">Section 3 of 7</div>
+  <h2>Connecting Google Drive</h2>
+  <p>If Google Drive hasn't been connected for your organization yet, the sidebar button shows <strong>"Connect Google Drive"</strong> instead of "Send to Google." Here's how to set it up:</p>
+
+  <h3>First-Time Setup</h3>
+
+  <div class="step-card">
+    <p><span class="step-number">1</span> Open any completed report (K-12, Tutoring, or Post-Secondary)</p>
+  </div>
+  <div class="step-card">
+    <p><span class="step-number">2</span> Find the <strong>Connect Google Drive</strong> button in the sidebar</p>
+  </div>
+  <div class="step-card">
+    <p><span class="step-number">3</span> Click the button. You'll be redirected to Google's sign-in page.</p>
+  </div>
+  <div class="step-card">
+    <p><span class="step-number">4</span> Sign in with the Google account you want to use for your organization</p>
+  </div>
+  <div class="step-card">
+    <p><span class="step-number">5</span> Review the permissions and click <strong>Allow</strong></p>
+  </div>
+  <div class="step-card">
+    <p><span class="step-number">6</span> You'll be redirected back to your report automatically</p>
+  </div>
+  <div class="step-card">
+    <p><span class="step-number">7</span> A success notification will confirm: <strong>"Google Drive connected!"</strong></p>
+  </div>
+
+  <p>The button now shows <strong>"Send to Google"</strong> with a dropdown arrow. You're ready to export.</p>
+
+  <hr>
+
+  <h3>Good to Know</h3>
+  <ul>
+    <li>This is a <strong>one-time setup</strong> per organization. Once connected, all team members can export.</li>
+    <li>ThriveIEP only requests permission to <em>create</em> files in Google Drive. It cannot read or modify your existing files.</li>
+    <li>If Drive is already connected by another team member, you'll see "Send to Google" immediately.</li>
+  </ul>
+
+  <hr>
+
+  <h3>If Connection Fails</h3>
+  <blockquote>
+    <p>If something goes wrong during sign-in, you'll be redirected back to your report page with a red notification explaining what happened. Common causes: declining the permission prompt, or a temporary Google outage. Click <strong>"Connect Google Drive"</strong> again to retry.</p>
+  </blockquote>
+</div>
+
+<!-- Slide 4: Exporting a Report -->
+<div class="slide" id="slide-exporting">
+  <div class="slide-num">Section 4 of 7</div>
+  <h2>Exporting a Report</h2>
+  <p>Once Google Drive is connected, exporting takes just a few clicks.</p>
+
+  <h3>Step 1: Open the Report</h3>
+  <p>Navigate to any completed assessment report:</p>
+  <ul>
+    <li><strong>K-12</strong> reports</li>
+    <li><strong>Tutoring</strong> reports</li>
+    <li><strong>Post-Secondary</strong> reports</li>
+  </ul>
+
+  <h3>Step 2: Click "Send to Google"</h3>
+  <p>Find the <strong>Send to Google</strong> button in the sidebar. Click it to open the export dropdown.</p>
+
+  <h3>Step 3: Choose Export Format</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Format</th>
+        <th>What It Creates</th>
+        <th>Best For</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Google Doc</strong> <span class="badge" style="background: #DBEAFE; color: #1D4ED8;">DEFAULT</span></td>
+        <td>An editable Google Doc in your Drive</td>
+        <td>Collaborative editing, adding notes, sharing with team</td>
+      </tr>
+      <tr>
+        <td><strong>PDF to Drive</strong></td>
+        <td>A PDF file uploaded to your Drive</td>
+        <td>Archiving, attaching to student records, printing</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Step 4: Wait for Export</h3>
+  <ul>
+    <li>The button shows a spinner with "Sending Doc..." or "Sending PDF..."</li>
+    <li>Export typically takes a few seconds</li>
+    <li><strong>Do not navigate away</strong> while the export is in progress</li>
+  </ul>
+
+  <h3>Step 5: View in Google Drive</h3>
+  <ul>
+    <li>When the export completes, the document <strong>opens automatically in a new browser tab</strong></li>
+    <li>A success notification confirms the file was created</li>
+    <li>The file is saved in your Google Drive and accessible from drive.google.com</li>
+  </ul>
+</div>
+
+<!-- Slide 5: Troubleshooting -->
+<div class="slide" id="slide-troubleshooting">
+  <div class="slide-num">Section 5 of 7</div>
+  <h2>Troubleshooting</h2>
+  <p>If something isn't working, find your issue below.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Problem</th>
+        <th>Cause</th>
+        <th>Solution</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Button shows "Connect Google Drive"</td>
+        <td>Drive not yet connected for your org</td>
+        <td>Click the button and complete the Google sign-in flow</td>
+      </tr>
+      <tr>
+        <td>Button shows "Checking Google..."</td>
+        <td>Page is loading connection status</td>
+        <td>Wait a moment. The button updates once the status check completes.</td>
+      </tr>
+      <tr>
+        <td>Export fails with "Drive not connected"</td>
+        <td>The connection may have expired</td>
+        <td>Ask an administrator to reconnect in Organization Settings</td>
+      </tr>
+      <tr>
+        <td>Export fails with "Drive connection expired"</td>
+        <td>OAuth tokens expired</td>
+        <td>An administrator needs to reconnect in Organization Settings</td>
+      </tr>
+      <tr>
+        <td>Nothing happens when clicking Connect</td>
+        <td>Browser may be blocking the redirect</td>
+        <td>Check for popup blockers; allow popups for this site</td>
+      </tr>
+      <tr>
+        <td>"Drive already connected" error</td>
+        <td>A team member already connected Drive</td>
+        <td>This is expected. You can proceed to export directly.</td>
+      </tr>
+      <tr>
+        <td>Export button disabled / spinner stuck</td>
+        <td>A previous export may still be running</td>
+        <td>Refresh the page and try again</td>
+      </tr>
+      <tr>
+        <td>Document doesn't open in new tab</td>
+        <td>Browser blocked the popup</td>
+        <td>Check your popup blocker. The file is still in your Google Drive.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Slide 6: For Administrators -->
+<div class="slide" id="slide-admin">
+  <div class="slide-num">Section 6 of 7</div>
+  <h2>For Administrators</h2>
+
+  <h3>Managing the Google Drive Connection</h3>
+  <p>Administrators can manage the integration from <strong>Organization Settings</strong>:</p>
+
+  <div class="step-card">
+    <p><span class="step-number">1</span> Navigate to <strong>Admin</strong> &rarr; <strong>Organizations</strong> &rarr; your organization</p>
+  </div>
+  <div class="step-card">
+    <p><span class="step-number">2</span> Click the <strong>Integrations</strong> tab</p>
+  </div>
+  <div class="step-card">
+    <p><span class="step-number">3</span> From here you can:
+      <br>&bull; View the current connection status and connected email
+      <br>&bull; <strong>Disconnect</strong> Google Drive (stops all exports for the org)
+      <br>&bull; <strong>Reconnect</strong> with a different Google account
+    </p>
+  </div>
+
+  <hr>
+
+  <h3>Who Can Connect?</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Action</th>
+        <th>Allowed Roles</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Initial connection (when Drive is not yet connected)</td>
+        <td><span class="role-badge role-badge--all">ALL ROLES</span> Customer, Org Admin, System Admin</td>
+      </tr>
+      <tr>
+        <td>Disconnect or reconnect (when Drive is already active)</td>
+        <td><span class="role-badge role-badge--admin">ADMIN ONLY</span> Org Admin, System Admin</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>This prevents accidental disruption of an existing, working connection.</p>
+
+  <hr>
+
+  <h3>Compliance Notes</h3>
+  <ul>
+    <li>All exports are logged server-side for <strong>FERPA audit compliance</strong></li>
+    <li>Exported files go to the Google Drive of the account used during connection</li>
+    <li>Token data is encrypted at rest using <strong>AES-256-GCM</strong></li>
+  </ul>
+</div>
+
+<!-- Slide 7: Quick Reference -->
+<div class="slide" id="slide-reference">
+  <div class="slide-num">Section 7 of 7</div>
+  <h2>Quick Reference</h2>
+
+  <div class="finding-card">
+    <h4>Connect Google Drive</h4>
+    <p>Click <strong>"Connect Google Drive"</strong> in any report sidebar &rarr; sign in with Google &rarr; click Allow</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>Export as Google Doc</h4>
+    <p>Click <strong>"Send to Google"</strong> &rarr; select <strong>Google Doc</strong> (default) &rarr; document opens in new tab</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>Export as PDF</h4>
+    <p>Click <strong>"Send to Google"</strong> &rarr; select <strong>PDF to Drive</strong> &rarr; PDF opens in new tab</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>Admin: Manage Connection</h4>
+    <p><strong>Admin</strong> &rarr; <strong>Organizations</strong> &rarr; [Your Org] &rarr; <strong>Integrations</strong> tab</p>
+  </div>
+
+  <hr>
+
+  <h3>Available on All Report Types</h3>
+  <div class="mockup-row">
+    <div class="finding-card" style="flex: 1; min-width: 180px;">
+      <h4>K-12</h4>
+      <p>K-12 report viewer sidebar</p>
+    </div>
+    <div class="finding-card" style="flex: 1; min-width: 180px;">
+      <h4>Tutoring</h4>
+      <p>Tutoring report viewer sidebar</p>
+    </div>
+    <div class="finding-card" style="flex: 1; min-width: 180px;">
+      <h4>Post-Secondary</h4>
+      <p>Post-Secondary report viewer sidebar</p>
+    </div>
+  </div>
+
+  <hr>
+  <p><strong>Related guides:</strong> Review System User Guide (collaborative review workflow for reports)</p>
+  <p style="font-size: 13px; color: var(--warm-grey); margin-top: 24px;">ThriveIEP &middot; Google Drive Export Guide &middot; Last verified April 7, 2026</p>
+</div>
+
+</div>
+<div class="index-bar">
+  <button class="idx-chip" onclick="goTo(0)">Welcome</button>
+  <button class="idx-chip" onclick="goTo(1)">Overview</button>
+  <button class="idx-chip" onclick="goTo(2)">Connecting</button>
+  <button class="idx-chip" onclick="goTo(3)">Exporting</button>
+  <button class="idx-chip" onclick="goTo(4)">Troubleshooting</button>
+  <button class="idx-chip" onclick="goTo(5)">Admin</button>
+  <button class="idx-chip" onclick="goTo(6)">Quick Ref</button>
+  <div class="idx-arrows">
+    <button class="idx-arrow" onclick="prev()">&larr;</button>
+    <button class="idx-arrow" onclick="next()">&rarr;</button>
+  </div>
+</div>
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const chips = document.querySelectorAll('.idx-chip');
+const progress = document.getElementById('progress');
+function goTo(i) {
+  if (i < 0 || i >= slides.length) return;
+  slides[current].classList.remove('active');
+  chips[current].classList.remove('active');
+  current = i;
+  slides[current].classList.add('active');
+  chips[current].classList.add('active');
+  progress.style.width = ((current + 1) / slides.length * 100) + '%';
+}
+function next() { goTo(current + 1); }
+function prev() { goTo(current - 1); }
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+});
+slides[0].classList.add('active');
+chips[0].classList.add('active');
+progress.style.width = (1 / slides.length * 100) + '%';
+</script>
+</body>
+</html>
