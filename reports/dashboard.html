@@ -6,495 +6,575 @@
 <meta name="robots" content="noindex, nofollow">
 <title>ThriveIEP Dashboard</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #0f172a; color: #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; padding: 1.5rem; }
-a { color: #60a5fa; text-decoration: none; }
-a:hover { text-decoration: underline; }
-.container { max-width: 1200px; margin: 0 auto; }
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f172a;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.6;padding:1rem}
+.container{max-width:1200px;margin:0 auto}
+header{text-align:center;margin-bottom:1.5rem}
+header h1{font-size:1.75rem;color:#f8fafc;margin-bottom:0.25rem}
+header .subtitle{color:#94a3b8;font-size:0.95rem}
+header .generated{color:#64748b;font-size:0.8rem;margin-top:0.25rem}
 
-/* Header */
-.header { text-align: center; margin-bottom: 2rem; }
-.header h1 { font-size: 1.75rem; font-weight: 700; color: #f1f5f9; }
-.header .subtitle { color: #94a3b8; font-size: 0.95rem; margin-top: 0.25rem; }
-.header .generated { color: #64748b; font-size: 0.8rem; margin-top: 0.25rem; }
+.milestone-bar{display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.milestone-card{flex:1;min-width:200px;background:#1e293b;border:1px solid #334155;border-radius:0.5rem;padding:1rem;text-align:center}
+.milestone-card.passed{border-color:#22c55e}
+.milestone-card.amber{border-color:#f59e0b}
+.milestone-card .name{font-weight:600;font-size:0.9rem;color:#f8fafc}
+.milestone-card .days{font-size:1.5rem;font-weight:700;margin:0.25rem 0}
+.milestone-card .days.green{color:#22c55e}
+.milestone-card .days.amber{color:#f59e0b}
+.milestone-card .target{color:#94a3b8;font-size:0.8rem}
+.milestone-card .summary{color:#64748b;font-size:0.75rem;margin-top:0.25rem}
 
-/* Milestone Bar */
-.milestone-bar { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
-.milestone-card { flex: 1; min-width: 200px; background: #1e293b; border: 1px solid #334155; border-radius: 0.75rem; padding: 1rem; text-align: center; }
-.milestone-card .name { font-weight: 600; font-size: 0.9rem; color: #f1f5f9; }
-.milestone-card .days { font-size: 2rem; font-weight: 700; margin: 0.25rem 0; }
-.milestone-card .target { color: #94a3b8; font-size: 0.8rem; }
-.milestone-card .summary { color: #64748b; font-size: 0.75rem; margin-top: 0.25rem; }
-.days-green { color: #34d399; }
-.days-blue { color: #60a5fa; }
-.days-amber { color: #fbbf24; }
-.days-red { color: #ef4444; }
-.days-done { color: #34d399; }
+.focus-picks{display:grid;gap:1rem;margin-bottom:1.5rem}
+.focus-pick{background:#1e293b;border:1px solid #334155;border-radius:0.5rem;padding:1rem;display:flex;gap:1rem;align-items:flex-start}
+.focus-pick.pick-1{border-left:4px solid #ef4444}
+.focus-pick.pick-2{border-left:4px solid #f59e0b}
+.focus-pick.pick-3{border-left:4px solid #3b82f6}
+.pick-num{font-size:1.25rem;font-weight:700;min-width:2rem;height:2rem;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#334155;color:#f8fafc;flex-shrink:0}
+.pick-num.n1{background:#ef4444}
+.pick-num.n2{background:#f59e0b;color:#0f172a}
+.pick-num.n3{background:#3b82f6}
+.pick-body .pick-title{font-weight:600;color:#f8fafc;font-size:1rem;margin-bottom:0.25rem}
+.pick-body .pick-reason{color:#94a3b8;font-size:0.85rem}
+.pick-body .pick-source{color:#64748b;font-size:0.75rem;margin-top:0.25rem}
 
-/* Focus Picks */
-.focus-picks { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-.focus-card { background: #1e293b; border: 1px solid #334155; border-radius: 0.75rem; padding: 1.25rem; position: relative; }
-.focus-card-c2a { border-left: 4px solid #3b82f6; }
-.focus-card-ae { border-left: 4px solid #f59e0b; }
-.focus-card-team { border-left: 4px solid #8b5cf6; }
-.focus-card-pi { border-left: 4px solid #10b981; }
-.focus-num { display: inline-flex; align-items: center; justify-content: center; width: 1.75rem; height: 1.75rem; border-radius: 50%; background: #334155; color: #f1f5f9; font-weight: 700; font-size: 0.85rem; margin-bottom: 0.5rem; }
-.focus-title { font-weight: 600; font-size: 1rem; color: #f1f5f9; margin-bottom: 0.25rem; }
-.focus-source { color: #94a3b8; font-size: 0.8rem; }
-.focus-why { color: #64748b; font-size: 0.8rem; margin-top: 0.25rem; }
+.section-title{font-size:1.15rem;font-weight:600;color:#f8fafc;margin-bottom:0.75rem;padding-bottom:0.5rem;border-bottom:1px solid #334155}
 
-/* Calendar */
-.section { margin-bottom: 2rem; }
-.section-title { font-size: 1.15rem; font-weight: 600; color: #f1f5f9; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid #334155; }
-.cal-event { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0.75rem; border-radius: 0.5rem; margin-bottom: 0.25rem; }
-.cal-event:hover { background: #1e293b; }
-.cal-time { font-size: 0.85rem; color: #94a3b8; min-width: 110px; font-variant-numeric: tabular-nums; }
-.cal-name { font-size: 0.9rem; color: #e2e8f0; flex: 1; }
-.cal-badge { font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 9999px; font-weight: 500; }
-.badge-work { background: rgba(100,116,139,0.2); color: #94a3b8; }
-.badge-team { background: rgba(91,168,200,0.2); color: #5ba8c8; }
-.badge-client { background: rgba(232,163,58,0.2); color: #e8a33a; }
-.badge-tutoring { background: rgba(167,139,250,0.2); color: #a78bfa; }
-.badge-personal { background: rgba(244,114,182,0.2); color: #f472b6; }
-.badge-gtm { background: rgba(52,211,153,0.2); color: #34d399; }
-.cal-location { font-size: 0.75rem; color: #64748b; }
-details { background: #1e293b; border: 1px solid #334155; border-radius: 0.75rem; margin-bottom: 0.5rem; }
-summary { padding: 0.75rem 1rem; cursor: pointer; font-weight: 600; font-size: 0.9rem; color: #f1f5f9; list-style: none; display: flex; align-items: center; gap: 0.5rem; }
-summary::before { content: "▸"; transition: transform 0.2s; }
-details[open] summary::before { transform: rotate(90deg); }
-summary::-webkit-details-marker { display: none; }
-details .content { padding: 0 1rem 0.75rem; }
+.calendar-section{background:#1e293b;border:1px solid #334155;border-radius:0.5rem;padding:1rem;margin-bottom:1.5rem}
+.event-list{list-style:none}
+.event-list li{padding:0.5rem 0;border-bottom:1px solid #262f3d;display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap}
+.event-list li:last-child{border-bottom:none}
+.event-time{color:#94a3b8;font-size:0.85rem;min-width:6.5rem;font-variant-numeric:tabular-nums}
+.event-name{color:#e2e8f0;font-size:0.9rem}
+.badge{display:inline-block;padding:0.1rem 0.5rem;border-radius:0.25rem;font-size:0.7rem;font-weight:600;text-transform:uppercase}
+.badge-team{background:#1e3a5f;color:#5ba8c8}
+.badge-client{background:#3d2f0f;color:#e8a33a}
+.badge-tutoring{background:#2e1f5e;color:#a78bfa}
+.badge-work{background:#1e293b;color:#64748b;border:1px solid #475569}
+.badge-gtm{background:#0f3d2f;color:#34d399}
+.badge-personal{background:#3d0f2f;color:#f472b6}
+.event-location{color:#64748b;font-size:0.75rem;width:100%;padding-left:7.25rem}
 
-/* Issues */
-.issue-row { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0; flex-wrap: wrap; }
-.issue-id { font-family: "SF Mono", "Fira Code", monospace; font-size: 0.8rem; color: #60a5fa; min-width: 60px; }
-.issue-title { font-size: 0.85rem; color: #e2e8f0; flex: 1; min-width: 200px; }
-.issue-priority { font-size: 0.7rem; padding: 0.1rem 0.4rem; border-radius: 4px; font-weight: 500; }
-.priority-urgent { background: rgba(239,68,68,0.2); color: #ef4444; }
-.priority-high { background: rgba(245,158,11,0.2); color: #f59e0b; }
-.priority-medium { background: rgba(59,130,246,0.2); color: #3b82f6; }
-.priority-normal { background: rgba(100,116,139,0.2); color: #94a3b8; }
-.issue-project { font-size: 0.7rem; padding: 0.1rem 0.4rem; border-radius: 4px; background: rgba(100,116,139,0.15); color: #94a3b8; }
-.accent-red { border-left: 3px solid #ef4444; }
-.accent-amber { border-left: 3px solid #f59e0b; }
-.accent-blue { border-left: 3px solid #3b82f6; }
-.accent-gray { border-left: 3px solid #475569; }
-.accent-green { border-left: 3px solid #34d399; }
+details{margin-bottom:0.5rem}
+summary{cursor:pointer;font-weight:600;color:#cbd5e1;padding:0.5rem 0;font-size:0.95rem}
+summary:hover{color:#f8fafc}
 
-/* Git Activity */
-.git-stat { display: inline-flex; align-items: center; gap: 0.35rem; background: #1e293b; border: 1px solid #334155; border-radius: 0.5rem; padding: 0.35rem 0.75rem; font-size: 0.85rem; margin-right: 0.5rem; margin-bottom: 0.5rem; }
-.git-stat .count { font-weight: 700; color: #f1f5f9; }
-.git-stat .label { color: #94a3b8; }
+.issues-section{background:#1e293b;border:1px solid #334155;border-radius:0.5rem;padding:1rem;margin-bottom:1.5rem}
+.issue-item{padding:0.4rem 0;border-bottom:1px solid #262f3d;display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap}
+.issue-item:last-child{border-bottom:none}
+.issue-id{font-family:monospace;font-size:0.8rem;color:#94a3b8;min-width:5rem}
+.issue-title{color:#e2e8f0;font-size:0.9rem;flex:1}
+.badge-priority{padding:0.1rem 0.4rem;border-radius:0.2rem;font-size:0.65rem;font-weight:700;text-transform:uppercase}
+.badge-urgent{background:#ef4444;color:#fff}
+.badge-high{background:#f59e0b;color:#0f172a}
+.badge-medium{background:#3b82f6;color:#fff}
+.badge-normal{background:#64748b;color:#fff}
+.badge-project{padding:0.1rem 0.4rem;border-radius:0.2rem;font-size:0.65rem;font-weight:600}
+.badge-c2a{background:#1e3a6f;color:#3b82f6}
+.badge-ae{background:#3d2f0f;color:#f59e0b}
+.badge-pi{background:#0f3d2f;color:#10b981}
+.badge-bloom{background:#2e1f5e;color:#a78bfa}
+.badge-team-admin{background:#1e293b;color:#8b5cf6;border:1px solid #4c1d95}
+.badge-overdue{background:#7f1d1d;color:#fca5a5;font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:0.2rem;font-weight:600}
 
-/* Email */
-.email-row { display: flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0; }
-.email-tag { font-size: 0.7rem; padding: 0.1rem 0.4rem; border-radius: 4px; font-weight: 500; min-width: 50px; text-align: center; }
-.tag-action { background: rgba(239,68,68,0.2); color: #ef4444; }
-.tag-fyi { background: rgba(100,116,139,0.2); color: #94a3b8; }
-.tag-reply { background: rgba(59,130,246,0.2); color: #60a5fa; }
-.tag-test { background: rgba(245,158,11,0.2); color: #fbbf24; }
-.email-from { font-size: 0.8rem; color: #94a3b8; min-width: 140px; }
-.email-subject { font-size: 0.85rem; color: #e2e8f0; flex: 1; }
+.blocker-section{background:#1e293b;border:1px solid #ef4444;border-radius:0.5rem;padding:1rem;margin-bottom:1.5rem}
+.blocker-item{padding:0.4rem 0;color:#fca5a5;font-size:0.9rem;border-bottom:1px solid #3d1515}
+.blocker-item:last-child{border-bottom:none}
+.blocker-item strong{color:#f87171}
 
-/* Data Gaps */
-.data-gaps { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); border-radius: 0.75rem; padding: 1rem; margin-bottom: 2rem; }
-.data-gaps .title { font-weight: 600; color: #fbbf24; font-size: 0.9rem; margin-bottom: 0.5rem; }
-.data-gaps ul { list-style: none; padding: 0; }
-.data-gaps li { font-size: 0.85rem; color: #94a3b8; padding: 0.15rem 0; }
-.data-gaps li::before { content: "⚠ "; color: #fbbf24; }
+.email-section{background:#1e293b;border:1px solid #334155;border-radius:0.5rem;padding:1rem;margin-bottom:1.5rem}
+.email-item{padding:0.4rem 0;border-bottom:1px solid #262f3d;display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap}
+.email-item:last-child{border-bottom:none}
+.email-tag{padding:0.1rem 0.4rem;border-radius:0.2rem;font-size:0.65rem;font-weight:700;min-width:3.5rem;text-align:center}
+.tag-action{background:#7f1d1d;color:#fca5a5}
+.tag-reply{background:#3d2f0f;color:#fbbf24}
+.tag-fyi{background:#1e293b;color:#64748b;border:1px solid #475569}
+.tag-ci{background:#1e3a5f;color:#5ba8c8}
+.email-from{color:#94a3b8;font-size:0.8rem;min-width:8rem}
+.email-subject{color:#e2e8f0;font-size:0.85rem;flex:1}
 
-/* Footer */
-.footer { text-align: center; color: #475569; font-size: 0.8rem; padding-top: 1.5rem; border-top: 1px solid #334155; margin-top: 2rem; }
-.footer .networking { margin-bottom: 0.5rem; }
-.status-healthy { color: #34d399; }
+.git-section{background:#1e293b;border:1px solid #334155;border-radius:0.5rem;padding:1rem;margin-bottom:1.5rem}
+.git-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-bottom:1rem}
+.git-stat{text-align:center}
+.git-stat .num{font-size:1.75rem;font-weight:700;color:#f8fafc}
+.git-stat .label{color:#94a3b8;font-size:0.8rem}
+.git-highlights{list-style:none}
+.git-highlights li{padding:0.3rem 0;color:#94a3b8;font-size:0.85rem;border-bottom:1px solid #262f3d}
+.git-highlights li:last-child{border-bottom:none}
+
+footer{text-align:center;color:#475569;font-size:0.75rem;padding:1.5rem 0 0.5rem;border-top:1px solid #334155;margin-top:1rem}
+footer .data-gaps{color:#f59e0b;font-size:0.8rem;margin-bottom:0.5rem}
+
+@media(max-width:600px){
+  .milestone-bar{flex-direction:column}
+  .event-time{min-width:auto}
+  .event-location{padding-left:0}
+  .email-from{min-width:auto}
+}
 </style>
 </head>
 <body>
 <div class="container">
 
-<!-- Header -->
-<div class="header">
+<header>
   <h1>ThriveIEP Dashboard</h1>
-  <div class="subtitle">Week of April 6 – April 12, 2026</div>
-  <div class="generated">Generated April 7, 2026 at 10:30 AM EDT</div>
-</div>
+  <div class="subtitle">Week of April 6 &ndash; April 12, 2026</div>
+  <div class="generated">Generated April 8, 2026 at 10:30 AM EDT</div>
+</header>
 
 <!-- Milestone Bar -->
 <div class="milestone-bar">
-  <div class="milestone-card">
-    <div class="name">M1: Phase 1</div>
-    <div class="days days-done">✓</div>
-    <div class="target">Feb 15, 2026</div>
-    <div class="summary">Complete</div>
-  </div>
-  <div class="milestone-card">
+  <div class="milestone-card passed">
     <div class="name">M2: Assessment MVP</div>
-    <div class="days days-done">✓</div>
-    <div class="target">Mar 15, 2026</div>
-    <div class="summary">Complete</div>
+    <div class="days green">&#10003;</div>
+    <div class="target">March 15 &mdash; Complete</div>
   </div>
-  <div class="milestone-card">
+  <div class="milestone-card passed">
     <div class="name">M3: Pilot Profiles</div>
-    <div class="days days-amber">IP</div>
-    <div class="target">In Progress</div>
-    <div class="summary">DDx engine + profiles</div>
+    <div class="days green">&#10003;</div>
+    <div class="target">In progress &mdash; 45 students live</div>
   </div>
-  <div class="milestone-card">
-    <div class="name">M4: Phase 2</div>
-    <div class="days days-done">✓</div>
-    <div class="target">Mar 31, 2026</div>
-    <div class="summary">THR-207 due today</div>
+  <div class="milestone-card passed">
+    <div class="name">M4: Phase 2 Complete</div>
+    <div class="days green">&#10003;</div>
+    <div class="target">March 31 &mdash; Complete</div>
+    <div class="summary">THR-23 Recommendations done</div>
   </div>
-  <div class="milestone-card">
+  <div class="milestone-card amber">
     <div class="name">M5: Phase 3 Ready</div>
-    <div class="days days-blue">23d</div>
+    <div class="days amber">22</div>
     <div class="target">April 30, 2026</div>
-    <div class="summary">Admin dashboard, scale to 750</div>
+    <div class="summary">Admin dashboard, scale to 750 profiles</div>
   </div>
 </div>
 
 <!-- Focus Picks -->
-<div class="section">
-  <div class="section-title">Focus Picks</div>
-  <div class="focus-picks">
-    <div class="focus-card focus-card-c2a">
-      <div class="focus-num">1</div>
-      <div class="focus-title">Review THR-207: Soham's UI Assembly</div>
-      <div class="focus-source">Source: priorities.md — due April 7</div>
-      <div class="focus-why">Why now: M4 deliverable due today. Review branch + provide coach screen guidance.</div>
+<div class="section-title">Focus Picks</div>
+<div class="focus-picks">
+  <div class="focus-pick pick-1">
+    <div class="pick-num n1">1</div>
+    <div class="pick-body">
+      <div class="pick-title">Get sample user running post-secondary report (Bloom branch)</div>
+      <div class="pick-reason">Core deliverable validation. Bloom pipeline implemented (14 tasks, 6 stages, 4 gates) but untested end-to-end with a real user path. Push branch + create PR.</div>
+      <div class="pick-source">Source: Stated priority &bull; Handoff S280 P0 &bull; AE Bloom branch (43 commits)</div>
     </div>
-    <div class="focus-card focus-card-c2a">
-      <div class="focus-num">2</div>
-      <div class="focus-title">BC In-Person Meeting Prep</div>
-      <div class="focus-source">Source: Calendar Apr 9, 2:30 PM — priorities.md critical path #1</div>
-      <div class="focus-why">Why now: Meeting Thursday. Push report to Google Doc format + review IT security links. Prep items overdue from yesterday.</div>
+  </div>
+  <div class="focus-pick pick-2">
+    <div class="pick-num n2">2</div>
+    <div class="pick-body">
+      <div class="pick-title">Brainstorm mass innovation demo</div>
+      <div class="pick-reason">Sales urgency &mdash; cash position tight, need 2&ndash;3 additional contracts. Open calendar day is ideal for creative work. BC meeting tomorrow provides context.</div>
+      <div class="pick-source">Source: Stated priority &bull; GTM Friday 9:30 AM</div>
     </div>
-    <div class="focus-card focus-card-team">
-      <div class="focus-num">3</div>
-      <div class="focus-title">Renew GitHub PAT "Cowork"</div>
-      <div class="focus-source">Source: Gmail — GitHub expiration notice</div>
-      <div class="focus-why">Why now: Token expiring soon. Prevents CI/automation breakage across all repos.</div>
+  </div>
+  <div class="focus-pick pick-3">
+    <div class="pick-num n3">3</div>
+    <div class="pick-body">
+      <div class="pick-title">Iterate: Redactor F2 gap (0.9234 &rarr; 0.93) + Bloom fixes</div>
+      <div class="pick-reason">6 code review findings still open (dob_age FP, LLM re-promotion). Perplexity research recommendations ready: NerModelConfiguration remap, per-entity thresholds, PhoneRecognizer leniency=2.</div>
+      <div class="pick-source">Source: Handoff S281/S283 P0 &bull; Redactor ericglm branch (20 commits)</div>
     </div>
   </div>
 </div>
 
-<!-- Calendar: Today -->
-<div class="section">
-  <div class="section-title">Today — Tuesday, April 7</div>
-  <div class="cal-event">
-    <div class="cal-time">9:30 AM – 2:00 PM</div>
-    <div class="cal-name">ThriveIEP In Person Work Block</div>
-    <span class="cal-badge badge-work">work</span>
-    <div class="cal-location">CiC - Kendall</div>
-  </div>
-  <div class="cal-event">
-    <div class="cal-time">3:00 PM – 5:00 PM</div>
-    <div class="cal-name">Dugger Tennis</div>
-    <span class="cal-badge badge-personal">personal</span>
-  </div>
-  <div class="cal-event">
-    <div class="cal-time">4:30 PM – 5:00 PM</div>
-    <div class="cal-name">Jack</div>
-    <span class="cal-badge badge-tutoring">tutoring</span>
-  </div>
-  <div class="cal-event">
-    <div class="cal-time">5:00 PM – 6:00 PM</div>
-    <div class="cal-name">Vera</div>
-    <span class="cal-badge badge-tutoring">tutoring</span>
-  </div>
-</div>
+<!-- Calendar -->
+<div class="section-title">Calendar</div>
+<div class="calendar-section">
+  <div style="font-weight:600;color:#f8fafc;margin-bottom:0.5rem;font-size:1rem">Today &mdash; Wednesday, April 8</div>
+  <p style="color:#22c55e;font-size:0.85rem;font-weight:600;margin-bottom:0.5rem">No work meetings &mdash; open deep-work day</p>
+  <ul class="event-list" style="margin-bottom:0.75rem">
+    <li>
+      <span class="event-time">3:00 &ndash; 5:00 PM</span>
+      <span class="event-name">Away Tennis</span>
+      <span class="badge badge-personal">Personal</span>
+    </li>
+    <li>
+      <span class="event-time">5:30 &ndash; 6:30 PM</span>
+      <span class="event-name">W baseball</span>
+      <span class="badge badge-personal">Personal</span>
+      <span class="event-location">Carr Park, Winslow Ave, Medford</span>
+    </li>
+    <li>
+      <span class="event-time">6:00 &ndash; 7:30 PM</span>
+      <span class="event-name">W soccer practice</span>
+      <span class="badge badge-personal">Personal</span>
+      <span class="event-location">Medford High School</span>
+    </li>
+  </ul>
 
-<!-- Calendar: This Week -->
-<div class="section">
   <details>
-    <summary>This Week — Apr 8–12</summary>
-    <div class="content">
-      <p style="font-weight:600; color:#94a3b8; margin: 0.5rem 0 0.25rem;">Wednesday, Apr 8</p>
-      <div class="cal-event">
-        <div class="cal-time">10:00 – 10:15 AM</div>
-        <div class="cal-name">ThriveIEP Standup</div>
-        <span class="cal-badge badge-team">team</span>
-      </div>
-      <div class="cal-event">
-        <div class="cal-time">2:00 – 3:00 PM</div>
-        <div class="cal-name">George</div>
-        <span class="cal-badge badge-tutoring">tutoring</span>
-      </div>
-      <p style="font-weight:600; color:#94a3b8; margin: 0.75rem 0 0.25rem;">Thursday, Apr 9</p>
-      <div class="cal-event">
-        <div class="cal-time">All Day</div>
-        <div class="cal-name">Boston Trash</div>
-        <span class="cal-badge badge-personal">personal</span>
-      </div>
-      <div class="cal-event">
-        <div class="cal-time">9:30 AM – 2:30 PM</div>
-        <div class="cal-name">ThriveIEP in Person Work Block</div>
-        <span class="cal-badge badge-work">work</span>
-        <div class="cal-location">CiC - Kendall</div>
-      </div>
-      <div class="cal-event" style="background:rgba(232,163,58,0.08); border-radius:0.5rem;">
-        <div class="cal-time" style="color:#e8a33a; font-weight:600;">2:30 – 3:30 PM</div>
-        <div class="cal-name" style="color:#e8a33a; font-weight:600;">BC In Person</div>
-        <span class="cal-badge badge-client">client</span>
-      </div>
-      <div class="cal-event">
-        <div class="cal-time">4:30 – 5:00 PM</div>
-        <div class="cal-name">Jack</div>
-        <span class="cal-badge badge-tutoring">tutoring</span>
-      </div>
-      <div class="cal-event">
-        <div class="cal-time">5:00 – 6:00 PM</div>
-        <div class="cal-name">Vera</div>
-        <span class="cal-badge badge-tutoring">tutoring</span>
-      </div>
-      <p style="font-weight:600; color:#94a3b8; margin: 0.75rem 0 0.25rem;">Friday, Apr 10</p>
-      <div class="cal-event">
-        <div class="cal-time">9:30 – 10:15 AM</div>
-        <div class="cal-name">ThriveIEP GTM</div>
-        <span class="cal-badge badge-gtm">gtm</span>
-      </div>
-      <div class="cal-event">
-        <div class="cal-time">10:30 – 10:45 AM</div>
-        <div class="cal-name">ThriveIEP Standup</div>
-        <span class="cal-badge badge-team">team</span>
-      </div>
-      <div class="cal-event">
-        <div class="cal-time">2:30 – 3:30 PM</div>
-        <div class="cal-name">Nehmet</div>
-        <span class="cal-badge badge-tutoring">tutoring</span>
-        <div class="cal-location">Brookline Village Library</div>
-      </div>
-      <p style="font-weight:600; color:#94a3b8; margin: 0.75rem 0 0.25rem;">Sunday, Apr 12</p>
-      <div class="cal-event">
-        <div class="cal-time">7:30 – 8:30 AM</div>
-        <div class="cal-name">ThriveIEP Team Meeting</div>
-        <span class="cal-badge badge-team">team</span>
-      </div>
-    </div>
+    <summary>Thursday, April 9</summary>
+    <ul class="event-list">
+      <li><span class="event-time">All Day</span><span class="event-name">Boston Trash</span><span class="badge badge-personal">Personal</span></li>
+      <li><span class="event-time">2:30 &ndash; 3:30 PM</span><span class="event-name"><strong>BC in person</strong> &mdash; Kathy Duggan + Erin Farrow, Connors Learning Center O&rsquo;Neill 200</span><span class="badge badge-client">Client</span></li>
+      <li><span class="event-time">4:30 &ndash; 5:00 PM</span><span class="event-name">Jack</span><span class="badge badge-tutoring">Tutoring</span></li>
+      <li><span class="event-time">5:00 &ndash; 6:00 PM</span><span class="event-name">Vera</span><span class="badge badge-tutoring">Tutoring</span></li>
+      <li><span class="event-time">6:00 &ndash; 7:00 PM</span><span class="event-name">Isaiah (Virtual)</span><span class="badge badge-personal">Personal</span></li>
+    </ul>
   </details>
+
+  <details>
+    <summary>Friday, April 10</summary>
+    <ul class="event-list">
+      <li><span class="event-time">9:30 &ndash; 10:15 AM</span><span class="event-name"><strong>ThriveIEP GTM</strong></span><span class="badge badge-gtm">GTM</span></li>
+      <li><span class="event-time">10:30 &ndash; 10:45 AM</span><span class="event-name"><strong>ThriveIEP Standup</strong></span><span class="badge badge-team">Team</span></li>
+      <li><span class="event-time">2:30 &ndash; 3:30 PM</span><span class="event-name">Nehmet</span><span class="badge badge-tutoring">Tutoring</span><span class="event-location">Brookline Village Library</span></li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>Saturday, April 11</summary>
+    <ul class="event-list">
+      <li><span class="event-time">10:00 &ndash; 11:30 AM</span><span class="event-name">W soccer game (Home)</span><span class="badge badge-personal">Personal</span><span class="event-location">Tom Heinz Field</span></li>
+      <li><span class="event-time">2:00 &ndash; 4:00 PM</span><span class="event-name">Nat MIT</span><span class="badge badge-personal">Personal</span></li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>Sunday, April 12</summary>
+    <ul class="event-list">
+      <li><span class="event-time">7:30 &ndash; 8:30 AM</span><span class="event-name"><strong>ThriveIEP Team Meeting</strong></span><span class="badge badge-team">Team</span></li>
+    </ul>
+  </details>
+</div>
+
+<!-- Blockers -->
+<div class="section-title">Active Blockers</div>
+<div class="blocker-section">
+  <div class="blocker-item"><strong>CI failing on main</strong> &mdash; Test Suite + Security Scanning both broken. 4 new GitHub failure emails confirm. Soham to investigate.</div>
+  <div class="blocker-item"><strong>Remy account locking</strong> &mdash; Recurring student account lock issue. Root cause unknown.</div>
+  <div class="blocker-item"><strong>Instrument licensing decision</strong> &mdash; Eric &amp; Elizabeth need to decide on licensing existing tools vs. adapting/building own.</div>
+  <div class="blocker-item"><strong>Soham GLM + Presidio integration</strong> &mdash; Architecture refactored, Karpathy loop ongoing (F-beta 0.87+). Integration plan still needed.</div>
 </div>
 
 <!-- Email -->
-<div class="section">
-  <details>
-    <summary>Email — 4 important, 15 primary unread</summary>
-    <div class="content">
-      <div class="email-row">
-        <span class="email-tag tag-action">Action</span>
-        <span class="email-from">Kathleen Duggan (BC)</span>
-        <span class="email-subject">Re: Potential pilot Program: CFLC and ThriveIEP — confirms Thursday meeting</span>
-      </div>
-      <div class="email-row">
-        <span class="email-tag tag-action">Action</span>
-        <span class="email-from">GitHub</span>
-        <span class="email-subject">Personal access token "Cowork" is about to expire</span>
-      </div>
-      <div class="email-row">
-        <span class="email-tag tag-reply">Reply</span>
-        <span class="email-from">Hannah (TriTogether)</span>
-        <span class="email-subject">Re: ThriveIEP — "Sounds good! Thanks!"</span>
-      </div>
-      <div class="email-row">
-        <span class="email-tag tag-fyi">FYI</span>
-        <span class="email-from">Craig Horning</span>
-        <span class="email-subject">Re: Potential pilot Program: CFLC and ThriveIEP — logistics for Thursday</span>
-      </div>
-      <div class="email-row">
-        <span class="email-tag tag-fyi">FYI</span>
-        <span class="email-from">Gemini</span>
-        <span class="email-subject">Notes: "ThriveIEP Standup" Apr 6, 2026</span>
-      </div>
-      <div class="email-row">
-        <span class="email-tag tag-fyi">FYI</span>
-        <span class="email-from">Notion</span>
-        <span class="email-subject">NLU Pilot — Case Study Framework & Evidence Protocol</span>
-      </div>
-      <div class="email-row">
-        <span class="email-tag tag-fyi">FYI</span>
-        <span class="email-from">Stanford</span>
-        <span class="email-subject">OPEN CALL for Stanford Neurodiversity Summit 2026</span>
-      </div>
-      <div class="email-row">
-        <span class="email-tag tag-fyi">FYI</span>
-        <span class="email-from">Rho</span>
-        <span class="email-subject">Vendor profile completed + payment notifications enabled</span>
-      </div>
-      <div class="email-row">
-        <span class="email-tag tag-fyi">FYI</span>
-        <span class="email-from">Anthropic</span>
-        <span class="email-subject">Receipt #2808-6326-4856</span>
-      </div>
-      <div class="email-row">
-        <span class="email-tag tag-test">CI</span>
-        <span class="email-from">GitHub Actions</span>
-        <span class="email-subject">AE: Security Scanning + Test Suite failed (main, 71ca927) ×2</span>
-      </div>
-      <div class="email-row">
-        <span class="email-tag tag-test">CI</span>
-        <span class="email-from">GitHub Actions</span>
-        <span class="email-subject">Redactor: pre-commit, security-audit, deployment-gates failed (feat/error-boundary)</span>
-      </div>
-    </div>
-  </details>
+<div class="section-title">Email</div>
+<div class="email-section">
+  <div class="email-item">
+    <span class="email-tag tag-action">Action</span>
+    <span class="email-from">Hannah Sieber</span>
+    <span class="email-subject">Re: ThriveIEP (TriTogether thread)</span>
+  </div>
+  <div class="email-item">
+    <span class="email-tag tag-fyi">Handled</span>
+    <span class="email-from">Kathleen Duggan</span>
+    <span class="email-subject">Re: Potential pilot &mdash; &ldquo;Great - thanks so much&rdquo; (Craig handled)</span>
+  </div>
+  <div class="email-item">
+    <span class="email-tag tag-reply">Reply</span>
+    <span class="email-from">Craig Horning</span>
+    <span class="email-subject">Re: Potential pilot &mdash; confirmed Thu, Erin sent templates + redacted report</span>
+  </div>
+  <div class="email-item">
+    <span class="email-tag tag-ci">CI/CD</span>
+    <span class="email-from">GitHub &times;4</span>
+    <span class="email-subject">Test Suite + Security Scanning failed on main (f5b9d37, d047bff)</span>
+  </div>
+  <div class="email-item">
+    <span class="email-tag tag-fyi">FYI</span>
+    <span class="email-from">Google Meet</span>
+    <span class="email-subject">Problem with notes: &ldquo;ThriveIEP Standup&rdquo; Apr 8 &mdash; Gemini failed</span>
+  </div>
+  <div class="email-item">
+    <span class="email-tag tag-fyi">FYI</span>
+    <span class="email-from">Anthropic &times;2</span>
+    <span class="email-subject">Receipts (#2808-6326, #2295-9502)</span>
+  </div>
+  <div class="email-item">
+    <span class="email-tag tag-fyi">FYI</span>
+    <span class="email-from">Startup Boston</span>
+    <span class="email-subject">From Student Pitches to How AI Teams Ship &mdash; event invite</span>
+  </div>
 </div>
 
-<!-- Issues (from priorities.md) -->
-<div class="section">
-  <div class="section-title">Issues (from priorities.md)</div>
-
-  <details open class="accent-red">
-    <summary style="color:#ef4444;">Overdue / Due Today</summary>
-    <div class="content">
-      <div class="issue-row">
-        <span class="issue-id">THR-207</span>
-        <span class="issue-title">App UI assembly — Soham</span>
-        <span class="issue-priority priority-high">High</span>
-        <span class="issue-project">C2A</span>
-        <span style="color:#ef4444; font-size:0.75rem;">Due Apr 7</span>
-      </div>
-      <div class="issue-row">
-        <span class="issue-id">THR-94</span>
-        <span class="issue-title">Confirm analytics shipped or close gaps</span>
-        <span class="issue-priority priority-high">High</span>
-        <span class="issue-project">C2A</span>
-        <span style="color:#ef4444; font-size:0.75rem;">Overdue since Mar 30</span>
-      </div>
+<!-- Issues / Priorities -->
+<div class="section-title">This Week&rsquo;s Priorities</div>
+<div class="issues-section">
+  <details open>
+    <summary style="color:#ef4444">Overdue / Urgent</summary>
+    <div class="issue-item">
+      <span class="issue-id">THR-94</span>
+      <span class="issue-title">Confirm analytics shipped or close remaining gaps</span>
+      <span class="badge-priority badge-urgent">Overdue</span>
+      <span class="badge-project badge-c2a">C2A</span>
+      <span class="badge-overdue">Since Mar 30</span>
     </div>
   </details>
 
-  <details class="accent-amber">
-    <summary>This Week</summary>
-    <div class="content">
-      <div class="issue-row">
-        <span class="issue-id">THR-199</span>
-        <span class="issue-title">DDx engine — continue content generation</span>
-        <span class="issue-priority priority-high">High</span>
-        <span class="issue-project">C2A</span>
-      </div>
-      <div class="issue-row">
-        <span class="issue-id">THR-255</span>
-        <span class="issue-title">Scope role-scoped coach/admin view</span>
-        <span class="issue-priority priority-high">High</span>
-        <span class="issue-project">C2A</span>
-      </div>
-      <div class="issue-row">
-        <span class="issue-id">THR-248</span>
-        <span class="issue-title">Review NLU case study framework</span>
-        <span class="issue-priority priority-medium">Medium</span>
-        <span class="issue-project">C2A</span>
-      </div>
+  <details open>
+    <summary style="color:#f59e0b">This Week &mdash; Eric</summary>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">BC in-person meeting (Thu Apr 9, 2:30 PM) &mdash; logistics handled by Craig</span>
+      <span class="badge-project badge-ae">AE</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">THR-207</span>
+      <span class="issue-title">Review Soham&rsquo;s UI branch + coach screen guidance</span>
+      <span class="badge-priority badge-normal">Waiting</span>
+      <span class="badge-project badge-c2a">C2A</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">Push email template tool to dev</span>
+      <span class="badge-project badge-c2a">C2A</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">Update pilot data collection spec to 50 participants</span>
+      <span class="badge-project badge-c2a">C2A</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">Build post-assessment reflection questions</span>
+      <span class="badge-project badge-c2a">C2A</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">Update spec with admin vs staff data views</span>
+      <span class="badge-project badge-c2a">C2A</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">THR-248</span>
+      <span class="issue-title">Review NLU case study framework + add platform data section</span>
+      <span class="badge-project badge-c2a">C2A</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">THR-255</span>
+      <span class="issue-title">Scope role-scoped coach/admin view (Tufts + NLU)</span>
+      <span class="badge-project badge-c2a">C2A</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">Share 600-reference file system with Elizabeth (from Apr 6 standup)</span>
+      <span class="badge-project badge-c2a">C2A</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">Eric + Elizabeth: discuss email HTML format before campaign</span>
+      <span class="badge-project badge-c2a">C2A</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">Rho: approve 10 reimbursements</span>
+      <span class="badge-project badge-team-admin">Admin</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">Research higher ed LLM usage (with Soham)</span>
+      <span class="badge-project badge-c2a">C2A</span>
     </div>
   </details>
 
-  <details class="accent-blue">
-    <summary>Upcoming</summary>
-    <div class="content">
-      <div class="issue-row">
-        <span class="issue-id">THR-196</span>
-        <span class="issue-title">Profile data model finalization</span>
-        <span class="issue-priority priority-medium">Medium</span>
-        <span class="issue-project">C2A</span>
-      </div>
-      <div class="issue-row">
-        <span class="issue-id">THR-198</span>
-        <span class="issue-title">DDx content generation</span>
-        <span class="issue-priority priority-medium">Medium</span>
-        <span class="issue-project">C2A</span>
-      </div>
-      <div class="issue-row">
-        <span class="issue-id">THR-246</span>
-        <span class="issue-title">Terms & conditions + data permissions</span>
-        <span class="issue-priority priority-normal">Normal</span>
-        <span class="issue-project">Team</span>
-      </div>
+  <details>
+    <summary style="color:#f59e0b">This Week &mdash; Soham</summary>
+    <div class="issue-item">
+      <span class="issue-id">THR-207</span>
+      <span class="issue-title">App UI assembly &mdash; pull Eric&rsquo;s branch, merge, icon mockup, transitions</span>
+      <span class="badge-project badge-c2a">C2A</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">Fix CI on main (Test Suite + Security Scanning)</span>
+      <span class="badge-project badge-c2a">C2A</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">Research higher ed LLM usage (with Eric)</span>
+      <span class="badge-project badge-c2a">C2A</span>
     </div>
   </details>
 
-  <details class="accent-green">
-    <summary>Recently Completed</summary>
-    <div class="content">
-      <div class="issue-row">
-        <span class="issue-id">THR-23</span>
-        <span class="issue-title">Recommendations Engine</span>
-        <span class="issue-priority priority-normal" style="background:rgba(52,211,153,0.2); color:#34d399;">Done</span>
-        <span class="issue-project">C2A</span>
-      </div>
-      <div class="issue-row">
-        <span class="issue-id">—</span>
-        <span class="issue-title">C2A assessment + report LIVE, NLU deployed to 45 students</span>
-        <span class="issue-priority priority-normal" style="background:rgba(52,211,153,0.2); color:#34d399;">Done</span>
-        <span class="issue-project">C2A</span>
-      </div>
-      <div class="issue-row">
-        <span class="issue-id">—</span>
-        <span class="issue-title">PI Redactor: F-beta 0.83→0.87+, LLM verification, 169K names bank</span>
-        <span class="issue-priority priority-normal" style="background:rgba(52,211,153,0.2); color:#34d399;">Done</span>
-        <span class="issue-project">PI Redactor</span>
-      </div>
+  <details>
+    <summary style="color:#f59e0b">This Week &mdash; Elizabeth</summary>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">Finalize BC slides + send to Craig/Eric</span>
+      <span class="badge-project badge-ae">AE</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">Upload student message templates</span>
+      <span class="badge-project badge-c2a">C2A</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">Share coach workflow docs with Eric</span>
+      <span class="badge-project badge-c2a">C2A</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">Get student list from Cara for batch upload</span>
+      <span class="badge-project badge-c2a">C2A</span>
+    </div>
+  </details>
+
+  <details>
+    <summary style="color:#3b82f6">Upcoming</summary>
+    <div class="issue-item">
+      <span class="issue-id">THR-196</span>
+      <span class="issue-title">Profile data model finalization</span>
+      <span class="badge-project badge-c2a">C2A</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">Coach DDx implementation &mdash; decide timing (content generation done)</span>
+      <span class="badge-project badge-c2a">C2A</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">THR-246</span>
+      <span class="issue-title">Terms &amp; conditions + data permissions (before broader rollout)</span>
+      <span class="badge-project badge-c2a">C2A</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">Longitudinal measures design</span>
+      <span class="badge-project badge-c2a">C2A</span>
+    </div>
+  </details>
+
+  <details>
+    <summary style="color:#22c55e">Recently Completed (Apr 1&ndash;8)</summary>
+    <div class="issue-item">
+      <span class="issue-id">THR-23</span>
+      <span class="issue-title">Recommendations Engine completed (M4 deliverable)</span>
+      <span class="badge-project badge-c2a">C2A</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">C2A assessment + report LIVE, NLU deployed to 45 students Apr 1</span>
+      <span class="badge-project badge-c2a">C2A</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">Report UI redesign: &ldquo;Start Here&rdquo; &rarr; &ldquo;Focus Area&rdquo;, strength language, V3 sprint cards</span>
+      <span class="badge-project badge-c2a">C2A</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">Coach view: timepoint-based dashboard rewrite (10+ commits)</span>
+      <span class="badge-project badge-c2a">C2A</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">Bloom Protocol: full pipeline (14 tasks, 6 stages, 4 gates, 41 tests)</span>
+      <span class="badge-project badge-bloom">Bloom</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">PI Redactor: F2 0.8851 &rarr; 0.9234, LLM verification, AGE/PHONE/DATE/LOC/ORG rules</span>
+      <span class="badge-project badge-pi">PI Redactor</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">DDx content generation complete (THR-199)</span>
+      <span class="badge-project badge-c2a">C2A</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">Postsecondary accommodation citation backfill (284 papers, quality gate passed)</span>
+      <span class="badge-project badge-ae">AE</span>
+    </div>
+    <div class="issue-item">
+      <span class="issue-id">&mdash;</span>
+      <span class="issue-title">Research wiki v1 (589 articles), deep-research harness Phase 2</span>
+      <span class="badge-project badge-team-admin">Research</span>
     </div>
   </details>
 </div>
 
 <!-- Git Activity -->
-<div class="section">
-  <div class="section-title">Git Activity (since last dashboard)</div>
-  <div style="margin-bottom: 0.75rem;">
-    <span class="git-stat"><span class="count">65</span><span class="label">total commits</span></span>
-    <span class="git-stat"><span class="count">30</span><span class="label">AE</span></span>
-    <span class="git-stat"><span class="count">18</span><span class="label">PM-Hub</span></span>
-    <span class="git-stat"><span class="count">17</span><span class="label">Redactor</span></span>
+<div class="section-title">Git Activity (since Apr 7 9:00 AM)</div>
+<div class="git-section">
+  <div class="git-stats">
+    <div class="git-stat">
+      <div class="num">70</div>
+      <div class="label">Total Commits</div>
+    </div>
+    <div class="git-stat">
+      <div class="num">43</div>
+      <div class="label">Accommodation Engine</div>
+    </div>
+    <div class="git-stat">
+      <div class="num">7</div>
+      <div class="label">PM-Hub</div>
+    </div>
+    <div class="git-stat">
+      <div class="num">20</div>
+      <div class="label">DEC1TEXTREDACTOR</div>
+    </div>
   </div>
 
   <details>
-    <summary>AE: Google Drive/Docs Export (30 commits)</summary>
-    <div class="content" style="font-size:0.8rem; color:#94a3b8;">
-      <p>Full-stack Google Drive integration: schema, service, routes, frontend hook, sidebar button, markdown-to-HTML utility, 34 security tests, review fixes. Major feature ship.</p>
-    </div>
+    <summary>AE Highlights (Bloom branch &mdash; 43 commits)</summary>
+    <ul class="git-highlights">
+      <li>Bloom Protocol Phases 1&ndash;5: scaffold, core pages, case detail, markdown report, validation fixes</li>
+      <li>Coach view: timepoint-based dashboard, student detail, API types, service, routes</li>
+      <li>C2A: widen coach routes for SYSTEM_ADMIN + DEVELOPER, reportFirstViewedAt</li>
+      <li>OAuth callback URL fix, FERPA audit logging on bloom routes</li>
+      <li>41 bloom-engine tests, 5 report-engine tests passing</li>
+    </ul>
   </details>
-  <details>
-    <summary>Redactor: Sandwich Architecture + FP Reduction (17 commits)</summary>
-    <div class="content" style="font-size:0.8rem; color:#94a3b8;">
-      <p>Pass 1 extraction wired into /detect. PERSON FPs 1593→207 via exclusions + SymSpell whitelist. LLM verifier prompt overhaul. Sandwich architecture design spec.</p>
-    </div>
-  </details>
-  <details>
-    <summary>PM-Hub: Wiki + Sessions + Infra (18 commits)</summary>
-    <div class="content" style="font-size:0.8rem; color:#94a3b8;">
-      <p>Research wiki instrument audit (19 C2A entities). Wiki integration into deep-research planner. Temporal weighting for staleness. Session handoffs 268–276. Dev digest.</p>
-    </div>
-  </details>
-  <p style="font-size:0.8rem; color:#64748b; margin-top:0.5rem;">⚠ All 65 commits have zero THR references — consider tagging commits for traceability.</p>
-</div>
 
-<!-- Blockers -->
-<div class="section">
-  <div class="section-title">Blockers</div>
-  <details open class="accent-red">
-    <summary>4 Active Blockers</summary>
-    <div class="content" style="font-size:0.85rem;">
-      <div style="padding:0.3rem 0; color:#e2e8f0;">🔴 <strong>CI failing on main</strong> — Test Suite + Security Scanning both broken. Soham assigned.</div>
-      <div style="padding:0.3rem 0; color:#e2e8f0;">🔴 <strong>Remy account locking</strong> — Recurring student lock issue. Root cause unknown.</div>
-      <div style="padding:0.3rem 0; color:#e2e8f0;">🟡 <strong>Instrument licensing decision</strong> — Eric & Elizabeth need to decide. Not blocking pilot.</div>
-      <div style="padding:0.3rem 0; color:#e2e8f0;">🟡 <strong>Soham GLM + Presidio integration plan</strong> — Architecture refactored, Karpathy loop ongoing.</div>
-    </div>
+  <details>
+    <summary>Redactor Highlights (ericglm branch &mdash; 20 commits)</summary>
+    <ul class="git-highlights">
+      <li>LLM verification enabled: F2 0.8851 &rarr; 0.9192</li>
+      <li>Post-filter rules: PHONE P1&ndash;P6, DATE_TIME D1&ndash;D7, LOCATION L1&ndash;L3, ORG O1&ndash;O4</li>
+      <li>IEPAgeRecognizer + PHONE containment dedup (AGE F2=0.97, PHONE F2=0.92)</li>
+      <li>HIPAA NER model benchmark: obi/deid_roberta_i2b2 wins F2=0.9206</li>
+      <li>Whitelist +58 research-informed terms (1634 total)</li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>PM-Hub Highlights (7 commits)</summary>
+    <ul class="git-highlights">
+      <li>Bloom Protocol architecture design spec + implementation plan (72-paper research)</li>
+      <li>Postsecondary accommodation citation backfill (Sessions A+B, quality gate)</li>
+      <li>Google Drive export guide, reports index update</li>
+    </ul>
   </details>
 </div>
 
-<!-- Data Gaps -->
-<div class="data-gaps">
-  <div class="title">Data Gaps</div>
-  <ul>
-    <li>Linear: MCP plugin OAuth not persisted across sessions — issue states from priorities.md only</li>
-    <li>Slack: MCP plugin OAuth not persisted — no channel/DM analysis this run</li>
-    <li>Notion To-Dos: skipped (optional source)</li>
+<!-- Gemini Standup Notes -->
+<div class="section-title">Gemini Standup Notes</div>
+<div class="calendar-section">
+  <details>
+    <summary>Apr 6 Standup &mdash; Gemini Transcript</summary>
+    <ul class="git-highlights">
+      <li><strong>Report output:</strong> Google Docs confirmed (no PDF direct-to-folder)</li>
+      <li><strong>Redactor flow:</strong> VLM for OCR + 3 local LLMs targeting 99% name redaction</li>
+      <li><strong>Email system:</strong> First name population deployed, HTML format needs discussion before mass send</li>
+      <li><strong>C2A UI:</strong> Implement non-ambitious formatting now. Icons must match text, consistent bank.</li>
+      <li><strong>Action items:</strong> Eric+Elizabeth discuss email HTML; Elizabeth finalize SBIR 1-pager; Eric share 600 refs; Soham correct icons, center content, push UI branch; Eric merge UI</li>
+    </ul>
+  </details>
+  <details>
+    <summary>Apr 8 Standup &mdash; Notes FAILED</summary>
+    <ul class="git-highlights">
+      <li style="color:#f87171">Gemini could not produce notes. Check linked Google Doc for any partial transcript.</li>
+    </ul>
+  </details>
+</div>
+
+<!-- BC Meeting Context -->
+<div class="section-title">BC Meeting Context (Tomorrow 2:30 PM)</div>
+<div class="calendar-section">
+  <ul class="git-highlights">
+    <li><strong>Attendees:</strong> Eric, Elizabeth, Craig &harr; Kathy Duggan (Director) + Erin Farrow (Assoc. Director), Connors Family Learning Center</li>
+    <li><strong>Location:</strong> O&rsquo;Neill 200, 140 Commonwealth Ave, Chestnut Hill</li>
+    <li><strong>Pilot scope:</strong> ~200 incoming students (June&ndash;Sept), LD + ADHD + mental health profiles</li>
+    <li><strong>Format:</strong> Slides + conversational demo. AV room confirmed. Erin teaches at 4:30 (plan ~1hr).</li>
+    <li><strong>Erin shared:</strong> Student intake template + redacted report sample (attached to Apr 2 email)</li>
+    <li><strong>Status:</strong> Craig handled all logistics. Kathleen confirmed &ldquo;Great - thanks so much.&rdquo; No action needed from Eric pre-meeting.</li>
   </ul>
 </div>
 
-<!-- Footer -->
-<div class="footer">
-  <div class="networking">Networking: <span class="status-healthy">Healthy</span> — last HubSpot activity 3 business days ago (Apr 2)</div>
-  <div>ThriveIEP Dashboard · Generated by Claude Code · <a href="https://thriveiep-reports.vercel.app/">Reports Index</a></div>
-</div>
+<footer>
+  <div class="data-gaps">Data gaps: Linear, Slack, HubSpot MCP unavailable this session. Networking status unknown.</div>
+  <div>ThriveIEP &bull; Dashboard generated by Claude Code &bull; <a href="https://thriveiep-reports.vercel.app" style="color:#3b82f6;text-decoration:none">Reports Index</a></div>
+</footer>
 
 </div>
 </body>
