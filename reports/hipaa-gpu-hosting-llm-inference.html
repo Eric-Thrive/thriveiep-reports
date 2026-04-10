@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>HIPAA-Compliant GPU Hosting for LLM Inference</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #1B2A4A; --navy-light: #2A3F6B;
+    --coral: #FF6B6B; --coral-soft: #FF8E8E;
+    --sand: #F5E6CC; --sand-light: #FDF8F0;
+    --teal: #2B8A8A; --gold: #D4A843;
+    --slate: #4A5568; --warm-grey: #8B7E6A;
+  }
+  html, body { height: 100%; overflow: hidden; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--sand-light); color: var(--navy); }
+  .deck { display: flex; height: 100vh; overflow: hidden; }
+  .slide { min-width: 100vw; height: 100vh; overflow-y: auto; padding: 60px 80px 80px; display: none; flex-direction: column; }
+  .slide.active { display: flex; }
+  @media (max-width: 800px) { .slide { padding: 32px 24px 80px; } }
+  .index-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: var(--navy); display: flex; align-items: center; height: 52px; padding: 0 24px; gap: 6px; overflow-x: auto; }
+  .idx-chip { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.55); background: transparent; border: none; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+  .idx-chip:hover { color: #fff; background: var(--navy-light); }
+  .idx-chip.active { background: var(--coral); color: #fff; }
+  .idx-progress { position: fixed; bottom: 52px; left: 0; height: 3px; background: var(--coral); transition: width 0.3s; z-index: 101; }
+  .idx-arrows { margin-left: auto; display: flex; gap: 8px; }
+  .idx-arrow { width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--navy-light); color: #fff; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .idx-arrow:hover { background: var(--coral); }
+  .slide-num { font-size: 12px; font-weight: 700; color: var(--coral); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .slide h2 { font-size: 36px; font-weight: 800; color: var(--navy); line-height: 1.15; margin-bottom: 20px; max-width: 800px; }
+  .slide h3 { font-size: 22px; font-weight: 700; color: var(--navy); margin: 24px 0 10px; }
+  .slide h4 { font-size: 16px; font-weight: 700; color: var(--teal); margin: 16px 0 8px; }
+  .slide p { font-size: 16px; line-height: 1.8; margin-bottom: 14px; color: var(--slate); max-width: 760px; }
+  .slide ul, .slide ol { margin: 10px 0 16px 24px; font-size: 16px; line-height: 1.7; color: var(--slate); max-width: 760px; }
+  .slide li { margin-bottom: 8px; }
+  .slide strong { color: var(--navy); font-weight: 700; }
+  .slide em { color: var(--coral); font-style: normal; font-weight: 600; }
+  .slide blockquote { background: var(--sand); border-left: 4px solid var(--coral); padding: 18px 24px; border-radius: 0 12px 12px 0; margin: 18px 0; font-size: 15px; color: var(--navy); max-width: 760px; }
+  .slide hr { border: none; height: 2px; background: var(--sand); margin: 28px 0; max-width: 760px; }
+  .slide a { color: var(--teal); text-decoration: none; font-weight: 600; }
+  .slide a:hover { text-decoration: underline; }
+  .slide table { width: 100%; max-width: 800px; border-collapse: separate; border-spacing: 0; margin: 18px 0; border-radius: 12px; overflow: hidden; }
+  .slide th { background: var(--navy); color: #fff; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 14px 16px; text-align: left; }
+  .slide td { background: #fff; padding: 14px 16px; font-size: 14px; color: var(--slate); border-bottom: 1px solid var(--sand); }
+  .slide tr:last-child td { border-bottom: none; }
+  .badge { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+  .badge-critical { background: #FED7D7; color: #C53030; }
+  .badge-high { background: #FEEBC8; color: #C05621; }
+  .badge-moderate { background: #C6F6D5; color: #276749; }
+  .finding-card { background: #fff; border-radius: 12px; padding: 20px 24px; margin: 16px 0; max-width: 800px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .finding-card h4 { margin-top: 0; }
+  details { margin: 12px 0; max-width: 760px; }
+  details summary { cursor: pointer; font-weight: 600; color: var(--teal); padding: 8px 0; }
+  details[open] summary { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<div class="idx-progress" id="progress"></div>
+<div class="deck" id="deck">
+
+<!-- Slide 1: Executive Summary -->
+<div class="slide" id="slide-executive-summary">
+  <div class="slide-num">Section 1 of 10</div>
+  <h2>GPU Hosting for PII Redaction: What You Need to Know</h2>
+  <ul>
+    <li><strong>Key Message 1:</strong> Your three-model pipeline splits naturally: the NER model (obi/deid_roberta_i2b2) stays on Aptible's CPU, while the LLM (qwen2.5:7b) and OCR model (GLM-OCR) move to a serverless GPU.</li>
+    <li><strong>Key Message 2:</strong> Serverless GPU hosting costs $3-5/month at pilot scale (100-500 docs), compared to $730+/month for always-on GPU instances.</li>
+    <li><strong>Key Message 3:</strong> RunPod and Modal now offer HIPAA BAAs (Business Associate Agreements), making serverless GPU inference HIPAA-compliant as of February 2026.</li>
+  </ul>
+  <h3>How fast will it be?</h3>
+  <p>A 150-page document takes roughly 3.5-5 minutes with GPU acceleration, compared to 17-25 minutes on CPU only. The bottleneck is the two LLM passes (qwen2.5:7b), each taking 60-100 seconds on an L4 GPU.</p>
+  <h3>What does it cost?</h3>
+  <p>At pilot scale (100-500 documents per month), you need only 33 minutes to 2.8 hours of GPU time monthly. Serverless providers bill per-second and scale to zero between requests, keeping costs under $5/month. Always-on endpoints (AWS SageMaker, GCP Vertex AI) cost $292-730/month for the same workload.</p>
+  <h3>Is it HIPAA-compliant?</h3>
+  <p>Yes. The architecture is stateless: text goes in, entities come out. No PHI (Protected Health Information) is persisted on the GPU service. Combined with a signed BAA from RunPod or Modal, this meets HIPAA requirements. However, VLM-based OCR has a newly documented PHI leakage risk through vision tokens (Young, 2025), so OCR should stay on controlled infrastructure.</p>
+</div>
+
+<!-- Slide 2: GPU vs CPU Decision -->
+<div class="slide" id="slide-gpu-cpu">
+  <div class="slide-num">Section 2 of 10</div>
+  <h2>GPU vs. CPU: Which Models Need a GPU?</h2>
+  <p>Not every model benefits from GPU acceleration. The decision depends on model architecture, parameter count, and your throughput requirements.</p>
+
+  <div class="finding-card">
+    <h4>obi/deid_roberta_i2b2 (355M params) <span class="badge badge-moderate">CPU OK</span></h4>
+    <p>This is a RoBERTa-LARGE encoder-only model (24 layers, hidden_size=1024). Encoder-only models are "embarrassingly parallel" on CPU because they process all tokens at once, unlike autoregressive decoders. CPU inference: 100-300ms per chunk unoptimized, or 50-80ms with ONNX Runtime + INT8 quantization. At 100-500 docs/month, CPU throughput is more than sufficient.</p>
+    <blockquote>INT4 quantization is safe for encoder-only models with no accuracy loss (Wu et al., 2023). Multiple clinical NER studies confirm BERT-class models outperform 70B LLMs for de-identification tasks (Zambare et al., 2026).</blockquote>
+  </div>
+
+  <div class="finding-card">
+    <h4>qwen2.5:7b (7B params) <span class="badge badge-critical">GPU REQUIRED</span></h4>
+    <p>Decoder-only models generate tokens one at a time, making them memory-bandwidth bound. On CPU (Ollama), this model produces only 8-12 tokens/second. On an L4 GPU: ~53 tokens/second. For a 150-page document requiring ~5,000 tokens per LLM pass, that is 100 seconds (GPU) vs. 500 seconds (CPU) per pass.</p>
+    <blockquote>T4 GPUs are impractical at ~3.8 tok/s. L4 is the "practical sweet spot" at $0.50-0.75/hr. A100 (~84 tok/s) is overkill for single-request inference (Wltsankalpa benchmark, 2025).</blockquote>
+  </div>
+
+  <div class="finding-card">
+    <h4>GLM-OCR (0.9B params) <span class="badge badge-high">GPU REQUIRED</span></h4>
+    <p>Vision-Language Models (VLMs) process images through both a vision encoder and a language decoder. GLM-OCR achieves 1.86 pages/second on GPU vs. near-impossible throughput on CPU. A 150-page document takes ~75 seconds on GPU.</p>
+    <blockquote>Critical HIPAA finding: VLM OCR leaks PHI even with vision token masking (Young, 2025). Self-hosted or TEE-isolated OCR is recommended for HIPAA compliance.</blockquote>
+  </div>
+</div>
+
+<!-- Slide 3: HIPAA Providers -->
+<div class="slide" id="slide-providers">
+  <div class="slide-num">Section 3 of 10</div>
+  <h2>HIPAA-Compliant GPU Providers</h2>
+  <p>A Business Associate Agreement (BAA) is a legal contract required by HIPAA whenever a third party handles Protected Health Information. Without a BAA, using a cloud GPU service for PHI is a HIPAA violation, regardless of encryption.</p>
+
+  <table>
+    <thead>
+      <tr><th>Provider</th><th>BAA</th><th>Serverless</th><th>GPU Options</th><th>Cost (L4/hr)</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>RunPod</strong></td><td>Yes (Feb 2026)</td><td>Yes</td><td>T4-H100</td><td>~$0.50</td><td>HIPAA+GDPR; filter for compliant DCs</td></tr>
+      <tr><td><strong>Modal</strong></td><td>Yes (Enterprise)</td><td>Yes</td><td>T4-B200</td><td>~$0.50</td><td>BAA excludes Volumes v1, Images, Snapshots</td></tr>
+      <tr><td><strong>Cerebrium</strong></td><td>Yes</td><td>Yes</td><td>12+ types</td><td>~$0.50</td><td>SOC2+HIPAA+GDPR; 2-4s cold starts</td></tr>
+      <tr><td><strong>AWS SageMaker</strong></td><td>Yes</td><td>Limited</td><td>g4dn-p4d</td><td>~$1.00</td><td>Battle-tested HIPAA; expensive at low volume</td></tr>
+      <tr><td><strong>GCP Vertex AI</strong></td><td>Yes</td><td>Limited</td><td>T4-A100</td><td>~$0.40</td><td>Requires VPC Service Controls + CMEK</td></tr>
+      <tr><td><strong>Azure ML</strong></td><td>Yes</td><td>Yes</td><td>T4-H100</td><td>~$1.50+</td><td>Deepest compliance heritage; premium pricing</td></tr>
+      <tr><td><strong>Lambda Labs</strong></td><td>No BAA</td><td>No</td><td>A100-H100</td><td>~$0.80</td><td>Deprecated serverless Sept 2025</td></tr>
+      <tr><td><strong>Vast.ai</strong></td><td>No</td><td>N/A</td><td>N/A</td><td>N/A</td><td>Community GPUs: explicitly ineligible</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>Top picks for pilot scale:</strong> RunPod or Modal serverless with L4 GPUs. Both offer per-second billing, scale-to-zero, and signed BAAs. Modal's BAA has exclusions (no persistent Volumes v1, Images, or Snapshots), but stateless inference is fully covered.</p>
+</div>
+
+<!-- Slide 4: Cost Analysis -->
+<div class="slide" id="slide-cost">
+  <div class="slide-num">Section 4 of 10</div>
+  <h2>Cost at Pilot Scale: Serverless Wins by 100x</h2>
+  <p>Assumptions: each document needs ~20 seconds of GPU time (two LLM passes + OCR). Monthly GPU usage: 33 minutes (100 docs) to 2.8 hours (500 docs).</p>
+
+  <table>
+    <thead>
+      <tr><th>Option</th><th>Monthly Cost</th><th>Latency/doc</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>RunPod/Modal Serverless</strong></td><td><strong>~$3-5</strong></td><td>~3 min</td><td>Scale-to-zero; per-second billing</td></tr>
+      <tr><td><strong>Cerebrium Serverless</strong></td><td><strong>~$3-5</strong></td><td>~3 min</td><td>SOC2+HIPAA native</td></tr>
+      <tr><td>CPU-only on Aptible</td><td>$0 extra</td><td>~17 min</td><td>No GPU cost but terrible UX</td></tr>
+      <tr><td>AWS SageMaker on-demand</td><td>~$730/mo</td><td>~2-3 min</td><td>Always-on; 24/7 cost</td></tr>
+      <tr><td>GCP Vertex AI</td><td>~$292/mo</td><td>~3 min</td><td>Always-on managed</td></tr>
+      <tr><td>Reserved GPU (cheapest)</td><td>~$292-730/mo</td><td>~3 min</td><td>Paying for 730 hrs, using less than 3</td></tr>
+    </tbody>
+  </table>
+
+  <blockquote>At pilot volume, you use less than 0.4% of a reserved GPU's capacity. Serverless billing eliminates the 99.6% waste.</blockquote>
+
+  <p><strong>Break-even point:</strong> Serverless stays cheaper until roughly 10,000+ documents/month. At that volume, reserved GPU instances become cost-competitive because utilization rises above ~30%.</p>
+</div>
+
+<!-- Slide 5: Architecture -->
+<div class="slide" id="slide-architecture">
+  <div class="slide-num">Section 5 of 10</div>
+  <h2>Recommended Architecture</h2>
+  <p>The pipeline splits into two environments connected by HTTPS. Aptible handles data persistence, user-facing app, and CPU-viable NER. The GPU service handles stateless inference only.</p>
+
+  <h3>Aptible (HIPAA PaaS, CPU only)</h3>
+  <ul>
+    <li><strong>Express API</strong> orchestrates the pipeline and stores documents</li>
+    <li><strong>Presidio Flask + obi/deid_roberta_i2b2</strong> runs NER detection (355M params, CPU-viable)</li>
+    <li><strong>Post-filter rules</strong> suppress false positives (O1-O4, L2, D1-D7, etc.)</li>
+    <li><strong>React frontend</strong> provides the review UI and export</li>
+  </ul>
+
+  <h3>Serverless GPU (RunPod/Modal, L4 24GB VRAM)</h3>
+  <ul>
+    <li><strong>GLM-OCR (0.9B VLM)</strong> for PDF text extraction (~2.2GB VRAM)</li>
+    <li><strong>qwen2.5:7b</strong> for Pass 1 (recall extraction) + Pass 2 (precision verification) (~14GB VRAM, or 7GB with INT8)</li>
+    <li>Total VRAM: ~16-21GB, fits on a single L4 (24GB)</li>
+    <li><strong>Stateless:</strong> text in, results out, no storage, no PHI persisted</li>
+  </ul>
+
+  <h3>Communication</h3>
+  <p>Aptible sends text to the GPU service via HTTPS (TLS 1.2+). The GPU service returns structured entities/text. No PHI is logged or stored on the GPU side. The existing codebase already supports configurable endpoints via <code>GLM_OCR_ENDPOINT</code> and <code>llm_verification.url</code> in detection-config.json.</p>
+</div>
+
+<!-- Slide 6: Pipeline Timing -->
+<div class="slide" id="slide-pipeline">
+  <div class="slide-num">Section 6 of 10</div>
+  <h2>Pipeline Timing: 150-Page Document</h2>
+
+  <table>
+    <thead>
+      <tr><th>Stage</th><th>Where</th><th>Time (est.)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>PDF to images (pdftoppm)</td><td>Aptible CPU</td><td>~5s</td></tr>
+      <tr><td>GLM-OCR (150 pages)</td><td>GPU Service</td><td>~75s</td></tr>
+      <tr><td>LLM Pass 1 (recall extraction)</td><td>GPU Service</td><td>~60-100s</td></tr>
+      <tr><td>Presidio + obi/deid NER</td><td>Aptible CPU</td><td>~15-30s</td></tr>
+      <tr><td>Post-filter rules</td><td>Aptible CPU</td><td>&lt;1s</td></tr>
+      <tr><td>LLM Pass 2 (verification)</td><td>GPU Service</td><td>~60-100s</td></tr>
+      <tr><td><strong>Total pipeline</strong></td><td></td><td><strong>~3.5-5 min</strong></td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>vs. CPU-only:</strong> 17-25 minutes total. The GPU provides a 4-5x speedup, primarily from the two qwen2.5:7b passes and OCR.</p>
+
+  <h3>Cold Start Consideration</h3>
+  <p>Serverless GPU endpoints have cold start times of 2-15 seconds (Cerebrium reports 2-4s). For a 3-5 minute pipeline, this adds less than 5% overhead. The models stay warm for subsequent requests within the same session.</p>
+</div>
+
+<!-- Slide 7: Consensus & Debate -->
+<div class="slide" id="slide-consensus">
+  <div class="slide-num">Section 7 of 10</div>
+  <h2>What Researchers Agree and Disagree On</h2>
+
+  <h3>Strong Consensus</h3>
+  <ul>
+    <li><strong>BERT-class NER on CPU is fine.</strong> Multiple studies confirm encoder-only models are CPU-viable and actually outperform 70B LLMs for clinical de-identification (Zambare et al., 2026).</li>
+    <li><strong>L4 is the sweet spot.</strong> T4 is too slow for 7B models (3.8 tok/s). A100 is overkill for single-request inference. L4 hits ~53 tok/s at $0.50/hr.</li>
+    <li><strong>Serverless wins at pilot scale.</strong> The math is overwhelming: $3-5/month vs. $292-730/month.</li>
+    <li><strong>INT4 quantization is safe for encoders, risky for decoders.</strong> Wu et al. (2023, 30 citations) showed encoder-only models tolerate INT4 with no accuracy loss, but decoder-only models lose quality.</li>
+  </ul>
+
+  <h3>Active Debate</h3>
+  <ul>
+    <li><strong>RunPod/Modal vs. hyperscaler compliance depth.</strong> Newer BAAs (Feb 2026) vs. battle-tested AWS/Azure HIPAA programs.</li>
+    <li><strong>Ollama vs. vLLM for production serving.</strong> Red Hat benchmarked a 19x throughput gap under concurrent load, but single-request performance is similar. At pilot scale, this may not matter.</li>
+    <li><strong>Where should OCR live?</strong> The PHI leakage paper (Young, 2025) suggests keeping VLM OCR on controlled infrastructure, but this conflicts with the cost advantage of co-locating on the GPU service.</li>
+  </ul>
+</div>
+
+<!-- Slide 8: HIPAA Risks -->
+<div class="slide" id="slide-risks">
+  <div class="slide-num">Section 8 of 10</div>
+  <h2>HIPAA Risk Assessment</h2>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">CRITICAL</span> VLM OCR PHI Leakage</h4>
+    <p>Young (2025) demonstrated that Vision-Language Models leak Protected Health Information through vision token embeddings, even when explicit text masking is applied. This means sending document images to an external GPU service for OCR carries inherent PHI exposure risk.</p>
+    <p><strong>Mitigation:</strong> Either keep OCR on Aptible (CPU, much slower) or ensure the GPU service has full BAA coverage and uses encrypted, ephemeral processing with no logging of image data.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-high">HIGH</span> New BAA Track Record</h4>
+    <p>RunPod's and Modal's HIPAA BAAs date to February 2026. Neither has completed a full audit cycle under their BAAs. AWS and Azure have years of HIPAA compliance history.</p>
+    <p><strong>Mitigation:</strong> Start with RunPod/Modal for cost savings. Include contractual audit rights. Have a migration path to SageMaker/Azure ML if compliance concerns arise.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">MODERATE</span> Stateless Architecture Helps</h4>
+    <p>The GPU service processes text and returns results without storing anything. No PHI at rest on the GPU service. Combined with TLS in transit and a signed BAA, this architecture minimizes the HIPAA attack surface.</p>
+  </div>
+</div>
+
+<!-- Slide 9: Recommendations -->
+<div class="slide" id="slide-recommendations">
+  <div class="slide-num">Section 9 of 10</div>
+  <h2>What This Means for Us</h2>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">CRITICAL</span> Deploy split architecture: Aptible + serverless GPU</h4>
+    <p>Keep obi/deid_roberta_i2b2, Presidio, post-filter rules, and the Express/React app on Aptible. Move qwen2.5:7b and GLM-OCR to RunPod or Modal serverless with L4 GPUs.</p>
+    <p><strong>Evidence:</strong> L4 benchmarks (53 tok/s), cost analysis ($3-5/mo vs $730/mo), existing DR-010 decision record.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">CRITICAL</span> Sign a BAA before sending any PHI to GPU service</h4>
+    <p>Contact RunPod or Modal Enterprise for a signed BAA. The BAA must cover inference endpoints specifically. Modal's BAA excludes Volumes v1, Images, and Snapshots, but stateless inference is covered.</p>
+    <p><strong>Evidence:</strong> HIPAA requires BAA for any third-party PHI handling. No exceptions for "ephemeral" processing.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-high">HIGH</span> Keep OCR on controlled infrastructure</h4>
+    <p>Given the VLM PHI leakage finding (Young, 2025), consider keeping GLM-OCR on Aptible (accept slower OCR) or ensuring the GPU service provides confidential computing (TEE isolation).</p>
+    <p><strong>Evidence:</strong> Young (2025) demonstrated PHI leaks through vision tokens. Counterargument: BAA-covered stateless processing may be sufficient.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-high">HIGH</span> Use vLLM instead of Ollama for production</h4>
+    <p>Red Hat benchmarked a 19x throughput gap under concurrent load. For production with multiple simultaneous users, vLLM's continuous batching provides significantly better throughput. At pilot scale with single-request patterns, Ollama may be adequate.</p>
+    <p><strong>Evidence:</strong> Red Hat benchmark (2025). Uncertain: single-request performance is similar.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">MODERATE</span> Optimize obi/deid with ONNX+INT8 on CPU</h4>
+    <p>The 355M RoBERTa-LARGE model runs 100-300ms per chunk unoptimized. ONNX Runtime with INT8 quantization can reduce this to 50-80ms with no accuracy loss. This is a low-effort optimization for the CPU-hosted NER.</p>
+    <p><strong>Evidence:</strong> Wu et al. (2023, 30 citations); HuggingFace Optimum benchmarks.</p>
+  </div>
+
+  <h3>Open Questions</h3>
+  <ul>
+    <li>Should we prototype on RunPod (simpler API) or Modal (richer Python SDK)?</li>
+    <li>What serving framework works on RunPod/Modal for multi-model inference (vLLM, custom Flask, or Triton)?</li>
+    <li>How do we handle cold starts for the first document of the day? Pre-warming strategy?</li>
+  </ul>
+</div>
+
+<!-- Slide 10: Bibliography -->
+<div class="slide" id="slide-bibliography">
+  <div class="slide-num">Section 10 of 10</div>
+  <h2>Bibliography</h2>
+  <ol>
+    <li>Zambare et al. (2026). Towards Fair and Efficient De-identification. <em>EACL Findings</em>. <a href="https://doi.org/10.18653/v1/2026.findings-eacl.222" target="_blank">DOI: 10.18653/v1/2026.findings-eacl.222</a></li>
+    <li>Wu et al. (2023). Understanding INT4 Quantization for Transformer Models. <em>arXiv:2301.12017</em> (30 citations). <a href="https://doi.org/10.48550/arXiv.2301.12017" target="_blank">DOI: 10.48550/arXiv.2301.12017</a></li>
+    <li>Chrapek et al. (2025). Confidential LLM Inference: CPU and GPU TEEs. <em>IISWC</em>. <a href="https://doi.org/10.1109/IISWC66894.2025.00017" target="_blank">DOI: 10.1109/IISWC66894.2025.00017</a> (4 citations)</li>
+    <li>Mohan et al. (2024). Securing AI Inference in the Cloud. <em>IEEE CLOUD</em>. <a href="https://doi.org/10.1109/CLOUD62652.2024.00028" target="_blank">DOI: 10.1109/CLOUD62652.2024.00028</a> (21 citations)</li>
+    <li>Young (2025). Vision Token Masking Cannot Prevent PHI Leakage in Medical Document OCR. <em>arXiv:2511.18272</em>.</li>
+    <li>Shen et al. (2023). Efficient Sparse Inference Accelerator for Transformers on CPUs. <em>arXiv:2306.16601</em> (4 citations).</li>
+    <li>Hu et al. (2024). mPLUG-DocOwl2: High-resolution Compressing for Multi-page Document Understanding. <em>arXiv:2409.03420</em> (102 citations).</li>
+    <li>Song et al. (2024). PowerInfer: Fast LLM Serving with Consumer-grade GPU. <em>SOSP</em>. <a href="https://doi.org/10.1145/3694715.3695964" target="_blank">DOI: 10.1145/3694715.3695964</a> (78 citations)</li>
+    <li>Knoop &amp; Holtmann (2026). Private LLM Inference on Consumer Blackwell GPUs. <em>arXiv:2601.09527</em>.</li>
+    <li>Chen (2025). FlashServe: Cost-Efficient Serverless Inference Scheduling. <a href="https://doi.org/10.1145/3795154.3795363" target="_blank">DOI: 10.1145/3795154.3795363</a> (2 citations)</li>
+    <li>Seo et al. (2025). NER-based de-identification in Korean EMRs. <em>Nature npj Health Systems</em>. <a href="https://doi.org/10.1038/s44401-025-00036-1" target="_blank">DOI: 10.1038/s44401-025-00036-1</a></li>
+    <li>Ali (2026). Scalable and Secure AI Inference in Healthcare: FastAPI vs Triton. <em>arXiv:2602.00053</em>.</li>
+    <li>Gu et al. (2025). PIM Is All You Need: GPU-Free LLM Inference. <a href="https://doi.org/10.1145/3676641.3716267" target="_blank">DOI: 10.1145/3676641.3716267</a> (23 citations)</li>
+    <li>Gupta et al. (2024). SIGMA: Secure GPT Inference with Function Secret Sharing. <em>PETS</em>. <a href="https://doi.org/10.56553/popets-2024-0107" target="_blank">DOI: 10.56553/popets-2024-0107</a> (53 citations)</li>
+  </ol>
+  <hr>
+  <p><strong>Research session:</strong> April 10, 2026 | <strong>Depth:</strong> Medium | <strong>Sources:</strong> Semantic Scholar, OpenAlex, Community, Web, Context7 | <strong>Papers found:</strong> ~60</p>
+</div>
+
+</div>
+<div class="index-bar">
+  <button class="idx-chip" onclick="goTo(0)">Summary</button>
+  <button class="idx-chip" onclick="goTo(1)">GPU vs CPU</button>
+  <button class="idx-chip" onclick="goTo(2)">Providers</button>
+  <button class="idx-chip" onclick="goTo(3)">Cost</button>
+  <button class="idx-chip" onclick="goTo(4)">Architecture</button>
+  <button class="idx-chip" onclick="goTo(5)">Pipeline</button>
+  <button class="idx-chip" onclick="goTo(6)">Consensus</button>
+  <button class="idx-chip" onclick="goTo(7)">Risks</button>
+  <button class="idx-chip" onclick="goTo(8)">Recommendations</button>
+  <button class="idx-chip" onclick="goTo(9)">Bibliography</button>
+  <div class="idx-arrows">
+    <button class="idx-arrow" onclick="prev()">&larr;</button>
+    <button class="idx-arrow" onclick="next()">&rarr;</button>
+  </div>
+</div>
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const chips = document.querySelectorAll('.idx-chip');
+const progress = document.getElementById('progress');
+function goTo(i) {
+  if (i < 0 || i >= slides.length) return;
+  slides[current].classList.remove('active');
+  chips[current].classList.remove('active');
+  current = i;
+  slides[current].classList.add('active');
+  chips[current].classList.add('active');
+  progress.style.width = ((current + 1) / slides.length * 100) + '%';
+}
+function next() { goTo(current + 1); }
+function prev() { goTo(current - 1); }
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+});
+slides[0].classList.add('active');
+chips[0].classList.add('active');
+progress.style.width = (1 / slides.length * 100) + '%';
+</script>
+</body>
+</html>
