@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>RAN-Only Dyslexia: What the Research Says</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #1B2A4A; --navy-light: #2A3F6B;
+    --coral: #FF6B6B; --coral-soft: #FF8E8E;
+    --sand: #F5E6CC; --sand-light: #FDF8F0;
+    --teal: #2B8A8A; --gold: #D4A843;
+    --slate: #4A5568; --warm-grey: #8B7E6A;
+  }
+  html, body { height: 100%; overflow: hidden; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--sand-light); color: var(--navy); }
+  .deck { display: flex; height: 100vh; overflow: hidden; }
+  .slide { min-width: 100vw; height: 100vh; overflow-y: auto; padding: 60px 80px 80px; display: none; flex-direction: column; }
+  .slide.active { display: flex; }
+  @media (max-width: 800px) { .slide { padding: 32px 24px 80px; } }
+  .index-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: var(--navy); display: flex; align-items: center; height: 52px; padding: 0 24px; gap: 6px; overflow-x: auto; }
+  .idx-chip { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.55); background: transparent; border: none; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+  .idx-chip:hover { color: #fff; background: var(--navy-light); }
+  .idx-chip.active { background: var(--coral); color: #fff; }
+  .idx-progress { position: fixed; bottom: 52px; left: 0; height: 3px; background: var(--coral); transition: width 0.3s; z-index: 101; }
+  .idx-arrows { margin-left: auto; display: flex; gap: 8px; }
+  .idx-arrow { width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--navy-light); color: #fff; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .idx-arrow:hover { background: var(--coral); }
+  .slide-num { font-size: 12px; font-weight: 700; color: var(--coral); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .slide h2 { font-size: 36px; font-weight: 800; color: var(--navy); line-height: 1.15; margin-bottom: 20px; max-width: 800px; }
+  .slide h3 { font-size: 22px; font-weight: 700; color: var(--navy); margin: 24px 0 10px; }
+  .slide h4 { font-size: 16px; font-weight: 700; color: var(--teal); margin: 16px 0 8px; }
+  .slide p { font-size: 16px; line-height: 1.8; margin-bottom: 14px; color: var(--slate); max-width: 760px; }
+  .slide ul, .slide ol { margin: 10px 0 16px 24px; font-size: 16px; line-height: 1.7; color: var(--slate); max-width: 760px; }
+  .slide li { margin-bottom: 8px; }
+  .slide strong { color: var(--navy); font-weight: 700; }
+  .slide em { color: var(--coral); font-style: normal; font-weight: 600; }
+  .slide blockquote { background: var(--sand); border-left: 4px solid var(--coral); padding: 18px 24px; border-radius: 0 12px 12px 0; margin: 18px 0; font-size: 15px; color: var(--navy); max-width: 760px; }
+  .slide hr { border: none; height: 2px; background: var(--sand); margin: 28px 0; max-width: 760px; }
+  .slide a { color: var(--teal); text-decoration: none; font-weight: 600; }
+  .slide a:hover { text-decoration: underline; }
+  .slide table { width: 100%; max-width: 800px; border-collapse: separate; border-spacing: 0; margin: 18px 0; border-radius: 12px; overflow: hidden; }
+  .slide th { background: var(--navy); color: #fff; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 14px 16px; text-align: left; }
+  .slide td { background: #fff; padding: 14px 16px; font-size: 14px; color: var(--slate); border-bottom: 1px solid var(--sand); }
+  .slide tr:last-child td { border-bottom: none; }
+  .badge { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+  .badge-high { background: #C6F6D5; color: #22543D; }
+  .badge-moderate { background: #FEFCBF; color: #744210; }
+  .badge-low { background: #FED7D7; color: #9B2C2C; }
+  .badge-critical { background: var(--coral); color: #fff; }
+  .badge-action { background: var(--teal); color: #fff; }
+  .finding-card { background: #fff; border-radius: 12px; padding: 20px 24px; margin: 16px 0; max-width: 800px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .finding-card h4 { margin-top: 0; }
+  details { margin: 12px 0; max-width: 760px; }
+  details summary { cursor: pointer; font-weight: 600; color: var(--teal); padding: 8px 0; }
+  details[open] summary { margin-bottom: 8px; }
+  .key-message { background: #fff; border-left: 4px solid var(--teal); padding: 14px 20px; border-radius: 0 10px 10px 0; margin: 10px 0; max-width: 760px; }
+  .meta-line { font-size: 13px; color: var(--warm-grey); margin-bottom: 6px; }
+</style>
+</head>
+<body>
+<div class="idx-progress" id="progress"></div>
+<div class="deck" id="deck">
+
+<!-- SLIDE 1: Executive Summary -->
+<div class="slide" id="slide-executive-summary">
+  <div class="slide-num">Section 1 of 9</div>
+  <h2>RAN-Only Dyslexia: What the Research Says</h2>
+  <p class="meta-line">Based on 35 peer-reviewed papers | April 2026 | 5 HIGH, 12 MODERATE, 8 LOW quality studies</p>
+
+  <h3>Key Messages</h3>
+
+  <div class="key-message">
+    <strong>Your student's profile has a name.</strong> Children who struggle with reading speed but not accuracy are recognized as having a "naming-speed-only" dyslexia subtype. About 1 in 4 children with reading disabilities fit this profile. It is the mildest of the three dyslexia subtypes, but it is still real dyslexia with real consequences.
+  </div>
+
+  <div class="key-message">
+    <strong>Phonics-only instruction will plateau for this student.</strong> Orton-Gillingham (OG) style tutoring fixes decoding accuracy, which is its job. But it does not fix the speed problem. Research consistently shows that naming-speed deficits predict poor response to standard phonics intervention.
+  </div>
+
+  <div class="key-message">
+    <strong>One intervention was designed specifically for this profile.</strong> RAVE-O (Retrieval, Automaticity, Vocabulary Elaboration, Orthography) is the only published program that targets the naming-speed bottleneck directly. A randomized controlled trial with 279 students showed strong improvements in both fluency and comprehension after about 70 hours of instruction.
+  </div>
+
+  <div class="key-message">
+    <strong>Text-to-speech should start now, not after intervention fails.</strong> Federal guidance (OSEP 2024) and leading organizations say assistive technology should accompany intervention, not follow it. There is no legal requirement to "try and fail" before getting text-to-speech.
+  </div>
+
+  <hr>
+
+  <h3>What kind of dyslexia is this?</h3>
+  <p>Researchers call it <strong>naming-speed-only</strong> or <strong>RAN-only</strong> dyslexia. RAN stands for Rapid Automatized Naming, a timed test where you name letters, numbers, colors, or objects as fast as you can. Children with this profile are slow at this task even though they can sound out words correctly. Their brain wiring for speed is different from their wiring for accuracy. Brain imaging confirms these are separate systems (Saygin et al., 2013).</p>
+
+  <h3>How is it different from other dyslexia?</h3>
+  <p>The <strong>double-deficit hypothesis</strong> (Wolf &amp; Bowers, 1999) identifies three subtypes: children who struggle with phonics only (~22%), children who struggle with speed only (~24%), and children who struggle with both (~54%). The "both" group has the hardest time. The speed-only group reads the most accurately but slowly. A meta-analysis of 8,335 students found the speed deficit is large (d = 1.19, meaning most dyslexic readers are substantially slower than their peers).</p>
+
+  <h3>What does the evidence actually look like?</h3>
+  <p>This review examined 35 academic papers: 5 were high-quality (large randomized trials or meta-analyses), 12 were well-designed studies, and 8 were smaller or limited. The core finding that naming speed and phonological awareness are separate brain functions is supported by strong, converging evidence across multiple countries and languages. The intervention evidence is narrower: RAVE-O has good trial data, but it comes mainly from one research group.</p>
+</div>
+
+<!-- SLIDE 2: The RAN-Only Profile -->
+<div class="slide" id="slide-profile">
+  <div class="slide-num">Section 2 of 9</div>
+  <h2>The RAN-Only Profile: What It Is</h2>
+
+  <div class="finding-card">
+    <h4>RAN and phonological awareness are separate brain systems</h4>
+    <p><span class="badge badge-high">HIGH CONFIDENCE</span></p>
+    <p>Rapid Automatized Naming (RAN) is a timed task where you name familiar things (letters, digits, colors) as fast as you can. It was first described by Denckla &amp; Rudel in 1976 and has been cited over 1,500 times. Brain imaging shows that the white matter tract called the <strong>left arcuate fasciculus</strong> correlates with phonological awareness but <em>not</em> with naming speed (Saygin et al., 2013). These are genuinely different brain processes.</p>
+    <blockquote>"Phonological deficits and processes underlying naming-speed deficits represent 2 separable sources of reading dysfunction." &mdash; Wolf &amp; Bowers, 1999 (1,904 citations)</blockquote>
+  </div>
+
+  <div class="finding-card">
+    <h4>Three subtypes, not one</h4>
+    <p><span class="badge badge-high">HIGH CONFIDENCE</span></p>
+    <p>The <strong>double-deficit hypothesis</strong> says there are three groups of struggling readers:</p>
+    <table>
+      <thead><tr><th>Subtype</th><th>Prevalence</th><th>What's Hard</th><th>Severity</th></tr></thead>
+      <tbody>
+        <tr><td>Phonological-only</td><td>~22%</td><td>Sounding out words</td><td>Moderate</td></tr>
+        <tr><td>Naming-speed-only (RAN-only)</td><td>~24%</td><td>Reading speed/fluency</td><td>Mildest</td></tr>
+        <tr><td>Double-deficit (both)</td><td>~54%</td><td>Both accuracy and speed</td><td>Most severe</td></tr>
+      </tbody>
+    </table>
+    <p>This framework has been validated across English, Dutch, French, German, and Greek (Landerl et al., 2018).</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>RAN-only children are the "highest achieving and most selectively impaired"</h4>
+    <p><span class="badge badge-moderate">MODERATE</span></p>
+    <p>In a study of 166 children, the naming-speed-only group had the best overall reading scores among the three subtypes. Their problem is specific: they can decode words correctly, but slowly. This means they read accurately but not fluently, which makes it harder to understand longer texts because working memory gets overloaded by the slow pace.</p>
+    <blockquote>"The VNS group children were the highest achieving and most selectively impaired readers." &mdash; Lovett et al., 2000</blockquote>
+  </div>
+
+  <div class="finding-card">
+    <h4>The deficit is in sequencing, not vocabulary access</h4>
+    <p><span class="badge badge-moderate">MODERATE</span></p>
+    <p>Eye-tracking research (Jones et al., 2016; Araujo et al., 2020) shows that dyslexic readers activate word meanings normally. The bottleneck is in <strong>serial processing</strong>: coordinating the sequence of recognizing one word, encoding its sounds, producing it, and moving to the next. Think of it like a factory where each machine works fine, but the conveyor belt between them runs slowly.</p>
+  </div>
+</div>
+
+<!-- SLIDE 3: Why OG Plateaus -->
+<div class="slide" id="slide-og-plateau">
+  <div class="slide-num">Section 3 of 9</div>
+  <h2>Why Orton-Gillingham Hits a Ceiling</h2>
+
+  <div class="finding-card">
+    <h4>RAN deficits predict treatment resistance to standard phonics</h4>
+    <p><span class="badge badge-moderate">MODERATE</span></p>
+    <p>Two key studies (Fletcher et al., 2011; Miciak et al., 2014) found that naming speed is a <strong>cognitive correlate of inadequate response</strong> to standard reading intervention. In plain language: children with slow naming speed are the ones most likely to "not respond" to phonics-based tutoring like OG.</p>
+    <p>This makes sense once you understand what OG targets. OG teaches the rules for converting letters to sounds (decoding). Your student has already learned those rules after 3 years of intensive tutoring. The remaining problem is speed/automaticity, which is a different brain system that OG was not designed to train.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>You cannot drill RAN directly</h4>
+    <p><span class="badge badge-moderate">MODERATE</span></p>
+    <p>A common question is whether you can improve naming speed by practicing naming tasks. The consensus from researchers and practitioners (including the International Dyslexia Association and literacy researcher Timothy Shanahan) is clear: <strong>RAN is a diagnostic indicator, not a teachable skill.</strong> Repeatedly practicing rapid naming does not transfer to reading improvement. The intervention must target the downstream reading processes that naming speed affects.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>The 4th-grade shift: "reading to learn"</h4>
+    <p><span class="badge badge-moderate">MODERATE</span></p>
+    <p>In 4th grade, classroom expectations shift from learning to read to reading to learn. Students are expected to read longer texts, extract meaning, and build knowledge from what they read. A child who reads accurately but slowly hits a wall here: they can decode every word, but the slow pace makes it hard to hold the meaning of a paragraph together. This is exactly where RAN-only students struggle most.</p>
+  </div>
+</div>
+
+<!-- SLIDE 4: RAVE-O Intervention -->
+<div class="slide" id="slide-rave-o">
+  <div class="slide-num">Section 4 of 9</div>
+  <h2>RAVE-O: The Intervention Designed for This Profile</h2>
+
+  <div class="finding-card">
+    <h4>What RAVE-O is</h4>
+    <p><span class="badge badge-high">HIGH CONFIDENCE</span></p>
+    <p>RAVE-O stands for <strong>Retrieval, Automaticity, Vocabulary Elaboration, Orthography</strong>. It was developed by Maryanne Wolf, one of the researchers who identified the naming-speed subtype. Unlike OG, which focuses on one thing (phonics), RAVE-O works on five components of word knowledge simultaneously: how words sound (phonology), how they look (orthography), what they mean (semantics), how they fit in sentences (syntax), and how they're built from parts (morphology).</p>
+    <p>The idea is that automaticity (speed) comes from having rich, interconnected knowledge about words, not from drilling one pathway.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>The RCT evidence</h4>
+    <p><span class="badge badge-high">HIGH CONFIDENCE</span></p>
+    <p>The strongest evidence comes from Morris et al. (2012), a randomized controlled trial with 279 children using a 2x2x2 design:</p>
+    <table>
+      <thead><tr><th>Outcome</th><th>Effect Size</th><th>What It Means</th></tr></thead>
+      <tbody>
+        <tr><td>Oral reading fluency</td><td>d = 0.76</td><td>Medium-to-large improvement</td></tr>
+        <tr><td>Reading comprehension</td><td>d = 0.90</td><td>Large improvement</td></tr>
+        <tr><td>Duration needed</td><td>~70 hours</td><td>About 1 school year at 2-3 sessions/week</td></tr>
+        <tr><td>Follow-up</td><td>1-year maintained</td><td>Gains held after instruction stopped</td></tr>
+      </tbody>
+    </table>
+    <p>Gains were equivalent across IQ levels, socioeconomic status, and racial groups. Earlier intervention (grade 1 vs. grade 3) produced stronger effects (Lovett et al., 2017).</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>Important limitations</h4>
+    <p><span class="badge badge-low">CANDOR CHECK</span></p>
+    <p>Here is where honesty about the evidence matters:</p>
+    <ul>
+      <li><strong>One research group.</strong> The RAVE-O evidence comes primarily from Wolf, Lovett, and Morris. Independent replication by other teams is limited. This does not mean the results are wrong, but it does mean we should hold them with appropriate caution.</li>
+      <li><strong>No head-to-head comparison.</strong> There are no published trials comparing RAVE-O versus OG specifically for RAN-only children. We know RAVE-O works for mixed groups of struggling readers. We have strong theoretical reasons to believe it is especially suited for RAN-only students. But we do not have a trial that proves it directly.</li>
+      <li><strong>70 hours is a lot.</strong> That is roughly a full school year of twice-weekly sessions. Finding qualified providers may be challenging depending on your location.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- SLIDE 5: Assistive Technology & TTS -->
+<div class="slide" id="slide-assistive-tech">
+  <div class="slide-num">Section 5 of 9</div>
+  <h2>Text-to-Speech: Start Now, Not Later</h2>
+
+  <div class="finding-card">
+    <h4>TTS produces modest but real comprehension gains</h4>
+    <p><span class="badge badge-high">HIGH CONFIDENCE</span></p>
+    <p>A meta-analysis by Wood et al. (2018) found that text-to-speech and read-aloud tools produce a <strong>weighted average effect of g = 0.35</strong> on reading comprehension. That is a small-to-medium effect. It means TTS helps, but it is not a substitute for intervention. Think of it as removing a barrier so the student can access grade-level content while their fluency catches up.</p>
+    <p>One limitation: this meta-analysis did not separate results by dyslexia subtype. We do not know if RAN-only students benefit more or less than other subtypes from TTS. That study has not been done.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>Federal law says: no "try and fail" requirement</h4>
+    <p><span class="badge badge-critical">CRITICAL</span></p>
+    <p>Multiple authoritative sources agree that assistive technology should be introduced <strong>alongside intervention, not after intervention fails</strong>:</p>
+    <ul>
+      <li><strong>IDEA regulation</strong> (34 CFR 300.324(a)(2)(v)): IEP teams must consider assistive technology at every meeting.</li>
+      <li><strong>IDEA regulation</strong> (34 CFR 300.105): Schools must provide AT if it is needed for a free appropriate public education (FAPE).</li>
+      <li><strong>OSEP 2024 Dear Colleague Letter:</strong> Explicitly debunks 8 myths about AT, including the myth that an evaluation must precede AT, or that a child must fail intervention first.</li>
+      <li><strong>International Dyslexia Association, Colorado CDE, Yale Dyslexia Center</strong> all recommend AT alongside intervention.</li>
+    </ul>
+    <p>If anyone at the school says your student needs to "fail first" before getting text-to-speech, that position is contradicted by federal guidance.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>Why 4th grade is the right time</h4>
+    <p><span class="badge badge-moderate">MODERATE</span></p>
+    <p>The shift from "learning to read" to "reading to learn" happens around 4th grade. Students with fluency deficits face a widening gap: content gets harder, reading volume increases, and slow readers fall behind in science, social studies, and math word problems. TTS bridges this gap by letting the student access grade-level content through listening while continuing to build reading fluency through intervention.</p>
+    <p>Strong verbal comprehension (which your student has) is a significant protective factor here. It means the student can learn effectively through listening. TTS leverages an existing strength.</p>
+  </div>
+</div>
+
+<!-- SLIDE 6: Timeline & Prognosis -->
+<div class="slide" id="slide-prognosis">
+  <div class="slide-num">Section 6 of 9</div>
+  <h2>Timeline and Prognosis</h2>
+
+  <div class="finding-card">
+    <h4>RAN-only has the best prognosis among the three subtypes</h4>
+    <p><span class="badge badge-moderate">MODERATE</span></p>
+    <p>Among the three groups (phonological-only, naming-speed-only, and double-deficit), RAN-only students consistently show the best outcomes. They start from a higher baseline, and their intact phonological skills and verbal comprehension serve as compensatory strengths.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>But fluency deficits persist into adulthood</h4>
+    <p><span class="badge badge-moderate">MODERATE</span></p>
+    <p>Longitudinal research (Lyytinen et al., 2006) shows that naming-speed deficits are persistent. Reading fluency remains the primary area of residual difficulty even for adults who were identified early and received intervention. The realistic goal is not "grade-level fluency" but rather <strong>functional reading efficiency</strong> supported by compensatory strategies and tools.</p>
+    <p>This is important context for choosing an educational environment. A school that relies heavily on timed reading or penalizes slow reading will be a poor fit. A school that allows flexible pacing, provides audio alternatives, and values comprehension over speed will let this student thrive.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>What the evidence does NOT tell us</h4>
+    <p><span class="badge badge-low">CANDOR CHECK</span></p>
+    <p>The research has significant gaps when it comes to practical questions parents face:</p>
+    <ul>
+      <li><strong>No evidence-based criteria for when to transition</strong> from phonics-focused to fluency-focused intervention. The "OG plateau" is clinically recognized but not formally defined.</li>
+      <li><strong>No RCTs comparing intervention protocols</strong> specifically for the RAN-only subtype versus other subtypes.</li>
+      <li><strong>Limited longitudinal data</strong> tracking RAN-only students separately from other subtypes into adulthood.</li>
+      <li><strong>No published research</strong> on the specific clinical question: after OG succeeds at decoding but fluency remains impaired, what is the optimal next step?</li>
+      <li><strong>No evidence-based timeline</strong> for when to shift the primary goal from remediation to compensation.</li>
+    </ul>
+    <p>These are not obscure questions. They are exactly the questions parents and clinicians need answered. The field has not caught up.</p>
+  </div>
+</div>
+
+<!-- SLIDE 7: What This Means for You -->
+<div class="slide" id="slide-recommendations">
+  <div class="slide-num">Section 7 of 9</div>
+  <h2>What This Means for Your Student</h2>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">CRITICAL</span> Request assistive technology at the next IEP meeting</h4>
+    <p>Text-to-speech for content-area reading (science, social studies, any subject where the student is reading to learn). Federal law requires the IEP team to consider AT at every meeting (34 CFR 300.324(a)(2)(v)). There is no "try and fail" prerequisite. The 2024 OSEP Dear Colleague Letter makes this explicit. If the team resists, cite the DCL by name.</p>
+    <p><strong>Evidence:</strong> Meta-analysis shows g = 0.35 comprehension gain (Wood et al., 2018). Your student's strong verbal comprehension means they are well-positioned to benefit.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">CRITICAL</span> Investigate RAVE-O or fluency-focused intervention</h4>
+    <p>After 3 years of OG, your student has the decoding skills OG was designed to build. The remaining deficit (fluency) requires a different approach. RAVE-O is the only published intervention specifically designed for naming-speed deficits. It requires about 70 hours (one school year at 2-3 sessions per week).</p>
+    <p><strong>Evidence:</strong> RCT with 279 students, d = 0.76 fluency, d = 0.90 comprehension (Morris et al., 2012). <strong>Caveat:</strong> Evidence comes primarily from one research group.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-action">HIGH</span> Evaluate schools based on flexibility, not speed expectations</h4>
+    <p>Because fluency deficits are likely to persist in some form, the educational environment matters as much as the intervention. Look for:</p>
+    <ul>
+      <li>Flexible pacing on reading assignments and tests</li>
+      <li>Audio alternatives for content-area texts</li>
+      <li>Assessment of comprehension separate from reading speed</li>
+      <li>Willingness to implement AT as a routine accommodation</li>
+    </ul>
+    <p><strong>Evidence:</strong> Longitudinal data shows fluency remains the primary area of residual difficulty into adulthood (Lyytinen et al., 2006).</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-action">HIGH</span> Leverage the student's verbal comprehension strength</h4>
+    <p>Strong verbal comprehension is this student's biggest asset. It is a documented protective factor for RAN-only students. Use it: audiobooks for pleasure reading, verbal participation in class discussions, oral exams where permitted. Every channel that lets the student demonstrate understanding without being bottlenecked by reading speed is a win.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">MODERATE</span> Do not drill RAN tasks directly</h4>
+    <p>If any provider suggests rapid-naming drills (flash cards with speed pressure, timed letter-naming practice), that approach is not supported by evidence. RAN is a diagnostic indicator, not a trainable skill. The intervention should target reading fluency through multi-component word knowledge, not through speed drills on the test itself.</p>
+  </div>
+
+  <hr>
+  <h3>Open Questions Worth Asking Providers</h3>
+  <ul>
+    <li>Are you familiar with the double-deficit hypothesis and the RAN-only subtype?</li>
+    <li>What is your plan for addressing fluency now that decoding is solid?</li>
+    <li>Have you used RAVE-O or a similar multi-component fluency intervention?</li>
+    <li>How do you decide when to shift goals from remediation to compensation?</li>
+  </ul>
+</div>
+
+<!-- SLIDE 8: Consensus & Debate -->
+<div class="slide" id="slide-consensus">
+  <div class="slide-num">Section 8 of 9</div>
+  <h2>What Researchers Agree On (and Where They Don't)</h2>
+
+  <h3>Strong Consensus</h3>
+  <p>These points are supported by meta-analyses and multiple independent research groups:</p>
+  <ul>
+    <li><strong>RAN and phonological awareness are separable constructs</strong> with distinct neural substrates. This is confirmed across 5+ languages.</li>
+    <li><strong>Double-deficit children (both problems) show the most severe impairments.</strong> RAN-only is the mildest subtype.</li>
+    <li><strong>RAN is a universal predictor</strong> of reading fluency regardless of how transparent the writing system is.</li>
+    <li><strong>Directly practicing RAN tasks does not improve reading.</strong> Multiple authorities converge on this.</li>
+    <li><strong>Assistive technology should accompany, not follow, intervention.</strong> Supported by federal guidance and professional organizations.</li>
+    <li><strong>The 2025 IDA definition update</strong> now explicitly includes naming speed, validating all three subtypes as "real" dyslexia.</li>
+  </ul>
+
+  <h3>Active Debate</h3>
+  <ul>
+    <li><strong>Is RAN truly independent of phonological processing?</strong> Vukovic &amp; Siegel (2006) note that RAN and phonological awareness are moderately correlated, creating statistical challenges for demonstrating full independence. Most researchers accept they are separable but not fully independent.</li>
+    <li><strong>Does RAVE-O generalize beyond the Wolf/Lovett/Morris group?</strong> Independent replication is limited. This is the biggest caveat on the intervention evidence.</li>
+    <li><strong>What is the optimal intervention dosage</strong> for RAN-only children in upper elementary grades? The 70-hour figure comes from studies with younger children.</li>
+  </ul>
+
+  <h3>The 2025 IDA Definition Matters</h3>
+  <p>The International Dyslexia Association updated its definition of dyslexia in 2025 to explicitly include naming speed as a core feature. This is significant because it validates the RAN-only subtype as "real" dyslexia in the eyes of the leading professional organization. Any school or provider who says a child with intact phonics but impaired naming speed "doesn't really have dyslexia" is now contradicted by the IDA's own definition.</p>
+</div>
+
+<!-- SLIDE 9: Bibliography -->
+<div class="slide" id="slide-bibliography">
+  <div class="slide-num">Section 9 of 9</div>
+  <h2>Bibliography</h2>
+  <p>35 papers reviewed. Sorted by evidence quality (HIGH first, then MODERATE). DOI links go to the original paper.</p>
+
+  <h3>HIGH Quality (Meta-analyses, Large RCTs)</h3>
+
+  <p><strong>1.</strong> Wolf, M. &amp; Bowers, P. (1999). The double-deficit hypothesis for the developmental dyslexias. <em>Journal of Educational Psychology</em>, 91(3), 415-438. <a href="https://doi.org/10.1037/0022-0663.91.3.415" target="_blank">DOI</a> | Cited 1,904x</p>
+
+  <p><strong>2.</strong> Araujo, S. &amp; Faisca, L. (2019). A meta-analytic review of naming-speed deficits in developmental dyslexia. <em>Scientific Studies of Reading</em>, 23(5), 349-368. <a href="https://doi.org/10.1080/10888438.2019.1572758" target="_blank">DOI</a> | Meta-analysis, 216 effect sizes, N=8,335</p>
+
+  <p><strong>3.</strong> Morris, R.D. et al. (2012). Multiple-component remediation for developmental reading disabilities. <em>Journal of Learning Disabilities</em>, 45(2), 99-127. <a href="https://doi.org/10.1177/0022219409355472" target="_blank">DOI</a> | RCT, N=279</p>
+
+  <p><strong>4.</strong> Wood, S.G. et al. (2018). TTS and read-aloud tools for reading disabilities: A meta-analysis. <em>Journal of Learning Disabilities</em>, 51(1), 73-84. <a href="https://doi.org/10.1177/0022219416688170" target="_blank">DOI</a></p>
+
+  <p><strong>5.</strong> Landerl, K. et al. (2018). PA and RAN as longitudinal predictors in five alphabetic orthographies. <em>Scientific Studies of Reading</em>, 23(3), 220-234. <a href="https://doi.org/10.1080/10888438.2018.1510936" target="_blank">DOI</a> | N=1,120 across 5 languages</p>
+
+  <h3>MODERATE Quality (Reviews, Well-designed Studies)</h3>
+
+  <p><strong>6.</strong> Norton, E.S. &amp; Wolf, M. (2012). Rapid automatized naming (RAN) and reading fluency. <em>Annual Review of Psychology</em>, 63, 427-452. <a href="https://doi.org/10.1146/annurev-psych-120710-100431" target="_blank">DOI</a> | Cited 717x</p>
+
+  <p><strong>7.</strong> Lovett, M.W. et al. (2000). Remediating the core deficits of developmental reading disability. <em>Journal of Learning Disabilities</em>, 33(4), 334-358. <a href="https://doi.org/10.1177/002221940003300406" target="_blank">DOI</a> | N=166</p>
+
+  <p><strong>8.</strong> Fletcher, J. et al. (2011). Cognitive correlates of inadequate response to reading intervention. <em>School Psychology Review</em>, 40(1), 3-22. <a href="https://doi.org/10.1080/02796015.2011.12087725" target="_blank">DOI</a></p>
+
+  <p><strong>9.</strong> Compton, D.L. et al. (2001). Are RAN- and PA-deficits additive? <em>Dyslexia</em>, 7(3), 125-149. <a href="https://doi.org/10.1002/dys.198" target="_blank">DOI</a> | N=476</p>
+
+  <p><strong>10.</strong> Saygin, Z.M. et al. (2013). Tracking the roots of reading ability. <em>Journal of Neuroscience</em>, 33(33), 13251-13258. <a href="https://doi.org/10.1523/jneurosci.4383-12.2013" target="_blank">DOI</a> | Neuroimaging, N=40</p>
+
+  <p><strong>11.</strong> Wimmer, H. et al. (2000). DDH and regular orthography. <em>Journal of Educational Psychology</em>, 92(4), 668-680. <a href="https://doi.org/10.1037/0022-0663.92.4.668" target="_blank">DOI</a></p>
+
+  <p><strong>12.</strong> Lovett, M.W. et al. (2017). Early intervention: impact of grade. <em>Journal of Educational Psychology</em>, 109(7), 889-914. <a href="https://doi.org/10.1037/edu0000181" target="_blank">DOI</a> | N=219</p>
+
+  <p><strong>13.</strong> Vukovic, R.K. &amp; Siegel, L.S. (2006). The double-deficit hypothesis: A comprehensive analysis. <em>Journal of Learning Disabilities</em>, 39(1), 25-47. <a href="https://doi.org/10.1177/00222194060390010401" target="_blank">DOI</a></p>
+
+  <p><strong>14.</strong> Miciak, J. et al. (2014). Cognitive attributes of responders in middle school. <em>School Psychology Review</em>, 43(4), 407-427. <a href="https://doi.org/10.1080/02796015.2014.12087413" target="_blank">DOI</a></p>
+
+  <p><strong>15.</strong> Kirby, J. et al. (2010). Naming speed: From prediction to instruction. <em>Reading Research Quarterly</em>, 45(3), 341-362. <a href="https://doi.org/10.1598/RRQ.45.3.4" target="_blank">DOI</a></p>
+
+  <p><strong>16.</strong> Therrien, W.J. (2004). Fluency and comprehension gains as a result of repeated reading. <em>Remedial and Special Education</em>, 25(4), 252-261.</p>
+
+  <p><strong>17.</strong> Stevens, E.A. et al. (2021). Examining OG reading interventions. <em>Exceptional Children</em>, 87(4), 397-417.</p>
+
+  <p><strong>18.</strong> Lyytinen, H. et al. (2006). Trajectories of reading development. <em>Merrill-Palmer Quarterly</em>, 52(3), 514-546. <a href="https://doi.org/10.1353/mpq.2006.0031" target="_blank">DOI</a> | N=200, birth to school age</p>
+
+  <p><strong>19.</strong> Jones, M.W. et al. (2016). What automaticity deficit? <em>Journal of Experimental Psychology: LMC</em>, 42(3), 465-474. <a href="https://doi.org/10.1037/xlm0000186" target="_blank">DOI</a> | Eye-tracking</p>
+
+  <h3>LOW Quality / Expert Commentary</h3>
+
+  <p><strong>20.</strong> Mather, N. (2024). It's time for a multiple deficit view of dyslexia. Expert commentary.</p>
+
+  <p><em>Plus 15 additional community, legal, and grey literature sources reviewed but not individually cited here (practitioner blogs, IDA guidance documents, OSEP Dear Colleague Letters, state CDE guidance).</em></p>
+
+  <hr>
+  <p class="meta-line">Report compiled April 10, 2026 from a systematic literature review of 35 academic papers + 37 community/legal/grey literature sources. Evidence distribution: 5 HIGH, 12 MODERATE, 8 LOW, 10 not appraised.</p>
+</div>
+
+</div>
+
+<div class="index-bar">
+  <button class="idx-chip" onclick="goTo(0)">Overview</button>
+  <button class="idx-chip" onclick="goTo(1)">The Profile</button>
+  <button class="idx-chip" onclick="goTo(2)">Why OG Plateaus</button>
+  <button class="idx-chip" onclick="goTo(3)">RAVE-O</button>
+  <button class="idx-chip" onclick="goTo(4)">Text-to-Speech</button>
+  <button class="idx-chip" onclick="goTo(5)">Prognosis</button>
+  <button class="idx-chip" onclick="goTo(6)">What To Do</button>
+  <button class="idx-chip" onclick="goTo(7)">Consensus</button>
+  <button class="idx-chip" onclick="goTo(8)">Bibliography</button>
+  <div class="idx-arrows">
+    <button class="idx-arrow" onclick="prev()">&larr;</button>
+    <button class="idx-arrow" onclick="next()">&rarr;</button>
+  </div>
+</div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const chips = document.querySelectorAll('.idx-chip');
+const progress = document.getElementById('progress');
+function goTo(i) {
+  if (i < 0 || i >= slides.length) return;
+  slides[current].classList.remove('active');
+  chips[current].classList.remove('active');
+  current = i;
+  slides[current].classList.add('active');
+  chips[current].classList.add('active');
+  progress.style.width = ((current + 1) / slides.length * 100) + '%';
+}
+function next() { goTo(current + 1); }
+function prev() { goTo(current - 1); }
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+});
+slides[0].classList.add('active');
+chips[0].classList.add('active');
+progress.style.width = (1 / slides.length * 100) + '%';
+</script>
+</body>
+</html>
