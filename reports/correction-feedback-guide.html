@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Correction Feedback System Guide</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; line-height: 1.7; }
+  .header { padding: 32px 40px; background: #1e293b; border-bottom: 1px solid #334155; }
+  .header h1 { font-size: 28px; font-weight: 700; color: #f8fafc; }
+  .header p { font-size: 14px; color: #94a3b8; margin-top: 6px; }
+  .back { display: inline-block; margin-bottom: 12px; color: #60a5fa; text-decoration: none; font-size: 14px; }
+  .back:hover { text-decoration: underline; }
+  .content { max-width: 820px; margin: 40px auto; padding: 0 24px 80px; }
+  h2 { font-size: 22px; font-weight: 600; color: #f1f5f9; margin: 40px 0 16px; padding-bottom: 8px; border-bottom: 1px solid #334155; }
+  h3 { font-size: 17px; font-weight: 600; color: #cbd5e1; margin: 28px 0 12px; }
+  p { color: #cbd5e1; margin-bottom: 14px; }
+  strong { color: #f1f5f9; }
+  code { font-family: "JetBrains Mono", "Fira Code", "SF Mono", monospace; background: #1e293b; color: #93c5fd; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+  pre { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 16px 20px; overflow-x: auto; margin: 12px 0 20px; font-size: 13px; line-height: 1.6; }
+  pre code { background: none; padding: 0; color: #e2e8f0; }
+  .comment { color: #64748b; }
+  .string { color: #86efac; }
+  .key { color: #93c5fd; }
+  .badge-row { margin: 8px 0 24px; }
+  .badge { display: inline-block; padding: 3px 10px; background: #1e3a5f; color: #93c5fd; border-radius: 4px; font-size: 12px; font-weight: 500; margin-right: 6px; }
+  .badge.warn { background: #5f1e1e; color: #fca5a5; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 14px; }
+  th { text-align: left; padding: 10px 12px; background: #1e293b; color: #94a3b8; font-weight: 600; border-bottom: 2px solid #334155; }
+  td { padding: 10px 12px; border-bottom: 1px solid #1e293b; color: #cbd5e1; }
+  tr:hover td { background: #1e293b40; }
+  .pii-warning { background: #5f1e1e; border: 1px solid #7f1d1d; border-radius: 8px; padding: 16px 20px; margin: 20px 0; }
+  .pii-warning strong { color: #fca5a5; }
+  .pii-warning p { color: #fecaca; margin: 0; }
+  .arch-diagram { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 24px; margin: 20px 0; font-family: monospace; font-size: 13px; line-height: 1.8; color: #94a3b8; white-space: pre; overflow-x: auto; }
+  .arch-diagram .highlight { color: #60a5fa; font-weight: 600; }
+  .arch-diagram .signal { color: #86efac; }
+  .arch-diagram .arrow { color: #475569; }
+</style>
+</head>
+<body>
+<div class="header">
+  <a class="back" href="/">&larr; All Reports</a>
+  <h1>Correction Feedback System Guide</h1>
+  <p>How to access and use FP/FN correction signals from the redaction review UI</p>
+</div>
+
+<div class="content">
+
+<div class="badge-row">
+  <span class="badge">Redactor</span>
+  <span class="badge">Reference</span>
+  <span class="badge">v1 (Steps 1-4)</span>
+</div>
+
+<h2>Overview</h2>
+<p>The redaction pipeline captures user review signals &mdash; false positives removed and false negatives added &mdash; as structured JSONL for future pipeline improvement. This is a <strong>passive accumulation</strong> system: data collects automatically, but nothing reads or acts on it without explicit human action.</p>
+
+<div class="arch-diagram"><span class="highlight">User Review</span> (text-review-mode.tsx)
+  <span class="arrow">|</span>
+  <span class="arrow">|</span> on finalize: collect correction events
+  <span class="arrow">|</span>
+  <span class="arrow">v</span>
+<span class="highlight">POST /api/feedback</span> <span class="arrow">------&gt;</span> <span class="signal">corrections.jsonl</span> (append-only, gitignored)
+                                  <span class="arrow">|</span>
+                  <span class="arrow">+---------+---------+</span>
+                  <span class="arrow">|</span>         <span class="arrow">|</span>         <span class="arrow">|</span>
+                  <span class="arrow">v</span>         <span class="arrow">v</span>         <span class="arrow">v</span>
+            <span class="signal">jq queries</span>  <span class="signal">Karpathy</span>  <span class="signal">learn.md</span>
+            (manual)    (future)   (future)</div>
+
+<h2>Signal Types</h2>
+<table>
+  <thead>
+    <tr><th>Signal</th><th>Meaning</th><th>Trigger</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>fp_removed</code></td>
+      <td>User removed an auto-detected entity</td>
+      <td>Clicked &ldquo;remove&rdquo; on a detection during review</td>
+    </tr>
+    <tr>
+      <td><code>fn_added</code></td>
+      <td>User manually added a redaction the pipeline missed</td>
+      <td>Added a manual redaction not in the original detections</td>
+    </tr>
+    <tr>
+      <td><code>kept</code></td>
+      <td>Auto-detected entity survived review unchanged</td>
+      <td>Entity still approved at finalize time (10% sampled)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Accessing the Data</h2>
+<p>The JSONL file lives at:</p>
+<pre><code>server/data/corrections.jsonl</code></pre>
+<p>Each line is a standalone JSON object:</p>
+<pre><code>{<span class="key">"timestamp"</span>:<span class="string">"2026-04-11T14:30:00.000Z"</span>,<span class="key">"session_id"</span>:<span class="string">"abc-123"</span>,<span class="key">"action"</span>:<span class="string">"fp_removed"</span>,<span class="key">"entity_type"</span>:<span class="string">"PERSON"</span>,<span class="key">"entity_text"</span>:<span class="string">"Dr. Smith"</span>,<span class="key">"confidence"</span>:0.45}
+{<span class="key">"timestamp"</span>:<span class="string">"2026-04-11T14:30:00.000Z"</span>,<span class="key">"session_id"</span>:<span class="string">"abc-123"</span>,<span class="key">"action"</span>:<span class="string">"fn_added"</span>,<span class="key">"entity_type"</span>:<span class="string">"UNKNOWN"</span>,<span class="key">"entity_text"</span>:<span class="string">"Jane Doe"</span>,<span class="key">"confidence"</span>:1.0}
+{<span class="key">"timestamp"</span>:<span class="string">"2026-04-11T14:30:00.000Z"</span>,<span class="key">"session_id"</span>:<span class="string">"abc-123"</span>,<span class="key">"action"</span>:<span class="string">"kept"</span>,<span class="key">"entity_type"</span>:<span class="string">"DATE_TIME"</span>,<span class="key">"confidence"</span>:0.92}</code></pre>
+
+<h3>Quick Inspection Recipes</h3>
+<pre><code><span class="comment"># Count events by action type</span>
+cat server/data/corrections.jsonl | jq -r '.action' | sort | uniq -c | sort -rn
+
+<span class="comment"># List all FP removals with entity type and text</span>
+cat server/data/corrections.jsonl | jq -r 'select(.action=="fp_removed") | [.entity_type, .entity_text, .confidence] | @tsv'
+
+<span class="comment"># List all FN additions (things the pipeline missed)</span>
+cat server/data/corrections.jsonl | jq -r 'select(.action=="fn_added") | [.entity_text] | @tsv'
+
+<span class="comment"># FP counts by entity type</span>
+cat server/data/corrections.jsonl | jq -r 'select(.action=="fp_removed") | .entity_type' | sort | uniq -c | sort -rn
+
+<span class="comment"># Top 10 repeated FP texts (systematic pipeline errors)</span>
+cat server/data/corrections.jsonl | jq -r 'select(.action=="fp_removed") | .entity_text' | sort | uniq -c | sort -rn | head -10
+
+<span class="comment"># Top 10 FN texts (what the pipeline is missing)</span>
+cat server/data/corrections.jsonl | jq -r 'select(.action=="fn_added") | .entity_text' | sort | uniq -c | sort -rn | head -10
+
+<span class="comment"># Events from a specific session</span>
+cat server/data/corrections.jsonl | jq 'select(.session_id=="&lt;id&gt;")'</code></pre>
+
+<div class="pii-warning">
+  <p><strong>PII Warning:</strong> This file contains real entity text (student names, addresses, SSNs, etc.) from reviewed documents. It is gitignored and must never be committed, copied to shared storage, or included in logs without encryption. The <code style="background:#7f1d1d">kept</code> events intentionally omit <code style="background:#7f1d1d">entity_text</code> to minimize PII surface.</p>
+</div>
+
+<h2>Field Reference</h2>
+<table>
+  <thead>
+    <tr><th>Field</th><th>Type</th><th>Present on</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>timestamp</code></td><td>ISO 8601</td><td>all</td><td>When the finalization occurred</td></tr>
+    <tr><td><code>session_id</code></td><td>string</td><td>all</td><td><code>crypto.randomUUID()</code> (single-doc) or <code>document.id</code> (multi-doc)</td></tr>
+    <tr><td><code>action</code></td><td>enum</td><td>all</td><td><code>fp_removed</code>, <code>fn_added</code>, or <code>kept</code></td></tr>
+    <tr><td><code>entity_type</code></td><td>string</td><td>all</td><td>Presidio entity type. <code>UNKNOWN</code> for FN events</td></tr>
+    <tr><td><code>entity_text</code></td><td>string</td><td>FP, FN only</td><td>The actual text. Omitted on <code>kept</code> events for privacy</td></tr>
+    <tr><td><code>confidence</code></td><td>number</td><td>all</td><td>Detection confidence (0&ndash;1). Always <code>1.0</code> for FN events</td></tr>
+    <tr><td><code>detection_method</code></td><td>string</td><td>most</td><td><code>ner</code>, <code>pattern</code>, <code>manual</code>, etc.</td></tr>
+    <tr><td><code>pipeline_stage</code></td><td>string</td><td>FN only</td><td><code>user_added</code> for manual additions</td></tr>
+    <tr><td><code>document_type</code></td><td>string</td><td>future</td><td>Reserved for IEP vs. psych-ed classification</td></tr>
+  </tbody>
+</table>
+
+<h2>Recommendations for Use</h2>
+
+<h3>Pattern Discovery (Manual)</h3>
+<p>Start by looking for recurring FP entity types. If <code>PERSON</code> FPs dominate, the pipeline's PERSON detection is too aggressive &mdash; likely a post-filter rule or confidence threshold issue. If <code>DATE_TIME</code> FPs dominate, date pattern recognizers may need tightening.</p>
+<p>If the same text appears as an FP across multiple sessions, it is a <strong>systematic pipeline error</strong> worth fixing. One-off FPs are noise.</p>
+
+<h3>Feeding into the Karpathy Loop</h3>
+<p>The <code>/redaction-optimize</code> skill can read this JSONL to prioritize which pipeline axes to tune. FP-heavy entity types suggest precision problems; FN-heavy types suggest recall gaps. The correction data provides real-world signal that the synthetic benchmark cannot.</p>
+
+<h3>Future: learn.md Aggregation</h3>
+<p>Steps 5&ndash;7 of the implementation plan (deferred) will aggregate JSONL patterns into <code>docs/redaction-learn.md</code> &mdash; a human-readable summary of domain rules and few-shot examples for the LLM verifier. The JSONL file is the raw data asset; learn.md will be the curated view.</p>
+
+<h3>Resetting the Data</h3>
+<pre><code><span class="comment"># Truncate to start fresh</span>
+&gt; server/data/corrections.jsonl</code></pre>
+<p>There is no rotation or size cap in v1. Monitor file size if running in production for extended periods.</p>
+
+<h2>Implementation Details</h2>
+
+<h3>Files</h3>
+<table>
+  <thead>
+    <tr><th>File</th><th>Purpose</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>client/src/lib/correction-collector.ts</code></td><td>Extracts FP/FN/kept signals by comparing detectedItems vs final redactions</td></tr>
+    <tr><td><code>server/services/feedback-service.ts</code></td><td>JSONL writer &mdash; appends to <code>server/data/corrections.jsonl</code></td></tr>
+    <tr><td><code>server/routes.ts</code></td><td><code>POST /api/feedback</code> endpoint with action enum validation</td></tr>
+    <tr><td><code>hybrid-redaction.tsx</code></td><td>Single-doc: <code>removedTextsRef</code> + <code>sessionIdRef</code> tracking</td></tr>
+    <tr><td><code>multi-document-redaction.tsx</code></td><td>Multi-doc: per-document tracking, both finalization paths covered</td></tr>
+  </tbody>
+</table>
+
+<h3>Known Limitations (v1)</h3>
+<table>
+  <thead>
+    <tr><th>Limitation</th><th>Why</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>detection_method</code> always <code>pattern</code></td><td>Flask response doesn't include entity source</td></tr>
+    <tr><td><code>pipeline_stage</code> absent on FP events</td><td>Flask response has no stage field</td></tr>
+    <tr><td>FN events have <code>entity_type: UNKNOWN</code></td><td><code>manualRedactions</code> is <code>Set&lt;string&gt;</code> with no type metadata</td></tr>
+    <tr><td><code>kept</code> = inferred, not explicit</td><td>No &ldquo;confirm&rdquo; button in the UI</td></tr>
+    <tr><td>No JSONL rotation or cap</td><td>Manual truncation only in v1</td></tr>
+    <tr><td>No <code>document_id</code> field</td><td>Re-processing same doc creates duplicate events</td></tr>
+    <tr><td>No endpoint auth</td><td>Matches existing unauthenticated endpoint pattern</td></tr>
+  </tbody>
+</table>
+
+</div>
+</body>
+</html>
