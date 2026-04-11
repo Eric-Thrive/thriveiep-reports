@@ -82,7 +82,7 @@
 
 <!-- ============ SLIDE 1: EXECUTIVE SUMMARY ============ -->
 <div class="slide" id="slide-exec">
-  <div class="slide-num">Section 1 of 13</div>
+  <div class="slide-num">Section 1 of 14</div>
   <h2>How Bloom Reports Get Built: An Architecture Overview</h2>
 
   <h4>Key Messages</h4>
@@ -106,7 +106,7 @@
 
 <!-- ============ SLIDE 2: WHAT IS A BLOOM REPORT ============ -->
 <div class="slide" id="slide-context">
-  <div class="slide-num">Section 2 of 13</div>
+  <div class="slide-num">Section 2 of 14</div>
   <h2>What Is a Bloom Report?</h2>
 
   <p>A Bloom Report is a <strong>therapeutic placement profile</strong>. Families, educational advocates, treatment teams, and admissions directors use it to determine the Least Restrictive Environment that can safely meet a student's needs.</p>
@@ -137,7 +137,7 @@
 
 <!-- ============ SLIDE 3: PIPELINE OVERVIEW ============ -->
 <div class="slide" id="slide-overview">
-  <div class="slide-num">Section 3 of 13</div>
+  <div class="slide-num">Section 3 of 14</div>
   <h2>The Pipeline at a Glance</h2>
 
   <p>Documents flow through <strong>6 stages</strong> and <strong>4 gates</strong>. Stages do work (parse, extract, reconcile, synthesize, review). Gates check that the work meets quality thresholds before the next stage begins. If a gate fails, the pipeline halts.</p>
@@ -181,7 +181,7 @@
 
 <!-- ============ SLIDE 4: STAGE 1 + STAGE 2 ============ -->
 <div class="slide" id="slide-s1s2">
-  <div class="slide-num">Section 4 of 13</div>
+  <div class="slide-num">Section 4 of 14</div>
   <h2>Stages 1 &amp; 2: Ingestion</h2>
 
   <p>These two stages correspond to <strong>Agent 1 (Document Analyst)</strong> in the Bloom Protocol. They turn raw documents into structured, machine-readable data.</p>
@@ -209,9 +209,57 @@
   <p>Stage 2 is also <strong>parallelizable</strong>: all documents can be extracted simultaneously since they do not depend on each other. For a case with 6 documents, that means 6 parallel Sonnet calls instead of 6 sequential ones.</p>
 </div>
 
-<!-- ============ SLIDE 5: GATE 1 ============ -->
+<!-- ============ SLIDE 5: KNOWLEDGE SYSTEM ============ -->
+<div class="slide" id="slide-knowledge">
+  <div class="slide-num">Section 5 of 14</div>
+  <h2>The Knowledge System: Context Injection Layer</h2>
+
+  <p>Before any stage runs, the pipeline loads a <strong>file-based knowledge system</strong> from disk into <code>StageContext.knowledgeContext</code>. This read-only context layer gives every stage access to clinical vocabulary, source documents, and behavioral instructions without any stage needing to know where the files came from.</p>
+
+  <h3>What Gets Loaded</h3>
+  <p>The knowledge context exposes a <code>Map&lt;string, string&gt;</code> of files, organized into three categories:</p>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-blue">input_documents</span></h4>
+    <p>Raw text content of all uploaded clinical documents, stored as a JSON array of <code>{ id, content }</code> objects. This is what Stage 2 (Extract) processes: psychological evaluations, discharge summaries, IEP documents, call transcripts.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-blue">ontologies/*</span></h4>
+    <p>Clinical ontology files loaded from the <code>ontologies/</code> directory. These provide domain vocabulary and classification context to the LLM during extraction. Each file is loaded as a <code>--- ontologies/filename ---\n{content}</code> block and concatenated into an <code>ontologyContext</code> string that gets injected into extraction prompts.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-blue">instructions</span></h4>
+    <p>Agent-level behavioral instructions loaded from the knowledge filesystem. These are passed as part of the system prompt to guide extraction behavior (for example: "extract factual claims only, do not infer").</p>
+  </div>
+
+  <h3>How It Flows Through the Pipeline</h3>
+  <table>
+    <thead><tr><th>Stage</th><th>What It Uses From Knowledge Context</th></tr></thead>
+    <tbody>
+      <tr><td>S2 Extract</td><td><strong>input_documents</strong> for raw doc text, <strong>ontologies/*</strong> for clinical vocabulary grounding, <strong>instructions</strong> for agent behavior rules</td></tr>
+      <tr><td>S3 Reconcile</td><td>Works on structured PatientProfile JSON from S2, but can access knowledge context for additional guidance</td></tr>
+      <tr><td>S4 Synthesize</td><td>Works on reconciled data, but can reference knowledge context for domain-specific terminology</td></tr>
+      <tr><td>S6 Review</td><td>Works on synthesis output, but can access knowledge context for validation rules</td></tr>
+    </tbody>
+  </table>
+
+  <h3>What It Does NOT Contain</h3>
+  <ul>
+    <li>No pre-built claim databases or lookup tables</li>
+    <li>No patient history from prior runs</li>
+    <li>No cached model outputs</li>
+  </ul>
+
+  <blockquote>
+    <strong>The ontology files are the most interesting part architecturally.</strong> They give the LLM clinical vocabulary grounding to reduce hallucination during extraction. Instead of relying on the model's training data for clinical terminology, the pipeline injects authoritative classification context at runtime. This is the same principle behind retrieval-augmented generation (RAG), but with curated, static domain knowledge rather than dynamic vector search.
+  </blockquote>
+</div>
+
+<!-- ============ SLIDE 6: GATE 1 ============ -->
 <div class="slide" id="slide-g1">
-  <div class="slide-num">Section 5 of 13</div>
+  <div class="slide-num">Section 6 of 14</div>
   <h2>Gate 1: Schema Validation</h2>
 
   <p>Before the pipeline invests any more compute, Gate 1 runs a quick sanity check on what Stage 2 produced.</p>
@@ -235,7 +283,7 @@
 
 <!-- ============ SLIDE 6: STAGE 3a + 3b ============ -->
 <div class="slide" id="slide-s3">
-  <div class="slide-num">Section 6 of 13</div>
+  <div class="slide-num">Section 7 of 14</div>
   <h2>Stage 3: Reconciliation &amp; Conflict Classification</h2>
 
   <p>This is where the pipeline takes isolated document extractions and weaves them into a single coherent timeline. It corresponds to <strong>Agent 2 (Timeline Reconciler)</strong> in the Bloom Protocol, but splits the work into two sub-stages.</p>
@@ -284,7 +332,7 @@
 
 <!-- ============ SLIDE 7: GATE 1b ============ -->
 <div class="slide" id="slide-g1b">
-  <div class="slide-num">Section 7 of 13</div>
+  <div class="slide-num">Section 8 of 14</div>
   <h2>Gate 1b: The Human Halt</h2>
 
   <p>This is the pipeline's most important safety mechanism. Gate 1b checks three things:</p>
@@ -312,7 +360,7 @@
 
 <!-- ============ SLIDE 8: STAGE 4 ============ -->
 <div class="slide" id="slide-s4">
-  <div class="slide-num">Section 8 of 13</div>
+  <div class="slide-num">Section 9 of 14</div>
   <h2>Stage 4: Placement Synthesis</h2>
 
   <p>This is the heart of the pipeline. It corresponds to <strong>Agent 3 (Clinical Synthesizer)</strong> and is the only stage that runs on <strong>Claude Opus 4.6</strong>, the most capable model in the family. This is where extracted claims become a coherent narrative.</p>
@@ -337,7 +385,7 @@
 
 <!-- ============ SLIDE 9: GATE 2 ============ -->
 <div class="slide" id="slide-g2">
-  <div class="slide-num">Section 9 of 13</div>
+  <div class="slide-num">Section 10 of 14</div>
   <h2>Gate 2: Constraint Validation</h2>
 
   <p>After synthesis, Gate 2 runs a battery of deterministic checks on the output before it proceeds to quality review.</p>
@@ -362,7 +410,7 @@
 
 <!-- ============ SLIDE 10: STAGE 6 ============ -->
 <div class="slide" id="slide-s6">
-  <div class="slide-num">Section 10 of 13</div>
+  <div class="slide-num">Section 11 of 14</div>
   <h2>Stage 6: Quality Review</h2>
 
   <p>The final processing stage corresponds to <strong>Agent 4 (Quality Reviewer)</strong>. It runs on <strong>Claude Haiku 4.5</strong>, the fastest and cheapest model. It does two things:</p>
@@ -389,7 +437,7 @@
 
 <!-- ============ SLIDE 11: MODEL TIERING ============ -->
 <div class="slide" id="slide-models">
-  <div class="slide-num">Section 11 of 13</div>
+  <div class="slide-num">Section 12 of 14</div>
   <h2>Model Tiering: The Right Tool for Each Job</h2>
 
   <p>The pipeline uses three different Claude models, each chosen for what it does best. This is a deliberate cost-performance tradeoff, not just an optimization.</p>
@@ -420,7 +468,7 @@
 
 <!-- ============ SLIDE 12: EVALUATION FRAMEWORK ============ -->
 <div class="slide" id="slide-eval">
-  <div class="slide-num">Section 12 of 13</div>
+  <div class="slide-num">Section 13 of 14</div>
   <h2>The Evaluation Framework: 41 Checks</h2>
 
   <p>Beyond the inline gates, the pipeline has a separate end-to-end evaluation framework that runs 41 checks across 3 layers. This is used for regression testing, prompt tuning, and quality benchmarking.</p>
@@ -456,7 +504,7 @@
 
 <!-- ============ SLIDE 13: WHAT THIS MEANS ============ -->
 <div class="slide" id="slide-recs">
-  <div class="slide-num">Section 13 of 13</div>
+  <div class="slide-num">Section 14 of 14</div>
   <h2>What This Means for Us</h2>
 
   <h3>Architecture Strengths</h3>
@@ -498,15 +546,16 @@
   <button class="idx-chip" onclick="goTo(1)">What Is It?</button>
   <button class="idx-chip" onclick="goTo(2)">Pipeline Overview</button>
   <button class="idx-chip" onclick="goTo(3)">S1 &amp; S2: Ingestion</button>
-  <button class="idx-chip" onclick="goTo(4)">Gate 1</button>
-  <button class="idx-chip" onclick="goTo(5)">S3: Reconciliation</button>
-  <button class="idx-chip" onclick="goTo(6)">Gate 1b: Human Halt</button>
-  <button class="idx-chip" onclick="goTo(7)">S4: Synthesis</button>
-  <button class="idx-chip" onclick="goTo(8)">Gate 2</button>
-  <button class="idx-chip" onclick="goTo(9)">S6: Review</button>
-  <button class="idx-chip" onclick="goTo(10)">Model Tiering</button>
-  <button class="idx-chip" onclick="goTo(11)">Evaluation (41 checks)</button>
-  <button class="idx-chip" onclick="goTo(12)">What This Means</button>
+  <button class="idx-chip" onclick="goTo(4)">Knowledge System</button>
+  <button class="idx-chip" onclick="goTo(5)">Gate 1</button>
+  <button class="idx-chip" onclick="goTo(6)">S3: Reconciliation</button>
+  <button class="idx-chip" onclick="goTo(7)">Gate 1b: Human Halt</button>
+  <button class="idx-chip" onclick="goTo(8)">S4: Synthesis</button>
+  <button class="idx-chip" onclick="goTo(9)">Gate 2</button>
+  <button class="idx-chip" onclick="goTo(10)">S6: Review</button>
+  <button class="idx-chip" onclick="goTo(11)">Model Tiering</button>
+  <button class="idx-chip" onclick="goTo(12)">Evaluation (41 checks)</button>
+  <button class="idx-chip" onclick="goTo(13)">What This Means</button>
   <div class="idx-arrows">
     <button class="idx-arrow" onclick="prev()">&larr;</button>
     <button class="idx-arrow" onclick="next()">&rarr;</button>
