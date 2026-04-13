@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Research &amp; Knowledge Graph Systems</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; line-height: 1.7; }
+  .header { padding: 32px 40px; background: #1e293b; border-bottom: 1px solid #334155; }
+  .header h1 { font-size: 28px; font-weight: 700; color: #f8fafc; }
+  .header p { font-size: 14px; color: #94a3b8; margin-top: 6px; }
+  .back { display: inline-block; margin-bottom: 12px; color: #60a5fa; text-decoration: none; font-size: 14px; }
+  .back:hover { text-decoration: underline; }
+  .content { max-width: 860px; margin: 40px auto; padding: 0 24px 80px; }
+  h2 { font-size: 22px; font-weight: 600; color: #f1f5f9; margin: 44px 0 16px; padding-bottom: 8px; border-bottom: 1px solid #334155; }
+  h3 { font-size: 17px; font-weight: 600; color: #cbd5e1; margin: 28px 0 12px; }
+  h4 { font-size: 14px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.06em; margin: 20px 0 8px; }
+  p { color: #cbd5e1; margin-bottom: 14px; }
+  strong { color: #f1f5f9; }
+  em { color: #93c5fd; font-style: normal; font-weight: 500; }
+  code { font-family: "JetBrains Mono", "Fira Code", "SF Mono", monospace; background: #1e293b; color: #93c5fd; padding: 2px 6px; border-radius: 4px; font-size: 0.88em; }
+  pre { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 16px 20px; overflow-x: auto; margin: 12px 0 20px; font-size: 13px; line-height: 1.6; }
+  pre code { background: none; padding: 0; color: #e2e8f0; }
+  ul, ol { margin: 8px 0 16px 24px; color: #cbd5e1; }
+  li { margin-bottom: 6px; }
+  li code { font-size: 0.85em; }
+  .badge-row { margin: 8px 0 28px; }
+  .badge { display: inline-block; padding: 3px 10px; background: #1e3a5f; color: #93c5fd; border-radius: 4px; font-size: 12px; font-weight: 500; margin-right: 6px; }
+  .badge.infra { background: #1e3a5f; color: #93c5fd; }
+  .badge.ref { background: #1a3322; color: #86efac; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 14px; }
+  th { text-align: left; padding: 10px 12px; background: #1e293b; color: #94a3b8; font-weight: 600; border-bottom: 2px solid #334155; }
+  td { padding: 10px 12px; border-bottom: 1px solid #1e293b; color: #cbd5e1; vertical-align: top; }
+  td code { font-size: 0.82em; }
+  tr:hover td { background: #1e293b40; }
+  .arch-diagram { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 24px; margin: 20px 0; font-family: "JetBrains Mono", "Fira Code", "SF Mono", monospace; font-size: 13px; line-height: 1.9; color: #94a3b8; white-space: pre; overflow-x: auto; }
+  .arch-diagram .hl { color: #60a5fa; font-weight: 600; }
+  .arch-diagram .grn { color: #86efac; }
+  .arch-diagram .muted { color: #475569; }
+  .constraint-box { background: #1e293b; border: 1px solid #3b4f6e; border-left: 4px solid #3b82f6; border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 16px 0; }
+  .constraint-box p { margin: 0; font-size: 14px; }
+  .constraint-box strong { color: #93c5fd; }
+  .warn-box { background: #1e293b; border-left: 4px solid #f59e0b; border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 16px 0; }
+  .warn-box p { margin: 0; font-size: 14px; color: #fde68a; }
+  .toc { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 20px 24px; margin-bottom: 36px; }
+  .toc h3 { margin-top: 0; margin-bottom: 10px; font-size: 15px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.06em; }
+  .toc ol { margin: 0 0 0 20px; }
+  .toc li { margin-bottom: 4px; }
+  .toc a { color: #60a5fa; text-decoration: none; font-size: 14px; }
+  .toc a:hover { text-decoration: underline; }
+  .layer-header { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+  .layer-badge { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+  .layer1 { background: #1a3322; color: #86efac; }
+  .layer2 { background: #1e3a5f; color: #93c5fd; }
+  .layer3 { background: #3b1f5f; color: #c4b5fd; }
+  .search-step { display: flex; gap: 16px; margin: 8px 0; align-items: flex-start; }
+  .step-num { background: #334155; color: #94a3b8; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+  .step-body { flex: 1; font-size: 14px; color: #cbd5e1; }
+  hr { border: none; height: 1px; background: #334155; margin: 36px 0; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a class="back" href="/">&larr; All Reports</a>
+  <h1>Research &amp; Knowledge Graph Systems</h1>
+  <p>Architecture overview of the three-layer research system &mdash; raw findings, wiki, and knowledge graphs</p>
+</div>
+
+<div class="content">
+
+<div class="badge-row">
+  <span class="badge infra">Infrastructure</span>
+  <span class="badge ref">Reference</span>
+</div>
+
+<div class="toc">
+  <h3>Contents</h3>
+  <ol>
+    <li><a href="#overview">System Overview</a></li>
+    <li><a href="#layer1">Layer 1 &mdash; Raw Findings</a></li>
+    <li><a href="#layer2">Layer 2 &mdash; Research Wiki</a></li>
+    <li><a href="#layer3">Layer 3 &mdash; Knowledge Graphs</a></li>
+    <li><a href="#search">Search Pipeline</a></li>
+    <li><a href="#mcp">MCP Exposure (pm-hub-kg)</a></li>
+    <li><a href="#scripts">Scripts Reference</a></li>
+    <li><a href="#workflows">Rebuild Workflows</a></li>
+    <li><a href="#filemap">File Map</a></li>
+    <li><a href="#constraints">Key Constraints</a></li>
+  </ol>
+</div>
+
+<!-- ─────────────────────────── OVERVIEW ─────────────────────────── -->
+<h2 id="overview">System Overview</h2>
+
+<p>Three layers, strictly ordered &mdash; each layer reads the one below and never writes to it.</p>
+
+<div class="arch-diagram"><span class="hl">┌─────────────────────────────────────────────────────┐
+│  Layer 3 — Knowledge Graphs                         │
+│  _KNOWLEDGE_GRAPH.json  |  Neo4j (Railway)          │
+│  ChromaDB semantic index  |  BM25S keyword index    │
+│  pm-hub-kg MCP  (query_graph, traverse, find_stale) │
+└───────────────┬─────────────────────────────────────┘</span>
+                <span class="muted">│ indexes / embeds</span>
+<span class="grn">┌───────────────▼─────────────────────────────────────┐
+│  Layer 2 — Research Wiki                            │
+│  research/wiki/  (topics/ entities/ concepts/ papers/)
+│  LLM-maintained markdown articles (656 total)       │
+│  compiled from raw findings via /research-wiki skill │
+└───────────────┬─────────────────────────────────────┘</span>
+                <span class="muted">│ compiles from</span>
+<span class="muted">┌───────────────▼─────────────────────────────────────┐
+│  Layer 1 — Raw Findings                             │
+│  research/findings/*.json  (118 files, immutable)   │
+│  research/sessions/*.md    (81 session logs)        │
+│  Source of truth — LLM reads but never modifies     │
+└─────────────────────────────────────────────────────┘</span></div>
+
+<p><strong>Why separate layers?</strong> Raw findings are immutable so claims can always be traced to their source. The wiki synthesizes across sessions. The KG enables fast retrieval without re-reading every file. The layers can be rebuilt independently when schemas change.</p>
+
+<!-- ─────────────────────────── LAYER 1 ─────────────────────────── -->
+<h2 id="layer1">
+  <span class="layer-badge layer1">Layer 1</span>
+  Raw Findings
+</h2>
+
+<h3>Location</h3>
+<ul>
+  <li><code>research/findings/</code> &mdash; 118 JSON files, one per research session</li>
+  <li><code>research/sessions/</code> &mdash; 81 Markdown session logs (human-readable companion)</li>
+</ul>
+
+<h3>Findings JSON Schema</h3>
+<p>Each <code>findings/*.json</code> is a <code>ResearchFindings</code> Pydantic model:</p>
+
+<table>
+  <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+  <tr><td><code>session_id</code></td><td>string</td><td>Slug identifying the research session</td></tr>
+  <tr><td><code>papers</code></td><td>list[PaperFinding]</td><td>Papers found, with DOI, year, citation count, abstract</td></tr>
+  <tr><td><code>claims</code></td><td>list[ClaimFinding]</td><td>Extracted claims with paper provenance</td></tr>
+  <tr><td><code>concepts</code></td><td>list[ConceptFinding]</td><td>Concept co-occurrences across papers</td></tr>
+  <tr><td><code>benchmark_results</code></td><td>list</td><td>Model performance on tasks</td></tr>
+  <tr><td><code>appraisals</code></td><td>list[AppraisalResult]</td><td>Critical appraisal (RoB, GRADE)</td></tr>
+</table>
+
+<div class="constraint-box"><p><strong>Immutability rule:</strong> Never modify findings files after creation. If a session's evidence is superseded, the wiki article gets a <code>superseded_by:</code> frontmatter field &mdash; the raw finding stays intact.</p></div>
+
+<h3>Aliases Registry</h3>
+<p><code>research/aliases.json</code> &mdash; 1,653-line canonical name registry. Maps variant names (e.g., "RoB 2", "Cochrane RoB", "bias assessment") to one canonical concept slug. The wiki compile router uses this to avoid duplicate concept pages.</p>
+<p><code>research/pending-aliases.json</code> &mdash; aliases awaiting human approval before promotion.</p>
+
+<!-- ─────────────────────────── LAYER 2 ─────────────────────────── -->
+<h2 id="layer2">
+  <span class="layer-badge layer2">Layer 2</span>
+  Research Wiki
+</h2>
+
+<h3>Article Types</h3>
+<table>
+  <tr><th>Type</th><th>Directory</th><th>Count</th><th>Purpose</th></tr>
+  <tr><td>Topic</td><td><code>topics/</code></td><td>33</td><td>Multi-session synthesis on a research area</td></tr>
+  <tr><td>Entity</td><td><code>entities/</code></td><td>73</td><td>Specific tool, framework, instrument, or model</td></tr>
+  <tr><td>Concept</td><td><code>concepts/</code></td><td>134</td><td>Cross-cutting idea referenced by multiple topics</td></tr>
+  <tr><td>Paper</td><td><code>papers/</code></td><td>381</td><td>Individual paper summary with claims</td></tr>
+</table>
+<p><strong>Total: 656 articles</strong> as of last compile (2026-04-10).</p>
+
+<h3>Compile &rarr; reindex_with_health.py</h3>
+<p>The <code>/research-wiki compile</code> skill reads raw findings and writes/updates wiki articles. After any compile, run <code>reindex_with_health.py</code> to regenerate <code>index.md</code> and the BM25S index:</p>
+<pre><code>cd PM-Hub && python3 scripts/reindex_with_health.py</code></pre>
+<p>This script: (1) parses YAML frontmatter from all articles, (2) computes a health status for each, (3) applies retention decay when <code>decay_class:</code> is set, (4) builds the BM25S keyword index, (5) writes <code>wiki/index.md</code>.</p>
+
+<h3>Article Frontmatter (key fields)</h3>
+<pre><code>title: "Article Title"
+type: topic          # topic | entity | concept | paper
+provenance: primary  # primary | derived | mixed
+confidence: high     # high | medium | low
+papers: 12
+sources:
+  - ../findings/2026-04-06-instrument-audit.json
+last_session: 2026-04-06
+session_slugs: [instrument-audit]
+decay_class: slow    # slow (90d) | medium (45d) | fast (14d) half-life
+relationships:
+  - type: evidences
+    target: ../entities/gliner.md
+  - type: operationalizes
+    target: ../concepts/pii-detection.md</code></pre>
+
+<h3>Health Status Logic</h3>
+<table>
+  <tr><th>Status</th><th>Condition</th></tr>
+  <tr><td><code>stub</code></td><td><code>confidence: low</code> AND <code>papers = 0</code></td></tr>
+  <tr><td><code>aging</code></td><td>Evidence beyond domain freshness window (or <code>freshness_score &lt; 0.5</code> if <code>decay_class</code> set)</td></tr>
+  <tr><td><code>primary</code></td><td>Has <code>sources:</code>, no <code>derived_from:</code></td></tr>
+  <tr><td><code>derived</code></td><td>Has <code>derived_from:</code>, <code>derivation_depth &ge; 1</code></td></tr>
+  <tr><td><code>mixed</code></td><td>Has both <code>sources:</code> and <code>derived_from:</code></td></tr>
+</table>
+
+<h3>Typed Relationships</h3>
+<p>Articles use <code>relationships:</code> instead of the deprecated flat <code>related:</code> list. Once <code>relationships:</code> is populated, <code>related:</code> is frozen &mdash; all new cross-references go into <code>relationships:</code>.</p>
+<table>
+  <tr><th>Type</th><th>Direction</th><th>Meaning</th></tr>
+  <tr><td><code>contradicts</code></td><td>bidirectional</td><td>Claims in conflict</td></tr>
+  <tr><td><code>evidences</code></td><td>paper/entity &rarr; topic/concept</td><td>Empirical support flows to target</td></tr>
+  <tr><td><code>operationalizes</code></td><td>entity &rarr; concept</td><td>Concrete implementation of a concept</td></tr>
+  <tr><td><code>uses</code></td><td>topic/entity &rarr; entity</td><td>Depends on or applies</td></tr>
+  <tr><td><code>extends</code></td><td>any &rarr; any</td><td>Builds on without contradicting</td></tr>
+</table>
+
+<h3>Supersession Fields</h3>
+<p>When a claim is superseded by newer evidence:</p>
+<pre><code>superseded_by: ../concepts/newer-claim.md
+valid_until: 2026-03-15     # date this claim became stale
+supersedes: ../concepts/older-claim.md</code></pre>
+<p>Run <code>scripts/backfill-valid-until.py</code> to automatically write <code>valid_until:</code> dates to articles that have <code>superseded_by:</code> but are missing the date anchor.</p>
+
+<!-- ─────────────────────────── LAYER 3 ─────────────────────────── -->
+<h2 id="layer3">
+  <span class="layer-badge layer3">Layer 3</span>
+  Knowledge Graphs
+</h2>
+
+<p>Two separate KGs at different granularities. They do not overlap &mdash; the bridge is the <code>compiled_from:</code> frontmatter field, which links articles &rarr; findings JSONs &rarr; Neo4j paper DOIs.</p>
+
+<div class="arch-diagram"><span class="hl">Article KG (_KNOWLEDGE_GRAPH.json)</span>   <span class="grn">Paper/Claim KG (Neo4j, Railway)</span>
+─────────────────────────────────────   ──────────────────────────────────
+Wiki article nodes                      Paper nodes
+Typed article-article edges             Claim nodes
+DR / C2A doc / decisions nodes          Concept co-occurrence edges
+Structural + semantic search            Literature queries, GRADE/RoB
+Exposed via pm-hub-kg MCP              Exposed via neo4j-query.py
+<span class="muted">Always available (local file)           Requires Railway connection</span></div>
+
+<div class="constraint-box"><p><strong>Critical constraint:</strong> Article-level <code>relationships:</code> frontmatter is <strong>not</strong> ingested into Neo4j. Those edges belong in <code>_KNOWLEDGE_GRAPH.json</code> only (built by <code>build-knowledge-graph.py</code>). See <code>kg-architecture.md</code> in the deep-research skill references.</p></div>
+
+<h3>KG A &mdash; Article KG (<code>_KNOWLEDGE_GRAPH.json</code>)</h3>
+<p><strong>Built by:</strong> <code>scripts/build-knowledge-graph.py</code><br>
+<strong>Covers:</strong> All <code>.md</code> files across PM-Hub (wiki articles, DRs, C2A docs, decisions, etc.)<br>
+<strong>Node attributes:</strong> <code>title</code>, <code>domain</code>, <code>confidence</code>, <code>last_session</code>, <code>valid_until</code>, <code>stale</code>, <code>superseded_by</code>, <code>session_slugs</code>, <code>compile_date</code><br>
+<strong>Edge types:</strong> <code>wiki_related</code>, <code>supersedes</code>, <code>compiled_from</code>, plus all typed <code>relationships:</code> types</p>
+<pre><code>cd PM-Hub && python3 scripts/build-knowledge-graph.py</code></pre>
+<p>Also runs automatically via post-commit hook (incremental).</p>
+
+<h3>KG B &mdash; Paper/Claim KG (Neo4j)</h3>
+<p><strong>Built by:</strong> <code>scripts/neo4j-ingest.py</code><br>
+<strong>Covers:</strong> Raw research findings only &mdash; papers, claims, concepts, appraisals<br>
+<strong>Requires:</strong> <code>NEO4J_URI</code>, <code>NEO4J_USERNAME</code>, <code>NEO4J_PASSWORD</code> in <code>.env</code> (Railway-hosted, may be suspended)</p>
+<pre><code>cd PM-Hub && source venv/bin/activate
+python3 scripts/neo4j-ingest.py findings/&lt;session&gt;.json</code></pre>
+
+<h3>KG C &mdash; Semantic Index (ChromaDB)</h3>
+<p><strong>Built by:</strong> <code>scripts/ingest-chromadb.py</code><br>
+<strong>Covers:</strong> All PM-Hub markdown + JSON, chunked and embedded with <code>sentence-transformers</code><br>
+<strong>Location:</strong> <code>_chromadb/</code> (persistent local)</p>
+<pre><code># Full rebuild (weekly or after major content changes)
+python3 scripts/ingest-chromadb.py --full
+
+# Incremental (auto via post-commit hook)
+bash scripts/incremental-semantic.sh</code></pre>
+
+<h3>KG D &mdash; BM25S Keyword Index</h3>
+<p><strong>Built by:</strong> <code>scripts/reindex_with_health.py</code> (as part of wiki reindex)<br>
+<strong>Covers:</strong> Wiki articles only<br>
+<strong>Location:</strong> <code>research/wiki/.bm25-index/</code> (bm25s native binary format)<br>
+<strong>Purpose:</strong> Exact-match rescue for technical acronyms (<code>WISC-V</code>, <code>GLiNER</code>, <code>Presidio</code>) that semantic search misses. Fused with ChromaDB results via Reciprocal Rank Fusion (RRF).</p>
+
+<div class="warn-box"><p><strong>Staleness check:</strong> <code>wiki/.compile-state.json</code> records <code>bm25_build_date</code>. If the BM25 index is older than the last compile, the query path warns and falls back to ChromaDB + graph only.</p></div>
+
+<!-- ─────────────────────────── SEARCH ─────────────────────────── -->
+<h2 id="search">Search Pipeline</h2>
+
+<p>When <code>query_graph(question)</code> is called via the <code>pm-hub-kg</code> MCP:</p>
+
+<div style="margin: 16px 0 24px;">
+  <div class="search-step">
+    <div class="step-num">1</div>
+    <div class="step-body">Embed question &rarr; ChromaDB vector search (top 10)</div>
+  </div>
+  <div class="search-step">
+    <div class="step-num">2</div>
+    <div class="step-body">BM25S keyword search (top 10) &mdash; wiki articles only</div>
+  </div>
+  <div class="search-step">
+    <div class="step-num">3</div>
+    <div class="step-body">RRF fusion: <code>score = &Sigma; 1 / (60 + rank_i)</code></div>
+  </div>
+  <div class="search-step">
+    <div class="step-num">4</div>
+    <div class="step-body">Graph expansion: for each top result, follow <code>_structural_links()</code> (outbound relationships, compiled_from, superseded_by)</div>
+  </div>
+  <div class="search-step">
+    <div class="step-num">5</div>
+    <div class="step-body">Apply source effectiveness boost (from <code>telemetry/search-effectiveness.json</code>)</div>
+  </div>
+  <div class="search-step">
+    <div class="step-num">6</div>
+    <div class="step-body">Apply recency bonus (git mtime vs frontmatter <code>updated:</code> date)</div>
+  </div>
+  <div class="search-step">
+    <div class="step-num">7</div>
+    <div class="step-body">Return ranked results with trust banner, health status, typed edges</div>
+  </div>
+</div>
+
+<p><strong>Mode parameter:</strong> <code>hybrid</code> (default) &mdash; ChromaDB + graph expansion &nbsp;|&nbsp; <code>vector</code> &mdash; pure ChromaDB similarity</p>
+
+<!-- ─────────────────────────── MCP ─────────────────────────── -->
+<h2 id="mcp">MCP Exposure (pm-hub-kg)</h2>
+
+<p>The article KG is exposed to Claude Code via <code>scripts/mcp-knowledge-graph.py</code> (stdio transport).</p>
+
+<table>
+  <tr><th>Tool</th><th>Purpose</th></tr>
+  <tr><td><code>query_graph(question, mode)</code></td><td>Semantic + structural search across PM-Hub</td></tr>
+  <tr><td><code>traverse(node_id, depth)</code></td><td>Walk the graph from a node, following typed edges</td></tr>
+  <tr><td><code>find_stale(days)</code></td><td>Find documents where git mtime &gt; frontmatter <code>updated:</code> date</td></tr>
+  <tr><td><code>find_orphans()</code></td><td>Find wiki articles with no incoming references</td></tr>
+  <tr><td><code>record_usage(query_id, path, action)</code></td><td>Log a read event (feeds search effectiveness telemetry)</td></tr>
+  <tr><td><code>suggest_gaps(min_count)</code></td><td>Identify under-documented areas from query telemetry</td></tr>
+</table>
+
+<!-- ─────────────────────────── SCRIPTS ─────────────────────────── -->
+<h2 id="scripts">Scripts Reference</h2>
+
+<table>
+  <tr><th>Script</th><th>Purpose</th><th>Trigger</th></tr>
+  <tr><td><code>build-knowledge-graph.py</code></td><td>Builds <code>_KNOWLEDGE_GRAPH.json</code> from all PM-Hub markdown</td><td>Manual or post-commit hook</td></tr>
+  <tr><td><code>mcp-knowledge-graph.py</code></td><td>MCP server exposing KG tools to Claude Code</td><td>Persistent (stdio)</td></tr>
+  <tr><td><code>reindex_with_health.py</code></td><td>Regenerates <code>wiki/index.md</code>, builds BM25S index</td><td>After wiki compile</td></tr>
+  <tr><td><code>ingest-chromadb.py</code></td><td>Builds ChromaDB semantic index</td><td>Full: weekly; Incremental: post-commit</td></tr>
+  <tr><td><code>neo4j-ingest.py</code></td><td>Ingests raw findings into Neo4j paper/claim KG</td><td>After <code>/deep-research</code> sessions</td></tr>
+  <tr><td><code>neo4j-query.py</code></td><td>Query functions for Neo4j KG</td><td>Used by deep-research skill</td></tr>
+  <tr><td><code>neo4j-setup.py</code></td><td>Creates Neo4j schema constraints and indexes</td><td>One-time setup</td></tr>
+  <tr><td><code>backfill-valid-until.py</code></td><td>Writes <code>valid_until:</code> to articles with <code>superseded_by:</code></td><td>After first supersession batch</td></tr>
+  <tr><td><code>backfill_provenance.py</code></td><td>Adds provenance frontmatter fields to older articles</td><td>One-time migration</td></tr>
+  <tr><td><code>search-feedback.py</code></td><td>Computes search effectiveness from MCP telemetry</td><td>Automatic (post-commit)</td></tr>
+  <tr><td><code>promote_aliases.py</code></td><td>Moves entries from <code>pending-aliases.json</code> &rarr; <code>aliases.json</code></td><td>Manual approval</td></tr>
+  <tr><td><code>research_persist.py</code></td><td>Saves a research session to <code>findings/</code> + <code>sessions/</code></td><td>Called by <code>/deep-research</code></td></tr>
+  <tr><td><code>verify-research-session.sh</code></td><td>Validates a findings JSON against schema</td><td>Called by <code>/deep-research</code></td></tr>
+  <tr><td><code>kg-query.py</code></td><td>Direct KG query utility (CLI)</td><td>Ad hoc debugging</td></tr>
+  <tr><td><code>eval-knowledge-graph.py</code></td><td>Evaluates KG quality metrics</td><td>Manual</td></tr>
+</table>
+
+<!-- ─────────────────────────── WORKFLOWS ─────────────────────────── -->
+<h2 id="workflows">Rebuild Workflows</h2>
+
+<h3>After a /deep-research session</h3>
+<pre><code># 1. Research skill auto-saves findings to research/findings/
+# 2. Run wiki compile (incremental — only new sessions)
+/research-wiki compile --session &lt;slug&gt;
+
+# 3. Rebuild wiki index + BM25S
+python3 scripts/reindex_with_health.py
+
+# 4. Rebuild article KG (also regenerates auto-generated indexes)
+python3 scripts/build-knowledge-graph.py
+
+# 5. Ingest papers/claims into Neo4j (if Railway is available)
+source venv/bin/activate && python3 scripts/neo4j-ingest.py findings/&lt;slug&gt;.json
+
+# 6. Commit (triggers incremental ChromaDB update via post-commit hook)
+git add -A && git commit -m "[Session N] Research: &lt;topic&gt;"</code></pre>
+
+<h3>Full semantic rebuild (weekly or after major content change)</h3>
+<pre><code>cd PM-Hub && source venv/bin/activate
+python3 scripts/ingest-chromadb.py --full</code></pre>
+
+<h3>After schema migration (new frontmatter fields)</h3>
+<pre><code># Backfill provenance fields
+python3 scripts/backfill_provenance.py
+
+# Backfill valid_until dates (only if supersession pairs exist)
+python3 scripts/backfill-valid-until.py
+
+# Rebuild everything
+python3 scripts/reindex_with_health.py
+python3 scripts/build-knowledge-graph.py</code></pre>
+
+<!-- ─────────────────────────── FILE MAP ─────────────────────────── -->
+<h2 id="filemap">File Map</h2>
+
+<pre><code>PM-Hub/
+├── research/
+│   ├── README.md                  ← authoritative source of this document
+│   ├── ARCHITECTURE.md            ← deep-research agent harness design
+│   ├── aliases.json               ← canonical concept name registry (1,653 lines)
+│   ├── pending-aliases.json       ← aliases awaiting promotion
+│   ├── findings/                  ← 118 immutable JSON files (raw evidence)
+│   ├── sessions/                  ← 81 Markdown session logs
+│   ├── wiki/
+│   │   ├── SCHEMA.md              ← schema, lint rules, trust banners, compile gates
+│   │   ├── index.md               ← master article registry (auto-generated)
+│   │   ├── log.md                 ← compile history
+│   │   ├── synthesis-queue.md     ← candidate supersession pairs for human review
+│   │   ├── .compile-state.json    ← last compile metadata, BM25S build date
+│   │   ├── .bm25-index/           ← BM25S keyword index (native binary format)
+│   │   ├── topics/                ← 33 topic synthesis articles
+│   │   ├── entities/              ← 73 entity articles (tools, instruments, models)
+│   │   ├── concepts/              ← 134 concept articles
+│   │   └── papers/                ← 381 paper summary articles
+│   ├── source-effectiveness.json  ← per-API search performance scores
+│   ├── search-patterns.json       ← learned search chain patterns
+│   └── learn.md                   ← session learning state
+│
+├── scripts/
+│   ├── build-knowledge-graph.py   ← builds _KNOWLEDGE_GRAPH.json
+│   ├── mcp-knowledge-graph.py     ← pm-hub-kg MCP server (stdio)
+│   ├── reindex_with_health.py     ← wiki index.md + BM25S rebuild
+│   ├── ingest-chromadb.py         ← ChromaDB semantic index
+│   ├── neo4j-ingest.py            ← paper/claim KG (Neo4j)
+│   ├── neo4j-query.py             ← Neo4j query functions
+│   ├── backfill-valid-until.py    ← writes valid_until: to superseded articles
+│   ├── search-feedback.py         ← search effectiveness telemetry
+│   └── research_persist.py        ← saves findings from /deep-research
+│
+├── _KNOWLEDGE_GRAPH.json          ← article KG (all PM-Hub docs)
+├── _SEARCH_INDEX.json             ← structural search index
+├── _chromadb/                     ← ChromaDB semantic index (persistent)
+└── telemetry/
+    ├── mcp-queries.jsonl           ← query log
+    ├── search-effectiveness.json   ← effectiveness scores by source
+    └── build-stats.jsonl           ← KG build history</code></pre>
+
+<!-- ─────────────────────────── CONSTRAINTS ─────────────────────────── -->
+<h2 id="constraints">Key Constraints</h2>
+
+<div class="constraint-box" style="margin-bottom: 12px;">
+  <p><strong>1. Layer 1 is immutable.</strong> <code>research/findings/</code> files are never modified after creation. Superseded evidence is annotated in the wiki, not deleted from findings.</p>
+</div>
+<div class="constraint-box" style="margin-bottom: 12px;">
+  <p><strong>2. Article edges stay in the article KG.</strong> <code>relationships:</code> frontmatter is parsed by <code>build-knowledge-graph.py</code> into <code>_KNOWLEDGE_GRAPH.json</code>. It is <strong>not</strong> ingested into Neo4j.</p>
+</div>
+<div class="constraint-box" style="margin-bottom: 12px;">
+  <p><strong>3. <code>yaml.safe_load</code> required for frontmatter.</strong> The <code>relationships:</code> block is a YAML list-of-mappings. Hand-rolled line parsers cannot read it.</p>
+</div>
+<div class="constraint-box" style="margin-bottom: 12px;">
+  <p><strong>4. <code>bm25s</code> &ne; <code>rank_bm25</code>.</strong> Incompatible APIs and index formats. Always use <code>bm25s</code> &mdash; community drop-in-replacement claims are incorrect.</p>
+</div>
+<div class="constraint-box" style="margin-bottom: 12px;">
+  <p><strong>5. <code>_KNOWLEDGE_GRAPH.json</code> nodes are flat.</strong> No "attributes" wrapper. Access fields directly from the node dict (e.g., <code>node["last_session"]</code>, not <code>node["attributes"]["last_session"]</code>).</p>
+</div>
+<div class="constraint-box">
+  <p><strong>6. Concept creation requires multi-session evidence or explicit cross-topic reuse.</strong> Local session density alone (many claims in a single session) is not sufficient to create a concept page.</p>
+</div>
+
+</div><!-- /content -->
+</body>
+</html>
