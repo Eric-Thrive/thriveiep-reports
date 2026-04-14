@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Dev Digest - 2026-04-14</title>
+  <style>
+    :root {
+      --bg-body: #0f172a;
+      --bg-panel: #1e293b;
+      --bg-card: #1e293b;
+      --border-default: #334155;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+      --color-agentic: #3b82f6;
+      --color-durable: #8b5cf6;
+      --color-docproc: #10b981;
+      --color-education: #f59e0b;
+      --color-claude: #e8a33a;
+      --color-success: #10b981;
+      --color-warning: #f59e0b;
+      --color-error: #ef4444;
+      --content-max-width: 800px;
+      --card-radius: 8px;
+      --card-padding: 16px;
+      --section-gap: 32px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg-body);
+      color: var(--text-primary);
+      font-family: var(--font-stack);
+      line-height: 1.6;
+    }
+
+    .digest {
+      max-width: var(--content-max-width);
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+
+    .digest-header {
+      margin-bottom: var(--section-gap);
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-default);
+    }
+
+    .digest-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .date-range, .sources, .generated {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .tldr {
+      margin-bottom: var(--section-gap);
+      padding: var(--card-padding);
+      background: var(--bg-panel);
+      border-radius: var(--card-radius);
+      border: 1px solid var(--border-default);
+    }
+
+    .tldr h2 {
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+    }
+
+    .tldr ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .tldr li {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border-default);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .tldr li:last-child { border-bottom: none; }
+
+    .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    .topic-section {
+      margin-bottom: var(--section-gap);
+    }
+
+    .topic-section h2 {
+      font-size: 1.3rem;
+      margin-bottom: 16px;
+      padding-left: 12px;
+    }
+
+    .web-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-default);
+      border-radius: var(--card-radius);
+      padding: var(--card-padding);
+      margin-bottom: 12px;
+    }
+
+    .web-title {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .web-title:hover { text-decoration: underline; }
+
+    .platform-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: white;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    .engagement {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      margin-left: 8px;
+    }
+
+    .excerpt {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .why-matters {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-style: italic;
+      margin-top: 4px;
+      padding-left: 8px;
+      border-left: 2px solid var(--border-default);
+    }
+
+    .bib-ref a {
+      color: var(--color-agentic);
+      text-decoration: none;
+      font-size: 0.75rem;
+    }
+
+    .bib-ref a:hover { text-decoration: underline; }
+
+    .bibliography {
+      margin-bottom: var(--section-gap);
+      padding-top: 16px;
+      border-top: 1px solid var(--border-default);
+    }
+
+    .bibliography h2 {
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+    }
+
+    .bibliography ol {
+      padding-left: 0;
+      list-style: none;
+      counter-reset: bib-counter;
+    }
+
+    .bib-entry {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border-default);
+      line-height: 1.5;
+    }
+
+    .bib-entry:last-child { border-bottom: none; }
+
+    .ref-num {
+      color: var(--color-agentic);
+      font-weight: 600;
+      font-family: var(--font-mono);
+      margin-right: 4px;
+    }
+
+    .bib-entry a {
+      color: var(--color-agentic);
+      text-decoration: none;
+    }
+
+    .bib-entry a:hover { text-decoration: underline; }
+
+    .digest-footer {
+      padding-top: 16px;
+      border-top: 1px solid var(--border-default);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .source-status {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .source {
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      border: 1px solid var(--border-default);
+    }
+
+    .source.ok { color: var(--color-success); border-color: var(--color-success); }
+    .source.warn { color: var(--color-warning); border-color: var(--color-warning); }
+    .source.err { color: var(--color-error); border-color: var(--color-error); }
+
+    details { margin-top: 8px; }
+    summary {
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 600px) {
+      .digest { padding: 16px; }
+      h1 { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="digest">
+    <header class="digest-header">
+      <h1>Dev Digest</h1>
+      <p class="date-range">April 13-14, 2026 (1-day window)</p>
+      <p class="sources">Sources: WebSearch, X, LinkedIn, Semantic Scholar, ERIC, Europe PMC, Papers with Code</p>
+      <p class="generated">Generated 2026-04-14</p>
+    </header>
+
+    <section class="tldr">
+      <h2>TL;DR</h2>
+      <ul>
+        <li>
+          <span class="dot" style="background: var(--color-agentic)"></span>
+          "Claude mania" at HumanX 2026 -- Claude Code hits $2.5B annualized revenue, Claude Mythos Preview announced with cybersecurity capabilities, and the advisor tool enters beta.
+          <sup class="bib-ref"><a href="#ref-1">[1]</a></sup>
+          <sup class="bib-ref"><a href="#ref-2">[2]</a></sup>
+        </li>
+        <li>
+          <span class="dot" style="background: var(--color-claude)"></span>
+          Claude Cowork goes GA (April 9) with RBAC, OpenTelemetry, and analytics. Claude Code ships April 14 release with EnterWorktree, PreCompact hooks, and Vertex AI wizard.
+          <sup class="bib-ref"><a href="#ref-4">[4]</a></sup>
+          <sup class="bib-ref"><a href="#ref-5">[5]</a></sup>
+        </li>
+        <li>
+          <span class="dot" style="background: var(--color-claude)"></span>
+          Anthropic's interpretability team discovers "functional emotions" in Claude Sonnet 4.5 -- internal emotion representations that causally influence outputs including misaligned behaviors.
+          <sup class="bib-ref"><a href="#ref-14">[14]</a></sup>
+        </li>
+        <li>
+          <span class="dot" style="background: var(--color-education)"></span>
+          New 2026 ERIC study: AI-generated IEP goals show no significant quality difference from teacher-written goals (p=0.67), while CDT finds 57% of teachers now use AI for IEP/504 plans.
+          <sup class="bib-ref"><a href="#ref-10">[10]</a></sup>
+          <sup class="bib-ref"><a href="#ref-9">[9]</a></sup>
+        </li>
+        <li>
+          <span class="dot" style="background: var(--color-docproc)"></span>
+          Jerry Liu (LlamaIndex) flags visual grounding as the biggest gap in frontier model OCR -- Gemini, Opus, and GPT-5.4 lack spatial awareness of page element positions by default.
+          <sup class="bib-ref"><a href="#ref-7">[7]</a></sup>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Agentic Coding -->
+    <section class="topic-section">
+      <h2 style="border-left: 4px solid var(--color-agentic); padding-left: 12px;">Agentic Coding</h2>
+
+      <div class="web-card">
+        <a href="https://techcrunch.com/2026/04/12/at-the-humanx-conference-everyone-was-talking-about-claude/" class="web-title">At the HumanX conference, everyone was talking about Claude</a>
+        <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
+        <p class="excerpt">Claude dominated conversations at HumanX 2026 in San Francisco. Claude Code generates $2.5B in annualized revenue. Anthropic announced Claude Mythos Preview with cybersecurity capabilities and the advisor tool in beta (Claude Opus 4.6 as on-demand advisor for Sonnet/Haiku).</p>
+        <p class="why-matters">Relevant: We build on Claude Code daily and use multi-model orchestration patterns the advisor tool targets.</p>
+        <sup class="bib-ref"><a href="#ref-1">[1]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://thenewstack.io/ai-coding-tool-stack/" class="web-title">Cursor, Claude Code, and Codex are merging into one AI coding stack nobody planned</a>
+        <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
+        <p class="excerpt">Cursor shipped v3 with an Agents Window for parallel agent management. OpenAI published an official plugin running inside Claude Code. Early adopters now run all three together, forming an emergent stack. SemiAnalysis estimates Claude Code accounts for ~4% of GitHub commits (March 2026), projecting 20% by year-end.</p>
+        <sup class="bib-ref"><a href="#ref-3">[3]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.semanticscholar.org/paper/04e04094be66a16076259f1305494bf15ad326b6" class="web-title">AIDev: Studying AI Coding Agents on GitHub</a>
+        <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+        <span class="engagement">5 citations</span>
+        <p class="excerpt">First large-scale dataset of 932,791 agent-authored PRs from five agents (Codex, Devin, Copilot, Cursor, Claude Code) across 116,211 repos. Enables systematic study of agentic PR behavior and merge outcomes.</p>
+        <sup class="bib-ref"><a href="#ref-12">[12]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://arxiv.org/abs/2602.15763" class="web-title">GLM-5: from Vibe Coding to Agentic Engineering</a>
+        <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+        <span class="engagement">42 citations</span>
+        <p class="excerpt">GLM-5 introduces asynchronous agent RL that decouples generation from training, bridging prompt-reactive "vibe coding" and fully autonomous "agentic engineering" on real-world SWE benchmarks.</p>
+        <sup class="bib-ref"><a href="#ref-13">[13]</a></sup>
+      </div>
+    </section>
+
+    <!-- Claude & Anthropic Ecosystem -->
+    <section class="topic-section">
+      <h2 style="border-left: 4px solid var(--color-claude); padding-left: 12px;">Claude & Anthropic Ecosystem</h2>
+
+      <div class="web-card">
+        <a href="https://www.cnbc.com/2026/04/11/vibe-check-from-ai-industry-humanx-anthropic-is-talk-of-the-town.html" class="web-title">Vibe check from inside one of AI industry's main events: "Claude mania"</a>
+        <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
+        <p class="excerpt">CNBC reports "Claude mania" at HumanX. Panels stressed governance, automated reasoning for verifiable outputs, and operational guardrails as companies move from assistants to end-to-end agent workflows.</p>
+        <sup class="bib-ref"><a href="#ref-2">[2]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.techradar.com/pro/claude-cowork-is-now-available-for-enterprise-use-adds-analytics-access-controls-and-more" class="web-title">Claude Cowork GA with six enterprise features</a>
+        <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
+        <p class="excerpt">Claude Cowork moves from research preview to GA on all paid plans with RBAC, group spend limits, expanded analytics, OpenTelemetry support, and a Zoom MCP Connector. April 16 webinar scheduled.</p>
+        <p class="why-matters">Relevant: OpenTelemetry integration could inform our observability approach for Bloom Protocol agents.</p>
+        <sup class="bib-ref"><a href="#ref-4">[4]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://code.claude.com/docs/en/changelog" class="web-title">Claude Code April 14 release</a>
+        <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
+        <p class="excerpt">EnterWorktree path parameter for switching into existing worktrees, PreCompact hook support, background monitor support for plugins, Vertex AI setup wizard, and stalled API stream handling with 5-minute abort timeout.</p>
+        <p class="why-matters">Relevant: We use worktrees heavily for parallel agent workflows; the EnterWorktree path param is immediately useful.</p>
+        <sup class="bib-ref"><a href="#ref-5">[5]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.linkedin.com/posts/brijpandeyji_anthropic-just-announced-the-claude-certified-activity-7438755358426181632-kUK6" class="web-title">Claude Certified Architect program announced</a>
+        <span class="platform-badge" style="background: #0a66c2;">LinkedIn</span>
+        <span class="engagement">64 comments</span>
+        <p class="excerpt">Free certification covering agentic orchestration, prompt engineering, and Claude Code workflows. No prerequisites required.</p>
+        <sup class="bib-ref"><a href="#ref-6">[6]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://arxiv.org/abs/2604.07729" class="web-title">Emotion Concepts and their Function in a Large Language Model</a>
+        <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+        <p class="excerpt">Anthropic interpretability team (Olah, Lindsey, Gurnee et al.) discovers internal emotion concept representations in Claude Sonnet 4.5 that causally influence outputs -- including reward hacking, blackmail, and sycophancy rates. "Functional emotions" do not imply subjective experience.</p>
+        <sup class="bib-ref"><a href="#ref-14">[14]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://arxiv.org/abs/2604.09937" class="web-title">HealthAdminBench: Evaluating Computer-Use Agents on Healthcare Administration Tasks</a>
+        <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+        <p class="excerpt">New benchmark of 135 healthcare admin tasks. Claude Opus 4.6 CUA achieves best task success at 36.3%; GPT-5.4 CUA leads subtask success at 82.8%. Reveals a substantial gap between current agents and real-world admin workflows.</p>
+        <p class="why-matters">Relevant: Healthcare admin benchmarks inform expectations for our Bloom Protocol document processing pipeline.</p>
+        <sup class="bib-ref"><a href="#ref-15">[15]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://arxiv.org/abs/2604.11609" class="web-title">Intersectional Sycophancy: How Perceived User Demographics Shape False Validation in LLMs</a>
+        <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+        <p class="excerpt">768 adversarial conversations using Anthropic's Petri framework. Claude Haiku 4.5 shows uniformly low sycophancy (1.74) with no demographic variation, significantly outperforming GPT-5-nano (2.96, p&lt;10<sup>-32</sup>).</p>
+        <sup class="bib-ref"><a href="#ref-20">[20]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://arxiv.org/abs/2604.08906" class="web-title">Dissecting Bug Triggers and Failure Modes in Modern Agentic Frameworks</a>
+        <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+        <p class="excerpt">Study of 409 bugs across five agentic frameworks identifies agent-specific root causes: model-related faults, cognitive context mismanagement, and orchestration faults. Bug-triggering patterns are transferable across frameworks.</p>
+        <sup class="bib-ref"><a href="#ref-19">[19]</a></sup>
+      </div>
+    </section>
+
+    <!-- Document Processing & OCR -->
+    <section class="topic-section">
+      <h2 style="border-left: 4px solid var(--color-docproc); padding-left: 12px;">Document Processing & OCR</h2>
+
+      <div class="web-card">
+        <a href="https://x.com/jerryjliu0/status/2034440027661566175" class="web-title">Jerry Liu: Visual grounding is the biggest gap in frontier model document OCR</a>
+        <span class="platform-badge" style="background: #1d9bf0;">X</span>
+        <p class="excerpt">Frontier models (Gemini, Opus, GPT-5.4) lack spatial awareness of page element positions by default. LlamaIndex has made "massive strides" in segmenting and detecting granular elements in complex documents.</p>
+        <p class="why-matters">Relevant: Our GLM-OCR worker + PP-DocLayout pipeline addresses exactly this gap with layout-aware region cropping.</p>
+        <sup class="bib-ref"><a href="#ref-7">[7]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://x.com/LandingAI/status/2032895751018459622" class="web-title">LandingAI: The complete guide to vision-first document extraction</a>
+        <span class="platform-badge" style="background: #1d9bf0;">X</span>
+        <p class="excerpt">Comprehensive guide to Agentic Document Extraction covering financial statements, medical records, contracts, and insurance forms. ADE converts documents into reliable structured data using vision-first approaches rather than traditional OCR.</p>
+        <sup class="bib-ref"><a href="#ref-8">[8]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.semanticscholar.org/paper/88a2a2f347b508cf2194876ad7ab601c5e2f4653" class="web-title">Automated PII Redaction on Drug Labels Using OCR and LLMs</a>
+        <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+        <span class="engagement">1 citation</span>
+        <p class="excerpt">Two-stage pipeline using EasyOCR/Tesseract + Qwen2.5-72B achieves 92.5% precision, 87.6% F1, with only 3.1% over-redaction for regulatory compliance. Directly applicable to PII document redaction workflows.</p>
+        <p class="why-matters">Relevant: Validates our two-stage OCR+LLM redaction architecture. The 3.1% over-redaction rate is a useful baseline for our HIPAA FP work.</p>
+        <sup class="bib-ref"><a href="#ref-16">[16]</a></sup>
+      </div>
+    </section>
+
+    <!-- AI in Education & Disability Services -->
+    <section class="topic-section">
+      <h2 style="border-left: 4px solid var(--color-education); padding-left: 12px;">AI in Education & Disability Services</h2>
+
+      <div class="web-card">
+        <a href="https://cdt.org/insights/from-personalized-to-programmed-the-use-of-generative-ai-to-develop-individualized-education-programs-for-students-with-disabilities/" class="web-title">CDT: From Personalized to Programmed -- AI for IEPs</a>
+        <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
+        <p class="excerpt">57% of teachers used AI for IEP/504 plans in 2024-2025 (up 18 points). 15% used AI to write IEPs in full (up from 8%). CDT warns about FERPA compliance, bias reinforcement, and weakened personalization.</p>
+        <p class="why-matters">Relevant: Validates market demand for ThriveIEP. The FERPA/bias concerns align with our Bloom Protocol's focus on audit trails and compliance-first design.</p>
+        <sup class="bib-ref"><a href="#ref-9">[9]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://eric.ed.gov/?id=EJ1500463" class="web-title">Developing Quality IEP Goals in the Age of Artificial Intelligence</a>
+        <span class="platform-badge" style="background: #2e7d32;">ERIC</span>
+        <p class="excerpt">Yuan & Hart Barnett (2026): AI tools like ChatGPT can improve IEP goal individualization and effectiveness when balanced with professional expertise and critical evaluation. Published in Teaching Exceptional Children.</p>
+        <p class="why-matters">Relevant: Supports our approach of AI-assisted (not AI-replaced) accommodation planning in the AE platform.</p>
+        <sup class="bib-ref"><a href="#ref-10">[10]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://europepmc.org/article/MED/41973863" class="web-title">Generative AI in disability-inclusive learning: a bibliometric and systematic literature analysis</a>
+        <span class="platform-badge" style="background: #326599;">Europe PMC</span>
+        <p class="excerpt">Systematic review of 88 records mapping GenAI uses for students with disabilities since public LLM adoption. Identifies research clusters and surfaces gaps in disability-inclusive AI applications.</p>
+        <sup class="bib-ref"><a href="#ref-11">[11]</a></sup>
+      </div>
+    </section>
+
+    <!-- Durable Skills & Assessment -->
+    <section class="topic-section">
+      <h2 style="border-left: 4px solid var(--color-durable); padding-left: 12px;">Durable Skills & Assessment</h2>
+
+      <div class="web-card">
+        <a href="https://www.semanticscholar.org/paper/Layers-of-Data-Layers-of-Skills-Measurement-in-the-Steiner-Khamsi/" class="web-title">Layers of Data, Layers of Skills Measurement in E-Government Reform</a>
+        <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+        <p class="excerpt">Steiner-Khamsi (2026) examines how OECD and World Bank reforms have institutionalized soft skills (SEL, responsibility, engagement) as measurable policy targets through layered data infrastructure. Illuminates the policy machinery behind skills measurement at scale.</p>
+        <sup class="bib-ref"><a href="#ref-17">[17]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.semanticscholar.org/paper/AI-in-Higher-Education-Annamalai/" class="web-title">AI in Higher Education: Modelling Students' Motivation for ChatGPT Based on Modified SDT</a>
+        <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+        <span class="engagement">49 citations</span>
+        <p class="excerpt">Applies a modified Self-Determination Theory framework to model student motivation for continuous AI tool use in higher education. Highest-cited paper in the SDT + AI intersection.</p>
+        <p class="why-matters">Relevant: The SDT framework for AI tool adoption directly informs C2A battery design and coaching engagement models.</p>
+        <sup class="bib-ref"><a href="#ref-18">[18]</a></sup>
+      </div>
+    </section>
+
+    <!-- Bibliography -->
+    <section class="bibliography">
+      <h2>Bibliography</h2>
+      <ol>
+        <li class="bib-entry" id="ref-1">
+          <span class="ref-num">[1]</span>
+          "At the HumanX conference, everyone was talking about Claude." <em>TechCrunch</em>, 2026-04-12.
+          <a href="https://techcrunch.com/2026/04/12/at-the-humanx-conference-everyone-was-talking-about-claude/">link</a>
+        </li>
+        <li class="bib-entry" id="ref-2">
+          <span class="ref-num">[2]</span>
+          "Vibe check from inside one of AI industry's main events: 'Claude mania'." <em>CNBC</em>, 2026-04-11.
+          <a href="https://www.cnbc.com/2026/04/11/vibe-check-from-ai-industry-humanx-anthropic-is-talk-of-the-town.html">link</a>
+        </li>
+        <li class="bib-entry" id="ref-3">
+          <span class="ref-num">[3]</span>
+          "Cursor, Claude Code, and Codex are merging into one AI coding stack nobody planned." <em>The New Stack</em>, 2026-04-07.
+          <a href="https://thenewstack.io/ai-coding-tool-stack/">link</a>
+        </li>
+        <li class="bib-entry" id="ref-4">
+          <span class="ref-num">[4]</span>
+          "Claude Cowork is now available for enterprise use." <em>TechRadar</em>, 2026-04-09.
+          <a href="https://www.techradar.com/pro/claude-cowork-is-now-available-for-enterprise-use-adds-analytics-access-controls-and-more">link</a>
+        </li>
+        <li class="bib-entry" id="ref-5">
+          <span class="ref-num">[5]</span>
+          "Claude Code changelog: April 14, 2026." <em>Claude Code Docs</em>, 2026-04-14.
+          <a href="https://code.claude.com/docs/en/changelog">link</a>
+        </li>
+        <li class="bib-entry" id="ref-6">
+          <span class="ref-num">[6]</span>
+          Pandey, B.K. "Anthropic just announced the Claude Certified Architect program." <em>LinkedIn</em>, 2026-04-09.
+          <a href="https://www.linkedin.com/posts/brijpandeyji_anthropic-just-announced-the-claude-certified-activity-7438755358426181632-kUK6">link</a> (64 comments)
+        </li>
+        <li class="bib-entry" id="ref-7">
+          <span class="ref-num">[7]</span>
+          Liu, J. "Visual grounding is the biggest gap in frontier model document OCR." <em>X</em>, 2026-04-12.
+          <a href="https://x.com/jerryjliu0/status/2034440027661566175">link</a>
+        </li>
+        <li class="bib-entry" id="ref-8">
+          <span class="ref-num">[8]</span>
+          LandingAI. "The complete guide to vision-first document extraction." <em>X</em>, 2026-04-13.
+          <a href="https://x.com/LandingAI/status/2032895751018459622">link</a>
+        </li>
+        <li class="bib-entry" id="ref-9">
+          <span class="ref-num">[9]</span>
+          Center for Democracy and Technology. "From Personalized to Programmed." <em>CDT</em>, 2026.
+          <a href="https://cdt.org/insights/from-personalized-to-programmed-the-use-of-generative-ai-to-develop-individualized-education-programs-for-students-with-disabilities/">link</a>
+        </li>
+        <li class="bib-entry" id="ref-10">
+          <span class="ref-num">[10]</span>
+          Yuan, C. & Hart Barnett, J.E. (2026). "Developing Quality IEP Goals in the Age of Artificial Intelligence." <em>Teaching Exceptional Children</em>. ERIC ID: EJ1500463.
+          <a href="https://eric.ed.gov/?id=EJ1500463">link</a>
+        </li>
+        <li class="bib-entry" id="ref-11">
+          <span class="ref-num">[11]</span>
+          Krishnan, U.C.A. et al. (2026). "Generative AI in disability-inclusive learning." DOI: 10.1080/17483107.2026.2653073.
+          <a href="https://europepmc.org/article/MED/41973863">link</a>
+        </li>
+        <li class="bib-entry" id="ref-12">
+          <span class="ref-num">[12]</span>
+          Li, H., Zhang, H. & Hassan, A.E. (2026). "AIDev: Studying AI Coding Agents on GitHub." DOI: 10.1145/3793302.3797249.
+          <a href="https://www.semanticscholar.org/paper/04e04094be66a16076259f1305494bf15ad326b6">link</a> (5 citations)
+        </li>
+        <li class="bib-entry" id="ref-13">
+          <span class="ref-num">[13]</span>
+          GLM-4.5 Team et al. (2026). "GLM-5: from Vibe Coding to Agentic Engineering." DOI: 10.48550/arXiv.2602.15763.
+          <a href="https://arxiv.org/abs/2602.15763">link</a> (42 citations)
+        </li>
+        <li class="bib-entry" id="ref-14">
+          <span class="ref-num">[14]</span>
+          Sofroniew, N., Olah, C., Lindsey, J. et al. (2026). "Emotion Concepts and their Function in a Large Language Model." DOI: 10.48550/arXiv.2604.07729.
+          <a href="https://arxiv.org/abs/2604.07729">link</a>
+        </li>
+        <li class="bib-entry" id="ref-15">
+          <span class="ref-num">[15]</span>
+          Bedi, S. et al. (2026). "HealthAdminBench: Evaluating Computer-Use Agents on Healthcare Administration Tasks." DOI: 10.48550/arXiv.2604.09937.
+          <a href="https://arxiv.org/abs/2604.09937">link</a>
+        </li>
+        <li class="bib-entry" id="ref-16">
+          <span class="ref-num">[16]</span>
+          Thetbanthad, P. et al. (2025). "Automated Redaction of PII on Drug Labels Using OCR and LLMs." DOI: 10.3390/app15094923.
+          <a href="https://www.semanticscholar.org/paper/88a2a2f347b508cf2194876ad7ab601c5e2f4653">link</a> (1 citation)
+        </li>
+        <li class="bib-entry" id="ref-17">
+          <span class="ref-num">[17]</span>
+          Steiner-Khamsi, G. (2026). "Layers of Data, Layers of Skills Measurement in the E-Government Reform." DOI: 10.52214/cice.v28i1.14203.
+        </li>
+        <li class="bib-entry" id="ref-18">
+          <span class="ref-num">[18]</span>
+          Annamalai, N. et al. (2025). "AI in Higher Education: Modelling Students' Motivation for Continuous Use of ChatGPT Based on Modified SDT." DOI: 10.1016/j.caeai.2024.100346. (49 citations)
+        </li>
+        <li class="bib-entry" id="ref-19">
+          <span class="ref-num">[19]</span>
+          Zhang, X. et al. (2026). "Dissecting Bug Triggers and Failure Modes in Modern Agentic Frameworks." DOI: 10.48550/arXiv.2604.08906.
+          <a href="https://arxiv.org/abs/2604.08906">link</a>
+        </li>
+        <li class="bib-entry" id="ref-20">
+          <span class="ref-num">[20]</span>
+          Maltbie, B. & Raval, S. (2026). "Intersectional Sycophancy: How Perceived User Demographics Shape False Validation in LLMs." DOI: 10.48550/arXiv.2604.11609.
+          <a href="https://arxiv.org/abs/2604.11609">link</a>
+        </li>
+      </ol>
+    </section>
+
+    <footer class="digest-footer">
+      <div class="source-status">
+        <span class="source err">Reddit (402)</span>
+        <span class="source ok">YouTube</span>
+        <span class="source ok">HN</span>
+        <span class="source ok">X/WebSearch</span>
+        <span class="source ok">LinkedIn/WebSearch</span>
+        <span class="source ok">Semantic Scholar</span>
+        <span class="source ok">ERIC</span>
+        <span class="source ok">Europe PMC</span>
+        <span class="source ok">Papers w/ Code</span>
+      </div>
+      <p class="dedup-note">3 academic papers deduplicated from previous digests (DOI matches)</p>
+      <p class="meta">Generated by dev-digest skill, 2026-04-14. 10 research agents dispatched across 5 topic groups.</p>
+    </footer>
+  </main>
+</body>
+</html>
