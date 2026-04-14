@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Resilience Pathway Walkthrough</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --card-bg: #1a1d27;
+      --border: #2a2d3a;
+      --text: #e4e4e7;
+      --muted: #9ca3af;
+      --accent: #6366f1;
+      --accent-soft: rgba(99, 102, 241, 0.15);
+      --green: #22c55e;
+      --green-soft: rgba(34, 197, 94, 0.12);
+      --amber: #f59e0b;
+      --amber-soft: rgba(245, 158, 11, 0.12);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .container { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+    /* Header */
+    header {
+      text-align: center;
+      padding: 3rem 1rem 2rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #6366f1, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    header p { color: var(--muted); font-size: 0.95rem; }
+    .meta {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .meta span { display: flex; align-items: center; gap: 0.35rem; }
+
+    /* Phase sections */
+    .phase {
+      margin-bottom: 3rem;
+    }
+    .phase-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .phase-number {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    .phase-header h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    .phase-desc {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      padding-left: 2.75rem;
+    }
+
+    /* Screenshot cards */
+    .screenshot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+    .screenshot-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.15s, border-color 0.15s;
+    }
+    .screenshot-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+    .screenshot-card img {
+      width: 100%;
+      display: block;
+      cursor: pointer;
+    }
+    .screenshot-card .caption {
+      padding: 0.75rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border-top: 1px solid var(--border);
+    }
+    .screenshot-card .caption .step {
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Wide cards for full-page screenshots */
+    .screenshot-card.wide {
+      grid-column: 1 / -1;
+    }
+    .screenshot-card.wide img {
+      max-height: 600px;
+      object-fit: contain;
+      object-position: top;
+      background: #111;
+    }
+
+    /* Badge */
+    .badge {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .badge-green { background: var(--green-soft); color: var(--green); }
+    .badge-amber { background: var(--amber-soft); color: var(--amber); }
+
+    /* Summary table */
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+    .summary-table th, .summary-table td {
+      padding: 0.65rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .summary-table th {
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0,0,0,0.92);
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+    .lightbox.active { display: flex; }
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 8px;
+      box-shadow: 0 0 60px rgba(0,0,0,0.5);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>C2A Resilience Pathway</h1>
+  <p>Complete demo walkthrough — from login to scored report</p>
+  <div class="meta">
+    <span>User: eric+resilience-demo2@thriveiep.com</span>
+    <span>Battery: C2A Resilience Demo</span>
+    <span>Date: 2026-04-14</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- Summary -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">i</div>
+      <h2>Session Summary</h2>
+    </div>
+    <table class="summary-table">
+      <tr><th>Detail</th><th>Value</th></tr>
+      <tr><td>Battery</td><td>C2A Resilience Demo <span class="badge badge-green">isDemo</span></td></tr>
+      <tr><td>Items</td><td>23 items across 4 instruments, 1 sprint</td></tr>
+      <tr><td>Instruments</td><td>CF (4) &rarr; ADEXI (9) &rarr; BMPN (6) &rarr; IPIP-5 (4)</td></tr>
+      <tr><td>Auth</td><td>PIN-based (4-digit)</td></tr>
+      <tr><td>Focus Area Selected</td><td>Resilience</td></tr>
+      <tr><td>DDx State</td><td>Recovery-capable; building deliberate reframe practice</td></tr>
+    </table>
+  </div>
+
+  <!-- Phase 1: Login -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">1</div>
+      <h2>Login Flow</h2>
+    </div>
+    <p class="phase-desc">Two-step PIN authentication: identity lookup, then 4-digit PIN entry.</p>
+    <div class="screenshot-grid">
+      <div class="screenshot-card">
+        <img src="screenshots/01-login-landing.png" alt="Login landing" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Step 1</span><br>C2A sign-in page — email/username entry</div>
+      </div>
+      <div class="screenshot-card">
+        <img src="screenshots/02-login-email-entered.png" alt="Email entered" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Step 2</span><br>Email entered, Continue button enabled</div>
+      </div>
+      <div class="screenshot-card">
+        <img src="screenshots/03-login-pin-entry.png" alt="PIN entry" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Step 3</span><br>PIN entry screen after identity lookup</div>
+      </div>
+      <div class="screenshot-card">
+        <img src="screenshots/04-terms-of-service.png" alt="Terms of Service" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Step 4</span><br>Terms of Service & Privacy Policy acceptance</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 2: Welcome -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">2</div>
+      <h2>Welcome Sequence</h2>
+    </div>
+    <p class="phase-desc">Three-step onboarding: framing durable skills, what we measure, and how the process works.</p>
+    <div class="screenshot-grid">
+      <div class="screenshot-card">
+        <img src="screenshots/05-welcome-durable-skills.png" alt="Durable Skills" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Welcome 1</span><br>"How You Learn and Lead" — durable skills framing</div>
+      </div>
+      <div class="screenshot-card">
+        <img src="screenshots/06-welcome-what-we-measure.png" alt="What We Measure" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Welcome 2</span><br>"What We Measure" — Engine, Fuel, and Skills</div>
+      </div>
+      <div class="screenshot-card">
+        <img src="screenshots/07-welcome-how-this-works.png" alt="How This Works" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Welcome 3</span><br>"How This Works" — answer, see focus areas, take action</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 3: Sprint -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">3</div>
+      <h2>Sprint Overview & Home</h2>
+    </div>
+    <p class="phase-desc">Learner home showing sprint progress, then sprint overview before starting the assessment.</p>
+    <div class="screenshot-grid">
+      <div class="screenshot-card">
+        <img src="screenshots/08-home-sprint-overview.png" alt="Home" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Home</span><br>Learner home — Sprint 1 "Not started"</div>
+      </div>
+      <div class="screenshot-card">
+        <img src="screenshots/09-sprint-overview.png" alt="Sprint Overview" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Sprint Overview</span><br>"Your Engine & Fuel" — sprint framing before start</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 4: Assessment -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">4</div>
+      <h2>Assessment</h2>
+    </div>
+    <p class="phase-desc">23 items across 4 instruments with transition screens between sections.</p>
+    <div class="screenshot-grid">
+      <div class="screenshot-card">
+        <img src="screenshots/10-assessment-q1.png" alt="Q1 CF" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Instrument 1: CF</span><br>Q1 of 23 — Cognitive Flexibility (5-point Likert)</div>
+      </div>
+      <div class="screenshot-card">
+        <img src="screenshots/11-transition-between-instruments.png" alt="Transition" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Transition</span><br>"Great job! Keep it up!" — between instruments</div>
+      </div>
+      <div class="screenshot-card">
+        <img src="screenshots/12-instrument2-adexi-q5.png" alt="Q5 ADEXI" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Instrument 2: ADEXI</span><br>Q5 of 23 — Executive Function (ADEXI)</div>
+      </div>
+      <div class="screenshot-card">
+        <img src="screenshots/13-instrument3-bmpn-q18.png" alt="Q18 BMPN" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Instrument 3: BMPN</span><br>Q18 of 23 — Basic Motivation (3-point scale)</div>
+      </div>
+      <div class="screenshot-card">
+        <img src="screenshots/14-instrument4-ipip-q23-last.png" alt="Q23 IPIP" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Instrument 4: IPIP-5</span><br>Q23 of 23 — Resilience (final question)</div>
+      </div>
+      <div class="screenshot-card">
+        <img src="screenshots/15-sprint-complete.png" alt="Sprint Complete" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Complete</span><br>"Sprint 1 Complete!" — foundation mapped</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 5: Results & Report -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">5</div>
+      <h2>Results & Report</h2>
+    </div>
+    <p class="phase-desc">Scoring, profile, focus area selection, and the full DDx-generated resilience report.</p>
+    <div class="screenshot-grid">
+      <div class="screenshot-card">
+        <img src="screenshots/16-processing.png" alt="Processing" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Processing</span><br>Scoring in progress — "This won't take long"</div>
+      </div>
+      <div class="screenshot-card">
+        <img src="screenshots/17-results-ready.png" alt="Results Ready" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Results Ready</span><br>Results available — View Report or Schedule Coaching</div>
+      </div>
+      <div class="screenshot-card">
+        <img src="screenshots/18-report-welcome.png" alt="Report Welcome" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Report Welcome</span><br>Three-step guide: strengths, starting point, focus area</div>
+      </div>
+      <div class="screenshot-card">
+        <img src="screenshots/19-report-your-profile.png" alt="Your Profile" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Your Profile</span><br>Strengths and "where to start" — Resilience flagged</div>
+      </div>
+      <div class="screenshot-card">
+        <img src="screenshots/20-report-profile-resilience-expanded.png" alt="Resilience Expanded" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Profile Detail</span><br>Resilience accordion expanded with interpretation</div>
+      </div>
+      <div class="screenshot-card">
+        <img src="screenshots/21-report-choose-focus.png" alt="Choose Focus" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Choose Focus</span><br>Focus area selection — student-driven choice</div>
+      </div>
+      <div class="screenshot-card">
+        <img src="screenshots/22-report-resilience-selected.png" alt="Resilience Selected" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Focus Selected</span><br>Resilience chosen — "Set as my Focus Area"</div>
+      </div>
+      <div class="screenshot-card">
+        <img src="screenshots/23-report-resilience-detail-top.png" alt="Resilience Report Top" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">DDx Report</span><br>Full resilience report — strengths, focus, strategies</div>
+      </div>
+      <div class="screenshot-card wide">
+        <img src="screenshots/24-report-resilience-detail-full.png" alt="Resilience Report Full" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Full Report</span><br>Complete DDx resilience report (full page scroll)</div>
+      </div>
+      <div class="screenshot-card wide">
+        <img src="screenshots/25-report-resilience-expanded-full.png" alt="Expanded Strategies" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Expanded</span><br>Strategies and "bigger picture" sections expanded</div>
+      </div>
+      <div class="screenshot-card">
+        <img src="screenshots/26-home-completed.png" alt="Home Completed" onclick="openLightbox(this)">
+        <div class="caption"><span class="step">Done</span><br>Home — 100% complete, "View Your Report" available</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  C2A Resilience Pathway Demo Walkthrough &middot; Generated 2026-04-14 &middot; ThriveIEP
+</footer>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="Enlarged screenshot">
+</div>
+
+<script>
+  function openLightbox(el) {
+    const lb = document.getElementById('lightbox');
+    document.getElementById('lightbox-img').src = el.src;
+    lb.classList.add('active');
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
+</body>
+</html>
