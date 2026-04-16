@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>AI as a Tool, Not an Oracle | Prepare to Bloom Workshop</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #1B2A4A;
+    --navy-light: #2A3F6B;
+    --coral: #FF6B6B;
+    --coral-soft: #FF8E8E;
+    --sand: #F5E6CC;
+    --sand-light: #FDF8F0;
+    --teal: #2B8A8A;
+    --gold: #D4A843;
+    --slate: #4A5568;
+    --warm-grey: #8B7E6A;
+    --white: #FFFFFF;
+    --shadow: 0 10px 28px rgba(27, 42, 74, 0.08);
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background:
+      radial-gradient(circle at top left, rgba(255, 142, 142, 0.14), transparent 30%),
+      linear-gradient(180deg, #fffaf3 0%, var(--sand-light) 100%);
+    color: var(--navy);
+  }
+
+  .deck { display: flex; height: 100vh; overflow: hidden; align-items: center; justify-content: center; }
+
+  .slide {
+    width: min(100vw, calc((100vh - 56px) * 16 / 9));
+    height: min(100vh, calc(100vw * 9 / 16 + 56px));
+    max-width: 1600px;
+    max-height: 956px;
+    padding: 40px 64px 68px;
+    display: none;
+    overflow-y: auto;
+    position: relative;
+    background:
+      radial-gradient(circle at top left, rgba(255, 142, 142, 0.14), transparent 30%),
+      linear-gradient(180deg, #fffaf3 0%, var(--sand-light) 100%);
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0 auto;
+  }
+
+  .slide.active { display: block; }
+
+  .slide-shell {
+    display: grid;
+    gap: 20px;
+    align-content: start;
+  }
+
+  .slide-num {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--coral);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 12px;
+  }
+
+  h1, h2, h3, h4 {
+    color: var(--navy);
+    letter-spacing: -0.03em;
+  }
+
+  .hero-title {
+    font-size: 52px;
+    line-height: 0.95;
+    font-weight: 800;
+    max-width: 800px;
+  }
+
+  .hero-subtitle {
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--slate);
+    max-width: 680px;
+  }
+
+  .slide h2 {
+    font-size: 36px;
+    line-height: 1.05;
+    font-weight: 800;
+    max-width: 800px;
+  }
+
+  .slide h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .lede {
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--slate);
+    max-width: 700px;
+  }
+
+  .big-line {
+    font-size: 26px;
+    line-height: 1.15;
+    font-weight: 700;
+    max-width: 800px;
+  }
+
+  .muted { color: var(--slate); }
+
+  .accent { color: var(--coral); }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(42, 63, 107, 0.08);
+    box-shadow: var(--shadow);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    display: grid;
+    gap: 14px;
+  }
+
+  .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+  .card,
+  .metric,
+  .prompt-card,
+  .quote-card,
+  .pipeline-card,
+  .split-card {
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(42, 63, 107, 0.08);
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: var(--shadow);
+  }
+
+  .card h3,
+  .metric h3,
+  .prompt-card h3,
+  .pipeline-card h3,
+  .split-card h3 {
+    margin-bottom: 10px;
+  }
+
+  .card p,
+  .metric p,
+  .prompt-card p,
+  .pipeline-card p,
+  .split-card p,
+  .quote-card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--slate);
+  }
+
+  .speaker-notes p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.86);
+  }
+
+  .metric {
+    padding: 16px 18px 20px;
+  }
+
+  .metric-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--teal);
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  .metric-value {
+    font-size: 30px;
+    line-height: 1;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: var(--navy);
+  }
+
+  .checklist,
+  .mini-list {
+    list-style: none;
+    display: grid;
+    gap: 12px;
+  }
+
+  .checklist li,
+  .mini-list li {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--slate);
+    position: relative;
+    padding-left: 24px;
+  }
+
+  .checklist li::before,
+  .mini-list li::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--coral);
+    position: absolute;
+    left: 0;
+    top: 11px;
+    box-shadow: 0 0 0 6px rgba(255, 107, 107, 0.12);
+  }
+
+  .two-quote {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 18px;
+  }
+
+  .quote-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(245, 230, 204, 0.55));
+  }
+
+  .quote-card blockquote {
+    font-size: 22px;
+    line-height: 1.3;
+    font-weight: 700;
+    color: var(--navy);
+    border-left: 4px solid var(--coral);
+    padding-left: 18px;
+    margin-bottom: 14px;
+  }
+
+  .quote-card .source {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--warm-grey);
+    font-weight: 700;
+  }
+
+  .pipeline {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 14px;
+    align-items: stretch;
+  }
+
+  .pipeline-card {
+    min-height: 160px;
+    position: relative;
+  }
+
+  .pipeline-step {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--coral);
+    font-weight: 800;
+    margin-bottom: 14px;
+  }
+
+  .pipeline-card h3 {
+    font-size: 18px;
+  }
+
+  .pipeline-card p {
+    font-size: 13px;
+  }
+
+  .pipeline-arrow {
+    align-self: center;
+    justify-self: center;
+    font-size: 30px;
+    color: var(--warm-grey);
+    font-weight: 700;
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .split-card h3 { font-size: 22px; }
+
+  .split-card.good {
+    border-top: 6px solid var(--teal);
+    background: linear-gradient(180deg, rgba(43, 138, 138, 0.06), rgba(255,255,255,0.98));
+  }
+
+  .split-card.risk {
+    border-top: 6px solid var(--coral);
+    background: linear-gradient(180deg, rgba(255, 107, 107, 0.06), rgba(255,255,255,0.98));
+  }
+
+  .case-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 18px;
+  }
+
+  .number-stack {
+    display: grid;
+    gap: 14px;
+  }
+
+  .number-card {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 14px;
+    align-items: center;
+    background: rgba(255,255,255,0.94);
+    border: 1px solid rgba(42, 63, 107, 0.08);
+    border-radius: 18px;
+    padding: 14px 16px;
+    box-shadow: var(--shadow);
+  }
+
+  .number-badge {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--navy), var(--navy-light));
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 800;
+  }
+
+  .number-card h3 {
+    margin-bottom: 4px;
+    font-size: 18px;
+  }
+
+  .center-piece {
+    display: grid;
+    place-items: center;
+    min-height: 260px;
+    text-align: center;
+    padding: 32px;
+    background:
+      radial-gradient(circle at top center, rgba(255, 107, 107, 0.12), transparent 30%),
+      linear-gradient(180deg, rgba(255,255,255,0.98), rgba(245, 230, 204, 0.65));
+    border-radius: 28px;
+    border: 1px solid rgba(42, 63, 107, 0.08);
+    box-shadow: var(--shadow);
+  }
+
+  .center-piece h2 {
+    font-size: 42px;
+    max-width: 760px;
+    margin: 0 auto 14px;
+  }
+
+  .center-piece p {
+    font-size: 20px;
+    line-height: 1.5;
+    max-width: 680px;
+    color: var(--slate);
+  }
+
+  .workflow-ladder {
+    display: grid;
+    gap: 14px;
+  }
+
+  .ladder-step {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 14px;
+    background: rgba(255,255,255,0.96);
+    border: 1px solid rgba(42, 63, 107, 0.08);
+    border-radius: 16px;
+    padding: 14px 16px;
+    box-shadow: var(--shadow);
+  }
+
+  .ladder-step .dot {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: rgba(27, 42, 74, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--navy);
+    font-size: 24px;
+    font-weight: 800;
+  }
+
+  .ladder-step h3 {
+    margin-bottom: 4px;
+    font-size: 18px;
+  }
+
+  .footer-line {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--warm-grey);
+  }
+
+  .speaker-notes {
+    display: none;
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    width: min(420px, calc(100vw - 40px));
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    z-index: 120;
+    background: rgba(27, 42, 74, 0.97);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 24px 60px rgba(27, 42, 74, 0.28);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .show-notes .speaker-notes.active {
+    display: block;
+  }
+
+  .speaker-notes h4 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--coral-soft);
+    margin-bottom: 14px;
+  }
+
+  .speaker-notes p,
+  .speaker-notes li {
+    color: rgba(255,255,255,0.86);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .speaker-notes ul {
+    margin-left: 18px;
+    display: grid;
+    gap: 8px;
+  }
+
+  .notes-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 121;
+    border: none;
+    border-radius: 999px;
+    padding: 10px 16px;
+    background: rgba(255,255,255,0.92);
+    color: var(--navy);
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+  }
+
+  .index-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: var(--navy);
+    display: flex;
+    align-items: center;
+    height: 56px;
+    padding: 0 20px;
+    gap: 8px;
+    overflow-x: auto;
+  }
+
+  .idx-chip {
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.58);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.16s ease;
+  }
+
+  .idx-chip:hover { color: #fff; background: var(--navy-light); }
+  .idx-chip.active { color: #fff; background: var(--coral); }
+
+  .idx-progress {
+    position: fixed;
+    bottom: 56px;
+    left: 0;
+    height: 3px;
+    background: var(--coral);
+    transition: width 0.3s ease;
+    z-index: 101;
+  }
+
+  .idx-arrows {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+    padding-left: 12px;
+  }
+
+  .idx-arrow {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: none;
+    background: var(--navy-light);
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .idx-arrow:hover { background: var(--coral); }
+
+  @media (max-width: 900px) {
+    .slide { padding: 32px 24px 72px; }
+    .hero-title { font-size: 38px; }
+    .slide h2 { font-size: 28px; }
+    .big-line { font-size: 22px; }
+    .pipeline,
+    .grid-3,
+    .grid-4,
+    .case-grid,
+    .two-quote,
+    .split { grid-template-columns: 1fr; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .center-piece { min-height: 200px; }
+    .center-piece h2 { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+<button class="notes-toggle" id="notesToggle" type="button">Notes: Off</button>
+<div class="idx-progress" id="progress"></div>
+<div class="deck" id="deck">
+
+  <section class="slide active" data-title="Title">
+    <div class="slide-shell">
+      <div class="slide-num">Slide 1 of 17</div>
+      <div class="tag-row">
+        <span class="tag">Prepare to Bloom</span>
+        <span class="tag">Interactive AI Workshop</span>
+        <span class="tag">Bloom Case Study</span>
+      </div>
+      <h1 class="hero-title">AI as a Tool,<br>Not an Oracle</h1>
+      <p class="hero-subtitle">How we built a governed AI workflow that turns messy, sensitive clinical documents into concise, family-centered placement reports.</p>
+      <div class="grid-3">
+        <div class="metric">
+          <div class="metric-label">Audience</div>
+          <div class="metric-value">Beginners</div>
+          <p>Professionals who may know prompting, but not context management.</p>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Goal</div>
+          <div class="metric-value">Practical</div>
+          <p>Explain what AI can do, where it fails, and how to use it safely.</p>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Frame</div>
+          <div class="metric-value">Case study</div>
+          <p>Use Bloom and the Shayna partnership as the through-line.</p>
+        </div>
+      </div>
+      <p class="footer-line">A practical session for professionals who are curious about AI but want to understand it before they trust it.</p>
+    </div>
+    <aside class="speaker-notes active">
+      <h4>Speaker Notes</h4>
+      <p>"I'm Eric, co-founder and chief product officer at ThriveIEP. We build tools that help clinical and educational professionals work with sensitive documents more safely. Today I'll walk you through how we think about AI -- not as a magic box, but as a tool with real strengths and real limits. The Bloom report is our concrete example because Shayna and I built it together, and it shows exactly where AI helps and where it needs guardrails."</p>
+    </aside>
+  </section>
+
+  <section class="slide" data-title="Poll">
+    <div class="slide-shell">
+      <div class="slide-num">Slide 2 of 17</div>
+      <h2>How are you using AI today?</h2>
+      <p class="lede">Quick show of hands. Wherever you are is the right starting point.</p>
+      <div class="quote-card">
+        <blockquote>AI is already in the room. The question is how to use it well.</blockquote>
+        <div class="source">Opening frame</div>
+      </div>
+    </div>
+    <aside class="speaker-notes">
+      <h4>Speaker Notes</h4>
+      <p>Use this for a quick show of hands. The point is to normalize mixed experience levels and make clear that the session will work for people who are curious but early.</p>
+    </aside>
+  </section>
+
+  <section class="slide" data-title="Task">
+    <div class="slide-shell">
+      <div class="slide-num">Slide 3 of 17</div>
+      <div class="center-piece">
+        <div>
+          <h2>The real task is not “use AI.”</h2>
+          <p>It is <strong>make sense of a messy case safely, clearly, and usefully.</strong></p>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="metric">
+          <div class="metric-label">Source documents</div>
+          <div class="metric-value">5-10</div>
+          <p>Psych evals, IEPs, discharge summaries, call notes, school records.</p>
+        </div>
+        <div class="metric">
+          <div class="metric-label">High stakes</div>
+          <div class="metric-value">Real</div>
+          <p>Placement, family decisions, care coordination, privacy.</p>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Desired output</div>
+          <div class="metric-value">2 pages</div>
+          <p>A concise report that helps people decide what support is needed.</p>
+        </div>
+      </div>
+    </div>
+    <aside class="speaker-notes">
+      <h4>Speaker Notes</h4>
+      <p>"Forget AI for a moment. Think about the actual work. You have 5-10 documents written by different people at different times for different purposes. Your job is to synthesize all of it into a 2-page placement report. That's hard, skilled work. The value isn't in summarizing -- it's in deciding what matters."</p>
+    </aside>
+  </section>
+
+  <section class="slide" data-title="Brainstorm">
+    <div class="slide-shell">
+      <div class="slide-num">Slide 4 of 17</div>
+      <h2>How would you do it by hand?</h2>
+      <div class="grid-2">
+        <div class="prompt-card">
+          <h3>What would your first three steps be?</h3>
+          <ul class="checklist">
+            <li>What would you read first?</li>
+            <li>How would you organize the documents?</li>
+            <li>How would you decide what matters most?</li>
+          </ul>
+        </div>
+        <div class="prompt-card">
+          <h3>Where would you worry?</h3>
+          <ul class="checklist">
+            <li>Missing context</li>
+            <li>Privacy</li>
+            <li>Contradictory information</li>
+            <li>Overlooking what is placement-relevant</li>
+          </ul>
+        </div>
+      </div>
+      <p class="big-line">This is the design problem Bloom was built to solve.</p>
+    </div>
+    <aside class="speaker-notes">
+      <h4>Speaker Notes</h4>
+      <p>Interactive -- 2-3 minutes. Let them name: privacy concerns, contradictions between documents, overwhelm, missing context. Then: "Every concern you just named is a real problem. The Bloom architecture exists because we took those problems seriously." This sets up the entire pipeline walkthrough.</p>
+    </aside>
+  </section>
+
+  <section class="slide" data-title="First Principles">
+    <div class="slide-shell">
+      <div class="slide-num">Slide 5 of 17</div>
+      <h2>AI from first principles</h2>
+      <div class="two-quote">
+        <div class="quote-card">
+          <blockquote>A brilliant intern with limited desk space and no durable memory.</blockquote>
+          <div class="source">Layperson analogy</div>
+        </div>
+        <div class="card">
+          <h3>Good at</h3>
+          <ul class="mini-list">
+            <li>reading patterns</li>
+            <li>summarizing</li>
+            <li>drafting</li>
+            <li>rewriting information clearly</li>
+          </ul>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="metric">
+          <div class="metric-label">Not a database</div>
+          <div class="metric-value">No</div>
+          <p>It does not automatically know your standards or your files.</p>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Not a clinician</div>
+          <div class="metric-value">No</div>
+          <p>It can support reasoning, but not replace professional judgment.</p>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Not a truth machine</div>
+          <div class="metric-value">No</div>
+          <p>Fluency and accuracy are not the same thing.</p>
+        </div>
+      </div>
+    </div>
+    <aside class="speaker-notes">
+      <h4>Speaker Notes</h4>
+      <p>The Feynman moment. "AI is a brilliant intern with limited desk space and no filing cabinet. It can read and write beautifully. But: (1) No durable memory -- new conversation, blank slate. (2) Limited desk space -- paste too much, it loses the thread. (3) Confident even when wrong -- fluency and accuracy are different things. These aren't bugs to be fixed. They're features of how the technology works."</p>
+    </aside>
+  </section>
+
+  <section class="slide" data-title="Context Limits">
+    <div class="slide-shell">
+      <div class="slide-num">Slide 6 of 17</div>
+      <h2>Why “just put it into Claude” breaks down</h2>
+      <div class="split">
+        <div class="split-card risk">
+          <h3>Too much context</h3>
+          <p>The model loses the thread, blends details, or gives a vague answer that sounds polished but shallow.</p>
+        </div>
+        <div class="split-card risk">
+          <h3>Not enough context</h3>
+          <p>The model misses your philosophy, your practice standards, and what actually matters in the case.</p>
+        </div>
+      </div>
+      <div class="quote-card">
+        <blockquote>Generic AI often fails because there is both too much and not enough context.</blockquote>
+        <div class="source">Directly aligned with the Shayna check-in framing</div>
+      </div>
+    </div>
+    <aside class="speaker-notes">
+      <h4>Speaker Notes</h4>
+      <p>"How many of you have tried pasting a long document into ChatGPT and gotten something back that felt vaguely right but not actually useful?" Too much context: the model blends details and gives a polished but shallow answer. Not enough: it doesn’t know BBI, IECA standards, or what ‘least restrictive environment’ means in practice. "This is the paradox. Generic AI fails because there’s simultaneously too much and not enough context."</p>
+    </aside>
+  </section>
+
+  <section class="slide" data-title="Case Study">
+    <div class="slide-shell">
+      <div class="slide-num">Slide 7 of 17</div>
+      <h2>The Bloom case study</h2>
+      <div class="case-grid">
+        <div class="card">
+          <h3>The co-design question</h3>
+          <p>How do we create a concise Bloom report that is useful for therapeutic placement, aligned with best practices, family-centered in tone, and less error-prone than a generic AI workflow?</p>
+        </div>
+        <div class="number-stack">
+          <div class="number-card">
+            <div class="number-badge">1</div>
+            <div><h3>Messy source docs</h3><p>Different authors, dates, and levels of reliability.</p></div>
+          </div>
+          <div class="number-card">
+            <div class="number-badge">2</div>
+            <div><h3>Short final output</h3><p>A report that is concise enough to be useful.</p></div>
+          </div>
+          <div class="number-card">
+            <div class="number-badge">3</div>
+            <div><h3>Practice-specific lens</h3><p>Family systems, least restrictive environment, ethical guidance.</p></div>
+          </div>
+        </div>
+      </div>
+      <p class="big-line">The challenge was never “Can AI write?” The challenge was “Can the workflow support good judgment?”</p>
+    </div>
+    <aside class="speaker-notes">
+      <h4>Speaker Notes</h4>
+      <p>"Shayna brought the clinical expertise: what questions the report needs to answer, which guidelines matter, how to handle conflicting information. We brought the engineering. The design problems we solved together -- source hierarchy, conflict resolution, what to include and exclude -- those are clinical decisions encoded into a technical system. The question was never 'Can AI write?' It was 'Can the workflow support good judgment?'"</p>
+    </aside>
+  </section>
+
+  <section class="slide" data-title="Report Goals">
+    <div class="slide-shell">
+      <div class="slide-num">Slide 8 of 17</div>
+      <h2>What the report has to do</h2>
+      <div class="grid-4">
+        <div class="metric"><div class="metric-value">Concise</div><p>Not a bloated summary.</p></div>
+        <div class="metric"><div class="metric-value">Grounded</div><p>Evidence-based, not free-floating prose.</p></div>
+        <div class="metric"><div class="metric-value">Useful</div><p>It should help answer what the next placement must provide.</p></div>
+        <div class="metric"><div class="metric-value">Family-centered</div><p>The student and family system stay visible in the report.</p></div>
+      </div>
+      <div class="quote-card">
+        <blockquote>A good summary is not just accurate. It is decision-useful.</blockquote>
+        <div class="source">Core Bloom design principle</div>
+      </div>
+    </div>
+    <aside class="speaker-notes">
+      <h4>Speaker Notes</h4>
+      <p>”The report has 9 sections, each answering a specific placement question. 'Needs and Challenges' answers 'What must staff handle daily?' -- not just a diagnosis list. 'Treatment History' answers 'What's been tried, and why is higher care indicated?' Each section is written at 8th-10th grade reading level because families read this, not just clinicians.”</p>
+    </aside>
+  </section>
+
+  <section class="slide" data-title="Pipeline">
+    <div class="slide-shell">
+      <div class="slide-num">Slide 9 of 17</div>
+      <h2>The pipeline matters</h2>
+      <div class="pipeline">
+        <div class="pipeline-card">
+          <div class="pipeline-step">Step 1</div>
+          <h3>Redact / minimize</h3>
+          <p>Reduce unnecessary exposure of sensitive information before broader processing.</p>
+        </div>
+        <div class="pipeline-card">
+          <div class="pipeline-step">Step 2</div>
+          <h3>Extract</h3>
+          <p>Process documents one at a time and pull out structured claims.</p>
+        </div>
+        <div class="pipeline-card">
+          <div class="pipeline-step">Step 3</div>
+          <h3>Reconcile</h3>
+          <p>Resolve dates, source conflicts, and timeline questions with rules.</p>
+        </div>
+        <div class="pipeline-card">
+          <div class="pipeline-step">Step 4</div>
+          <h3>Synthesize</h3>
+          <p>Use generative AI only after the evidence is organized.</p>
+        </div>
+        <div class="pipeline-card">
+          <div class="pipeline-step">Step 5</div>
+          <h3>Check</h3>
+          <p>Run quality controls before calling the report finished.</p>
+        </div>
+      </div>
+      <p class="big-line">We do not ask one model to freestyle the whole case.</p>
+    </div>
+    <aside class="speaker-notes">
+      <h4>Speaker Notes</h4>
+      <p>This is the key slide. Walk through a real case: "4 documents in. Step 1: redaXtor strips PII -- no AI, pattern matching. Step 2: each doc read separately -- 300 claims extracted in 6 minutes. Step 3: timeline built with clinical rules (source hierarchy: trust parents on placement sequence, trust facilities on their own dates, compute age from DOB). This step took 2 milliseconds -- pure code. Step 4: ONLY NOW does the powerful AI see the clean, organized data and write the report in 2 minutes. Step 5: 29 of 30 quality checks passed automatically." Punchline: "We don't ask one model to freestyle the whole case."</p>
+    </aside>
+  </section>
+
+  <section class="slide" data-title="AI vs Code">
+    <div class="slide-shell">
+      <div class="slide-num">Slide 10 of 17</div>
+      <h2>Where AI helps. Where code helps.</h2>
+      <div class="split">
+        <div class="split-card good">
+          <h3>Generative AI</h3>
+          <ul class="checklist">
+            <li>synthesizing across documents</li>
+            <li>drafting readable prose</li>
+            <li>turning structured evidence into narrative</li>
+          </ul>
+        </div>
+        <div class="split-card good">
+          <h3>Deterministic systems</h3>
+          <ul class="checklist">
+            <li>routing the right context</li>
+            <li>timeline reconciliation</li>
+            <li>format rules and required sections</li>
+            <li>quality checks and gates</li>
+          </ul>
+        </div>
+      </div>
+      <div class="quote-card">
+        <blockquote>Generative AI needs a harness.</blockquote>
+        <div class="source">The point of the architecture</div>
+      </div>
+    </div>
+    <aside class="speaker-notes">
+      <h4>Speaker Notes</h4>
+      <p>”Computers have done math correctly since the 1950s. Dates, ages, 'are all 9 sections present?' -- those don't need AI. Where AI earns its keep is synthesizing across documents and writing readable prose. The harness isn't anti-AI -- it's what makes AI useful. Think of it as: a language engine inside a controlled system.”</p>
+    </aside>
+  </section>
+
+  <section class="slide" data-title="Hallucinations">
+    <div class="slide-shell">
+      <div class="slide-num">Slide 11 of 17</div>
+      <div class="center-piece">
+        <div>
+          <h2>Fluent is not the same as true.</h2>
+          <p>Hallucinations are a predictable failure mode. The answer is not panic. The answer is better workflow design.</p>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="metric"><div class="metric-value">Ground</div><p>Use real source material, not vague prompting.</p></div>
+        <div class="metric"><div class="metric-value">Narrow</div><p>Give the model smaller, clearer tasks.</p></div>
+        <div class="metric"><div class="metric-value">Check</div><p>Verify important claims before trusting the final output.</p></div>
+      </div>
+    </div>
+    <aside class="speaker-notes">
+      <h4>Speaker Notes</h4>
+      <p>”Hallucination means sounding confident while being wrong. In clinical docs, that's a date shifted by a year, a diagnosis attributed to the wrong evaluator, or details 'borrowed' between documents. In our reference case, the pipeline checked 300 claims for cross-document contamination -- zero flags. 86 claims in the final report, every one traced to a source document. That's what grounding and isolation give you. The answer isn't to avoid AI -- it's to design the workflow so errors get caught.”</p>
+    </aside>
+  </section>
+
+  <section class="slide" data-title="Context Management">
+    <div class="slide-shell">
+      <div class="slide-num">Slide 12 of 17</div>
+      <h2>Give the right folder at the right time</h2>
+      <div class="workflow-ladder">
+        <div class="ladder-step">
+          <div class="dot">A</div>
+          <div><h3>Guidelines</h3><p>Best practices and philosophical guardrails do not need to sit in one giant prompt.</p></div>
+        </div>
+        <div class="ladder-step">
+          <div class="dot">B</div>
+          <div><h3>Report structure</h3><p>The format can be held outside the model and applied when it is needed.</p></div>
+        </div>
+        <div class="ladder-step">
+          <div class="dot">C</div>
+          <div><h3>Case facts</h3><p>The model sees the evidence relevant to the step it is performing, not every file all at once.</p></div>
+        </div>
+      </div>
+      <p class="big-line">This is why the file system matters: it lets us apply guidelines, customize format, and reduce confusion.</p>
+    </div>
+    <aside class="speaker-notes">
+      <h4>Speaker Notes</h4>
+      <p>"We built the filing cabinet the AI doesn't have. IECA principles, TCA standards, BBI pillars, level of care criteria -- these live in files loaded when the AI needs them. Report format and guiding questions are held outside the model. Case facts are fed one step at a time. This is why you can customize: swap the guidelines file, change the report format. Even if you're using Claude directly -- same principle. Save your standards as text. Build a system prompt. Give the AI the right context, not all the context."</p>
+    </aside>
+  </section>
+
+  <section class="slide" data-title="Privacy">
+    <div class="slide-shell">
+      <div class="slide-num">Slide 13 of 17</div>
+      <h2>Protect privacy by design</h2>
+      <div class="grid-3">
+        <div class="card">
+          <h3>Minimize</h3>
+          <p>Do not expose more information than the task requires.</p>
+        </div>
+        <div class="card">
+          <h3>Redact</h3>
+          <p>Use a redactor when sensitive information should be removed before broader AI use.</p>
+        </div>
+        <div class="card">
+          <h3>Control exposure</h3>
+          <p>Be intentional about where information goes and which systems see it.</p>
+        </div>
+      </div>
+      <div class="quote-card">
+        <blockquote>HIPAA and FERPA compliance is not only about infrastructure. It is also about habits, minimization, and workflow design.</blockquote>
+        <div class="source">Practical framing for this audience</div>
+      </div>
+    </div>
+    <aside class="speaker-notes">
+      <h4>Speaker Notes</h4>
+      <p>"The #1 question after the TCA keynote was about HIPAA and FERPA. When you paste a psych eval into ChatGPT, that data goes to a server. Our approach: the AI never sees real names. The redaXtor strips PII first. On contract disclosure: that depends on your state and guidelines, but our architecture makes the conversation easier -- AI is a drafting tool, not a decision-maker. Your clinical judgment drives every decision point."</p>
+    </aside>
+  </section>
+
+  <section class="slide" data-title="Redactor">
+    <div class="slide-shell">
+      <div class="slide-num">Slide 14 of 17</div>
+      <h2>The Redactor is a bridge to safer AI use</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Why it matters</h3>
+          <ul class="checklist">
+            <li>reduces manual redaction burden</li>
+            <li>makes privacy protection more practical</li>
+            <li>helps create safer workflows for sensitive documents</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Why the audience will care</h3>
+          <ul class="checklist">
+            <li>it is concrete</li>
+            <li>it reduces friction</li>
+            <li>it solves a problem they can feel immediately</li>
+          </ul>
+        </div>
+      </div>
+      <p class="big-line">For many professionals, privacy is the barrier to adoption. The redactor lowers that barrier.</p>
+    </div>
+    <aside class="speaker-notes">
+      <h4>Speaker Notes</h4>
+      <p>"The redaXtor uses two approaches: deterministic pattern matching for structured PII (SSNs, phone numbers, dates) and trained entity recognition for names and facility names. It’s not AI generating text -- it’s detection and removal. It reduces the manual burden of going through 80 pages with a marker. For many professionals, privacy is THE barrier to AI adoption. The redaXtor lowers that barrier."</p>
+    </aside>
+  </section>
+
+  <section class="slide" data-title="Sample Report">
+    <div class="slide-shell">
+      <div class="slide-num">Slide 15 of 17</div>
+      <h2>What the pipeline produces</h2>
+      <p class="lede">Below is an anonymized Bloom report generated from 4 source documents. Every clinical claim is grounded in a source document with inline citations. 29 of 30 automated quality checks passed.</p>
+      <div class="card" style="max-height:60vh;overflow-y:auto;font-size:14px;line-height:1.7;padding:28px 32px;">
+        <h3 style="font-size:22px;margin-bottom:4px;">M. Rivera -- Bloom Report</h3>
+        <p style="margin-bottom:16px;color:var(--warm-grey);font-size:13px;"><strong>Prepared by:</strong> Bloom Protocol (Prepare to Bloom) &nbsp;|&nbsp; <strong>Date:</strong> April 2026 &nbsp;|&nbsp; <em>All names and identifying details have been changed.</em></p>
+
+        <h4 style="font-size:16px;color:var(--teal);margin:18px 0 6px;">Background</h4>
+        <p>Maya Rivera is a 16-year-old multiracial female with a complex psychiatric history spanning over three years of escalating treatment intensity. Following multiple residential treatment center (RTC) placements, acute psychiatric hospitalizations, and a nine-month period of near-total disengagement from school and therapy while living at home, Maya is currently placed at Cedarbrook Academy, a short-term stabilization program, where she continues to exhibit self-harm behaviors requiring 1:1 supervision (Cedarbrook Clinical Notes, 2026). Her family, with support from an educational consultant, is seeking a long-term RTC placement capable of addressing her intertwined neurodevelopmental, mood, and safety needs.</p>
+
+        <h4 style="font-size:16px;color:var(--teal);margin:18px 0 6px;">Clinical Profile</h4>
+        <p>Major depressive disorder (MDD), recurrent episode, severe (F33.2); Premenstrual dysphoric disorder (PMDD) (F32.81); Generalized anxiety disorder (GAD) (F41.1); Autism spectrum disorder (ASD) (F84.0); Obsessive-compulsive disorder (OCD), under clinical observation (pending formal evaluation).</p>
+        <p>Diagnostic convergence exists across providers regarding MDD, GAD, and ASD; the Ridgeview Treatment discharge summary (2023) and the Individualized Education Program (IEP) team (Cedarbrook Clinical Notes, 2026) both document these diagnoses. PMDD was identified at Ridgeview (age 14) and has been corroborated by four years of cyclical behavioral escalation tracked by Maya's mother (Cedarbrook Clinical Notes, 2026). Current medications include fluoxetine (Prozac) 40 mg, Vraylar, and continuous birth control to manage PMDD (Cedarbrook Clinical Notes, 2026).</p>
+
+        <h4 style="font-size:16px;color:var(--teal);margin:18px 0 6px;">Personality and Strengths</h4>
+        <p>Maya is described as intelligent, capable of exceeding state academic standards in both English Language Arts and math, and she enjoys debates and activities requiring reasoning (Annual IEP, 2025). She has demonstrated entrepreneurial initiative by independently selling items online and has expressed a career interest in becoming a coach in the mental health field (Annual IEP, 2025). Maya engages meaningfully with creative outlets; at Ridgeview, she processed emotions through poetry and writing (Ridgeview Discharge Summary, 2023). She is athletic and has used physical activity such as running as a successful coping strategy (Ridgeview Discharge Summary, 2023; Annual IEP, 2025).</p>
+
+        <h4 style="font-size:16px;color:var(--teal);margin:18px 0 6px;">Needs and Challenges</h4>
+        <p>Maya's most acute safety concern is self-harm through ligature risk; during her stay at Ridgeview (age 14), she required 12 physical restraint interventions across a 28-day period, including multiple strangulation attempts (Ridgeview Discharge Summary, 2023). At Cedarbrook (age 16), eight unsafe behavioral incidents occurred in approximately three weeks, including wrapping a hair tie around her neck and placing a battery in her mouth (Cedarbrook Clinical Notes, 2026). These behaviors escalate in a cyclical pattern correlated with hormonal fluctuations. Attachment disruption is a significant driver: a majority of incidents occur during staff shift changes (Cedarbrook Clinical Notes, 2026).</p>
+
+        <h4 style="font-size:16px;color:var(--teal);margin:18px 0 6px;">Academic Functioning</h4>
+        <p>Maya has historically exceeded state standards in ELA and math. However, she has earned 0 of the 220 credits required for her anticipated 2028 graduation, and she has not attended school since September 2024, a gap of over nine months (Annual IEP, 2025). Her IEP identifies Emotional Disability as the primary eligibility category. At Cedarbrook, Maya has been productively engaged in two hours of daily core academics (Cedarbrook Clinical Notes, 2026).</p>
+
+        <h4 style="font-size:16px;color:var(--teal);margin:18px 0 6px;">Family System Impact</h4>
+        <p>Maya's parents are actively engaged in placement decisions and have participated in parent coaching, though Maya's refusal to engage has limited the effectiveness of these supports (Annual IEP, 2025). The family system is strained; behavioral outbursts create significant conflict at home, and the impact on Maya's sibling has been described as "very difficult" (Annual IEP, 2025).</p>
+
+        <h4 style="font-size:16px;color:var(--teal);margin:18px 0 6px;">Treatment History and Failed Interventions</h4>
+        <p>Maya's treatment trajectory began approximately five months before her admission to Ridgeview Treatment, when she was placed at Westbrook RTC (Ridgeview Discharge Summary, 2023). At Westbrook (age 14), she engaged in strangulation attempts and was subsequently sent to the emergency department after ingesting dangerous objects. She spent 40 days cycling between inpatient, residential, and partial hospitalization levels before discharging to Creekside Academy RTC (Ridgeview Discharge Summary, 2023). Following her return home (approximately mid-2024), Maya disengaged from all outpatient services (Annual IEP, 2025). The IEP team, treatment team, and the family all concur that long-term residential treatment is indicated.</p>
+
+        <h4 style="font-size:16px;color:var(--teal);margin:18px 0 6px;">Recommendations</h4>
+        <p><strong>Environment Features:</strong> 24-hour awake staff with crisis de-escalation training and ligature-risk management; capacity for 1:1 supervision; small, structured milieu (8-12 residents) with consistent staffing; on-site accredited academic program with credit recovery; integrated psychiatric and gynecological/endocrine consultation.</p>
+        <p><strong>BBI Screening:</strong> Family involvement (weekly family therapy, parent coaching); Trauma-informed (avoid punitive responses to self-harm, use DBT/CBT with ASD-informed adaptations); Cultural affirmation (multiracial identity reflected in staffing); Transition criteria (zero self-harm incidents over sustained period, consistent engagement in therapy and academics).</p>
+        <p><strong>Strength-Based Hooks:</strong> Creative writing and poetry as therapeutic engagement; physical activity as coping; entrepreneurial interests channeled into goal-setting.</p>
+        <p><strong>Placement Goals:</strong> <em>Student:</em> Reduce self-harm to zero over sustained periods; re-engage in full-time academics; build capacity to tolerate transitions without escalating. <em>Family:</em> Develop boundary-setting strategies; address sibling impact; build sustainable step-down plan.</p>
+
+        <h4 style="font-size:16px;color:var(--teal);margin:18px 0 6px;">Executive Summary</h4>
+        <p>Maya Rivera is a 16-year-old with MDD (severe, recurrent), PMDD, GAD, ASD, and suspected OCD. Despite multiple RTC placements and current stabilization at Cedarbrook Academy, she continues to exhibit self-harm behaviors at a rate of approximately eight incidents per three weeks, requiring 1:1 supervision, with cyclical intensification correlated to hormonal fluctuations. She has refused all community-based interventions over the past year, earning zero academic credits. Data indicates the need for a long-term RTC with 24-hour crisis-capable staffing, ligature-risk protocols, integrated psychiatric and endocrine management, on-site credit-recovery academics, and structured family therapy.</p>
+
+        <h4 style="font-size:16px;color:var(--teal);margin:18px 0 6px;">Data Gaps</h4>
+        <p>No parent/family intake interview was available for this report. No comprehensive psychological evaluation was available for this report.</p>
+      </div>
+    </div>
+    <aside class="speaker-notes">
+      <h4>Speaker Notes</h4>
+      <p>"This is what the pipeline produces. Every clinical claim has an inline citation to a source document. The AI synthesized 300 extracted claims from 4 documents into this 9-section report. Notice the Data Gaps section at the bottom -- the system knows what it DOESN'T have and says so transparently. All names and identifying details have been changed for this presentation."</p>
+    </aside>
+  </section>
+
+  <section class="slide" data-title="Report Map">
+    <div class="slide-shell">
+      <div class="slide-num">Slide 16 of 17</div>
+      <h2>How the pipeline maps to the report</h2>
+      <div class="grid-3">
+        <div class="card">
+          <h3 style="color:var(--teal);">Extract (Step 2)</h3>
+          <ul class="mini-list">
+            <li><strong>300 claims</strong> from 4 documents</li>
+            <li>Each tagged with source and category</li>
+            <li>Diagnoses, medications, placements, risk, strengths</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 style="color:var(--teal);">Reconcile (Step 3)</h3>
+          <ul class="mini-list">
+            <li><strong>82 timeline events</strong> built into chronology</li>
+            <li>Source hierarchy resolves conflicts</li>
+            <li>Ages computed, never trusted</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 style="color:var(--teal);">Synthesize (Step 4)</h3>
+          <ul class="mini-list">
+            <li><strong>9 sections</strong>, each answering a guiding question</li>
+            <li>86 grounded claims in final report</li>
+            <li>27 inline citations</li>
+          </ul>
+        </div>
+      </div>
+      <div class="grid-4">
+        <div class="metric"><div class="metric-label">Documents</div><div class="metric-value">4</div></div>
+        <div class="metric"><div class="metric-label">Claims extracted</div><div class="metric-value">300</div></div>
+        <div class="metric"><div class="metric-label">QC checks passed</div><div class="metric-value">29/30</div></div>
+        <div class="metric"><div class="metric-label">Processing time</div><div class="metric-value">~9 min</div></div>
+      </div>
+    </div>
+    <aside class="speaker-notes">
+      <h4>Speaker Notes</h4>
+      <p>"Here's how the pipeline stages map to what you just read. 4 documents became 300 claims. Those 300 claims were reconciled into 82 timeline events. The synthesis model turned that into 9 sections with 86 grounded claims and 27 inline citations. 29 of 30 quality checks passed -- the one miss was word count slightly over target. Total time: about 9 minutes. The reconciliation step -- building the timeline, resolving conflicts -- took 2 milliseconds. That's deterministic code, not AI."</p>
+    </aside>
+  </section>
+
+  <section class="slide" data-title="Best Practices">
+    <div class="slide-shell">
+      <div class="slide-num">Slide 17 of 17</div>
+      <h2>Use AI well</h2>
+      <div class="grid-2">
+        <div class="prompt-card">
+          <h3>Best practices</h3>
+          <ul class="checklist">
+            <li>be specific about the task</li>
+            <li>give relevant context, not all context</li>
+            <li>ask for a draft, not a final truth</li>
+            <li>check important claims</li>
+            <li>keep humans in the loop</li>
+          </ul>
+        </div>
+        <div class="prompt-card">
+          <h3>Discussion close</h3>
+          <ul class="checklist">
+            <li>Where do you lose the most time?</li>
+            <li>Where do you need more consistency?</li>
+            <li>What would you want AI to help with first?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="quote-card">
+        <blockquote>Use AI with structure. Use AI with judgment. Use AI with care.</blockquote>
+        <div class="source">Closing line</div>
+      </div>
+      <p class="footer-line">Eric Falke, ThriveIEP | eric@thriveiep.com | Shayna Abraham, Prepare to Bloom | info@preparetobloom.com</p>
+    </div>
+    <aside class="speaker-notes">
+      <h4>Speaker Notes</h4>
+      <p>"Five things you can do now: (1) Be specific -- don't say 'summarize,' say 'summarize focusing on placement-relevant findings.' (2) Give relevant context -- include your standards in the prompt. (3) Ask for a draft, not truth. (4) Check dates, ages, facility names -- those are where AI gets things wrong most. (5) Keep humans in the loop. AI handles the synthesis labor. You bring the judgment." Then open Q&amp;A: "Where do you lose the most time? What would you want AI to help with first?"</p>
+    </aside>
+  </section>
+
+</div>
+
+<div class="index-bar">
+  <button class="idx-chip active" type="button" onclick="goTo(0)">Title</button>
+  <button class="idx-chip" type="button" onclick="goTo(1)">Poll</button>
+  <button class="idx-chip" type="button" onclick="goTo(2)">Task</button>
+  <button class="idx-chip" type="button" onclick="goTo(3)">Brainstorm</button>
+  <button class="idx-chip" type="button" onclick="goTo(4)">First Principles</button>
+  <button class="idx-chip" type="button" onclick="goTo(5)">Context Limits</button>
+  <button class="idx-chip" type="button" onclick="goTo(6)">Case Study</button>
+  <button class="idx-chip" type="button" onclick="goTo(7)">Report Goals</button>
+  <button class="idx-chip" type="button" onclick="goTo(8)">Pipeline</button>
+  <button class="idx-chip" type="button" onclick="goTo(9)">AI vs Code</button>
+  <button class="idx-chip" type="button" onclick="goTo(10)">Hallucinations</button>
+  <button class="idx-chip" type="button" onclick="goTo(11)">Context Mgmt</button>
+  <button class="idx-chip" type="button" onclick="goTo(12)">Privacy</button>
+  <button class="idx-chip" type="button" onclick="goTo(13)">Redactor</button>
+  <button class="idx-chip" type="button" onclick="goTo(14)">Sample Report</button>
+  <button class="idx-chip" type="button" onclick="goTo(15)">Report Map</button>
+  <button class="idx-chip" type="button" onclick="goTo(16)">Best Practices</button>
+  <div class="idx-arrows">
+    <button class="idx-arrow" type="button" onclick="prev()">&larr;</button>
+    <button class="idx-arrow" type="button" onclick="next()">&rarr;</button>
+  </div>
+</div>
+
+<script>
+  let current = 0;
+  const body = document.body;
+  const slides = document.querySelectorAll('.slide');
+  const chips = document.querySelectorAll('.idx-chip');
+  const progress = document.getElementById('progress');
+  const notesToggle = document.getElementById('notesToggle');
+
+  function syncNotes() {
+    document.querySelectorAll('.speaker-notes').forEach((note, index) => {
+      note.classList.toggle('active', index === current);
+    });
+  }
+
+  function goTo(index) {
+    if (index < 0 || index >= slides.length) return;
+    slides[current].classList.remove('active');
+    chips[current].classList.remove('active');
+    current = index;
+    slides[current].classList.add('active');
+    chips[current].classList.add('active');
+    progress.style.width = (((current + 1) / slides.length) * 100) + '%';
+    syncNotes();
+  }
+
+  function next() { goTo(current + 1); }
+  function prev() { goTo(current - 1); }
+
+  function toggleNotes() {
+    body.classList.toggle('show-notes');
+    notesToggle.textContent = body.classList.contains('show-notes') ? 'Notes: On' : 'Notes: Off';
+    syncNotes();
+  }
+
+  notesToggle.addEventListener('click', toggleNotes);
+
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'ArrowRight' || event.key === ' ') {
+      event.preventDefault();
+      next();
+    }
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      prev();
+    }
+    if (event.key.toLowerCase() === 'n') {
+      event.preventDefault();
+      toggleNotes();
+    }
+  });
+
+  progress.style.width = ((1 / slides.length) * 100) + '%';
+  syncNotes();
+</script>
+</body>
+</html>
