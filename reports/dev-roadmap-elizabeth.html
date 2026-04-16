@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>ThriveIEP Dev Roadmap -- Elizabeth Sync</title>
+<style>
+  :root {
+    --bg: #0f172a; --panel: #1e293b; --border: #334155;
+    --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8;
+    --green: #34d399; --amber: #fbbf24; --red: #f87171;
+    --coral: #fb923c; --purple: #a78bfa; --pink: #f472b6;
+    --blue: #3b82f6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.5;
+  }
+  .slide {
+    min-height: 100vh; padding: 3rem 2rem; display: flex;
+    flex-direction: column; justify-content: center; max-width: 960px;
+    margin: 0 auto; border-bottom: 1px solid var(--border);
+  }
+  h1 { font-size: 2.2rem; color: var(--accent); margin-bottom: 0.5rem; }
+  h2 { font-size: 1.6rem; color: var(--accent); margin-bottom: 1rem; }
+  h3 { font-size: 1.1rem; color: var(--coral); margin: 1.2rem 0 0.5rem; }
+  .subtitle { color: var(--muted); font-size: 1rem; margin-bottom: 2rem; }
+  .badge {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+  }
+  .live { background: #064e3b; color: var(--green); }
+  .building { background: #1e3a5f; color: var(--accent); }
+  .pipeline { background: #3b1f0b; color: var(--coral); }
+  .planned { background: #312e81; color: var(--purple); }
+  .blocked { background: #450a0a; color: var(--red); }
+  .done { background: #064e3b; color: var(--green); }
+
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+  th {
+    text-align: left; padding: 0.6rem 0.8rem; border-bottom: 2px solid var(--border);
+    color: var(--muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  td {
+    padding: 0.6rem 0.8rem; border-bottom: 1px solid var(--border);
+    font-size: 0.9rem; vertical-align: top;
+  }
+  tr:hover { background: rgba(56, 189, 248, 0.04); }
+
+  .card {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.2rem; margin: 0.6rem 0;
+  }
+  .card-title { font-weight: 600; margin-bottom: 0.3rem; }
+  .card-meta { color: var(--muted); font-size: 0.85rem; }
+
+  .timeline {
+    position: relative; padding-left: 2rem; margin: 1rem 0;
+  }
+  .timeline::before {
+    content: ''; position: absolute; left: 0.5rem; top: 0; bottom: 0;
+    width: 2px; background: var(--border);
+  }
+  .t-item {
+    position: relative; margin-bottom: 1.2rem; padding: 0.8rem 1rem;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
+  }
+  .t-item::before {
+    content: ''; position: absolute; left: -1.75rem; top: 1rem;
+    width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--accent);
+    background: var(--bg);
+  }
+  .t-item.active::before { background: var(--accent); }
+  .t-item.future::before { border-color: var(--muted); }
+  .t-label { font-weight: 600; color: var(--accent); font-size: 0.85rem; }
+  .t-title { font-weight: 600; margin: 0.2rem 0; }
+  .t-detail { color: var(--muted); font-size: 0.85rem; }
+
+  .decision-box {
+    background: var(--panel); border-left: 3px solid var(--coral);
+    padding: 1rem 1.2rem; margin: 0.6rem 0; border-radius: 0 6px 6px 0;
+  }
+  .decision-box strong { color: var(--coral); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+  @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  .nav {
+    position: fixed; bottom: 1.5rem; right: 1.5rem; display: flex; gap: 0.5rem; z-index: 10;
+  }
+  .nav a {
+    background: var(--panel); border: 1px solid var(--border); color: var(--accent);
+    padding: 0.4rem 0.8rem; border-radius: 4px; text-decoration: none; font-size: 0.85rem;
+  }
+  .nav a:hover { background: var(--border); }
+
+  .highlight { color: var(--amber); font-weight: 600; }
+  .money { color: var(--green); font-weight: 600; }
+  ul { margin: 0.5rem 0 0.5rem 1.2rem; }
+  li { margin-bottom: 0.3rem; font-size: 0.9rem; }
+  .note { color: var(--muted); font-size: 0.85rem; font-style: italic; margin-top: 0.8rem; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="#s1">1</a><a href="#s2">2</a><a href="#s3">3</a><a href="#s4">4</a><a href="#s5">5</a>
+</nav>
+
+<!-- SLIDE 1: Title -->
+<div class="slide" id="s1">
+  <h1>Dev Roadmap</h1>
+  <p class="subtitle">Elizabeth Sync -- April 16, 2026 | Next 2-3 Months</p>
+  <div style="margin-top:1.5rem;">
+    <div class="card">
+      <div class="card-title">Context</div>
+      <ul>
+        <li>NLU live with 45 students. M5 (Phase 3) due <span class="highlight">April 30 (14 days)</span></li>
+        <li>BC CFLC proposal sent today -- <span class="money">$35K</span> pilot (May-Sep)</li>
+        <li>Tufts needs LD assessment screens -- imminent</li>
+        <li>Shayna's consultant network (11 people) needs follow-up pricing <span class="highlight">today</span></li>
+        <li>Cash position tight -- need 2-3 contracts for stability</li>
+        <li>278 commits since Apr 13. Massive refactoring + demo pathway shipped.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Revenue Picture</div>
+      <table>
+        <tr><td>NLU contract</td><td class="money">$50,000</td><td><span class="badge live">Live</span></td></tr>
+        <tr><td>BC CFLC proposal</td><td class="money">$35,000</td><td><span class="badge pipeline">Proposal Sent</span></td></tr>
+        <tr><td>Tufts</td><td>TBD</td><td><span class="badge pipeline">Imminent</span></td></tr>
+        <tr><td>BU / Northeastern</td><td>TBD</td><td><span class="badge planned">Pipeline</span></td></tr>
+        <tr><td>Bloom / Hannah</td><td>TBD</td><td><span class="badge building">Needs Timeline</span></td></tr>
+        <tr><td>Shayna's network (11)</td><td>TBD</td><td><span class="badge pipeline">Follow-up Today</span></td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 2: Project Inventory -->
+<div class="slide" id="s2">
+  <h2>Active Projects -- Status & Priority</h2>
+  <p class="subtitle">What we're building, where it stands</p>
+  <table>
+    <thead>
+      <tr><th>Project</th><th>Status</th><th>Owner</th><th>Est. Effort</th><th>Serves</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>C2A Coach View & Data Agg</strong><br><span style="color:var(--muted);font-size:0.8rem">Review + polish existing work</span></td>
+        <td><span class="badge building">Review</span></td>
+        <td>Eric + Soham</td>
+        <td>2-3 weeks</td>
+        <td>NLU, Tufts</td>
+      </tr>
+      <tr>
+        <td><strong>C2A Progress Monitoring</strong><br><span style="color:var(--muted);font-size:0.8rem">New assessment development</span></td>
+        <td><span class="badge planned">Not Started</span></td>
+        <td>Eric</td>
+        <td>4-6 weeks?</td>
+        <td>NLU (M5+)</td>
+      </tr>
+      <tr>
+        <td><strong>Tufts LD Assessment Screens</strong><br><span style="color:var(--muted);font-size:0.8rem">Broaden C2A battery for learning disability</span></td>
+        <td><span class="badge pipeline">Imminent</span></td>
+        <td>Eric</td>
+        <td>?</td>
+        <td>Tufts</td>
+      </tr>
+      <tr>
+        <td><strong>Bloom Report</strong><br><span style="color:var(--muted);font-size:0.8rem">Needs to work end-to-end</span></td>
+        <td><span class="badge building">In Progress</span></td>
+        <td>Eric</td>
+        <td>~3 weeks</td>
+        <td>Hannah, Bloom customers</td>
+      </tr>
+      <tr>
+        <td><strong>Redactor: Post-Secondary</strong><br><span style="color:var(--muted);font-size:0.8rem">Convert to deterministic pipeline</span></td>
+        <td><span class="badge planned">Planned</span></td>
+        <td>Eric + Soham</td>
+        <td>3-4 weeks?</td>
+        <td>BC, Shayna's network</td>
+      </tr>
+      <tr>
+        <td><strong>Tutoring Reports</strong><br><span style="color:var(--muted);font-size:0.8rem">Move to deterministic (after post-secondary)</span></td>
+        <td><span class="badge planned">After Post-Sec</span></td>
+        <td>Eric</td>
+        <td>2-3 weeks?</td>
+        <td>Tutoring customers</td>
+      </tr>
+      <tr>
+        <td><strong>Claude Tools (C2A-informed)</strong><br><span style="color:var(--muted);font-size:0.8rem">Modified PM-Hub-style system driven by C2A results</span></td>
+        <td><span class="badge planned">Design Phase</span></td>
+        <td>Eric</td>
+        <td>TBD</td>
+        <td>All C2A users</td>
+      </tr>
+      <tr>
+        <td><strong>DDx Tier 2 Content</strong><br><span style="color:var(--muted);font-size:0.8rem">Regenerate 30 states (Curiosity, Initiative, Resilience)</span></td>
+        <td><span class="badge building">Todo (High)</span></td>
+        <td>Eric</td>
+        <td>1-2 weeks</td>
+        <td>NLU, all C2A</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="note">Effort estimates are rough -- need Elizabeth's input on customer-facing timelines before committing.</div>
+</div>
+
+<!-- SLIDE 3: Customer-to-Product Map -->
+<div class="slide" id="s3">
+  <h2>Customers & What They Need</h2>
+  <p class="subtitle">Which projects unlock which revenue</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">NLU <span class="badge live">Live</span></div>
+      <div class="card-meta">45 students deployed | $50K contract | M5 Apr 30</div>
+      <ul>
+        <li>Coach view & data aggregation</li>
+        <li>Progress monitoring assessment</li>
+        <li>DDx Tier 2 content polish</li>
+        <li>Longitudinal measures (M5+)</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Tufts <span class="badge pipeline">Imminent</span></div>
+      <div class="card-meta">Needs LD screens + role-scoped coach view</div>
+      <ul>
+        <li>LD assessment screens (new)</li>
+        <li>Coach view (shared with NLU)</li>
+        <li>Role-scoped access (THR-255)</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">BC CFLC <span class="badge pipeline">Proposal Sent</span></div>
+      <div class="card-meta">$35K | May-Sep 2026 | Accommodation reports</div>
+      <ul>
+        <li>Post-secondary deterministic pipeline</li>
+        <li>Google Form integration</li>
+        <li>Staff onboarding workshop</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Bloom / Hannah <span class="badge building">Needs Timeline</span></div>
+      <div class="card-meta">What do we tell them?</div>
+      <ul>
+        <li>Bloom report end-to-end (~3 weeks)</li>
+        <li>Pipeline status + review panel (shipped)</li>
+        <li>When can Hannah start using it?</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Shayna's Network <span class="badge pipeline">Follow-up Today</span></div>
+      <div class="card-meta">11 therapeutic consultants | Jenney asking for pricing</div>
+      <ul>
+        <li>Accommodation Engine (post-secondary)</li>
+        <li>PII redaction (key selling point)</li>
+        <li>Pricing decision needed</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">BU / Northeastern <span class="badge planned">Pipeline</span></div>
+      <div class="card-meta">Status unclear -- discovery stage?</div>
+      <ul>
+        <li>Likely C2A or Accommodation</li>
+        <li>What's the next step?</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4: Sequencing -->
+<div class="slide" id="s4">
+  <h2>Proposed Sequencing -- May through July</h2>
+  <p class="subtitle">What comes first, what can parallel</p>
+
+  <div class="timeline">
+    <div class="t-item active">
+      <div class="t-label">Now -- April 30 (M5)</div>
+      <div class="t-title">C2A Coach View review + DDx Tier 2 content</div>
+      <div class="t-detail">Review existing coach view & data agg. Regenerate 30 DDx states. Ship M5 deliverables.</div>
+    </div>
+
+    <div class="t-item active">
+      <div class="t-label">Now -- 3 weeks (early May)</div>
+      <div class="t-title">Bloom Report -- make it work</div>
+      <div class="t-detail">End-to-end pipeline. Hannah can start using it. Sets the "what to tell Bloom" answer.</div>
+    </div>
+
+    <div class="t-item">
+      <div class="t-label">May</div>
+      <div class="t-title">Tufts LD Assessment Screens</div>
+      <div class="t-detail">Broaden C2A battery for learning disability population. Imminent customer need. Scope TBD with Elizabeth.</div>
+    </div>
+
+    <div class="t-item">
+      <div class="t-label">May (if BC signs)</div>
+      <div class="t-title">BC Setup & Integration</div>
+      <div class="t-detail">Platform config, Google Form integration, staff accounts. Per proposal timeline.</div>
+    </div>
+
+    <div class="t-item">
+      <div class="t-label">May-June</div>
+      <div class="t-title">Redactor: Post-Secondary Deterministic</div>
+      <div class="t-detail">Convert from LLM-generated to deterministic pipeline. Enables BC + Shayna's network.</div>
+    </div>
+
+    <div class="t-item future">
+      <div class="t-label">June-July</div>
+      <div class="t-title">C2A Progress Monitoring Assessment</div>
+      <div class="t-detail">New assessment development for longitudinal tracking. NLU contract need.</div>
+    </div>
+
+    <div class="t-item future">
+      <div class="t-label">July+</div>
+      <div class="t-title">Tutoring Deterministic + Claude Tools</div>
+      <div class="t-detail">Tutoring reports after post-secondary pattern is proven. Claude tools system design.</div>
+    </div>
+  </div>
+
+  <div class="note">Sequencing assumes Eric + Soham capacity. Parallel tracks possible: Bloom (now) + C2A coach (now). Post-secondary + Tufts screens could overlap if scoped tightly.</div>
+</div>
+
+<!-- SLIDE 5: Decisions for Elizabeth -->
+<div class="slide" id="s5">
+  <h2>Decisions & Discussion Points</h2>
+  <p class="subtitle">What we need to align on</p>
+
+  <div class="decision-box">
+    <strong>1. What do we tell Bloom / Hannah?</strong><br>
+    Bloom report needs ~3 weeks to work end-to-end. Pipeline status + review panel already shipped. Can we commit to "usable by mid-May"?
+  </div>
+
+  <div class="decision-box">
+    <strong>2. Tufts LD screens -- scope and timeline?</strong><br>
+    Elizabeth mentioned imminent. What instruments? How different from current LE3 battery? Does this block Tufts onboarding or can they start with existing battery?
+  </div>
+
+  <div class="decision-box">
+    <strong>3. Shayna follow-up -- pricing today</strong><br>
+    Jenney Wilder asked about pricing this morning. 11 consultants attended the training. What's our pricing for the Accommodation Engine for independent consultants? Per-report? Subscription?
+  </div>
+
+  <div class="decision-box">
+    <strong>4. BC CFLC -- anything Eric needs to prep?</strong><br>
+    Proposal sent. Kathy needs to respond before vacation. Is there a technical demo or integration question Eric should be ready for?
+  </div>
+
+  <div class="decision-box">
+    <strong>5. BU / Northeastern -- what's the status?</strong><br>
+    Are these active conversations? What product are they interested in? Who's the point of contact?
+  </div>
+
+  <div class="decision-box">
+    <strong>6. Progress monitoring priority vs. new customers</strong><br>
+    NLU contract requires progress monitoring eventually. But new customer onboarding (Tufts, BC) generates revenue sooner. How do we sequence?
+  </div>
+
+  <div class="decision-box">
+    <strong>7. Soham allocation</strong><br>
+    Soham is away from Boston Apr 22-27. THR-207 (UI assembly) is 9 days overdue. CI still broken on main. Where should Soham focus: coach view, CI fix, or BC integration prep?
+  </div>
+
+  <div style="margin-top:2rem; padding:1.2rem; background:var(--panel); border:1px solid var(--border); border-radius:8px;">
+    <div style="color:var(--accent); font-weight:600; margin-bottom:0.5rem;">Bottom Line</div>
+    <p style="font-size:0.95rem;">
+      We have 8 projects competing for 2 developers over 3 months.
+      The forcing function is <strong>customer commitments</strong>: NLU M5 (Apr 30), Tufts (imminent), BC (May start if signed), Bloom/Hannah (waiting on us).
+      Everything else sequences behind revenue.
+    </p>
+  </div>
+</div>
+
+</body>
+</html>
