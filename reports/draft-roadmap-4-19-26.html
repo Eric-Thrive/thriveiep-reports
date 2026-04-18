@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>ThriveIEP Dev Roadmap, Elizabeth Sync</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #1B2A4A; --navy-light: #2A3F6B;
+    --coral: #FF6B6B; --coral-soft: #FF8E8E;
+    --sand: #F5E6CC; --sand-light: #FDF8F0;
+    --teal: #2B8A8A; --gold: #D4A843;
+    --slate: #4A5568; --warm-grey: #8B7E6A;
+  }
+  html, body { height: 100%; overflow: hidden; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--sand-light); color: var(--navy); }
+  .deck { display: flex; height: 100vh; overflow: hidden; }
+  .slide { min-width: 100vw; height: 100vh; overflow-y: auto; padding: 60px 80px 80px; display: none; flex-direction: column; }
+  .slide.active { display: flex; }
+  @media (max-width: 800px) { .slide { padding: 32px 24px 80px; } }
+
+  .index-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: var(--navy); display: flex; align-items: center; height: 52px; padding: 0 24px; gap: 6px; overflow-x: auto; }
+  .idx-chip { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.55); background: transparent; border: none; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+  .idx-chip:hover { color: #fff; background: var(--navy-light); }
+  .idx-chip.active { background: var(--coral); color: #fff; }
+  .idx-progress { position: fixed; bottom: 52px; left: 0; height: 3px; background: var(--coral); transition: width 0.3s; z-index: 101; }
+  .idx-arrows { margin-left: auto; display: flex; gap: 8px; }
+  .idx-arrow { width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--navy-light); color: #fff; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .idx-arrow:hover { background: var(--coral); }
+
+  .slide-num { font-size: 12px; font-weight: 700; color: var(--coral); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .slide h2 { font-size: 36px; font-weight: 800; color: var(--navy); line-height: 1.15; margin-bottom: 20px; max-width: 800px; }
+  .slide h3 { font-size: 22px; font-weight: 700; color: var(--navy); margin: 24px 0 10px; }
+  .slide h4 { font-size: 16px; font-weight: 700; color: var(--teal); margin: 16px 0 8px; }
+  .slide p { font-size: 16px; line-height: 1.8; margin-bottom: 14px; color: var(--slate); max-width: 760px; }
+  .slide ul, .slide ol { margin: 10px 0 16px 24px; font-size: 16px; line-height: 1.7; color: var(--slate); max-width: 760px; }
+  .slide li { margin-bottom: 8px; }
+  .slide strong { color: var(--navy); font-weight: 700; }
+  .slide em { color: var(--coral); font-style: normal; font-weight: 600; }
+  .slide blockquote { background: var(--sand); border-left: 4px solid var(--coral); padding: 18px 24px; border-radius: 0 12px 12px 0; margin: 18px 0; font-size: 15px; color: var(--navy); max-width: 760px; }
+  .slide hr { border: none; height: 2px; background: var(--sand); margin: 28px 0; max-width: 760px; }
+  .slide a { color: var(--teal); text-decoration: none; font-weight: 600; }
+  .slide a:hover { text-decoration: underline; }
+
+  .slide table { width: 100%; max-width: 900px; border-collapse: separate; border-spacing: 0; margin: 18px 0; border-radius: 12px; overflow: hidden; }
+  .slide th { background: var(--navy); color: #fff; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 14px 16px; text-align: left; }
+  .slide td { background: #fff; padding: 14px 16px; font-size: 14px; color: var(--slate); border-bottom: 1px solid var(--sand); vertical-align: top; }
+  .slide tr:last-child td { border-bottom: none; }
+  .slide td.amount { font-weight: 700; color: var(--navy); white-space: nowrap; }
+  .slide td.customer { font-weight: 600; color: var(--navy); }
+
+  .badge { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; background: var(--sand); color: var(--navy); }
+  .badge-critical { background: var(--coral); color: #fff; }
+  .badge-high { background: var(--gold); color: var(--navy); }
+  .badge-moderate { background: var(--teal); color: #fff; }
+  .badge-info { background: var(--sand); color: var(--navy); }
+
+  .finding-card { background: #fff; border-radius: 12px; padding: 20px 24px; margin: 16px 0; max-width: 900px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .finding-card h4 { margin-top: 0; }
+
+  details { margin: 12px 0; max-width: 900px; }
+  details summary { cursor: pointer; font-weight: 600; color: var(--teal); padding: 8px 0; }
+  details[open] summary { margin-bottom: 8px; }
+
+  /* Stat row, two-up grid, project list (all plain classes, no inline styles) */
+  .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; max-width: 900px; margin: 10px 0 18px; }
+  .stat { background: #fff; border-radius: 12px; padding: 16px 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .stat .num { font-size: 28px; font-weight: 800; color: var(--navy); line-height: 1.1; }
+  .stat .lbl { font-size: 12px; font-weight: 600; color: var(--slate); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+
+  .two-up { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; max-width: 900px; }
+  .two-up .finding-card { margin: 0; }
+
+  .project-list { list-style: none; margin: 0; padding: 0; max-width: 900px; }
+  .project-list li { background: #fff; border-radius: 12px; padding: 14px 18px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); display: grid; grid-template-columns: 1fr auto auto; gap: 14px; align-items: center; }
+  .project-list .pname { font-weight: 700; color: var(--navy); font-size: 15px; }
+  .project-list .pdesc { font-size: 13px; color: var(--slate); margin-top: 3px; line-height: 1.5; }
+  .project-list .pmeta { font-size: 12px; color: var(--slate); font-weight: 600; text-align: right; white-space: nowrap; }
+
+  .td-sub { display: block; font-weight: 400; color: var(--warm-grey); font-size: 12px; margin-top: 2px; }
+  .caption { font-size: 13px; color: var(--warm-grey); max-width: 900px; margin-top: 10px; }
+
+  /* Roadmap list */
+  .roadmap-list { list-style: none; margin: 8px 0 0; padding: 0; max-width: 900px; }
+  .rm-item { background: #fff; border-radius: 12px; padding: 14px 18px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); display: grid; grid-template-columns: 180px 1fr auto; gap: 16px; align-items: center; border-left: 4px solid var(--sand); }
+  .rm-week1 { border-left-color: var(--coral); }
+  .rm-week2 { border-left-color: var(--gold); }
+  .rm-later { border-left-color: var(--teal); }
+  .rm-when { font-size: 11px; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.06em; }
+  .rm-when .badge { margin-left: 6px; }
+  .rm-title { font-weight: 700; color: var(--navy); font-size: 15px; }
+  .rm-sub { font-size: 13px; color: var(--slate); margin-top: 3px; line-height: 1.5; }
+  .rm-owner { font-size: 12px; color: var(--slate); font-weight: 600; text-align: right; white-space: nowrap; }
+
+  /* Gantt timeline */
+  .gantt { max-width: 1100px; margin-top: 12px; background: #fff; border-radius: 12px; padding: 20px 22px 22px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .gantt-head { display: grid; grid-template-columns: 260px 1fr; gap: 14px; align-items: end; padding-bottom: 10px; border-bottom: 2px solid var(--sand); margin-bottom: 10px; }
+  .gantt-head-label { font-size: 11px; font-weight: 700; color: var(--warm-grey); text-transform: uppercase; letter-spacing: 0.06em; }
+  .gantt-weeks { position: relative; display: grid; grid-template-columns: repeat(8, 1fr); }
+  .gantt-weeks .wk { font-size: 11px; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.06em; padding: 0 4px 6px; border-left: 1px solid var(--sand); }
+  .gantt-weeks .wk:first-child { border-left: none; }
+  .gantt-weeks .wk .sub { display: block; font-weight: 400; color: var(--warm-grey); font-size: 10px; letter-spacing: 0.02em; text-transform: none; margin-top: 2px; }
+  .gantt-weeks .wk.m5 { color: var(--coral); }
+
+  .gantt-row { display: grid; grid-template-columns: 260px 1fr; gap: 14px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--sand); }
+  .gantt-row:last-child { border-bottom: none; }
+  .gantt-label { font-size: 13px; color: var(--navy); font-weight: 600; line-height: 1.3; }
+  .gantt-label .owner { display: block; font-weight: 400; color: var(--warm-grey); font-size: 11px; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.04em; }
+
+  .gantt-track { position: relative; height: 24px; background: var(--sand-light); border-radius: 6px; overflow: visible; }
+  .gantt-bar { position: absolute; top: 2px; bottom: 2px; border-radius: 4px; display: flex; align-items: center; padding: 0 10px; font-size: 11px; font-weight: 600; color: #fff; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; z-index: 1; }
+  .gantt-bar.eng { background: var(--coral); }
+  .gantt-bar.lang { background: var(--teal); }
+  .gantt-bar.pm { background: var(--gold); color: var(--navy); }
+  .gantt-bar.queued { background: var(--navy-light); }
+
+  .gantt-m5 { position: absolute; top: -6px; bottom: -6px; width: 2px; background: var(--coral); z-index: 2; pointer-events: none; }
+  .gantt-m5::after { content: 'M5'; position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-size: 10px; font-weight: 700; color: var(--coral); letter-spacing: 0.06em; background: #fff; padding: 0 4px; }
+
+  .gantt-legend { display: flex; gap: 18px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--sand); font-size: 11px; color: var(--slate); flex-wrap: wrap; }
+  .gantt-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .gantt-legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; }
+
+  /* Tweaks panel */
+  .tweaks-panel { position: fixed; top: 20px; right: 20px; width: 380px; max-height: calc(100vh - 90px); overflow-y: auto; background: #fff; border-radius: 12px; box-shadow: 0 10px 40px rgba(27,42,74,0.2); z-index: 200; padding: 18px 20px 16px; display: none; font-size: 13px; }
+  .tweaks-panel.visible { display: block; }
+  .tweaks-panel h3 { font-size: 14px; font-weight: 700; color: var(--navy); margin: 0 0 12px; letter-spacing: 0.02em; text-transform: uppercase; }
+  .tweaks-panel .row-edit { background: var(--sand-light); border-radius: 8px; padding: 10px; margin-bottom: 8px; border: 1px solid var(--sand); }
+  .tweaks-panel .row-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 11px; font-weight: 700; color: var(--warm-grey); text-transform: uppercase; letter-spacing: 0.04em; }
+  .tweaks-panel label { display: block; font-size: 10px; font-weight: 600; color: var(--warm-grey); text-transform: uppercase; letter-spacing: 0.04em; margin: 6px 0 2px; }
+  .tweaks-panel input, .tweaks-panel select { width: 100%; font-family: inherit; font-size: 13px; padding: 6px 8px; border: 1px solid var(--sand); border-radius: 6px; background: #fff; color: var(--navy); }
+  .tweaks-panel input:focus, .tweaks-panel select:focus { outline: 2px solid var(--teal); outline-offset: -1px; border-color: var(--teal); }
+  .tweaks-panel .btn-row { display: flex; gap: 6px; margin-top: 10px; }
+  .tweaks-panel button { font-family: inherit; font-size: 12px; font-weight: 600; padding: 8px 12px; border-radius: 6px; border: none; cursor: pointer; transition: all 0.15s; }
+  .tweaks-panel .btn-add { background: var(--teal); color: #fff; flex: 1; }
+  .tweaks-panel .btn-add:hover { background: var(--navy); }
+  .tweaks-panel .btn-del { background: transparent; color: var(--coral); padding: 2px 6px; font-size: 11px; }
+  .tweaks-panel .btn-del:hover { background: var(--coral); color: #fff; }
+  .tweaks-panel .btn-move { background: transparent; color: var(--warm-grey); padding: 2px 6px; font-size: 11px; }
+  .tweaks-panel .btn-move:hover { color: var(--navy); }
+  .tweaks-panel .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+</style>
+</head>
+<body>
+<div class="idx-progress" id="progress"></div>
+
+<!-- Tweaks panel (shown when host toggles edit mode) -->
+<div class="tweaks-panel" id="tweaks-panel">
+  <h3>Tweaks &middot; Customers</h3>
+  <div id="rows-editor"></div>
+  <div class="btn-row">
+    <button class="btn-add" id="btn-add-row">+ Add customer</button>
+  </div>
+</div>
+<div class="deck" id="deck">
+
+  <!-- SLIDE 1: Customer Revenue Table -->
+  <div class="slide" id="slide-state">
+    <div class="slide-num">Section 01 of 02</div>
+    <h2>Projects</h2>
+    <table id="revenue-table">
+      <thead>
+        <tr><th>Customer</th><th>Amount</th><th>Status</th></tr>
+      </thead>
+      <tbody id="revenue-tbody"></tbody>
+    </table>
+  </div>
+
+  <!-- SLIDE 2: Roadmap Timeline -->
+  <div class="slide" id="slide-roadmap">
+    <div class="slide-num">Section 02 of 02</div>
+    <h2>Roadmap, next eight weeks</h2>
+    <p>Each bar spans the working window for that project. <em>April 30 M5</em> is the hard date; everything else sequences around it. Color indicates owner focus.</p>
+
+    <div class="gantt" id="gantt"></div>
+  </div>
+
+</div>
+
+<div class="index-bar">
+  <button class="idx-chip" onclick="goTo(0)">Projects</button>
+  <button class="idx-chip" onclick="goTo(1)">Roadmap</button>
+  <div class="idx-arrows">
+    <button class="idx-arrow" onclick="prev()" aria-label="Previous slide">&larr;</button>
+    <button class="idx-arrow" onclick="next()" aria-label="Next slide">&rarr;</button>
+  </div>
+</div>
+
+<script>
+// ---------- Tweakable data ----------
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "rows": [
+    { "customer": "NLU", "sub": "", "amount": "$40,000", "status": "Live", "statusColor": "moderate" },
+    { "customer": "BC CFLC", "sub": "", "amount": "$35,000", "status": "Proposal Sent", "statusColor": "high" },
+    { "customer": "Prepare to Bloom (Shayna)", "sub": "11 consultants, 50-rpt min", "amount": "$5,000 floor", "status": "Live", "statusColor": "moderate" },
+    { "customer": "Tritogether (Hannah)", "sub": "Minimal volume so far", "amount": "~$1,000", "status": "Live", "statusColor": "moderate" },
+    { "customer": "Tufts", "sub": "Broadened assessment needed", "amount": "TBD", "status": "Imminent", "statusColor": "critical" },
+    { "customer": "Northeastern", "sub": "Discovery, product unclear", "amount": "TBD", "status": "Pipeline", "statusColor": "info" }
+  ]
+}/*EDITMODE-END*/;
+
+let state = JSON.parse(JSON.stringify(TWEAK_DEFAULTS));
+const STATUS_COLORS = ['critical', 'high', 'moderate', 'info'];
+const STATUS_LABELS = { critical: 'Coral', high: 'Gold', moderate: 'Teal', info: 'Sand' };
+
+function escapeHtml(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function renderTable() {
+  const tbody = document.getElementById('revenue-tbody');
+  tbody.innerHTML = state.rows.map(r => {
+    const sub = r.sub ? `<span class="td-sub">${escapeHtml(r.sub)}</span>` : '';
+    return `<tr>
+      <td class="customer">${escapeHtml(r.customer)}${sub}</td>
+      <td class="amount">${escapeHtml(r.amount)}</td>
+      <td><span class="badge badge-${escapeHtml(r.statusColor)}">${escapeHtml(r.status)}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+// ---------- Tweaks editor ----------
+function renderEditor() {
+  const host = document.getElementById('rows-editor');
+  host.innerHTML = state.rows.map((r, i) => `
+    <div class="row-edit" data-i="${i}">
+      <div class="row-head">
+        <span>Row ${i + 1}</span>
+        <span>
+          <button class="btn-move" data-move="up" data-i="${i}" title="Move up">&uarr;</button>
+          <button class="btn-move" data-move="down" data-i="${i}" title="Move down">&darr;</button>
+          <button class="btn-del" data-del="${i}" title="Delete">&times;</button>
+        </span>
+      </div>
+      <label>Customer</label>
+      <input type="text" data-field="customer" data-i="${i}" value="${escapeHtml(r.customer)}" />
+      <label>Sub line (optional)</label>
+      <input type="text" data-field="sub" data-i="${i}" value="${escapeHtml(r.sub || '')}" />
+      <div class="two-col">
+        <div>
+          <label>Amount</label>
+          <input type="text" data-field="amount" data-i="${i}" value="${escapeHtml(r.amount)}" />
+        </div>
+        <div>
+          <label>Status label</label>
+          <input type="text" data-field="status" data-i="${i}" value="${escapeHtml(r.status)}" />
+        </div>
+      </div>
+      <label>Status color</label>
+      <select data-field="statusColor" data-i="${i}">
+        ${STATUS_COLORS.map(c => `<option value="${c}"${c === r.statusColor ? ' selected' : ''}>${c} (${STATUS_LABELS[c]})</option>`).join('')}
+      </select>
+    </div>
+  `).join('');
+}
+
+function persist() {
+  try {
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { rows: state.rows } }, '*');
+  } catch(e) {}
+}
+
+document.getElementById('rows-editor').addEventListener('input', (e) => {
+  const t = e.target;
+  const i = parseInt(t.getAttribute('data-i'), 10);
+  const f = t.getAttribute('data-field');
+  if (isNaN(i) || !f) return;
+  state.rows[i][f] = t.value;
+  renderTable();
+  persist();
+});
+
+document.getElementById('rows-editor').addEventListener('change', (e) => {
+  const t = e.target;
+  if (t.tagName !== 'SELECT') return;
+  const i = parseInt(t.getAttribute('data-i'), 10);
+  const f = t.getAttribute('data-field');
+  if (isNaN(i) || !f) return;
+  state.rows[i][f] = t.value;
+  renderTable();
+  persist();
+});
+
+document.getElementById('rows-editor').addEventListener('click', (e) => {
+  const t = e.target;
+  if (t.hasAttribute('data-del')) {
+    const i = parseInt(t.getAttribute('data-del'), 10);
+    state.rows.splice(i, 1);
+    renderTable(); renderEditor(); persist();
+  } else if (t.hasAttribute('data-move')) {
+    const i = parseInt(t.getAttribute('data-i'), 10);
+    const dir = t.getAttribute('data-move');
+    const j = dir === 'up' ? i - 1 : i + 1;
+    if (j < 0 || j >= state.rows.length) return;
+    const tmp = state.rows[i]; state.rows[i] = state.rows[j]; state.rows[j] = tmp;
+    renderTable(); renderEditor(); persist();
+  }
+});
+
+document.getElementById('btn-add-row').addEventListener('click', () => {
+  state.rows.push({ customer: 'New Customer', sub: '', amount: 'TBD', status: 'Pipeline', statusColor: 'info' });
+  renderTable(); renderEditor(); persist();
+});
+
+// ---------- Edit mode protocol ----------
+window.addEventListener('message', (e) => {
+  const d = e.data;
+  if (!d || typeof d !== 'object') return;
+  if (d.type === '__activate_edit_mode') {
+    document.getElementById('tweaks-panel').classList.add('visible');
+  } else if (d.type === '__deactivate_edit_mode') {
+    document.getElementById('tweaks-panel').classList.remove('visible');
+  }
+});
+try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch(e) {}
+
+// ---------- Gantt renderer ----------
+const GANTT_WEEKS = [
+  { label: 'Week 1', sub: 'Apr 17 to 23' },
+  { label: 'Week 2', sub: 'Apr 24 to 30', m5: true },
+  { label: 'Week 3', sub: 'May 1 to 7' },
+  { label: 'Week 4', sub: 'May 8 to 14' },
+  { label: 'Week 5', sub: 'May 15 to 21' },
+  { label: 'Week 6', sub: 'May 22 to 28' },
+  { label: 'Week 7', sub: 'May 29 to Jun 4' },
+  { label: 'Week 8', sub: 'Jun 5 to 11' },
+];
+
+// start and end are week indices (0-based, inclusive)
+const GANTT_PROJECTS = [
+  { title: 'NLU C2A Coach View', owner: 'Eric + Elizabeth', start: 0, end: 1, kind: 'eng', label: 'Build + ship (M5)' },
+  { title: 'NLU data aggregation', owner: 'Elizabeth', start: 0, end: 1, kind: 'lang', label: 'First cut, NLU memo' },
+  { title: 'Shayna consultants kickoff', owner: 'Elizabeth', start: 0, end: 0, kind: 'pm', label: 'Confirm pricing' },
+  { title: 'Tufts C2A scope', owner: 'Eric + Elizabeth', start: 1, end: 2, kind: 'eng', label: 'Scope + start build' },
+  { title: 'Bloom onboarding', owner: 'Eric', start: 2, end: 3, kind: 'eng', label: 'Onboard' },
+  { title: 'Bloom tuning', owner: 'Eric', start: 4, end: 5, kind: 'eng', label: 'Tune flags' },
+  { title: 'Redactor enhancements', owner: 'Eric', start: 0, end: 7, kind: 'queued', label: 'Ongoing' },
+  { title: 'Post-secondary', owner: 'Eric', start: 3, end: 5, kind: 'eng', label: 'For BC launch' },
+  { title: 'C2A progress monitoring', owner: 'Eric', start: 5, end: 7, kind: 'queued', label: 'Develop assessment' },
+  { title: 'Tutoring reports, deterministic', owner: 'Eric', start: 6, end: 7, kind: 'queued', label: 'After post-sec' },
+];
+
+function renderGantt() {
+  const host = document.getElementById('gantt');
+  if (!host) return;
+  const W = GANTT_WEEKS.length;
+  const weekHeads = GANTT_WEEKS.map(w => `<div class="wk${w.m5 ? ' m5' : ''}">${w.label}<span class="sub">${w.sub}</span></div>`).join('');
+
+  // M5 marker sits at end of Week 2 (index 1), i.e., at (2/8) = 25%
+  const m5Pct = ((1 + 1) / W) * 100;
+
+  const rows = GANTT_PROJECTS.map(p => {
+    const left = (p.start / W) * 100;
+    const width = ((p.end - p.start + 1) / W) * 100;
+    return `<div class="gantt-row">
+      <div class="gantt-label">${p.title}<span class="owner">${p.owner}</span></div>
+      <div class="gantt-track">
+        <div class="gantt-bar ${p.kind}" style="left:${left}%; width:${width}%;">${p.label || ''}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  host.innerHTML = `
+    <div class="gantt-head">
+      <div class="gantt-head-label">Project / Owner</div>
+      <div class="gantt-weeks">${weekHeads}</div>
+    </div>
+    <div style="position:relative;">
+      <div class="gantt-m5" style="left: calc(260px + 14px + ${m5Pct}% - (260px + 14px) * ${m5Pct/100});"></div>
+      ${rows}
+    </div>
+    <div class="gantt-legend">
+      <span><i style="background:var(--coral);"></i> Engineering (Eric)</span>
+      <span><i style="background:var(--teal);"></i> Language (Elizabeth)</span>
+      <span><i style="background:var(--gold);"></i> PM / ops</span>
+      <span><i style="background:var(--navy-light);"></i> Ongoing / queued</span>
+    </div>
+  `;
+
+  // M5 line: position it above the tracks in the weeks header strip
+  // Simpler: draw it as a full-height overlay via JS after layout
+  requestAnimationFrame(() => {
+    const container = host.querySelector('.gantt-weeks');
+    if (!container) return;
+    // Remove the old absolute m5 marker; we'll add a styled one in the weeks header instead
+    const m5line = host.querySelector('.gantt-m5');
+    if (m5line) m5line.remove();
+    // Add vertical line overlay aligned to end of week 2 in each track
+    host.querySelectorAll('.gantt-track').forEach(track => {
+      const line = document.createElement('div');
+      line.style.cssText = `position:absolute; left:${m5Pct}%; top:-4px; bottom:-4px; width:2px; background:var(--coral); z-index:3; pointer-events:none;`;
+      track.appendChild(line);
+    });
+  });
+}
+
+// ---------- Initial render ----------
+renderTable();
+renderEditor();
+renderGantt();
+
+// ---------- Slide nav ----------
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const chips = document.querySelectorAll('.idx-chip');
+const progress = document.getElementById('progress');
+const STORAGE_KEY = 'deck-slide:' + location.pathname;
+function goTo(i) {
+  if (i < 0 || i >= slides.length) return;
+  slides[current].classList.remove('active');
+  chips[current].classList.remove('active');
+  current = i;
+  slides[current].classList.add('active');
+  chips[current].classList.add('active');
+  progress.style.width = ((current + 1) / slides.length * 100) + '%';
+  try { localStorage.setItem(STORAGE_KEY, String(current)); } catch(e){}
+}
+function next() { goTo(current + 1); }
+function prev() { goTo(current - 1); }
+document.addEventListener('keydown', e => {
+  const tag = (e.target && e.target.tagName) || '';
+  if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+});
+let startIdx = 0;
+try {
+  const saved = parseInt(localStorage.getItem(STORAGE_KEY), 10);
+  if (Number.isFinite(saved) && saved >= 0 && saved < slides.length) startIdx = saved;
+} catch(e){}
+slides[startIdx].classList.add('active');
+chips[startIdx].classList.add('active');
+current = startIdx;
+progress.style.width = ((current + 1) / slides.length * 100) + '%';
+</script>
+</body>
+</html>
