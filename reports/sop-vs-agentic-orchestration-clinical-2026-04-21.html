@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>SOP vs Agentic Orchestration in Clinical Document Generation — 2025–2026 Evidence Refresh</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #1B2A4A; --navy-light: #2A3F6B;
+    --coral: #FF6B6B; --coral-soft: #FF8E8E;
+    --sand: #F5E6CC; --sand-light: #FDF8F0;
+    --teal: #2B8A8A; --gold: #D4A843;
+    --slate: #4A5568; --warm-grey: #8B7E6A;
+  }
+  html, body { height: 100%; overflow: hidden; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--sand-light); color: var(--navy); }
+  .deck { display: flex; height: 100vh; overflow: hidden; }
+  .slide { min-width: 100vw; height: 100vh; overflow-y: auto; padding: 60px 80px 80px; display: none; flex-direction: column; }
+  .slide.active { display: flex; }
+  @media (max-width: 800px) { .slide { padding: 32px 24px 80px; } }
+  .index-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: var(--navy); display: flex; align-items: center; height: 52px; padding: 0 24px; gap: 6px; overflow-x: auto; }
+  .idx-chip { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.55); background: transparent; border: none; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+  .idx-chip:hover { color: #fff; background: var(--navy-light); }
+  .idx-chip.active { background: var(--coral); color: #fff; }
+  .idx-progress { position: fixed; bottom: 52px; left: 0; height: 3px; background: var(--coral); transition: width 0.3s; z-index: 101; }
+  .idx-arrows { margin-left: auto; display: flex; gap: 8px; }
+  .idx-arrow { width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--navy-light); color: #fff; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .idx-arrow:hover { background: var(--coral); }
+  .slide-num { font-size: 12px; font-weight: 700; color: var(--coral); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .slide h2 { font-size: 36px; font-weight: 800; color: var(--navy); line-height: 1.15; margin-bottom: 20px; max-width: 800px; }
+  .slide h3 { font-size: 22px; font-weight: 700; color: var(--navy); margin: 24px 0 10px; }
+  .slide h4 { font-size: 16px; font-weight: 700; color: var(--teal); margin: 16px 0 8px; }
+  .slide p { font-size: 16px; line-height: 1.8; margin-bottom: 14px; color: var(--slate); max-width: 760px; }
+  .slide ul, .slide ol { margin: 10px 0 16px 24px; font-size: 16px; line-height: 1.7; color: var(--slate); max-width: 760px; }
+  .slide li { margin-bottom: 8px; }
+  .slide strong { color: var(--navy); font-weight: 700; }
+  .slide em { color: var(--coral); font-style: normal; font-weight: 600; }
+  .slide blockquote { background: var(--sand); border-left: 4px solid var(--coral); padding: 18px 24px; border-radius: 0 12px 12px 0; margin: 18px 0; font-size: 15px; color: var(--navy); max-width: 760px; }
+  .slide hr { border: none; height: 2px; background: var(--sand); margin: 28px 0; max-width: 760px; }
+  .slide a { color: var(--teal); text-decoration: none; font-weight: 600; }
+  .slide a:hover { text-decoration: underline; }
+  .slide table { width: 100%; max-width: 800px; border-collapse: separate; border-spacing: 0; margin: 18px 0; border-radius: 12px; overflow: hidden; }
+  .slide th { background: var(--navy); color: #fff; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 14px 16px; text-align: left; }
+  .slide td { background: #fff; padding: 14px 16px; font-size: 14px; color: var(--slate); border-bottom: 1px solid var(--sand); }
+  .slide tr:last-child td { border-bottom: none; }
+  .badge { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+  .badge-high { background: var(--teal); color: #fff; }
+  .badge-moderate { background: var(--gold); color: #fff; }
+  .badge-low { background: var(--warm-grey); color: #fff; }
+  .badge-critical { background: var(--coral); color: #fff; }
+  .badge-evidence { background: var(--navy); color: #fff; }
+  .finding-card { background: #fff; border-radius: 12px; padding: 20px 24px; margin: 16px 0; max-width: 800px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .finding-card h4 { margin-top: 0; }
+  details { margin: 12px 0; max-width: 760px; }
+  details summary { cursor: pointer; font-weight: 600; color: var(--teal); padding: 8px 0; }
+  details[open] summary { margin-bottom: 8px; }
+  .key-messages { background: #fff; border-radius: 12px; padding: 24px 28px; margin: 20px 0; max-width: 800px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border-top: 4px solid var(--coral); }
+  .key-messages h4 { margin-top: 0; color: var(--navy); font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .key-messages ul { margin-top: 10px; }
+  .rec-item { background: #fff; border-radius: 12px; padding: 18px 24px; margin: 14px 0; max-width: 800px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border-left: 4px solid var(--teal); }
+  .rec-item.critical { border-left-color: var(--coral); }
+  .rec-item.high { border-left-color: var(--gold); }
+  .rec-item.moderate { border-left-color: var(--teal); }
+  .rec-item h4 { margin: 0 0 6px; display: flex; align-items: center; gap: 10px; color: var(--navy); font-size: 15px; }
+  .rec-item p { font-size: 14px; margin-bottom: 6px; }
+  .rec-item p.evidence { font-size: 13px; color: var(--warm-grey); font-style: italic; }
+  .bib-list { max-width: 860px; }
+  .bib-list li { margin-bottom: 10px; font-size: 14px; }
+  .tier-header { display: flex; align-items: center; gap: 12px; margin: 24px 0 8px; }
+  .tier-header h3 { margin: 0; }
+</style>
+</head>
+<body>
+<div class="idx-progress" id="progress"></div>
+<div class="deck" id="deck">
+
+<div class="slide" id="slide-executive">
+  <div class="slide-num">Section 01 of 10</div>
+  <h2>Executive Summary</h2>
+  <p><strong>Query.</strong> Two claims from a prior 137 paper brief on agent harnesses for document products were pressure tested: (6) SOP encoded prompts beat free form agent collaboration in regulated domains, and (7) minimal loops scale further than framework heavy orchestrators. We searched 8 APIs and reviewed 95 papers published mid 2025 through 21 April 2026.</p>
+
+  <div class="key-messages">
+    <h4>Key Messages</h4>
+    <ul>
+      <li><strong>Proceed with Bloom Report roadmap SP1 (Temporal), SP2 (citation verification), SP3 (learning evaluator) as scoped. Do not add SP4.</strong></li>
+      <li><strong>The evidence converges on one pattern: bounded agentic workflow.</strong> A fixed pipeline backbone with constrained agents inside individual stages, governed by a dedicated verifier or auditor with veto authority.</li>
+      <li><strong>Two scope additions.</strong> Add an agent registry with version pinning to SP1 (agent sprawl mitigation). Recalibrate SP3 to improve reviewer confidence, not reduce review time (accountability paradox).</li>
+    </ul>
+  </div>
+
+  <h3>What did we test?</h3>
+  <p>Whether a recent literature window (post 15 June 2025) would invalidate two load bearing design claims behind the Bloom Report harness roadmap. If either claim inverted, the plan was to add a fourth sub project (SP4) scoping a migration from SOP encoded to agentic orchestration. Otherwise, ship SP1 through SP3 as drafted.</p>
+
+  <h3>What did we find?</h3>
+  <p>Both claims hold. Direct benchmark evidence from Amazon Science's SOP Bench (1,800 plus regulated domain tasks) shows Function Calling agents at 27 percent and ReAct agents at 48 percent, whereas a fixed pipeline with encoded procedures trivially scores 100 percent on known tasks. Five federal instruments (HTI 1, HIPAA 2025 NPRM, Section 1557 Final Rule, Department of Education AI Priority, ONC DSI transparency) all push in the same direction: tech asset inventories, audit trails, and algorithm transparency. The NeurIPS 2025 MAST failure taxonomy documents 41 to 86.7 percent production failure rates across 1,600 plus traces of multi agent systems.</p>
+
+  <h3>What does this mean for the Bloom Report roadmap?</h3>
+  <p>Ship SP1 through SP3 as scoped. Do not replace the 10 element pipeline with a top level planner agent. Label the Category 1 discrepancy gate as exception based human in the loop (HITL). Expect hallucination rates spanning 1.47 to 61.6 percent (MEDAI LLM SUMM systematic review, 216 publications), and plan citation verification as a dedicated auditor role, not a side effect of the generator.</p>
+
+  <h3>What remains uncertain?</h3>
+  <p>No randomized trial directly compares SOP versus planner agent clinical report generation in production. Therapeutic placement report generation has zero direct literature. Minimum viable audit trail log schemas for bounded agent workflows are undocumented. These gaps do not block the roadmap but do define the next research window.</p>
+</div>
+
+<div class="slide" id="slide-summary">
+  <div class="slide-num">Section 02 of 10</div>
+  <h2>Scope and Method</h2>
+  <p>Pressure test of Claims 6 and 7 from <em>wiki/topics/agent-harnesses-for-document-products.md</em>. Deep research fan out across all 8 APIs at medium depth: Semantic Scholar, OpenAlex, Europe PMC, ERIC, Papers With Code, Context7, research community, and research legal.</p>
+
+  <table>
+    <thead>
+      <tr><th>Dimension</th><th>Value</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Window</td><td>Mid 2025 through 21 April 2026</td></tr>
+      <tr><td>APIs</td><td>8 source agents (published, clinical, education, ai, devdocs, community, legal)</td></tr>
+      <tr><td>Papers post dedup</td><td>95</td></tr>
+      <tr><td>Claims extracted</td><td>117</td></tr>
+      <tr><td>Concepts added to wiki</td><td>9 new concept articles</td></tr>
+      <tr><td>Cross API corroboration</td><td>9 papers in 2+ APIs; zero contradictions</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>Verdict one liner.</strong> Claims 6 and 7 HOLD. Validity is HIGH for regulatory and systematic review evidence, MODERATE for benchmark convergence. The field converged on <em>bounded agentic workflow</em>, which is exactly what the Bloom Report 10 element pipeline allows. Proceed SP1 through SP3 as scoped. Do not add SP4.</p>
+
+  <blockquote>
+    <strong>Appraisal caveat.</strong> Per paper critical appraisal (Cochrane RoB 2, ESSA RE AIM, modified GRADE) was deferred this session to prioritize the architectural verdict for the roadmap. All 117 claims carry <em>verification_status: unverified</em>. A follow up session should run <em>/deep research appraise batch</em> on this findings set and dispatch the verifier on the top 5 Bloom load bearing claims before SP1 through SP3 specs cite individual claims.
+  </blockquote>
+</div>
+
+<div class="slide" id="slide-claim6">
+  <div class="slide-num">Section 03 of 10</div>
+  <h2>Verdict on Claim 6: SOP Encoded Beats Free Form</h2>
+  <p><strong>Claim 6.</strong> SOP encoded prompts beat free form agent collaboration in regulated domains. <span class="badge badge-critical">HOLD</span></p>
+
+  <h3>Direct benchmark evidence</h3>
+  <div class="finding-card">
+    <h4>SOP Bench (Amazon Science, June 2025)</h4>
+    <p><span class="badge badge-moderate">Moderate</span> 1,800 plus regulated domain tasks across aerospace, insurance, and manufacturing SOPs. Function Calling agents score 27 percent. ReAct agents score 48 percent. A fixed pipeline baseline with encoded SOPs trivially scores 100 percent on any task whose procedure is already known.</p>
+    <blockquote>Free form agents fail the majority of tasks where the procedure is already documented. The open question is not whether SOPs work, but how to encode them.</blockquote>
+  </div>
+
+  <h3>Regulatory reinforcement (5 federal instruments, HIGH tier)</h3>
+  <ul>
+    <li><strong>45 CFR § 92.210 (Section 1557 Final Rule).</strong> Identify and mitigate duties on AI clinical decision support, no Software as a Medical Device safe harbor.</li>
+    <li><strong>89 FR 1192 (HTI 1).</strong> Decision Support Intervention transparency attributes at 45 CFR 170.315(b)(11).</li>
+    <li><strong>90 FR 898 (HIPAA NPRM 2025).</strong> Removes the required versus addressable distinction; mandates tech asset inventory plus network map.</li>
+    <li><strong>89 FR 37522 (Section 1557 Final Rule commentary).</strong> AI nondiscrimination requirements.</li>
+    <li><strong>91 FR 18774 (ED Priority on AI).</strong> Effective 13 May 2026.</li>
+  </ul>
+
+  <h3>Clinical convergence</h3>
+  <p>Frontiers in AI ORCH 2026 (deterministic orchestration beats stochastic). npj Digital Medicine 2025 clinical safety framework. Information Fusion 2025 AI Agent versus Agentic AI taxonomy, which formalizes the distinction the roadmap depends on.</p>
+</div>
+
+<div class="slide" id="slide-claim7">
+  <div class="slide-num">Section 04 of 10</div>
+  <h2>Verdict on Claim 7: Minimal Loops Scale Further</h2>
+  <p><strong>Claim 7.</strong> Minimal loops scale further than framework heavy orchestrators. <span class="badge badge-critical">HOLD</span></p>
+
+  <div class="finding-card">
+    <h4>Production failure evidence</h4>
+    <ul>
+      <li><strong>Gartner (June 2025, LOW practitioner).</strong> Over 40 percent of agentic AI projects cancelled by end 2027.</li>
+      <li><strong>MAST Failure Taxonomy (NeurIPS 2025, MODERATE).</strong> 14 distinct failure modes across 1,600 plus production traces. 41 to 86.7 percent production failure rates. Top failure classes: specification ambiguity and verification gaps.</li>
+      <li><strong>LangChain framework reckoning telemetry (LOW practitioner).</strong> 45 percent of framework deployments never shipped; 23 percent removed after shipping.</li>
+    </ul>
+  </div>
+
+  <h3>Architectural direction from authoritative vendors</h3>
+  <ul>
+    <li><strong>Anthropic Building Effective Agents 2025.</strong> Claude cookbooks orchestrator workers pattern. Recommends bounded workflow patterns over emergent planners.</li>
+    <li><strong>Temporal plus OpenAI Agents SDK GA (23 March 2026).</strong> Durable execution framework with workflow and activity history. Adopted by OpenAI Codex and Replit production migrations.</li>
+  </ul>
+
+  <h3>No invert: SP4 is not needed</h3>
+  <p>No paper in the window supports replacing a fixed clinical pipeline with a top level planner agent. Komodo Health's Marmot is the closest candidate in market and explicitly markets bounded, verifiable agents, not emergent planners.</p>
+</div>
+
+<div class="slide" id="slide-findings">
+  <div class="slide-num">Section 05 of 10</div>
+  <h2>Key Findings</h2>
+
+  <div class="finding-card">
+    <h4>1. Bounded agency is a named paradigm <span class="badge badge-moderate">Moderate</span></h4>
+    <p>Four independent sources converge on the same pattern: Planner Auditor Twin (arXiv 2601.21113), Plan Execute Generate Judge (IEEE BigData 2025), Verifiable Workflow Automator (arXiv 2512.01453), and Zhang 2026.</p>
+    <blockquote>A fixed pipeline backbone with constrained agents inside stages, governed by a dedicated verifier with veto authority.</blockquote>
+  </div>
+
+  <div class="finding-card">
+    <h4>2. HITL gate design is load bearing <span class="badge badge-high">High</span></h4>
+    <p>TAJET 2026 systematic review, npj Digital Medicine 2025, and MEDAI LLM SUMM 2026 (216 publications) converge. Exception based HITL is the only scalable class. Hallucination rates span 1.47 to 61.6 percent.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>3. Hallucination is pipeline level, not model level <span class="badge badge-high">High</span></h4>
+    <p>npj Digital Medicine, JAMIA LLM as Judge, Nature Communications SourceCheckup. <em>50 to 90 percent of LLM citations are unsupportive of the claim they accompany.</em> Citation verification must be a designated auditor role.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>4. Audit trail requirements drive architecture <span class="badge badge-high">High</span></h4>
+    <p>Regulatory (5 federal instruments) plus architectural (Agentic AI Governance arXiv 2601.15630, Temporal workflow history, HIPAA 2025 NPRM). Control plane audit logging is the named governance pattern.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>5. Agent Sprawl as operational risk <span class="badge badge-moderate">Moderate</span></h4>
+    <p>Governance and Lifecycle paper (arXiv 2601.15630, 2026). Undocumented, duplicated, or version drifted agents accumulate faster than organizations document them. Mitigation: centralized agent registry with version pinning.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>6. IEP and educational generation: rich SOP evidence, thin agentic evidence <span class="badge badge-high">High</span></h4>
+    <p>Rakap 2024 RCT (n=22, Exceptional Children) plus Waterfield 2026 convergent mixed methods. Single call LLM is greater than or equal to human quality on IEP goals. EduPlanner (IEEE TLT 2025) remains MODERATE prototype with required teacher reflection loops.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>7. Regulatory posture favors fixed pipeline <span class="badge badge-high">High</span></h4>
+    <p>Five federal instruments direct covered entities toward deterministic, auditable, inventoried AI systems. This is a structural, not aesthetic, preference.</p>
+  </div>
+</div>
+
+<div class="slide" id="slide-consensus">
+  <div class="slide-num">Section 06 of 10</div>
+  <h2>Consensus and Debate</h2>
+
+  <h3>Consensus (3 or more independent sources)</h3>
+  <ul>
+    <li><strong>Bounded agency for regulated document generation.</strong> Four independent papers, converging terminology.</li>
+    <li><strong>Exception based HITL as the only scalable class.</strong> TAJET 2026 plus npj Digital Medicine plus MEDAI LLM SUMM.</li>
+    <li><strong>Source grounded verification required.</strong> SourceCheckup plus JAMIA LLM as Judge plus Agentic RAG Survey.</li>
+    <li><strong>Temporal style durable execution for audit trails.</strong> OpenAI Agents SDK GA 2026, Replit and Codex production migrations, Anthropic orchestrator workers pattern.</li>
+    <li><strong>Retrieval Augmented Generation as default for grounded clinical output.</strong> JAMIA OR 1.35 benefit, Agentic RAG Survey.</li>
+  </ul>
+
+  <h3>Debate (legitimate disagreement across sources)</h3>
+  <ul>
+    <li><strong>Multi agent help on narrative tasks.</strong> MedAgentBoard 2025 disputes: single advanced LLM greater than multi agent on medical VQA, EHR, and QA. Planner Auditor Twin says two agent bounded designs still help.</li>
+    <li><strong>HITL review time reducibility.</strong> Accountability Paradox literature says review time is invariant; MEDAI LLM SUMM 2026 finds conditions where it is reducible. Affects SP3 calibration target.</li>
+    <li><strong>Minimum viable audit trail log schemas.</strong> Thin literature; the Control Plane Audit Logging pattern is named but not schema standardized.</li>
+  </ul>
+</div>
+
+<div class="slide" id="slide-gaps">
+  <div class="slide-num">Section 07 of 10</div>
+  <h2>Gaps</h2>
+
+  <p>Three gaps matter for the Bloom Report roadmap and are flagged for follow up research windows.</p>
+
+  <div class="finding-card">
+    <h4>No direct RCT comparing SOP versus planner agent clinical report generation in production</h4>
+    <p>The benchmark window (SOP Bench, MedAgentBoard) shows convergence but not head to head production comparison. Nearest adjacent evidence: ORCH Frontiers 2026 on deterministic versus stochastic orchestration; MAST on multi agent failure modes. Gap justifies the caution of holding SP4 out of scope rather than a positive case for planner agents.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>Therapeutic placement report generation: zero direct literature</h4>
+    <p>ERIC and Europe PMC searches returned no peer reviewed evidence on AI generation of therapeutic placement recommendations. Adjacent: IEP goal generation (Rakap, Waterfield), medical discharge summary generation (MEDAI LLM SUMM). Bloom Report treats this gap as known; placement logic stays deterministic for now.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>FERPA plus LLM pipeline guardrails: zero peer reviewed ERIC coverage</h4>
+    <p>No ERIC indexed paper addresses the intersection. HIPAA 2025 NPRM analogues apply structurally but not legally. Follow up research window needed before any Bloom Report FERPA covered deployment.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>Minimum viable audit trail log schema for bounded agent workflows: undocumented</h4>
+    <p>The Control Plane Audit Logging concept is named (Agentic AI Governance arXiv 2601.15630) but no reference schema maps 45 CFR § 164.312(b) audit controls to bounded agent tool call traces. Temporal's workflow history is the closest de facto standard. Priority follow up for SP1 implementation.</p>
+  </div>
+</div>
+
+<div class="slide" id="slide-quality">
+  <div class="slide-num">Section 08 of 10</div>
+  <h2>Evidence Quality</h2>
+
+  <p>Source tier heuristic ratings (per paper critical appraisal deferred). Full distribution:</p>
+
+  <table>
+    <thead>
+      <tr><th>Rating</th><th>Papers</th><th>Share</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="badge badge-high">High</span></td><td>12</td><td>12.6%</td><td>Peer reviewed, high citation, or federal regulatory authority</td></tr>
+      <tr><td><span class="badge badge-moderate">Moderate</span></td><td>58</td><td>61.1%</td><td>Peer reviewed or authoritative docs, solid methodology</td></tr>
+      <tr><td><span class="badge badge-low">Low</span></td><td>25</td><td>26.3%</td><td>Practitioner signal, vendor posts, small N case studies</td></tr>
+      <tr><td>Unrated</td><td>0</td><td>0%</td><td></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Strongest evidence (HIGH tier examples)</h3>
+  <ul>
+    <li>TRIPOD LLM reporting guideline (274 citations): directly informs SP3 learning evaluator output format.</li>
+    <li>npj Digital Medicine Clinical Safety Framework 2025 (159 citations): four component exception based HITL structure.</li>
+    <li>Information Fusion AI Agent vs Agentic AI Taxonomy 2025 (67 citations): formalizes the definition the roadmap depends on.</li>
+    <li>Nature Communications SourceCheckup: 50 to 90 percent LLM citations unsupportive. Directly load bearing for SP2.</li>
+    <li>Rakap 2024 IEP Goal RCT (n=22, Exceptional Children): single call LLM ≥ human quality.</li>
+    <li>5 federal legal instruments (HIGH regulatory authority tier).</li>
+  </ul>
+
+  <h3>Weakest evidence (LOW tier posture)</h3>
+  <ul>
+    <li>Gartner predictions and vendor agent economics blogs: directionally useful, not load bearing.</li>
+    <li>LangChain framework reckoning telemetry: signal, not evidence.</li>
+    <li>Small N case studies: interpret with caution; excluded from claim weighting.</li>
+  </ul>
+
+  <blockquote>
+    <strong>Cross source corroboration.</strong> 9 papers appeared in 2 or more source APIs (Semantic Scholar plus OpenAlex overlap primarily). Zero contradicted across sources within the window.
+  </blockquote>
+</div>
+
+<div class="slide" id="slide-recommendations">
+  <div class="slide-num">Section 09 of 10</div>
+  <h2>What This Means for Us</h2>
+
+  <p>Seven recommendations tied directly to Bloom Report roadmap decisions, severity rated for sequencing.</p>
+
+  <div class="rec-item critical">
+    <h4><span class="badge badge-critical">Critical</span> Proceed with SP1, SP2, and SP3 as scoped</h4>
+    <p><strong>Action.</strong> Ship SP1 (Temporal durable execution), SP2 (citation verification), SP3 (learning evaluator) without architectural rework.</p>
+    <p class="evidence">Evidence: 95 papers converge on bounded agentic workflow; 5 federal regulations demand the audit trail Temporal already provides; SOP Bench shows free form agents under 50 percent on regulated tasks.</p>
+  </div>
+
+  <div class="rec-item critical">
+    <h4><span class="badge badge-critical">Critical</span> Do NOT add SP4 (SOP to agentic migration)</h4>
+    <p><strong>Action.</strong> Hold SP4 out of the roadmap. Revisit only if a production grade planner agent RCT in clinical settings publishes and inverts.</p>
+    <p class="evidence">Evidence: no paper supports replacing fixed clinical pipelines with top level planner agents; MAST 2025 documents 41 to 86.7 percent failure rates in framework heavy systems.</p>
+  </div>
+
+  <div class="rec-item high">
+    <h4><span class="badge badge-high">High</span> Add agent registry and version pinning to SP1 scope</h4>
+    <p><strong>Action.</strong> Every production agent gets a stable ID, owner, version, and sunset review date. Prompt, model version, and tool set pinned per agent version.</p>
+    <p class="evidence">Evidence: Agent Sprawl identified as emerging operational risk in Governance and Lifecycle paper (arXiv 2601.15630, 2026). Temporal captures per call logs; missing layer is agent identity metadata.</p>
+  </div>
+
+  <div class="rec-item high">
+    <h4><span class="badge badge-high">High</span> Label the Category 1 discrepancy gate as exception based HITL</h4>
+    <p><strong>Action.</strong> Rename and document the Category 1 gate using the exception based HITL framing in the roadmap spec.</p>
+    <p class="evidence">Evidence: TAJET 2026 systematic review plus npj Digital Medicine clinical safety framework both identify exception based HITL as the only scalable HITL class. Aligns with existing Bloom Report stop the line triggers.</p>
+  </div>
+
+  <div class="rec-item high">
+    <h4><span class="badge badge-high">High</span> Recalibrate SP3 objective to reviewer confidence, not review time</h4>
+    <p><strong>Action.</strong> Change SP3 success metric from review time reduction to reviewer confidence calibration (TRIPOD LLM output format).</p>
+    <p class="evidence">Evidence: Accountability Paradox literature (reviewer time invariance) contra MEDAI LLM SUMM. Conservative posture wins on audit defensibility and regulatory alignment.</p>
+  </div>
+
+  <div class="rec-item moderate">
+    <h4><span class="badge badge-moderate">Moderate</span> Add Verifiable Workflow Automator (VWA) terminology to the roadmap spec</h4>
+    <p><strong>Action.</strong> Update roadmap glossary and architecture prose to use VWA and bounded agentic workflow interchangeably with bounded pipeline.</p>
+    <p class="evidence">Evidence: arXiv 2512.01453 names the pattern we are building. Shared vocabulary with the literature tightens future citation traceability.</p>
+  </div>
+
+  <div class="rec-item moderate">
+    <h4><span class="badge badge-moderate">Moderate</span> Update SP2 rationale citing SourceCheckup</h4>
+    <p><strong>Action.</strong> Amend SP2 rationale section of the roadmap spec to cite the SourceCheckup finding.</p>
+    <p class="evidence">Evidence: Nature Communications SourceCheckup documents 50 to 90 percent of LLM citations as unsupportive of their claims. Strengthens citation verification as a gating stage, not a best effort annotation.</p>
+  </div>
+
+  <h3>Open questions for the next research window</h3>
+  <ul>
+    <li>Does any planner agent architecture match bounded workflow quality at equal HITL cost in clinical settings? (Currently no direct RCT.)</li>
+    <li>What is the minimum viable audit trail log schema that satisfies both 45 CFR § 164.312(b) and emerging AI governance framework requirements?</li>
+    <li>Does citation verification latency erode reviewer trust enough to force a fast path bypass, even when verification is load bearing?</li>
+  </ul>
+</div>
+
+<div class="slide" id="slide-bibliography">
+  <div class="slide-num">Section 10 of 10</div>
+  <h2>Bibliography</h2>
+  <p>Ranked by validity tier, then by citation count within tier. 95 papers total. Full findings set in <em>research/findings/2026-04-21-agentic-vs-sop-clinical-orchestration-evidence-refresh.json</em>.</p>
+
+  <div class="tier-header">
+    <h3>HIGH validity (12 papers)</h3>
+    <span class="badge badge-high">High</span>
+  </div>
+  <ul class="bib-list">
+    <li><strong>TRIPOD LLM Guideline</strong> (cite:274). Reporting standard for clinical LLM evaluations; directly informs SP3 learning evaluator output format.</li>
+    <li><strong>npj Digital Medicine Clinical Safety Framework 2025</strong> (cite:159). Four component exception based HITL structure.</li>
+    <li><strong>JAIR HITL Reinforcement Learning Review</strong> (cite:119). HITL taxonomy across RL domains.</li>
+    <li><strong>Information Fusion AI Agent vs Agentic AI Taxonomy 2025</strong> (cite:67). Formalizes the distinction the roadmap depends on.</li>
+    <li><strong>Rakap 2024 IEP Goal RCT, Exceptional Children</strong> (n=22). Single call LLM ≥ human quality on IEP goals.</li>
+    <li><strong>Waterfield 2026 IEP convergent mixed methods</strong>. Educator adoption and quality findings.</li>
+    <li><strong>MEDAI LLM SUMM 2026 systematic review</strong> (216 publications). Hallucination rate span 1.47 to 61.6 percent.</li>
+    <li><strong>TAJET 2026 HITL Frameworks systematic review</strong>. Exception based HITL as only scalable class.</li>
+    <li><strong>Nature Communications SourceCheckup</strong>. 50 to 90 percent of LLM citations unsupportive.</li>
+    <li><strong>45 CFR § 92.210 Section 1557 Final Rule</strong>. Regulatory authority: AI CDS identify and mitigate duties.</li>
+    <li><strong>90 FR 898 HIPAA Security Rule NPRM 2025</strong>. Regulatory authority: tech asset inventory plus network map.</li>
+    <li><strong>89 FR 1192 HTI 1 DSI transparency</strong>. Regulatory authority: 45 CFR 170.315(b)(11) transparency attributes.</li>
+  </ul>
+
+  <div class="tier-header">
+    <h3>MODERATE validity (58 papers, 16 exemplars shown)</h3>
+    <span class="badge badge-moderate">Moderate</span>
+  </div>
+  <ul class="bib-list">
+    <li><strong>SOP Bench June 2025, Amazon Science</strong>. 1,800 plus regulated domain tasks; FC 27 percent / ReAct 48 percent.</li>
+    <li><strong>MAST Failure Taxonomy, NeurIPS 2025, Berkeley</strong>. 14 failure modes across 1,600 traces.</li>
+    <li><strong>MedAgentBoard 2025</strong>. Single advanced LLM ≻ multi agent on medical VQA, EHR, QA.</li>
+    <li><strong>Frontiers AI ORCH 2026</strong>. Deterministic ≻ stochastic orchestration.</li>
+    <li><strong>Planner Auditor Twin arXiv 2601.21113</strong>. Bounded agency architecture.</li>
+    <li><strong>Verifiable Workflow Automator arXiv 2512.01453</strong>. LLM as natural language front end to pre defined workflows.</li>
+    <li><strong>Plan Execute Generate Judge IEEE BigData 2025</strong>. Four role bounded agency pattern.</li>
+    <li><strong>Anthropic Building Effective Agents 2025</strong>. Authoritative vendor guidance.</li>
+    <li><strong>Claude cookbooks orchestrator workers pattern</strong> (Context7). Reference implementation.</li>
+    <li><strong>Claude Agent SDK Secure Deployment</strong> (Context7). Operational guidance.</li>
+    <li><strong>Agentic RAG Survey</strong> (cite:263). RAG architecture taxonomy.</li>
+    <li><strong>JAMIA LLM as Judge 2025</strong>. OR 1.35 RAG augmented verification benefit.</li>
+    <li><strong>Komodo Health Marmot</strong>. Bounded multi agent, transparent and verifiable marketing.</li>
+    <li><strong>ORCH deterministic orchestrator</strong>. Clinical orchestration reference implementation.</li>
+    <li><strong>PRINCE Bayer pharma agent</strong>. Regulated domain bounded agent.</li>
+    <li><strong>EduPlanner 2025 IEEE TLT</strong>. Teacher reflection loops required.</li>
+  </ul>
+  <p>Plus 42 additional MODERATE tier entries including Agentic AI Governance (arXiv 2601.15630), Zhang 2026 bounded agency paper, OpenAI Agents SDK GA release notes, Temporal workflow history docs, and peer reviewed convergent evidence. Full list in findings JSON.</p>
+
+  <div class="tier-header">
+    <h3>LOW validity (25 papers, 4 exemplars shown)</h3>
+    <span class="badge badge-low">Low</span>
+  </div>
+  <ul class="bib-list">
+    <li><strong>Gartner June 2025 prediction</strong>. Over 40 percent of agentic projects cancelled by end 2027.</li>
+    <li><strong>LangChain framework reckoning telemetry</strong>. 45 percent never deployed / 23 percent removed.</li>
+    <li><strong>Anthropic Agentic Token Economics blog</strong>. Directional cost signal.</li>
+    <li><strong>Agent Washing thinkpieces</strong>. Vendor category critique.</li>
+  </ul>
+  <p>Plus 21 additional LOW tier entries (community discussion, vendor blogs, small N case studies). Full list in findings JSON.</p>
+
+  <h3>Artifacts</h3>
+  <ul>
+    <li>Plan: <em>research/findings/2026-04-21-agentic-vs-sop-clinical-orchestration-evidence-refresh-plan.json</em></li>
+    <li>Merged findings: <em>research/findings/2026-04-21-agentic-vs-sop-clinical-orchestration-evidence-refresh.json</em></li>
+    <li>Lit review source: <em>research/sessions/2026-04-21-agentic-vs-sop-clinical-orchestration-evidence-refresh-lit-review.md</em></li>
+    <li>Full report: <em>research/reports/2026-04-21-agentic-vs-sop-clinical-orchestration-evidence-refresh.md</em></li>
+    <li>Prior brief pressure tested: <em>research/wiki/topics/agent-harnesses-for-document-products.md</em></li>
+    <li>Roadmap target: <em>accommodation engine/docs/superpowers/specs/2026-04-21-report-harness-roadmap.md</em></li>
+    <li>Wiki topic article (new): <em>research/wiki/topics/agentic-vs-sop-orchestration-evidence-refresh-2025-2026.md</em></li>
+    <li>Wiki concepts (9 new): bounded agentic workflow, verifiable workflow automator, emergent planner, exception based HITL, accountability paradox, planner auditor twin, agent sprawl, MAST failure taxonomy, control plane audit logging.</li>
+  </ul>
+</div>
+
+</div>
+<div class="index-bar">
+  <button class="idx-chip" onclick="goTo(0)">1. Executive</button>
+  <button class="idx-chip" onclick="goTo(1)">2. Scope</button>
+  <button class="idx-chip" onclick="goTo(2)">3. Claim 6</button>
+  <button class="idx-chip" onclick="goTo(3)">4. Claim 7</button>
+  <button class="idx-chip" onclick="goTo(4)">5. Findings</button>
+  <button class="idx-chip" onclick="goTo(5)">6. Consensus</button>
+  <button class="idx-chip" onclick="goTo(6)">7. Gaps</button>
+  <button class="idx-chip" onclick="goTo(7)">8. Evidence</button>
+  <button class="idx-chip" onclick="goTo(8)">9. Recs</button>
+  <button class="idx-chip" onclick="goTo(9)">10. Bib</button>
+  <div class="idx-arrows">
+    <button class="idx-arrow" onclick="prev()">&larr;</button>
+    <button class="idx-arrow" onclick="next()">&rarr;</button>
+  </div>
+</div>
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const chips = document.querySelectorAll('.idx-chip');
+const progress = document.getElementById('progress');
+function goTo(i) {
+  if (i < 0 || i >= slides.length) return;
+  slides[current].classList.remove('active');
+  chips[current].classList.remove('active');
+  current = i;
+  slides[current].classList.add('active');
+  chips[current].classList.add('active');
+  progress.style.width = ((current + 1) / slides.length * 100) + '%';
+}
+function next() { goTo(current + 1); }
+function prev() { goTo(current - 1); }
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+});
+slides[0].classList.add('active');
+chips[0].classList.add('active');
+progress.style.width = (1 / slides.length * 100) + '%';
+</script>
+</body>
+</html>
