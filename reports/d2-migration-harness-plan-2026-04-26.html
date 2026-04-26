@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Plan D2 — Migration Harness</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #1B2A4A; --navy-light: #2A3F6B;
+    --coral: #FF6B6B; --coral-soft: #FF8E8E;
+    --sand: #F5E6CC; --sand-light: #FDF8F0;
+    --teal: #2B8A8A; --gold: #D4A843;
+    --slate: #4A5568; --warm-grey: #8B7E6A;
+  }
+  html, body { height: 100%; overflow: hidden; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--sand-light); color: var(--navy); }
+  .deck { display: flex; height: 100vh; overflow: hidden; }
+  .slide { min-width: 100vw; height: 100vh; overflow-y: auto; padding: 60px 80px 80px; display: none; flex-direction: column; }
+  .slide.active { display: flex; }
+  @media (max-width: 800px) { .slide { padding: 32px 24px 80px; } }
+  .index-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: var(--navy); display: flex; align-items: center; height: 52px; padding: 0 24px; gap: 6px; overflow-x: auto; }
+  .idx-chip { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.55); background: transparent; border: none; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+  .idx-chip:hover { color: #fff; background: var(--navy-light); }
+  .idx-chip.active { background: var(--coral); color: #fff; }
+  .idx-progress { position: fixed; bottom: 52px; left: 0; height: 3px; background: var(--coral); transition: width 0.3s; z-index: 101; }
+  .idx-arrows { margin-left: auto; display: flex; gap: 8px; }
+  .idx-arrow { width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--navy-light); color: #fff; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .idx-arrow:hover { background: var(--coral); }
+  .slide-num { font-size: 12px; font-weight: 700; color: var(--coral); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .slide h2 { font-size: 36px; font-weight: 800; color: var(--navy); line-height: 1.15; margin-bottom: 20px; max-width: 800px; }
+  .slide h3 { font-size: 22px; font-weight: 700; color: var(--navy); margin: 24px 0 10px; }
+  .slide h4 { font-size: 16px; font-weight: 700; color: var(--teal); margin: 16px 0 8px; }
+  .slide p { font-size: 16px; line-height: 1.8; margin-bottom: 14px; color: var(--slate); max-width: 760px; }
+  .slide ul, .slide ol { margin: 10px 0 16px 24px; font-size: 16px; line-height: 1.7; color: var(--slate); max-width: 760px; }
+  .slide li { margin-bottom: 8px; }
+  .slide strong { color: var(--navy); font-weight: 700; }
+  .slide em { color: var(--coral); font-style: normal; font-weight: 600; }
+  .slide blockquote { background: var(--sand); border-left: 4px solid var(--coral); padding: 18px 24px; border-radius: 0 12px 12px 0; margin: 18px 0; font-size: 15px; color: var(--navy); max-width: 760px; }
+  .slide hr { border: none; height: 2px; background: var(--sand); margin: 28px 0; max-width: 760px; }
+  .slide a { color: var(--teal); text-decoration: none; font-weight: 600; }
+  .slide a:hover { text-decoration: underline; }
+  .slide table { width: 100%; max-width: 800px; border-collapse: separate; border-spacing: 0; margin: 18px 0; border-radius: 12px; overflow: hidden; }
+  .slide th { background: var(--navy); color: #fff; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 14px 16px; text-align: left; }
+  .slide td { background: #fff; padding: 14px 16px; font-size: 14px; color: var(--slate); border-bottom: 1px solid var(--sand); }
+  .slide tr:last-child td { border-bottom: none; }
+  .badge { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+  .badge-critical { background: var(--coral); color: #fff; }
+  .badge-high { background: var(--gold); color: var(--navy); }
+  .badge-moderate { background: var(--teal); color: #fff; }
+  .badge-done { background: #2B8A5E; color: #fff; }
+  .finding-card { background: #fff; border-radius: 12px; padding: 20px 24px; margin: 16px 0; max-width: 800px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .finding-card h4 { margin-top: 0; }
+  details { margin: 12px 0; max-width: 760px; }
+  details summary { cursor: pointer; font-weight: 600; color: var(--teal); padding: 8px 0; }
+  details[open] summary { margin-bottom: 8px; }
+  code { background: var(--sand); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Menlo, monospace; font-size: 0.9em; color: var(--navy); }
+  pre { background: var(--navy); color: var(--sand-light); padding: 16px 20px; border-radius: 10px; font-family: 'SF Mono', Menlo, monospace; font-size: 13px; line-height: 1.6; overflow-x: auto; max-width: 800px; margin: 12px 0; }
+  pre code { background: transparent; padding: 0; color: inherit; }
+</style>
+</head>
+<body>
+<div class="idx-progress" id="progress"></div>
+<div class="deck" id="deck">
+
+<div class="slide" id="slide-summary">
+  <div class="slide-num">Section 01 of 10</div>
+  <h2>Build a safety harness for moving database tables</h2>
+
+  <h3>Key Messages</h3>
+  <ul>
+    <li><strong>D2 builds the tooling</strong> that makes the upcoming <code>c2a_*</code> table move (D3) safe to execute. Nothing moves yet; this is the rehearsal infrastructure.</li>
+    <li><strong>Generalized, not throwaway.</strong> When bloom_*, users, or organizations get split next year, D4 and D5 import this same harness instead of writing one-off scripts.</li>
+    <li><strong>Catches a known Drizzle bug class automatically.</strong> Cross-schema foreign keys silently ship as malformed SQL with current Drizzle versions; D2's two-layer linter blocks them in CI.</li>
+  </ul>
+
+  <h3>What did we decide to build?</h3>
+  <p>A new workspace package called <code>@accommodation-engine/migrate</code> with a typed API, a CLI, and CI integration. Six public functions. Three flows (CI gate, integration test, operator dry-run). All dev-tool only — never imported into the running server.</p>
+
+  <h3>Why is it worth its own plan?</h3>
+  <p>D3 is the risky part: moving 24 production tables out of <code>public</code> into a dedicated <code>c2a</code> schema. If we bundle the harness into D3, every harness question gets re-litigated under deadline pressure. Splitting the work means D3 becomes a small concrete task ("here's the table list, here's the harness, here's the runbook") instead of "design the tools and use them in the same PR."</p>
+
+  <h3>What does it cost?</h3>
+  <p>One new workspace, four dev-only dependencies (testcontainers, pg-query parser, commander, pg). Two new CI jobs. The plan is <strong>13 new files + 4 modified files</strong>. No production code changes. No schema changes. No data changes.</p>
+</div>
+
+<div class="slide" id="slide-why">
+  <div class="slide-num">Section 02 of 10</div>
+  <h2>Why we need this — three real problems</h2>
+
+  <p>The master roadmap (Plan D = Schema Split &amp; CI/CD) defines four specific problems that D2 must solve before D3 can safely run.</p>
+
+  <h3>Problem 1: Drizzle would destroy data</h3>
+  <p>If you ask Drizzle to move a table from <code>public</code> to a new schema, it generates <code>DROP TABLE</code> + <code>CREATE TABLE</code> — wiping every row. The correct approach is hand-written <code>ALTER TABLE ... SET SCHEMA</code>, which moves the table in place. D2 ships a generator that produces this SQL correctly, plus a companion <code>ALTER FUNCTION ... SET SCHEMA</code> for trigger functions (which Postgres does NOT move automatically with the table).</p>
+
+  <h3>Problem 2: Drizzle has documented bugs in cross-schema foreign keys</h3>
+  <p>Drizzle issues <strong>#636, #440, #1568, #890</strong> all describe the same failure mode: the SQL Drizzle generates for a foreign key that crosses schema boundaries <em>looks fine</em> but the constraint that actually applies in Postgres is broken or missing. CI never sees it because the file scan looks at the source SQL, not the applied state. D2 ships a two-layer linter that catches both layers.</p>
+
+  <h3>Problem 3: No zero-downtime strategy exists</h3>
+  <p>The moment <code>ALTER TABLE ... SET SCHEMA</code> runs, the old table location stops working. Any container still running the old code crashes. The expand/contract pattern with <strong>views as a backward-compatibility bridge</strong> solves this — but only if we generate the view SQL correctly. D2 ships the generator. (D3 owns the runtime cutover sequencing — when readers swap, when views drop.)</p>
+
+  <h3>Problem 4: We've never moved a table at this scale</h3>
+  <p>The c2a_* surface is 24 tables, all referenced by application code in dozens of places. We need to <em>rehearse</em> the entire move — forward and rollback — in an environment where mistakes cost nothing. D2 ships the rehearsal mechanism.</p>
+</div>
+
+<div class="slide" id="slide-reuse">
+  <div class="slide-num">Section 03 of 10</div>
+  <h2>What we're reusing — proven primitives, not new patterns</h2>
+
+  <p>The c2a-db-hardening work that <strong>landed in production on 2026-04-24</strong> (merge commit <code>1a2468bd</code>) gives D2 a head start. Every primitive we need has already been proven on a real production migration — we're generalizing, not inventing.</p>
+
+  <h3>What c2a-db-hardening proved works</h3>
+  <table>
+    <thead>
+      <tr><th>Pattern</th><th>Currently lives at</th><th>D2's job</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Preflight probe + tunnel</td><td><code>scripts/c2a-preflight-aptible.sh</code></td><td>Generalize into harness API</td></tr>
+      <tr><td>Baseline + compare</td><td><code>scripts/db-health.ts</code></td><td>Lift into <code>captureSnapshot()</code></td></tr>
+      <tr><td>Dry-run + apply</td><td><code>scripts/remediate-c2a-session-duplicates.ts</code></td><td>Generalize into <code>runDryRun()</code></td></tr>
+      <tr><td>CI fresh-DB schema check</td><td><code>scripts/ci/db-schema-fresh-probe.sh</code></td><td>Reuse as-is via CLI shim</td></tr>
+      <tr><td>CI fixture test</td><td><code>scripts/ci/remediation-fixture-test.sh</code></td><td>Reuse as-is via CLI shim</td></tr>
+      <tr><td>Rebaselined migration chain</td><td><code>0000_canonical_baseline.sql</code> + <code>0001_c2a_session_uniqueness.sql</code></td><td>Apply as bootstrap in shadow split</td></tr>
+    </tbody>
+  </table>
+
+  <h3>What we are intentionally NOT reusing</h3>
+  <p>Two patterns from c2a-db-hardening are <strong>explicit non-goals</strong> for D2 and must be re-added by D3's prod-execution wrappers:</p>
+  <ul>
+    <li><strong>Time-window apply guard</strong> (<code>C2A_REMEDIATE_NOT_BEFORE</code> ISO-8601 cutoff). D2 only runs in CI and dev — no production side. D3 wraps with this guard at the invocation layer.</li>
+    <li><strong>SSL <code>sslmode</code> rewrite</strong> (<code>no-verify</code> → <code>require</code>). D2 uses testcontainers (no SSL); the CLI passes <code>DATABASE_URL</code> through to node-postgres unchanged.</li>
+  </ul>
+  <p>Both are documented in the plan's "Explicit non-goals" section so D3 inherits them as carry-forward checklist items, not surprises.</p>
+</div>
+
+<div class="slide" id="slide-components">
+  <div class="slide-num">Section 04 of 10</div>
+  <h2>The harness — six public functions, four internals</h2>
+
+  <p>The package is structured so D3 (and future splits) import a small typed API, while the implementation details stay private.</p>
+
+  <h3>Public API (exported from <code>src/index.ts</code>)</h3>
+  <table>
+    <thead>
+      <tr><th>Function</th><th>What it does</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>generateSetSchemaMigration</code></td><td>Returns <code>{forward, reverse, viewsBridge}</code> SQL strings. Never writes to disk.</td></tr>
+      <tr><td><code>generateViewsBridge</code></td><td>Returns <code>CREATE OR REPLACE VIEW</code> + <code>DROP VIEW</code> SQL for the public-schema bridge.</td></tr>
+      <tr><td><code>lintCrossSchemaFksStatic</code></td><td>File-scan: parses every <code>.sql</code> in the migrations dir, flags cross-schema FKs without allowlist comments.</td></tr>
+      <tr><td><code>lintCrossSchemaFksRuntime</code></td><td>Live-DB query: inspects <code>information_schema</code> after migrations apply, compares applied FKs to a typed allowlist.</td></tr>
+      <tr><td><code>runShadowSplit</code></td><td>End-to-end orchestrator: spin up postgres, run forward, lint, run reverse, assert baseline equivalence.</td></tr>
+      <tr><td><code>runDryRun</code></td><td>Generic single-migration runner: applies a migration to ephemeral postgres, returns before/after snapshots and diff.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Internals (private wrappers, not exported)</h3>
+  <ul>
+    <li><code>internals/ephemeral-pg.ts</code> — testcontainers wrapper (Docker postgres lifecycle)</li>
+    <li><code>internals/snapshot.ts</code> — queries <code>information_schema</code>, returns deterministic JSON</li>
+    <li><code>internals/sql-parser.ts</code> — pg-query-emscripten WASM wrapper for AST walking</li>
+    <li><code>internals/reporters.ts</code> — JSON + human-readable formatters</li>
+  </ul>
+
+  <h3>Plus the operator entry point</h3>
+  <p><code>bin/migrate</code> with subcommands <code>shadow-split</code>, <code>lint-fks</code>, <code>generate-set-schema</code>, <code>dry-run</code>. Same code path as the API; CLI is a thin commander dispatcher. Engineers run the same logic from CI, dev shell, or D3's runbook.</p>
+</div>
+
+<div class="slide" id="slide-fk-linter">
+  <div class="slide-num">Section 05 of 10</div>
+  <h2>Two-layer FK linter — the most novel piece</h2>
+
+  <p>Cross-schema foreign keys are where Drizzle bugs live. A single-layer check isn't enough because the failure mode is "SQL file looks correct, applied constraint is broken." We need both eyes.</p>
+
+  <h3>Layer 1: Static AST scan (every PR, &lt;30s, no Docker)</h3>
+  <div class="finding-card">
+    <h4>What it does</h4>
+    <p>Parses every <code>.sql</code> file in <code>packages/db/migrations/</code> with pg-query-emscripten. Walks the AST for <code>FOREIGN KEY ... REFERENCES &lt;schema&gt;.&lt;table&gt;</code> nodes where the schema differs from the owning table's schema. Allowlist mechanism: a comment <code>-- fk-linter-exempt: THR-NNN &lt;reason&gt;</code> on the line before the constraint suppresses the warning.</p>
+    <h4>What it catches</h4>
+    <p>Plans that introduce cross-schema FKs without explicit hand-written approval.</p>
+    <h4>What it misses</h4>
+    <p>Drizzle bugs where the <em>file</em> looks fine but the <em>applied</em> constraint is broken. That's why we need Layer 2.</p>
+  </div>
+
+  <h3>Layer 2: Runtime introspection (during shadow split)</h3>
+  <div class="finding-card">
+    <h4>What it does</h4>
+    <p>After migrations apply to ephemeral postgres, queries <code>information_schema.table_constraints</code> joined with <code>information_schema.referential_constraints</code> joined with <code>pg_namespace</code>. Extracts every actually-applied FK boundary. Compares against a typed allowlist at <code>packages/migrate/src/cross-schema-fk-allowlist.ts</code>.</p>
+    <h4>The allowlist itself</h4>
+    <p>Each entry requires <code>thrTicket</code>, <code>addedDate</code>, <code>justification</code>, and <code>reviewDate</code>. CI fails if any entry's review date is more than 180 days old (mirrors D1's allowlist sunset pattern). D2 ships an empty array — no cross-schema FKs exist yet.</p>
+    <h4>Failure ergonomics matter</h4>
+    <p>When the linter finds an unexpected FK, the error message prints the <em>exact JSON snippet</em> to add to the allowlist file (or the SQL to remove the FK). Engineers don't have to guess what to do.</p>
+  </div>
+
+  <blockquote>
+    <strong>Why this isn't overkill:</strong> Drizzle issues #636, #440, #1568, #890 all describe the same class of bug. The harness's whole point is to catch these before D3 hits them in production.
+  </blockquote>
+</div>
+
+<div class="slide" id="slide-shadow-split">
+  <div class="slide-num">Section 06 of 10</div>
+  <h2>Shadow split — the rehearsal that makes D3 safe</h2>
+
+  <p>Before D3 moves a single real table, the harness rehearses the entire move + rollback against an ephemeral postgres in CI. If the move doesn't round-trip cleanly, the PR fails.</p>
+
+  <h3>The rehearsal sequence</h3>
+  <ol>
+    <li>Spin up <code>postgres:16-alpine</code> via testcontainers</li>
+    <li>Apply <code>0000_canonical_baseline.sql</code> + <code>0001_c2a_session_uniqueness.sql</code></li>
+    <li>Snapshot <code>information_schema</code> as <strong>baseline</strong></li>
+    <li>Generate the forward SQL via <code>generateSetSchemaMigration</code> and apply it</li>
+    <li>Run runtime FK lint</li>
+    <li>Snapshot as <strong>afterForward</strong></li>
+    <li>Verify <code>SELECT</code> works through the public-schema view</li>
+    <li>Apply the reverse SQL</li>
+    <li>Snapshot as <strong>afterRollback</strong></li>
+    <li>Assert <code>equivalentSnapshots(baseline, afterRollback) === true</code></li>
+    <li>Tear down the container</li>
+  </ol>
+
+  <h3>Two modes — both first-class</h3>
+  <p><span class="badge badge-high">D2 default</span> <strong>create-synthetics</strong> — the harness creates 4 synthetic tables before the move, exercises the pattern, asserts rollback parity. Self-contained. CI never touches real table names.</p>
+  <p><span class="badge badge-critical">D3 entry point</span> <strong>use-existing</strong> — the harness operates on tables already present from canonical baseline + 0001 (D3's real <code>c2a_*</code> table list). Skips synthetic creation.</p>
+
+  <blockquote>
+    <strong>Why both modes matter:</strong> Plan-harden surfaced that the original design only had <code>create-synthetics</code> mode — meaning the harness as designed could not do D3's actual job. The adversarial reviewer caught this; without the fix, D3 would have hit the wall mid-execution.
+  </blockquote>
+
+  <h3>What "equivalent" means precisely</h3>
+  <p>A custom comparator (<code>equivalentSnapshots</code>) compares only the structural fields that matter: tables, columns, constraints, indexes, views, triggers, sequences (excluding <code>lastValue</code>, which advances during synthetic inserts; excluding <code>oid</code>, which is non-deterministic). Definitions are passed through <code>canonicalizePgDef</code> first to absorb cross-version pretty-printing differences from <code>pg_get_constraintdef</code>.</p>
+</div>
+
+<div class="slide" id="slide-flows">
+  <div class="slide-num">Section 07 of 10</div>
+  <h2>Three ways the harness gets used</h2>
+
+  <p>The same code path serves three different callers — CI, dev, and D3's production runbook — by varying inputs.</p>
+
+  <h3>Flow A — CI gate (every PR, &lt;30s, no Docker)</h3>
+  <p>The static FK linter runs on every PR as a fast gate. If anyone introduces a cross-schema FK without an allowlist comment, the PR turns red. No DB, no Docker, just file scan + AST walk.</p>
+  <pre><code>migrate-harness-static
+  └─ npm run migrate:lint-fks --json
+       └─ lintCrossSchemaFksStatic("packages/db/migrations/")
+       └─ exit 0 or exit 1 with violations JSON</code></pre>
+
+  <h3>Flow B — Shadow-split integration (paths-filter PR + nightly, ~120s)</h3>
+  <p>The full shadow split runs only when migration code changes (paths-filter on <code>packages/migrate/**</code> or <code>packages/db/migrations/**</code>) plus once nightly as a regression gate. Docker required; testcontainers handles port allocation and cleanup.</p>
+  <pre><code>migrate-harness-shadow
+  └─ npm run migrate:shadow-split -- --mode create-synthetics --json
+       └─ runShadowSplit({...defaults, teardown: true})
+       └─ emit ShadowSplitResult JSON; non-zero exit on phase fail</code></pre>
+
+  <h3>Flow C — Operator dry-run (local or D3 runbook, unbounded)</h3>
+  <p>Engineers (and D3's runbook) call the CLI directly to dry-run a specific migration before touching production. Same code path as Flow B; different entry.</p>
+  <pre><code>$ npx @accommodation-engine/migrate dry-run \
+    packages/db/migrations/0002_c2a_schema_split.sql \
+    --baseline packages/db/migrations/meta/0002_snapshot.json
+  └─ runDryRun({migrationPath, expectedBaseline, prerequisites})
+  └─ print human-readable diff + lint results
+  └─ exit 0 / 1</code></pre>
+
+  <h3>Why structured results matter</h3>
+  <p>Every flow returns the same shape: <code>SchemaSnapshot</code>, <code>StaticLintResult</code>, <code>RuntimeLintResult</code>. D3's runbook calls <code>runShadowSplit</code> against the real <code>c2a_*</code> table list, then <code>runDryRun</code> against the actual schema-split migration. The structured results go straight into D3's PR description as evidence — no manual log parsing.</p>
+</div>
+
+<div class="slide" id="slide-verification">
+  <div class="slide-num">Section 08 of 10</div>
+  <h2>Verification — 14 gates + 12 pre-ship checks</h2>
+
+  <p>The plan defines what "done" means with two lists. Gates 0-14 are deterministic (run a command, check output). Pre-ship CHECK items are uncertain and need observation before merge.</p>
+
+  <h3>Verification gates (deterministic)</h3>
+  <ul>
+    <li><strong>Gate 0 (BLOCKING):</strong> D1 commits present in D2's base branch before first D2 commit</li>
+    <li><strong>Gates 1-4:</strong> Package manifest, barrel exports, CLAUDE.md stub, executable bin</li>
+    <li><strong>Gates 5-6:</strong> Unit tests pass; integration tests pass with Docker (both <code>create-synthetics</code> and <code>use-existing</code>)</li>
+    <li><strong>Gate 7:</strong> Static FK linter exits 0 against current migrations (no cross-schema FKs exist yet)</li>
+    <li><strong>Gate 8:</strong> CI workflow has both new jobs AND they're added to the <code>test-results</code> summary job's <code>needs:</code> array (otherwise CI shows green when they fail)</li>
+    <li><strong>Gates 9-13:</strong> turbo.json, dep-cruiser carve-outs, root tsc, dry-run regression test, allowlist file</li>
+    <li><strong>Gate 14:</strong> No claim-vs-reality drift — spot-check that schema.ts line count, c2a_* table count, and baseline.sql table count match the plan's stated numbers</li>
+  </ul>
+
+  <h3>Pre-ship CHECK items (need observation)</h3>
+  <table>
+    <thead><tr><th>Check</th><th>What to observe</th></tr></thead>
+    <tbody>
+      <tr><td>CHECK-1, 3, 4</td><td>testcontainers works in GH Actions; shadow split &lt;120s cold; lockfile shape unchanged</td></tr>
+      <tr><td>CHECK-5</td><td>dep-cruiser doesn't silently pass when <code>packages/migrate/</code> is absent locally (worktrees that haven't pulled D2)</td></tr>
+      <tr><td>CHECK-6</td><td>POSIX shebang works on macOS BSD <code>env</code> + Linux GNU <code>env</code></td></tr>
+      <tr><td>CHECK-8</td><td>All 8 active worktrees acknowledge D2 landing and rebase plan</td></tr>
+      <tr><td>CHECK-9</td><td>Production schema equals canonical baseline + 0001 (no drift from manual hotfixes)</td></tr>
+      <tr><td>CHECK-10</td><td>5× back-to-back CI runs flush cold-cache + concurrent-pull flakiness</td></tr>
+      <tr><td>CHECK-11</td><td><code>use-existing</code> mode succeeds against the canonical c2a_* table list</td></tr>
+      <tr><td>CHECK-12</td><td><code>StaticLintResult.line</code> accuracy (pg-query exposes char offset, not line — must compute)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="slide" id="slide-non-goals">
+  <div class="slide-num">Section 09 of 10</div>
+  <h2>What's intentionally NOT in D2</h2>
+
+  <p>Discipline about scope is what makes D2 shippable. Every item below was considered and explicitly deferred — not forgotten.</p>
+
+  <h3>Belongs to D3</h3>
+  <ul>
+    <li><strong>The actual <code>c2a_*</code> schema split.</strong> D2 builds the harness; D3 uses it.</li>
+    <li><strong><code>drizzle.config.ts</code> per-module split (FIX-4).</strong> Only matters once real pgSchemas exist in <code>schema.ts</code>.</li>
+    <li><strong>Views cleanup job.</strong> D3 removes the public-schema views after all readers and writers cut over to the new schema.</li>
+    <li><strong><code>pgSchema('c2a')</code> declarations in <code>schema.ts</code>.</strong> Drizzle-side change that goes with D3.</li>
+    <li><strong>Real Aptible execution of any migration.</strong> D3's runbook handles production apply; D2's harness only ever touches ephemeral postgres.</li>
+    <li><strong>Runtime cutover sequencing for the views bridge.</strong> When readers swap, when views drop, the verify-no-public-readers scan — all D3 territory. D2 only ships the SQL primitive.</li>
+  </ul>
+
+  <h3>Belongs to D4 / D5 (future splits)</h3>
+  <ul>
+    <li><strong>bloom_* table split, users split, organizations split.</strong> These will reuse this harness rather than re-invent.</li>
+  </ul>
+
+  <h3>Orthogonal to Plan D entirely</h3>
+  <ul>
+    <li><strong>pnpm migration.</strong> Separate concern; can happen before, during, or after Plan D without coupling.</li>
+  </ul>
+
+  <h3>Inherited from c2a-db-hardening, deferred to D3's prod-execution wrappers</h3>
+  <ul>
+    <li><strong>Time-window apply guard</strong> (<code>C2A_REMEDIATE_NOT_BEFORE</code> ISO-8601 cutoff). D2 has no production side. D3 must re-add at the invocation layer.</li>
+    <li><strong>SSL <code>sslmode</code> rewrite.</strong> D2 uses testcontainers (no SSL); operators rely on node-postgres native handling.</li>
+  </ul>
+
+  <blockquote>
+    <strong>Why these are explicit non-goals, not silent omissions:</strong> Plan-harden caught both as "replacement-utility silent-drop" findings — when generalizing scripts into a harness API, edge-case guards from the original scripts disappear unless explicitly named. Documenting them as non-goals makes them carry-forward checklist items for D3.
+  </blockquote>
+</div>
+
+<div class="slide" id="slide-recommendations">
+  <div class="slide-num">Section 10 of 10</div>
+  <h2>What this means for us</h2>
+
+  <h3>Recommendations</h3>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">Critical</span> Merge D1 into D2's base branch first</h4>
+    <p>D2 modifies <code>.dependency-cruiser.cjs</code> and assumes the D1 thin-stub CLAUDE.md convention exists. D1 is verified green (1615 modules, 0 violations, 10/10 boundary tests pass) but currently lives only on its own worktree branch. Without D1 merged, D2's first commit fails Verification Gate 0.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">Critical</span> Coordinate the 8 active worktrees before D2 lands</h4>
+    <p>The new dep-cruiser carve-out and the new <code>packages/migrate/</code> directory can cause silent passes in worktrees that haven't pulled D2 (CHECK-5). Mirror D1's landing protocol: announce in <code>#engineering</code>, give worktree owners a rebase window, document the <code>git checkout &lt;base&gt; -- packages/migrate .dependency-cruiser.cjs</code> escape hatch.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-high">High</span> Push <code>sprintsandtea</code> to origin</h4>
+    <p>Currently 25 commits ahead. The longer this sits, the more painful the eventual coordination. Pushing also makes D1's merge target visible to the whole team.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">Moderate</span> Approve or revise the D2 plan</h4>
+    <p>Plan is at <code>~/.claude/plans/gleaming-herding-pebble.md</code>. Plan-harden thorough surfaced 12 P0 + 8 P1 CERTAIN findings; all folded in. Adversarial reviewer earned its slot — caught the <code>use-existing</code> mode gap that would have blocked D3 mid-execution.</p>
+  </div>
+
+  <h3>Open questions to settle before D2 starts</h3>
+  <ul>
+    <li><strong>Does production schema actually equal canonical baseline + 0001?</strong> CHECK-9 asks for a fresh-DB probe against Aptible to confirm no manual hotfixes have drifted prod from the rebaselined chain. If drift exists, the shadow-split's "baseline-equivalent prod" assumption needs documenting.</li>
+    <li><strong>Is the GH Actions runner fleet sized for parallel testcontainers jobs?</strong> CHECK-10 asks for 5× back-to-back runs to flush flakiness from cold image pulls and concurrent Docker resource contention.</li>
+    <li><strong>Should the rules-file promotions land now or wait for recurrence ≥ 3?</strong> Plan-harden flagged two codebase signals (<code>.dependency-cruiser.cjs</code> high-defect-density and <code>plan-vs-reality drift</code>) at recurrence 2. One more run hits threshold.</li>
+  </ul>
+
+  <h3>Next actions in order</h3>
+  <ol>
+    <li>Approve D2 plan (or course-correct)</li>
+    <li>Push <code>sprintsandtea</code> + merge D1 into the D2 base branch</li>
+    <li>Coordinate the 8 worktrees</li>
+    <li>Convert the design plan into an implementation plan via <code>/superpowers:writing-plans</code></li>
+    <li>Execute D2 in a fresh worktree</li>
+    <li>D3 starts with the harness in hand</li>
+  </ol>
+</div>
+
+</div>
+<div class="index-bar">
+  <button class="idx-chip" onclick="goTo(0)">Summary</button>
+  <button class="idx-chip" onclick="goTo(1)">Why</button>
+  <button class="idx-chip" onclick="goTo(2)">Reuse</button>
+  <button class="idx-chip" onclick="goTo(3)">Components</button>
+  <button class="idx-chip" onclick="goTo(4)">FK Linter</button>
+  <button class="idx-chip" onclick="goTo(5)">Shadow Split</button>
+  <button class="idx-chip" onclick="goTo(6)">Flows</button>
+  <button class="idx-chip" onclick="goTo(7)">Verification</button>
+  <button class="idx-chip" onclick="goTo(8)">Non-Goals</button>
+  <button class="idx-chip" onclick="goTo(9)">Recommendations</button>
+  <div class="idx-arrows">
+    <button class="idx-arrow" onclick="prev()">&larr;</button>
+    <button class="idx-arrow" onclick="next()">&rarr;</button>
+  </div>
+</div>
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const chips = document.querySelectorAll('.idx-chip');
+const progress = document.getElementById('progress');
+function goTo(i) {
+  if (i < 0 || i >= slides.length) return;
+  slides[current].classList.remove('active');
+  chips[current].classList.remove('active');
+  current = i;
+  slides[current].classList.add('active');
+  chips[current].classList.add('active');
+  progress.style.width = ((current + 1) / slides.length * 100) + '%';
+}
+function next() { goTo(current + 1); }
+function prev() { goTo(current - 1); }
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+});
+slides[0].classList.add('active');
+chips[0].classList.add('active');
+progress.style.width = (1 / slides.length * 100) + '%';
+</script>
+</body>
+</html>
