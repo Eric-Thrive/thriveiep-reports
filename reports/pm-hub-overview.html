@@ -79,7 +79,7 @@
 <div class="deck" id="deck">
 
 <div class="slide" id="slide-overview">
-  <div class="slide-num">Slide 1 of 2 — What PM-Hub Is</div>
+  <div class="slide-num">Slide 1 of 3 — What PM-Hub Is</div>
   <h2>PM-Hub: A structured, machine-readable project memory for ThriveIEP</h2>
   <div class="subtitle">A GitHub-backed knowledge store that any Claude session can load in seconds. Linear is our tactical spine; PM-Hub is the strategic + technical memory that survives context windows, sessions, and tool changes.</div>
 
@@ -138,7 +138,7 @@
 </div>
 
 <div class="slide" id="slide-intelligence">
-  <div class="slide-num">Slide 2 of 2 — The intelligence layer</div>
+  <div class="slide-num">Slide 2 of 3 — The intelligence layer</div>
   <h2>Knowledge graphs + skills make PM-Hub queryable, not just searchable</h2>
   <div class="subtitle">Three KG layers give Claude structural context without reading every file. A library of skills automates the recurring workflows we&rsquo;ve refined over 365 sessions.</div>
 
@@ -269,11 +269,107 @@
   <div class="footer-note">Worth flagging for the meeting: PM-Hub is <strong>tool-agnostic</strong> &mdash; same content works in Claude Code, Claude Desktop, claude.ai, and Codex. Skills are reusable building blocks, not one-shot prompts. Anything you build with Elizabeth&rsquo;s team can plug into the same memory layer.</div>
 </div>
 
+<div class="slide" id="slide-tools">
+  <div class="slide-num">Slide 3 of 3 — Discussion: tools we use today</div>
+  <h2>Worth talking through: which tools are working, which are candidates to consolidate or replace</h2>
+  <div class="subtitle">Snapshot of the current stack across software dev, PM, infrastructure, research, and comms. The goal of the discussion is alignment on what we keep, what we evaluate, and where Elizabeth&rsquo;s side of the work could plug in.</div>
+
+  <table class="skills">
+    <thead>
+      <tr><th style="width:18%">Category</th><th style="width:20%">Tool</th><th>What we use it for</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="3"><span class="pill coral">AI / Software dev</span></td>
+        <td><strong>Claude Code</strong></td>
+        <td>Primary coding agent &mdash; IDE-integrated, runs skills, MCP tools, KG queries. The harness this deck was built with.</td>
+      </tr>
+      <tr>
+        <td><strong>Codex (OpenAI)</strong></td>
+        <td>Second-opinion / rescue agent. Used via the <code>codex:rescue</code> subagent for hard diagnoses or independent reviews.</td>
+      </tr>
+      <tr>
+        <td><strong>Perplexity</strong></td>
+        <td>Quick cited web research. Used inside <code>/deep-research</code> as a source agent; ad-hoc for fast lookups.</td>
+      </tr>
+
+      <tr>
+        <td rowspan="3"><span class="pill teal">Project &amp; knowledge</span></td>
+        <td><strong>Linear</strong></td>
+        <td>Tactical spine &mdash; issues, milestones, sprints (DR-004). Source of truth for issue state.</td>
+      </tr>
+      <tr>
+        <td><strong>PM-Hub (this)</strong></td>
+        <td>Strategic memory &mdash; decisions, sessions, research, docs. Pairs with Linear via THR-### references.</td>
+      </tr>
+      <tr>
+        <td><strong>Notion</strong> <span class="pill">legacy</span></td>
+        <td>Pre-PM-Hub fallback (DR-001). Kept as read-only mirror; new work doesn&rsquo;t land here.</td>
+      </tr>
+
+      <tr>
+        <td rowspan="4"><span class="pill gold">Infrastructure &amp; hosting</span></td>
+        <td><strong>Aptible</strong></td>
+        <td>Production hosting &mdash; FERPA/HIPAA compliant (DR-007). Where Accommodation Engine + C2A live.</td>
+      </tr>
+      <tr>
+        <td><strong>RunPod</strong></td>
+        <td>GPU compute for the PI Redactor pipeline (OCR, NER fine-tunes). Active branch in DEC1TEXTREDACTOR.</td>
+      </tr>
+      <tr>
+        <td><strong>Modal</strong></td>
+        <td>GPU split for AE workloads (DR-010). Pairs with Aptible for compliant data residency.</td>
+      </tr>
+      <tr>
+        <td><strong>Vercel</strong></td>
+        <td>Static / report hosting (this deck&rsquo;s landing page lives there). Auto-deploys on push.</td>
+      </tr>
+
+      <tr>
+        <td rowspan="2"><span class="pill">Code hosting &amp; DB</span></td>
+        <td><strong>GitHub</strong></td>
+        <td>All code + PM-Hub repo. Post-commit hooks rebuild knowledge graphs.</td>
+      </tr>
+      <tr>
+        <td><strong>Neo4j (Railway) + ChromaDB</strong></td>
+        <td>Research + code knowledge graphs (Neo4j); semantic search for PM-Hub docs (ChromaDB, local).</td>
+      </tr>
+
+      <tr>
+        <td rowspan="3"><span class="pill">Storage &amp; productivity</span></td>
+        <td><strong>Sync.com</strong></td>
+        <td>Encrypted file sync &mdash; for sensitive files outside Google Workspace.</td>
+      </tr>
+      <tr>
+        <td><strong>Google Workspace</strong></td>
+        <td>Gmail, Calendar, Drive, Docs, Sheets, Chat, Meet. Accessed by Claude via the <code>gws</code> CLI.</td>
+      </tr>
+      <tr>
+        <td><strong>Postmark</strong></td>
+        <td>Transactional email (account invites, notifications) for the AE app.</td>
+      </tr>
+
+      <tr>
+        <td rowspan="2"><span class="pill">Comms &amp; CRM</span></td>
+        <td><strong>Slack</strong></td>
+        <td>Team comms + automated DMs from Claude (e.g. report-publish notifications, dashboard).</td>
+      </tr>
+      <tr>
+        <td><strong>HubSpot</strong></td>
+        <td>CRM &mdash; pilot pipeline, NLU partner contacts, university outreach.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="footer-note"><strong>Open questions for the discussion:</strong> Are we getting value from each? Any consolidation opportunities (e.g., Notion sunset, Sync vs. Drive split)? Where does Elizabeth&rsquo;s workflow currently live and where would she want to plug into PM-Hub / Linear?</div>
+</div>
+
 </div>
 
 <div class="index-bar">
   <button class="idx-chip" onclick="goTo(0)">1. Overview</button>
   <button class="idx-chip" onclick="goTo(1)">2. KG + Skills</button>
+  <button class="idx-chip" onclick="goTo(2)">3. Tools to Discuss</button>
   <div class="idx-arrows">
     <button class="idx-arrow" onclick="prev()">&larr;</button>
     <button class="idx-arrow" onclick="next()">&rarr;</button>
