@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>ThriveIEP Dev Roadmap, Elizabeth Sync</title>
+<!-- last refreshed: 2026-04-28 -->
+<title>ThriveIEP Roadmap, week of Apr 27</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -83,6 +84,23 @@
   .td-sub { display: block; font-weight: 400; color: var(--warm-grey); font-size: 12px; margin-top: 2px; }
   .caption { font-size: 13px; color: var(--warm-grey); max-width: 900px; margin-top: 10px; }
 
+  /* Workstream cards */
+  .ws-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; max-width: 1100px; margin-top: 8px; }
+  .ws-card { background: #fff; border-radius: 12px; padding: 16px 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border-top: 4px solid var(--sand); }
+  .ws-card.ws-c2a    { border-top-color: var(--coral); }
+  .ws-card.ws-bloom  { border-top-color: var(--coral); }
+  .ws-card.ws-postsec { border-top-color: var(--coral); }
+  .ws-card.ws-la3    { border-top-color: var(--teal); }
+  .ws-card.ws-redactor { border-top-color: var(--gold); }
+  .ws-card.ws-infra  { border-top-color: var(--gold); }
+  .ws-card.ws-sales  { border-top-color: var(--navy-light); }
+  .ws-card h3 { font-size: 16px; font-weight: 700; color: var(--navy); margin: 0 0 10px; }
+  .ws-card h4 { font-size: 10px; font-weight: 700; color: var(--teal); margin: 10px 0 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .ws-card ul { margin: 2px 0 6px 16px; font-size: 12.5px; line-height: 1.45; max-width: none; }
+  .ws-card li { margin-bottom: 3px; color: var(--slate); }
+  .ws-card li strong { color: var(--navy); }
+  .ws-owner { margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--sand); font-size: 10px; font-weight: 700; color: var(--warm-grey); text-transform: uppercase; letter-spacing: 0.06em; }
+
   /* Roadmap list */
   .roadmap-list { list-style: none; margin: 8px 0 0; padding: 0; max-width: 900px; }
   .rm-item { background: #fff; border-radius: 12px; padding: 14px 18px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); display: grid; grid-template-columns: 180px 1fr auto; gap: 16px; align-items: center; border-left: 4px solid var(--sand); }
@@ -157,10 +175,51 @@
 </div>
 <div class="deck" id="deck">
 
-  <!-- SLIDE 1: Customer Revenue Table -->
+  <!-- SLIDE 1: What changed since Apr 18 -->
+  <div class="slide" id="slide-changed">
+    <div class="slide-num">Section 01 of 05</div>
+    <h2>What changed since Apr 18</h2>
+    <p>Eleven days, two team meetings (Sun Apr 26 with Craig, Mon Apr 27 standup), and <em>360 commits</em> across AE, PM-Hub, and Redactor. Highlights below; full detail on the Workstreams slide.</p>
+
+    <h3>Pipeline</h3>
+    <ul>
+      <li><strong>TUS</strong> named as 2nd institution, contract pending.</li>
+      <li><strong>BC CFLC</strong> rollout deferred until BC confirms timeline.</li>
+      <li><strong>Tufts</strong> intro call <em>Fri May 1</em>.</li>
+      <li><strong>Stanford AI Lounge</strong> networking lead surfaced.</li>
+    </ul>
+
+    <h3>Shipped</h3>
+    <ul>
+      <li><strong>C2A session-uniqueness rollout</strong> (THR-289 Done, DR-057). Closes a long-standing dedup risk before TUS onboarding.</li>
+      <li><strong>NLU n=27 baseline analysis</strong> published. EF × motivation showstopper slide, plain-language pass, Vercel hosted. Memo + invoice drafted Mon.</li>
+      <li><strong>Bloom Speed T1.2 + T1.3</strong> shipped: prompt caching, cacheTtl 1h, concurrency. Token usage 1/4, ~10x speed.</li>
+      <li><strong>Bloom citation split</strong> (DR-056, T1.4): canonical-vs-surface + structured claims[].</li>
+      <li><strong>Plan C JWT + Plan D codex/d1-deployability</strong> merged to sprintsandtea. <strong>Module Deployment</strong> harness scaffolded (renamed from "Plan D2"; goal is per-module deploys without disturbing other modules).</li>
+      <li><strong>Coach View PRD v3</strong> sent to Elizabeth for async review (Apr 22-23).</li>
+      <li><strong>Linear archive pipeline</strong> ran: 72 issues purged on 60-day cutoff with PII gate.</li>
+    </ul>
+
+    <h3>New / kicked off</h3>
+    <ul>
+      <li><strong>C2A mobile → Google Doc export</strong> (server-side, Mon standup).</li>
+      <li><strong>K-12 auth handoff</strong> (Session 365, today).</li>
+      <li><strong>"Actionable student profile" rebrand</strong> agreed Sun — touches all C2A copy.</li>
+    </ul>
+
+    <h3>Still stale</h3>
+    <ul>
+      <li><strong>CI on main</strong> failing since Mar 24 (35 days). Owner Soham.</li>
+      <li><strong>M5 deliverables</strong> (admin dashboard, 750-profile scaling, longitudinal measures) not clearly tracked. M5 is in 2 days.</li>
+      <li><strong>THR-198 / THR-196 / THR-207</strong> stale in "In Progress" — likely supersedable.</li>
+    </ul>
+  </div>
+
+  <!-- SLIDE 2: Pipeline -->
   <div class="slide" id="slide-state">
-    <div class="slide-num">Section 01 of 02</div>
-    <h2>Projects</h2>
+    <div class="slide-num">Section 02 of 05</div>
+    <h2>Pipeline</h2>
+    <p>Sales / customer state, separate from what's getting built. Sub-line carries stage, owner, and next step.</p>
     <table id="revenue-table">
       <thead>
         <tr><th>Customer</th><th>Amount</th><th>Status</th></tr>
@@ -169,20 +228,226 @@
     </table>
   </div>
 
-  <!-- SLIDE 2: Roadmap Timeline -->
+  <!-- SLIDE 3: Workstreams -->
+  <div class="slide" id="slide-workstreams">
+    <div class="slide-num">Section 03 of 05</div>
+    <h2>Workstreams</h2>
+    <p>Where each track stands. Read this to brief team members on status and own next steps.</p>
+
+    <div class="ws-grid">
+
+      <div class="ws-card ws-c2a">
+        <h3>C2A Assessment Platform</h3>
+        <h4>Recently shipped</h4>
+        <ul>
+          <li>Session-uniqueness rollout (DR-057, <strong>THR-289 Done</strong>)</li>
+          <li>Coach View PRD v3 — Elizabeth async review</li>
+          <li>Demo battery + Likert fixes (S325–S329)</li>
+        </ul>
+        <h4>Active</h4>
+        <ul>
+          <li>DDx content generation (<strong>THR-199</strong>, 27 commits since Apr 17)</li>
+          <li>C2A mobile → Google Doc export (server-side, kicked off Mon)</li>
+          <li>Coach Dashboard build pending PRD review feedback</li>
+        </ul>
+        <h4>Next</h4>
+        <ul>
+          <li><strong>"Actionable student profile" rebrand</strong> — copy sweep across all C2A surfaces (Apr 28 decision, Sales-driven)</li>
+          <li>Admin dashboard / 750-profile scaling (M5 deliverables — slip risk, not tracked)</li>
+          <li>Longitudinal / progress monitoring (post-M5 queued)</li>
+          <li>Close stale issues: THR-198, THR-196, THR-207</li>
+        </ul>
+        <div class="ws-owner">Owner: Eric + Soham</div>
+      </div>
+
+      <div class="ws-card ws-la3">
+        <h3>NLU Pilot Analysis (LA3)</h3>
+        <h4>Recently shipped</h4>
+        <ul>
+          <li>Baseline n=27 cohort analysis published (Vercel)</li>
+          <li>EF × motivation showstopper slide</li>
+          <li>ARC scoring audit, plain-language pass, NaN-leak fix</li>
+        </ul>
+        <h4>Active</h4>
+        <ul>
+          <li>NLU memo + invoice — drafted Mon, Eric to send (cash flow)</li>
+          <li>Stats methods documentation (Python tooling)</li>
+        </ul>
+        <h4>Next</h4>
+        <ul>
+          <li>Final 15 students complete T1</li>
+          <li>Follow-on data results meeting</li>
+          <li>Case study framework + platform data section (THR-248)</li>
+        </ul>
+        <div class="ws-owner">Owner: Eric + Elizabeth</div>
+      </div>
+
+      <div class="ws-card ws-bloom">
+        <h3>Bloom — Therapeutic Consult Reports</h3>
+        <h4>Recently shipped</h4>
+        <ul>
+          <li>T1.2 prompt caching (1/4 tokens, ~10x speed)</li>
+          <li>T1.3 cacheTtl 1h + maxTokens + concurrency</li>
+          <li>T1.4 + DR-056 citation canonical/surface split</li>
+          <li>Bloom cost model + 6 deep-research sessions</li>
+        </ul>
+        <h4>Active</h4>
+        <ul>
+          <li>Bloom Speed Tier 2 (THR-288, 6 perf items)</li>
+          <li>Pre-SP2 citation plan execution</li>
+        </ul>
+        <h4>Next (sequenced)</h4>
+        <ul>
+          <li><strong>1. Speed</strong> — close out Tier 2 perf items</li>
+          <li><strong>2. Hardening</strong> — citation chip render (THR-284), deterministic tutoring reports, error-path coverage</li>
+          <li><strong>3. UI wiring</strong> — surface Bloom output in K-12 / Tutoring report viewers (consumes JSON adapter)</li>
+        </ul>
+        <div class="ws-owner">Owner: Eric</div>
+      </div>
+
+      <div class="ws-card ws-postsec">
+        <h3>Post-Secondary Report (BC)</h3>
+        <h4>Recently shipped</h4>
+        <ul>
+          <li>BC proposal sent ($35K)</li>
+          <li>Post-secondary report scaffolding from Bloom pipeline</li>
+        </ul>
+        <h4>Active</h4>
+        <ul>
+          <li>Post-secondary report finalization (EOW Fri May 1)</li>
+        </ul>
+        <h4>Next</h4>
+        <ul>
+          <li>Hand-off ready for BC pilot when timeline confirms</li>
+          <li>Generalize template for non-BC post-secondary customers (Tufts scope conversation)</li>
+        </ul>
+        <div class="ws-owner">Owner: Eric · Customer: BC CFLC (paused on BC timeline)</div>
+      </div>
+
+      <div class="ws-card ws-redactor">
+        <h3>PI Redactor (Karpathy Loop)</h3>
+        <h4>Recently shipped</h4>
+        <ul>
+          <li>F-beta 0.83 → 0.87+ via FP-reduction loop</li>
+          <li>S339 hypothesis-generator framework, S336 health probe</li>
+          <li>vllm-mlx migration; ORG O5/O6 + LOCATION FP fixes</li>
+          <li>S360 Workstream A+C (L_form_artifact + PERSON dedup)</li>
+        </ul>
+        <h4>Active</h4>
+        <ul>
+          <li>LOCATION fine-tuning (pre-plan handoff for next session)</li>
+          <li>Continued Karpathy loop iteration</li>
+        </ul>
+        <h4>Next</h4>
+        <ul>
+          <li>HIPAA-compliant GPU infra (THR-118)</li>
+          <li>Soham GLM + Presidio integration plan (still owed)</li>
+        </ul>
+        <div class="ws-owner">Owner: Eric (Soham consulting)</div>
+      </div>
+
+      <div class="ws-card ws-infra">
+        <h3>Platform Infrastructure (Plan C/D + Module Deployment)</h3>
+        <h4>Recently shipped</h4>
+        <ul>
+          <li>Plan C JWT merge to sprintsandtea</li>
+          <li>Plan D codex/d1-deployability merged</li>
+          <li>Module Deployment harness scaffolded (was "Plan D2")</li>
+          <li>Multi-dev KG sharing (post-commit hook portable)</li>
+        </ul>
+        <h4>Active</h4>
+        <ul>
+          <li>K-12 auth handoff (Session 365, today)</li>
+        </ul>
+        <h4>Next</h4>
+        <ul>
+          <li><strong>Module Deployment</strong> — ship changes to one module without redeploying or altering others (schema split + CI hardening are the first steps)</li>
+          <li><strong>Fix CI on main</strong> (35-day blocker)</li>
+        </ul>
+        <div class="ws-owner">Owner: Eric + Soham</div>
+      </div>
+
+      <div class="ws-card ws-sales">
+        <h3>Sales / Strategy</h3>
+        <h4>Recently shipped</h4>
+        <ul>
+          <li>Sun Apr 26 strategy session with Craig</li>
+          <li>"Actionable student profile" rebrand decision</li>
+          <li>BC proposal sent (paused on BC timeline)</li>
+        </ul>
+        <h4>Active</h4>
+        <ul>
+          <li>Send NLU memo + invoice (cash flow)</li>
+          <li>Tufts intro Fri May 1 → scope conversation</li>
+          <li>TUS contract finalization (2nd institution)</li>
+        </ul>
+        <h4>Next</h4>
+        <ul>
+          <li>Execute rebrand (touches all C2A copy)</li>
+          <li>Stanford AI Lounge — evaluate exposure value</li>
+          <li>Text Craig top-of-mind updates this week</li>
+        </ul>
+        <div class="ws-owner">Owner: Eric + Elizabeth</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SLIDE 4: Roadmap Timeline -->
   <div class="slide" id="slide-roadmap">
-    <div class="slide-num">Section 02 of 02</div>
+    <div class="slide-num">Section 04 of 05</div>
     <h2>Roadmap, next eight weeks</h2>
-    <p>Each bar spans the working window for that project. <em>April 30 M5</em> is the hard date; everything else sequences around it. Color indicates owner focus.</p>
+    <p>Re-anchored to <em>week of Apr 27</em>. M5 (Apr 30) sits inside Week 1. Bars trimmed to one item per workstream — full detail on the Workstreams slide.</p>
 
     <div class="gantt" id="gantt"></div>
+  </div>
+
+  <!-- SLIDE 5: Blockers & risks -->
+  <div class="slide" id="slide-risks">
+    <div class="slide-num">Section 05 of 05</div>
+    <h2>Blockers &amp; risks</h2>
+    <p>What's in the way, what could break the plan, what's outside our control.</p>
+
+    <h3>Active blockers</h3>
+    <ul>
+      <li><strong>CI on main</strong> — Test Suite + Security Scanning broken since Mar 24 (35 days). Owner: Soham. Blocks shipping confidence.</li>
+      <li><strong>Remy account locking</strong> — recurring student lockout, root cause unidentified.</li>
+      <li><strong>Instrument licensing decision</strong> — Eric + Elizabeth, license-vs-build. Blocks commercial.</li>
+      <li><strong>Soham GLM + Presidio integration plan</strong> — still owed since Mar 30 refactor.</li>
+    </ul>
+
+    <h3>Cash &amp; pipeline risks</h3>
+    <ul>
+      <li><strong>Cash position tight.</strong> NLU $40K live, TUS = next concrete $, Tufts = Fri. Need 2-3 contracts to stabilize.</li>
+      <li><strong>NLU memo + invoice</strong> drafted Mon — cash flow depends on Eric sending it.</li>
+      <li><strong>BC dependency</strong> — $35K and post-secondary work both paused on BC timeline.</li>
+    </ul>
+
+    <h3>Delivery risks</h3>
+    <ul>
+      <li><strong>M5 (Apr 30, 2 days)</strong> — admin dashboard, 750-profile scaling, longitudinal measures not clearly tracked. Acknowledge slip vs. cut scope?</li>
+      <li><strong>Bloom EOW (Fri May 1)</strong> overlaps M5 + Tufts intro + GTM. Realistic load check.</li>
+      <li><strong>THR-198 / THR-196 / THR-207 stale</strong> — close or document as superseded.</li>
+      <li><strong>Codex / LLM token budget</strong> — Soham flagged Mon. Quiet failure mode if it dries.</li>
+      <li><strong>Module Deployment schema split</strong> — significant refactor; new failure surface during transition (formerly "Plan D2").</li>
+    </ul>
+
+    <h3>External / strategic</h3>
+    <ul>
+      <li><strong>Stanford AI Lounge</strong> opportunity — exposure to 500+ CEOs / VCs. Time sink risk vs. brand value; not a deal.</li>
+      <li><strong>Rebrand to "actionable student profile"</strong> — touches every C2A copy surface; not yet scoped.</li>
+      <li><strong>K-12 auth handoff</strong> — emerging workstream (Session 365 today); scope and ownership undefined.</li>
+    </ul>
   </div>
 
 </div>
 
 <div class="index-bar">
-  <button class="idx-chip" onclick="goTo(0)">Projects</button>
-  <button class="idx-chip" onclick="goTo(1)">Roadmap</button>
+  <button class="idx-chip" onclick="goTo(0)">What Changed</button>
+  <button class="idx-chip" onclick="goTo(1)">Pipeline</button>
+  <button class="idx-chip" onclick="goTo(2)">Workstreams</button>
+  <button class="idx-chip" onclick="goTo(3)">Roadmap</button>
+  <button class="idx-chip" onclick="goTo(4)">Risks</button>
   <div class="idx-arrows">
     <button class="idx-arrow" onclick="prev()" aria-label="Previous slide">&larr;</button>
     <button class="idx-arrow" onclick="next()" aria-label="Next slide">&rarr;</button>
@@ -193,12 +458,13 @@
 // ---------- Tweakable data ----------
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "rows": [
-    { "customer": "NLU", "sub": "", "amount": "$40,000", "status": "Live", "statusColor": "moderate" },
-    { "customer": "BC CFLC", "sub": "", "amount": "$35,000", "status": "Proposal Sent", "statusColor": "high" },
-    { "customer": "Prepare to Bloom (Shayna)", "sub": "11 consultants, 50-rpt min", "amount": "$5,000 floor", "status": "Live", "statusColor": "moderate" },
-    { "customer": "Tritogether (Hannah)", "sub": "Minimal volume so far", "amount": "~$1,000", "status": "Live", "statusColor": "moderate" },
-    { "customer": "Tufts", "sub": "Broadened assessment needed", "amount": "TBD", "status": "Imminent", "statusColor": "critical" },
-    { "customer": "Northeastern", "sub": "Discovery, product unclear", "amount": "TBD", "status": "Pipeline", "statusColor": "info" }
+    { "customer": "NLU", "sub": "Live · Elizabeth · Send memo + invoice this week (drafted Mon)", "amount": "$40,000", "status": "Live", "statusColor": "moderate" },
+    { "customer": "TUS", "sub": "Verbal · Elizabeth · Awaiting contract finalization (2nd institution)", "amount": "TBD", "status": "Imminent", "statusColor": "critical" },
+    { "customer": "Tufts", "sub": "Discovery · Eric + Elizabeth · Intro call Fri May 1", "amount": "TBD", "status": "Discovery", "statusColor": "high" },
+    { "customer": "BC CFLC", "sub": "Proposal sent · Craig · Paused — waiting on BC timeline", "amount": "$35,000", "status": "Paused", "statusColor": "high" },
+    { "customer": "Prepare to Bloom (Shayna)", "sub": "Live floor · Elizabeth · 11 consultants, 50-rpt min — verify status", "amount": "$5,000 floor", "status": "Live", "statusColor": "moderate" },
+    { "customer": "Tritogether (Hannah)", "sub": "Live, low volume · Owner? · No fresh signal — review", "amount": "~$1,000", "status": "Live", "statusColor": "moderate" },
+    { "customer": "Northeastern", "sub": "Discovery · Eric? · Stalled — re-engage or drop?", "amount": "TBD", "status": "Pipeline", "statusColor": "info" }
   ]
 }/*EDITMODE-END*/;
 
@@ -319,28 +585,31 @@ try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch
 
 // ---------- Gantt renderer ----------
 const GANTT_WEEKS = [
-  { label: 'Week 1', sub: 'Apr 17 to 23' },
-  { label: 'Week 2', sub: 'Apr 24 to 30', m5: true },
-  { label: 'Week 3', sub: 'May 1 to 7' },
-  { label: 'Week 4', sub: 'May 8 to 14' },
-  { label: 'Week 5', sub: 'May 15 to 21' },
-  { label: 'Week 6', sub: 'May 22 to 28' },
-  { label: 'Week 7', sub: 'May 29 to Jun 4' },
-  { label: 'Week 8', sub: 'Jun 5 to 11' },
+  { label: 'Week 1', sub: 'Apr 27 to May 3', m5: true },
+  { label: 'Week 2', sub: 'May 4 to 10' },
+  { label: 'Week 3', sub: 'May 11 to 17' },
+  { label: 'Week 4', sub: 'May 18 to 24' },
+  { label: 'Week 5', sub: 'May 25 to 31' },
+  { label: 'Week 6', sub: 'Jun 1 to 7' },
+  { label: 'Week 7', sub: 'Jun 8 to 14' },
+  { label: 'Week 8', sub: 'Jun 15 to 21' },
 ];
 
 // start and end are week indices (0-based, inclusive)
+// One bar per workstream -- detail lives on Workstreams slide
 const GANTT_PROJECTS = [
-  { title: 'NLU C2A Coach View', owner: 'Eric + Elizabeth', start: 0, end: 1, kind: 'eng', label: 'Build + ship (M5)' },
-  { title: 'NLU data aggregation', owner: 'Elizabeth', start: 0, end: 1, kind: 'lang', label: 'First cut, NLU memo' },
-  { title: 'Shayna consultants kickoff', owner: 'Elizabeth', start: 0, end: 0, kind: 'pm', label: 'Confirm pricing' },
-  { title: 'Tufts C2A scope', owner: 'Eric + Elizabeth', start: 1, end: 2, kind: 'eng', label: 'Scope + start build' },
-  { title: 'Bloom onboarding', owner: 'Eric', start: 2, end: 3, kind: 'eng', label: 'Onboard' },
-  { title: 'Bloom tuning', owner: 'Eric', start: 4, end: 5, kind: 'eng', label: 'Tune flags' },
-  { title: 'Redactor enhancements', owner: 'Eric', start: 0, end: 7, kind: 'queued', label: 'Ongoing' },
-  { title: 'Post-secondary', owner: 'Eric', start: 3, end: 5, kind: 'eng', label: 'For BC launch' },
-  { title: 'C2A progress monitoring', owner: 'Eric', start: 5, end: 7, kind: 'queued', label: 'Develop assessment' },
-  { title: 'Tutoring reports, deterministic', owner: 'Eric', start: 6, end: 7, kind: 'queued', label: 'After post-sec' },
+  { title: 'NLU memo + analysis (LA3)', owner: 'Eric + Elizabeth', start: 0, end: 1, kind: 'lang', label: 'Memo send -> follow-on mtg' },
+  { title: 'C2A Coach Dashboard', owner: 'Eric + Soham', start: 0, end: 3, kind: 'eng', label: 'PRD review -> build' },
+  { title: 'C2A mobile -> Google Doc export', owner: 'Eric + Soham', start: 0, end: 1, kind: 'eng', label: 'New' },
+  { title: 'Post-Secondary (BC) finalize', owner: 'Eric', start: 0, end: 0, kind: 'eng', label: 'EOW Fri May 1' },
+  { title: 'Bloom: Speed -> Hardening -> UI wiring', owner: 'Eric', start: 0, end: 5, kind: 'eng', label: 'THR-288, THR-284' },
+  { title: 'Tufts intro -> scope -> contract', owner: 'Eric + Elizabeth', start: 0, end: 3, kind: 'lang', label: 'Intro Fri May 1' },
+  { title: 'TUS contract -> onboard', owner: 'Elizabeth', start: 1, end: 3, kind: 'lang', label: '2nd institution' },
+  { title: 'Redactor Karpathy loop', owner: 'Eric', start: 0, end: 7, kind: 'eng', label: 'F-beta 0.87+ drive' },
+  { title: 'Module Deployment (schema split + CI)', owner: 'Eric + Soham', start: 0, end: 4, kind: 'pm', label: 'Per-module deploys' },
+  { title: '"Actionable student profile" rebrand', owner: 'Eric + Elizabeth', start: 1, end: 3, kind: 'pm', label: 'Copy + positioning' },
+  { title: 'Admin dashboard + 750-scaling (M5)', owner: 'Eric + Soham', start: 0, end: 3, kind: 'queued', label: 'Slip risk -- not tracked' },
+  { title: 'C2A longitudinal / progress monitoring', owner: 'Eric', start: 4, end: 7, kind: 'queued', label: 'Post-M5' },
 ];
 
 function renderGantt() {
@@ -349,8 +618,9 @@ function renderGantt() {
   const W = GANTT_WEEKS.length;
   const weekHeads = GANTT_WEEKS.map(w => `<div class="wk${w.m5 ? ' m5' : ''}">${w.label}<span class="sub">${w.sub}</span></div>`).join('');
 
-  // M5 marker sits at end of Week 2 (index 1), i.e., at (2/8) = 25%
-  const m5Pct = ((1 + 1) / W) * 100;
+  // M5 (Thu Apr 30) sits inside Week 1: ~3.5/7 of the way through
+  // Total position across 8-week window = (0 + 0.5) / 8 = 6.25%
+  const m5Pct = ((0 + 0.5) / W) * 100;
 
   const rows = GANTT_PROJECTS.map(p => {
     const left = (p.start / W) * 100;
