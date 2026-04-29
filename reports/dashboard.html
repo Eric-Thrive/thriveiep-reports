@@ -6,505 +6,479 @@
 <meta name="robots" content="noindex, nofollow">
 <title>ThriveIEP Dashboard</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #0f172a; color: #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; line-height: 1.5; padding: 16px; }
-  a { color: #60a5fa; text-decoration: none; }
-  a:hover { text-decoration: underline; }
-
-  .header { margin-bottom: 20px; }
-  .header h1 { font-size: 22px; font-weight: 700; color: #f1f5f9; }
-  .header .week { font-size: 13px; color: #94a3b8; margin-top: 2px; }
-  .header .generated { font-size: 12px; color: #64748b; margin-top: 2px; }
-
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 16px; }
-
-  .panel { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 16px; }
-  .panel-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin-bottom: 12px; }
-
-  /* Milestone bar */
-  .milestones { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; padding: 14px 16px; background: #1e293b; border: 1px solid #334155; border-radius: 8px; }
-  .milestone { display: flex; flex-direction: column; gap: 2px; min-width: 120px; }
-  .milestone-name { font-size: 11px; color: #94a3b8; font-weight: 500; }
-  .milestone-days { font-size: 18px; font-weight: 700; }
-  .milestone-date { font-size: 11px; color: #64748b; }
-  .milestone-status { font-size: 11px; }
-  .days-red { color: #ef4444; }
-  .days-amber { color: #f59e0b; }
-  .days-blue { color: #60a5fa; }
-  .days-done { color: #10b981; }
-  .issue-summary { margin-left: auto; align-self: center; text-align: right; }
-  .issue-summary span { font-size: 12px; color: #94a3b8; display: block; }
-  .issue-summary .big { font-size: 20px; font-weight: 700; color: #e2e8f0; }
-
-  /* Focus picks */
-  .picks { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-bottom: 16px; }
-  .pick { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 14px 14px 14px 18px; position: relative; }
-  .pick::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; border-radius: 8px 0 0 8px; }
-  .pick-c2a::before { background: #3b82f6; }
-  .pick-ae::before { background: #f59e0b; }
-  .pick-networking::before { background: #10b981; }
-  .pick-admin::before { background: #8b5cf6; }
-  .pick-number { font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
-  .pick-title { font-size: 14px; font-weight: 600; color: #f1f5f9; margin-bottom: 6px; }
-  .pick-source { font-size: 11px; color: #64748b; margin-bottom: 3px; }
-  .pick-why { font-size: 12px; color: #94a3b8; }
-  .pick-tag { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px; margin-top: 8px; }
-  .tag-c2a { background: #1d3a6e; color: #60a5fa; }
-  .tag-bloom { background: #1a3a2e; color: #34d399; }
-  .tag-networking { background: #14352a; color: #10b981; }
-  .tag-admin { background: #2d1f5e; color: #a78bfa; }
-  .tag-gtm { background: #1a3320; color: #34d399; }
-
-  /* Calendar */
-  .cal-event { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid #1e293b; }
-  .cal-event:last-child { border-bottom: none; }
-  .cal-time { font-size: 12px; color: #64748b; min-width: 70px; font-variant-numeric: tabular-nums; }
-  .cal-title { font-size: 13px; color: #e2e8f0; flex: 1; }
-  .cal-badge { font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 3px; white-space: nowrap; }
-  .badge-team { background: #1a3040; color: #5ba8c8; }
-  .badge-client { background: #3a2810; color: #e8a33a; }
-  .badge-tutoring { background: #2a1f4a; color: #a78bfa; }
-  .badge-work { background: #1e293b; color: #64748b; border: 1px solid #334155; }
-  .badge-gtm { background: #0f2a1e; color: #34d399; }
-  .badge-personal { background: #3a1a2e; color: #f472b6; }
-  .badge-allday { background: #1e293b; color: #64748b; font-size: 10px; }
-  .urgent-event { background: #1a1200; border-radius: 6px; padding: 6px 10px; margin-bottom: 6px; border: 1px solid #f59e0b44; }
-  .urgent-label { font-size: 10px; color: #f59e0b; font-weight: 600; margin-bottom: 2px; }
-
-  /* Issues */
-  details { margin-bottom: 8px; }
-  summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: #1e293b; border: 1px solid #334155; border-radius: 6px; font-size: 13px; font-weight: 600; color: #e2e8f0; user-select: none; }
-  summary::-webkit-details-marker { display: none; }
-  summary::before { content: '▶'; font-size: 10px; color: #64748b; transition: transform 0.15s; }
-  details[open] summary::before { transform: rotate(90deg); }
-  .summary-accent-red summary { border-left: 3px solid #ef4444; }
-  .summary-accent-amber summary { border-left: 3px solid #f59e0b; }
-  .summary-accent-blue summary { border-left: 3px solid #3b82f6; }
-  .summary-accent-gray summary { border-left: 3px solid #475569; }
-  .summary-count { margin-left: auto; font-size: 11px; color: #64748b; font-weight: 400; }
-  .issue-list { background: #1e293b; border: 1px solid #334155; border-top: none; border-radius: 0 0 6px 6px; overflow: hidden; }
-  .issue-row { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; border-bottom: 1px solid #0f172a; }
-  .issue-row:last-child { border-bottom: none; }
-  .issue-id { font-family: monospace; font-size: 12px; color: #64748b; min-width: 60px; }
-  .issue-title { font-size: 13px; color: #e2e8f0; flex: 1; }
-  .issue-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
-  .priority-badge { font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 3px; white-space: nowrap; }
-  .p-urgent { background: #3a0000; color: #ef4444; }
-  .p-high { background: #3a2000; color: #f59e0b; }
-  .p-medium { background: #0a1a3a; color: #3b82f6; }
-  .p-normal { background: #1e293b; color: #64748b; border: 1px solid #334155; }
-  .p-low { background: #1e293b; color: #94a3b8; }
-  .issue-project { font-size: 10px; color: #64748b; }
-  .issue-due { font-size: 10px; color: #f59e0b; }
-  .issue-due-red { font-size: 10px; color: #ef4444; }
-  .issue-flag { font-size: 10px; color: #f59e0b; background: #2a1a00; padding: 1px 5px; border-radius: 3px; }
-  .issue-flag-done { font-size: 10px; color: #10b981; background: #0a2a1a; padding: 1px 5px; border-radius: 3px; }
-  .issue-stale { font-size: 10px; color: #ef4444; background: #2a0a0a; padding: 1px 5px; border-radius: 3px; }
-
-  /* Gmail */
-  .email-row { padding: 8px 0; border-bottom: 1px solid #334155; }
-  .email-row:last-child { border-bottom: none; }
-  .email-from { font-size: 12px; color: #94a3b8; margin-bottom: 2px; }
-  .email-subject { font-size: 13px; color: #e2e8f0; margin-bottom-3px; }
-  .email-snippet { font-size: 12px; color: #64748b; }
-  .email-tag { display: inline-block; font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 3px; margin-right: 5px; }
-  .tag-action { background: #3a1000; color: #f97316; }
-  .tag-fyi { background: #1e293b; color: #64748b; border: 1px solid #334155; }
-  .tag-test { background: #1a0a2a; color: #94a3b8; }
-
-  /* Git activity */
-  .git-stat { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 10px; }
-  .git-stat-item { text-align: center; }
-  .git-stat-num { font-size: 22px; font-weight: 700; color: #e2e8f0; }
-  .git-stat-label { font-size: 11px; color: #64748b; }
-  .git-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-  .git-table th { font-size: 11px; color: #64748b; text-align: left; padding: 4px 8px; border-bottom: 1px solid #334155; }
-  .git-table td { font-size: 12px; color: #e2e8f0; padding: 6px 8px; border-bottom: 1px solid #1a2535; }
-  .git-table tr:last-child td { border-bottom: none; }
-  .proposed-transition { color: #f59e0b; }
-  .stale-flag { color: #ef4444; }
-
-  /* Blockers */
-  .blocker { display: flex; gap: 8px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid #334155; }
-  .blocker:last-child { border-bottom: none; }
-  .blocker-dot { width: 8px; height: 8px; border-radius: 50%; background: #ef4444; margin-top: 4px; flex-shrink: 0; }
-  .blocker-text { font-size: 13px; color: #e2e8f0; }
-  .blocker-owner { font-size: 11px; color: #64748b; margin-top: 2px; }
-
-  /* Footer */
-  .footer { margin-top: 20px; padding: 12px 16px; background: #1e293b; border: 1px solid #334155; border-radius: 8px; font-size: 12px; color: #64748b; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
-  .footer a { color: #60a5fa; }
-
-  .divider { height: 1px; background: #334155; margin: 4px 0; }
-  .section-label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.06em; margin: 12px 0 6px; font-weight: 600; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    line-height: 1.5;
+    padding: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  header { margin-bottom: 1.5rem; }
+  h1 { font-size: 1.75rem; color: #f1f5f9; }
+  .subtitle { color: #94a3b8; font-size: 0.95rem; margin-top: 0.25rem; }
+  .meta { color: #64748b; font-size: 0.8rem; margin-top: 0.25rem; }
+  section { margin-bottom: 1.75rem; }
+  h2 {
+    font-size: 1.15rem;
+    color: #cbd5e1;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid #334155;
+  }
+  .panel {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  .milestones {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .milestone {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-left-width: 4px;
+    border-radius: 6px;
+    padding: 0.85rem 1rem;
+  }
+  .milestone.urgent { border-left-color: #ef4444; }
+  .milestone.warn   { border-left-color: #f59e0b; }
+  .milestone.info   { border-left-color: #3b82f6; }
+  .milestone .ms-name { font-weight: 600; color: #f1f5f9; }
+  .milestone .ms-days { font-size: 1.5rem; font-weight: 700; color: #f1f5f9; margin: 0.25rem 0; }
+  .milestone .ms-date { color: #94a3b8; font-size: 0.8rem; }
+  .summary {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+  }
+  .focus-picks {
+    display: grid;
+    gap: 0.75rem;
+  }
+  .pick {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-left-width: 4px;
+    border-radius: 6px;
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: 2.25rem 1fr;
+    gap: 0.85rem;
+    align-items: start;
+  }
+  .pick.c2a    { border-left-color: #3b82f6; }
+  .pick.ae     { border-left-color: #f59e0b; }
+  .pick.pi     { border-left-color: #10b981; }
+  .pick.team   { border-left-color: #8b5cf6; }
+  .pick-num {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: #334155;
+    color: #f1f5f9;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    font-size: 1.05rem;
+  }
+  .pick-title { font-weight: 600; color: #f1f5f9; margin-bottom: 0.25rem; }
+  .pick-reason { color: #cbd5e1; font-size: 0.9rem; }
+  .pick-meta { color: #64748b; font-size: 0.78rem; margin-top: 0.4rem; }
+  .pick-meta .tag {
+    display: inline-block;
+    padding: 1px 7px;
+    background: #334155;
+    border-radius: 10px;
+    margin-right: 0.4rem;
+    font-size: 0.72rem;
+    color: #cbd5e1;
+  }
+  .events { display: grid; gap: 0.5rem; }
+  .event {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    padding: 0.6rem 0.85rem;
+    display: grid;
+    grid-template-columns: 5rem 1fr auto;
+    gap: 0.75rem;
+    align-items: center;
+    font-size: 0.9rem;
+  }
+  .event-time { color: #94a3b8; font-variant-numeric: tabular-nums; font-size: 0.85rem; }
+  .event-name { color: #f1f5f9; }
+  .badge {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #f8fafc;
+  }
+  .b-team     { background: #5ba8c8; }
+  .b-client   { background: #e8a33a; }
+  .b-tutoring { background: #a78bfa; }
+  .b-work     { background: #64748b; }
+  .b-gtm      { background: #34d399; color: #0f172a; }
+  .b-personal { background: #f472b6; }
+  .b-urgent   { background: #ef4444; }
+  .b-high     { background: #f59e0b; }
+  .b-medium   { background: #3b82f6; }
+  .b-normal   { background: #64748b; }
+  .b-low      { background: #94a3b8; color: #0f172a; }
+  details {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-left-width: 4px;
+    border-radius: 6px;
+    margin-bottom: 0.6rem;
+    padding: 0;
+  }
+  details.tier-overdue   { border-left-color: #ef4444; }
+  details.tier-thisweek  { border-left-color: #f59e0b; }
+  details.tier-upcoming  { border-left-color: #3b82f6; }
+  details.tier-backlog   { border-left-color: #64748b; }
+  details.tier-done      { border-left-color: #10b981; }
+  summary {
+    cursor: pointer;
+    padding: 0.7rem 1rem;
+    font-weight: 600;
+    color: #f1f5f9;
+    user-select: none;
+  }
+  summary::marker { color: #64748b; }
+  details > .body { padding: 0 1rem 0.85rem; }
+  .issue {
+    display: grid;
+    grid-template-columns: 6rem 1fr auto auto;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-top: 1px solid #283246;
+    font-size: 0.88rem;
+  }
+  .issue:first-child { border-top: none; }
+  .issue .id { font-family: ui-monospace, "SF Mono", Menlo, monospace; color: #94a3b8; font-size: 0.82rem; }
+  .issue .title { color: #e2e8f0; }
+  .issue .meta { color: #64748b; font-size: 0.75rem; }
+  .git-row {
+    display: grid;
+    grid-template-columns: 12rem 1fr;
+    gap: 0.75rem;
+    padding: 0.4rem 0;
+    border-top: 1px solid #283246;
+    font-size: 0.88rem;
+  }
+  .git-row:first-child { border-top: none; }
+  .git-row .label { color: #94a3b8; }
+  .git-row .value { color: #e2e8f0; }
+  .gap { color: #f59e0b; font-size: 0.85rem; }
+  footer {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #334155;
+    color: #64748b;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+  footer a { color: #3b82f6; text-decoration: none; }
+  @media (max-width: 600px) {
+    .event { grid-template-columns: 4.5rem 1fr; }
+    .event > .badge { grid-column: 2; justify-self: start; margin-top: 2px; }
+    .issue { grid-template-columns: 5rem 1fr; }
+    .issue > :nth-child(3), .issue > :nth-child(4) { grid-column: 2; justify-self: start; }
+  }
 </style>
 </head>
 <body>
+  <header>
+    <h1>ThriveIEP Dashboard</h1>
+    <div class="subtitle">Week of Apr 27 – May 03, 2026 · Wednesday</div>
+    <div class="meta">Generated 2026-04-29 at 09:35 EDT · 16 days since last dashboard</div>
+  </header>
 
-<!-- Header -->
-<div class="header">
-  <h1>ThriveIEP Dashboard</h1>
-  <div class="week">Week of April 13 – April 19, 2026</div>
-  <div class="generated">Generated Monday April 13, 2026 · M5 in 17 days</div>
-</div>
-
-<!-- Milestone bar -->
-<div class="milestones">
-  <div class="milestone">
-    <div class="milestone-name">M1: Phase 1</div>
-    <div class="milestone-days days-done">✅ Done</div>
-    <div class="milestone-date">Feb 15</div>
-  </div>
-  <div class="milestone">
-    <div class="milestone-name">M2: Assessment MVP</div>
-    <div class="milestone-days days-done">✅ Done</div>
-    <div class="milestone-date">Mar 15</div>
-  </div>
-  <div class="milestone">
-    <div class="milestone-name">M3: Pilot Profiles</div>
-    <div class="milestone-days days-amber">In Progress</div>
-    <div class="milestone-date">NLU live Apr 1</div>
-  </div>
-  <div class="milestone">
-    <div class="milestone-name">M4: Phase 2</div>
-    <div class="milestone-days days-done">✅ Done</div>
-    <div class="milestone-date">Mar 31</div>
-  </div>
-  <div class="milestone">
-    <div class="milestone-name">M5: Phase 3 Ready</div>
-    <div class="milestone-days days-amber">17 days</div>
-    <div class="milestone-date">Apr 30</div>
-  </div>
-  <div class="issue-summary">
-    <span class="big">7</span>
-    <span>in progress</span>
-    <span>0 done last 48h</span>
-  </div>
-</div>
-
-<!-- Focus Picks -->
-<div class="section-label">Focus Picks</div>
-<div class="picks">
-  <div class="pick pick-c2a">
-    <div class="pick-number">Pick 1 — Today deadline</div>
-    <div class="pick-title">Confirm Wednesday event + E2E test with Soham this afternoon</div>
-    <div class="pick-source">Source: Standup notes · Apr 13</div>
-    <div class="pick-why">Email Shane re: Wednesday noon event acceptance list. Run E2E tests with Soham today so UI can deploy tomorrow morning. Both are time-gated — can't slip.</div>
-    <span class="pick-tag tag-c2a">C2A</span>
-  </div>
-  <div class="pick pick-ae">
-    <div class="pick-number">Pick 2 — Due Tuesday AM</div>
-    <div class="pick-title">Draft BC High staff onboarding user guide → finalize proposal</div>
-    <div class="pick-source">Source: Team Meeting · Apr 12</div>
-    <div class="pick-why">Proposal must reach BC by tomorrow morning. Eric's piece: draft user guide for staff onboarding. Contract starts May, June 1 readiness target.</div>
-    <span class="pick-tag tag-bloom">GTM</span>
-  </div>
-  <div class="pick pick-networking">
-    <div class="pick-number">Pick 3 — Networking (26-day gap, inbound signal)</div>
-    <div class="pick-title">Reply to Shayna Abraham — wants call before Wednesday</div>
-    <div class="pick-source">Source: Gmail · Prepare 2 Bloom ($5K HubSpot deal)</div>
-    <div class="pick-why">She reached out proactively. Last HubSpot deal activity: March 18 (26 days ago). This reply resets the counter and keeps a warm deal warm.</div>
-    <span class="pick-tag tag-networking">Networking</span>
-  </div>
-</div>
-
-<!-- Main grid: Calendar + Gmail -->
-<div class="grid">
-
-  <!-- Calendar: Today -->
-  <div class="panel">
-    <div class="panel-title">Today — Monday April 13</div>
-
-    <div class="urgent-event">
-      <div class="urgent-label">⚡ In ~2h — prep needed</div>
-      <div style="font-size:13px;color:#e2e8f0;font-weight:600;">Northeastern · 2:30–3:15 PM</div>
-      <div style="font-size:12px;color:#94a3b8;">Define C2A partnership + co-op integration. Core value prop: neurodivergent employability assessment. Eric Brener contact.</div>
-    </div>
-
-    <div class="cal-event">
-      <div class="cal-time">All Day</div>
-      <div class="cal-title">Boston Trash</div>
-      <span class="cal-badge badge-personal">🏠 personal</span>
-    </div>
-    <div class="cal-event">
-      <div class="cal-time">2:30–3:15</div>
-      <div class="cal-title">Northeastern</div>
-      <span class="cal-badge badge-client">🤝 client</span>
-    </div>
-    <div class="cal-event">
-      <div class="cal-time">3:15–4:15</div>
-      <div class="cal-title">George</div>
-      <span class="cal-badge badge-tutoring">📚 tutoring</span>
-    </div>
-    <div class="cal-event">
-      <div class="cal-time">5:30–7:00</div>
-      <div class="cal-title">W soccer practice @ Playstead Park</div>
-      <span class="cal-badge badge-personal">🏠 personal</span>
-    </div>
-    <div class="cal-event">
-      <div class="cal-time">6:00–7:00</div>
-      <div class="cal-title">Vera</div>
-      <span class="cal-badge badge-tutoring">📚 tutoring</span>
-    </div>
-    <div class="cal-event">
-      <div class="cal-time">7:00–8:00</div>
-      <div class="cal-title">MHC</div>
-      <span class="cal-badge badge-work">💼 work</span>
-    </div>
-  </div>
-
-  <!-- Gmail -->
-  <div class="panel">
-    <div class="panel-title">Gmail — Action Items</div>
-    <div class="email-row">
-      <div><span class="email-tag tag-action">Action</span><span class="email-from">Shayna Abraham · preparetobloom.com</span></div>
-      <div class="email-subject">Checking in — touch base before Wednesday's presentation?</div>
-      <div class="email-snippet">Prepare 2 Bloom ($5K deal). She reached out proactively. Reply today.</div>
-    </div>
-    <div class="email-row">
-      <div><span class="email-tag tag-action">Action</span><span class="email-from">Rho Notifications</span></div>
-      <div class="email-subject">Action Needed: 10 reimbursements ready to be paid</div>
-      <div class="email-snippet">10 approved reimbursements awaiting disbursement. On priorities checklist.</div>
-    </div>
-    <div class="email-row">
-      <div><span class="email-tag tag-action">Action</span><span class="email-from">GitHub · ThriveIEP/Accommodation-Engine</span></div>
-      <div class="email-subject">Run failed: Security Scanning — main (f5b9d37)</div>
-      <div class="email-snippet">CI still broken. Known blocker — Soham to investigate. Confirmed active Apr 12.</div>
-    </div>
-    <div class="email-row">
-      <div><span class="email-tag tag-fyi">FYI</span><span class="email-from">RunPod</span></div>
-      <div class="email-subject">Your RunPod receipt #1919-4152 — $50.00</div>
-      <div class="email-snippet">Apr 11 charge. Expected GPU infrastructure cost.</div>
-    </div>
-    <div class="email-row">
-      <div><span class="email-tag tag-fyi">FYI</span><span class="email-from">Stanford Neurodiversity Summit</span></div>
-      <div class="email-subject">OPEN CALL for Stanford Neurodiversity Summit 2026</div>
-      <div class="email-snippet">Abstract submission opportunity — relevant to ThriveIEP research visibility.</div>
-    </div>
-  </div>
-</div>
-
-<!-- This Week (collapsible) -->
-<details>
-  <summary>📅 This Week <span class="summary-count">Apr 13–19</span></summary>
-  <div class="issue-list" style="padding: 12px 14px;">
-    <div class="section-label" style="margin-top:0;">Tuesday Apr 14</div>
-    <div class="cal-event"><div class="cal-time">9:30–2:00</div><div class="cal-title">ThriveIEP In Person Work Block @ CiC – Kendall</div><span class="cal-badge badge-work">💼 work</span></div>
-    <div class="cal-event"><div class="cal-time">4:30–5:00</div><div class="cal-title">Jack</div><span class="cal-badge badge-tutoring">📚 tutoring</span></div>
-
-    <div class="section-label">Wednesday Apr 15 — Tax Day 🗓️</div>
-    <div class="cal-event"><div class="cal-time">10:00–10:15</div><div class="cal-title">ThriveIEP Standup</div><span class="cal-badge badge-team">👥 team</span></div>
-    <div class="cal-event"><div class="cal-time">12:00–1:00</div><div class="cal-title">ThriveIEP Training</div><span class="cal-badge badge-work">💼 work</span></div>
-    <div class="cal-event"><div class="cal-time">1:15–2:15</div><div class="cal-title">Jen</div><span class="cal-badge badge-tutoring">📚 tutoring</span></div>
-    <div class="cal-event"><div class="cal-time">6:00–7:00</div><div class="cal-title">Vera</div><span class="cal-badge badge-tutoring">📚 tutoring</span></div>
-
-    <div class="section-label">Thursday Apr 16</div>
-    <div class="cal-event"><div class="cal-time">9:30–2:30</div><div class="cal-title">ThriveIEP In Person Work Block @ CiC – Kendall</div><span class="cal-badge badge-work">💼 work</span></div>
-    <div class="cal-event"><div class="cal-time">4:30–5:00</div><div class="cal-title">Jack</div><span class="cal-badge badge-tutoring">📚 tutoring</span></div>
-
-    <div class="section-label">Friday Apr 17</div>
-    <div class="cal-event"><div class="cal-time">9:30–10:15</div><div class="cal-title">ThriveIEP GTM</div><span class="cal-badge badge-gtm">📈 gtm</span></div>
-    <div class="cal-event"><div class="cal-time">10:30–10:45</div><div class="cal-title">ThriveIEP Standup</div><span class="cal-badge badge-team">👥 team</span></div>
-    <div class="cal-event"><div class="cal-time">2:30–3:30</div><div class="cal-title">Nehmet</div><span class="cal-badge badge-tutoring">📚 tutoring</span></div>
-
-    <div class="section-label">Saturday Apr 19</div>
-    <div class="cal-event"><div class="cal-time">7:30–8:30</div><div class="cal-title">ThriveIEP Team Meeting</div><span class="cal-badge badge-team">👥 team</span></div>
-
-    <div class="divider" style="margin-top:10px;"></div>
-    <div style="font-size:12px;color:#64748b;margin-top:8px;">⚠️ Deployment freeze this week — hold until NLU students finish C2A assessment.</div>
-    <div style="font-size:12px;color:#64748b;margin-top:4px;">📅 Apr 18–27: Pam in DC · trip to NY · April Break</div>
-  </div>
-</details>
-
-<!-- Issues -->
-<div class="section-label" style="margin-top:16px;">Issues</div>
-
-<div class="summary-accent-red">
-<details open>
-  <summary>🔴 Overdue / Needs attention <span class="summary-count">3 issues</span></summary>
-  <div class="issue-list">
-    <div class="issue-row">
-      <div class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-207" target="_blank">THR-207</a></div>
-      <div class="issue-title">C2A: App UI assembly + student report view<br><span style="font-size:11px;color:#64748b;">Soham — no commits visible since last dashboard</span></div>
-      <div class="issue-meta">
-        <span class="priority-badge p-high">High</span>
-        <span class="issue-due-red">Due Apr 7 (6d overdue)</span>
-        <span class="issue-stale">stale?</span>
+  <section>
+    <h2>Milestones</h2>
+    <div class="milestones">
+      <div class="milestone urgent">
+        <div class="ms-name">M5: Phase 3 Ready</div>
+        <div class="ms-days">+1 day</div>
+        <div class="ms-date">Apr 30, 2026 — TOMORROW</div>
+      </div>
+      <div class="milestone info">
+        <div class="ms-name">NLU LE3 Growth Portfolio</div>
+        <div class="ms-days">+6 days</div>
+        <div class="ms-date">Mon May 5, 2:00 PM</div>
+      </div>
+      <div class="milestone info">
+        <div class="ms-name">M4: Phase 2 Complete</div>
+        <div class="ms-days">29d ago ✅</div>
+        <div class="ms-date">Closed Mar 31</div>
       </div>
     </div>
-    <div class="issue-row">
-      <div class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-22" target="_blank">THR-22</a></div>
-      <div class="issue-title">Build: Profile Generation Engine<br><span style="font-size:11px;color:#64748b;">M3 · Eric</span></div>
-      <div class="issue-meta">
-        <span class="priority-badge p-high">High</span>
-        <span class="issue-due-red">Due Apr 15 (2 days!)</span>
+    <div class="summary">
+      <strong>6 active</strong> · <strong>14+ todo</strong> · <strong>1 done last 48h</strong> · <strong>735 commits</strong> across 3 repos since last dashboard (Apr 13)
+    </div>
+  </section>
+
+  <section>
+    <h2>Focus Picks</h2>
+    <div class="focus-picks">
+      <div class="pick c2a">
+        <div class="pick-num">1</div>
+        <div>
+          <div class="pick-title">M5 milestone delivery check</div>
+          <div class="pick-reason">M5 is tomorrow (Apr 30). In-person work block at CiC Kendall 9:30-2:30 — verify what's shippable for admin dashboard, 750-profile infra, longitudinal measures.</div>
+          <div class="pick-meta"><span class="tag">C2A</span><span class="tag">M5</span> Source: priorities.md / Calendar Apr 30</div>
+        </div>
+      </div>
+      <div class="pick team">
+        <div class="pick-num">2</div>
+        <div>
+          <div class="pick-title">priorities.md refreshed ✅ — review and verify</div>
+          <div class="pick-reason">Was 23 days stale. Now updated with M5 countdown, completed items (THR-289, 292, 293, 271, 279), Bloom T1 + audits, DEC1TEXTREDACTOR S370 wins, and revised "This Week's Focus" through May 3.</div>
+          <div class="pick-meta"><span class="tag">PM</span><span class="tag">refreshed</span> Source: PM-Hub priorities.md</div>
+        </div>
+      </div>
+      <div class="pick team">
+        <div class="pick-num">3</div>
+        <div>
+          <div class="pick-title">Stale Linear issue triage</div>
+          <div class="pick-reason">THR-198, THR-196, THR-207, THR-251 marked In Progress with no commit activity in 14+ days. Auto-flag comments posted on THR-198 + THR-196; THR-207 + THR-251 flagging blocked by permissions — please comment manually or close.</div>
+          <div class="pick-meta"><span class="tag">cleanup</span> Source: Git reconciliation (16d window)</div>
+        </div>
       </div>
     </div>
-    <div class="issue-row">
-      <div class="issue-id">THR-94</div>
-      <div class="issue-title">Confirm analytics shipped / close gaps<br><span style="font-size:11px;color:#64748b;">Overdue since Mar 30 per priorities — not in In Progress list</span></div>
-      <div class="issue-meta">
-        <span class="issue-stale">check status</span>
+  </section>
+
+  <section>
+    <h2>Today (Wed Apr 29)</h2>
+    <div class="events">
+      <div class="event"><div class="event-time">10:00 AM</div><div class="event-name">ThriveIEP Standup</div><div><span class="badge b-team">team</span></div></div>
+      <div class="event"><div class="event-time">11:30 AM</div><div class="event-name">Therapy</div><div><span class="badge b-personal">personal</span></div></div>
+      <div class="event"><div class="event-time">2:00 PM</div><div class="event-name">GEMS follow up Zoom</div><div><span class="badge b-client">client</span></div></div>
+      <div class="event"><div class="event-time">3:00 PM</div><div class="event-name">Away Tennis</div><div><span class="badge b-personal">personal</span></div></div>
+      <div class="event"><div class="event-time">5:30 PM</div><div class="event-name">W baseball games</div><div><span class="badge b-personal">personal</span></div></div>
+      <div class="event"><div class="event-time">6:00 PM</div><div class="event-name">Vera</div><div><span class="badge b-tutoring">tutoring</span></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Rest of Week</h2>
+    <details open>
+      <summary>Thu Apr 30 — M5 milestone day</summary>
+      <div class="body">
+        <div class="events">
+          <div class="event"><div class="event-time">9:30 AM</div><div class="event-name">ThriveIEP In Person Work Block (CiC Kendall, 5h)</div><div><span class="badge b-work">work</span></div></div>
+          <div class="event"><div class="event-time">4:30 PM</div><div class="event-name">Jack</div><div><span class="badge b-tutoring">tutoring</span></div></div>
+          <div class="event"><div class="event-time">6:00 PM</div><div class="event-name">YouthAstroNet (Andrews MS)</div><div><span class="badge b-personal">personal</span></div></div>
+        </div>
       </div>
-    </div>
-  </div>
-</details>
-</div>
+    </details>
+    <details>
+      <summary>Fri May 1</summary>
+      <div class="body">
+        <div class="events">
+          <div class="event"><div class="event-time">9:30 AM</div><div class="event-name">ThriveIEP GTM</div><div><span class="badge b-gtm">gtm</span></div></div>
+          <div class="event"><div class="event-time">10:30 AM</div><div class="event-name">ThriveIEP Standup</div><div><span class="badge b-team">team</span></div></div>
+          <div class="event"><div class="event-time">2:30 PM</div><div class="event-name">Nehmet (Brookline Library)</div><div><span class="badge b-tutoring">tutoring</span></div></div>
+        </div>
+      </div>
+    </details>
+    <details>
+      <summary>Sun May 3</summary>
+      <div class="body">
+        <div class="events">
+          <div class="event"><div class="event-time">7:30 AM</div><div class="event-name">ThriveIEP Team Meeting</div><div><span class="badge b-team">team</span></div></div>
+        </div>
+      </div>
+    </details>
+    <details>
+      <summary>Mon May 4</summary>
+      <div class="body">
+        <div class="events">
+          <div class="event"><div class="event-time">10:00 AM</div><div class="event-name">ThriveIEP Standup</div><div><span class="badge b-team">team</span></div></div>
+          <div class="event"><div class="event-time">3:15 PM</div><div class="event-name">George</div><div><span class="badge b-tutoring">tutoring</span></div></div>
+          <div class="event"><div class="event-time">6:00 PM</div><div class="event-name">Vera</div><div><span class="badge b-tutoring">tutoring</span></div></div>
+        </div>
+      </div>
+    </details>
+  </section>
 
-<div class="summary-accent-amber" style="margin-top:8px;">
-<details open>
-  <summary>🟡 This Week — High priority C2A <span class="summary-count">5 issues</span></summary>
-  <div class="issue-list">
-    <div class="issue-row">
-      <div class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-199" target="_blank">THR-199</a></div>
-      <div class="issue-title">C2A M3: DDx pattern matching engine (cross-lens diagnosis)<br><span style="font-size:11px;color:#64748b;">Eric · M3</span></div>
-      <div class="issue-meta"><span class="priority-badge p-high">High</span><span class="issue-project">C2A</span></div>
-    </div>
-    <div class="issue-row">
-      <div class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-255" target="_blank">THR-255</a></div>
-      <div class="issue-title">Build role-scoped coach/admin view<br><span style="font-size:11px;color:#64748b;">Eric · M3</span></div>
-      <div class="issue-meta"><span class="priority-badge p-high">High</span><span class="issue-project">C2A</span></div>
-    </div>
-    <div class="issue-row">
-      <div class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-261" target="_blank">THR-261</a></div>
-      <div class="issue-title">DDx Tier 2: Full 10-state regeneration — Curiosity (CF-primary)<br><span style="font-size:11px;color:#64748b;">Eric — completed S308, needs Linear close</span></div>
-      <div class="issue-meta"><span class="priority-badge p-high">High</span><span class="issue-flag-done">→ close</span></div>
-    </div>
-    <div class="issue-row">
-      <div class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-262" target="_blank">THR-262</a></div>
-      <div class="issue-title">DDx Tier 2: Full 10-state regeneration — Initiative (Inh-primary)<br><span style="font-size:11px;color:#64748b;">Eric — completed S308, needs Linear close</span></div>
-      <div class="issue-meta"><span class="priority-badge p-high">High</span><span class="issue-flag-done">→ close</span></div>
-    </div>
-    <div class="issue-row">
-      <div class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-263" target="_blank">THR-263</a></div>
-      <div class="issue-title">DDx Tier 2: Full 10-state regeneration — Resilience (CF-primary)<br><span style="font-size:11px;color:#64748b;">Eric — completed S308, needs Linear close</span></div>
-      <div class="issue-meta"><span class="priority-badge p-high">High</span><span class="issue-flag-done">→ close</span></div>
-    </div>
-  </div>
-</details>
-</div>
+  <section>
+    <h2>Issues</h2>
+    <details open class="tier-overdue">
+      <summary>Overdue / Urgent (1)</summary>
+      <div class="body">
+        <div class="issue">
+          <span class="id">THR-14</span>
+          <span class="title">Fix sample report link access causing user drop-off</span>
+          <span><span class="badge b-high">High</span></span>
+          <span class="meta">AE · Bug · open since Jan 26</span>
+        </div>
+      </div>
+    </details>
 
-<div class="summary-accent-blue" style="margin-top:8px;">
-<details>
-  <summary>🔵 Upcoming <span class="summary-count">4 issues</span></summary>
-  <div class="issue-list">
-    <div class="issue-row">
-      <div class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-198" target="_blank">THR-198</a></div>
-      <div class="issue-title">C2A M3: Interpretation template library (clinical content)</div>
-      <div class="issue-meta"><span class="priority-badge p-high">High</span><span class="issue-project">C2A</span></div>
-    </div>
-    <div class="issue-row">
-      <div class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-196" target="_blank">THR-196</a></div>
-      <div class="issue-title">C2A M3: Profile data model and schema extension</div>
-      <div class="issue-meta"><span class="priority-badge p-high">High</span><span class="issue-project">C2A</span></div>
-    </div>
-    <div class="issue-row">
-      <div class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-248" target="_blank">THR-248</a></div>
-      <div class="issue-title">NLU: Review case study framework + add platform data section</div>
-      <div class="issue-meta"><span class="priority-badge p-medium">Medium</span><span class="issue-project">C2A</span></div>
-    </div>
-    <div class="issue-row">
-      <div class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-251" target="_blank">THR-251</a></div>
-      <div class="issue-title">Infrastructure &amp; tooling catch-all</div>
-      <div class="issue-meta"><span class="priority-badge p-low">Low</span><span class="issue-project">Team</span></div>
-    </div>
-  </div>
-</details>
-</div>
+    <details class="tier-thisweek">
+      <summary>This Week — Active (5)</summary>
+      <div class="body">
+        <div class="issue">
+          <span class="id">THR-199</span>
+          <span class="title">C2A M3: DDx pattern matching engine (cross-lens diagnosis)</span>
+          <span><span class="badge b-high">High</span></span>
+          <span class="meta">C2A · git-active</span>
+        </div>
+        <div class="issue">
+          <span class="id">THR-255</span>
+          <span class="title">Build role-scoped coach/admin view (Tufts + NLU)</span>
+          <span><span class="badge b-high">High</span></span>
+          <span class="meta">C2A · upd Apr 23</span>
+        </div>
+        <div class="issue">
+          <span class="id">THR-262</span>
+          <span class="title">DDx Tier 2: Initiative student text regen (Inh-primary, Autonomy ARC)</span>
+          <span><span class="badge b-high">High</span></span>
+          <span class="meta">C2A · Todo</span>
+        </div>
+        <div class="issue">
+          <span class="id">THR-263</span>
+          <span class="title">DDx Tier 2: Resilience student text regen (CF-primary, frame-lock)</span>
+          <span><span class="badge b-high">High</span></span>
+          <span class="meta">C2A · Todo</span>
+        </div>
+        <div class="issue">
+          <span class="id">THR-261</span>
+          <span class="title">DDx Tier 2: Curiosity student text regen (CF-primary)</span>
+          <span><span class="badge b-high">High</span></span>
+          <span class="meta">C2A · Todo</span>
+        </div>
+      </div>
+    </details>
 
-<div class="summary-accent-gray" style="margin-top:8px;">
-<details>
-  <summary>⚫ Backlog <span class="summary-count">10+ issues</span></summary>
-  <div class="issue-list">
-    <div class="issue-row">
-      <div class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-62" target="_blank">THR-62</a></div>
-      <div class="issue-title">Deploy dev enhancements to production (AE)</div>
-      <div class="issue-meta"><span class="priority-badge p-high">High</span><span class="issue-project">AE</span></div>
-    </div>
-    <div class="issue-row">
-      <div class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-221" target="_blank">THR-221</a></div>
-      <div class="issue-title">Review AE AI pipeline for novel approach improvements (Soham)</div>
-      <div class="issue-meta"><span class="priority-badge p-medium">Medium</span><span class="issue-project">AE</span></div>
-    </div>
-    <div class="issue-row">
-      <div class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-239" target="_blank">THR-239</a></div>
-      <div class="issue-title">Create DAG pipeline prompt skill</div>
-      <div class="issue-meta"><span class="priority-badge p-medium">Medium</span><span class="issue-project">Team</span></div>
-    </div>
-    <div class="issue-row">
-      <div class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-224" target="_blank">THR-224</a></div>
-      <div class="issue-title">Student TLDR rollup summary view</div>
-      <div class="issue-meta"><span class="priority-badge p-low">Low</span><span class="issue-project">C2A</span></div>
-    </div>
-    <div class="issue-row">
-      <div class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-118" target="_blank">THR-118</a></div>
-      <div class="issue-title">Migrate to HIPAA-compliant GPU infrastructure (Soham)</div>
-      <div class="issue-meta"><span class="priority-badge p-low">Low</span><span class="issue-project">Redactor</span></div>
-    </div>
-    <div class="issue-row">
-      <div class="issue-id">THR-187/182/180</div>
-      <div class="issue-title">Property tests + admin UI (Soham)</div>
-      <div class="issue-meta"><span class="priority-badge p-medium">Medium</span><span class="issue-project">C2A</span></div>
-    </div>
-  </div>
-</details>
-</div>
+    <details class="tier-thisweek">
+      <summary>Stale In Progress — needs triage (4)</summary>
+      <div class="body">
+        <div class="issue">
+          <span class="id">THR-198</span>
+          <span class="title">C2A M3: Interpretation template library (clinical content)</span>
+          <span><span class="badge b-high">High</span></span>
+          <span class="meta">flagged · last upd Mar 24</span>
+        </div>
+        <div class="issue">
+          <span class="id">THR-196</span>
+          <span class="title">C2A M3: Profile data model and schema extension</span>
+          <span><span class="badge b-high">High</span></span>
+          <span class="meta">flagged · last upd Mar 24</span>
+        </div>
+        <div class="issue">
+          <span class="id">THR-207</span>
+          <span class="title">C2A: App UI assembly + student report view</span>
+          <span><span class="badge b-high">High</span></span>
+          <span class="meta">Soham · last upd Apr 7 · flag-blocked</span>
+        </div>
+        <div class="issue">
+          <span class="id">THR-251</span>
+          <span class="title">Infrastructure & tooling catch-all</span>
+          <span><span class="badge b-low">Low</span></span>
+          <span class="meta">last upd Mar 24 · flag-blocked</span>
+        </div>
+      </div>
+    </details>
 
-<!-- Active Blockers -->
-<div class="section-label" style="margin-top:16px;">Active Blockers</div>
-<div class="panel">
-  <div class="blocker">
-    <div class="blocker-dot"></div>
-    <div>
-      <div class="blocker-text">CI failing on main — Test Suite + Security Scanning both broken</div>
-      <div class="blocker-owner">Owner: Soham · Confirmed still failing Apr 12 (GitHub notification)</div>
-    </div>
-  </div>
-  <div class="blocker">
-    <div class="blocker-dot"></div>
-    <div>
-      <div class="blocker-text">Remy account locking — recurring student account lock issue</div>
-      <div class="blocker-owner">Root cause unknown · investigate</div>
-    </div>
-  </div>
-  <div class="blocker">
-    <div class="blocker-dot" style="background:#f59e0b;"></div>
-    <div>
-      <div class="blocker-text">THR-207 (Soham UI) — 6 days overdue, no commits visible</div>
-      <div class="blocker-owner">Owner: Soham · Elizabeth scheduling staffing discussion Thursday</div>
-    </div>
-  </div>
-</div>
+    <details class="tier-upcoming">
+      <summary>Upcoming Todo (5)</summary>
+      <div class="body">
+        <div class="issue">
+          <span class="id">THR-291</span>
+          <span class="title">Bloom Stage 2 system prompt cache fix (T2.1+T2.6)</span>
+          <span><span class="badge b-high">High</span></span>
+          <span class="meta">Bloom · just promoted Backlog→Todo</span>
+        </div>
+        <div class="issue">
+          <span class="id">THR-248</span>
+          <span class="title">NLU: Review case study framework + add platform data</span>
+          <span><span class="badge b-medium">Medium</span></span>
+          <span class="meta">C2A</span>
+        </div>
+        <div class="issue">
+          <span class="id">THR-187</span>
+          <span class="title">C2A M2: Property tests — Student API</span>
+          <span><span class="badge b-medium">Medium</span></span>
+          <span class="meta">Soham</span>
+        </div>
+        <div class="issue">
+          <span class="id">THR-182</span>
+          <span class="title">C2A M2: Property tests — Registry and admin</span>
+          <span><span class="badge b-medium">Medium</span></span>
+          <span class="meta">Soham</span>
+        </div>
+        <div class="issue">
+          <span class="id">THR-180</span>
+          <span class="title">C2A M2: Implement admin UI (timepoint management)</span>
+          <span><span class="badge b-medium">Medium</span></span>
+          <span class="meta">Soham</span>
+        </div>
+      </div>
+    </section>
+    </details>
 
-<!-- Git Activity -->
-<div class="section-label" style="margin-top:16px;">Git Activity — since Apr 8</div>
-<div class="panel">
-  <div class="git-stat">
-    <div class="git-stat-item"><div class="git-stat-num">~200</div><div class="git-stat-label">Total commits</div></div>
-    <div class="git-stat-item"><div class="git-stat-num">~100</div><div class="git-stat-label">AE (Bloom, C2A)</div></div>
-    <div class="git-stat-item"><div class="git-stat-num">~45</div><div class="git-stat-label">PM-Hub</div></div>
-    <div class="git-stat-item"><div class="git-stat-num">~52</div><div class="git-stat-label">Redactor</div></div>
-    <div class="git-stat-item"><div class="git-stat-num">0</div><div class="git-stat-label">THR refs</div></div>
-  </div>
-  <table class="git-table">
-    <thead><tr><th>Issue</th><th>Title</th><th>Proposed</th><th>Evidence</th></tr></thead>
-    <tbody>
-      <tr><td class="proposed-transition">THR-261</td><td>DDx Curiosity 10-state regeneration</td><td class="proposed-transition">Todo → Done</td><td>S308 complete per handoff</td></tr>
-      <tr><td class="proposed-transition">THR-262</td><td>DDx Initiative 10-state regeneration</td><td class="proposed-transition">Todo → Done</td><td>S308 complete per handoff</td></tr>
-      <tr><td class="proposed-transition">THR-263</td><td>DDx Resilience 10-state regeneration</td><td class="proposed-transition">Todo → Done</td><td>S308 complete per handoff</td></tr>
-      <tr><td class="stale-flag">THR-207</td><td>App UI assembly (Soham)</td><td class="stale-flag">Stale — 6d overdue</td><td>No commits in any repo</td></tr>
-    </tbody>
-  </table>
-  <div style="margin-top:10px;font-size:12px;color:#64748b;">Main themes: Bloom engine/eval (Layers 1-3, advisor integration, PDF, Drive export), C2A (auto-unlock, sprint overview, Bloom module wiring), PI Redactor (RunPod migration, F2 0.93→0.96 benchmark), Research wiki v2 (typed relationships, BM25S).</div>
-</div>
+    <details class="tier-backlog">
+      <summary>Backlog / Lower Priority (5)</summary>
+      <div class="body">
+        <div class="issue"><span class="id">THR-288</span><span class="title">Bloom Speed Tier 2 umbrella</span><span><span class="badge b-medium">Medium</span></span><span class="meta">Bloom</span></div>
+        <div class="issue"><span class="id">THR-284</span><span class="title">Bloom citation chips: render from structured claims[]</span><span><span class="badge b-medium">Medium</span></span><span class="meta">Bloom</span></div>
+        <div class="issue"><span class="id">THR-239</span><span class="title">Create DAG pipeline prompt skill</span><span><span class="badge b-medium">Medium</span></span><span class="meta">Team</span></div>
+        <div class="issue"><span class="id">THR-221</span><span class="title">Review AE AI pipeline for novel approach improvements</span><span><span class="badge b-medium">Medium</span></span><span class="meta">AE</span></div>
+        <div class="issue"><span class="id">THR-118</span><span class="title">Migrate to HIPAA-compliant GPU infrastructure</span><span><span class="badge b-low">Low</span></span><span class="meta">PI Redactor</span></div>
+      </div>
+    </details>
 
-<!-- Footer -->
-<div class="footer">
-  <span>📊 <a href="https://thriveiep-reports.vercel.app/reports/dashboard">thriveiep-reports.vercel.app/reports/dashboard</a></span>
-  <span>📅 Last dashboard run: Apr 8 · 5 days ago</span>
-  <span>⚠️ Slack: skipped (no MCP) · HubSpot engagements: blocked (sensitive data protection)</span>
-  <span>🌐 NLU: 45 students deployed Apr 1 · Deployment freeze active</span>
-</div>
+    <details class="tier-done">
+      <summary>Recently completed</summary>
+      <div class="body">
+        <div class="issue"><span class="id">THR-289</span><span class="title">C2A session-uniqueness rollout (DR-057)</span><span><span class="badge b-high">High</span></span><span class="meta">Done Apr 27</span></div>
+        <div class="issue"><span class="id">THR-292</span><span class="title">PM-Hub: Atlas migration tooling adoption (DR-058)</span><span><span class="badge b-medium">Medium</span></span><span class="meta">Filed Apr 29 (retrospective)</span></div>
+        <div class="issue"><span class="id">THR-293</span><span class="title">DEC1TEXTREDACTOR: LOCATION address recovery (S370)</span><span><span class="badge b-medium">Medium</span></span><span class="meta">Filed Apr 29 (retrospective)</span></div>
+        <div class="issue"><span class="id">THR-279</span><span class="title">Remove Kara SanFillipo from NLU T1 dataset</span><span><span class="badge b-high">High</span></span><span class="meta">Done Apr 23</span></div>
+        <div class="issue"><span class="id">THR-271</span><span class="title">Property tests: 4 demo battery instrument IDs unresolved</span><span><span class="badge b-low">Low</span></span><span class="meta">Done Apr 23</span></div>
+      </div>
+    </details>
+  </section>
 
+  <section>
+    <h2>Git Activity (since 2026-04-13, 16 days)</h2>
+    <div class="panel">
+      <div class="git-row"><div class="label">Total commits</div><div class="value"><strong>735</strong> (AE 462 · PM-Hub 106 · Redactor 167)</div></div>
+      <div class="git-row"><div class="label">By person</div><div class="value">Eric: 733 · Soham: 3 (AE only)</div></div>
+      <div class="git-row"><div class="label">THR refs found</div><div class="value">THR-199, THR-271, THR-279, THR-284, THR-288, THR-289, THR-291</div></div>
+      <div class="git-row"><div class="label">Untracked commits</div><div class="value">~720 commits without THR refs (Atlas + Redactor S370 = ~273 captured by new THR-292/293)</div></div>
+      <div class="git-row"><div class="label">Stale flags</div><div class="value">THR-198, THR-196, THR-207, THR-251 — In Progress, no commits in 14+ days</div></div>
+      <div class="git-row"><div class="label">Linear updates</div><div class="value">5 of 7 succeeded (THR-291 promoted; THR-198/196 flagged; THR-292/293 created)</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Status Summary</h2>
+    <div class="panel">
+      <div class="git-row"><div class="label">Slack signals</div><div class="value">Quiet — 0 messages in monitored channels last 24h</div></div>
+      <div class="git-row"><div class="label">Gmail</div><div class="value">1 important + 11 primary unread; 0 Meet artifacts in 7d</div></div>
+      <div class="git-row"><div class="label">Networking</div><div class="value gap">Unknown — HubSpot not loaded; check manually</div></div>
+      <div class="git-row"><div class="label">Data gaps</div><div class="value gap">HubSpot (skipped), Notion (skipped), 2 stale-flag comments denied (THR-207, THR-251)</div></div>
+    </div>
+  </section>
+
+  <footer>
+    <a href="/">← All reports</a> · ThriveIEP internal dashboard · noindex
+  </footer>
 </body>
 </html>
