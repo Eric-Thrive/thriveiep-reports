@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>NLU Coach View: Research Briefing for Leadership</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #1B2A4A; --navy-light: #2A3F6B;
+    --coral: #FF6B6B; --coral-soft: #FF8E8E;
+    --sand: #F5E6CC; --sand-light: #FDF8F0;
+    --teal: #2B8A8A; --gold: #D4A843;
+    --slate: #4A5568; --warm-grey: #8B7E6A;
+  }
+  html, body { height: 100%; overflow: hidden; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--sand-light); color: var(--navy); }
+  .deck { display: flex; height: 100vh; overflow: hidden; }
+  .slide { min-width: 100vw; height: 100vh; overflow-y: auto; padding: 60px 80px 80px; display: none; flex-direction: column; }
+  .slide.active { display: flex; }
+  @media (max-width: 800px) { .slide { padding: 32px 24px 80px; } }
+  .index-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: var(--navy); display: flex; align-items: center; height: 52px; padding: 0 24px; gap: 6px; overflow-x: auto; }
+  .idx-chip { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.55); background: transparent; border: none; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+  .idx-chip:hover { color: #fff; background: var(--navy-light); }
+  .idx-chip.active { background: var(--coral); color: #fff; }
+  .idx-progress { position: fixed; bottom: 52px; left: 0; height: 3px; background: var(--coral); transition: width 0.3s; z-index: 101; }
+  .idx-arrows { margin-left: auto; display: flex; gap: 8px; }
+  .idx-arrow { width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--navy-light); color: #fff; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .idx-arrow:hover { background: var(--coral); }
+  .slide-num { font-size: 12px; font-weight: 700; color: var(--coral); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .slide h2 { font-size: 36px; font-weight: 800; color: var(--navy); line-height: 1.15; margin-bottom: 20px; max-width: 800px; }
+  .slide h3 { font-size: 22px; font-weight: 700; color: var(--navy); margin: 24px 0 10px; }
+  .slide h4 { font-size: 16px; font-weight: 700; color: var(--teal); margin: 16px 0 8px; }
+  .slide p { font-size: 16px; line-height: 1.8; margin-bottom: 14px; color: var(--slate); max-width: 760px; }
+  .slide ul, .slide ol { margin: 10px 0 16px 24px; font-size: 16px; line-height: 1.7; color: var(--slate); max-width: 760px; }
+  .slide li { margin-bottom: 8px; }
+  .slide strong { color: var(--navy); font-weight: 700; }
+  .slide em { color: var(--coral); font-style: normal; font-weight: 600; }
+  .slide blockquote { background: var(--sand); border-left: 4px solid var(--coral); padding: 18px 24px; border-radius: 0 12px 12px 0; margin: 18px 0; font-size: 15px; color: var(--navy); max-width: 760px; }
+  .slide hr { border: none; height: 2px; background: var(--sand); margin: 28px 0; max-width: 760px; }
+  .slide a { color: var(--teal); text-decoration: none; font-weight: 600; }
+  .slide a:hover { text-decoration: underline; }
+  .slide table { width: 100%; max-width: 800px; border-collapse: separate; border-spacing: 0; margin: 18px 0; border-radius: 12px; overflow: hidden; }
+  .slide th { background: var(--navy); color: #fff; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 14px 16px; text-align: left; }
+  .slide td { background: #fff; padding: 14px 16px; font-size: 14px; color: var(--slate); border-bottom: 1px solid var(--sand); }
+  .slide tr:last-child td { border-bottom: none; }
+  .badge { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+  .badge-critical { background: #FEE2E2; color: #991B1B; }
+  .badge-high { background: #FEF3C7; color: #92400E; }
+  .badge-moderate { background: #DBEAFE; color: #1E40AF; }
+  .badge-low { background: #F3F4F6; color: #4B5563; }
+  .badge-green { background: #D1FAE5; color: #065F46; }
+  .badge-red { background: #FEE2E2; color: #991B1B; }
+  .badge-gold { background: #FEF3C7; color: #92400E; }
+  .badge-teal { background: #CCFBF1; color: #115E59; }
+  .finding-card { background: #fff; border-radius: 12px; padding: 20px 24px; margin: 16px 0; max-width: 800px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .finding-card h4 { margin-top: 0; }
+  details { margin: 12px 0; max-width: 760px; }
+  details summary { cursor: pointer; font-weight: 600; color: var(--teal); padding: 8px 0; }
+  details[open] summary { margin-bottom: 8px; }
+  .title-slide { justify-content: center; background: var(--navy); }
+  .title-slide h2 { color: #fff; font-size: 44px; max-width: 900px; }
+  .title-slide p { color: rgba(255,255,255,0.75); font-size: 18px; }
+  .title-slide .slide-num { color: var(--coral); }
+  .title-slide .badge { background: var(--coral); color: #fff; font-size: 14px; padding: 6px 16px; margin-bottom: 16px; }
+  .quadrant-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 700px; margin: 16px 0; }
+  .quadrant-cell { background: #fff; border-radius: 12px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .quadrant-cell h4 { margin: 0 0 6px; }
+  .quadrant-cell p { margin: 0; font-size: 14px; }
+  .quadrant-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--warm-grey); margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<div class="idx-progress" id="progress"></div>
+<div class="deck" id="deck">
+
+<!-- SLIDE 1: TITLE -->
+<div class="slide title-slide" id="slide-title">
+  <div class="slide-num">NLU Coach View Research</div>
+  <span class="badge">142 papers &middot; 6 research runs</span>
+  <h2>Coach View: What the Research Says</h2>
+  <p>A briefing for Elizabeth McWhorter, NLU Leadership, and the Coaching Team</p>
+  <p>May 6, 2026</p>
+  <hr style="border: none; height: 1px; background: rgba(255,255,255,0.15); margin: 28px 0; max-width: 500px;">
+  <p style="font-size: 14px;">We asked: should the Coach View draw on existing research, or build its own framework?</p>
+  <p style="font-size: 14px;">The answer: <strong style="color: #fff;">the research base is strong enough to build on, but it needs careful assembly.</strong></p>
+</div>
+
+<!-- SLIDE 2: KEY MESSAGES -->
+<div class="slide" id="slide-key-messages">
+  <div class="slide-num">Section 1 of 11</div>
+  <h2>Seven Things That Matter Most</h2>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">Critical</span> Work on motivation and EF at the same time</h4>
+    <p>The biggest coaching effect sizes (d=1.10) come from integrated approaches, not "fix motivation first, then build skills." One study that only targeted motivation still improved attention as a side effect.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">Critical</span> Working memory cannot be trained</h4>
+    <p>Three meta-analyses, 3,000+ participants, definitive null result. Coaches should compensate (external tools, systems) and accommodate (simplify the environment). Do not attempt to strengthen working memory directly.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-high">High</span> Financial stress distorts EF profiles</h4>
+    <p>Financial worry impairs working memory and cognitive flexibility by 0.2 to 0.3 standard deviations. These effects are largely reversible when the stressor lifts. A first assessment is a snapshot of the student's situation, not just their stable capacity.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-high">High</span> Profile framing shapes student outcomes</h4>
+    <p>Practitioner perception bias is measured, not theoretical. Strengths-first profiles produce higher expectations and better outcomes. Deficit-first profiles produce lower expectations. The Coach View's language choices have downstream consequences.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-high">High</span> Surface 7 more EF dimensions in priority tiers</h4>
+    <p>C2A measures 10 dimensions but reports 3. Time management and organization are Priority 1 (strongest evidence). Planning and emotional regulation are Priority 2. Task initiation, sustained attention, and self-monitoring are Priority 3.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">Moderate</span> Trauma creates a distinct, recognizable EF pattern</h4>
+    <p>ACEs impair inhibitory control and cognitive flexibility while sparing working memory. Coaches need scope-of-practice guardrails: coach EF skills, do not treat trauma. Emotion regulation coaching is the highest-leverage buffer.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">Moderate</span> Relatedness is the gateway need; differentiate by group</h4>
+    <p>For Black and Latinx working adults, relatedness must be satisfied before autonomy and competence work becomes productive. Group-specific coaching adaptations are 4x more effective than generic multicultural approaches.</p>
+  </div>
+</div>
+
+<!-- SLIDE 3: REPORT A -->
+<div class="slide" id="slide-report-a">
+  <div class="slide-num">Section 2 of 11</div>
+  <h2>Motivation &times; Executive Function</h2>
+  <p style="color: var(--teal); font-weight: 600; font-size: 14px;">Report A &middot; 22 papers &middot; "They're tangled, work on both"</p>
+
+  <h3>What did we find?</h3>
+  <p>When a student has low motivation <em>and</em> weak EF, do you fix the motivation first? The answer: neither. You work on both simultaneously.</p>
+
+  <ul>
+    <li>The largest coaching effect size (d=1.10 for self-regulation) came from integrating SDT-based motivation support into EF coaching as a single protocol (Field et al., 2013; N=160 college students with ADHD).</li>
+    <li>A study targeting <em>only</em> motivation produced significant improvements in ADHD-related inattention as a secondary outcome (Champ et al., 2024). Motivation work has downstream EF benefits.</li>
+    <li>Motivation quality determines sustainability. "I should make a study schedule" (controlled motivation) is depleting. "I want to organize my week" (autonomous motivation) is durable (Ryan &amp; Deci, 2020).</li>
+  </ul>
+
+  <h3>The Motivation &times; EF Quadrant</h3>
+  <p>Coach View should present these as interacting dimensions, not separate problems:</p>
+
+  <div class="quadrant-grid">
+    <div class="quadrant-cell">
+      <div class="quadrant-label">High Motivation + Low EF</div>
+      <h4>"Ready to learn, needs tools"</h4>
+      <p>Compensate + build skills. This student wants to succeed but lacks the systems.</p>
+    </div>
+    <div class="quadrant-cell">
+      <div class="quadrant-label">High Motivation + High EF</div>
+      <h4>"Building momentum"</h4>
+      <p>Maintain and stretch. Support continued growth.</p>
+    </div>
+    <div class="quadrant-cell">
+      <div class="quadrant-label">Low Motivation + Low EF</div>
+      <h4>"Needs connection first"</h4>
+      <p>Reduce frustration + small wins. The coaching relationship itself is the intervention.</p>
+    </div>
+    <div class="quadrant-cell">
+      <div class="quadrant-label">Low Motivation + High EF</div>
+      <h4>"Has the tools, looking for purpose"</h4>
+      <p>Build belonging + connect to values. Help them find the "why."</p>
+    </div>
+  </div>
+
+  <blockquote>
+    <strong>Watch for this signal:</strong> If a student shifts from "I want to" to "I should," the effort is becoming depleting and will collapse. Return to autonomy support, not more structure.
+  </blockquote>
+
+  <p>For NLU's population specifically: low-SES individuals arrive with higher baseline need frustration (Rodriguez-Meirinhos et al., 2019). The coaching relationship directly satisfies the relatedness need and replenishes the regulatory tank.</p>
+</div>
+
+<!-- SLIDE 4: REPORT B -->
+<div class="slide" id="slide-report-b">
+  <div class="slide-num">Section 3 of 11</div>
+  <h2>Positive Psychology Framing</h2>
+  <p style="color: var(--teal); font-weight: 600; font-size: 14px;">Report B &middot; 22 papers &middot; "Strengths first, growth included"</p>
+
+  <h3>Elizabeth's directive: Don't put the student in a deficit space</h3>
+  <p>The research agrees, but with a nuance: lead with strengths, but don't hide growth areas. The combined approach outperforms both strengths-only and deficit-focused.</p>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-green">SUDCO Model</span> Combined approach outperforms both extremes</h4>
+    <p>Van Woerkom et al. (2016) tested this across three samples. Organizations supporting both strengths use and deficit correction saw higher engagement, satisfaction, and learning than those using either approach alone. A balanced profile outperforms a Pollyanna one.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-red">Perception Bias</span> Framing literally changes outcomes</h4>
+    <p>Asset-based pedagogy beliefs moderate the self-fulfilling prophecy (Lopez, 2017). How the Coach View frames a profile changes coach expectations and thereby student outcomes. This effect is <em>larger</em> for racially marginalized populations.</p>
+  </div>
+
+  <h3>Language Patterns for Coach View</h3>
+  <table>
+    <thead><tr><th>Instead of...</th><th>Use...</th></tr></thead>
+    <tbody>
+      <tr><td>"Weakness in working memory"</td><td>"Growing edge: holding multiple pieces of information"</td></tr>
+      <tr><td>"Deficit in time management"</td><td>"Building capacity: estimating and allocating time"</td></tr>
+      <tr><td>"Poor emotional regulation"</td><td>"Developing: managing responses when things get frustrating"</td></tr>
+      <tr><td>"Impaired inhibition"</td><td>"Your brain moves quickly &mdash; building the pause button"</td></tr>
+    </tbody>
+  </table>
+
+  <p>The <strong>"overuse of a strength" reframe</strong> (Totemeyer et al., 2025) is a validated technique for neurodivergent populations. Each growth area should link back to a strength: "Strong in planning but growing in time estimation."</p>
+</div>
+
+<!-- SLIDE 5: REPORT C -->
+<div class="slide" id="slide-report-c">
+  <div class="slide-num">Section 4 of 11</div>
+  <h2>Financial Precarity &times; Cognition</h2>
+  <p style="color: var(--teal); font-weight: 600; font-size: 14px;">Report C &middot; 26 papers &middot; "It's the stress, not the student"</p>
+
+  <h3>Financial stress imposes a measurable "bandwidth tax" on EF</h3>
+  <p>The meta-analytic picture (Shields et al., 2016; 51 studies, 2,486 participants) shows stress does not uniformly degrade all EF. It hits specific components differently:</p>
+
+  <table>
+    <thead><tr><th>EF Component</th><th>Effect of Stress</th><th>Size</th></tr></thead>
+    <tbody>
+      <tr><td>Working Memory</td><td><span class="badge badge-red">Impaired</span></td><td>g = -0.197</td></tr>
+      <tr><td>Cognitive Flexibility</td><td><span class="badge badge-red">Impaired</span></td><td>g = -0.300</td></tr>
+      <tr><td>Cognitive Inhibition</td><td><span class="badge badge-red">Impaired</span></td><td>g = -0.208</td></tr>
+      <tr><td>Response Inhibition</td><td><span class="badge badge-green">Enhanced</span></td><td>g = +0.296</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Most of the effect is state, not trait</h3>
+  <p>The same Indian farmers performed differently before harvest (financially stressed) vs. after harvest (flush), serving as their own controls (Mani et al., 2013). Stress-induced brain changes partially reverse when stressors are removed (McEwen et al., 2015).</p>
+
+  <blockquote>
+    <strong>The diagnostic pattern:</strong> When working memory and cognitive flexibility are both depressed but response inhibition is at or above average, the profile is more consistent with <em>stress-state depression</em> than stable EF weakness.
+  </blockquote>
+
+  <h3>What this means for coaches</h3>
+  <ul>
+    <li><strong>Resource navigation may produce larger cognitive gains than EF training.</strong> Connecting a student to emergency financial aid might restore 0.2 to 0.3 SD of working memory more effectively than memory exercises.</li>
+    <li>Coach View should include a context note when financial stress is reported: "This profile may reflect situational stress. Consider reassessing after the stressor resolves."</li>
+    <li>The <strong>"hidden talents" reframe</strong> (Ellis et al., 2020): stress-adapted cognition includes enhanced attention shifting, threat detection, and procedural learning. Real cognitive assets that standard EF measures miss.</li>
+  </ul>
+</div>
+
+<!-- SLIDE 6: REPORT D -->
+<div class="slide" id="slide-report-d">
+  <div class="slide-num">Section 5 of 11</div>
+  <h2>The Full EF Spectrum</h2>
+  <p style="color: var(--teal); font-weight: 600; font-size: 14px;">Report D &middot; 21 papers &middot; "Which dimensions are ready for coaches?"</p>
+
+  <h3>The 10-Dimension Evidence Matrix</h3>
+  <p>C2A measures 10 EF dimensions but only surfaces 3 to coaches. Here is what the evidence says about the accommodate / compensate / strengthen (ACS) intervention for each:</p>
+
+  <table>
+    <thead><tr><th>EF Dimension</th><th>Accommodate</th><th>Compensate</th><th>Strengthen</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Working Memory</td><td>Yes</td><td><strong>Strong</strong></td><td><span class="badge badge-red">No</span></td><td>Engine (shown)</td></tr>
+      <tr><td>Inhibitory Control</td><td>Yes</td><td>Yes</td><td><span class="badge badge-gold">Modest</span></td><td>Engine (shown)</td></tr>
+      <tr><td>Cognitive Flexibility</td><td>Yes</td><td>Yes</td><td><span class="badge badge-gold">Context-only</span></td><td>Engine (shown)</td></tr>
+      <tr><td><strong>Time Management</strong></td><td>Yes</td><td><strong>Strong</strong></td><td><span class="badge badge-green">Strong (RCT)</span></td><td><span class="badge badge-critical">Priority 1</span></td></tr>
+      <tr><td><strong>Organization</strong></td><td>Yes</td><td><strong>Strong</strong></td><td>Yes</td><td><span class="badge badge-critical">Priority 1</span></td></tr>
+      <tr><td>Planning / Prioritization</td><td>Yes</td><td>Yes</td><td>Yes</td><td><span class="badge badge-high">Priority 2</span></td></tr>
+      <tr><td>Emotional Regulation</td><td>Yes</td><td>Yes</td><td><span class="badge badge-gold">Indirect</span></td><td><span class="badge badge-high">Priority 2</span></td></tr>
+      <tr><td>Task Initiation</td><td>Yes</td><td>Consensus</td><td>Consensus</td><td><span class="badge badge-moderate">Priority 3</span></td></tr>
+      <tr><td>Sustained Attention</td><td>Yes</td><td>Consensus</td><td>Consensus</td><td><span class="badge badge-moderate">Priority 3</span></td></tr>
+      <tr><td>Self-Monitoring</td><td>Yes</td><td>Consensus</td><td>Consensus</td><td><span class="badge badge-moderate">Priority 3</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="finding-card" style="font-size: 14px;">
+    <h4>Reading the table</h4>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Columns:</strong> <em>Accommodate</em> = change the environment so the limitation matters less. <em>Compensate</em> = use external tools or workarounds to substitute for the skill. <em>Strengthen</em> = directly build the underlying capacity through practice.</p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Evidence terms:</strong></p>
+    <ul style="font-size: 14px; line-height: 1.6;">
+      <li><span class="badge badge-green">Strong (RCT)</span> = Supported by a randomized controlled trial (the gold standard: randomly assigned groups, measured outcomes)</li>
+      <li><strong>Strong</strong> = Multiple studies with direct, measurable evidence for this intervention type</li>
+      <li><strong>Yes</strong> = Evidence exists from coaching studies that included this dimension, though not always tested in isolation</li>
+      <li><span class="badge badge-gold">Modest</span> = Small but real effect found in meta-analysis (d=0.378 means a modest improvement)</li>
+      <li><span class="badge badge-gold">Context-only</span> = Works only when practiced in real-world situations, not through generic brain-training games</li>
+      <li><span class="badge badge-gold">Indirect</span> = Improves as a side effect of working on other dimensions (not from direct targeting)</li>
+      <li><strong>Consensus</strong> = Recommended by experienced clinicians (Dawson &amp; Guare and others) but not yet tested in research studies</li>
+      <li><span class="badge badge-red">No</span> = Meta-analytic evidence <em>against</em> this working (three studies, 3,000+ people, null result)</li>
+    </ul>
+  </div>
+
+  <h3>Key Insights</h3>
+  <ul>
+    <li><strong>Working memory is compensate-only.</strong> Three meta-analyses, N &gt; 3,000, zero far-transfer. Give students external memory tools and simplify the environment.</li>
+    <li><strong>Time management and organization are Priority 1</strong> for coach surfacing. RCT-level support with gains sustained at 3 months. Top pain points for working adults.</li>
+    <li><strong>Emotional regulation improves indirectly</strong> when daily operations stabilize. Coach TM and Org first; ER often follows.</li>
+    <li><strong>Physical activity</strong> is the one cross-cutting intervention with meta-analytic support (g=0.56) across multiple dimensions.</li>
+  </ul>
+
+  <blockquote><strong>Honest gap:</strong> The Dawson &amp; Guare ACS framework itself has not been validated in randomized trials. It rests on clinical consensus and widespread practitioner use.</blockquote>
+</div>
+
+<!-- SLIDE 7: REPORT E -->
+<div class="slide" id="slide-report-e">
+  <div class="slide-num">Section 6 of 11</div>
+  <h2>Trauma-Informed Coaching</h2>
+  <p style="color: var(--teal); font-weight: 600; font-size: 14px;">Report E &middot; 24 papers &middot; "Stabilize first, and know your lane"</p>
+
+  <h3>Trauma creates a distinct EF pattern</h3>
+  <p>ACEs (Adverse Childhood Experiences) shrink the prefrontal cortex and expand the amygdala. This selectively impairs inhibitory control and cognitive flexibility while <em>sparing</em> working memory. Compare to financial stress (Report C), which impairs WM and CF but enhances response inhibition. Different stressor, different EF pattern.</p>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-teal">PCRR Framework</span> Actionable coaching moves for non-clinicians</h4>
+    <p><strong>Protect</strong> (establish safety) &rarr; <strong>Connect</strong> (build relationship) &rarr; <strong>Respect</strong> (honor the student's experience) &rarr; <strong>Redirect</strong> (guide toward skill-building). Maps naturally to the RISE cycle's proposed triage step.</p>
+  </div>
+
+  <h3>Stabilize first, then build</h3>
+  <p>This principle appeared in every report. The trauma literature adds the biological grounding: a dysregulated stress response system literally cannot support new skill acquisition until baseline safety is established.</p>
+
+  <ul>
+    <li><strong>Emotion regulation is the teachable buffer.</strong> Building regulation capacity reduces the downstream impact of trauma on other EF dimensions.</li>
+    <li><strong>ER improves indirectly</strong> when time management and daily operations stabilize (convergence with Report D).</li>
+  </ul>
+
+  <h3>Scope of practice: the critical gap</h3>
+  <p>When does a coach say "this is beyond what I can help with"? The literature has practitioner-generated guidelines but <em>no empirical validation</em>.</p>
+
+  <blockquote>
+    <strong>Coach View language:</strong> An "Adaptive Pattern Detected" banner signals trauma-informed sequencing may be needed without using clinical terms like "trauma" or "PTSD." Clear guidance: <em>coach the EF skills, don't treat the trauma.</em>
+  </blockquote>
+</div>
+
+<!-- SLIDE 8: REPORT F -->
+<div class="slide" id="slide-report-f">
+  <div class="slide-num">Section 7 of 11</div>
+  <h2>Cross-Cultural Factors in Coaching</h2>
+  <p style="color: var(--teal); font-weight: 600; font-size: 14px;">Report F &middot; 27 papers &middot; "Relatedness first, and don't generalize"</p>
+
+  <h3>SDT works across cultures, but the entry point matters</h3>
+  <p>Autonomy, relatedness, and competence matter across cultures (Chirkov et al., 2003; 1,349 citations across 5 countries). But for Black and Latinx working adults, <strong>relatedness is the gateway need.</strong> Until a student feels genuinely connected to their coach, autonomy-supportive and competence-building moves don't land.</p>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-gold">Surprising</span> Demographic match is overrated</h4>
+    <p>Students prefer coaches who share their background (d=0.63 preference effect), but actual outcome effect is tiny (d=0.09). What predicts outcomes: <em>perceived cultural competence</em> (r=0.38 as rated by the client). Coach self-rated competence doesn't predict anything (r=0.06).</p>
+    <p><strong>This means coach training beats demographic matching.</strong> It's a training investment, not a hiring filter.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">4x</span> Group-specific &gt; generic multicultural</h4>
+    <p>Culturally adapted interventions outperform generic ones by d=0.45 to 0.50 (Griner &amp; Smith, 2006; 1,178 citations; 76 studies). Group-specific adaptations are <em>four times more effective</em> than generic multicultural approaches. NLU should differentiate guidance for Black vs. Latinx learners.</p>
+  </div>
+
+  <h3>Mental health stigma differs by group</h3>
+  <table>
+    <thead><tr><th>Population</th><th>Primary Barriers</th><th>Referral Strategy</th></tr></thead>
+    <tbody>
+      <tr><td>Black learners</td><td>Cultural mistrust (historical institutional mistreatment), masculinity norms</td><td>Build trust first; frame referrals as strength-building, not weakness-admitting</td></tr>
+      <tr><td>Latinx learners</td><td>Family-level stigma (<em>verg&uuml;enza</em>), deference to authority, language barriers</td><td>Involve family framing; use bilingual resources; respect hierarchical norms</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SLIDE 9: CROSS-CUTTING THEMES -->
+<div class="slide" id="slide-themes">
+  <div class="slide-num">Section 8 of 11</div>
+  <h2>Five Cross-Cutting Themes</h2>
+
+  <div class="finding-card">
+    <h4>1. The Coaching Relationship Is the Foundation</h4>
+    <p>Across all six reports, the quality of the coach-student relationship is not background context. It is an active intervention. Relatedness satisfaction replenishes regulatory resources (A), asset-based framing shapes outcomes through expectancy effects (B), emotional connection buffers the cognitive cost of stress (C), and cultural competence determines whether coaching lands (F).</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>2. State vs. Trait: Most EF Profiles Are a Mix</h4>
+    <p>Financial stress accounts for 0.2 to 0.3 SD of apparent EF weakness (C). Motivational state shapes EF performance (A). Some dimensions fluctuate with life circumstances (D). Trauma creates its own pattern (E). First assessments are snapshots, not verdicts.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>3. The RISE Cycle Needs a "Triage" Step</h4>
+    <p>Before Recognize &rarr; Identify &rarr; Strategize &rarr; Evaluate, the coach should check: Is this student in acute need frustration? Is financial stress distorting the profile? Does trauma history call for different sequencing? Is the profile being read through a deficit lens? The PCRR framework (E) maps naturally onto this triage.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>4. "Stabilize First, Then Build" Is Universal</h4>
+    <p>This emerged independently in every report: address need frustration before skill-building (A), lead with strengths before growth areas (B), navigate resources before training EF (C), accommodate before strengthen (D), establish safety before coaching (E), build relatedness before autonomy (F). Same principle, six different framings.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>5. Differentiate, Don't Generalize</h4>
+    <p>The 10 EF dimensions respond differently to different intervention types (D). Culturally adapted coaching is 4x more effective than generic (F). Trauma-adapted EF profiles look different from stress-influenced ones (E vs. C). The Coach View should help coaches see the specific pattern and choose matched moves.</p>
+  </div>
+</div>
+
+<!-- SLIDE 10: NEXT STEPS -->
+<div class="slide" id="slide-next-steps">
+  <div class="slide-num">Section 9 of 11</div>
+  <h2>What This Means for Us</h2>
+
+  <h3>Coach View Prototype Decisions</h3>
+  <p>Based on all 6 reports, the Coach View should:</p>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">Critical</span> Present motivation and EF as interacting dimensions</h4>
+    <p>Quadrant view from Report A. Not separate scores, but an integrated picture that tells the coach what kind of session to prepare for.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">Critical</span> Lead with strengths, include growth with strength-linked framing</h4>
+    <p>SUDCO model from Report B. First screen = strengths. Growth areas appear second, framed as developmental edges linked back to existing strengths.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-high">High</span> Surface time management and organization as Priority 1 new dimensions</h4>
+    <p>Strongest evidence across all ACS categories (Report D). RCT-level support with 3-month sustained gains.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-high">High</span> Include context flags for financial stress and situational state effects</h4>
+    <p>Report C. "This profile may reflect situational stress. Consider reassessing after the stressor resolves."</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-high">High</span> Add "Adaptive Pattern Detected" banner for trauma-informed sequencing</h4>
+    <p>Report E. Non-clinical language that signals the coach should check in before diving into skill-building.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">Moderate</span> Differentiate coaching guidance for Black vs. Latinx learners</h4>
+    <p>Report F. Group-specific adaptations are 4x more effective. Referral language and relatedness-building strategies should differ.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">Moderate</span> Add a "triage" step before the RISE cycle</h4>
+    <p>All reports. Check stressors, context, relatedness, and safety before Recognize &rarr; Identify &rarr; Strategize &rarr; Evaluate.</p>
+  </div>
+
+  <h3>Open Questions</h3>
+  <ul>
+    <li>The Dawson &amp; Guare ACS framework has no randomized validation. Should NLU invest in validating its use with this population?</li>
+    <li>Scope-of-practice guardrails for coaching vs. clinical referral are practitioner-generated, not empirically validated. How does NLU set its own guardrails?</li>
+    <li>No study has directly tested motivation-first vs. EF-first vs. integrated coaching sequences. Should NLU run a pilot comparison?</li>
+  </ul>
+</div>
+
+<!-- SLIDE 11: SOURCES -->
+<div class="slide" id="slide-sources">
+  <div class="slide-num">Section 10 of 11</div>
+  <h2>Source Summary</h2>
+
+  <table>
+    <thead><tr><th>Report</th><th>Papers</th><th>APIs</th><th>Key Finding</th></tr></thead>
+    <tbody>
+      <tr><td><strong>A: Motivation &times; EF</strong></td><td>22</td><td>SS, OA, ERIC, EPMC, Web, Community</td><td>Integrate motivation + EF from day one</td></tr>
+      <tr><td><strong>B: Positive Psychology</strong></td><td>22</td><td>SS, ERIC</td><td>Strengths first, growth included (SUDCO)</td></tr>
+      <tr><td><strong>C: Financial Precarity</strong></td><td>26</td><td>SS, OA, EPMC, Web</td><td>Stress is state, not trait (0.2-0.3 SD)</td></tr>
+      <tr><td><strong>D: EF Spectrum &times; ACS</strong></td><td>21</td><td>SS, ERIC</td><td>WM can't be trained; TM + Org are Priority 1</td></tr>
+      <tr><td><strong>E: Trauma-Informed</strong></td><td>24</td><td>SS, OA, ERIC, EPMC, Web, Community</td><td>Stabilize first; ER is the teachable buffer</td></tr>
+      <tr><td><strong>F: Cross-Cultural</strong></td><td>27</td><td>SS, ERIC</td><td>Relatedness is gateway; differentiate by group</td></tr>
+      <tr><td><strong>Total</strong></td><td><strong>142</strong></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <p>All findings are backed by inline citations in the individual reports. Full bibliographies with DOIs and open-access links are available in each report file.</p>
+
+  <h3>Individual Reports</h3>
+  <ul>
+    <li>Run A: Motivation &times; EF Interaction &amp; Coaching Sequence</li>
+    <li>Run B: Positive Psychology Framing for Practitioner Profiles</li>
+    <li>Run C: Financial Precarity &times; Cognition</li>
+    <li>Run D: Full EF Spectrum &times; Accommodate/Compensate/Strengthen</li>
+    <li>Run E: Trauma-Informed Coaching for Working Adult Learners</li>
+    <li>Run F: Cross-Cultural Factors in Coaching</li>
+  </ul>
+
+  <hr>
+  <p style="font-size: 14px; color: var(--warm-grey);">Compiled from 6 parallel deep research runs, May 6, 2026. Wave 1: 4 runs (91 papers). Wave 2: 2 runs (51 papers). 142 papers across 6 APIs. A cross-wave synthesis for NLU leadership and journal/conference submission will follow.</p>
+</div>
+
+<!-- SLIDE 12: COACH VIEW -->
+<div class="slide" id="slide-coach-training">
+  <div class="slide-num">Section 11 of 11</div>
+  <h2>Coach Training: What the Evidence Prioritizes</h2>
+
+  <p>Report F's strongest finding: <strong>coach training on cultural competence matters more than demographic matching.</strong> This is a training investment, not a hiring filter. Here is what the evidence says coaches need to learn, in priority order:</p>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">Priority 1</span> Strengths-first profile reading</h4>
+    <p>Practitioner perception bias is measured. Train coaches to read the strengths section first, then approach growth areas as developmental edges. The SUDCO model (Report B) and Lopez (2017) perception bias research ground this.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-critical">Priority 1</span> Motivation quality monitoring</h4>
+    <p>Train coaches to detect the "I should" to "I want to" language shift. When EF effort becomes controlled motivation, the effort is depleting and unsustainable (Report A). The move is not "more structure" but "return to autonomy support."</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-high">Priority 2</span> Stress-context interpretation</h4>
+    <p>Train coaches to ask about current stressors before interpreting EF scores. Financial stress depresses WM and CF by 0.2-0.3 SD (Report C). Resource navigation may produce larger gains than EF training.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-high">Priority 2</span> Group-specific cultural competence</h4>
+    <p>Not generic "cultural sensitivity" training. Specific guidance on relatedness-building, mental health referral language, and stigma patterns for Black vs. Latinx learners (Report F). Client-perceived competence (r=0.38) is what predicts outcomes.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">Priority 3</span> Trauma-informed triage and scope of practice</h4>
+    <p>Train coaches to recognize the "Adaptive Pattern Detected" signals, apply PCRR framework moves, and know when to refer (Report E). Coach EF skills; don't treat trauma.</p>
+  </div>
+
+  <blockquote>
+    <strong>The universal principle across all 6 reports:</strong> Stabilize first, then build. Every coaching relationship starts with connection, safety, and context before moving to skill development.
+  </blockquote>
+</div>
+
+</div>
+
+<div class="index-bar">
+  <button class="idx-chip" onclick="goTo(0)">Title</button>
+  <button class="idx-chip" onclick="goTo(1)">7 Key Findings</button>
+  <button class="idx-chip" onclick="goTo(2)">Motivation &times; EF</button>
+  <button class="idx-chip" onclick="goTo(3)">Pos. Psychology</button>
+  <button class="idx-chip" onclick="goTo(4)">Financial Stress</button>
+  <button class="idx-chip" onclick="goTo(5)">EF Spectrum</button>
+  <button class="idx-chip" onclick="goTo(6)">Trauma-Informed</button>
+  <button class="idx-chip" onclick="goTo(7)">Cross-Cultural</button>
+  <button class="idx-chip" onclick="goTo(8)">Themes</button>
+  <button class="idx-chip" onclick="goTo(9)">Next Steps</button>
+  <button class="idx-chip" onclick="goTo(10)">Sources</button>
+  <button class="idx-chip" onclick="goTo(11)">Coach Training</button>
+  <div class="idx-arrows">
+    <button class="idx-arrow" onclick="prev()">&larr;</button>
+    <button class="idx-arrow" onclick="next()">&rarr;</button>
+  </div>
+</div>
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const chips = document.querySelectorAll('.idx-chip');
+const progress = document.getElementById('progress');
+function goTo(i) {
+  if (i < 0 || i >= slides.length) return;
+  slides[current].classList.remove('active');
+  chips[current].classList.remove('active');
+  current = i;
+  slides[current].classList.add('active');
+  chips[current].classList.add('active');
+  progress.style.width = ((current + 1) / slides.length * 100) + '%';
+  slides[current].scrollTop = 0;
+}
+function next() { goTo(current + 1); }
+function prev() { goTo(current - 1); }
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+});
+slides[0].classList.add('active');
+chips[0].classList.add('active');
+progress.style.width = (1 / slides.length * 100) + '%';
+</script>
+</body>
+</html>
