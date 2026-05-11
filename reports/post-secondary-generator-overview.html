@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Post-Secondary Document Review Generator</title>
+<style>
+  /* ===== compose-report base (verbatim) ===== */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #1B2A4A; --navy-light: #2A3F6B;
+    --coral: #FF6B6B; --coral-soft: #FF8E8E;
+    --sand: #F5E6CC; --sand-light: #FDF8F0;
+    --teal: #2B8A8A; --gold: #D4A843;
+    --slate: #4A5568; --warm-grey: #8B7E6A;
+  }
+  html, body { height: 100%; overflow: hidden; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--sand-light); color: var(--navy); }
+  .deck { display: flex; height: 100vh; overflow: hidden; }
+  .slide { min-width: 100vw; height: 100vh; overflow-y: auto; padding: 60px 80px 80px; display: none; flex-direction: column; }
+  .slide.active { display: flex; }
+  @media (max-width: 800px) { .slide { padding: 32px 24px 80px; } }
+  .index-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: var(--navy); display: flex; align-items: center; height: 52px; padding: 0 24px; gap: 6px; overflow-x: auto; }
+  .idx-chip { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.55); background: transparent; border: none; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+  .idx-chip:hover { color: #fff; background: var(--navy-light); }
+  .idx-chip.active { background: var(--coral); color: #fff; }
+  .idx-progress { position: fixed; bottom: 52px; left: 0; height: 3px; background: var(--coral); transition: width 0.3s; z-index: 101; }
+  .idx-arrows { margin-left: auto; display: flex; gap: 8px; flex-shrink: 0; }
+  .idx-arrow { width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--navy-light); color: #fff; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .idx-arrow:hover { background: var(--coral); }
+  .slide-num { font-size: 12px; font-weight: 700; color: var(--coral); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .slide h2 { font-size: 36px; font-weight: 800; color: var(--navy); line-height: 1.15; margin-bottom: 20px; max-width: 800px; }
+  .slide h3 { font-size: 22px; font-weight: 700; color: var(--navy); margin: 24px 0 10px; }
+  .slide h4 { font-size: 16px; font-weight: 700; color: var(--teal); margin: 16px 0 8px; }
+  .slide p { font-size: 16px; line-height: 1.8; margin-bottom: 14px; color: var(--slate); max-width: 760px; }
+  .slide ul, .slide ol { margin: 10px 0 16px 24px; font-size: 16px; line-height: 1.7; color: var(--slate); max-width: 760px; }
+  .slide li { margin-bottom: 8px; }
+  .slide strong { color: var(--navy); font-weight: 700; }
+  .slide em { color: var(--coral); font-style: normal; font-weight: 600; }
+  .slide blockquote { background: var(--sand); border-left: 4px solid var(--coral); padding: 18px 24px; border-radius: 0 12px 12px 0; margin: 18px 0; font-size: 15px; color: var(--navy); max-width: 760px; }
+  .slide hr { border: none; height: 2px; background: var(--sand); margin: 28px 0; max-width: 760px; }
+  .slide a { color: var(--teal); text-decoration: none; font-weight: 600; }
+  .slide a:hover { text-decoration: underline; }
+  .slide table { width: 100%; max-width: 800px; border-collapse: separate; border-spacing: 0; margin: 18px 0; border-radius: 12px; overflow: hidden; }
+  .slide th { background: var(--navy); color: #fff; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 14px 16px; text-align: left; }
+  .slide td { background: #fff; padding: 14px 16px; font-size: 14px; color: var(--slate); border-bottom: 1px solid var(--sand); }
+  .slide tr:last-child td { border-bottom: none; }
+  .badge { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+  .finding-card { background: #fff; border-radius: 12px; padding: 20px 24px; margin: 16px 0; max-width: 800px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .finding-card h4 { margin-top: 0; }
+
+  /* ===== Title slide ===== */
+  .slide-hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 60%, #354F80 100%);
+    color: #fff;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 80px 96px 80px;
+  }
+  .slide-hero h2 { color: #fff; font-size: 48px; margin-bottom: 20px; }
+  .slide-hero p { color: rgba(255,255,255,0.65); max-width: 600px; }
+  .slide-hero .meta { font-size: 13px; color: rgba(255,255,255,0.3); letter-spacing: 0.5px; margin-top: 40px; }
+
+  /* ===== Dark slides ===== */
+  .slide-dark { background: linear-gradient(160deg, var(--navy) 0%, var(--navy-light) 100%); color: #fff; }
+  .slide-dark .slide-num { color: var(--coral-soft); }
+  .slide-dark h2 { color: #fff; }
+  .slide-dark h3 { color: #fff; }
+  .slide-dark h4 { color: var(--coral-soft); }
+  .slide-dark p { color: rgba(255,255,255,0.6); }
+  .slide-dark blockquote { background: rgba(255,255,255,0.06); border-left-color: var(--coral-soft); color: rgba(255,255,255,0.75); }
+  .slide-dark .finding-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); box-shadow: none; }
+  .slide-dark .finding-card h4 { color: #fff; }
+  .slide-dark .finding-card p { color: rgba(255,255,255,0.55); }
+  .slide-dark .badge { opacity: 0.85; }
+
+  /* ===== Badges (role tags) ===== */
+  .badge-fixed { background: #E6F5ED; color: #2D8659; }
+  .badge-model { background: #FFF4E5; color: #C77A20; }
+  .badge-human { background: rgba(255,107,107,0.12); color: var(--coral); }
+  .badge-overlay { background: #F0EAF8; color: #6B4C9A; }
+  .slide-dark .badge-fixed { background: rgba(45,134,89,0.2); color: #6DD4A0; }
+  .slide-dark .badge-model { background: rgba(199,122,32,0.2); color: #F5C66B; }
+  .slide-dark .badge-human { background: rgba(255,107,107,0.15); color: var(--coral-soft); }
+  .slide-dark .badge-overlay { background: rgba(107,76,154,0.2); color: #C4A8E8; }
+
+  /* ===== Slide-level footer ===== */
+  .slide-footer { font-size: 14px; color: var(--warm-grey); margin-top: auto; padding-top: 16px; max-width: 760px; line-height: 1.6; }
+  .slide-dark .slide-footer { color: rgba(255,255,255,0.25); }
+
+  /* ===== Three-column card row ===== */
+  .card-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-top: 8px; flex: 1; align-items: start; }
+  .card-row .finding-card { margin: 0; max-width: none; height: 100%; display: flex; flex-direction: column; }
+  .card-row .finding-card p { max-width: none; flex: 1; }
+  .card-row .finding-card .card-footer {
+    margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--sand);
+    font-size: 14px; color: var(--warm-grey); line-height: 1.5;
+  }
+  .slide-dark .card-row .finding-card .card-footer { border-color: rgba(255,255,255,0.08); }
+
+  /* ===== Pipeline ===== */
+  .pipeline { display: flex; flex-direction: column; gap: 0; flex: 1; justify-content: center; }
+  .pipeline-step { display: flex; align-items: stretch; min-height: 52px; }
+  .pipeline-num { width: 44px; min-width: 44px; display: flex; flex-direction: column; align-items: center; }
+  .pipeline-num .num {
+    width: 30px; height: 30px; border-radius: 50%; background: var(--navy); color: #fff;
+    font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .pipeline-num .line { flex: 1; width: 2px; background: var(--sand); margin: 4px 0; }
+  .pipeline-body { flex: 1; display: flex; align-items: center; gap: 12px; padding: 6px 0 6px 14px; flex-wrap: wrap; }
+  .pipeline-label { font-size: 16px; font-weight: 700; color: var(--navy); min-width: 210px; }
+  .pipeline-desc { font-size: 14px; color: var(--slate); line-height: 1.6; flex: 1; min-width: 200px; }
+  .pipeline-step.dimmed { opacity: 0.18; }
+  .pipeline-step.faded { opacity: 0.45; }
+  .pipeline-step.highlight .pipeline-num .num { background: var(--teal); transform: scale(1.1); }
+
+  /* ===== Flow diagram (dark slides) ===== */
+  .flow-diagram { display: flex; align-items: center; justify-content: center; gap: 0; flex: 1; padding: 20px 0; }
+  .flow-box {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; padding: 20px 16px; text-align: center;
+    width: 145px; min-height: 105px; display: flex; flex-direction: column; justify-content: center; gap: 6px;
+  }
+  .flow-box .flow-icon { font-size: 26px; margin-bottom: 2px; }
+  .flow-box h4 { font-size: 13px; font-weight: 700; color: #fff; margin: 0; }
+  .flow-box p { font-size: 11px; color: rgba(255,255,255,0.4); line-height: 1.4; max-width: none; margin: 0; }
+  .flow-arrow { font-size: 22px; color: rgba(255,255,255,0.2); padding: 0 8px; flex-shrink: 0; }
+  .flow-group {
+    border: 1px dashed rgba(255,255,255,0.15); border-radius: 16px; padding: 12px;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .flow-group-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.3); }
+  .flow-group-row { display: flex; gap: 10px; }
+  .flow-group .flow-box { width: 125px; min-height: 85px; padding: 12px 10px; }
+
+  /* ===== Comparison columns (dark slides) ===== */
+  .compare-row { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; flex: 1; align-content: start; }
+  .compare-col {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px; padding: 28px;
+  }
+  .compare-col h3 { font-size: 18px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .compare-item { display: flex; gap: 10px; padding: 7px 0; font-size: 15px; color: rgba(255,255,255,0.6); line-height: 1.5; }
+  .compare-item .dot { width: 6px; height: 6px; min-width: 6px; border-radius: 50%; margin-top: 8px; }
+  .dot-shared { background: rgba(255,255,255,0.4); }
+  .dot-new { background: var(--coral-soft); }
+
+  /* ===== Four-slot grid ===== */
+  .slot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex: 1; align-content: start; }
+  .slot-card { border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 10px; }
+  .slot-card h4 { margin: 0; }
+  .slot-card p { font-size: 15px; line-height: 1.7; max-width: none; margin: 0; }
+  .slot-card .slot-note { font-size: 13px; color: var(--warm-grey); font-style: italic; margin-top: auto; }
+  .slot-teal { background: #E0F2F2; } .slot-teal h4 { color: var(--teal); }
+  .slot-sand { background: var(--sand); } .slot-sand h4 { color: var(--navy); }
+  .slot-gold { background: #FFF8E7; } .slot-gold h4 { color: var(--gold); }
+  .slot-purple { background: #F0EAF8; } .slot-purple h4 { color: #6B4C9A; }
+
+  /* ===== Run mode cards ===== */
+  .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex: 1; align-content: start; }
+  .mode-card {
+    background: #fff; border: 2px solid var(--sand); border-radius: 12px; padding: 24px;
+    display: flex; flex-direction: column; gap: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .mode-card.active-mode { border-color: var(--teal); background: #E0F2F2; }
+  .mode-card.future-mode { opacity: 0.4; border-style: dashed; box-shadow: none; }
+  .mode-card .mode-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--warm-grey); }
+  .mode-card.active-mode .mode-label { color: var(--teal); }
+  .mode-card h4 { margin: 0; }
+  .mode-card p { font-size: 15px; line-height: 1.7; max-width: none; margin: 0; }
+
+  /* ===== Phase timeline ===== */
+  .phase-track { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; flex: 1; align-content: center; }
+  .phase-item {
+    background: #fff; border: 2px solid var(--sand); border-radius: 12px; padding: 18px 14px;
+    display: flex; flex-direction: column; gap: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .phase-item .phase-num { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--warm-grey); }
+  .phase-item h4 { font-size: 14px; margin: 0; }
+  .phase-item p { font-size: 13px; line-height: 1.5; max-width: none; margin: 0; }
+  .phase-item.phase-now { border-color: var(--teal); background: #E0F2F2; box-shadow: none; }
+  .phase-item.phase-now .phase-num { color: var(--teal); }
+  .phase-item.phase-later { opacity: 0.4; border-style: dashed; box-shadow: none; }
+
+  /* ===== Goals list (dark slide) ===== */
+  .goals-list { display: flex; flex-direction: column; gap: 20px; flex: 1; justify-content: center; max-width: 780px; }
+  .goal-item { display: flex; gap: 20px; align-items: start; }
+  .goal-num {
+    width: 40px; height: 40px; min-width: 40px; border-radius: 50%;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 700; color: var(--coral-soft);
+  }
+  .goal-text { font-size: 18px; color: rgba(255,255,255,0.8); line-height: 1.5; padding-top: 6px; }
+
+  /* ===== Discussion cards (dark slide) ===== */
+  .discuss-num { font-size: 64px; font-weight: 800; color: rgba(255,107,107,0.15); line-height: 1; margin-bottom: 4px; }
+  .discuss-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; flex: 1; align-content: start; margin-top: 16px; }
+  .discuss-grid .finding-card h4 { color: var(--coral-soft); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .discuss-grid .finding-card p { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.7; max-width: none; }
+</style>
+</head>
+<body>
+
+<div class="idx-progress" id="progress"></div>
+<div class="deck" id="deck">
+
+<!-- SLIDE 1: Title -->
+<div class="slide slide-hero active" id="slide-title">
+  <div class="slide-num">Architecture Overview</div>
+  <h2>Post-Secondary Document Review Generator</h2>
+  <p>Architecture overview for the Boston College CFLC pre-interview
+  document review packet. Building on Bloom's staged pipeline,
+  now with customer-specific overlays.</p>
+  <div class="meta">May 2026 &middot; ThriveIEP Accommodation Engine</div>
+</div>
+
+<!-- SLIDE 2: Core principle -->
+<div class="slide slide-dark" id="slide-principle">
+  <div class="slide-num">Section 1 of 18 &mdash; Architecture Principle</div>
+  <h2>Same principle as Bloom, plus one new layer</h2>
+  <p>Predictable work uses fixed rules. Judgment work is supported by a hosted language model. Uncertain results go to a human reviewer. And now: customer overlays control what the rules say.</p>
+  <div class="card-row">
+    <div class="finding-card">
+      <span class="badge badge-fixed">Fixed rules</span>
+      <h4>Same input, same result</h4>
+      <p>Evidence extraction, date math, schema checks, export gates, accommodation-to-evidence linking, and plain-language checks.</p>
+      <div class="card-footer">Used for everything that can be tested and trusted without judgment.</div>
+    </div>
+    <div class="finding-card">
+      <span class="badge badge-model">Hosted model</span>
+      <h4>Language requires judgment</h4>
+      <p>Extracting claims from messy evaluations, proposing canonical mappings for unfamiliar language, and drafting accommodation wording.</p>
+      <div class="card-footer">The model proposes. Rules and humans confirm.</div>
+    </div>
+    <div class="finding-card">
+      <span class="badge badge-human">Human review</span>
+      <h4>Routing for uncertainty</h4>
+      <p>Low confidence, conflicting evidence, out-of-catalog accommodations, missing documentation, and anything the rules can't resolve.</p>
+      <div class="card-footer">CFLC staff see flags, not final decisions.</div>
+    </div>
+  </div>
+  <div class="slide-footer">New addition: customer overlays (like the BC overlay) control which accommodations are available, what the section labels say, and how edge cases are handled.</div>
+</div>
+
+<!-- SLIDE 3: End-to-end flow -->
+<div class="slide slide-dark" id="slide-flow">
+  <div class="slide-num">Section 2 of 18 &mdash; End-to-End Pathway</div>
+  <h2>Documents go in. A staff-ready Google Doc comes out.</h2>
+  <p>Everything in between is auditable.</p>
+  <div class="flow-diagram">
+    <div class="flow-box">
+      <div class="flow-icon">&#128196;</div>
+      <h4>Records uploaded</h4>
+      <p>IEPs, 504s, evaluations, requests</p>
+    </div>
+    <div class="flow-arrow">&#8594;</div>
+    <div class="flow-box">
+      <div class="flow-icon">&#128274;</div>
+      <h4>Redactor</h4>
+      <p>Privacy + text preparation</p>
+    </div>
+    <div class="flow-arrow">&#8594;</div>
+    <div class="flow-group">
+      <div class="flow-group-label">Post-Secondary Engine</div>
+      <div class="flow-group-row">
+        <div class="flow-box">
+          <h4>Evidence extraction</h4>
+          <p>Claims, dates, sources</p>
+        </div>
+        <div class="flow-box">
+          <h4>Functional limitations</h4>
+          <p>What impacts learning</p>
+        </div>
+        <div class="flow-box">
+          <h4>Accommodation matrix</h4>
+          <p>Evidence-linked rows</p>
+        </div>
+      </div>
+    </div>
+    <div class="flow-arrow">&#8594;</div>
+    <div class="flow-box">
+      <div class="flow-icon">&#128203;</div>
+      <h4>Google Doc</h4>
+      <p>Staff packet + audit trail</p>
+    </div>
+  </div>
+  <div class="slide-footer">The Google Doc is a projection of the evidence, not the working record. The audit bundle is the source of truth.</div>
+</div>
+
+<!-- SLIDE 4: How it builds on Bloom -->
+<div class="slide slide-dark" id="slide-bloom">
+  <div class="slide-num">Section 3 of 18 &mdash; Relationship to Bloom</div>
+  <h2>A sibling, not a fork</h2>
+  <p>Post-Secondary shares the same infrastructure layer as Bloom but owns its own rules. They never import each other's code.</p>
+  <div class="compare-row">
+    <div class="compare-col">
+      <h3>Shared with Bloom</h3>
+      <div class="compare-item"><span class="dot dot-shared"></span>Report engine contracts: evidence packets, determinations, render plans, quality reviews</div>
+      <div class="compare-item"><span class="dot dot-shared"></span>Staged pipeline: fixed rules first, model only where needed, human review for uncertainty</div>
+      <div class="compare-item"><span class="dot dot-shared"></span>Google Docs export infrastructure: Drive integration, audit logging, idempotent retry</div>
+      <div class="compare-item"><span class="dot dot-shared"></span>Redactor for privacy and text preparation</div>
+      <div class="compare-item"><span class="dot dot-shared"></span>Audit bundle pattern with full provenance</div>
+    </div>
+    <div class="compare-col">
+      <h3>New for Post-Secondary</h3>
+      <div class="compare-item"><span class="dot dot-new"></span>Customer overlays: BC controls its own catalog, labels, scope filters, and wording rules</div>
+      <div class="compare-item"><span class="dot dot-new"></span>Functional impairment index with stable IDs linking limitations to accommodation evidence</div>
+      <div class="compare-item"><span class="dot dot-new"></span>Four required accommodation section slots that every customer must fill</div>
+      <div class="compare-item"><span class="dot dot-new"></span>Run modes: evidence-only, pre-interview, complete, full report</div>
+      <div class="compare-item"><span class="dot dot-new"></span>Staff-facing packet first. No in-app viewer needed to ship</div>
+    </div>
+  </div>
+  <div class="slide-footer">Boundary rule: Post-Secondary imports from the shared report engine. It never imports from Bloom, and Bloom never imports from it.</div>
+</div>
+
+<!-- SLIDE 5: Pipeline 1-2 -->
+<div class="slide" id="slide-pipe-1">
+  <div class="slide-num">Section 4 of 18 &mdash; Staged Pipeline</div>
+  <h2>Evidence first</h2>
+  <p>Fixed checks first; hosted model work only where language requires it.</p>
+  <div class="pipeline">
+    <div class="pipeline-step highlight">
+      <div class="pipeline-num"><span class="num">1</span><span class="line"></span></div>
+      <div class="pipeline-body">
+        <span class="pipeline-label">Parse documents</span>
+        <span class="badge badge-fixed">Fixed</span>
+        <span class="pipeline-desc">File handling, document type detection, and initial profile setup. Predictable and testable.</span>
+      </div>
+    </div>
+    <div class="pipeline-step highlight">
+      <div class="pipeline-num"><span class="num">2</span><span class="line"></span></div>
+      <div class="pipeline-body">
+        <span class="pipeline-label">Extract evidence claims</span>
+        <span class="badge badge-model">Model</span>
+        <span class="pipeline-desc">The model reads messy evaluation language and pulls out claims, dates, diagnoses, services, and recommendations.</span>
+      </div>
+    </div>
+    <div class="pipeline-step dimmed">
+      <div class="pipeline-num"><span class="num">3</span><span class="line"></span></div>
+      <div class="pipeline-body"><span class="pipeline-label">Build functional limitations</span><span class="badge badge-fixed">Fixed</span><span class="badge badge-model">Model</span></div>
+    </div>
+    <div class="pipeline-step dimmed">
+      <div class="pipeline-num"><span class="num">4</span><span class="line"></span></div>
+      <div class="pipeline-body"><span class="pipeline-label">Apply customer scope</span><span class="badge badge-overlay">Overlay</span></div>
+    </div>
+    <div class="pipeline-step dimmed">
+      <div class="pipeline-num"><span class="num">5</span><span class="line"></span></div>
+      <div class="pipeline-body"><span class="pipeline-label">Map accommodation candidates</span><span class="badge badge-fixed">Fixed</span><span class="badge badge-model">Model</span></div>
+    </div>
+    <div class="pipeline-step dimmed">
+      <div class="pipeline-num"><span class="num">6</span></div>
+      <div class="pipeline-body"><span class="pipeline-label">Quality gates + export</span><span class="badge badge-fixed">Fixed</span></div>
+    </div>
+  </div>
+  <blockquote>
+    <strong>What happens here:</strong>
+    Raw documents become structured evidence: claims with dates, source locations, and confidence levels. This is the foundation everything else builds on.
+  </blockquote>
+</div>
+
+<!-- SLIDE 6: Pipeline 3 -->
+<div class="slide" id="slide-pipe-2">
+  <div class="slide-num">Section 5 of 18 &mdash; Staged Pipeline</div>
+  <h2>Functional limitations</h2>
+  <p>The system figures out "what's impacting this student's learning" before considering "what support might help."</p>
+  <div class="pipeline">
+    <div class="pipeline-step faded">
+      <div class="pipeline-num"><span class="num">1</span><span class="line"></span></div>
+      <div class="pipeline-body"><span class="pipeline-label">Parse documents</span><span class="badge badge-fixed">Fixed</span></div>
+    </div>
+    <div class="pipeline-step faded">
+      <div class="pipeline-num"><span class="num">2</span><span class="line"></span></div>
+      <div class="pipeline-body"><span class="pipeline-label">Extract evidence claims</span><span class="badge badge-model">Model</span></div>
+    </div>
+    <div class="pipeline-step highlight">
+      <div class="pipeline-num"><span class="num">3</span><span class="line"></span></div>
+      <div class="pipeline-body">
+        <span class="pipeline-label">Build functional limitations</span>
+        <span class="badge badge-fixed">Fixed</span>
+        <span class="badge badge-model">Model</span>
+        <span class="pipeline-desc">Each limitation gets a stable ID (like FI-001), evidence links, and a plain-language label. Rules match first; the model only helps when the language is unfamiliar.</span>
+      </div>
+    </div>
+    <div class="pipeline-step dimmed">
+      <div class="pipeline-num"><span class="num">4</span><span class="line"></span></div>
+      <div class="pipeline-body"><span class="pipeline-label">Apply customer scope</span><span class="badge badge-overlay">Overlay</span></div>
+    </div>
+    <div class="pipeline-step dimmed">
+      <div class="pipeline-num"><span class="num">5</span><span class="line"></span></div>
+      <div class="pipeline-body"><span class="pipeline-label">Map accommodation candidates</span><span class="badge badge-fixed">Fixed</span><span class="badge badge-model">Model</span></div>
+    </div>
+    <div class="pipeline-step dimmed">
+      <div class="pipeline-num"><span class="num">6</span></div>
+      <div class="pipeline-body"><span class="pipeline-label">Quality gates + export</span><span class="badge badge-fixed">Fixed</span></div>
+    </div>
+  </div>
+  <blockquote>
+    <strong>Why this separation matters:</strong>
+    Limitations are detected before accommodations are considered. This keeps the evidence layer honest. It can't backwards-reason from a desired accommodation to justify a limitation that isn't documented.
+  </blockquote>
+</div>
+
+<!-- SLIDE 7: Pipeline 4 -->
+<div class="slide" id="slide-pipe-3">
+  <div class="slide-num">Section 6 of 18 &mdash; Staged Pipeline</div>
+  <h2>Customer scope</h2>
+  <p>The BC overlay narrows focus without deleting evidence.</p>
+  <div class="pipeline">
+    <div class="pipeline-step faded">
+      <div class="pipeline-num"><span class="num">1</span><span class="line"></span></div>
+      <div class="pipeline-body"><span class="pipeline-label">Parse documents</span><span class="badge badge-fixed">Fixed</span></div>
+    </div>
+    <div class="pipeline-step faded">
+      <div class="pipeline-num"><span class="num">2</span><span class="line"></span></div>
+      <div class="pipeline-body"><span class="pipeline-label">Extract evidence claims</span><span class="badge badge-model">Model</span></div>
+    </div>
+    <div class="pipeline-step faded">
+      <div class="pipeline-num"><span class="num">3</span><span class="line"></span></div>
+      <div class="pipeline-body"><span class="pipeline-label">Build functional limitations</span><span class="badge badge-fixed">Fixed</span><span class="badge badge-model">Model</span></div>
+    </div>
+    <div class="pipeline-step highlight">
+      <div class="pipeline-num"><span class="num">4</span><span class="line"></span></div>
+      <div class="pipeline-body">
+        <span class="pipeline-label">Apply customer scope</span>
+        <span class="badge badge-overlay">Overlay</span>
+        <span class="pipeline-desc">BC's overlay says "ADHD and LD academic limitations are in scope." Other limitations are kept in the audit trail but marked out-of-scope or referred to another office.</span>
+      </div>
+    </div>
+    <div class="pipeline-step dimmed">
+      <div class="pipeline-num"><span class="num">5</span><span class="line"></span></div>
+      <div class="pipeline-body"><span class="pipeline-label">Map accommodation candidates</span><span class="badge badge-fixed">Fixed</span><span class="badge badge-model">Model</span></div>
+    </div>
+    <div class="pipeline-step dimmed">
+      <div class="pipeline-num"><span class="num">6</span></div>
+      <div class="pipeline-body"><span class="pipeline-label">Quality gates + export</span><span class="badge badge-fixed">Fixed</span></div>
+    </div>
+  </div>
+  <blockquote>
+    <strong>Nothing is deleted by the scope filter.</strong>
+    Out-of-scope limitations stay in the audit record. A different customer with broader scope would see the same underlying evidence, just with different items in play.
+  </blockquote>
+</div>
+
+<!-- SLIDE 8: Pipeline 5-6 -->
+<div class="slide" id="slide-pipe-4">
+  <div class="slide-num">Section 7 of 18 &mdash; Staged Pipeline</div>
+  <h2>Accommodations and export</h2>
+  <p>Evidence-linked candidates, quality gates, then a Google Doc.</p>
+  <div class="pipeline">
+    <div class="pipeline-step faded">
+      <div class="pipeline-num"><span class="num">1</span><span class="line"></span></div>
+      <div class="pipeline-body"><span class="pipeline-label">Parse documents</span><span class="badge badge-fixed">Fixed</span></div>
+    </div>
+    <div class="pipeline-step faded">
+      <div class="pipeline-num"><span class="num">2</span><span class="line"></span></div>
+      <div class="pipeline-body"><span class="pipeline-label">Extract evidence claims</span><span class="badge badge-model">Model</span></div>
+    </div>
+    <div class="pipeline-step faded">
+      <div class="pipeline-num"><span class="num">3</span><span class="line"></span></div>
+      <div class="pipeline-body"><span class="pipeline-label">Build functional limitations</span><span class="badge badge-fixed">Fixed</span><span class="badge badge-model">Model</span></div>
+    </div>
+    <div class="pipeline-step faded">
+      <div class="pipeline-num"><span class="num">4</span><span class="line"></span></div>
+      <div class="pipeline-body"><span class="pipeline-label">Apply customer scope</span><span class="badge badge-overlay">Overlay</span></div>
+    </div>
+    <div class="pipeline-step highlight">
+      <div class="pipeline-num"><span class="num">5</span><span class="line"></span></div>
+      <div class="pipeline-body">
+        <span class="pipeline-label">Map accommodation candidates</span>
+        <span class="badge badge-fixed">Fixed</span>
+        <span class="badge badge-model">Model</span>
+        <span class="pipeline-desc">Each candidate gets a stable ID (like AC-001), links back to limitation IDs, and a support status. A recommendation alone can't create a "supported" status. It needs current evidence.</span>
+      </div>
+    </div>
+    <div class="pipeline-step highlight">
+      <div class="pipeline-num"><span class="num">6</span></div>
+      <div class="pipeline-body">
+        <span class="pipeline-label">Quality gates + export</span>
+        <span class="badge badge-fixed">Fixed</span>
+        <span class="pipeline-desc">Plain-language checks, missing-source warnings, privacy scan, citation verification, and Google Doc projection.</span>
+      </div>
+    </div>
+  </div>
+  <blockquote>
+    <strong>Critical guardrail:</strong>
+    A clinician recommendation, a student request, or a historical IEP accommodation can create a candidate row. But none of them alone can make the system say "this is supported." Current evidence linked to a functional limitation is required.
+  </blockquote>
+</div>
+
+<!-- SLIDE 9: Four slots -->
+<div class="slide" id="slide-slots">
+  <div class="slide-num">Section 8 of 18 &mdash; Report Structure</div>
+  <h2>Four accommodation slots, always present</h2>
+  <p>Every report always emits all four sections. BC controls the labels and what goes in each one. A future customer can rename them but never delete one.</p>
+  <div class="slot-grid">
+    <div class="slot-card slot-teal">
+      <h4>Academic Accommodations</h4>
+      <p>Testing accommodations, deadline flexibility, note-taking support, attendance policies. The core academic adjustments that address documented functional limitations.</p>
+      <div class="slot-note">BC labels and allowed entries come from the overlay catalog.</div>
+    </div>
+    <div class="slot-card slot-sand">
+      <h4>Instructional / Program Accommodations</h4>
+      <p>Course-load adjustments, program-specific modifications, classroom environment changes. Things that affect how the student experiences instruction.</p>
+      <div class="slot-note">Separate from academic testing accommodations by design.</div>
+    </div>
+    <div class="slot-card slot-gold">
+      <h4>Auxiliary Aids &amp; Services</h4>
+      <p>Assistive technology, accessible materials, text-to-speech, recording permissions. Tools and resources that support access.</p>
+      <div class="slot-note">BC's overlay can restrict to their available technology catalog.</div>
+    </div>
+    <div class="slot-card slot-purple">
+      <h4>Non-Accommodation Supports &amp; Referrals</h4>
+      <p>Tutoring center referrals, study skills workshops, counseling. Helpful resources that aren't formal accommodations and don't require the same evidence standard.</p>
+      <div class="slot-note">Never rendered as formal accommodations. These are suggestions, not determinations.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 10: Run modes -->
+<div class="slide" id="slide-modes">
+  <div class="slide-num">Section 9 of 18 &mdash; Run Modes</div>
+  <h2>Different outputs from the same pipeline</h2>
+  <p>The same evidence engine can produce different deliverables depending on where BC is in their process. We start with the first two.</p>
+  <div class="mode-grid">
+    <div class="mode-card active-mode">
+      <div class="mode-label">Building first</div>
+      <h4>Evidence Generator</h4>
+      <p>Organizes uploaded documentation into evidence, functional limitations, candidate rows, gaps, and interview prompts. No final recommendations. Useful even before BC has a student interview. A documentation prep tool.</p>
+    </div>
+    <div class="mode-card active-mode">
+      <div class="mode-label">Building first</div>
+      <h4>Pre-Interview Packet</h4>
+      <p>The BC staff Google Doc for the student's first meeting. Includes everything from the evidence generator plus preliminary accommodation matrix rows. Avoids all final-decision language. A conversation starter, not a determination.</p>
+    </div>
+    <div class="mode-card future-mode">
+      <div class="mode-label">Future</div>
+      <h4>Complete Packet</h4>
+      <p>After the student interview and CFLC staff judgment. Adds interview findings, staff rationale, selected outcomes, and unresolved gaps. The retained record.</p>
+    </div>
+    <div class="mode-card future-mode">
+      <div class="mode-label">Future</div>
+      <h4>Full Student Report</h4>
+      <p>A complete student-facing report with explanatory prose, recommendation language the customer has approved, and full accommodation detail.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 11: Artifacts -->
+<div class="slide slide-dark" id="slide-artifacts">
+  <div class="slide-num">Section 10 of 18 &mdash; Audit &amp; Trust Layer</div>
+  <h2>What the backend produces besides the Google Doc</h2>
+  <p>The staff packet is one output. The audit artifacts are the trust layer. They show what the system concluded, why, and where it was uncertain.</p>
+  <div class="card-row" style="grid-template-columns: 1fr 1fr 1fr;">
+    <div class="finding-card">
+      <h4>Evidence Packet</h4>
+      <p>Every claim extracted from the uploaded documents, with dates, source locations, and confidence levels.</p>
+    </div>
+    <div class="finding-card">
+      <h4>Functional Impairment Index</h4>
+      <p>Stable IDs (FI-001, FI-002...), plain-language labels, evidence links, mapping method, and QC status for each limitation.</p>
+    </div>
+    <div class="finding-card">
+      <h4>Accommodation Evidence Matrix</h4>
+      <p>Every candidate row linked to limitation IDs, with support status, evidence strength, and gap reasons.</p>
+    </div>
+    <div class="finding-card">
+      <h4>Quality Review Summary</h4>
+      <p>Flags for missing sources, unsupported statuses, plain-language violations, privacy concerns, and stale evidence.</p>
+    </div>
+    <div class="finding-card">
+      <h4>Render Plan</h4>
+      <p>Section-by-section blueprint for the Google Doc, including which rows, determinations, and flags appear in each section.</p>
+    </div>
+    <div class="finding-card">
+      <h4>Audit Bundle</h4>
+      <p>Run ID, case ID, pack version, overlay version, rules fired, every matrix row with provenance, and complete export metadata.</p>
+    </div>
+  </div>
+  <div class="slide-footer">Every status in the staff packet can be traced back to source evidence, mapping rules, and overlay configuration through these artifacts.</div>
+</div>
+
+<!-- SLIDE 12: Phases -->
+<div class="slide" id="slide-phases">
+  <div class="slide-num">Section 11 of 18 &mdash; Implementation Plan</div>
+  <h2>Build phases</h2>
+  <p>Small verified commits. Each phase produces something testable before the next one starts. Server integration comes late, after the evidence engine works on its own.</p>
+  <div class="phase-track">
+    <div class="phase-item phase-now">
+      <div class="phase-num">Phase 0</div>
+      <h4>Worktree &amp; baseline</h4>
+      <p>Isolated branch. Confirm existing tests pass before any changes.</p>
+    </div>
+    <div class="phase-item phase-now">
+      <div class="phase-num">Phase 1</div>
+      <h4>Package skeleton</h4>
+      <p>New module in the monorepo. Fixture runner. Boundary test proving no Bloom dependency.</p>
+    </div>
+    <div class="phase-item phase-now">
+      <div class="phase-num">Phase 2</div>
+      <h4>BC overlay + matrix</h4>
+      <p>Customer catalog. Functional limitations. Accommodation mapping. The core evidence engine.</p>
+    </div>
+    <div class="phase-item phase-now">
+      <div class="phase-num">Phase 3</div>
+      <h4>Render + Google Doc</h4>
+      <p>Staff packet projection. Evidence-generator and pre-interview profiles. Local preview.</p>
+    </div>
+    <div class="phase-item">
+      <div class="phase-num">Phase 4-5</div>
+      <h4>Quality + server</h4>
+      <p>Audit gates. Server route behind feature flag. Export endpoint.</p>
+    </div>
+    <div class="phase-item phase-later">
+      <div class="phase-num">Phase 6</div>
+      <h4>Shadow + calibrate</h4>
+      <p>Synthetic BC packets. CFLC feedback. Tune overlay. Deprecate legacy demo.</p>
+    </div>
+  </div>
+  <blockquote>
+    <strong>Deployment is additive and reversible.</strong>
+    Post-Secondary ships behind a flag. Bloom is never touched. If anything goes wrong, disable the flag and nothing else changes.
+  </blockquote>
+</div>
+
+<!-- SLIDE 13: Discussion goals -->
+<div class="slide slide-dark" id="slide-goals">
+  <div class="slide-num">Section 12 of 18 &mdash; Discussion</div>
+  <h2>What we need to decide together</h2>
+  <p>Use this walkthrough to test whether the architecture matches what BC CFLC staff actually need.</p>
+  <div class="goals-list">
+    <div class="goal-item">
+      <span class="goal-num">1</span>
+      <span class="goal-text">Does the evidence-first approach match how CFLC staff actually review documentation?</span>
+    </div>
+    <div class="goal-item">
+      <span class="goal-num">2</span>
+      <span class="goal-text">Are the four accommodation slots the right structure for BC's pre-interview packet?</span>
+    </div>
+    <div class="goal-item">
+      <span class="goal-num">3</span>
+      <span class="goal-text">Does the "evidence generator" mode (documentation prep without recommendations) have standalone value?</span>
+    </div>
+    <div class="goal-item">
+      <span class="goal-num">4</span>
+      <span class="goal-text">Which quality flags should pause the workflow, and which are just informational notes for staff?</span>
+    </div>
+    <div class="goal-item">
+      <span class="goal-num">5</span>
+      <span class="goal-text">Is the customer overlay concept clear enough that we could explain it to BC as "your rules, your labels, your catalog"?</span>
+    </div>
+  </div>
+  <div class="slide-footer">Goal: a generator that helps staff prepare for the student conversation, not one that makes decisions for them.</div>
+</div>
+
+<!-- SLIDE 14: Discussion 1 -->
+<div class="slide slide-dark" id="slide-d1">
+  <div class="slide-num">Section 13 of 18 &mdash; Discussion</div>
+  <div class="discuss-num">1</div>
+  <h2>Evidence-first review workflow</h2>
+  <p>Does separating "what's in the documentation" from "what accommodations to consider" match how CFLC staff actually work?</p>
+  <div class="discuss-grid">
+    <div class="finding-card">
+      <h4>Listen for</h4>
+      <p>Whether staff currently read all documents before forming accommodation ideas, or whether they jump to accommodations while reading. The system assumes evidence-first. Does that match reality?</p>
+    </div>
+    <div class="finding-card">
+      <h4>Watch for</h4>
+      <p>Moments where the clean separation feels artificial. If a staff member always thinks "I see X limitation, so I know Y accommodation" simultaneously, the two-step pipeline might feel like extra work rather than clarity.</p>
+    </div>
+    <div class="finding-card">
+      <h4>Decide today</h4>
+      <p>Should the pre-interview packet show functional limitations in one section and accommodation candidates in another? Or interleave them so each limitation has its candidates right below it?</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 15: Discussion 2 -->
+<div class="slide slide-dark" id="slide-d2">
+  <div class="slide-num">Section 14 of 18 &mdash; Discussion</div>
+  <div class="discuss-num">2</div>
+  <h2>Four accommodation slots for BC</h2>
+  <p>The system always emits four sections. Do they match how BC thinks about supports?</p>
+  <div class="discuss-grid">
+    <div class="finding-card">
+      <h4>Listen for</h4>
+      <p>Whether BC uses these same four categories internally, or whether their mental model is different. Maybe three buckets, maybe five. The slot structure should match their workflow, not ours.</p>
+    </div>
+    <div class="finding-card">
+      <h4>Watch for</h4>
+      <p>Items that don't clearly belong in one slot. Is "priority registration" academic or instructional? Is "reduced course load" an accommodation or a program modification? These edge cases reveal whether the categories are clear enough.</p>
+    </div>
+    <div class="finding-card">
+      <h4>Decide today</h4>
+      <p>Should BC's non-accommodation supports section include referral contact info and next steps, or just the name of the resource? How much logistics detail belongs in the pre-interview packet?</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 16: Discussion 3 -->
+<div class="slide slide-dark" id="slide-d3">
+  <div class="slide-num">Section 15 of 18 &mdash; Discussion</div>
+  <div class="discuss-num">3</div>
+  <h2>Evidence generator as standalone tool</h2>
+  <p>Before a student even arrives: could a "documentation prep" output be useful on its own?</p>
+  <div class="discuss-grid">
+    <div class="finding-card">
+      <h4>Listen for</h4>
+      <p>Whether staff currently spend significant time reading and summarizing uploaded documents before meeting a student. If yes, an evidence-only output that organizes claims, dates, and gaps saves prep time even without accommodation candidates.</p>
+    </div>
+    <div class="finding-card">
+      <h4>Watch for</h4>
+      <p>Whether "evidence without recommendations" feels incomplete or confusing. If staff expect the system to always suggest accommodations, a documentation-only mode might feel like a half-finished product rather than a prep tool.</p>
+    </div>
+    <div class="finding-card">
+      <h4>Decide today</h4>
+      <p>When documents are missing student narrative (no intake interview yet), should the system generate interview prompts? Questions staff could ask based on gaps in the documentation? Or is that overstepping?</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 17: Discussion 4 -->
+<div class="slide slide-dark" id="slide-d4">
+  <div class="slide-num">Section 16 of 18 &mdash; Discussion</div>
+  <div class="discuss-num">4</div>
+  <h2>Quality flags and review triggers</h2>
+  <p>The system flags uncertainty. Which flags should pause the workflow, and which are just notes for staff?</p>
+  <div class="discuss-grid">
+    <div class="finding-card">
+      <h4>Listen for</h4>
+      <p>Which types of problems staff catch most often in their current process: conflicting dates? Missing evaluations? Stale records? Recommendations without supporting evidence? This tells us which flags matter most.</p>
+    </div>
+    <div class="finding-card">
+      <h4>Watch for</h4>
+      <p>Flag fatigue. If every row has a yellow warning, staff will start ignoring them. The system needs to distinguish between "this needs your attention before the meeting" and "FYI, this is slightly old."</p>
+    </div>
+    <div class="finding-card">
+      <h4>Decide today</h4>
+      <p>Should any flag actually block Google Doc export? Or should flags always be informational, with staff deciding when to act? The Bloom model blocks export for some issues. Does BC want the same?</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 18: Discussion 5 -->
+<div class="slide slide-dark" id="slide-d5">
+  <div class="slide-num">Section 17 of 18 &mdash; Discussion</div>
+  <div class="discuss-num">5</div>
+  <h2>Customer overlays: "your rules, your labels"</h2>
+  <p>The overlay concept means BC controls their own configuration. Is that clear enough to sell?</p>
+  <div class="discuss-grid">
+    <div class="finding-card">
+      <h4>Listen for</h4>
+      <p>Whether "your rules control what the system does" resonates with BC, or whether it sounds like we're asking them to do configuration work. The pitch should feel like customization, not setup burden.</p>
+    </div>
+    <div class="finding-card">
+      <h4>Watch for</h4>
+      <p>Assumptions about what BC can customize versus what's fixed. They should understand: they can rename sections, restrict the catalog, change wording. But they can't delete a required section or override the evidence-to-accommodation linking rule.</p>
+    </div>
+    <div class="finding-card">
+      <h4>Decide today</h4>
+      <p>What does BC's initial accommodation catalog actually look like? Do they have a list of approved accommodations already? Do they want to start with a broad catalog and narrow it, or start narrow and expand?</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- Navigation bar -->
+<div class="index-bar">
+  <button class="idx-chip active" onclick="goTo(0)">Title</button>
+  <button class="idx-chip" onclick="goTo(1)">Principle</button>
+  <button class="idx-chip" onclick="goTo(2)">Flow</button>
+  <button class="idx-chip" onclick="goTo(3)">Bloom</button>
+  <button class="idx-chip" onclick="goTo(4)">Parse</button>
+  <button class="idx-chip" onclick="goTo(5)">Limitations</button>
+  <button class="idx-chip" onclick="goTo(6)">Scope</button>
+  <button class="idx-chip" onclick="goTo(7)">Accommodations</button>
+  <button class="idx-chip" onclick="goTo(8)">4 Slots</button>
+  <button class="idx-chip" onclick="goTo(9)">Run Modes</button>
+  <button class="idx-chip" onclick="goTo(10)">Artifacts</button>
+  <button class="idx-chip" onclick="goTo(11)">Phases</button>
+  <button class="idx-chip" onclick="goTo(12)">Discussion</button>
+  <button class="idx-chip" onclick="goTo(13)">D1</button>
+  <button class="idx-chip" onclick="goTo(14)">D2</button>
+  <button class="idx-chip" onclick="goTo(15)">D3</button>
+  <button class="idx-chip" onclick="goTo(16)">D4</button>
+  <button class="idx-chip" onclick="goTo(17)">D5</button>
+  <div class="idx-arrows">
+    <button class="idx-arrow" onclick="prev()">&larr;</button>
+    <button class="idx-arrow" onclick="next()">&rarr;</button>
+  </div>
+</div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const chips = document.querySelectorAll('.idx-chip');
+const progress = document.getElementById('progress');
+function goTo(i) {
+  if (i < 0 || i >= slides.length) return;
+  slides[current].classList.remove('active');
+  chips[current].classList.remove('active');
+  current = i;
+  slides[current].classList.add('active');
+  chips[current].classList.add('active');
+  progress.style.width = ((current + 1) / slides.length * 100) + '%';
+}
+function next() { goTo(current + 1); }
+function prev() { goTo(current - 1); }
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+  if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+  if (e.key === 'End') { e.preventDefault(); goTo(slides.length - 1); }
+});
+goTo(0);
+</script>
+
+</body>
+</html>
