@@ -6,138 +6,529 @@
 <meta name="robots" content="noindex, nofollow">
 <title>ThriveIEP Dashboard</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; line-height: 1.5; }
-.header { padding: 28px 32px; background: #1e293b; border-bottom: 1px solid #334155; }
-.header h1 { font-size: 26px; font-weight: 700; color: #f8fafc; }
-.header .subtitle { font-size: 15px; color: #94a3b8; margin-top: 4px; }
-.header .generated { font-size: 12px; color: #64748b; margin-top: 2px; }
-.container { max-width: 980px; margin: 0 auto; padding: 24px 20px 60px; }
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 24px; }
-.panel, details { background: #1e293b; border: 1px solid #334155; border-radius: 8px; }
-.panel { padding: 16px; }
-.kicker { font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: .04em; font-weight: 700; }
-.metric { font-size: 30px; font-weight: 800; color: #f8fafc; margin-top: 4px; }
-.muted { color: #94a3b8; font-size: 13px; }
-.section-title { font-size: 18px; font-weight: 700; color: #f1f5f9; margin: 28px 0 12px; }
-.focus-picks { display: grid; gap: 12px; }
-.focus-card { display: grid; grid-template-columns: 34px 1fr; gap: 12px; background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 16px; }
-.focus-card.bc { border-left: 4px solid #f59e0b; }
-.focus-card.bloom { border-left: 4px solid #eab308; }
-.focus-card.c2a { border-left: 4px solid #3b82f6; }
-.focus-num { background: #334155; color: #f8fafc; width: 30px; height: 30px; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-weight: 800; }
-.focus-title { font-size: 15px; font-weight: 700; color: #f8fafc; }
-.focus-reason { color: #94a3b8; font-size: 13px; margin-top: 4px; }
-.tag { display: inline-block; margin-top: 8px; margin-right: 6px; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
-.tag-bc, .tag-bloom { background: #422006; color: #fcd34d; }
-.tag-c2a { background: #1e3a5f; color: #93c5fd; }
-.tag-team { background: #2e1065; color: #c4b5fd; }
-.todo-list { display: grid; gap: 8px; }
-.todo { display: grid; grid-template-columns: 18px 1fr; gap: 9px; align-items: start; color: #e2e8f0; font-size: 14px; }
-.box { width: 14px; height: 14px; border: 1px solid #64748b; border-radius: 3px; margin-top: 3px; }
-.cal-event { display: grid; grid-template-columns: 94px 1fr auto; gap: 10px; align-items: center; padding: 9px 0; border-bottom: 1px solid #334155; }
-.cal-event:last-child { border-bottom: none; }
-.cal-time { font-weight: 700; font-size: 13px; color: #f1f5f9; }
-.cal-name { font-size: 14px; }
-.badge { font-size: 11px; padding: 2px 7px; border-radius: 4px; font-weight: 700; white-space: nowrap; }
-.work { background: #334155; color: #cbd5e1; }
-.team { background: #164e63; color: #67e8f9; }
-.client { background: #422006; color: #fcd34d; }
-.personal { background: #500724; color: #f9a8d4; }
-.tutoring { background: #2e1065; color: #c4b5fd; }
-details { margin-bottom: 10px; }
-summary { list-style: none; cursor: pointer; padding: 13px 16px; font-weight: 700; color: #f1f5f9; }
-summary::-webkit-details-marker { display: none; }
-summary:before { content: "▸"; color: #64748b; display: inline-block; margin-right: 8px; }
-details[open] summary:before { transform: rotate(90deg); }
-.detail-body { padding: 0 16px 14px; }
-.issue-row { display: grid; grid-template-columns: 74px 1fr 82px 120px; gap: 10px; padding: 8px 0; border-bottom: 1px solid #334155; align-items: center; }
-.issue-row:last-child { border-bottom: none; }
-.issue-id { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; color: #94a3b8; font-size: 12px; }
-.issue-title { font-size: 13px; }
-.priority-high { color: #fcd34d; }
-.priority-med { color: #93c5fd; }
-.priority-low { color: #94a3b8; }
-.footer { color: #64748b; font-size: 12px; margin-top: 30px; padding-top: 18px; border-top: 1px solid #334155; }
-a { color: #60a5fa; text-decoration: none; }
-@media (max-width: 680px) { .cal-event, .issue-row { grid-template-columns: 1fr; gap: 3px; } .focus-card { grid-template-columns: 1fr; } }
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f172a;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.6;padding:1rem}
+a{color:#60a5fa;text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:960px;margin:0 auto}
+
+/* Header */
+.header{text-align:center;padding:1.5rem 0 1rem}
+.header h1{font-size:1.6rem;color:#f8fafc;font-weight:700}
+.header .subtitle{color:#94a3b8;font-size:0.95rem;margin-top:0.25rem}
+.header .generated{color:#64748b;font-size:0.8rem;margin-top:0.25rem}
+
+/* Milestone bar */
+.milestones{display:flex;gap:0.75rem;flex-wrap:wrap;margin:1rem 0}
+.milestone{flex:1;min-width:200px;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:0.75rem 1rem}
+.milestone .name{font-weight:600;font-size:0.85rem;color:#f1f5f9}
+.milestone .days{font-size:1.4rem;font-weight:700;margin:0.25rem 0}
+.milestone .target{font-size:0.75rem;color:#94a3b8}
+.milestone .summary{font-size:0.75rem;color:#94a3b8;margin-top:0.25rem}
+.days-red{color:#ef4444}
+.days-amber{color:#f59e0b}
+.days-blue{color:#3b82f6}
+
+/* Focus Picks */
+.focus-section{margin:1.5rem 0}
+.focus-section h2{font-size:1.1rem;color:#f1f5f9;margin-bottom:0.75rem}
+.focus-card{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:1rem 1rem 1rem 1.25rem;margin-bottom:0.75rem;display:flex;gap:0.75rem;align-items:flex-start}
+.focus-card.border-c2a{border-left:4px solid #3b82f6}
+.focus-card.border-ae{border-left:4px solid #f59e0b}
+.focus-card.border-bloom{border-left:4px solid #f59e0b}
+.focus-card.border-pi{border-left:4px solid #10b981}
+.focus-card.border-team{border-left:4px solid #8b5cf6}
+.focus-card.border-hubspot{border-left:4px solid #10b981}
+.focus-num{background:#334155;color:#f1f5f9;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;flex-shrink:0}
+.focus-body{flex:1}
+.focus-title{font-weight:600;color:#f1f5f9;font-size:0.95rem}
+.focus-reason{color:#94a3b8;font-size:0.8rem;margin-top:0.25rem}
+.focus-meta{display:flex;gap:0.5rem;margin-top:0.5rem;flex-wrap:wrap}
+
+/* Badges */
+.badge{display:inline-block;padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;font-weight:600;text-transform:uppercase}
+.badge-urgent{background:#ef4444;color:#fff}
+.badge-high{background:#f59e0b;color:#1e293b}
+.badge-medium{background:#3b82f6;color:#fff}
+.badge-normal{background:#64748b;color:#fff}
+.badge-low{background:#94a3b8;color:#1e293b}
+.badge-project{background:#334155;color:#94a3b8}
+.badge-team{background:#5ba8c830;color:#5ba8c8}
+.badge-client{background:#e8a33a30;color:#e8a33a}
+.badge-work{background:#64748b30;color:#94a3b8}
+.badge-gtm{background:#34d39930;color:#34d399}
+.badge-personal{background:#f472b630;color:#f472b6}
+.badge-tutoring{background:#a78bfa30;color:#a78bfa}
+.badge-done{background:#10b98130;color:#10b981}
+.badge-in-progress{background:#f59e0b30;color:#f59e0b}
+.badge-todo{background:#64748b30;color:#94a3b8}
+
+/* Calendar */
+.cal-section{margin:1.5rem 0}
+.cal-section h2{font-size:1.1rem;color:#f1f5f9;margin-bottom:0.75rem}
+.cal-event{display:flex;gap:0.75rem;align-items:center;padding:0.5rem 0;border-bottom:1px solid #1e293b}
+.cal-time{font-size:0.85rem;color:#94a3b8;min-width:80px;font-variant-numeric:tabular-nums}
+.cal-name{font-size:0.9rem;color:#e2e8f0;flex:1}
+
+/* Issues */
+.issues-section{margin:1.5rem 0}
+.issues-section h2{font-size:1.1rem;color:#f1f5f9;margin-bottom:0.75rem}
+details{background:#1e293b;border:1px solid #334155;border-radius:8px;margin-bottom:0.5rem;overflow:hidden}
+summary{padding:0.75rem 1rem;cursor:pointer;font-weight:600;font-size:0.9rem;color:#f1f5f9;display:flex;align-items:center;gap:0.5rem}
+summary::-webkit-details-marker{display:none}
+summary::before{content:'';display:inline-block;width:0;height:0;border-left:5px solid #94a3b8;border-top:4px solid transparent;border-bottom:4px solid transparent;transition:transform 0.2s;flex-shrink:0}
+details[open] summary::before{transform:rotate(90deg)}
+.accent-red summary{border-left:3px solid #ef4444}
+.accent-amber summary{border-left:3px solid #f59e0b}
+.accent-blue summary{border-left:3px solid #3b82f6}
+.accent-gray summary{border-left:3px solid #64748b}
+.accent-green summary{border-left:3px solid #10b981}
+.issue-list{padding:0.25rem 1rem 0.75rem}
+.issue-row{display:flex;gap:0.5rem;align-items:center;padding:0.4rem 0;border-bottom:1px solid #0f172a;flex-wrap:wrap}
+.issue-row:last-child{border-bottom:none}
+.issue-id{font-family:ui-monospace,SFMono-Regular,monospace;font-size:0.8rem;color:#60a5fa;min-width:65px}
+.issue-title{flex:1;font-size:0.85rem;color:#e2e8f0;min-width:200px}
+.issue-due{font-size:0.75rem;color:#94a3b8}
+.count-badge{background:#334155;color:#94a3b8;padding:0.1rem 0.5rem;border-radius:10px;font-size:0.75rem;margin-left:auto}
+
+/* Git section */
+.git-section{margin:1.5rem 0}
+.git-section h2{font-size:1.1rem;color:#f1f5f9;margin-bottom:0.75rem}
+.git-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.75rem}
+.git-card{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:0.75rem 1rem}
+.git-card .repo{font-weight:600;font-size:0.85rem;color:#f1f5f9}
+.git-card .count{font-size:1.4rem;font-weight:700;color:#60a5fa;margin:0.25rem 0}
+.git-card .detail{font-size:0.75rem;color:#94a3b8}
+.git-table{width:100%;border-collapse:collapse;margin-top:0.75rem;font-size:0.8rem}
+.git-table th{text-align:left;color:#94a3b8;padding:0.4rem 0.5rem;border-bottom:1px solid #334155;font-weight:600}
+.git-table td{padding:0.4rem 0.5rem;border-bottom:1px solid #1e293b;color:#e2e8f0}
+.git-table .sha{font-family:ui-monospace,SFMono-Regular,monospace;color:#60a5fa;font-size:0.75rem}
+
+/* Footer */
+.footer{margin-top:2rem;padding-top:1rem;border-top:1px solid #334155;color:#64748b;font-size:0.8rem;display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between}
+.footer .gaps{color:#f59e0b}
 </style>
 </head>
 <body>
-<div class="header">
-  <h1>ThriveIEP Dashboard</h1>
-  <div class="subtitle">Week of May 11 - May 17, 2026</div>
-  <div class="generated">Generated May 12, 2026 at 9:05 AM ET</div>
-</div>
 <div class="container">
-  <div class="grid">
-    <div class="panel"><div class="kicker">Active Linear</div><div class="metric">3</div><div class="muted">In Progress: THR-255, THR-199, THR-251</div></div>
-    <div class="panel"><div class="kicker">Todo</div><div class="metric">15</div><div class="muted">0 completed in last 48h</div></div>
-    <div class="panel"><div class="kicker">Git, 7 Days</div><div class="metric">62</div><div class="muted">AE 20 · PM-Hub 24 · Redactor 11 · Reports 7; no THR refs</div></div>
-    <div class="panel"><div class="kicker">HubSpot</div><div class="metric">OK</div><div class="muted">4 engagements in 14d; latest May 8 UTC, 2 business days ago</div></div>
-  </div>
 
-  <div class="section-title">Focus Picks</div>
-  <div class="focus-picks">
-    <div class="focus-card bc"><div class="focus-num">1</div><div><div class="focus-title">BC report: finalize Thursday CFLC meeting package</div><div class="focus-reason">Top priority. Lock the documentation-based framing, evidence-not-recommendations language, representative-materials ask, and June 1 calibration target before Thursday's 10:30 meeting.</div><span class="tag tag-bc">BC report</span><span class="tag tag-team">Calendar + transcript</span></div></div>
-    <div class="focus-card bloom"><div class="focus-num">2</div><div><div class="focus-title">Bloom Report: resume report quality/speed/handoff work</div><div class="focus-reason">Second priority. THR-291 / THR-288 remain the clearest technical path: Stage 2 cache threshold, auditability, and Google Docs handoff readiness.</div><span class="tag tag-bloom">Bloom Report</span><span class="tag tag-team">Linear THR-291 / THR-288</span></div></div>
-    <div class="focus-card c2a"><div class="focus-num">3</div><div><div class="focus-title">C2A: rebaseline coach view and data analysis path</div><div class="focus-reason">Third and fourth priorities. Coach view needs a concrete slice; data analysis needs to connect the production E2E pass and pilot usage data to NLU acceptance/invoice requirements.</div><span class="tag tag-c2a">C2A coach view</span><span class="tag tag-c2a">C2A data analysis</span></div></div>
-  </div>
+<!-- Header -->
+<div class="header">
+<h1>ThriveIEP Dashboard</h1>
+<div class="subtitle">Week of May 11 &ndash; May 17, 2026</div>
+<div class="generated">Generated May 13, 2026 at 10:25 AM</div>
+</div>
 
-  <div class="section-title">Priority Todo List</div>
-  <div class="panel todo-list">
-    <div class="todo"><span class="box"></span><span>THR-298: BC report - finalize Thursday agenda, sample-output stance, and representative-materials request.</span></div>
-    <div class="todo"><span class="box"></span><span>THR-298: BC report - start post-secondary generator Phase 0-1 after Thursday scope is confirmed.</span></div>
-    <div class="todo"><span class="box"></span><span>Bloom Report: pick up THR-291 / THR-288 cache, quality, and handoff slice.</span></div>
-    <div class="todo"><span class="box"></span><span>C2A coach view: rebaseline THR-255 against NLU/Tufts needs and tutor-report pattern.</span></div>
-    <div class="todo"><span class="box"></span><span>C2A data analysis: map production E2E pass, pilot data, and THR-254 white paper into NLU acceptance path.</span></div>
-    <div class="todo"><span class="box"></span><span>THR-299: Update Linear to reflect actual recent work and create/move issues for BC, Bloom, C2A, CRM/HubSpot bridge, Plan D, and Redactor work.</span></div>
-    <div class="todo"><span class="box"></span><span>THR-300: Investigate why Slack is not notifying on new remote commits.</span></div>
-    <div class="todo"><span class="box"></span><span>THR-301: Update knowledge graphs for PM-Hub, Accommodation Engine, and Redactor.</span></div>
-    <div class="todo"><span class="box"></span><span>THR-302: QC PM-Hub filesystem: stale priorities, duplicate dashboard rows, misplaced generated artifacts, missing frontmatter, stale indexes, orphaned docs.</span></div>
-  </div>
+<!-- Milestones -->
+<div class="milestones">
+<div class="milestone">
+<div class="name">M5: Phase 3 Ready</div>
+<div class="days days-red">2 days</div>
+<div class="target">Target: May 15 &bull; C2A / NLU</div>
+<div class="summary">Admin dashboard, white paper, coach view v2 &mdash; not started</div>
+</div>
+<div class="milestone">
+<div class="name">M3: Pilot Profiles</div>
+<div class="days days-amber">18 days</div>
+<div class="target">Target: May 31 &bull; C2A / NLU</div>
+<div class="summary">DDx engine, coach view, property tests &mdash; CM2 ready to invoice</div>
+</div>
+<div class="milestone">
+<div class="name">Bloom M1: Speed &amp; Quality</div>
+<div class="days days-blue">48 days</div>
+<div class="target">Target: Jun 30 &bull; Bloom Report</div>
+<div class="summary">9 In Progress &bull; 5 done last 48h</div>
+</div>
+<div class="milestone">
+<div class="name">PI Redactor M1</div>
+<div class="days days-blue">48 days</div>
+<div class="target">Target: Jun 30 &bull; PI Redactor</div>
+<div class="summary">Karpathy loop, post-filter, Soham GLM+Presidio</div>
+</div>
+</div>
 
-  <div class="section-title">Calendar</div>
-  <div class="panel">
-    <div class="cal-event"><div class="cal-time">Tue 9:30</div><div class="cal-name">ThriveIEP In Person Work Block</div><span class="badge work">work</span></div>
-    <div class="cal-event"><div class="cal-time">Wed 10:00</div><div class="cal-name">ThriveIEP Standup</div><span class="badge team">team</span></div>
-    <div class="cal-event"><div class="cal-time">Thu 10:30</div><div class="cal-name">BC and Thrive</div><span class="badge client">client</span></div>
-    <div class="cal-event"><div class="cal-time">Fri 9:30</div><div class="cal-name">ThriveIEP GTM</div><span class="badge team">gtm</span></div>
-    <div class="cal-event"><div class="cal-time">Fri 10:30</div><div class="cal-name">ThriveIEP Standup</div><span class="badge team">team</span></div>
-    <div class="cal-event"><div class="cal-time">Sun 7:30</div><div class="cal-name">ThriveIEP Team Meeting</div><span class="badge team">team</span></div>
-  </div>
+<!-- Focus Picks -->
+<div class="focus-section">
+<h2>Focus Picks</h2>
 
-  <div class="section-title">Issues</div>
-  <details open><summary>Critical / This Week</summary><div class="detail-body">
-    <div class="issue-row"><span class="issue-id">THR-298</span><span class="issue-title">BC CFLC post-secondary document review generator MVP</span><span class="priority-high">High</span><span>AE / BC</span></div>
-    <div class="issue-row"><span class="issue-id">THR-291</span><span class="issue-title">Bloom Stage 2 prompt below Anthropic 1h-TTL beta-cache threshold</span><span class="priority-high">High</span><span>Bloom</span></div>
-    <div class="issue-row"><span class="issue-id">THR-255</span><span class="issue-title">Build role-scoped coach/admin view</span><span class="priority-high">High</span><span>C2A</span></div>
-    <div class="issue-row"><span class="issue-id">THR-254</span><span class="issue-title">Technical White Paper for NLU</span><span class="priority-high">High</span><span>C2A</span></div>
-  </div></details>
+<div class="focus-card border-ae">
+<div class="focus-num">1</div>
+<div class="focus-body">
+<div class="focus-title">Prep for tomorrow's BC CFLC meeting (THR-298)</div>
+<div class="focus-reason">Thu May 14, 10:30 AM with Kathy and Erin. Strategic briefing posted to #team-operations. Five open questions: workflow fit, evidence bar, representative materials, calibration date, pilot visibility. Elizabeth reviewing framing language.</div>
+<div class="focus-meta">
+<span class="badge badge-project">Accommodation Engine</span>
+<span class="badge badge-urgent">Tomorrow</span>
+</div>
+</div>
+</div>
 
-  <details><summary>Operational Cleanup</summary><div class="detail-body">
-    <div class="issue-row"><span class="issue-id">THR-299</span><span class="issue-title">Update Linear to match recent work and add THR IDs to future commit subjects</span><span class="priority-med">Medium</span><span>Ops</span></div>
-    <div class="issue-row"><span class="issue-id">THR-300</span><span class="issue-title">Investigate missing Slack notifications for remote commits</span><span class="priority-med">Medium</span><span>Ops</span></div>
-    <div class="issue-row"><span class="issue-id">THR-301</span><span class="issue-title">Update KGs for all active repos</span><span class="priority-med">Medium</span><span>Ops</span></div>
-    <div class="issue-row"><span class="issue-id">THR-302</span><span class="issue-title">QC PM-Hub filesystem and generated indexes</span><span class="priority-med">Medium</span><span>PM-Hub</span></div>
-    <div class="issue-row"><span class="issue-id">THR-270</span><span class="issue-title">Security review findings / GitHub security scan failure triage</span><span class="priority-high">High</span><span>AE</span></div>
-  </div></details>
+<div class="focus-card border-bloom">
+<div class="focus-num">2</div>
+<div class="focus-body">
+<div class="focus-title">Continue Bloom report engine work (THR-291 / THR-288)</div>
+<div class="focus-reason">112 Bloom commits since May 3: artifacts, Temporal worker, control plane, Google Docs handoff, citations, remediation. Massive momentum. Soham's C2A release E2E pass means you can stay focused here.</div>
+<div class="focus-meta">
+<span class="badge badge-project">Bloom Report</span>
+<span class="badge badge-high">Active</span>
+</div>
+</div>
+</div>
 
-  <details><summary>Backlog / Lower Priority</summary><div class="detail-body">
-    <div class="issue-row"><span class="issue-id">THR-199</span><span class="issue-title">C2A DDx pattern matching engine</span><span class="priority-high">High</span><span>C2A</span></div>
-    <div class="issue-row"><span class="issue-id">THR-261</span><span class="issue-title">DDx Tier 2 regeneration for Curiosity</span><span class="priority-high">High</span><span>C2A</span></div>
-    <div class="issue-row"><span class="issue-id">THR-262</span><span class="issue-title">DDx Tier 2 regeneration for Initiative</span><span class="priority-high">High</span><span>C2A</span></div>
-    <div class="issue-row"><span class="issue-id">THR-263</span><span class="issue-title">DDx Tier 2 regeneration for Resilience</span><span class="priority-high">High</span><span>C2A</span></div>
-  </div></details>
+<div class="focus-card border-hubspot">
+<div class="focus-num">3</div>
+<div class="focus-body">
+<div class="focus-title">Networking nudge &mdash; 6 business days since last outreach</div>
+<div class="focus-reason">Last HubSpot activity: May 7 (Workforce Challenge email to Evergreen Education). BC meeting gives a natural Kathy/Erin touchpoint Thursday. Consider a note to Andi at NLU about M2 invoice or pilot feedback.</div>
+<div class="focus-meta">
+<span class="badge badge-project">HubSpot</span>
+<span class="badge badge-medium">Nudge</span>
+</div>
+</div>
+</div>
+</div>
 
-  <div class="section-title">Git Activity</div>
-  <div class="panel">
-    <div class="muted">Last 7 days: Accommodation Engine 20 commits, PM-Hub 24, DEC1TEXTREDACTOR 11, thriveiep-reports 7. None include THR issue references, so dashboard reconciliation cannot safely move Linear states automatically.</div>
-  </div>
+<!-- Calendar -->
+<div class="cal-section">
+<h2>Calendar (from priorities &mdash; GWS scope unavailable)</h2>
+<div class="cal-event">
+<div class="cal-time">Today</div>
+<div class="cal-name">No meetings scheduled (Tuesday)</div>
+<span class="badge badge-work">Work</span>
+</div>
+<div class="cal-event">
+<div class="cal-time">Wed 10:00a</div>
+<div class="cal-name">Standup</div>
+<span class="badge badge-team">Team</span>
+</div>
+<div class="cal-event">
+<div class="cal-time">Thu 10:30a</div>
+<div class="cal-name">BC and Thrive &mdash; CFLC meeting with Kathy &amp; Erin</div>
+<span class="badge badge-client">Client</span>
+</div>
+<div class="cal-event">
+<div class="cal-time">Fri 9:30a</div>
+<div class="cal-name">GTM</div>
+<span class="badge badge-gtm">GTM</span>
+</div>
+<div class="cal-event">
+<div class="cal-time">Fri 10:30a</div>
+<div class="cal-name">Standup</div>
+<span class="badge badge-team">Team</span>
+</div>
+<div class="cal-event">
+<div class="cal-time">Sun 7:30a</div>
+<div class="cal-name">Team meeting</div>
+<span class="badge badge-team">Team</span>
+</div>
+</div>
 
-  <div class="footer">
-    Data gaps: Slack and Notion are unavailable in this runtime. HubSpot uses the live HubSpot API bridge only; no Aptible fallback. Dashboard source: PM-Hub priorities, Linear, GWS Calendar/Gmail, HubSpot live API, and git logs. <a href="/">Reports index</a>.
-  </div>
+<!-- Issues -->
+<div class="issues-section">
+<h2>Issues</h2>
+
+<!-- In Progress -->
+<details open class="accent-amber">
+<summary>In Progress <span class="count-badge">9</span></summary>
+<div class="issue-list">
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-298">THR-298</a></span>
+<span class="issue-title">BC CFLC post-secondary document review generator MVP</span>
+<span class="badge badge-high">High</span>
+<span class="badge badge-project">AE</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-255">THR-255</a></span>
+<span class="issue-title">Build role-scoped coach/admin view</span>
+<span class="badge badge-high">High</span>
+<span class="badge badge-project">C2A</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-291">THR-291</a></span>
+<span class="issue-title">Bloom Stage 2 cache threshold + T2.1/T2.6 umbrella</span>
+<span class="badge badge-high">High</span>
+<span class="badge badge-project">Bloom</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-199">THR-199</a></span>
+<span class="issue-title">DDx pattern matching engine (cross-lens diagnosis)</span>
+<span class="badge badge-high">High</span>
+<span class="badge badge-project">C2A</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-299">THR-299</a></span>
+<span class="issue-title">Update Linear to reflect recent work + add THR refs</span>
+<span class="badge badge-normal">Normal</span>
+<span class="badge badge-project">Team</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-300">THR-300</a></span>
+<span class="issue-title">Investigate missing Slack commit notifications</span>
+<span class="badge badge-normal">Normal</span>
+<span class="badge badge-project">Team</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-301">THR-301</a></span>
+<span class="issue-title">Refresh knowledge graphs for active repos</span>
+<span class="badge badge-normal">Normal</span>
+<span class="badge badge-project">Team</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-302">THR-302</a></span>
+<span class="issue-title">QC PM-Hub filesystem and generated indexes</span>
+<span class="badge badge-normal">Normal</span>
+<span class="badge badge-project">Team</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-251">THR-251</a></span>
+<span class="issue-title">Infrastructure &amp; tooling catch-all</span>
+<span class="badge badge-low">Low</span>
+<span class="badge badge-project">Team</span>
+</div>
+</div>
+</details>
+
+<!-- Todo - High Priority -->
+<details class="accent-blue">
+<summary>Todo &mdash; High Priority <span class="count-badge">8</span></summary>
+<div class="issue-list">
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-270">THR-270</a></span>
+<span class="issue-title">Security review: app.thriveiep.com/api findings</span>
+<span class="badge badge-high">High</span>
+<span class="badge badge-project">AE</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-106">THR-106</a></span>
+<span class="issue-title">C2A data analysis and NLU pilot findings path</span>
+<span class="badge badge-high">High</span>
+<span class="badge badge-project">C2A</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-254">THR-254</a></span>
+<span class="issue-title">Technical White Paper for NLU (M3 payment trigger)</span>
+<span class="badge badge-high">High</span>
+<span class="badge badge-project">C2A</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-261">THR-261</a></span>
+<span class="issue-title">DDx Tier 2: Curiosity student text regeneration</span>
+<span class="badge badge-high">High</span>
+<span class="badge badge-project">C2A</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-262">THR-262</a></span>
+<span class="issue-title">DDx Tier 2: Initiative student text regeneration</span>
+<span class="badge badge-high">High</span>
+<span class="badge badge-project">C2A</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-263">THR-263</a></span>
+<span class="issue-title">DDx Tier 2: Resilience student text regeneration</span>
+<span class="badge badge-high">High</span>
+<span class="badge badge-project">C2A</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-62">THR-62</a></span>
+<span class="issue-title">Deploy dev enhancements to production</span>
+<span class="badge badge-high">High</span>
+<span class="badge badge-project">AE</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-14">THR-14</a></span>
+<span class="issue-title">Fix sample report link access causing user drop-off</span>
+<span class="badge badge-high">High</span>
+<span class="badge badge-project">AE</span>
+</div>
+</div>
+</details>
+
+<!-- Todo - Normal/Low -->
+<details class="accent-gray">
+<summary>Todo &mdash; Backlog <span class="count-badge">9</span></summary>
+<div class="issue-list">
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-187">THR-187</a></span>
+<span class="issue-title">Property tests &mdash; Student API</span>
+<span class="badge badge-normal">Normal</span>
+<span class="badge badge-project">C2A</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-182">THR-182</a></span>
+<span class="issue-title">Property tests &mdash; Registry and admin</span>
+<span class="badge badge-normal">Normal</span>
+<span class="badge badge-project">C2A</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-180">THR-180</a></span>
+<span class="issue-title">Implement admin UI (timepoint management)</span>
+<span class="badge badge-normal">Normal</span>
+<span class="badge badge-project">C2A</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-248">THR-248</a></span>
+<span class="issue-title">NLU: Review case study framework</span>
+<span class="badge badge-normal">Normal</span>
+<span class="badge badge-project">C2A</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-239">THR-239</a></span>
+<span class="issue-title">Create DAG pipeline prompt skill</span>
+<span class="badge badge-normal">Normal</span>
+<span class="badge badge-project">Team</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-221">THR-221</a></span>
+<span class="issue-title">Review Accommodation Engine AI pipeline</span>
+<span class="badge badge-normal">Normal</span>
+<span class="badge badge-project">AE</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-13">THR-13</a></span>
+<span class="issue-title">Research Claude vibe coding workflows</span>
+<span class="badge badge-high">High</span>
+<span class="badge badge-project">AE</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-224">THR-224</a></span>
+<span class="issue-title">Student TLDR rollup summary view</span>
+<span class="badge badge-low">Low</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-118">THR-118</a></span>
+<span class="issue-title">Migrate to HIPAA-compliant GPU infrastructure</span>
+<span class="badge badge-low">Low</span>
+<span class="badge badge-project">PI Redactor</span>
+</div>
+</div>
+</details>
+
+<!-- Recently completed -->
+<details class="accent-green">
+<summary>Recently Completed <span class="count-badge">20+</span></summary>
+<div class="issue-list">
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-294">THR-294</a></span>
+<span class="issue-title">Add MIN_CACHE_CHARS_BETA guardrail to call-model.ts</span>
+<span class="badge badge-done">Done</span>
+<span class="badge badge-project">Bloom</span>
+<span class="issue-due">May 4</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-293">THR-293</a></span>
+<span class="issue-title">LOCATION address recovery + StreetAddressRecognizer</span>
+<span class="badge badge-done">Done</span>
+<span class="badge badge-project">PI Redactor</span>
+<span class="issue-due">May 1</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-295">THR-295</a></span>
+<span class="issue-title">Bloom Stage 4: render dx severity gradient</span>
+<span class="badge badge-done">Done</span>
+<span class="badge badge-project">Bloom</span>
+<span class="issue-due">May 1</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-207">THR-207</a></span>
+<span class="issue-title">C2A: App UI assembly + student report view</span>
+<span class="badge badge-done">Done</span>
+<span class="badge badge-project">C2A</span>
+<span class="issue-due">May 1</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-198">THR-198</a></span>
+<span class="issue-title">Interpretation template library (clinical content)</span>
+<span class="badge badge-done">Done</span>
+<span class="badge badge-project">C2A</span>
+<span class="issue-due">May 1</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-289">THR-289</a></span>
+<span class="issue-title">C2A session-uniqueness rollout (DR-057)</span>
+<span class="badge badge-done">Done</span>
+<span class="badge badge-project">C2A</span>
+<span class="issue-due">Apr 27</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-279">THR-279</a></span>
+<span class="issue-title">Remove Kara SanFillipo from NLU T1 dataset</span>
+<span class="badge badge-done">Done</span>
+<span class="badge badge-project">C2A</span>
+<span class="issue-due">Apr 23</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-22">THR-22</a></span>
+<span class="issue-title">Build: Profile Generation Engine</span>
+<span class="badge badge-done">Done</span>
+<span class="badge badge-project">C2A</span>
+<span class="issue-due">Apr 21</span>
+</div>
+<div class="issue-row">
+<span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-21">THR-21</a></span>
+<span class="issue-title">Build: Assessment Platform MVP</span>
+<span class="badge badge-done">Done</span>
+<span class="badge badge-project">C2A</span>
+<span class="issue-due">Apr 6</span>
+</div>
+</div>
+</details>
+</div>
+
+<!-- Git Activity -->
+<div class="git-section">
+<h2>Git Activity (since last dashboard &mdash; May 12)</h2>
+<div class="git-grid">
+<div class="git-card">
+<div class="repo">Accommodation Engine</div>
+<div class="count">163</div>
+<div class="detail">Eric: 163 &bull; May 3&ndash;12</div>
+<div class="detail">Bloom: 112 &bull; Report engine: 16 &bull; Post-sec: 5</div>
+</div>
+<div class="git-card">
+<div class="repo">PM-Hub</div>
+<div class="count">23</div>
+<div class="detail">Eric: 23 &bull; May 12&ndash;13</div>
+<div class="detail">Governance, BC prep, coach report, KG health</div>
+</div>
+<div class="git-card">
+<div class="repo">DEC1TEXTREDACTOR</div>
+<div class="count">0</div>
+<div class="detail">No commits since last dashboard</div>
+</div>
+<div class="git-card">
+<div class="repo">Reports + Other</div>
+<div class="count">15</div>
+<div class="detail">reports: 5 &bull; brain: 4 &bull; hermes: 4 &bull; gstack: 1 &bull; gbrain: 6 (upstream)</div>
+</div>
+</div>
+
+<div style="margin-top:1rem">
+<strong style="color:#f59e0b;font-size:0.85rem">Warning: 186 commits with zero THR references (THR-299 tracking)</strong>
+</div>
+
+<table class="git-table" style="margin-top:0.75rem">
+<tr><th>Person</th><th>Commits</th><th>Repos</th><th>THR Refs</th><th>Last Commit</th></tr>
+<tr><td>Eric</td><td>186</td><td>AE, PM-Hub, reports, brain, hermes, gstack</td><td>0</td><td>May 13</td></tr>
+<tr><td>Soham</td><td>2</td><td>AE (release branch)</td><td>0</td><td>May 12</td></tr>
+<tr><td>Upstream (gbrain)</td><td>6</td><td>gbrain</td><td>n/a</td><td>May 10</td></tr>
+</table>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+<div>
+<strong>Data gaps:</strong>
+<span class="gaps">Calendar (scope missing) &bull; Gmail (scope missing)</span>
+&bull; Notion (skipped) &bull; Slack DMs (quiet)
+</div>
+<div>
+<strong>Networking:</strong> 6 biz days since outreach &mdash; nudge
+</div>
+<div>
+<a href="https://thriveiep-reports.vercel.app">Reports Index</a>
+</div>
+</div>
+
 </div>
 </body>
 </html>
