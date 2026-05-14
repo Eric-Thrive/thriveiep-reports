@@ -211,10 +211,10 @@
 <div class="slide slide-hero active" id="slide-title">
   <div class="slide-num">Architecture Overview</div>
   <h2>Post-Secondary Document Review Generator</h2>
-  <p>Architecture overview for the Boston College CFLC pre-interview
-  document review packet. Building on Bloom's staged pipeline,
-  now with customer-specific overlays.</p>
-  <div class="meta">May 2026 &middot; ThriveIEP Accommodation Engine</div>
+  <p>Updated architecture and build-status overview for the Boston College CFLC
+  pre-interview document review packet. The production Post-Secondary module is
+  now implemented through server-authoritative export preflight.</p>
+  <div class="meta">Updated May 14, 2026 &middot; ThriveIEP Accommodation Engine</div>
 </div>
 
 <!-- SLIDE 2: Core principle -->
@@ -226,14 +226,14 @@
     <div class="finding-card">
       <span class="badge badge-fixed">Fixed rules</span>
       <h4>Same input, same result</h4>
-      <p>Evidence extraction, date math, schema checks, export gates, accommodation-to-evidence linking, and plain-language checks.</p>
+      <p>Evidence compilation, date math, schema checks, export gates, accommodation-to-evidence linking, active-version resolution, and Drive destination policy validation.</p>
       <div class="card-footer">Used for everything that can be tested and trusted without judgment.</div>
     </div>
     <div class="finding-card">
       <span class="badge badge-model">Hosted model</span>
       <h4>Language requires judgment</h4>
-      <p>Extracting claims from messy evaluations, proposing canonical mappings for unfamiliar language, and drafting accommodation wording.</p>
-      <div class="card-footer">The model proposes. Rules and humans confirm.</div>
+      <p>Interpreting unfamiliar document language, proposing candidate mappings, and drafting review text only where deterministic rules are not enough.</p>
+      <div class="card-footer">The model proposes. Rules, overlays, and humans confirm.</div>
     </div>
     <div class="finding-card">
       <span class="badge badge-human">Human review</span>
@@ -242,14 +242,14 @@
       <div class="card-footer">CFLC staff see flags, not final decisions.</div>
     </div>
   </div>
-  <div class="slide-footer">New addition: customer overlays (like the BC overlay) control which accommodations are available, what the section labels say, and how edge cases are handled.</div>
+  <div class="slide-footer">Current status: the Post-Secondary package, BC overlay path, Google Doc projection, quality gates, durable export intents, reviewer acknowledgements, trusted run-input loading, and Drive policy preflight are implemented behind server gates.</div>
 </div>
 
 <!-- SLIDE 3: End-to-end flow -->
 <div class="slide slide-dark" id="slide-flow">
   <div class="slide-num">Section 2 of 18 &mdash; End-to-End Pathway</div>
-  <h2>Documents go in. A staff-ready Google Doc comes out.</h2>
-  <p>Everything in between is auditable.</p>
+  <h2>Documents go in. A preflighted staff packet projection comes out.</h2>
+  <p>Everything in between is auditable. Live Drive mutation is the next wiring step.</p>
   <div class="flow-diagram">
     <div class="flow-box">
       <div class="flow-icon">&#128196;</div>
@@ -283,11 +283,11 @@
     <div class="flow-arrow">&#8594;</div>
     <div class="flow-box">
       <div class="flow-icon">&#128203;</div>
-      <h4>Google Doc</h4>
-      <p>Staff packet + audit trail</p>
+      <h4>Google Doc preflight</h4>
+      <p>Staff packet projection + export gates</p>
     </div>
   </div>
-  <div class="slide-footer">The Google Doc is a projection of the evidence, not the working record. The audit bundle is the source of truth.</div>
+  <div class="slide-footer">The Google Doc is a projection of the evidence, not the working record. Today the server can compile, gate, persist, and mark exports ready for Drive; the live Drive file creation path is still intentionally gated.</div>
 </div>
 
 <!-- SLIDE 4: How it builds on Bloom -->
@@ -300,17 +300,17 @@
       <h3>Shared with Bloom</h3>
       <div class="compare-item"><span class="dot dot-shared"></span>Report engine contracts: evidence packets, determinations, render plans, quality reviews</div>
       <div class="compare-item"><span class="dot dot-shared"></span>Staged pipeline: fixed rules first, model only where needed, human review for uncertainty</div>
-      <div class="compare-item"><span class="dot dot-shared"></span>Google Docs export infrastructure: Drive integration, audit logging, idempotent retry</div>
+      <div class="compare-item"><span class="dot dot-shared"></span>Google Docs export infrastructure: Drive policy validation, durable intents, acknowledgements, audit logging, idempotent retry</div>
       <div class="compare-item"><span class="dot dot-shared"></span>Redactor for privacy and text preparation</div>
       <div class="compare-item"><span class="dot dot-shared"></span>Audit bundle pattern with full provenance</div>
     </div>
     <div class="compare-col">
       <h3>New for Post-Secondary</h3>
       <div class="compare-item"><span class="dot dot-new"></span>Customer overlays: BC controls its own catalog, labels, scope filters, and wording rules</div>
-      <div class="compare-item"><span class="dot dot-new"></span>Functional impairment index with stable IDs linking limitations to accommodation evidence</div>
+      <div class="compare-item"><span class="dot dot-new"></span>Functional limitation index with stable IDs linking limitations to accommodation evidence</div>
       <div class="compare-item"><span class="dot dot-new"></span>Four required accommodation section slots that every customer must fill</div>
       <div class="compare-item"><span class="dot dot-new"></span>Run modes: evidence-only, pre-interview, complete, full report</div>
-      <div class="compare-item"><span class="dot dot-new"></span>Staff-facing packet first. No in-app viewer needed to ship</div>
+      <div class="compare-item"><span class="dot dot-new"></span>Staff-facing Google Doc packet first. The legacy in-app viewer is not on the production path</div>
     </div>
   </div>
   <div class="slide-footer">Boundary rule: Post-Secondary imports from the shared report engine. It never imports from Bloom, and Bloom never imports from it.</div>
@@ -320,14 +320,14 @@
 <div class="slide" id="slide-pipe-1">
   <div class="slide-num">Section 4 of 18 &mdash; Staged Pipeline</div>
   <h2>Evidence first</h2>
-  <p>Fixed checks first; hosted model work only where language requires it.</p>
+  <p>Fixed checks first; hosted model work only where language requires it. Current implementation is fixture-first and deterministic at the package/server boundary.</p>
   <div class="pipeline">
     <div class="pipeline-step highlight">
       <div class="pipeline-num"><span class="num">1</span><span class="line"></span></div>
       <div class="pipeline-body">
         <span class="pipeline-label">Parse documents</span>
         <span class="badge badge-fixed">Fixed</span>
-        <span class="pipeline-desc">File handling, document type detection, and initial profile setup. Predictable and testable.</span>
+        <span class="pipeline-desc">Fixture and server-run input contracts, metadata checks, active-version pinning, and production discriminator checks. Predictable and testable.</span>
       </div>
     </div>
     <div class="pipeline-step highlight">
@@ -335,7 +335,7 @@
       <div class="pipeline-body">
         <span class="pipeline-label">Extract evidence claims</span>
         <span class="badge badge-model">Model</span>
-        <span class="pipeline-desc">The model reads messy evaluation language and pulls out claims, dates, diagnoses, services, and recommendations.</span>
+        <span class="pipeline-desc">Current fixture path compiles structured claims and source references. Later document ingestion can add model-assisted extraction without changing downstream contracts.</span>
       </div>
     </div>
     <div class="pipeline-step dimmed">
@@ -357,7 +357,7 @@
   </div>
   <blockquote>
     <strong>What happens here:</strong>
-    Raw documents become structured evidence: claims with dates, source locations, and confidence levels. This is the foundation everything else builds on.
+    Raw or pre-structured documents become a trusted run input and evidence projection: claims with dates, source locations, and confidence levels. This is the foundation everything else builds on.
   </blockquote>
 </div>
 
@@ -381,7 +381,7 @@
         <span class="pipeline-label">Build functional limitations</span>
         <span class="badge badge-fixed">Fixed</span>
         <span class="badge badge-model">Model</span>
-        <span class="pipeline-desc">Each limitation gets a stable ID (like FI-001), evidence links, and a plain-language label. Rules match first; the model only helps when the language is unfamiliar.</span>
+        <span class="pipeline-desc">Each limitation gets a stable ID (like FI-001), evidence links, mapping method, scope status, and quality status. Rules match first; model assistance remains bounded to unfamiliar language.</span>
       </div>
     </div>
     <div class="pipeline-step dimmed">
@@ -472,7 +472,7 @@
         <span class="pipeline-label">Map accommodation candidates</span>
         <span class="badge badge-fixed">Fixed</span>
         <span class="badge badge-model">Model</span>
-        <span class="pipeline-desc">Each candidate gets a stable ID (like AC-001), links back to limitation IDs, and a support status. A recommendation alone can't create a "supported" status. It needs current evidence.</span>
+        <span class="pipeline-desc">Each candidate gets a stable ID (like AC-001), links back to limitation IDs, and a support status. A recommendation alone can't create a supported status. It needs current evidence and customer-scope approval.</span>
       </div>
     </div>
     <div class="pipeline-step highlight">
@@ -480,7 +480,7 @@
       <div class="pipeline-body">
         <span class="pipeline-label">Quality gates + export</span>
         <span class="badge badge-fixed">Fixed</span>
-        <span class="pipeline-desc">Plain-language checks, missing-source warnings, privacy scan, citation verification, and Google Doc projection.</span>
+        <span class="pipeline-desc">Plain-language checks, missing-source warnings, privacy scan, citation verification, Google Doc projection, durable export intent, reviewer acknowledgements, and Drive destination policy preflight.</span>
       </div>
     </div>
   </div>
@@ -494,7 +494,7 @@
 <div class="slide" id="slide-slots">
   <div class="slide-num">Section 8 of 18 &mdash; Report Structure</div>
   <h2>Four accommodation slots, always present</h2>
-  <p>Every report always emits all four sections. BC controls the labels and what goes in each one. A future customer can rename them but never delete one.</p>
+  <p>Every projection keeps the four section slots available. BC controls the labels, allowed entries, implementation-note wording, and resources through the overlay; future customers can rename and filter them without changing the engine.</p>
   <div class="slot-grid">
     <div class="slot-card slot-teal">
       <h4>Academic Accommodations</h4>
@@ -523,17 +523,17 @@
 <div class="slide" id="slide-modes">
   <div class="slide-num">Section 9 of 18 &mdash; Run Modes</div>
   <h2>Different outputs from the same pipeline</h2>
-  <p>The same evidence engine can produce different deliverables depending on where BC is in their process. We start with the first two.</p>
+  <p>The same evidence engine can produce different deliverables depending on where BC is in their process. The first two profiles now exist in the package-level projection path.</p>
   <div class="mode-grid">
     <div class="mode-card active-mode">
-      <div class="mode-label">Building first</div>
+      <div class="mode-label">Implemented in fixture path</div>
       <h4>Evidence Generator</h4>
-      <p>Organizes uploaded documentation into evidence, functional limitations, candidate rows, gaps, and interview prompts. No final recommendations. Useful even before BC has a student interview. A documentation prep tool.</p>
+      <p>Organizes documentation into evidence, functional limitations, candidate rows, gaps, and interview prompts. No final recommendations. Useful before BC has a student interview.</p>
     </div>
     <div class="mode-card active-mode">
-      <div class="mode-label">Building first</div>
+      <div class="mode-label">Implemented in fixture path</div>
       <h4>Pre-Interview Packet</h4>
-      <p>The BC staff Google Doc for the student's first meeting. Includes everything from the evidence generator plus preliminary accommodation matrix rows. Avoids all final-decision language. A conversation starter, not a determination.</p>
+      <p>The BC staff Google Doc projection for the student's first meeting. Includes evidence-generator content plus preliminary matrix rows. Avoids all final-decision language.</p>
     </div>
     <div class="mode-card future-mode">
       <div class="mode-label">Future</div>
@@ -552,15 +552,15 @@
 <div class="slide slide-dark" id="slide-artifacts">
   <div class="slide-num">Section 10 of 18 &mdash; Audit &amp; Trust Layer</div>
   <h2>What the backend produces besides the Google Doc</h2>
-  <p>The staff packet is one output. The audit artifacts are the trust layer. They show what the system concluded, why, and where it was uncertain.</p>
+  <p>The staff packet is one output. The audit artifacts are the trust layer. They show what the system concluded, why, where it was uncertain, and which gated version produced the output.</p>
   <div class="card-row" style="grid-template-columns: 1fr 1fr 1fr;">
     <div class="finding-card">
       <h4>Evidence Packet</h4>
       <p>Every claim extracted from the uploaded documents, with dates, source locations, and confidence levels.</p>
     </div>
     <div class="finding-card">
-      <h4>Functional Impairment Index</h4>
-      <p>Stable IDs (FI-001, FI-002...), plain-language labels, evidence links, mapping method, and QC status for each limitation.</p>
+      <h4>Functional Limitation Index</h4>
+      <p>Stable IDs (FI-001, FI-002...), plain-language labels, evidence links, mapping method, customer-scope status, and QC status for each limitation.</p>
     </div>
     <div class="finding-card">
       <h4>Accommodation Evidence Matrix</h4>
@@ -576,7 +576,7 @@
     </div>
     <div class="finding-card">
       <h4>Audit Bundle</h4>
-      <p>Run ID, case ID, pack version, overlay version, rules fired, every matrix row with provenance, and complete export metadata.</p>
+      <p>Run ID, case ID, pack version, overlay version, rules fired, every matrix row with provenance, export intent state, acknowledgement state, and Drive policy validation metadata.</p>
     </div>
   </div>
   <div class="slide-footer">Every status in the staff packet can be traced back to source evidence, mapping rules, and overlay configuration through these artifacts.</div>
@@ -585,43 +585,43 @@
 <!-- SLIDE 12: Phases -->
 <div class="slide" id="slide-phases">
   <div class="slide-num">Section 11 of 18 &mdash; Implementation Plan</div>
-  <h2>Build phases</h2>
-  <p>Small verified commits. Each phase produces something testable before the next one starts. Server integration comes late, after the evidence engine works on its own.</p>
+  <h2>Build status as of May 14</h2>
+  <p>Small verified commits are now carrying the production path through server-authoritative export preflight. The remaining work is live Drive mutation, shadow calibration, and customer feedback tuning.</p>
   <div class="phase-track">
     <div class="phase-item phase-now">
       <div class="phase-num">Phase 0</div>
       <h4>Worktree &amp; baseline</h4>
-      <p>Isolated branch. Confirm existing tests pass before any changes.</p>
+      <p>Done. Isolated branch, clean baseline, and verified slice commits.</p>
     </div>
     <div class="phase-item phase-now">
       <div class="phase-num">Phase 1</div>
       <h4>Package skeleton</h4>
-      <p>New module in the monorepo. Fixture runner. Boundary test proving no Bloom dependency.</p>
+      <p>Done. New Post-Secondary package, fixture runner, runtime proof, and no-Bloom-import boundary tests.</p>
     </div>
     <div class="phase-item phase-now">
       <div class="phase-num">Phase 2</div>
       <h4>BC overlay + matrix</h4>
-      <p>Customer catalog. Functional limitations. Accommodation mapping. The core evidence engine.</p>
+      <p>Done. BC overlay path, functional limitations, accommodation matrix, policy lattice, overlay tooling, and quality gates.</p>
     </div>
     <div class="phase-item phase-now">
       <div class="phase-num">Phase 3</div>
       <h4>Render + Google Doc</h4>
-      <p>Staff packet projection. Evidence-generator and pre-interview profiles. Local preview.</p>
+      <p>Done. Evidence-generator and pre-interview Google Doc projections, template safeguards, local previews, and privacy checks.</p>
     </div>
-    <div class="phase-item">
+    <div class="phase-item phase-now">
       <div class="phase-num">Phase 4-5</div>
       <h4>Quality + server</h4>
-      <p>Audit gates. Server route behind feature flag. Export endpoint.</p>
+      <p>Mostly done through preflight. Feature-flagged route, trusted run loader, durable export intents, reviewer acknowledgements, privacy-safe filenames, and Drive destination policy validation are implemented. Live Drive mutation remains gated.</p>
     </div>
     <div class="phase-item phase-later">
       <div class="phase-num">Phase 6</div>
       <h4>Shadow + calibrate</h4>
-      <p>Synthetic BC packets. CFLC feedback. Tune overlay. Deprecate legacy demo.</p>
+      <p>Next. Synthetic BC packets, CFLC feedback, overlay tuning, live Drive handoff, and legacy-demo retirement decisions.</p>
     </div>
   </div>
   <blockquote>
     <strong>Deployment is additive and reversible.</strong>
-    Post-Secondary ships behind a flag. Bloom is never touched. If anything goes wrong, disable the flag and nothing else changes.
+    Post-Secondary ships behind flags and server capability gates. Bloom is never touched. If anything goes wrong, disable the Post-Secondary generator/export flags and the Bloom path keeps running.
   </blockquote>
 </div>
 
@@ -629,7 +629,7 @@
 <div class="slide slide-dark" id="slide-goals">
   <div class="slide-num">Section 12 of 18 &mdash; Discussion</div>
   <h2>What we need to decide together</h2>
-  <p>Use this walkthrough to test whether the architecture matches what BC CFLC staff actually need.</p>
+  <p>Use this walkthrough to test whether the implemented direction matches what BC CFLC staff actually need before we wire live Drive mutation.</p>
   <div class="goals-list">
     <div class="goal-item">
       <span class="goal-num">1</span>
@@ -645,7 +645,7 @@
     </div>
     <div class="goal-item">
       <span class="goal-num">4</span>
-      <span class="goal-text">Which quality flags should pause the workflow, and which are just informational notes for staff?</span>
+      <span class="goal-text">Which quality flags should block Google Doc export, require reviewer acknowledgement, or remain informational?</span>
     </div>
     <div class="goal-item">
       <span class="goal-num">5</span>
@@ -664,7 +664,7 @@
   <div class="discuss-grid">
     <div class="finding-card">
       <h4>Listen for</h4>
-      <p>Whether staff currently read all documents before forming accommodation ideas, or whether they jump to accommodations while reading. The system assumes evidence-first. Does that match reality?</p>
+      <p>Whether staff currently read all documents before forming accommodation ideas, or whether they jump to accommodations while reading. The implemented path keeps functional limitations separate from accommodation candidates. Does that match reality?</p>
     </div>
     <div class="finding-card">
       <h4>Watch for</h4>
@@ -672,7 +672,7 @@
     </div>
     <div class="finding-card">
       <h4>Decide today</h4>
-      <p>Should the pre-interview packet show functional limitations in one section and accommodation candidates in another? Or interleave them so each limitation has its candidates right below it?</p>
+      <p>Should the Google Doc show functional limitations in one section and accommodation candidates in another? Or interleave them so each limitation has its candidates right below it?</p>
     </div>
   </div>
 </div>
@@ -682,7 +682,7 @@
   <div class="slide-num">Section 14 of 18 &mdash; Discussion</div>
   <div class="discuss-num">2</div>
   <h2>Four accommodation slots for BC</h2>
-  <p>The system always emits four sections. Do they match how BC thinks about supports?</p>
+      <p>The system keeps four configurable section slots. Do they match how BC thinks about supports?</p>
   <div class="discuss-grid">
     <div class="finding-card">
       <h4>Listen for</h4>
@@ -716,7 +716,7 @@
     </div>
     <div class="finding-card">
       <h4>Decide today</h4>
-      <p>When documents are missing student narrative (no intake interview yet), should the system generate interview prompts? Questions staff could ask based on gaps in the documentation? Or is that overstepping?</p>
+      <p>When documents are missing student narrative, should the system generate interview prompts based on evidence gaps? The current projection can carry prompts; BC should decide how assertive they should feel.</p>
     </div>
   </div>
 </div>
@@ -738,7 +738,7 @@
     </div>
     <div class="finding-card">
       <h4>Decide today</h4>
-      <p>Should any flag actually block Google Doc export? Or should flags always be informational, with staff deciding when to act? The Bloom model blocks export for some issues. Does BC want the same?</p>
+      <p>Which flags should block export, which should require acknowledgement, and which should remain informational? The server now supports durable acknowledgement before Drive readiness.</p>
     </div>
   </div>
 </div>
@@ -756,11 +756,11 @@
     </div>
     <div class="finding-card">
       <h4>Watch for</h4>
-      <p>Assumptions about what BC can customize versus what's fixed. They should understand: they can rename sections, restrict the catalog, change wording. But they can't delete a required section or override the evidence-to-accommodation linking rule.</p>
+      <p>Assumptions about what BC can customize versus what's fixed. They should understand: they can rename sections, restrict the catalog, change wording, and tune resources. They cannot bypass evidence-to-accommodation linking, privacy gates, or Drive destination governance.</p>
     </div>
     <div class="finding-card">
       <h4>Decide today</h4>
-      <p>What does BC's initial accommodation catalog actually look like? Do they have a list of approved accommodations already? Do they want to start with a broad catalog and narrow it, or start narrow and expand?</p>
+      <p>What does BC's initial accommodation catalog actually look like, and which entries should be standard versus fallback-to-Thrive-default? This answer controls the first production overlay seed.</p>
     </div>
   </div>
 </div>
