@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>C2A Scoring Pipeline - Code Map</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: #0f1117; color: #e2e8f0; height: 100vh; overflow: hidden; }
+  .layout { display: grid; grid-template-columns: 280px 1fr; grid-template-rows: 1fr auto; height: 100vh; }
+
+  .sidebar { grid-row: 1 / 3; background: #181b24; border-right: 1px solid #2d3348; overflow-y: auto; padding: 16px; }
+  .sidebar h2 { font-size: 14px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+  .sidebar .subtitle { font-size: 11px; color: #475569; margin-bottom: 14px; }
+  .sidebar h3 { font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin: 14px 0 6px; }
+
+  .preset-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 14px; }
+  .preset-btn { background: #1e2230; border: 1px solid #2d3348; color: #94a3b8; padding: 7px 5px; border-radius: 6px; cursor: pointer; font-size: 11px; text-align: center; transition: all 0.15s; }
+  .preset-btn:hover { background: #252a3a; border-color: #3b82f6; color: #e2e8f0; }
+  .preset-btn.active { background: #1e3a5f; border-color: #3b82f6; color: #60a5fa; }
+
+  .layer-toggle, .conn-toggle { display: flex; align-items: center; gap: 8px; padding: 5px 8px; margin-bottom: 3px; border-radius: 6px; cursor: pointer; transition: background 0.15s; }
+  .layer-toggle:hover, .conn-toggle:hover { background: #1e2230; }
+  .layer-toggle input, .conn-toggle input { accent-color: #3b82f6; width: 14px; height: 14px; }
+  .layer-swatch { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+  .layer-label, .conn-label { font-size: 12px; color: #cbd5e1; }
+  .conn-line { width: 20px; height: 2px; flex-shrink: 0; border-radius: 1px; }
+
+  .comments-section { margin-top: 14px; border-top: 1px solid #2d3348; padding-top: 10px; }
+  .comment-count { font-size: 11px; color: #64748b; }
+  .comment-item { background: #1e2230; border: 1px solid #2d3348; border-radius: 6px; padding: 9px; margin-bottom: 5px; position: relative; }
+  .comment-target { font-size: 11px; font-weight: 600; color: #60a5fa; margin-bottom: 2px; }
+  .comment-file { font-size: 10px; color: #475569; font-family: 'SF Mono', monospace; margin-bottom: 3px; }
+  .comment-text { font-size: 12px; color: #cbd5e1; line-height: 1.4; }
+  .comment-delete { position: absolute; top: 5px; right: 5px; background: none; border: none; color: #475569; cursor: pointer; font-size: 14px; padding: 2px 4px; border-radius: 3px; }
+  .comment-delete:hover { color: #ef4444; background: #1a1a2e; }
+
+  .canvas-area { position: relative; overflow: hidden; background: #12141d; }
+  .canvas-area svg { width: 100%; height: 100%; }
+  .zoom-controls { position: absolute; bottom: 14px; right: 14px; display: flex; gap: 4px; }
+  .zoom-btn { background: #1e2230; border: 1px solid #2d3348; color: #94a3b8; width: 30px; height: 30px; border-radius: 6px; cursor: pointer; font-size: 15px; display: flex; align-items: center; justify-content: center; }
+  .zoom-btn:hover { background: #252a3a; color: #e2e8f0; }
+
+  .legend { position: absolute; bottom: 14px; left: 14px; background: #181b24ee; border: 1px solid #2d3348; border-radius: 8px; padding: 8px 12px; display: flex; gap: 14px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: #94a3b8; }
+  .legend-swatch { width: 12px; height: 12px; border-radius: 3px; }
+  .legend-line { width: 20px; height: 0; border-top-width: 2px; border-top-style: solid; }
+
+  .prompt-area { grid-column: 2; background: #181b24; border-top: 1px solid #2d3348; padding: 10px 16px; max-height: 180px; overflow-y: auto; }
+  .prompt-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .prompt-title { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; }
+  .copy-btn { background: #1e3a5f; border: 1px solid #2d5a9e; color: #60a5fa; padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; transition: all 0.15s; }
+  .copy-btn:hover { background: #254a7a; }
+  .copy-btn.copied { background: #065f46; border-color: #10b981; color: #34d399; }
+  .prompt-text { font-family: 'SF Mono', monospace; font-size: 11px; color: #cbd5e1; line-height: 1.5; white-space: pre-wrap; }
+
+  .modal-overlay { display: none; position: fixed; inset: 0; background: #000000aa; z-index: 100; align-items: center; justify-content: center; }
+  .modal-overlay.active { display: flex; }
+  .modal { background: #1e2230; border: 1px solid #2d3348; border-radius: 12px; padding: 18px; width: 380px; max-width: 90vw; }
+  .modal h3 { font-size: 15px; color: #e2e8f0; margin-bottom: 3px; }
+  .modal .modal-file { font-size: 11px; color: #64748b; font-family: monospace; margin-bottom: 6px; }
+  .modal .modal-desc { font-size: 12px; color: #94a3b8; margin-bottom: 10px; line-height: 1.4; }
+  .modal textarea { width: 100%; height: 70px; background: #12141d; border: 1px solid #2d3348; color: #e2e8f0; border-radius: 6px; padding: 8px; font-size: 12px; resize: vertical; font-family: inherit; }
+  .modal textarea:focus { outline: none; border-color: #3b82f6; }
+  .modal-actions { display: flex; justify-content: flex-end; gap: 6px; margin-top: 10px; }
+  .modal-cancel { background: #1e2230; border: 1px solid #2d3348; color: #94a3b8; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+  .modal-save { background: #1e3a5f; border: 1px solid #2d5a9e; color: #60a5fa; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+  .modal-save:hover { background: #254a7a; }
+
+  .node-tooltip { display: none; position: fixed; background: #1e2230; border: 1px solid #3b82f6; border-radius: 8px; padding: 10px 12px; z-index: 50; max-width: 320px; pointer-events: none; }
+  .node-tooltip.active { display: block; }
+  .node-tooltip h4 { font-size: 12px; color: #e2e8f0; margin-bottom: 2px; }
+  .node-tooltip .tt-file { font-family: monospace; color: #60a5fa; font-size: 10px; }
+  .node-tooltip p { font-size: 11px; color: #94a3b8; line-height: 1.4; margin-top: 4px; }
+
+  /* Stage badges */
+  .stage-badge { font-size: 9px; font-weight: 700; fill: #0f1117; }
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <div class="sidebar">
+    <h2>C2A Scoring Pipeline</h2>
+    <div class="subtitle">6-stage construct scoring flow</div>
+
+    <h3>Views</h3>
+    <div class="preset-grid" id="presets"></div>
+
+    <h3>Layers</h3>
+    <div id="layer-toggles"></div>
+
+    <h3>Connections</h3>
+    <div id="conn-toggles"></div>
+
+    <div class="comments-section">
+      <h3>Comments <span class="comment-count" id="comment-count">(0)</span></h3>
+      <div id="comments-list"></div>
+    </div>
+  </div>
+
+  <div class="canvas-area">
+    <svg id="diagram" xmlns="http://www.w3.org/2000/svg"></svg>
+    <div class="legend" id="legend"></div>
+    <div class="zoom-controls">
+      <button class="zoom-btn" id="zoom-in">+</button>
+      <button class="zoom-btn" id="zoom-out">&minus;</button>
+      <button class="zoom-btn" id="zoom-reset" style="font-size:10px">Fit</button>
+    </div>
+  </div>
+
+  <div class="prompt-area">
+    <div class="prompt-header">
+      <span class="prompt-title">Generated Prompt</span>
+      <button class="copy-btn" id="copy-btn">Copy Prompt</button>
+    </div>
+    <div class="prompt-text" id="prompt-output"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="comment-modal">
+  <div class="modal">
+    <h3 id="modal-title"></h3>
+    <div class="modal-file" id="modal-file"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <textarea id="modal-textarea" placeholder="What would you like to change or note about this component?"></textarea>
+    <div class="modal-actions">
+      <button class="modal-cancel" id="modal-cancel-btn">Cancel</button>
+      <button class="modal-save" id="modal-save-btn">Add Comment</button>
+    </div>
+  </div>
+</div>
+
+<div class="node-tooltip" id="tooltip">
+  <h4 id="tt-label"></h4>
+  <div class="tt-file" id="tt-file"></div>
+  <p id="tt-desc"></p>
+</div>
+
+<script>
+// ── Architecture Data ─────────────────────────────────────────────
+
+const LAYERS = {
+  trigger:   { label: 'Trigger & Entry',     color: '#93c5fd', fill: '#1e3a5f', border: '#3b82f6' },
+  pipeline:  { label: 'Pipeline Stages',     color: '#6ee7b7', fill: '#064e3b', border: '#10b981' },
+  registry:  { label: 'Registry & Config',   color: '#fcd34d', fill: '#78350f', border: '#f59e0b' },
+  normalize: { label: 'Normalization',       color: '#c4b5fd', fill: '#3b1f7a', border: '#8b5cf6' },
+  output:    { label: 'Output & Profile',    color: '#fca5a5', fill: '#7f1d1d', border: '#ef4444' },
+  persist:   { label: 'Database & Storage',  color: '#f9a8d4', fill: '#831843', border: '#ec4899' },
+  frontend:  { label: 'Frontend Display',    color: '#a5b4fc', fill: '#312e81', border: '#6366f1' },
+};
+
+const CONN_TYPES = {
+  pipeline:   { label: 'Pipeline Flow',  color: '#10b981', dash: '' },
+  dataflow:   { label: 'Data Read/Write', color: '#3b82f6', dash: '' },
+  config:     { label: 'Config/Lookup',  color: '#f59e0b', dash: '6,3' },
+  fallback:   { label: 'Fallback Path',  color: '#ef4444', dash: '4,4' },
+  dependency: { label: 'Import/Use',     color: '#6b7280', dash: '2,2' },
+};
+
+// Layout: left-to-right pipeline with registry above & DB below
+const nodes = [
+  // ── Trigger & Entry ──────────────────────────────────────────
+  { id: 'processing-page', label: 'Processing Page',   subtitle: 'ProcessingPage.tsx',
+    x: 40, y: 40, w: 150, h: 50, layer: 'trigger', stage: null,
+    desc: 'Staged loading UI. Shows 4 animated phases (1.4s each, min 4.2s). Calls triggerScoring() then navigates to /c2a/results.' },
+
+  { id: 'trigger-endpoint', label: 'POST /score',      subtitle: '/api/c2a/assessment/score',
+    x: 40, y: 130, w: 150, h: 50, layer: 'trigger', stage: null,
+    desc: 'Express route handler. Validates session exists, checks all 3 sprints complete, then calls scoreTimepoint() service.' },
+
+  { id: 'score-timepoint', label: 'scoreTimepoint()',   subtitle: 'scoring-service.ts',
+    x: 40, y: 230, w: 155, h: 50, layer: 'trigger', stage: null,
+    desc: 'Orchestrator. Loads timepoint instruments + raw responses from DB, transforms to RawResponse[], calls scoreBattery(), persists results in single transaction.' },
+
+  // ── Pipeline Stage 1: Item Scoring ───────────────────────────
+  { id: 'score-battery', label: 'scoreBattery()',       subtitle: 'assessment-engine/index.ts',
+    x: 250, y: 130, w: 155, h: 50, layer: 'pipeline', stage: 'Entry',
+    desc: 'Main entry point for @shared/assessment-engine. Orchestrates all 6 stages. Input: studentId, timepoint, responses[], registry. Output: ScoringResult { profile, subscaleScores, skillScores, errors }.' },
+
+  { id: 'stage1', label: 'Stage 1: scoreItems()',       subtitle: 'stage1-item-scoring.ts',
+    x: 250, y: 240, w: 170, h: 54, layer: 'pipeline', stage: '1',
+    desc: 'Per-item scoring. Validates raw_value vs response format (min/max/step). Applies reverse scoring: scored = reverse ? (max + min - raw) : raw. Returns ScoredItem[] with scored_value, subscale_id, reverse_scored flag. Errors collected, not fatal.' },
+
+  // ── Pipeline Stage 2: Subscale Scoring ───────────────────────
+  { id: 'stage2', label: 'Stage 2: scoreSubscales()',   subtitle: 'stage2-subscale-scoring.ts',
+    x: 480, y: 240, w: 180, h: 54, layer: 'pipeline', stage: '2',
+    desc: 'Groups scored items by subscale_id using authoritative subscale_def.item_ids[]. Completeness check: need >=80% items answered. Method: "mean" = sum/count, "sum" = prorated if incomplete. Status: scored | incomplete | not_administered. Rounds to 3 decimals.' },
+
+  // ── Pipeline Stage 3: Normalization ──────────────────────────
+  { id: 'stage3', label: 'Stage 3: normalize()',        subtitle: 'stage3-normalization.ts',
+    x: 720, y: 240, w: 170, h: 54, layer: 'normalize', stage: '3',
+    desc: 'Two-tier system. Tier 1 (published norms): T-score = 50 + 10 * ((X - M) / SD), clamped [1,99]. Tier 2 (no norms): linear min-max = ((X - min) / (max - min)) * 99 + 1, clamped [1,100]. Some instruments reflect scoring (ADEXI, partial BMPN/GMS).' },
+
+  { id: 'tier1-norms', label: 'Tier 1: T-Score',       subtitle: 'T = 50 + 10*((X-M)/SD)',
+    x: 720, y: 130, w: 165, h: 50, layer: 'normalize', stage: null,
+    desc: 'Published norms path (ADEXI, GMS). Loads M and SD from norms-index.json. Applies score reflection for instruments where high raw = negative construct. Clamps to [1, 99].' },
+
+  { id: 'tier2-linear', label: 'Tier 2: Linear Scale',  subtitle: '((X-min)/(max-min))*99+1',
+    x: 720, y: 340, w: 170, h: 50, layer: 'normalize', stage: null,
+    desc: 'Fallback for instruments without published norms (C2A-CF, CAAS-SF, IRI, SFCQ, BMPN, CSE6, IPIP, C2A-Networking). Uses score_range from scoring spec. Clamps to [1, 100].' },
+
+  // ── Pipeline Stage 4: Construct Rollup ───────────────────────
+  { id: 'stage4', label: 'Stage 4: constructRollup()',  subtitle: 'stage4-construct-rollup.ts',
+    x: 950, y: 240, w: 185, h: 54, layer: 'pipeline', stage: '4',
+    desc: 'Maps normalized subscales to 8 durable skills via ConstructMapping[]. Single source: use directly. Multiple sources (rollup_required=true): reliability-weighted mean = sum(score * alpha) / sum(alpha). weighted_alpha = totalWeight / sourceCount.' },
+
+  // ── Pipeline Stage 5: Clinical Flags ─────────────────────────
+  { id: 'stage5', label: 'Stage 5: clinicalFlags()',    subtitle: 'stage5-clinical-flags.ts',
+    x: 950, y: 370, w: 185, h: 54, layer: 'pipeline', stage: '5',
+    desc: 'Iterates flag definitions from construct-map.json. Checks normalized_score against threshold with direction (gte/lte). Severity: "block" = critical (score <= 25), "watch" = elevated (25-50), "clear" = no concern.' },
+
+  // ── Pipeline Stage 6: Profile Assembly ───────────────────────
+  { id: 'stage6', label: 'Stage 6: assembleProfile()',  subtitle: 'stage6-profile-assembly.ts',
+    x: 950, y: 110, w: 185, h: 54, layer: 'output', stage: '6',
+    desc: 'Organizes skill scores into 4 coaching lenses: executive_function, durable_skills, self_determination, contextual_enablers. Carry-forward: uses prior timepoint scores if current missing. Attaches clinical_flags[].' },
+
+  { id: 'trajectory', label: 'computeTrajectory()',     subtitle: 'stage6-profile-assembly.ts',
+    x: 1190, y: 110, w: 170, h: 50, layer: 'output', stage: null,
+    desc: 'Requires >=2 timepoints. slope = magnitude / weeks. Direction: improving (>3pts), declining (<-3pts), stable (within 3pts on 1-100 scale).' },
+
+  // ── Registry & Config ────────────────────────────────────────
+  { id: 'registry', label: 'InstrumentRegistry',        subtitle: 'registry.ts',
+    x: 420, y: 40, w: 160, h: 50, layer: 'registry', stage: null,
+    desc: 'Loads JSON definitions from data/instruments/*.json, scoring specs from data/scoring/*.json. API: getInstrument(), getScoringSpec(), getItemDef(), getResponseFormat(), getAllSubscales().' },
+
+  { id: 'scoring-specs', label: 'Scoring Specs',        subtitle: 'data/scoring/*.json',
+    x: 420, y: 380, w: 150, h: 46, layer: 'registry', stage: null,
+    desc: 'Per-instrument scoring configuration. Defines subscales, item_ids[], method (mean/sum), reverse_scored items, score_range [min, max], alpha coefficients.' },
+
+  { id: 'construct-map', label: 'Construct Map',        subtitle: 'data/construct-map.json',
+    x: 620, y: 40, w: 155, h: 50, layer: 'registry', stage: null,
+    desc: 'Maps subscales to 8 skills across 4 lenses. Each entry: skill_id, lens_id, subscale_sources[] with instrument_id, subscale_id, weight_type. rollup_required flag. Also defines clinical flag thresholds.' },
+
+  { id: 'norms-index', label: 'Norms Index',            subtitle: 'data/norms/norms-index.json',
+    x: 620, y: 380, w: 150, h: 46, layer: 'registry', stage: null,
+    desc: 'Published norms for Tier 1 instruments (ADEXI, GMS). Contains M (mean) and SD for each subscale. Also reflection config: which instruments/subscales need score reflection.' },
+
+  // ── Database & Storage ───────────────────────────────────────
+  { id: 'db-responses', label: 'c2a_responses',         subtitle: 'student_id, item_id, raw_value',
+    x: 40, y: 380, w: 155, h: 50, layer: 'persist', stage: null,
+    desc: 'Raw response storage. Each row: session_id, student_id, timepoint_id, item_id, instrument_id, raw_value (number). Read by scoreTimepoint() as pipeline input.' },
+
+  { id: 'db-subscales', label: 'c2a_subscale_scores',   subtitle: 'raw_score, normalized_score',
+    x: 250, y: 380, w: 170, h: 50, layer: 'persist', stage: null,
+    desc: 'Stage 2-3 output. Upserted by (student_id, instrument_id, subscale_id, timepoint_id). Fields: raw_score, normalized_score, alpha, items_answered, items_expected, method, status.' },
+
+  { id: 'db-skills', label: 'c2a_skill_scores',         subtitle: 'skill_id, normalized_score',
+    x: 950, y: 490, w: 165, h: 50, layer: 'persist', stage: null,
+    desc: 'Stage 4 output. Upserted by (student_id, skill_id, timepoint_id). Fields: normalized_score (1-100), weighted_alpha, lens_id, source_timepoint_id. Indexed on (student_id, timepoint_id).' },
+
+  { id: 'db-flags', label: 'c2a_clinical_flags',        subtitle: 'flag_id, severity, threshold',
+    x: 1190, y: 490, w: 165, h: 50, layer: 'persist', stage: null,
+    desc: 'Stage 5 output. Upserted by (student_id, flag_id, timepoint_id). Note: "raw_score" column actually stores normalized_score that triggered the flag.' },
+
+  { id: 'db-profiles', label: 'c2a_profiles',           subtitle: 'structured_data (JSONB)',
+    x: 1190, y: 230, w: 155, h: 50, layer: 'persist', stage: null,
+    desc: 'Stage 6 output. Versioned: student_id, timepoint_id, version (auto-increment), is_current flag. structured_data contains full StudentProfile JSON.' },
+
+  { id: 'db-sessions', label: 'c2a_sessions',           subtitle: 'status: completed',
+    x: 1190, y: 370, w: 155, h: 46, layer: 'persist', stage: null,
+    desc: 'Updated to status="completed" at end of scoring transaction. Session status drives the results lock/unlock gate for students.' },
+
+  // ── Frontend Display ─────────────────────────────────────────
+  { id: 'results-page', label: 'Results Snapshot',      subtitle: 'ResultsSnapshotPage.tsx',
+    x: 1400, y: 40, w: 160, h: 50, layer: 'frontend', stage: null,
+    desc: 'Polls GET /status every 30s. States: loading, locked ("Coach is reviewing"), unlocked (shows RewardCard). Navigates to /c2a/dashboard on unlock.' },
+
+  { id: 'dashboard', label: 'Student Dashboard',        subtitle: 'StudentDashboardPage.tsx',
+    x: 1400, y: 130, w: 165, h: 50, layer: 'frontend', stage: null,
+    desc: 'Full profile view. My Blueprint (2-column progressive disclosure), Full Picture (radar chart), Sources tab. Reads skill scores + clinical flags.' },
+
+  { id: 'score-utils', label: 'Score Categorization',   subtitle: 'score-utils.ts',
+    x: 1400, y: 230, w: 165, h: 50, layer: 'frontend', stage: null,
+    desc: 'Categorizes display scores: <30 = "low" (Orange #F89E54), 30-60 = "needs_focus" (Sky #96D7E1), >60 = "strong" (Green #4DB88A). Used by dashboard + report views.' },
+
+  { id: 'profile-gen-svc', label: 'Profile Gen Service', subtitle: 'profile-generation-service.ts',
+    x: 1400, y: 330, w: 175, h: 50, layer: 'frontend', stage: null,
+    desc: 'DDx phase. Generates narrative text, "Start Here" priority skills, intervention recommendations from 400+ bank. Reads profiles + interventions data.' },
+
+  // ── Validation ───────────────────────────────────────────────
+  { id: 'validator', label: 'Response Validator',        subtitle: 'response-validator.ts',
+    x: 40, y: 490, w: 160, h: 50, layer: 'trigger', stage: null,
+    desc: 'Validates before DB persist (POST /responses endpoint). Likert: value in [min, max], respects step grid. Self-estimation: value in [0, 100]. Returns { valid, errors }.' },
+];
+
+const connections = [
+  // Trigger chain
+  { from: 'processing-page', to: 'trigger-endpoint', type: 'pipeline', label: 'POST' },
+  { from: 'trigger-endpoint', to: 'score-timepoint', type: 'pipeline', label: 'calls' },
+  { from: 'score-timepoint', to: 'score-battery',    type: 'pipeline', label: 'invokes' },
+  { from: 'score-timepoint', to: 'db-responses',     type: 'dataflow', label: 'reads raw' },
+
+  // Pipeline stages (the main spine)
+  { from: 'score-battery', to: 'stage1',  type: 'pipeline', label: '1. score items' },
+  { from: 'stage1',        to: 'stage2',  type: 'pipeline', label: '2. subscales' },
+  { from: 'stage2',        to: 'stage3',  type: 'pipeline', label: '3. normalize' },
+  { from: 'stage3',        to: 'stage4',  type: 'pipeline', label: '4. rollup' },
+  { from: 'stage4',        to: 'stage5',  type: 'pipeline', label: '5. flags' },
+  { from: 'stage4',        to: 'stage6',  type: 'pipeline', label: '6. assemble' },
+  { from: 'stage5',        to: 'stage6',  type: 'pipeline', label: 'attach flags' },
+  { from: 'stage6',        to: 'trajectory', type: 'pipeline', label: 'if >=2 timepoints' },
+
+  // Normalization tiers
+  { from: 'stage3', to: 'tier1-norms',  type: 'config',   label: 'has norms?' },
+  { from: 'stage3', to: 'tier2-linear', type: 'fallback', label: 'no norms' },
+  { from: 'tier1-norms',  to: 'norms-index', type: 'config', label: 'loads M, SD' },
+
+  // Registry lookups
+  { from: 'score-battery', to: 'registry',     type: 'config', label: 'instruments' },
+  { from: 'stage1',        to: 'registry',     type: 'config', label: 'item defs' },
+  { from: 'stage2',        to: 'scoring-specs', type: 'config', label: 'subscale defs' },
+  { from: 'stage4',        to: 'construct-map', type: 'config', label: 'skill mappings' },
+  { from: 'stage5',        to: 'construct-map', type: 'config', label: 'flag thresholds' },
+  { from: 'registry',      to: 'scoring-specs', type: 'dependency', label: 'loads' },
+  { from: 'registry',      to: 'construct-map', type: 'dependency', label: 'loads' },
+
+  // DB writes (single transaction)
+  { from: 'score-timepoint', to: 'db-subscales', type: 'dataflow', label: 'upsert' },
+  { from: 'score-timepoint', to: 'db-skills',    type: 'dataflow', label: 'upsert' },
+  { from: 'score-timepoint', to: 'db-flags',     type: 'dataflow', label: 'upsert' },
+  { from: 'score-timepoint', to: 'db-profiles',  type: 'dataflow', label: 'insert' },
+  { from: 'score-timepoint', to: 'db-sessions',  type: 'dataflow', label: 'status=completed' },
+
+  // Validation
+  { from: 'validator', to: 'db-responses', type: 'dataflow', label: 'validated writes' },
+  { from: 'validator', to: 'registry',     type: 'config',   label: 'format checks' },
+
+  // Frontend reads
+  { from: 'db-sessions',  to: 'results-page',  type: 'dataflow', label: 'polls status' },
+  { from: 'results-page', to: 'dashboard',     type: 'pipeline', label: 'on unlock' },
+  { from: 'db-skills',    to: 'dashboard',     type: 'dataflow', label: 'reads scores' },
+  { from: 'db-profiles',  to: 'dashboard',     type: 'dataflow', label: 'reads profile' },
+  { from: 'dashboard',    to: 'score-utils',   type: 'dependency', label: 'categorizes' },
+  { from: 'db-profiles',  to: 'profile-gen-svc', type: 'dataflow', label: 'reads' },
+  { from: 'db-flags',     to: 'dashboard',     type: 'dataflow', label: 'reads flags' },
+];
+
+// ── State ─────────────────────────────────────────────────────────
+
+const state = {
+  preset: 'full',
+  layers: Object.fromEntries(Object.keys(LAYERS).map(function(k) { return [k, true]; })),
+  connTypes: Object.fromEntries(Object.keys(CONN_TYPES).map(function(k) { return [k, true]; })),
+  comments: [],
+  zoom: 1,
+  modalNode: null,
+};
+
+const PRESETS = {
+  full:      { label: 'Full Pipeline',  layers: { trigger: true, pipeline: true, registry: true, normalize: true, output: true, persist: true, frontend: true } },
+  stages:    { label: '6 Stages Only',  layers: { trigger: false, pipeline: true, registry: false, normalize: true, output: true, persist: false, frontend: false } },
+  scoring:   { label: 'Score Math',     layers: { trigger: false, pipeline: true, registry: true, normalize: true, output: false, persist: false, frontend: false } },
+  persist:   { label: 'Data Flow',      layers: { trigger: true, pipeline: false, registry: false, normalize: false, output: false, persist: true, frontend: true } },
+  clinical:  { label: 'Clinical Path',  layers: { trigger: false, pipeline: true, registry: true, normalize: true, output: true, persist: true, frontend: false } },
+  display:   { label: 'Score Display',  layers: { trigger: false, pipeline: false, registry: false, normalize: false, output: true, persist: true, frontend: true } },
+};
+
+// ── DOM refs ──────────────────────────────────────────────────────
+
+const svgEl = document.getElementById('diagram');
+const tooltipEl = document.getElementById('tooltip');
+const promptOutput = document.getElementById('prompt-output');
+const presetsEl = document.getElementById('presets');
+const layerTogglesEl = document.getElementById('layer-toggles');
+const connTogglesEl = document.getElementById('conn-toggles');
+const commentsListEl = document.getElementById('comments-list');
+const commentCountEl = document.getElementById('comment-count');
+const legendEl = document.getElementById('legend');
+const commentModal = document.getElementById('comment-modal');
+const modalTitle = document.getElementById('modal-title');
+const modalFile = document.getElementById('modal-file');
+const modalDesc = document.getElementById('modal-desc');
+const modalTextarea = document.getElementById('modal-textarea');
+const copyBtn = document.getElementById('copy-btn');
+
+// ── Rendering ─────────────────────────────────────────────────────
+
+function renderControls() {
+  while (presetsEl.firstChild) presetsEl.removeChild(presetsEl.firstChild);
+  Object.entries(PRESETS).forEach(function([k, v]) {
+    var btn = document.createElement('button');
+    btn.className = 'preset-btn' + (state.preset === k ? ' active' : '');
+    btn.textContent = v.label;
+    btn.addEventListener('click', function() { setPreset(k); });
+    presetsEl.appendChild(btn);
+  });
+
+  while (layerTogglesEl.firstChild) layerTogglesEl.removeChild(layerTogglesEl.firstChild);
+  Object.entries(LAYERS).forEach(function([k, v]) {
+    var label = document.createElement('label');
+    label.className = 'layer-toggle';
+    var input = document.createElement('input');
+    input.type = 'checkbox'; input.checked = state.layers[k];
+    input.addEventListener('change', function() { toggleLayer(k); });
+    var swatch = document.createElement('span');
+    swatch.className = 'layer-swatch'; swatch.style.background = v.color;
+    var text = document.createElement('span');
+    text.className = 'layer-label'; text.textContent = v.label;
+    label.appendChild(input); label.appendChild(swatch); label.appendChild(text);
+    layerTogglesEl.appendChild(label);
+  });
+
+  while (connTogglesEl.firstChild) connTogglesEl.removeChild(connTogglesEl.firstChild);
+  Object.entries(CONN_TYPES).forEach(function([k, v]) {
+    var label = document.createElement('label');
+    label.className = 'conn-toggle';
+    var input = document.createElement('input');
+    input.type = 'checkbox'; input.checked = state.connTypes[k];
+    input.addEventListener('change', function() { toggleConn(k); });
+    var line = document.createElement('span');
+    line.className = 'conn-line'; line.style.background = v.color;
+    if (v.dash) line.style.background = 'repeating-linear-gradient(90deg,' + v.color + ' 0,' + v.color + ' 4px,transparent 4px,transparent 7px)';
+    var text = document.createElement('span');
+    text.className = 'conn-label'; text.textContent = v.label;
+    label.appendChild(input); label.appendChild(line); label.appendChild(text);
+    connTogglesEl.appendChild(label);
+  });
+
+  while (legendEl.firstChild) legendEl.removeChild(legendEl.firstChild);
+  Object.entries(LAYERS).filter(function([k]) { return state.layers[k]; }).forEach(function([k, v]) {
+    var item = document.createElement('span'); item.className = 'legend-item';
+    var sw = document.createElement('span'); sw.className = 'legend-swatch';
+    sw.style.background = v.fill; sw.style.border = '1px solid ' + v.border;
+    item.appendChild(sw); item.appendChild(document.createTextNode(v.label));
+    legendEl.appendChild(item);
+  });
+  Object.entries(CONN_TYPES).filter(function([k]) { return state.connTypes[k]; }).forEach(function([k, v]) {
+    var item = document.createElement('span'); item.className = 'legend-item';
+    var ln = document.createElement('span'); ln.className = 'legend-line';
+    ln.style.borderColor = v.color; if (v.dash) ln.style.borderStyle = 'dashed';
+    item.appendChild(ln); item.appendChild(document.createTextNode(v.label));
+    legendEl.appendChild(item);
+  });
+}
+
+function renderDiagram() {
+  var visibleNodes = nodes.filter(function(n) { return state.layers[n.layer]; });
+  var visibleIds = new Set(visibleNodes.map(function(n) { return n.id; }));
+  var visibleConns = connections.filter(function(c) {
+    return state.connTypes[c.type] && visibleIds.has(c.from) && visibleIds.has(c.to);
+  });
+  var commentedIds = new Set(state.comments.map(function(c) { return c.target; }));
+
+  var padding = 50;
+  var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  if (visibleNodes.length === 0) { minX = 0; minY = 0; maxX = 1600; maxY = 600; }
+  visibleNodes.forEach(function(n) {
+    minX = Math.min(minX, n.x - 10); minY = Math.min(minY, n.y - 10);
+    maxX = Math.max(maxX, n.x + n.w + 10); maxY = Math.max(maxY, n.y + n.h + 10);
+  });
+
+  while (svgEl.firstChild) svgEl.removeChild(svgEl.firstChild);
+  svgEl.setAttribute('viewBox', (minX - padding) + ' ' + (minY - padding) + ' ' + (maxX - minX + padding * 2) + ' ' + (maxY - minY + padding * 2));
+
+  // Defs
+  var defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+  Object.entries(CONN_TYPES).forEach(function([k, v]) {
+    var marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+    marker.setAttribute('id', 'arrow-' + k); marker.setAttribute('markerWidth', '8');
+    marker.setAttribute('markerHeight', '6'); marker.setAttribute('refX', '7');
+    marker.setAttribute('refY', '3'); marker.setAttribute('orient', 'auto');
+    var poly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+    poly.setAttribute('points', '0 0, 8 3, 0 6'); poly.setAttribute('fill', v.color);
+    poly.setAttribute('opacity', '0.8');
+    marker.appendChild(poly); defs.appendChild(marker);
+  });
+  svgEl.appendChild(defs);
+
+  // Connections
+  visibleConns.forEach(function(c) {
+    var from = nodes.find(function(n) { return n.id === c.from; });
+    var to = nodes.find(function(n) { return n.id === c.to; });
+    var ct = CONN_TYPES[c.type];
+    var fx = from.x + from.w / 2, fy = from.y + from.h / 2;
+    var tx = to.x + to.w / 2, ty = to.y + to.h / 2;
+    var x1, y1, x2, y2, dx = tx - fx, dy = ty - fy;
+    if (Math.abs(dx) > Math.abs(dy)) {
+      if (dx > 0) { x1 = from.x + from.w; y1 = fy; x2 = to.x; y2 = ty; }
+      else { x1 = from.x; y1 = fy; x2 = to.x + to.w; y2 = ty; }
+    } else {
+      if (dy > 0) { x1 = fx; y1 = from.y + from.h; x2 = tx; y2 = to.y; }
+      else { x1 = fx; y1 = from.y; x2 = tx; y2 = to.y + to.h; }
+    }
+    var cx1 = x1 + (x2 - x1) * 0.4, cy1 = y1;
+    var cx2 = x1 + (x2 - x1) * 0.6, cy2 = y2;
+    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', 'M' + x1 + ',' + y1 + ' C' + cx1 + ',' + cy1 + ' ' + cx2 + ',' + cy2 + ' ' + x2 + ',' + y2);
+    path.setAttribute('fill', 'none'); path.setAttribute('stroke', ct.color);
+    path.setAttribute('stroke-width', '1.5'); path.setAttribute('stroke-opacity', '0.5');
+    if (ct.dash) path.setAttribute('stroke-dasharray', ct.dash);
+    path.setAttribute('marker-end', 'url(#arrow-' + c.type + ')');
+    svgEl.appendChild(path);
+    if (c.label) {
+      var lx = (x1 + x2) / 2, ly = (y1 + y2) / 2 - 6;
+      var txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      txt.setAttribute('x', String(lx)); txt.setAttribute('y', String(ly));
+      txt.setAttribute('fill', ct.color); txt.setAttribute('font-size', '8');
+      txt.setAttribute('text-anchor', 'middle'); txt.setAttribute('opacity', '0.7');
+      txt.setAttribute('font-family', 'system-ui'); txt.textContent = c.label;
+      svgEl.appendChild(txt);
+    }
+  });
+
+  // Nodes
+  visibleNodes.forEach(function(n) {
+    var l = LAYERS[n.layer];
+    var hasComment = commentedIds.has(n.id);
+    var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.style.cursor = 'pointer';
+    g.addEventListener('mouseenter', function(e) { showTooltip(e, n.id); });
+    g.addEventListener('mouseleave', hideTooltip);
+    g.addEventListener('click', function() { openModal(n.id); });
+
+    var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    rect.setAttribute('x', String(n.x)); rect.setAttribute('y', String(n.y));
+    rect.setAttribute('width', String(n.w)); rect.setAttribute('height', String(n.h));
+    rect.setAttribute('rx', '8'); rect.setAttribute('fill', l.fill);
+    rect.setAttribute('stroke', hasComment ? '#f59e0b' : l.border);
+    rect.setAttribute('stroke-width', hasComment ? '2.5' : '1.5');
+    rect.setAttribute('opacity', '0.95');
+    g.appendChild(rect);
+
+    // Stage badge
+    if (n.stage && /^[1-6]$/.test(n.stage)) {
+      var badge = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      badge.setAttribute('cx', String(n.x + 14)); badge.setAttribute('cy', String(n.y + 14));
+      badge.setAttribute('r', '9'); badge.setAttribute('fill', '#10b981');
+      g.appendChild(badge);
+      var badgeText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      badgeText.setAttribute('x', String(n.x + 14)); badgeText.setAttribute('y', String(n.y + 18));
+      badgeText.setAttribute('fill', '#064e3b'); badgeText.setAttribute('font-size', '10');
+      badgeText.setAttribute('font-weight', '700'); badgeText.setAttribute('text-anchor', 'middle');
+      badgeText.setAttribute('font-family', 'system-ui'); badgeText.textContent = n.stage;
+      g.appendChild(badgeText);
+    }
+
+    var title = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    title.setAttribute('x', String(n.x + n.w / 2)); title.setAttribute('y', String(n.y + 22));
+    title.setAttribute('fill', l.color); title.setAttribute('font-size', '11');
+    title.setAttribute('font-weight', '600'); title.setAttribute('text-anchor', 'middle');
+    title.setAttribute('font-family', 'system-ui'); title.textContent = n.label;
+    g.appendChild(title);
+
+    var sub = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    sub.setAttribute('x', String(n.x + n.w / 2)); sub.setAttribute('y', String(n.y + 36));
+    sub.setAttribute('fill', l.color); sub.setAttribute('font-size', '8');
+    sub.setAttribute('text-anchor', 'middle'); sub.setAttribute('opacity', '0.6');
+    sub.setAttribute('font-family', 'monospace');
+    sub.textContent = n.subtitle.length > 28 ? n.subtitle.slice(0, 26) + '..' : n.subtitle;
+    g.appendChild(sub);
+
+    if (hasComment) {
+      var count = state.comments.filter(function(c) { return c.target === n.id; }).length;
+      var cc = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      cc.setAttribute('cx', String(n.x + n.w - 8)); cc.setAttribute('cy', String(n.y + 8));
+      cc.setAttribute('r', '5'); cc.setAttribute('fill', '#f59e0b');
+      cc.setAttribute('stroke', '#78350f'); cc.setAttribute('stroke-width', '1');
+      g.appendChild(cc);
+      var ct2 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      ct2.setAttribute('x', String(n.x + n.w - 8)); ct2.setAttribute('y', String(n.y + 11));
+      ct2.setAttribute('fill', '#78350f'); ct2.setAttribute('font-size', '7');
+      ct2.setAttribute('text-anchor', 'middle'); ct2.setAttribute('font-weight', '700');
+      ct2.textContent = String(count);
+      g.appendChild(ct2);
+    }
+
+    svgEl.appendChild(g);
+  });
+}
+
+function renderComments() {
+  commentCountEl.textContent = '(' + state.comments.length + ')';
+  while (commentsListEl.firstChild) commentsListEl.removeChild(commentsListEl.firstChild);
+  if (state.comments.length === 0) {
+    var p = document.createElement('p');
+    p.style.fontSize = '12px'; p.style.color = '#475569'; p.style.marginTop = '4px';
+    p.textContent = 'Click any component to add a comment.';
+    commentsListEl.appendChild(p);
+    return;
+  }
+  state.comments.forEach(function(c) {
+    var item = document.createElement('div'); item.className = 'comment-item';
+    var del = document.createElement('button'); del.className = 'comment-delete';
+    del.textContent = '\u00d7';
+    del.addEventListener('click', function() { deleteComment(c.id); });
+    var target = document.createElement('div'); target.className = 'comment-target'; target.textContent = c.targetLabel;
+    var file = document.createElement('div'); file.className = 'comment-file'; file.textContent = c.targetFile;
+    var text = document.createElement('div'); text.className = 'comment-text'; text.textContent = c.text;
+    item.appendChild(del); item.appendChild(target); item.appendChild(file); item.appendChild(text);
+    commentsListEl.appendChild(item);
+  });
+}
+
+function updatePrompt() {
+  var visibleLayers = Object.entries(state.layers).filter(function([, v]) { return v; }).map(function([k]) { return LAYERS[k].label; });
+  var parts = [];
+  parts.push('This is the C2A Scoring Pipeline for the ThriveIEP Accommodation Engine.');
+  parts.push('6-stage construct scoring: Item Scoring > Subscale Scoring > Normalization > Construct Rollup > Clinical Flags > Profile Assembly.');
+  if (visibleLayers.length < Object.keys(LAYERS).length) {
+    parts.push('Currently viewing: ' + visibleLayers.join(', ') + '.');
+  }
+  if (state.comments.length > 0) {
+    parts.push(''); parts.push('Feedback on specific components:');
+    state.comments.forEach(function(c) {
+      parts.push(''); parts.push('**' + c.targetLabel + '** (' + c.targetFile + '):');
+      parts.push(c.text);
+    });
+  } else {
+    parts.push(''); parts.push('No component comments yet. Click any node to add feedback.');
+  }
+  promptOutput.textContent = parts.join('\n');
+}
+
+function updateAll() { renderControls(); renderDiagram(); renderComments(); updatePrompt(); }
+
+// ── Interactions ──────────────────────────────────────────────────
+
+function setPreset(key) { state.preset = key; state.layers = Object.assign({}, PRESETS[key].layers); updateAll(); }
+function toggleLayer(key) { state.layers[key] = !state.layers[key]; state.preset = ''; updateAll(); }
+function toggleConn(key) { state.connTypes[key] = !state.connTypes[key]; updateAll(); }
+
+function showTooltip(event, nodeId) {
+  var n = nodes.find(function(nd) { return nd.id === nodeId; });
+  if (!n) return;
+  document.getElementById('tt-label').textContent = n.label;
+  document.getElementById('tt-file').textContent = n.subtitle;
+  document.getElementById('tt-desc').textContent = n.desc;
+  tooltipEl.classList.add('active');
+  tooltipEl.style.left = (event.clientX + 16) + 'px';
+  tooltipEl.style.top = (event.clientY - 10) + 'px';
+}
+function hideTooltip() { tooltipEl.classList.remove('active'); }
+
+function openModal(nodeId) {
+  var n = nodes.find(function(nd) { return nd.id === nodeId; });
+  if (!n) return;
+  state.modalNode = n;
+  modalTitle.textContent = n.label;
+  modalFile.textContent = n.subtitle;
+  modalDesc.textContent = n.desc;
+  modalTextarea.value = '';
+  commentModal.classList.add('active');
+  setTimeout(function() { modalTextarea.focus(); }, 50);
+}
+function closeModal() { commentModal.classList.remove('active'); state.modalNode = null; }
+
+function saveComment() {
+  var text = modalTextarea.value.trim();
+  if (!text || !state.modalNode) return;
+  state.comments.push({ id: Date.now(), target: state.modalNode.id, targetLabel: state.modalNode.label, targetFile: state.modalNode.subtitle, text: text });
+  closeModal(); updateAll();
+}
+function deleteComment(id) { state.comments = state.comments.filter(function(c) { return c.id !== id; }); updateAll(); }
+function zoomDiagram(delta) { state.zoom = Math.max(0.3, Math.min(3, state.zoom + delta)); svgEl.style.transform = 'scale(' + state.zoom + ')'; svgEl.style.transformOrigin = 'center center'; }
+function resetZoom() { state.zoom = 1; svgEl.style.transform = ''; }
+
+function copyPrompt() {
+  navigator.clipboard.writeText(promptOutput.textContent).then(function() {
+    copyBtn.textContent = 'Copied!'; copyBtn.classList.add('copied');
+    setTimeout(function() { copyBtn.textContent = 'Copy Prompt'; copyBtn.classList.remove('copied'); }, 1500);
+  });
+}
+
+// ── Event listeners ───────────────────────────────────────────────
+document.getElementById('zoom-in').addEventListener('click', function() { zoomDiagram(0.1); });
+document.getElementById('zoom-out').addEventListener('click', function() { zoomDiagram(-0.1); });
+document.getElementById('zoom-reset').addEventListener('click', resetZoom);
+document.getElementById('modal-cancel-btn').addEventListener('click', closeModal);
+document.getElementById('modal-save-btn').addEventListener('click', saveComment);
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
+
+updateAll();
+</script>
+</body>
+</html>

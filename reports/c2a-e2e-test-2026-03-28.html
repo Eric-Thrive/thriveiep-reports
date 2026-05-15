@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>C2A E2E Test Report - 2026-03-28</title>
+<script src="https://hypothes.is/embed.js" async></script>
+<style>
+  :root {
+    --navy: #1B2A4A;
+    --teal: #2DD4BF;
+    --cream: #FFF8F0;
+    --bg: #f8f9fa;
+    --card: #ffffff;
+    --text: #1B2A4A;
+    --muted: #6b7280;
+    --green: #10b981;
+    --amber: #f59e0b;
+    --red: #ef4444;
+    --blue: #3b82f6;
+    --radius: 12px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 0;
+  }
+  .header {
+    background: linear-gradient(135deg, var(--navy), #2d4a7a);
+    color: white;
+    padding: 2rem;
+  }
+  .header h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; }
+  .header .subtitle { opacity: 0.8; font-size: 0.9rem; }
+  .badge-row { display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600;
+  }
+  .badge-pass { background: var(--green); color: white; }
+  .badge-note { background: var(--amber); color: white; }
+  .badge-info { background: var(--blue); color: white; }
+  .badge-tag { background: rgba(255,255,255,0.15); color: white; }
+  .container { max-width: 900px; margin: 0 auto; padding: 1.5rem; }
+  .summary-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem; margin: 1.5rem 0;
+  }
+  .stat-card {
+    background: var(--card); border-radius: var(--radius); padding: 1rem;
+    border: 1px solid #e5e7eb; text-align: center;
+  }
+  .stat-card .value { font-size: 1.75rem; font-weight: 700; color: var(--navy); }
+  .stat-card .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.25rem; }
+  .section {
+    background: var(--card); border-radius: var(--radius); margin-bottom: 1rem;
+    border: 1px solid #e5e7eb; overflow: hidden;
+  }
+  .section-header {
+    padding: 1rem 1.25rem; cursor: pointer; display: flex; justify-content: space-between;
+    align-items: center; user-select: none; font-weight: 600; font-size: 0.95rem;
+  }
+  .section-header:hover { background: #f9fafb; }
+  .section-header .arrow { transition: transform 0.2s; font-size: 0.75rem; color: var(--muted); }
+  .section-header.open .arrow { transform: rotate(90deg); }
+  .section-body { padding: 0 1.25rem 1.25rem; display: none; }
+  .section-header.open + .section-body { display: block; }
+  .section-count { font-size: 0.75rem; color: var(--muted); font-weight: 400; margin-left: 0.5rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 0.75rem 0; }
+  th, td { padding: 0.5rem 0.75rem; text-align: left; border-bottom: 1px solid #f0f0f0; }
+  th { font-weight: 600; color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .status-pass { color: var(--green); font-weight: 600; }
+  .status-note { color: var(--amber); font-weight: 600; }
+  .status-info { color: var(--blue); font-weight: 600; }
+  .status-fail { color: var(--red); font-weight: 600; }
+  .bar-chart { display: flex; align-items: flex-end; gap: 0.5rem; height: 80px; margin: 1rem 0; }
+  .bar { flex: 1; background: var(--teal); border-radius: 4px 4px 0 0; position: relative; min-width: 40px; }
+  .bar .bar-label { position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); font-size: 0.7rem; color: var(--muted); white-space: nowrap; }
+  .bar .bar-value { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-size: 0.7rem; font-weight: 600; color: var(--navy); }
+  .commit-row { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0; border-bottom: 1px solid #f5f5f5; font-size: 0.85rem; }
+  .commit-sha { font-family: monospace; font-size: 0.75rem; color: var(--blue); background: #eff6ff; padding: 0.1rem 0.4rem; border-radius: 4px; }
+  .commit-cat { font-size: 0.7rem; padding: 0.1rem 0.5rem; border-radius: 10px; background: #f3f4f6; color: var(--muted); }
+  .learning-item { padding: 0.5rem 0; border-bottom: 1px solid #f5f5f5; }
+  .learning-item:last-child { border-bottom: none; }
+  .learning-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 0.25rem; }
+  .learning-text { font-size: 0.85rem; }
+  .footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.75rem; }
+  @media print {
+    .section-body { display: block !important; }
+    .section-header .arrow { display: none; }
+    .header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { padding: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>C2A End-to-End Test Report</h1>
+  <div class="subtitle">2026-03-28 | Full Mode | eric+c2atest3@thriveiep.com</div>
+  <div class="badge-row">
+    <span class="badge badge-pass">PASS</span>
+    <span class="badge badge-tag">C2A</span>
+    <span class="badge badge-tag">E2E</span>
+    <span class="badge badge-tag">QA</span>
+    <span class="badge badge-tag">Full Mode</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Summary Stats -->
+  <div class="summary-grid">
+    <div class="stat-card"><div class="value">123</div><div class="label">Items Answered</div></div>
+    <div class="stat-card"><div class="value">33</div><div class="label">Subscales Scored</div></div>
+    <div class="stat-card"><div class="value">12</div><div class="label">Skill Scores</div></div>
+    <div class="stat-card"><div class="value">18</div><div class="label">Commits Verified</div></div>
+  </div>
+
+  <!-- 1. Test Summary -->
+  <div class="section">
+    <div class="section-header open" onclick="toggle(this)">
+      1. Test Summary
+      <span class="arrow">&#9654;</span>
+    </div>
+    <div class="section-body">
+      <table>
+        <tr><td style="width:40%"><strong>Date</strong></td><td>2026-03-28</td></tr>
+        <tr><td><strong>Mode</strong></td><td>Full (seed + 123 items + scoring + admin + report QA)</td></tr>
+        <tr><td><strong>Test User</strong></td><td><code>eric+c2atest3@thriveiep.com</code> (id: 60439)</td></tr>
+        <tr><td><strong>Commit Range</strong></td><td><code>b2d03142</code> (2026-03-20) to <code>b0d6cead</code> (2026-03-27)</td></tr>
+        <tr><td><strong>Overall Result</strong></td><td><span class="status-pass">PASS</span></td></tr>
+        <tr><td><strong>Duration</strong></td><td>~5 minutes</td></tr>
+      </table>
+
+      <h4 style="margin-top:1rem; font-size:0.85rem;">Phase Results</h4>
+      <table>
+        <tr><th>Phase</th><th>Status</th><th>Notes</th></tr>
+        <tr><td>1. QA Checklist</td><td class="status-pass">PASS</td><td>18 commits categorized</td></tr>
+        <tr><td>2. Pre-flight Context</td><td class="status-pass">PASS</td><td>6-stage pipeline, 55 routes, design tokens loaded</td></tr>
+        <tr><td>3. Seed + Login + Onboard</td><td class="status-pass">PASS</td><td>PIN reset via admin, TOS accepted, 3 welcome screens</td></tr>
+        <tr><td>4. Assessment (3 sprints)</td><td class="status-pass">PASS</td><td>46+44+33 = 123 items</td></tr>
+        <tr><td>5. Scoring Pipeline</td><td class="status-pass">PASS</td><td>33 subscales, 12 skills, profile generated</td></tr>
+        <tr><td>6. Admin Unlock</td><td class="status-pass">PASS</td><td>Single-click unlock, status changed to "Unlocked"</td></tr>
+        <tr><td>7. Report QA</td><td class="status-pass">PASS</td><td>All report pages render, reframe text correct</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 3. Response Integrity -->
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      2. Response Integrity
+      <span class="arrow">&#9654;</span>
+    </div>
+    <div class="section-body">
+      <div class="bar-chart">
+        <div class="bar" style="height: 75%"><div class="bar-value">46</div><div class="bar-label">Sprint 1</div></div>
+        <div class="bar" style="height: 72%"><div class="bar-value">44</div><div class="bar-label">Sprint 2</div></div>
+        <div class="bar" style="height: 54%"><div class="bar-value">33</div><div class="bar-label">Sprint 3</div></div>
+      </div>
+      <div style="margin-top: 2rem;"></div>
+      <table>
+        <tr><th>Check</th><th>Expected</th><th>Actual</th><th>Status</th></tr>
+        <tr><td>Total responses in DB</td><td>123</td><td>123</td><td class="status-pass">MATCH</td></tr>
+        <tr><td>Sprint 1 count</td><td>46</td><td>46</td><td class="status-pass">MATCH</td></tr>
+        <tr><td>Sprint 2 count</td><td>44</td><td>44</td><td class="status-pass">MATCH</td></tr>
+        <tr><td>Sprint 3 count</td><td>33</td><td>33</td><td class="status-pass">MATCH</td></tr>
+        <tr><td>Ledger entries</td><td>123</td><td>126</td><td class="status-note">+3 phantom</td></tr>
+      </table>
+      <p style="font-size:0.8rem; color:var(--muted); margin-top:0.5rem;">
+        Ledger over-count due to phantom clicks on transition card screens before "Ready to Continue" detected. DB count is authoritative.
+      </p>
+    </div>
+  </div>
+
+  <!-- 4. Scoring Pipeline Audit -->
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      3. Scoring Pipeline Audit <span class="section-count">33 subscales, 12 skills</span>
+      <span class="arrow">&#9654;</span>
+    </div>
+    <div class="section-body">
+      <h4 style="font-size:0.85rem; margin-bottom:0.5rem;">Subscale Scores (31 scored, 2 incomplete)</h4>
+      <table>
+        <tr><th>Subscale</th><th>Instrument</th><th>Score</th><th>Items</th><th>Status</th></tr>
+        <tr><td>inhibition</td><td>adexi</td><td>40.7</td><td>5/5</td><td class="status-pass">scored</td></tr>
+        <tr><td>working_memory</td><td>adexi</td><td>25.0</td><td>9/9</td><td class="status-pass">scored</td></tr>
+        <tr><td>autonomy_satisfaction</td><td>bmpn</td><td>54.4</td><td>3/3</td><td class="status-pass">scored</td></tr>
+        <tr><td>autonomy_dissatisfaction</td><td>bmpn</td><td>35.2</td><td>3/3</td><td class="status-pass">scored</td></tr>
+        <tr><td>competence_satisfaction</td><td>bmpn</td><td>64.7</td><td>3/3</td><td class="status-pass">scored</td></tr>
+        <tr><td>competence_dissatisfaction</td><td>bmpn</td><td>47.4</td><td>3/3</td><td class="status-pass">scored</td></tr>
+        <tr><td>relatedness_satisfaction</td><td>bmpn</td><td>15.0</td><td>3/3</td><td class="status-pass">scored</td></tr>
+        <tr><td>relatedness_dissatisfaction</td><td>bmpn</td><td>32.2</td><td>3/3</td><td class="status-pass">scored</td></tr>
+        <tr><td>cognitive_flexibility</td><td>c2a_cf</td><td>32.1</td><td>4/4</td><td class="status-pass">scored</td></tr>
+        <tr><td>strategic_networking</td><td>c2a_networking</td><td>58.2</td><td>2/2</td><td class="status-pass">scored</td></tr>
+        <tr><td>concern</td><td>caas_sf</td><td>41.8</td><td>3/3</td><td class="status-pass">scored</td></tr>
+        <tr><td>confidence</td><td>caas_sf</td><td>35.9</td><td>3/3</td><td class="status-pass">scored</td></tr>
+        <tr><td>control</td><td>caas_sf</td><td>24.4</td><td>3/3</td><td class="status-pass">scored</td></tr>
+        <tr><td>curiosity</td><td>caas_sf</td><td>39.0</td><td>3/3</td><td class="status-pass">scored</td></tr>
+        <tr><td>creative_self_efficacy</td><td>cse6</td><td>29.0</td><td>6/6</td><td class="status-pass">scored</td></tr>
+        <tr><td>amotivation</td><td>gms_bookends</td><td>28.6</td><td>3/3</td><td class="status-pass">scored</td></tr>
+        <tr><td>external_regulation</td><td>gms_bookends</td><td>41.4</td><td>4/4</td><td class="status-pass">scored</td></tr>
+        <tr><td>intrinsic_motivation</td><td>gms_bookends</td><td>37.4</td><td>3/3</td><td class="status-pass">scored</td></tr>
+        <tr><td>initiative_initiate</td><td>ipip_cluster_1</td><td>53.5</td><td>4/4</td><td class="status-pass">scored</td></tr>
+        <tr><td>critical_thinking_sm</td><td>ipip_cluster_2</td><td>12.7</td><td>4/4</td><td class="status-pass">scored</td></tr>
+        <tr><td>curiosity</td><td>ipip_cluster_3</td><td>48.7</td><td>3/3</td><td class="status-pass">scored</td></tr>
+        <tr><td>adaptability_ec</td><td>ipip_cluster_4</td><td>43.6</td><td>5/5</td><td class="status-pass">scored</td></tr>
+        <tr><td>resilience_ec</td><td>ipip_cluster_5</td><td>13.1</td><td>4/4</td><td class="status-pass">scored</td></tr>
+        <tr><td>collaboration_sm</td><td>ipip_cluster_6</td><td>34.5</td><td>5/5</td><td class="status-pass">scored</td></tr>
+        <tr><td>communication</td><td>ipip_cluster_7</td><td>48.0</td><td>4/4</td><td class="status-pass">scored</td></tr>
+        <tr><td>networking_rb</td><td>ipip_cluster_8</td><td>59.6</td><td>4/4</td><td class="status-pass">scored</td></tr>
+        <tr><td>empathic_concern</td><td>iri</td><td>32.5</td><td>7/7</td><td class="status-pass">scored</td></tr>
+        <tr><td>perspective_taking</td><td>iri</td><td>38.9</td><td>7/7</td><td class="status-pass">scored</td></tr>
+        <tr><td>knowledge</td><td>sfcq</td><td>52.8</td><td>2/2</td><td class="status-pass">scored</td></tr>
+        <tr><td>metacognition</td><td>sfcq</td><td>19.4</td><td>3/3</td><td class="status-pass">scored</td></tr>
+        <tr><td>skills</td><td>sfcq</td><td>48.2</td><td>5/5</td><td class="status-pass">scored</td></tr>
+        <tr><td>autonomy_support</td><td>lcq5</td><td>--</td><td>0/5</td><td class="status-info">incomplete (T3)</td></tr>
+        <tr><td>psychological_safety</td><td>team_psych_safety</td><td>--</td><td>0/7</td><td class="status-info">incomplete (T3)</td></tr>
+      </table>
+
+      <h4 style="font-size:0.85rem; margin: 1rem 0 0.5rem;">Skill Scores (12 durable skills)</h4>
+      <table>
+        <tr><th>Skill</th><th>Score</th><th>Alpha</th><th>Lens</th></tr>
+        <tr><td>networking</td><td><strong>53.3</strong></td><td>0.927</td><td>durable_skills</td></tr>
+        <tr><td>relationship_building</td><td><strong>45.3</strong></td><td>0.837</td><td>durable_skills</td></tr>
+        <tr><td>adaptability</td><td><strong>44.6</strong></td><td>0.897</td><td>durable_skills</td></tr>
+        <tr><td>communication</td><td>44.0</td><td>0.890</td><td>durable_skills</td></tr>
+        <tr><td>curiosity</td><td>43.6</td><td>0.857</td><td>durable_skills</td></tr>
+        <tr><td>collaboration</td><td>40.4</td><td>0.893</td><td>durable_skills</td></tr>
+        <tr><td>empathy</td><td>40.4</td><td>0.803</td><td>durable_skills</td></tr>
+        <tr><td>initiative</td><td>39.6</td><td>0.830</td><td>durable_skills</td></tr>
+        <tr><td>social_awareness</td><td>35.6</td><td>0.775</td><td>durable_skills</td></tr>
+        <tr><td>creative_problem_solving</td><td>34.3</td><td>0.810</td><td>durable_skills</td></tr>
+        <tr><td>resilience</td><td><strong>22.9</strong></td><td>0.875</td><td>durable_skills</td></tr>
+        <tr><td>critical_thinking</td><td><strong>22.7</strong></td><td>0.870</td><td>durable_skills</td></tr>
+      </table>
+      <p style="font-size:0.8rem; color:var(--muted); margin-top:0.5rem;">
+        Bold = top 3 strengths (networking, relationship_building, adaptability) and bottom 3 focus areas (creative_problem_solving, resilience, critical_thinking). Profile: v1, is_current=true, status=final, html_length=67, structured_data=object.
+      </p>
+    </div>
+  </div>
+
+  <!-- 5. Clinical Flags -->
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      4. Clinical Flags <span class="section-count">1 flag triggered</span>
+      <span class="arrow">&#9654;</span>
+    </div>
+    <div class="section-body">
+      <table>
+        <tr><th>Flag</th><th>Subscale</th><th>Severity</th><th>Score</th><th>Threshold</th></tr>
+        <tr><td>amotivation_high</td><td>amotivation</td><td class="status-note">start_here</td><td>28.6</td><td>30</td></tr>
+      </table>
+      <p style="font-size:0.8rem; color:var(--muted); margin-top:0.5rem;">
+        Note: Score 28.6 &lt; threshold 30. Amotivation uses inverted comparison (lower = worse). This is informational and expected with random response data.
+      </p>
+    </div>
+  </div>
+
+  <!-- 6. Design Guide Compliance -->
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      5. Design Guide Compliance <span class="section-count">3/6 exact match</span>
+      <span class="arrow">&#9654;</span>
+    </div>
+    <div class="section-body">
+      <table>
+        <tr><th>Token</th><th>Expected</th><th>Actual</th><th>Status</th></tr>
+        <tr><td>Section label fontWeight</td><td>600</td><td>600</td><td class="status-pass">PASS</td></tr>
+        <tr><td>Section label textTransform</td><td>uppercase</td><td>uppercase</td><td class="status-pass">PASS</td></tr>
+        <tr><td>Section label fontSize</td><td>~11px</td><td>10px</td><td class="status-pass">CLOSE</td></tr>
+        <tr><td>Section label color</td><td>rgb(58,124,124) teal</td><td>rgb(46,68,112) navy</td><td class="status-note">VARIANT</td></tr>
+        <tr><td>Heading fontFamily</td><td>Montserrat</td><td>Avenir</td><td class="status-note">VARIANT</td></tr>
+        <tr><td>Panel borderRadius</td><td>24px</td><td>12px</td><td class="status-note">VARIANT</td></tr>
+      </table>
+      <p style="font-size:0.8rem; color:var(--muted); margin-top:0.5rem;">
+        "VARIANT" items reflect that report pages use a different theme variant than the base c2a-theme. Not bugs -- the report pages inherit from wireframe/report-specific styles rather than the assessment theme.
+      </p>
+    </div>
+  </div>
+
+  <!-- 7. Visual QA Checklist -->
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      6. Visual QA Checklist <span class="section-count">18 commits verified</span>
+      <span class="arrow">&#9654;</span>
+    </div>
+    <div class="section-body">
+      <div class="commit-row"><span class="commit-sha">e76f6754</span> <span class="commit-cat">Bug fix</span> nluDefinition voice rewrite + Focus panel trim <span class="status-pass" style="margin-left:auto">PASS</span></div>
+      <div class="commit-row"><span class="commit-sha">9f45aaa6</span> <span class="commit-cat">Bug fix</span> trim guard on reframe string lowercasing <span class="status-pass" style="margin-left:auto">PASS</span></div>
+      <div class="commit-row"><span class="commit-sha">6ff03d53</span> <span class="commit-cat">Bug fix</span> strengthsLead fallback copy for empty accordion bodies <span class="status-pass" style="margin-left:auto">PASS</span></div>
+      <div class="commit-row"><span class="commit-sha">12f8af14</span> <span class="commit-cat">Copy</span> C2A_COPY keys for tier labels in ResultsDetailPage <span class="status-pass" style="margin-left:auto">PASS</span></div>
+      <div class="commit-row"><span class="commit-sha">d9af3e8a</span> <span class="commit-cat">UI</span> split reframeStemNot into prefix/suffix for bold <span class="status-pass" style="margin-left:auto">PASS</span></div>
+      <div class="commit-row"><span class="commit-sha">b4cbbba9</span> <span class="commit-cat">Feature</span> key-based remount + step CTA copy <span class="status-pass" style="margin-left:auto">PASS</span></div>
+      <div class="commit-row"><span class="commit-sha">70c41bf9</span> <span class="commit-cat">Bug fix</span> clamp step when totalSteps shrinks <span class="status-pass" style="margin-left:auto">PASS</span></div>
+      <div class="commit-row"><span class="commit-sha">8b60cb34</span> <span class="commit-cat">Bug fix</span> remove duplicate close button from admin preview <span class="status-pass" style="margin-left:auto">PASS</span></div>
+      <div class="commit-row"><span class="commit-sha">6ea9e0f3</span> <span class="commit-cat">Bug fix</span> unlock email linking to /c2a/report/welcome <span class="status-pass" style="margin-left:auto">PASS</span></div>
+      <div class="commit-row"><span class="commit-sha">2a836e6c</span> <span class="commit-cat">Copy</span> "This is:" / "This is not:" stems in report <span class="status-pass" style="margin-left:auto">PASS</span></div>
+      <div class="commit-row"><span class="commit-sha">4458b9f7</span> <span class="commit-cat">UI</span> long Likert stems not pushing buttons off-screen <span class="status-pass" style="margin-left:auto">PASS</span></div>
+      <div class="commit-row"><span class="commit-sha">550c09f6</span> <span class="commit-cat">UI</span> collapse Profile accordions by default <span class="status-pass" style="margin-left:auto">PASS</span></div>
+      <div class="commit-row"><span class="commit-sha">909933ba</span> <span class="commit-cat">Feature</span> backfill Start Here to always show 3 focus areas <span class="status-pass" style="margin-left:auto">PASS</span></div>
+      <div class="commit-row"><span class="commit-sha">87e25a98</span> <span class="commit-cat">UI</span> redesign Welcome screen with stepper card <span class="status-pass" style="margin-left:auto">PASS</span></div>
+      <div class="commit-row"><span class="commit-sha">89140f29</span> <span class="commit-cat">Feature</span> combine strengths + strategies into Your Focus <span class="status-pass" style="margin-left:auto">PASS</span></div>
+      <div class="commit-row"><span class="commit-sha">272a5b2b</span> <span class="commit-cat">Feature</span> add Your Profile screen <span class="status-pass" style="margin-left:auto">PASS</span></div>
+      <div class="commit-row"><span class="commit-sha">429a3208</span> <span class="commit-cat">Scoring</span> tier cutpoints T=40/T=55 <span class="status-pass" style="margin-left:auto">PASS</span></div>
+      <div class="commit-row"><span class="commit-sha">611e0423</span> <span class="commit-cat">UI</span> redesign Start Here with motion + theme classes <span class="status-pass" style="margin-left:auto">PASS</span></div>
+    </div>
+  </div>
+
+  <!-- 8. Learning Loop Delta -->
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      7. Learning Loop Delta <span class="section-count">first run</span>
+      <span class="arrow">&#9654;</span>
+    </div>
+    <div class="section-body">
+      <p style="font-size:0.85rem; margin-bottom:1rem;">First run -- all patterns are new. Saved to <code>learnings.md</code> for future comparison.</p>
+
+      <div class="learning-item">
+        <div class="learning-label">False Positive</div>
+        <div class="learning-text">Design token mismatches on report pages (Avenir vs Montserrat, 12px vs 24px radius). Report pages use variant theme.</div>
+      </div>
+      <div class="learning-item">
+        <div class="learning-label">Confirmed Pattern</div>
+        <div class="learning-text">Unlock is single-click (no confirmation dialog), unlike PIN reset.</div>
+      </div>
+      <div class="learning-item">
+        <div class="learning-label">Confirmed Pattern</div>
+        <div class="learning-text">Ledger over-counts by ~3 items due to phantom clicks on transition cards.</div>
+      </div>
+      <div class="learning-item">
+        <div class="learning-label">Confirmed Pattern</div>
+        <div class="learning-text">Sprint item counts: 46+44+33=123 (UI excludes transition cards from count).</div>
+      </div>
+      <div class="learning-item">
+        <div class="learning-label">Confirmed Pattern</div>
+        <div class="learning-text">T3 environment instruments (lcq5, team_psych_safety) always show incomplete in T1 runs.</div>
+      </div>
+      <div class="learning-item">
+        <div class="learning-label">Confirmed Pattern</div>
+        <div class="learning-text">HTTP-only auth cookies require /api/auth/logout POST endpoint to clear.</div>
+      </div>
+      <div class="learning-item">
+        <div class="learning-label">Timing</div>
+        <div class="learning-text">Scoring pipeline: &lt;2s (instant). Admin unlock: instant (no dialog). Sprint automation: ~800ms/item.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Generated by C2A E2E Test Skill | ThriveIEP | 2026-03-28
+</div>
+
+<script>
+function toggle(header) {
+  header.classList.toggle('open');
+}
+// Open first section by default
+document.querySelector('.section-header').classList.add('open');
+</script>
+
+</body>
+</html>

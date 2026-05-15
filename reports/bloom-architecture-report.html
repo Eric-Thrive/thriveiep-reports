@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Bloom Protocol Pipeline Architecture</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #1B2A4A; --navy-light: #2A3F6B;
+    --coral: #FF6B6B; --coral-soft: #FF8E8E;
+    --sand: #F5E6CC; --sand-light: #FDF8F0;
+    --teal: #2B8A8A; --gold: #D4A843;
+    --slate: #4A5568; --warm-grey: #8B7E6A;
+  }
+  html, body { height: 100%; overflow: hidden; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--sand-light); color: var(--navy); }
+  .deck { display: flex; height: 100vh; overflow: hidden; }
+  .slide { min-width: 100vw; height: 100vh; overflow-y: auto; padding: 60px 80px 80px; display: none; flex-direction: column; }
+  .slide.active { display: flex; }
+  @media (max-width: 800px) { .slide { padding: 32px 24px 80px; } }
+  .index-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: var(--navy); display: flex; align-items: center; height: 52px; padding: 0 24px; gap: 6px; overflow-x: auto; }
+  .idx-chip { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.55); background: transparent; border: none; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+  .idx-chip:hover { color: #fff; background: var(--navy-light); }
+  .idx-chip.active { background: var(--coral); color: #fff; }
+  .idx-progress { position: fixed; bottom: 52px; left: 0; height: 3px; background: var(--coral); transition: width 0.3s; z-index: 101; }
+  .idx-arrows { margin-left: auto; display: flex; gap: 8px; }
+  .idx-arrow { width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--navy-light); color: #fff; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .idx-arrow:hover { background: var(--coral); }
+  .slide-num { font-size: 12px; font-weight: 700; color: var(--coral); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .slide h2 { font-size: 36px; font-weight: 800; color: var(--navy); line-height: 1.15; margin-bottom: 20px; max-width: 800px; }
+  .slide h3 { font-size: 22px; font-weight: 700; color: var(--navy); margin: 24px 0 10px; }
+  .slide h4 { font-size: 16px; font-weight: 700; color: var(--teal); margin: 16px 0 8px; }
+  .slide p { font-size: 16px; line-height: 1.8; margin-bottom: 14px; color: var(--slate); max-width: 760px; }
+  .slide ul, .slide ol { margin: 10px 0 16px 24px; font-size: 16px; line-height: 1.7; color: var(--slate); max-width: 760px; }
+  .slide li { margin-bottom: 8px; }
+  .slide strong { color: var(--navy); font-weight: 700; }
+  .slide em { color: var(--coral); font-style: normal; font-weight: 600; }
+  .slide blockquote { background: var(--sand); border-left: 4px solid var(--coral); padding: 18px 24px; border-radius: 0 12px 12px 0; margin: 18px 0; font-size: 15px; color: var(--navy); max-width: 760px; }
+  .slide hr { border: none; height: 2px; background: var(--sand); margin: 28px 0; max-width: 760px; }
+  .slide a { color: var(--teal); text-decoration: none; font-weight: 600; }
+  .slide a:hover { text-decoration: underline; }
+  .slide table { width: 100%; max-width: 800px; border-collapse: separate; border-spacing: 0; margin: 18px 0; border-radius: 12px; overflow: hidden; }
+  .slide th { background: var(--navy); color: #fff; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 14px 16px; text-align: left; }
+  .slide td { background: #fff; padding: 14px 16px; font-size: 14px; color: var(--slate); border-bottom: 1px solid var(--sand); }
+  .slide tr:last-child td { border-bottom: none; }
+  .badge { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+  .badge-green { background: #e8f4e8; color: #166534; }
+  .badge-blue { background: #e8eaf6; color: #1a237e; }
+  .badge-orange { background: #fff3e0; color: #e65100; }
+  .badge-red { background: #ffebee; color: #c62828; }
+  .badge-gray { background: #f0f0f0; color: #616161; border: 1px dashed #9e9e9e; }
+  .badge-critical { background: var(--coral); color: #fff; }
+  .badge-high { background: var(--gold); color: var(--navy); }
+  .badge-moderate { background: var(--teal); color: #fff; }
+  .finding-card { background: #fff; border-radius: 12px; padding: 20px 24px; margin: 16px 0; max-width: 800px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .finding-card h4 { margin-top: 0; }
+  details { margin: 12px 0; max-width: 760px; }
+  details summary { cursor: pointer; font-weight: 600; color: var(--teal); padding: 8px 0; }
+  details[open] summary { margin-bottom: 8px; }
+  .mermaid-wrapper { background: #fff; border-radius: 12px; padding: 24px; margin: 18px 0; max-width: 900px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); overflow-x: auto; }
+  .mermaid-wrapper svg { max-width: 100%; height: auto; }
+  .flow-step { display: flex; align-items: flex-start; gap: 16px; margin: 12px 0; max-width: 760px; }
+  .flow-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; font-weight: 700; color: #fff; }
+  .flow-icon.det { background: #4a8c4a; }
+  .flow-icon.agent { background: #3f51b5; }
+  .flow-icon.gate { background: #e65100; }
+  .flow-icon.halt { background: #c62828; }
+  .flow-body { flex: 1; }
+  .flow-body h4 { margin-top: 0; margin-bottom: 4px; }
+  .flow-body p { margin-bottom: 0; font-size: 14px; }
+  .pipeline-linear { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 18px 0; max-width: 800px; }
+  .pipe-node { padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; }
+  .pipe-arrow { color: var(--warm-grey); font-size: 18px; }
+</style>
+</head>
+<body>
+<div class="idx-progress" id="progress"></div>
+<div class="deck" id="deck">
+
+<!-- ============ SLIDE 1: EXECUTIVE SUMMARY ============ -->
+<div class="slide" id="slide-exec">
+  <div class="slide-num">Section 1 of 14</div>
+  <h2>How Bloom Reports Get Built: An Architecture Overview</h2>
+
+  <h4>Key Messages</h4>
+  <ul>
+    <li><strong>Bloom Reports are placement decision tools</strong>, not clinical summaries. A stack of clinical documents goes in; a concise, 1,200-word report comes out that answers one question: what does this student's next placement need to provide?</li>
+    <li><strong>The pipeline never guesses.</strong> When documents contradict each other, a source hierarchy resolves what it can automatically. Anything it cannot resolve stops the pipeline and waits for a human clinician.</li>
+    <li><strong>Three different AI models share the work,</strong> each picked for what it does best: fast extraction, deep synthesis, and cheap quality checks. Two stages use no AI at all, running pure rules instead.</li>
+  </ul>
+
+  <hr>
+
+  <h4>What does the pipeline do?</h4>
+  <p>It takes a stack of clinical documents (psychological evaluations, discharge summaries, IEPs, call transcripts) and runs them through 6 processing stages separated by 4 quality gates. The output is a structured Bloom Report that synthesizes everything a placement team needs to know.</p>
+
+  <h4>Why not just hand everything to one big AI call?</h4>
+  <p>Clinical data is high-stakes. A single monolithic call could mix up dates from different documents, silently pick one provider's opinion over another, or hallucinate details. The pipeline isolates each document during extraction, reconciles conflicts with explicit rules, and gives humans veto power at critical junctures.</p>
+
+  <h4>How reliable is it?</h4>
+  <p>41 automated checks across 3 layers validate every report before it ships. The system catches everything from wrong age math to missing citation evidence to sections that describe the student's history without actually informing placement decisions.</p>
+</div>
+
+<!-- ============ SLIDE 2: WHAT IS A BLOOM REPORT ============ -->
+<div class="slide" id="slide-context">
+  <div class="slide-num">Section 2 of 14</div>
+  <h2>What Is a Bloom Report?</h2>
+
+  <p>A Bloom Report is a <strong>therapeutic placement profile</strong>. Families, educational advocates, treatment teams, and admissions directors use it to determine the Least Restrictive Environment that can safely meet a student's needs.</p>
+
+  <p>Think of it as a translation layer. On one side: a pile of clinical documents written by different providers at different times with different terminology. On the other side: a clear, 2-page report that any stakeholder can read and act on.</p>
+
+  <div class="finding-card">
+    <h4>What makes it different from a clinical summary?</h4>
+    <p>Every section answers a specific placement question. "Needs &amp; Challenges" does not just list diagnoses; it answers <em>"What must the milieu be staffed and structured to handle daily?"</em> "Treatment History" does not just list placements; it answers <em>"What has been tried, what happened, and why is a higher level of care now indicated?"</em></p>
+  </div>
+
+  <h3>Report Structure (9 Sections)</h3>
+  <table>
+    <thead><tr><th>#</th><th>Section</th><th>Guiding Question</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Background</td><td>How did this student arrive at this moment?</td></tr>
+      <tr><td>2</td><td>Clinical Profile</td><td>What does admissions need to know about the diagnostic picture?</td></tr>
+      <tr><td>3</td><td>Personality &amp; Strengths</td><td>What can a program build therapeutic engagement around?</td></tr>
+      <tr><td>4</td><td>Needs &amp; Challenges</td><td>What must staff handle on a daily/weekly basis?</td></tr>
+      <tr><td>5</td><td>Academic Functioning</td><td>What does the academic program need to provide?</td></tr>
+      <tr><td>6</td><td>Family System Impact</td><td>What does the program need to offer the family?</td></tr>
+      <tr><td>7</td><td>Treatment History</td><td>What has been tried, and why is this level of care indicated?</td></tr>
+      <tr><td>8</td><td>Recommendations</td><td>Environment features, BBI screening, placement goals</td></tr>
+      <tr><td>9</td><td>Executive Summary</td><td>3-4 sentence decision brief</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ============ SLIDE 3: PIPELINE OVERVIEW ============ -->
+<div class="slide" id="slide-overview">
+  <div class="slide-num">Section 3 of 14</div>
+  <h2>The Pipeline at a Glance</h2>
+
+  <p>Documents flow through <strong>6 stages</strong> and <strong>4 gates</strong>. Stages do work (parse, extract, reconcile, synthesize, review). Gates check that the work meets quality thresholds before the next stage begins. If a gate fails, the pipeline halts.</p>
+
+  <div class="pipeline-linear">
+    <span class="pipe-node badge-green">S1 Parse</span>
+    <span class="pipe-arrow">&rarr;</span>
+    <span class="pipe-node badge-blue">S2 Extract</span>
+    <span class="pipe-arrow">&rarr;</span>
+    <span class="pipe-node badge-orange">G1</span>
+    <span class="pipe-arrow">&rarr;</span>
+    <span class="pipe-node badge-green">S3a Reconcile</span>
+    <span class="pipe-arrow">&rarr;</span>
+    <span class="pipe-node badge-blue">S3b Classify</span>
+    <span class="pipe-arrow">&rarr;</span>
+    <span class="pipe-node badge-orange">G1b</span>
+    <span class="pipe-arrow">&rarr;</span>
+    <span class="pipe-node badge-blue">S4 Synthesis</span>
+    <span class="pipe-arrow">&rarr;</span>
+    <span class="pipe-node badge-orange">G2</span>
+    <span class="pipe-arrow">&rarr;</span>
+    <span class="pipe-node badge-blue">S6 Review</span>
+    <span class="pipe-arrow">&rarr;</span>
+    <span class="pipe-node badge-orange">HRG</span>
+    <span class="pipe-arrow">&rarr;</span>
+    <span class="pipe-node" style="background:#e8f4e8;color:#166534">Report</span>
+  </div>
+
+  <p>Notice the numbering gap: there is no Stage 5 today. That slot is reserved for <strong>Z3 formal verification</strong> in Phase 2, which will mathematically validate reasoning traces before the quality review runs. The gap is intentional forward planning, not a bug.</p>
+
+  <h3>Two Types of Stage</h3>
+  <div class="finding-card">
+    <h4><span class="badge badge-green">Deterministic</span> Zero AI tokens</h4>
+    <p>Stages 1 and 3a run pure rules: regex pattern matching, date arithmetic, source hierarchy lookups. They are fast, cheap, and perfectly reproducible. No AI means no hallucination risk.</p>
+  </div>
+  <div class="finding-card">
+    <h4><span class="badge badge-blue">Agentic</span> LLM-powered</h4>
+    <p>Stages 2, 3b, 4, and 6 call Claude models. Each stage uses a different model chosen for its strengths. Extraction needs throughput (Sonnet). Synthesis needs depth (Opus). Review needs speed (Haiku).</p>
+  </div>
+</div>
+
+<!-- ============ SLIDE 4: STAGE 1 + STAGE 2 ============ -->
+<div class="slide" id="slide-s1s2">
+  <div class="slide-num">Section 4 of 14</div>
+  <h2>Stages 1 &amp; 2: Ingestion</h2>
+
+  <p>These two stages correspond to <strong>Agent 1 (Document Analyst)</strong> in the Bloom Protocol. They turn raw documents into structured, machine-readable data.</p>
+
+  <div class="flow-step">
+    <div class="flow-icon det">S1</div>
+    <div class="flow-body">
+      <h4>Stage 1: Parse &amp; Classify <span class="badge badge-green">Deterministic</span></h4>
+      <p>Each uploaded document gets classified by type using regex pattern matching: psychological evaluation, IEP, discharge summary, treatment note, or call transcript. Basic metadata (dates, source names) is extracted. No AI is involved; this is pure text parsing.</p>
+    </div>
+  </div>
+
+  <div class="flow-step">
+    <div class="flow-icon agent">S2</div>
+    <div class="flow-body">
+      <h4>Stage 2: Claim Extraction <span class="badge badge-blue">Sonnet 4.6 &middot; 16K tokens</span></h4>
+      <p>Each document is processed <em>independently</em> by Claude Sonnet. The model extracts structured JSON claims: diagnoses, medications, risk indicators, strengths, family observations, timeline events. Each claim gets a confidence score (0.0 to 1.0) and source grounding (page, paragraph).</p>
+    </div>
+  </div>
+
+  <blockquote>
+    <strong>Why process each document in isolation?</strong> This prevents cross-document contamination. If a discharge summary mentions an event from a prior placement, Stage 2 extracts only what is explicitly stated in that document. It does not infer dates or details from other files. This isolation is what makes accurate reconciliation possible in Stage 3.
+  </blockquote>
+
+  <p>Stage 2 is also <strong>parallelizable</strong>: all documents can be extracted simultaneously since they do not depend on each other. For a case with 6 documents, that means 6 parallel Sonnet calls instead of 6 sequential ones.</p>
+</div>
+
+<!-- ============ SLIDE 5: KNOWLEDGE SYSTEM ============ -->
+<div class="slide" id="slide-knowledge">
+  <div class="slide-num">Section 5 of 14</div>
+  <h2>The Knowledge System: Context Injection Layer</h2>
+
+  <p>Before any stage runs, the pipeline loads a <strong>file-based knowledge system</strong> from disk into <code>StageContext.knowledgeContext</code>. This read-only context layer gives every stage access to clinical vocabulary, source documents, and behavioral instructions without any stage needing to know where the files came from.</p>
+
+  <h3>What Gets Loaded</h3>
+  <p>The knowledge context exposes a <code>Map&lt;string, string&gt;</code> of files, organized into three categories:</p>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-blue">input_documents</span></h4>
+    <p>Raw text content of all uploaded clinical documents, stored as a JSON array of <code>{ id, content }</code> objects. This is what Stage 2 (Extract) processes: psychological evaluations, discharge summaries, IEP documents, call transcripts.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-blue">ontologies/*</span></h4>
+    <p>Clinical ontology files loaded from the <code>ontologies/</code> directory. These provide domain vocabulary and classification context to the LLM during extraction. Each file is loaded as a <code>--- ontologies/filename ---\n{content}</code> block and concatenated into an <code>ontologyContext</code> string that gets injected into extraction prompts.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-blue">instructions</span></h4>
+    <p>Agent-level behavioral instructions loaded from the knowledge filesystem. These are passed as part of the system prompt to guide extraction behavior (for example: "extract factual claims only, do not infer").</p>
+  </div>
+
+  <h3>How It Flows Through the Pipeline</h3>
+  <table>
+    <thead><tr><th>Stage</th><th>What It Uses From Knowledge Context</th></tr></thead>
+    <tbody>
+      <tr><td>S2 Extract</td><td><strong>input_documents</strong> for raw doc text, <strong>ontologies/*</strong> for clinical vocabulary grounding, <strong>instructions</strong> for agent behavior rules</td></tr>
+      <tr><td>S3 Reconcile</td><td>Works on structured PatientProfile JSON from S2, but can access knowledge context for additional guidance</td></tr>
+      <tr><td>S4 Synthesize</td><td>Works on reconciled data, but can reference knowledge context for domain-specific terminology</td></tr>
+      <tr><td>S6 Review</td><td>Works on synthesis output, but can access knowledge context for validation rules</td></tr>
+    </tbody>
+  </table>
+
+  <h3>What It Does NOT Contain</h3>
+  <ul>
+    <li>No pre-built claim databases or lookup tables</li>
+    <li>No patient history from prior runs</li>
+    <li>No cached model outputs</li>
+  </ul>
+
+  <blockquote>
+    <strong>The ontology files are the most interesting part architecturally.</strong> They give the LLM clinical vocabulary grounding to reduce hallucination during extraction. Instead of relying on the model's training data for clinical terminology, the pipeline injects authoritative classification context at runtime. This is the same principle behind retrieval-augmented generation (RAG), but with curated, static domain knowledge rather than dynamic vector search.
+  </blockquote>
+</div>
+
+<!-- ============ SLIDE 6: GATE 1 ============ -->
+<div class="slide" id="slide-g1">
+  <div class="slide-num">Section 6 of 14</div>
+  <h2>Gate 1: Schema Validation</h2>
+
+  <p>Before the pipeline invests any more compute, Gate 1 runs a quick sanity check on what Stage 2 produced.</p>
+
+  <div class="finding-card">
+    <h4>What does it check?</h4>
+    <ul>
+      <li><strong>Demographics populated:</strong> At minimum, the student's name must be present.</li>
+      <li><strong>Claims exist:</strong> At least one document must have yielded extracted claims. If nothing was extracted, something went wrong upstream.</li>
+      <li><strong>Date/age consistency:</strong> Any computed ages must be within a &plusmn;2 year tolerance of dates in the documents. This catches obvious date parsing errors.</li>
+      <li><strong>Claim ID uniqueness:</strong> Every extracted claim must have a unique identifier. Duplicates would corrupt downstream reconciliation.</li>
+    </ul>
+  </div>
+
+  <p>Gate 1 uses <strong>Zod schema validation</strong> (a TypeScript-native runtime type checker). If any critical check fails, the pipeline halts immediately. There is no point running conflict reconciliation on malformed extraction data.</p>
+
+  <blockquote>
+    <strong>Design principle:</strong> Fail fast, fail cheap. Gate 1 burns zero AI tokens. It runs in milliseconds. Catching a bad extraction here saves the cost of an Opus synthesis call that would produce garbage output.
+  </blockquote>
+</div>
+
+<!-- ============ SLIDE 6: STAGE 3a + 3b ============ -->
+<div class="slide" id="slide-s3">
+  <div class="slide-num">Section 7 of 14</div>
+  <h2>Stage 3: Reconciliation &amp; Conflict Classification</h2>
+
+  <p>This is where the pipeline takes isolated document extractions and weaves them into a single coherent timeline. It corresponds to <strong>Agent 2 (Timeline Reconciler)</strong> in the Bloom Protocol, but splits the work into two sub-stages.</p>
+
+  <div class="flow-step">
+    <div class="flow-icon det">3a</div>
+    <div class="flow-body">
+      <h4>Stage 3a: Reconciliation <span class="badge badge-green">Deterministic</span></h4>
+      <p>Fully rule-based. Selects the <em>anchor document</em> (the most authoritative source for placement sequence, usually a call transcript or parent interview). Builds a master chronology. Computes the student's age at each event from their date of birth. Detects placement overlaps. Flags data gaps (for example, if no psychological evaluation is present).</p>
+    </div>
+  </div>
+
+  <h3>The Source Hierarchy</h3>
+  <p>When two documents disagree, Stage 3a applies these deterministic rules:</p>
+  <table>
+    <thead><tr><th>Conflict Type</th><th>Who Wins</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Placement names &amp; sequence</td><td>Parent/family report</td><td>The parent lived it; they know the order</td></tr>
+      <tr><td>Admission/discharge dates</td><td>That facility's own records</td><td>A discharge summary knows its own dates</td></tr>
+      <tr><td>Student ages</td><td>Computed from DOB</td><td>Never trust a stated age; always do the math</td></tr>
+      <tr><td>Diagnostic conclusions</td><td>Each evaluator's own report</td><td>Note convergence or divergence; do not override</td></tr>
+    </tbody>
+  </table>
+
+  <div class="flow-step">
+    <div class="flow-icon agent">3b</div>
+    <div class="flow-body">
+      <h4>Stage 3b: Conflict Classification <span class="badge badge-blue">Sonnet 4.6 &middot; 8K tokens</span></h4>
+      <p>Any conflicts the source hierarchy could not resolve get classified by Claude Sonnet into two categories:</p>
+    </div>
+  </div>
+
+  <div class="finding-card">
+    <h4>Category 1: Factual Discrepancy</h4>
+    <p>Contradictory dates with no clear winner. Placement sequences that do not align even after checking the parent interview. These <em>halt the pipeline</em> for human clinician input because getting this wrong would change the placement recommendation.</p>
+  </div>
+  <div class="finding-card">
+    <h4>Category 2: Clinical Divergence</h4>
+    <p>Two providers genuinely disagree on a clinical matter (one diagnoses ASD, another rules it out). These are not errors to resolve. They are part of the clinical picture. The pipeline passes them to the synthesis stage with instructions to present both perspectives transparently.</p>
+  </div>
+
+  <blockquote>
+    <strong>Clever optimization:</strong> Stage 3b short-circuits with zero tokens if Stage 3a resolved all conflicts deterministically. In clean cases (no contradictions across documents), this agentic stage costs nothing.
+  </blockquote>
+</div>
+
+<!-- ============ SLIDE 7: GATE 1b ============ -->
+<div class="slide" id="slide-g1b">
+  <div class="slide-num">Section 8 of 14</div>
+  <h2>Gate 1b: The Human Halt</h2>
+
+  <p>This is the pipeline's most important safety mechanism. Gate 1b checks three things:</p>
+
+  <ul>
+    <li><strong>Anchor document identified:</strong> The reconciliation must have selected an authoritative source.</li>
+    <li><strong>Master chronology non-empty:</strong> There must be at least one timeline event.</li>
+    <li><strong>No Category 1 conflicts remaining:</strong> If any factual discrepancies could not be resolved by the source hierarchy, the pipeline stops.</li>
+  </ul>
+
+  <div class="finding-card">
+    <h4>What happens when it halts?</h4>
+    <p>The pipeline sets a terminal status of <em>"human_review"</em> and surfaces concise questions to the clinician. The format is deliberately terse: what is unclear, plus one sentence on why it matters for the report. No multi-paragraph analysis. The clinician provides the answer, and the pipeline resumes at Stage 4.</p>
+  </div>
+
+  <h3>The Threshold Test</h3>
+  <p>Before flagging a Category 1 item, Stage 3b applies a threshold test: <strong>would resolving this discrepancy change the placement recommendation or clinical interpretation?</strong></p>
+  <ul>
+    <li>If no: note it briefly in Data Gaps and proceed. Not every date conflict matters for placement.</li>
+    <li>If yes (or genuinely uncertain): flag it and halt. Better to pause than to synthesize a report on a shaky foundation.</li>
+  </ul>
+
+  <blockquote>This is calibrated interruption. The system does not stop for every minor inconsistency. It stops only when getting the answer wrong could send a student to the wrong placement. Every halt costs clinician time, so the threshold is set to minimize unnecessary interruptions while never letting a consequential error through.</blockquote>
+</div>
+
+<!-- ============ SLIDE 8: STAGE 4 ============ -->
+<div class="slide" id="slide-s4">
+  <div class="slide-num">Section 9 of 14</div>
+  <h2>Stage 4: Placement Synthesis</h2>
+
+  <p>This is the heart of the pipeline. It corresponds to <strong>Agent 3 (Clinical Synthesizer)</strong> and is the only stage that runs on <strong>Claude Opus 4.6</strong>, the most capable model in the family. This is where extracted claims become a coherent narrative.</p>
+
+  <h3>What it produces</h3>
+  <ul>
+    <li><strong>9 report sections,</strong> each answering its guiding question</li>
+    <li><strong>Reasoning traces</strong> (conditional, causal, temporal) with evidence pointers back to source claims</li>
+    <li><strong>Level of Care recommendation</strong> grounded in failed interventions and safety data</li>
+    <li><strong>BBI alignment rationale</strong> screening recommendations against Building Bridges Initiative pillars</li>
+    <li><strong>Conflict resolutions</strong> for any remaining ambiguities, each with a resolution strategy (pick doc A, pick doc B, flag as ambiguous, or synthesize)</li>
+  </ul>
+
+  <h3>The Placement Relevance Filter</h3>
+  <p>Before drafting, Stage 4 reviews compiled data for each section and identifies the 2-3 findings that <em>most directly answer that section's guiding question</em>. Details that do not inform what the placement must provide, what staff need to manage, what has already failed, or what strengths a program can leverage are omitted.</p>
+
+  <blockquote>A finding can be true and well-sourced and still not belong in a 1,200-word placement tool. This filter is what keeps reports concise and actionable instead of exhaustive.</blockquote>
+
+  <h3>Why Opus?</h3>
+  <p>Synthesis is the highest-stakes stage. It requires simultaneously: tracking a master chronology, applying clinical frameworks (F.I.D., BBI, medical necessity), preserving stakeholder voices with accurate attribution, and producing prose at an 8th-10th grade reading level. This is the task that benefits most from the deepest reasoning capability.</p>
+</div>
+
+<!-- ============ SLIDE 9: GATE 2 ============ -->
+<div class="slide" id="slide-g2">
+  <div class="slide-num">Section 10 of 14</div>
+  <h2>Gate 2: Constraint Validation</h2>
+
+  <p>After synthesis, Gate 2 runs a battery of deterministic checks on the output before it proceeds to quality review.</p>
+
+  <table>
+    <thead><tr><th>Check</th><th>Why It Matters</th></tr></thead>
+    <tbody>
+      <tr><td>All 9 QC sections present with non-empty narratives</td><td>Missing sections mean incomplete placement picture</td></tr>
+      <tr><td>No em dashes anywhere in output</td><td>Bloom writing standard: em dashes are banned (use commas, semicolons, parentheses)</td></tr>
+      <tr><td>All conflicts have a resolution with stage attribution</td><td>No unresolved ambiguity should reach the final report</td></tr>
+      <tr><td>Level of Care recommendation present</td><td>The core deliverable; without it the report cannot inform placement</td></tr>
+      <tr><td>All referenced claims exist in extraction</td><td>Prevents hallucinated citations to claims that were never extracted</td></tr>
+    </tbody>
+  </table>
+
+  <blockquote>
+    <strong>The em dash check sounds trivial, but it is not.</strong> LLMs love em dashes. Claude will insert them naturally unless explicitly told not to. The Bloom Protocol bans them because reports are read by families, not literary critics. Catching them here is cheaper than having a human find them in review.
+  </blockquote>
+
+  <p>If any critical check fails, the pipeline halts. This is the third and final halt point before quality review.</p>
+</div>
+
+<!-- ============ SLIDE 10: STAGE 6 ============ -->
+<div class="slide" id="slide-s6">
+  <div class="slide-num">Section 11 of 14</div>
+  <h2>Stage 6: Quality Review</h2>
+
+  <p>The final processing stage corresponds to <strong>Agent 4 (Quality Reviewer)</strong>. It runs on <strong>Claude Haiku 4.5</strong>, the fastest and cheapest model. It does two things:</p>
+
+  <div class="finding-card">
+    <h4>6a: Deterministic Checks (no AI)</h4>
+    <ul>
+      <li>Narrative presence per section</li>
+      <li>Em dash detection (a second pass, catching any that slipped through)</li>
+      <li>Claim cross-reference validation (every cited claim exists in the extraction)</li>
+      <li>Demographic parity check: flags demographic descriptors in placement-relevant sections (a bias detection mechanism)</li>
+    </ul>
+  </div>
+
+  <div class="finding-card">
+    <h4>6b: LLM Coherence Check (Haiku)</h4>
+    <p>Evaluates whether the synthesis output reads coherently: logical flow, transitions between sections, consistent tone. Importantly, it does <strong>not</strong> re-evaluate clinical content. Haiku is not qualified to second-guess Opus on clinical reasoning; it only checks that the narrative hangs together as readable prose.</p>
+  </div>
+
+  <p>Stage 6 computes a <strong>per-section confidence score</strong> as the fraction of checks passed. If any section scores below 0.6, or if the demographic parity check triggers, or if the coherence parse fails, the report is flagged for human review.</p>
+
+  <blockquote><strong>Why Haiku for review?</strong> Coherence checking is a lightweight task. You do not need Opus-level reasoning to detect whether paragraphs flow logically. Haiku runs in milliseconds and costs a fraction of a cent. Using Opus here would be like hiring a surgeon to take your blood pressure.</blockquote>
+</div>
+
+<!-- ============ SLIDE 11: MODEL TIERING ============ -->
+<div class="slide" id="slide-models">
+  <div class="slide-num">Section 12 of 14</div>
+  <h2>Model Tiering: The Right Tool for Each Job</h2>
+
+  <p>The pipeline uses three different Claude models, each chosen for what it does best. This is a deliberate cost-performance tradeoff, not just an optimization.</p>
+
+  <table>
+    <thead><tr><th>Stage</th><th>Model</th><th>Max Tokens</th><th>Why This Model</th></tr></thead>
+    <tbody>
+      <tr><td>1 Parse</td><td><span class="badge badge-green">None (deterministic)</span></td><td>0</td><td>Regex classification; AI adds no value here</td></tr>
+      <tr><td>2 Extract</td><td><span class="badge badge-blue">Sonnet 4.6</span></td><td>16K</td><td>High throughput, parallelizable per-doc; structured extraction is Sonnet's sweet spot</td></tr>
+      <tr><td>3a Reconcile</td><td><span class="badge badge-green">None (deterministic)</span></td><td>0</td><td>Rule-based source hierarchy; date math does not need reasoning</td></tr>
+      <tr><td>3b Classify</td><td><span class="badge badge-blue">Sonnet 4.6</span></td><td>8K</td><td>Short-circuits if clean; classification is a fast task</td></tr>
+      <tr><td>4 Synthesis</td><td><span class="badge badge-blue">Opus 4.6</span></td><td>16K</td><td>Highest-stakes stage; needs deep clinical reasoning + narrative quality</td></tr>
+      <tr><td>6 Review</td><td><span class="badge badge-blue">Haiku 4.5</span></td><td>2K</td><td>Fast coherence check; does not re-evaluate clinical content</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The Economics</h3>
+  <p>In a typical clean case (no Category 1 conflicts, 5-6 source documents):</p>
+  <ul>
+    <li><strong>Stage 3b short-circuits:</strong> 0 tokens (all conflicts resolved deterministically)</li>
+    <li><strong>Stage 2 runs in parallel:</strong> wall-clock time is one Sonnet call, not N sequential calls</li>
+    <li><strong>Stage 4 is the only Opus call:</strong> the most expensive model runs exactly once</li>
+    <li><strong>Stage 6 uses Haiku:</strong> the cheapest possible model for a task that does not need depth</li>
+  </ul>
+
+  <blockquote>The pipeline is designed so that the expensive model (Opus) only sees pre-validated, pre-reconciled data. Every deterministic stage and gate upstream exists to ensure Stage 4 gets clean input, reducing the chance it produces something that fails Gate 2 and wastes an Opus call.</blockquote>
+</div>
+
+<!-- ============ SLIDE 12: EVALUATION FRAMEWORK ============ -->
+<div class="slide" id="slide-eval">
+  <div class="slide-num">Section 13 of 14</div>
+  <h2>The Evaluation Framework: 41 Checks</h2>
+
+  <p>Beyond the inline gates, the pipeline has a separate end-to-end evaluation framework that runs 41 checks across 3 layers. This is used for regression testing, prompt tuning, and quality benchmarking.</p>
+
+  <div class="finding-card">
+    <h4>Layer 1: Deterministic (15 checks) <span class="badge badge-green">Automated</span></h4>
+    <p>Binary pass/fail checks that need no AI. Does the report have all required sections (S1-S5)? Are em dashes absent and abbreviations correct (F1, F2, F9, F10)? Is a Level of Care recommendation present? Are data gaps documented?</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>Layer 2: Traceability (15 checks) <span class="badge badge-green">Automated</span></h4>
+    <p>Validates evidence chains. Can every clinical claim be traced back to a source document (C1, C4, C7)? Are inline citations present for key claims (F3)? Do concrete examples accompany behavioral descriptions (EX1-3)? Were reconciliation decisions applied correctly (RC1-2)?</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>Layer 3: LLM Judge (11 checks) <span class="badge badge-blue">Haiku 4.5</span></h4>
+    <p>These checks require reading comprehension. Does each section answer its placement guiding question (P1-P8)? Is the clinical narrative accurate and not contradicted by the extractions (C5-C6)? Does the F.I.D. (Frequency, Intensity, Duration) data use concrete numbers, not vague qualifiers (F4)?</p>
+  </div>
+
+  <h3>Reference Case: Emily F</h3>
+  <p>The evaluation framework is baselined against a complex validated case: Emily F (6 source documents, 568 extracted claims, 5th-iteration gold-standard report).</p>
+  <table>
+    <thead><tr><th>Layer</th><th>Current Baseline</th></tr></thead>
+    <tbody>
+      <tr><td>Layer 1: Deterministic</td><td>S2, F1, DG fail (3 of 15)</td></tr>
+      <tr><td>Layer 2: Traceability</td><td>All pass (15 of 15)</td></tr>
+      <tr><td>Layer 3: LLM Judge</td><td>Not yet baselined</td></tr>
+    </tbody>
+  </table>
+
+  <p>When checks fail, the evaluation framework recommends interventions across 5 tiers: ground-truth audit, config tuning, prompt tuning, stage modification, or architecture change. This creates a structured improvement loop.</p>
+</div>
+
+<!-- ============ SLIDE 13: WHAT THIS MEANS ============ -->
+<div class="slide" id="slide-recs">
+  <div class="slide-num">Section 14 of 14</div>
+  <h2>What This Means for Us</h2>
+
+  <h3>Architecture Strengths</h3>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">Key Insight</span> Deterministic-first design minimizes AI risk</h4>
+    <p>By handling document classification, timeline reconciliation, and source hierarchy with pure rules, the pipeline avoids AI hallucination in the areas most prone to factual error (dates, ages, placement sequences). AI is only used where human-level judgment is genuinely needed: extracting meaning from unstructured text, classifying ambiguous conflicts, synthesizing narrative, and checking coherence.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-moderate">Key Insight</span> Three halt points create a graduated safety net</h4>
+    <p>Gate 1 catches data quality issues before any expensive processing. Gate 1b catches factual conflicts before synthesis. The Human Review Gate catches quality issues after synthesis. Each halt point addresses a different failure mode, and each one is positioned to minimize wasted compute.</p>
+  </div>
+
+  <h3>What Comes Next</h3>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-high">Phase 2</span> Stage 5: Z3 Formal Verification</h4>
+    <p>Will use the Z3 theorem prover to mathematically validate reasoning traces from Stage 4. For example: if the synthesis says "interventions escalated from outpatient to residential," Z3 can verify that the timeline events actually support that claim. This adds a layer of logical proof between synthesis and review.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4><span class="badge badge-high">Phase 3</span> Gate 3: Conformal Prediction</h4>
+    <p>Will add statistical confidence bounds to section quality scores. Instead of a binary pass/fail, the evaluation will produce calibrated probability intervals (for example, "85% confidence this section is clinically accurate with a &plusmn;5% margin"). This enables more nuanced quality routing.</p>
+  </div>
+
+  <h3>Open Questions</h3>
+  <ul>
+    <li>How should the pipeline handle cases where Stage 2 extraction confidence is consistently low across all documents? Currently there is no aggregate confidence gate.</li>
+    <li>Should the demographic parity check in Stage 6 trigger a hard halt or a soft warning? The current implementation flags for human review, but the threshold is not yet calibrated.</li>
+    <li>What is the right baseline target for Layer 3 (LLM Judge) checks? The Emily F case has not yet been scored on placement utility (P1-P8).</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="index-bar">
+  <button class="idx-chip" onclick="goTo(0)">Executive Summary</button>
+  <button class="idx-chip" onclick="goTo(1)">What Is It?</button>
+  <button class="idx-chip" onclick="goTo(2)">Pipeline Overview</button>
+  <button class="idx-chip" onclick="goTo(3)">S1 &amp; S2: Ingestion</button>
+  <button class="idx-chip" onclick="goTo(4)">Knowledge System</button>
+  <button class="idx-chip" onclick="goTo(5)">Gate 1</button>
+  <button class="idx-chip" onclick="goTo(6)">S3: Reconciliation</button>
+  <button class="idx-chip" onclick="goTo(7)">Gate 1b: Human Halt</button>
+  <button class="idx-chip" onclick="goTo(8)">S4: Synthesis</button>
+  <button class="idx-chip" onclick="goTo(9)">Gate 2</button>
+  <button class="idx-chip" onclick="goTo(10)">S6: Review</button>
+  <button class="idx-chip" onclick="goTo(11)">Model Tiering</button>
+  <button class="idx-chip" onclick="goTo(12)">Evaluation (41 checks)</button>
+  <button class="idx-chip" onclick="goTo(13)">What This Means</button>
+  <div class="idx-arrows">
+    <button class="idx-arrow" onclick="prev()">&larr;</button>
+    <button class="idx-arrow" onclick="next()">&rarr;</button>
+  </div>
+</div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const chips = document.querySelectorAll('.idx-chip');
+const progress = document.getElementById('progress');
+function goTo(i) {
+  if (i < 0 || i >= slides.length) return;
+  slides[current].classList.remove('active');
+  chips[current].classList.remove('active');
+  current = i;
+  slides[current].classList.add('active');
+  chips[current].classList.add('active');
+  progress.style.width = ((current + 1) / slides.length * 100) + '%';
+}
+function next() { goTo(current + 1); }
+function prev() { goTo(current - 1); }
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+});
+slides[0].classList.add('active');
+chips[0].classList.add('active');
+progress.style.width = (1 / slides.length * 100) + '%';
+</script>
+</body>
+</html>
