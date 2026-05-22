@@ -3,506 +3,339 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex, nofollow">
-<title>ThriveIEP Dashboard</title>
+<title>ThriveIEP Dashboard — May 22, 2026</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#0f172a;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.6;padding:1rem}
-.container{max-width:1200px;margin:0 auto}
-h1{font-size:1.8rem;font-weight:700;color:#f8fafc}
-h2{font-size:1.3rem;font-weight:600;color:#f1f5f9;margin:1.5rem 0 0.75rem}
-h3{font-size:1.1rem;font-weight:600;color:#cbd5e1;margin:0.75rem 0 0.5rem}
-.subtitle{color:#94a3b8;font-size:0.95rem}
-.muted{color:#64748b;font-size:0.8rem}
-.header{text-align:center;padding:1.5rem 0;border-bottom:1px solid #334155;margin-bottom:1.5rem}
+:root {
+  --bg: #0f172a;
+  --panel: #1e293b;
+  --border: #334155;
+  --text: #e2e8f0;
+  --text-muted: #94a3b8;
+  --accent: #38bdf8;
+  --accent-dim: #0ea5e9;
+  --red: #ef4444;
+  --yellow: #eab308;
+  --green: #22c55e;
+  --orange: #f97316;
+  --purple: #a78bfa;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; line-height:1.5; padding:24px; max-width:1200px; margin:0 auto; }
+h1 { font-size:1.75rem; font-weight:700; }
+h2 { font-size:1.25rem; font-weight:600; margin-bottom:12px; color:var(--accent); }
+h3 { font-size:1rem; font-weight:600; margin-bottom:8px; }
+.header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px; padding-bottom:16px; border-bottom:1px solid var(--border); }
+.header-left h1 { margin-bottom:4px; }
+.header-left .subtitle { color:var(--text-muted); font-size:0.9rem; }
+.header-right { text-align:right; font-size:0.85rem; color:var(--text-muted); }
+.header-right .time { font-size:1.1rem; color:var(--text); font-weight:600; }
 
-/* Milestone bar */
-.milestones{display:flex;flex-wrap:wrap;gap:0.75rem;margin-bottom:1.5rem}
-.milestone{flex:1;min-width:200px;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:0.75rem 1rem}
-.milestone .name{font-weight:600;font-size:0.9rem;color:#f1f5f9}
-.milestone .meta{font-size:0.8rem;color:#94a3b8;margin-top:0.25rem}
-.milestone .days{font-size:1.4rem;font-weight:700;margin-top:0.25rem}
-.days-red{color:#ef4444}
-.days-amber{color:#f59e0b}
-.days-blue{color:#3b82f6}
-.days-green{color:#10b981}
-.status-overdue{color:#ef4444;font-weight:600}
-.status-active{color:#f59e0b}
-.status-planned{color:#94a3b8}
+.milestone-bar { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-bottom:24px; }
+.milestone-card { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:16px; }
+.milestone-card.overdue { border-color:var(--red); }
+.milestone-card.soon { border-color:var(--yellow); }
+.milestone-card.done { border-color:var(--green); opacity:0.7; }
+.milestone-card .label { font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em; }
+.milestone-card .value { font-size:1.5rem; font-weight:700; }
+.milestone-card .value.overdue-text { color:var(--red); }
+.milestone-card .value.soon-text { color:var(--yellow); }
+.milestone-card .value.done-text { color:var(--green); }
+.milestone-card .detail { font-size:0.85rem; color:var(--text-muted); margin-top:4px; }
 
-/* Focus Picks */
-.focus-picks{display:grid;gap:0.75rem;margin-bottom:1.5rem}
-.focus-card{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:1rem 1rem 1rem 1.25rem;display:flex;gap:1rem;align-items:flex-start}
-.focus-card.slot-1{border-left:4px solid #ef4444}
-.focus-card.slot-2{border-left:4px solid #f59e0b}
-.focus-card.slot-3{border-left:4px solid #3b82f6}
-.focus-num{background:#334155;color:#f8fafc;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;flex-shrink:0}
-.focus-body{flex:1}
-.focus-title{font-weight:600;color:#f8fafc;font-size:0.95rem}
-.focus-why{color:#94a3b8;font-size:0.85rem;margin-top:0.25rem}
-.focus-source{display:inline-block;background:#334155;color:#cbd5e1;font-size:0.7rem;padding:2px 8px;border-radius:4px;margin-top:0.5rem}
+.focus-picks { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px; margin-bottom:24px; }
+.focus-card { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:20px; position:relative; }
+.focus-card .slot { position:absolute; top:12px; right:16px; font-size:0.75rem; background:var(--accent-dim); color:#fff; padding:2px 8px; border-radius:4px; font-weight:600; }
+.focus-card .slot.urgent { background:var(--red); }
+.focus-card .slot.warning { background:var(--orange); }
+.focus-card h3 { margin-bottom:8px; }
+.focus-card p { font-size:0.9rem; color:var(--text-muted); }
+.focus-card .action { margin-top:12px; font-size:0.85rem; color:var(--accent); font-weight:500; }
 
-/* Calendar */
-.cal-event{display:flex;align-items:center;gap:0.75rem;padding:0.5rem 0;border-bottom:1px solid #1e293b}
-.cal-time{color:#94a3b8;font-size:0.85rem;min-width:80px;font-variant-numeric:tabular-nums}
-.cal-name{color:#e2e8f0;font-size:0.9rem;flex:1}
-.badge{display:inline-block;font-size:0.7rem;padding:2px 8px;border-radius:4px;font-weight:600;margin-left:0.5rem}
-.badge-team{background:#1e3a5f;color:#5ba8c8}
-.badge-client{background:#3d2e10;color:#e8a33a}
-.badge-tutoring{background:#2d2255;color:#a78bfa}
-.badge-work{background:#1e293b;color:#64748b}
-.badge-gtm{background:#0f3b2d;color:#34d399}
-.badge-personal{background:#3d1f3d;color:#f472b6}
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px; }
+@media (max-width:768px) { .two-col { grid-template-columns:1fr; } }
 
-/* Issues */
-.panel{background:#1e293b;border:1px solid #334155;border-radius:8px;margin-bottom:0.75rem;overflow:hidden}
-details{background:#1e293b}
-summary{padding:0.75rem 1rem;cursor:pointer;font-weight:600;font-size:0.95rem;color:#f1f5f9;list-style:none;display:flex;align-items:center;gap:0.5rem}
-summary::-webkit-details-marker{display:none}
-summary::before{content:'▸';color:#64748b;font-size:0.8rem}
-details[open]>summary::before{content:'▾'}
-.issue-list{padding:0.25rem 1rem 0.75rem}
-.issue-row{display:flex;align-items:center;gap:0.75rem;padding:0.4rem 0;border-bottom:1px solid rgba(51,65,85,0.5);flex-wrap:wrap}
-.issue-row:last-child{border-bottom:none}
-.issue-id{font-family:ui-monospace,monospace;font-size:0.8rem;color:#94a3b8;min-width:65px}
-.issue-title{flex:1;min-width:200px;font-size:0.85rem;color:#e2e8f0}
-.priority-badge{font-size:0.7rem;padding:2px 8px;border-radius:4px;font-weight:600}
-.pri-urgent{background:#3b1111;color:#ef4444}
-.pri-high{background:#3d2e10;color:#f59e0b}
-.pri-medium{background:#162544;color:#3b82f6}
-.pri-normal{background:#1e293b;color:#64748b}
-.pri-low{background:#1e293b;color:#94a3b8}
-.project-tag{font-size:0.7rem;padding:2px 8px;border-radius:4px;background:#334155;color:#cbd5e1}
-.accent-red{border-left:3px solid #ef4444}
-.accent-amber{border-left:3px solid #f59e0b}
-.accent-blue{border-left:3px solid #3b82f6}
-.accent-gray{border-left:3px solid #64748b}
+.cal-section { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:20px; margin-bottom:16px; }
+.cal-event { display:flex; gap:12px; padding:8px 0; border-bottom:1px solid var(--border); }
+.cal-event:last-child { border-bottom:none; }
+.cal-time { min-width:100px; font-size:0.85rem; color:var(--text-muted); font-variant-numeric:tabular-nums; }
+.cal-title { font-size:0.9rem; }
+.cal-type { font-size:0.75rem; padding:1px 6px; border-radius:3px; margin-left:8px; vertical-align:middle; }
+.type-team { background:#1e40af33; color:#60a5fa; }
+.type-tutoring { background:#7c3aed33; color:#a78bfa; }
+.type-personal { background:#4b556333; color:#94a3b8; }
+.type-client { background:#15803d33; color:#4ade80; }
 
-/* Git Activity */
-.git-table{width:100%;border-collapse:collapse;font-size:0.85rem;margin-top:0.5rem}
-.git-table th{text-align:left;padding:0.5rem;color:#94a3b8;border-bottom:1px solid #334155;font-weight:600}
-.git-table td{padding:0.5rem;border-bottom:1px solid rgba(51,65,85,0.5);color:#e2e8f0}
-.git-sha{font-family:ui-monospace,monospace;color:#94a3b8;font-size:0.8rem}
+.issues-section { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:20px; }
+.issue-group { margin-bottom:16px; }
+.issue-group h3 { display:flex; align-items:center; gap:8px; }
+.issue-group .count { font-size:0.8rem; background:var(--border); padding:1px 8px; border-radius:10px; font-weight:400; }
+.issue-row { display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid #334155aa; font-size:0.85rem; }
+.issue-row:last-child { border-bottom:none; }
+.issue-id { color:var(--accent); min-width:72px; font-family:monospace; }
+.issue-title { flex:1; margin:0 12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.issue-meta { display:flex; gap:8px; align-items:center; flex-shrink:0; }
+.priority { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.p1 { background:var(--red); }
+.p2 { background:var(--orange); }
+.p3 { background:var(--yellow); }
+.p4 { background:var(--text-muted); }
+.assignee { font-size:0.75rem; color:var(--text-muted); min-width:48px; text-align:right; }
+.project-tag { font-size:0.7rem; padding:1px 5px; border-radius:3px; background:var(--border); color:var(--text-muted); }
 
-/* Footer */
-.footer{margin-top:2rem;padding-top:1rem;border-top:1px solid #334155;text-align:center;color:#64748b;font-size:0.8rem}
-.footer a{color:#3b82f6;text-decoration:none}
-.footer a:hover{text-decoration:underline}
-.data-gap{background:#1c1917;border:1px solid #78350f;border-radius:6px;padding:0.5rem 0.75rem;color:#fbbf24;font-size:0.85rem;margin-bottom:1rem}
-.networking-badge{display:inline-block;padding:4px 12px;border-radius:6px;font-size:0.85rem;font-weight:600}
-.net-healthy{background:#052e16;color:#22c55e}
-.net-nudge{background:#422006;color:#f59e0b}
+.git-section { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:20px; margin-bottom:24px; }
+.git-stat { display:inline-flex; align-items:center; gap:6px; margin-right:20px; font-size:0.9rem; }
+.git-stat .num { font-size:1.3rem; font-weight:700; color:var(--accent); }
+.git-bar { display:flex; height:8px; border-radius:4px; overflow:hidden; margin:12px 0; background:var(--border); }
+.git-bar-seg { height:100%; }
+.warning-box { background:#7f1d1d44; border:1px solid var(--red); border-radius:6px; padding:12px 16px; margin-top:12px; font-size:0.85rem; }
+.warning-box .label { color:var(--red); font-weight:600; margin-bottom:4px; }
+
+.signals-section { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:20px; }
+.signal-row { display:flex; align-items:center; gap:12px; padding:8px 0; border-bottom:1px solid var(--border); font-size:0.9rem; }
+.signal-row:last-child { border-bottom:none; }
+.signal-icon { font-size:1.1rem; }
+.signal-status { font-size:0.8rem; padding:2px 8px; border-radius:4px; font-weight:500; }
+.status-ok { background:#14532d44; color:var(--green); }
+.status-warn { background:#713f1244; color:var(--orange); }
+.status-unknown { background:#4b556344; color:var(--text-muted); }
+.status-quiet { background:#1e3a5f44; color:var(--accent); }
+
+.footer { text-align:center; padding:24px 0 8px; color:var(--text-muted); font-size:0.8rem; border-top:1px solid var(--border); margin-top:8px; }
 </style>
 </head>
 <body>
-<div class="container">
 
-<!-- HEADER -->
 <div class="header">
-  <h1>ThriveIEP Dashboard</h1>
-  <div class="subtitle">Week of May 19 – May 25, 2026</div>
-  <div class="muted">Generated May 20, 2026 at 10:37 AM ET</div>
-</div>
-
-<!-- MILESTONE BAR -->
-<h2>📊 Milestones</h2>
-<div class="milestones">
-  <div class="milestone">
-    <div class="name">M3: Pilot Profiles</div>
-    <div class="meta">C2A — Target: May 31</div>
-    <div class="days days-amber">11 days</div>
-    <div class="meta status-active">🔄 Active</div>
+  <div class="header-left">
+    <h1>ThriveIEP Dashboard</h1>
+    <div class="subtitle">Week of May 19 – May 25, 2026</div>
   </div>
-  <div class="milestone">
-    <div class="name">M5: Phase 3 Ready</div>
-    <div class="meta">C2A — Target: May 15</div>
-    <div class="days days-red">⚠️ OVERDUE</div>
-    <div class="meta status-overdue">5 days past target</div>
-  </div>
-  <div class="milestone">
-    <div class="name">Bloom M1: Speed & Quality</div>
-    <div class="meta">Bloom — Target: Jun 30</div>
-    <div class="days days-blue">41 days</div>
-    <div class="meta status-active">🔄 Active (25%)</div>
-  </div>
-  <div class="milestone">
-    <div class="name">Redactor M1: Accuracy</div>
-    <div class="meta">PI Redactor — Target: Jun 30</div>
-    <div class="days days-blue">41 days</div>
-    <div class="meta status-active">🔄 Active</div>
-  </div>
-  <div class="milestone">
-    <div class="name">AE M1: Infra & Security</div>
-    <div class="meta">Accommodation — Target: Jun 30</div>
-    <div class="days days-blue">41 days</div>
-    <div class="meta status-planned">📋 Planned</div>
+  <div class="header-right">
+    <div class="time">Thursday, May 22</div>
+    <div>Generated 2026-05-22</div>
+    <div>Data: Linear · Calendar · Gmail · Git</div>
   </div>
 </div>
 
-<!-- ISSUE SUMMARY -->
-<div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem">
-  <div class="panel" style="flex:1;min-width:120px;text-align:center;padding:1rem">
-    <div style="font-size:2rem;font-weight:700;color:#f59e0b">11</div>
-    <div class="muted">In Progress</div>
+<div class="milestone-bar">
+  <div class="milestone-card soon">
+    <div class="label">M3 · Pilot Profiles</div>
+    <div class="value soon-text">9 days left</div>
+    <div class="detail">Target: May 31 — CM2 ($15K) ready to invoice</div>
   </div>
-  <div class="panel" style="flex:1;min-width:120px;text-align:center;padding:1rem">
-    <div style="font-size:2rem;font-weight:700;color:#94a3b8">15</div>
-    <div class="muted">Todo</div>
+  <div class="milestone-card overdue">
+    <div class="label">M5 · Phase 3 Ready</div>
+    <div class="value overdue-text">7 days overdue</div>
+    <div class="detail">Target was May 15 — CM3 ($10K) blocked on NLU acceptance</div>
   </div>
-  <div class="panel" style="flex:1;min-width:120px;text-align:center;padding:1rem">
-    <div style="font-size:2rem;font-weight:700;color:#10b981">20+</div>
-    <div class="muted">Done (recent)</div>
+  <div class="milestone-card soon">
+    <div class="label">BC Deal · Close Date</div>
+    <div class="value soon-text">9 days</div>
+    <div class="detail">Stage: Closed Won — close May 31. Meeting May 28.</div>
+  </div>
+  <div class="milestone-card">
+    <div class="label">Contract Cash</div>
+    <div class="value">$10K pending</div>
+    <div class="detail">$30K invoiced of $40K total. CM3 needs white paper + usage report.</div>
   </div>
 </div>
 
-<!-- DATA GAPS -->
-<div class="data-gap">
-  ⚠️ <strong>Calendar unavailable</strong> — Google Calendar API returned 403 (insufficient scopes). Re-auth needed: <code>gws auth login --services calendar</code>
-</div>
-
-<!-- FOCUS PICKS -->
-<h2>🎯 Focus Picks</h2>
+<h2>Focus Picks</h2>
 <div class="focus-picks">
-  <div class="focus-card slot-1">
-    <div class="focus-num">1</div>
-    <div class="focus-body">
-      <div class="focus-title">Review Elizabeth's coach report feedback + BC meeting prep</div>
-      <div class="focus-why">Elizabeth left a comment on the coach report Google Doc. BC is a Closed Won deal ($amount confirmed in HubSpot). This is your top revenue-bearing customer deliverable.</div>
-      <span class="focus-source">Gmail + HubSpot → THR-298</span>
+  <div class="focus-card">
+    <span class="slot urgent">Slot 1</span>
+    <h3>BC Report + Elizabeth Feedback</h3>
+    <p>Elizabeth left a comment on the coach report Google Doc. BC deal closes May 31 (9 days). Next BC meeting is May 28 — need updated scope and materials before then.</p>
+    <div class="action">Review Elizabeth's Google Docs comment, incorporate feedback, prep for May 28 meeting</div>
+  </div>
+  <div class="focus-card">
+    <span class="slot warning">Slot 2</span>
+    <h3>M5 Overdue — Decide Next Step</h3>
+    <p>M5 was due May 15, now 7 days late. $10K (CM3) is blocked on admin dashboard + white paper. Soham's admin UI branch is active but needs review. White paper (THR-254) hasn't started.</p>
+    <div class="action">Decision needed: push M5 target to June or fast-track deliverables this week</div>
+  </div>
+  <div class="focus-card">
+    <span class="slot">Slot 3</span>
+    <h3>Standup Today — Flag Soham Silence</h3>
+    <p>Standup at 10:30 AM. Soham has 0 commits and 0 Slack messages in the last 48 hours. Last Linear update was May 15. Need a status check on admin dashboard progress.</p>
+    <div class="action">At standup: confirm Soham's status, review admin UI branch, set THR commit discipline</div>
+  </div>
+</div>
+
+<div class="two-col">
+  <div>
+    <h2>Today's Calendar</h2>
+    <div class="cal-section">
+      <div class="cal-event">
+        <div class="cal-time">10:30 – 10:45</div>
+        <div class="cal-title">ThriveIEP Standup <span class="cal-type type-team">team</span></div>
+      </div>
+      <div class="cal-event">
+        <div class="cal-time">2:30 – 3:30 PM</div>
+        <div class="cal-title">Nehmet <span class="cal-type type-tutoring">tutoring</span></div>
+      </div>
+      <div class="cal-event">
+        <div class="cal-time">5:30 – 6:30 PM</div>
+        <div class="cal-title">soccer practice W <span class="cal-type type-personal">personal</span></div>
+      </div>
+    </div>
+
+    <h2>Upcoming This Week</h2>
+    <div class="cal-section">
+      <div class="cal-event">
+        <div class="cal-time">Fri 5/23</div>
+        <div class="cal-title">TreeTop Adventures <span class="cal-type type-personal">personal</span></div>
+      </div>
+      <div class="cal-event">
+        <div class="cal-time">Sat 5/24 7:30a</div>
+        <div class="cal-title">ThriveIEP Team Meeting <span class="cal-type type-team">team</span></div>
+      </div>
+      <div class="cal-event">
+        <div class="cal-time">Sun 5/25 10:00a</div>
+        <div class="cal-title">ThriveIEP Standup <span class="cal-type type-team">team</span></div>
+      </div>
+      <div class="cal-event">
+        <div class="cal-time">Sun 5/25 3:15p</div>
+        <div class="cal-title">George <span class="cal-type type-tutoring">tutoring</span></div>
+      </div>
+      <div class="cal-event">
+        <div class="cal-time">Mon 5/26</div>
+        <div class="cal-title">Memorial Day — no school <span class="cal-type type-personal">personal</span></div>
+      </div>
+      <div class="cal-event">
+        <div class="cal-time">Mon 5/26 9:30a</div>
+        <div class="cal-title">ThriveIEP In Person Work Block <span class="cal-type type-team">team</span></div>
+      </div>
+      <div class="cal-event">
+        <div class="cal-time">Mon 5/26 4:30p</div>
+        <div class="cal-title">Jack <span class="cal-type type-tutoring">tutoring</span></div>
+      </div>
+      <div class="cal-event">
+        <div class="cal-time">Wed 5/28 1:00p</div>
+        <div class="cal-title">BC <span class="cal-type type-client">client</span></div>
+      </div>
+      <div class="cal-event">
+        <div class="cal-time">Wed 5/28 4:30p</div>
+        <div class="cal-title">Jack <span class="cal-type type-tutoring">tutoring</span></div>
+      </div>
     </div>
   </div>
-  <div class="focus-card slot-2">
-    <div class="focus-num">2</div>
-    <div class="focus-body">
-      <div class="focus-title">Triage M5 overdue — decide: push target or fast-track</div>
-      <div class="focus-why">M5 (Phase 3 Ready) missed its May 15 target by 5 days. CM3 ($10K) is blocked on NLU acceptance of admin dashboard + white paper. Soham's admin UI branch is active — review it to unblock.</div>
-      <span class="focus-source">Linear + priorities.md → THR-254, THR-255</span>
-    </div>
-  </div>
-  <div class="focus-card slot-3">
-    <div class="focus-num">3</div>
-    <div class="focus-body">
-      <div class="focus-title">Linear reconciliation — map 122 untracked commits</div>
-      <div class="focus-why">Only 1 THR reference (THR-303) across 122 commits in 3 repos since May 15. Work is happening but invisible in project management. Map at least the top 10 commits to issues.</div>
-      <span class="focus-source">Git reconciliation → THR-299</span>
+
+  <div>
+    <h2>Linear Issues</h2>
+    <div class="issues-section">
+      <div class="issue-group">
+        <h3>In Progress <span class="count">11</span></h3>
+        <div class="issue-row"><span class="issue-id">THR-298</span><span class="issue-title">BC post-secondary document review generator MVP</span><span class="issue-meta"><span class="priority p2"></span><span class="project-tag">AE</span><span class="assignee">Eric</span></span></div>
+        <div class="issue-row"><span class="issue-id">THR-254</span><span class="issue-title">Technical White Paper for NLU (M3 payment trigger)</span><span class="issue-meta"><span class="priority p2"></span><span class="project-tag">C2A</span><span class="assignee">Eric</span></span></div>
+        <div class="issue-row"><span class="issue-id">THR-106</span><span class="issue-title">C2A data analysis and NLU pilot findings path</span><span class="issue-meta"><span class="priority p2"></span><span class="project-tag">C2A</span><span class="assignee">Eric</span></span></div>
+        <div class="issue-row"><span class="issue-id">THR-255</span><span class="issue-title">Build role-scoped coach/admin view</span><span class="issue-meta"><span class="priority p2"></span><span class="project-tag">C2A</span><span class="assignee">Eric</span></span></div>
+        <div class="issue-row"><span class="issue-id">THR-291</span><span class="issue-title">Bloom Stage 2 cache threshold fix</span><span class="issue-meta"><span class="priority p2"></span><span class="project-tag">Bloom</span><span class="assignee">Eric</span></span></div>
+        <div class="issue-row"><span class="issue-id">THR-199</span><span class="issue-title">C2A M3: DDx pattern matching engine</span><span class="issue-meta"><span class="priority p2"></span><span class="project-tag">C2A</span><span class="assignee">Eric</span></span></div>
+        <div class="issue-row"><span class="issue-id">THR-299</span><span class="issue-title">Update Linear / add THR refs to commits</span><span class="issue-meta"><span class="priority p3"></span><span class="project-tag">Ops</span><span class="assignee">Eric</span></span></div>
+        <div class="issue-row"><span class="issue-id">THR-300</span><span class="issue-title">Investigate missing Slack notifications</span><span class="issue-meta"><span class="priority p3"></span><span class="project-tag">Ops</span><span class="assignee">Eric</span></span></div>
+        <div class="issue-row"><span class="issue-id">THR-302</span><span class="issue-title">QC PM-Hub filesystem and indexes</span><span class="issue-meta"><span class="priority p3"></span><span class="project-tag">Ops</span><span class="assignee">Eric</span></span></div>
+        <div class="issue-row"><span class="issue-id">THR-301</span><span class="issue-title">Refresh knowledge graphs for active repos</span><span class="issue-meta"><span class="priority p3"></span><span class="project-tag">Ops</span><span class="assignee">Eric</span></span></div>
+        <div class="issue-row"><span class="issue-id">THR-251</span><span class="issue-title">Infrastructure &amp; tooling catch-all</span><span class="issue-meta"><span class="priority p4"></span><span class="project-tag">Ops</span><span class="assignee">Eric</span></span></div>
+      </div>
+
+      <div class="issue-group">
+        <h3>Todo <span class="count">15</span></h3>
+        <div class="issue-row"><span class="issue-id">THR-270</span><span class="issue-title">Security review: drizzle SQLi, body limit, CSP</span><span class="issue-meta"><span class="priority p2"></span><span class="project-tag">AE</span><span class="assignee">Eric</span></span></div>
+        <div class="issue-row"><span class="issue-id">THR-262</span><span class="issue-title">DDx Tier 2: Initiative regen</span><span class="issue-meta"><span class="priority p2"></span><span class="project-tag">C2A</span><span class="assignee">Eric</span></span></div>
+        <div class="issue-row"><span class="issue-id">THR-263</span><span class="issue-title">DDx Tier 2: Resilience regen</span><span class="issue-meta"><span class="priority p2"></span><span class="project-tag">C2A</span><span class="assignee">Eric</span></span></div>
+        <div class="issue-row"><span class="issue-id">THR-261</span><span class="issue-title">DDx Tier 2: Curiosity regen</span><span class="issue-meta"><span class="priority p2"></span><span class="project-tag">C2A</span><span class="assignee">Eric</span></span></div>
+        <div class="issue-row"><span class="issue-id">THR-62</span><span class="issue-title">Deploy dev enhancements to production</span><span class="issue-meta"><span class="priority p2"></span><span class="project-tag">AE</span><span class="assignee">—</span></span></div>
+        <div class="issue-row"><span class="issue-id">THR-14</span><span class="issue-title">Fix sample report link access</span><span class="issue-meta"><span class="priority p2"></span><span class="project-tag">AE</span><span class="assignee">Eric</span></span></div>
+        <div class="issue-row"><span class="issue-id">THR-187</span><span class="issue-title">Property tests — Student API</span><span class="issue-meta"><span class="priority p3"></span><span class="project-tag">C2A</span><span class="assignee">Soham</span></span></div>
+        <div class="issue-row"><span class="issue-id">THR-182</span><span class="issue-title">Property tests — Registry and admin</span><span class="issue-meta"><span class="priority p3"></span><span class="project-tag">C2A</span><span class="assignee">Soham</span></span></div>
+        <div class="issue-row"><span class="issue-id">THR-180</span><span class="issue-title">Implement admin UI (timepoint mgmt)</span><span class="issue-meta"><span class="priority p3"></span><span class="project-tag">C2A</span><span class="assignee">Soham</span></span></div>
+        <div class="issue-row"><span class="issue-id">THR-248</span><span class="issue-title">NLU: Review case study framework</span><span class="issue-meta"><span class="priority p3"></span><span class="project-tag">C2A</span><span class="assignee">Eric</span></span></div>
+        <div class="issue-row"><span class="issue-id">THR-239</span><span class="issue-title">Create DAG pipeline prompt skill</span><span class="issue-meta"><span class="priority p3"></span><span class="project-tag">Ops</span><span class="assignee">Eric</span></span></div>
+        <div class="issue-row"><span class="issue-id">THR-221</span><span class="issue-title">Review AE AI pipeline for improvements</span><span class="issue-meta"><span class="priority p3"></span><span class="project-tag">AE</span><span class="assignee">Soham</span></span></div>
+        <div class="issue-row"><span class="issue-id">THR-224</span><span class="issue-title">Student TLDR rollup summary view</span><span class="issue-meta"><span class="priority p4"></span><span class="project-tag">—</span><span class="assignee">—</span></span></div>
+        <div class="issue-row"><span class="issue-id">THR-118</span><span class="issue-title">Migrate to HIPAA-compliant GPU</span><span class="issue-meta"><span class="priority p4"></span><span class="project-tag">Redact</span><span class="assignee">Soham</span></span></div>
+        <div class="issue-row"><span class="issue-id">THR-13</span><span class="issue-title">Research Claude vibe coding workflows</span><span class="issue-meta"><span class="priority p2"></span><span class="project-tag">AE</span><span class="assignee">—</span></span></div>
+      </div>
+
+      <div class="issue-group">
+        <h3>Completed (last 48h) <span class="count">0</span></h3>
+        <p style="font-size:0.85rem;color:var(--text-muted);padding:8px 0;">No issues marked Done in the last 48 hours.</p>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- CALENDAR -->
-<h2>📅 Calendar</h2>
-<div class="panel" style="padding:1rem">
-  <div style="color:#fbbf24;font-size:0.9rem">⚠️ Calendar data unavailable this run. Google Calendar API needs re-authorization with calendar scopes.</div>
-  <div class="muted" style="margin-top:0.5rem">Run <code>gws auth login --services drive,docs,sheets,slides,calendar,gmail</code> and complete browser consent to restore.</div>
-</div>
-
-<!-- GMAIL SIGNALS -->
-<h2>📧 Gmail Signals</h2>
-<div class="panel" style="padding:0.75rem 1rem">
-  <div class="issue-row">
-    <span class="badge badge-client" style="margin-left:0">Action</span>
-    <span class="issue-title">Elizabeth left comment on coach report Google Doc</span>
-    <span class="muted">→ Review & incorporate into BC deliverable</span>
+<h2>Git Activity (since last dashboard — May 20)</h2>
+<div class="git-section">
+  <div>
+    <span class="git-stat"><span class="num">243</span> commits</span>
+    <span class="git-stat"><span class="num" style="color:var(--red)">0</span> THR refs</span>
+    <span class="git-stat"><span class="num">3</span> repos</span>
   </div>
-  <div class="issue-row">
-    <span class="badge badge-team" style="margin-left:0">FYI</span>
-    <span class="issue-title">Gemini Notes from BC Meeting Prep</span>
-    <span class="muted">→ Meeting summary with action items available</span>
+  <div class="git-bar">
+    <div class="git-bar-seg" style="width:98.4%;background:var(--accent);" title="AE: 239"></div>
+    <div class="git-bar-seg" style="width:0.8%;background:var(--purple);" title="PM-Hub: 2"></div>
+    <div class="git-bar-seg" style="width:0.8%;background:var(--green);" title="Redactor: 2"></div>
   </div>
-  <div class="issue-row">
-    <span class="badge" style="background:#3b1111;color:#ef4444;margin-left:0">Alert</span>
-    <span class="issue-title">Redactor CI failures flagged</span>
-    <span class="muted">→ Triage against Redactor M1 work</span>
+  <div style="display:flex;gap:24px;font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;">
+    <span><span style="display:inline-block;width:10px;height:10px;background:var(--accent);border-radius:2px;margin-right:4px;vertical-align:middle;"></span>AE: 239</span>
+    <span><span style="display:inline-block;width:10px;height:10px;background:var(--purple);border-radius:2px;margin-right:4px;vertical-align:middle;"></span>PM-Hub: 2</span>
+    <span><span style="display:inline-block;width:10px;height:10px;background:var(--green);border-radius:2px;margin-right:4px;vertical-align:middle;"></span>Redactor: 2</span>
   </div>
-</div>
-
-<!-- ISSUES: IN PROGRESS -->
-<h2>📋 Issues</h2>
-
-<div class="panel accent-amber">
-<details open>
-  <summary>In Progress (11 issues)</summary>
-  <div class="issue-list">
-    <div class="issue-row">
-      <span class="issue-id">THR-298</span>
-      <span class="issue-title">BC CFLC post-secondary document review generator MVP</span>
-      <span class="priority-badge pri-high">High</span>
-      <span class="project-tag">AE</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-254</span>
-      <span class="issue-title">Technical White Paper for NLU (M3 payment trigger)</span>
-      <span class="priority-badge pri-high">High</span>
-      <span class="project-tag">C2A</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-106</span>
-      <span class="issue-title">C2A data analysis and NLU pilot findings path</span>
-      <span class="priority-badge pri-high">High</span>
-      <span class="project-tag">C2A</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-255</span>
-      <span class="issue-title">Build role-scoped coach/admin view</span>
-      <span class="priority-badge pri-high">High</span>
-      <span class="project-tag">C2A</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-291</span>
-      <span class="issue-title">Bloom Stage 2 cache below Anthropic 1h-TTL threshold</span>
-      <span class="priority-badge pri-high">High</span>
-      <span class="project-tag">Bloom</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-199</span>
-      <span class="issue-title">C2A M3: DDx pattern matching engine (cross-lens diagnosis)</span>
-      <span class="priority-badge pri-high">High</span>
-      <span class="project-tag">C2A</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-299</span>
-      <span class="issue-title">Update Linear to reflect recent work + add THR refs</span>
-      <span class="priority-badge pri-medium">Medium</span>
-      <span class="project-tag">Team</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-300</span>
-      <span class="issue-title">Investigate missing Slack notifications for remote commits</span>
-      <span class="priority-badge pri-medium">Medium</span>
-      <span class="project-tag">Team</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-301</span>
-      <span class="issue-title">Refresh knowledge graphs for active repos</span>
-      <span class="priority-badge pri-medium">Medium</span>
-      <span class="project-tag">Team</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-302</span>
-      <span class="issue-title">QC PM-Hub filesystem and generated indexes</span>
-      <span class="priority-badge pri-medium">Medium</span>
-      <span class="project-tag">Team</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-251</span>
-      <span class="issue-title">Infrastructure & tooling catch-all (commit reference target)</span>
-      <span class="priority-badge pri-low">Low</span>
-      <span class="project-tag">Team</span>
-    </div>
-  </div>
-</details>
-</div>
-
-<div class="panel accent-blue">
-<details>
-  <summary>Todo (15 issues)</summary>
-  <div class="issue-list">
-    <div class="issue-row">
-      <span class="issue-id">THR-270</span>
-      <span class="issue-title">Security review: app.thriveiep.com/api findings</span>
-      <span class="priority-badge pri-high">High</span>
-      <span class="project-tag">AE</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-262</span>
-      <span class="issue-title">DDx Tier 2: Initiative (Inh-primary, Autonomy ARC)</span>
-      <span class="priority-badge pri-high">High</span>
-      <span class="project-tag">C2A</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-263</span>
-      <span class="issue-title">DDx Tier 2: Resilience (CF-primary, frame-lock)</span>
-      <span class="priority-badge pri-high">High</span>
-      <span class="project-tag">C2A</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-261</span>
-      <span class="issue-title">DDx Tier 2: Curiosity (CF-primary)</span>
-      <span class="priority-badge pri-high">High</span>
-      <span class="project-tag">C2A</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-62</span>
-      <span class="issue-title">Deploy dev enhancements to production</span>
-      <span class="priority-badge pri-high">High</span>
-      <span class="project-tag">AE</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-14</span>
-      <span class="issue-title">Fix sample report link access causing user drop-off</span>
-      <span class="priority-badge pri-high">High</span>
-      <span class="project-tag">AE</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-13</span>
-      <span class="issue-title">Research Claude vibe coding workflows + multi-agent systems</span>
-      <span class="priority-badge pri-high">High</span>
-      <span class="project-tag">AE</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-187</span>
-      <span class="issue-title">C2A M2: Property tests — Student API</span>
-      <span class="priority-badge pri-medium">Medium</span>
-      <span class="project-tag">C2A</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-182</span>
-      <span class="issue-title">C2A M2: Property tests — Registry and admin</span>
-      <span class="priority-badge pri-medium">Medium</span>
-      <span class="project-tag">C2A</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-180</span>
-      <span class="issue-title">C2A M2: Implement admin UI (timepoint management)</span>
-      <span class="priority-badge pri-medium">Medium</span>
-      <span class="project-tag">C2A</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-248</span>
-      <span class="issue-title">NLU: Review case study framework + add platform data</span>
-      <span class="priority-badge pri-medium">Medium</span>
-      <span class="project-tag">C2A</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-239</span>
-      <span class="issue-title">Create DAG pipeline prompt skill</span>
-      <span class="priority-badge pri-medium">Medium</span>
-      <span class="project-tag">Team</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-221</span>
-      <span class="issue-title">Review AE AI pipeline for novel approach improvements</span>
-      <span class="priority-badge pri-medium">Medium</span>
-      <span class="project-tag">AE</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-118</span>
-      <span class="issue-title">Migrate to HIPAA-compliant GPU infrastructure</span>
-      <span class="priority-badge pri-low">Low</span>
-      <span class="project-tag">Redactor</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-224</span>
-      <span class="issue-title">Student TLDR rollup summary view (narrative overview)</span>
-      <span class="priority-badge pri-low">Low</span>
-      <span class="project-tag">—</span>
-    </div>
-  </div>
-</details>
-</div>
-
-<div class="panel accent-gray">
-<details>
-  <summary>Recently Completed (20+ issues)</summary>
-  <div class="issue-list">
-    <div class="issue-row">
-      <span class="issue-id">THR-278</span>
-      <span class="issue-title">Fix NLU T1: relatedness ARC aggregation flattening</span>
-      <span class="project-tag">C2A</span>
-      <span class="muted">May 13</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-277</span>
-      <span class="issue-title">Fix NLU T1: EF scoring formula band swap regression</span>
-      <span class="project-tag">C2A</span>
-      <span class="muted">May 13</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-294</span>
-      <span class="issue-title">Add MIN_CACHE_CHARS_BETA guardrail to call-model.ts</span>
-      <span class="project-tag">Bloom</span>
-      <span class="muted">May 4</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-295</span>
-      <span class="issue-title">Bloom Stage 4: render dx severity gradient</span>
-      <span class="project-tag">Bloom</span>
-      <span class="muted">May 1</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-293</span>
-      <span class="issue-title">Redactor LOCATION address recovery + StreetAddressRecognizer</span>
-      <span class="project-tag">Redactor</span>
-      <span class="muted">May 1</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-289</span>
-      <span class="issue-title">C2A session-uniqueness rollout (DR-057)</span>
-      <span class="project-tag">C2A</span>
-      <span class="muted">Apr 27</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-207</span>
-      <span class="issue-title">C2A: App UI assembly + student report view</span>
-      <span class="project-tag">C2A</span>
-      <span class="muted">May 1</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-198</span>
-      <span class="issue-title">C2A M3: Interpretation template library</span>
-      <span class="project-tag">C2A</span>
-      <span class="muted">May 1</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-196</span>
-      <span class="issue-title">C2A M3: Profile data model and schema extension</span>
-      <span class="project-tag">C2A</span>
-      <span class="muted">May 1</span>
-    </div>
-    <div class="issue-row">
-      <span class="issue-id">THR-279</span>
-      <span class="issue-title">Remove Kara SanFillipo from NLU T1 dataset</span>
-      <span class="project-tag">C2A</span>
-      <span class="muted">Apr 23</span>
-    </div>
-  </div>
-</details>
-</div>
-
-<!-- GIT ACTIVITY -->
-<h2>🔧 Git Activity</h2>
-<div class="panel" style="padding:1rem">
-  <p style="font-size:0.9rem;margin-bottom:0.75rem"><strong>122 commits</strong> since last dashboard (May 15) across 3 repos</p>
-  <table class="git-table">
-    <thead>
-      <tr><th>Repo</th><th>Commits</th><th>THR Refs</th><th>Top Contributor</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Accommodation Engine</td><td>54</td><td>1 (THR-303)</td><td>Eric + Soham</td></tr>
-      <tr><td>PM-Hub</td><td>40</td><td>0</td><td>Eric</td></tr>
-      <tr><td>DEC1TEXTREDACTOR</td><td>28</td><td>0</td><td>Eric</td></tr>
-    </tbody>
-  </table>
-
-  <h3 style="margin-top:1rem">Proposed Transitions</h3>
-  <div class="issue-row">
-    <span class="badge badge-client" style="margin-left:0">git-evidence</span>
-    <span class="issue-id">THR-303</span>
-    <span class="issue-title">Design governance system (DR-067) — merged with commits</span>
+  <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:8px;">
+    <strong>Authors:</strong> Eric: 227 &middot; CI/bot: 14 &middot; Soham: 0
   </div>
 
-  <h3 style="margin-top:0.75rem">⚠️ Linear Drift Warning</h3>
-  <div style="color:#fbbf24;font-size:0.85rem;margin-top:0.25rem">
-    Only <strong>1 THR reference</strong> across 122 commits. Likely unmapped work includes:
-    admin dashboard UI (Soham), BC report/coach generation, Redactor PERSON FP rules,
-    research archive redesign, assessment data exports, Google Docs integration.
-    <br><span class="muted">See THR-299 for reconciliation plan.</span>
+  <div class="warning-box">
+    <div class="label">Linear Drift — Critical</div>
+    Zero THR references across 243 commits. Cumulative since May 15: ~365 untracked commits across 3 repos. Comment posted to THR-299 today. Dev sync posted to #team-operations.
+  </div>
+
+  <div style="margin-top:12px;font-size:0.85rem;color:var(--text-muted);">
+    <strong>Key AE work (by commit subjects):</strong> C2A deployment readiness (Aptible TLS, Docker build, CI guards, pre-DNS canary, onboarding UI), BC report persistence tables, Bloom pipeline tests.
+    <br><strong>Redactor:</strong> GLM OCR table review workflow improvements, table extraction hardening.
   </div>
 </div>
 
-<!-- NETWORKING -->
-<h2>🤝 Networking Status</h2>
-<div class="panel" style="padding:1rem;display:flex;align-items:center;gap:1rem">
-  <span class="networking-badge net-healthy">✓ Healthy</span>
-  <span style="color:#94a3b8;font-size:0.85rem">3 engagements in last 14 days via HubSpot. Most recent activity within 5 business days. BC deal: Closed Won, close date May 31.</span>
+<h2>Signal Summary</h2>
+<div class="signals-section" style="margin-bottom:24px;">
+  <div class="signal-row">
+    <span class="signal-icon">&#x1F4E7;</span>
+    <span>Gmail</span>
+    <span class="signal-status status-ok">Active</span>
+    <span style="flex:1;font-size:0.85rem;color:var(--text-muted);">C2A Welcome emails (5 — deployment testing), Elizabeth's Docs comment on coach report</span>
+  </div>
+  <div class="signal-row">
+    <span class="signal-icon">&#x1F4AC;</span>
+    <span>Slack</span>
+    <span class="signal-status status-quiet">Quiet</span>
+    <span style="flex:1;font-size:0.85rem;color:var(--text-muted);">No messages in monitored channels (24h). Dev sync posted by dashboard today.</span>
+  </div>
+  <div class="signal-row">
+    <span class="signal-icon">&#x1F91D;</span>
+    <span>HubSpot</span>
+    <span class="signal-status status-unknown">Unknown</span>
+    <span style="flex:1;font-size:0.85rem;color:var(--text-muted);">Engagement tool disabled. Deals: BC Closed Won (close May 31), Prepare 2 Bloom Closed Won.</span>
+  </div>
+  <div class="signal-row">
+    <span class="signal-icon">&#x1F4CA;</span>
+    <span>Networking</span>
+    <span class="signal-status status-unknown">Unknown</span>
+    <span style="flex:1;font-size:0.85rem;color:var(--text-muted);">Cannot compute — HubSpot engagement data unavailable.</span>
+  </div>
+  <div class="signal-row">
+    <span class="signal-icon">&#x1F464;</span>
+    <span>Soham</span>
+    <span class="signal-status status-warn">Silent 48h+</span>
+    <span style="flex:1;font-size:0.85rem;color:var(--text-muted);">0 commits, 0 Slack messages since May 20. Last Linear update May 15. Flag at standup.</span>
+  </div>
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
-  <p>Data sources: Linear ✅ · Calendar ⚠️ · Gmail ✅ · Slack ✅ · HubSpot ✅ · Git ✅ · PM-Hub ✅</p>
-  <p style="margin-top:0.5rem"><a href="https://thriveiep-reports.vercel.app">← Back to Reports Index</a></p>
+  ThriveIEP Dashboard &middot; Generated 2026-05-22 &middot; Data sources: Linear, Google Calendar, Gmail, Git (3 repos), HubSpot (partial) &middot; Slack (quiet)
+  <br>Dashboard skill v4 &middot; Published to Vercel
 </div>
 
-</div>
 </body>
 </html>
