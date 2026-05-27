@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Dev Digest - 2026-05-27</title>
+  <style>
+    :root {
+      --bg-body: #0f172a;
+      --bg-panel: #1e293b;
+      --bg-card: #1e293b;
+      --border-default: #334155;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+      --color-agentic: #3b82f6;
+      --color-durable: #8b5cf6;
+      --color-docproc: #10b981;
+      --color-education: #f59e0b;
+      --color-claude: #e8a33a;
+      --color-success: #10b981;
+      --color-warning: #f59e0b;
+      --color-error: #ef4444;
+      --content-max-width: 800px;
+      --card-radius: 8px;
+      --card-padding: 16px;
+      --section-gap: 32px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-body);
+      color: var(--text-primary);
+      font-family: var(--font-stack);
+      line-height: 1.6;
+      padding: 24px;
+    }
+    .digest {
+      max-width: var(--content-max-width);
+      margin: 0 auto;
+    }
+    h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+    h2 { font-size: 1.3rem; font-weight: 600; margin-bottom: 16px; margin-top: var(--section-gap); }
+    .digest-header { margin-bottom: var(--section-gap); }
+    .date-range { color: var(--text-secondary); font-size: 0.95rem; }
+    .sources { color: var(--text-muted); font-size: 0.85rem; margin-top: 4px; }
+    .generated { color: var(--text-muted); font-size: 0.8rem; margin-top: 2px; }
+    .tldr { margin-bottom: var(--section-gap); }
+    .tldr ul { list-style: none; padding: 0; }
+    .tldr li {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-default);
+      border-radius: var(--card-radius);
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-top: 7px;
+      flex-shrink: 0;
+    }
+    .topic-section { margin-bottom: var(--section-gap); }
+    .web-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-default);
+      border-radius: var(--card-radius);
+      padding: var(--card-padding);
+      margin-bottom: 12px;
+    }
+    .web-title {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .web-title:hover { text-decoration: underline; }
+    .card-meta { margin-top: 6px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .platform-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: white;
+    }
+    .engagement { color: var(--text-muted); font-size: 0.8rem; }
+    .excerpt { color: var(--text-secondary); font-size: 0.88rem; margin-top: 8px; }
+    .why-matters {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-style: italic;
+      margin-top: 4px;
+      padding-left: 8px;
+      border-left: 2px solid var(--border-default);
+    }
+    sup.bib-ref a { color: var(--color-agentic); text-decoration: none; font-size: 0.75rem; }
+    sup.bib-ref a:hover { text-decoration: underline; }
+    .bibliography { margin-top: var(--section-gap); }
+    .bibliography ol { padding-left: 0; list-style: none; counter-reset: bib; }
+    .bib-entry {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      margin-bottom: 10px;
+      padding-left: 32px;
+      position: relative;
+    }
+    .ref-num {
+      position: absolute;
+      left: 0;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+    .bib-entry a { color: var(--color-agentic); text-decoration: none; }
+    .bib-entry a:hover { text-decoration: underline; }
+    .bib-entry em { color: var(--text-muted); }
+    .digest-footer {
+      margin-top: var(--section-gap);
+      padding-top: 16px;
+      border-top: 1px solid var(--border-default);
+    }
+    .source-status { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+    .source {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--bg-panel);
+      border: 1px solid var(--border-default);
+    }
+    .source.ok { border-color: var(--color-success); color: var(--color-success); }
+    .source.warn { border-color: var(--color-warning); color: var(--color-warning); }
+    .source.err { border-color: var(--color-error); color: var(--color-error); }
+    .dedup-note { color: var(--text-muted); font-size: 0.8rem; }
+    .meta { color: var(--text-muted); font-size: 0.75rem; margin-top: 4px; }
+    details { margin-bottom: 12px; }
+    summary {
+      cursor: pointer;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    summary:hover { color: var(--text-primary); }
+    @media (max-width: 600px) {
+      .digest { padding: 16px; }
+      h1 { font-size: 1.5rem; }
+      body { padding: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="digest">
+
+    <header class="digest-header">
+      <h1>Dev Digest</h1>
+      <p class="date-range">April 22 - May 27, 2026 (35-day window)</p>
+      <p class="sources">Sources: Reddit, YouTube, HN, X, LinkedIn, Web, Semantic Scholar, OpenAlex, ERIC, Europe PMC, Papers With Code</p>
+      <p class="generated">Generated 2026-05-27</p>
+    </header>
+
+    <section class="tldr">
+      <h2>TL;DR</h2>
+      <ul>
+        <li>
+          <span class="dot" style="background: var(--color-claude)"></span>
+          <span>Anthropic announced Claude Agent SDK credits for paid plans starting June 15, and shipped major Managed Agents updates including multiagent orchestration, dreaming (session-memory improvement), and Microsoft 365 integration (GA). Claude Security entered public beta under Project Glasswing. <sup class="bib-ref"><a href="#ref-1">[1]</a></sup> <sup class="bib-ref"><a href="#ref-2">[2]</a></sup></span>
+        </li>
+        <li>
+          <span class="dot" style="background: var(--color-agentic)"></span>
+          <span>A large-scale GitHub study found coding agents (Cursor, Claude Code, Codex) have reached 22-29% adoption across projects within months, with agent-assisted commits skewing larger and more feature-oriented. Meanwhile, a "stripped-down" Agentless pipeline beat complex agents on SWE-bench at $0.70/run. <sup class="bib-ref"><a href="#ref-5">[5]</a></sup> <sup class="bib-ref"><a href="#ref-6">[6]</a></sup></span>
+        </li>
+        <li>
+          <span class="dot" style="background: var(--color-education)"></span>
+          <span>NPR reported (May 20) that 57% of special ed teachers used AI for IEPs in 2024-25, up 18% year-over-year. Teachers using AI weekly may save 6 weeks annually, but advocates warn of "mass IEPs" lacking individualization. <sup class="bib-ref"><a href="#ref-15">[15]</a></sup></span>
+        </li>
+        <li>
+          <span class="dot" style="background: var(--color-docproc)"></span>
+          <span>GLM-OCR tops the 2026 OCR model rankings (94.62 score), and a new arxiv paper introduces a microservice architecture for production OCR+LLM pipelines. The field is splitting: specialized OCR models beat frontier LLMs on raw accuracy, but LLMs win on complex extraction. <sup class="bib-ref"><a href="#ref-11">[11]</a></sup> <sup class="bib-ref"><a href="#ref-12">[12]</a></sup></span>
+        </li>
+        <li>
+          <span class="dot" style="background: var(--color-durable)"></span>
+          <span>Pathsmith (formerly America Succeeds' Durable Skills Framework) launched as a full platform with ten core skill domains. New validation studies for SDT-grounded instruments (Academic Motivation Scale, Teacher SEL Belief Scale) continue to emerge. <sup class="bib-ref"><a href="#ref-9">[9]</a></sup> <sup class="bib-ref"><a href="#ref-22">[22]</a></sup></span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ==================== TOPIC 1: Claude Ecosystem ==================== -->
+    <section class="topic-section">
+      <h2 style="border-left: 4px solid var(--color-claude); padding-left: 12px;">Claude &amp; Anthropic Ecosystem</h2>
+
+      <div class="web-card">
+        <a href="https://x.com/Cointelegraph/status/2054650608045482308" class="web-title">Claude Agent SDK Credits for Paid Plans Starting June 15</a>
+        <div class="card-meta">
+          <span class="platform-badge" style="background: #1d9bf0;">X</span>
+        </div>
+        <p class="excerpt">Anthropic announced that paid Claude plans will include monthly credits for programmatic usage across tools like the Claude Agent SDK and Claude Code GitHub Actions, starting June 15.</p>
+        <p class="why-matters">Relevant: ThriveIEP uses the Claude API extensively for Bloom and report generation. SDK credits could reduce operational costs for batch processing.</p>
+        <sup class="bib-ref"><a href="#ref-1">[1]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://9to5mac.com/2026/05/07/anthropic-updates-claude-managed-agents-with-three-new-features/" class="web-title">Claude Managed Agents: Dreaming, Multiagent Orchestration, Outcomes</a>
+        <div class="card-meta">
+          <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
+        </div>
+        <p class="excerpt">Managed Agents gained three capabilities: dreaming (agents review past sessions to self-improve), multiagent orchestration (lead agent delegates to specialists), and outcomes/webhooks for integration.</p>
+        <p class="why-matters">Relevant: multiagent orchestration aligns with ThriveIEP's compose-report pipeline design. Dreaming could improve Bloom session quality over time.</p>
+        <sup class="bib-ref"><a href="#ref-2">[2]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://releasebot.io/updates/anthropic/claude" class="web-title">Claude May 2026 Updates: M365 Integration, Legal MCP, Security Beta</a>
+        <div class="card-meta">
+          <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
+        </div>
+        <p class="excerpt">Microsoft 365 add-ins reached GA for Excel, PowerPoint, and Word. 20+ legal MCP connectors shipped. Claude Security (Project Glasswing) entered public beta with codebase scanning and vulnerability triage.</p>
+        <sup class="bib-ref"><a href="#ref-3">[3]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://x.com/rileybrown/status/2047928846960492978" class="web-title">"If Anthropic Called the Agent SDK the 'Claude Code SDK' It Would Be 10-100x More Popular"</a>
+        <div class="card-meta">
+          <span class="platform-badge" style="background: #1d9bf0;">X</span>
+        </div>
+        <p class="excerpt">Developer sentiment on X suggests the Agent SDK's branding undersells its capabilities. Community calls for clearer positioning as the programmatic interface to Claude Code's power.</p>
+        <sup class="bib-ref"><a href="#ref-4">[4]</a></sup>
+      </div>
+
+      <details>
+        <summary>Academic: Constitutional AI and Agent Safety (3 papers)</summary>
+        <div class="web-card">
+          <a href="https://arxiv.org/abs/2502.15861" class="web-title">C3AI: Crafting Constitutions for Constitutional AI</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+            <span class="engagement">17 citations</span>
+          </div>
+          <p class="excerpt">Introduces a framework for selecting and evaluating CAI principles. Positively framed, behavior-based principles align more closely with human preferences than negative or trait-based ones.</p>
+          <sup class="bib-ref"><a href="#ref-28">[28]</a></sup>
+        </div>
+        <div class="web-card">
+          <a href="https://arxiv.org/abs/2510.05156" class="web-title">VeriGuard: Enhancing LLM Agent Safety via Verified Code Generation</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+            <span class="engagement">23 citations</span>
+          </div>
+          <p class="excerpt">Dual-stage framework providing formal safety guarantees for LLM agents, combining offline policy synthesis with lightweight online monitoring. Addresses healthcare agent safety risks.</p>
+          <sup class="bib-ref"><a href="#ref-29">[29]</a></sup>
+        </div>
+        <div class="web-card">
+          <a href="https://arxiv.org/abs/2507.19672" class="web-title">Alignment and Safety in Large Language Models (Survey)</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+            <span class="engagement">11 citations</span>
+          </div>
+          <p class="excerpt">Comprehensive survey of alignment techniques covering DPO, Constitutional AI, and brain-inspired methods. Analyzes trade-offs between helpfulness and safety across RLHF, DPO, and CAI paradigms.</p>
+          <sup class="bib-ref"><a href="#ref-30">[30]</a></sup>
+        </div>
+      </details>
+    </section>
+
+    <!-- ==================== TOPIC 2: Agentic Coding ==================== -->
+    <section class="topic-section">
+      <h2 style="border-left: 4px solid var(--color-agentic); padding-left: 12px;">Agentic Coding</h2>
+
+      <div class="web-card">
+        <a href="https://x.com/deepseek_ai/status/2047516941074796676" class="web-title">DeepSeek-V4 Ships with Claude Code Integration</a>
+        <div class="card-meta">
+          <span class="platform-badge" style="background: #1d9bf0;">X</span>
+        </div>
+        <p class="excerpt">DeepSeek-V4 is integrated with Claude Code, OpenClaw, and OpenCode for agentic coding, and is already driving DeepSeek's in-house development workflow.</p>
+        <sup class="bib-ref"><a href="#ref-5">[5]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://thenewstack.io/5-key-trends-shaping-agentic-development-in-2026/" class="web-title">5 Key Trends Shaping Agentic Development in 2026</a>
+        <div class="card-meta">
+          <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
+        </div>
+        <p class="excerpt">Engineering roles are shifting toward agent supervision and output review. Multi-agent coordination, full lifecycle coverage, and expansion to non-traditional developers (security, ops, design) are the top trends.</p>
+        <sup class="bib-ref"><a href="#ref-6">[6]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://x.com/Teknium/status/2026760653743206502" class="web-title">Hermes Agent: Blending Coding Agents with Generalist Agents</a>
+        <div class="card-meta">
+          <span class="platform-badge" style="background: #1d9bf0;">X</span>
+        </div>
+        <p class="excerpt">NousResearch released Hermes Agent, a blend between coding agents like Claude Code and generalist agents. Started as agentic primitives for data generation and RL, evolved into a general-purpose agent.</p>
+        <sup class="bib-ref"><a href="#ref-7">[7]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.linkedin.com/posts/zainkahn_you-can-literally-vibe-code-full-apps-now-activity-7442182939850883073-dViz" class="web-title">Google AI Studio + Gemini 3.1: Full Vibe Coding for Apps</a>
+        <div class="card-meta">
+          <span class="platform-badge" style="background: #0a66c2;">LinkedIn</span>
+        </div>
+        <p class="excerpt">Zain Kahn demonstrates building a 408-page site entirely through vibe coding with Google AI Studio and Gemini 3.1, highlighting the shift from coding tools to full app-building platforms.</p>
+        <sup class="bib-ref"><a href="#ref-8">[8]</a></sup>
+      </div>
+
+      <details>
+        <summary>Academic: Agentic Coding Research (5 papers)</summary>
+        <div class="web-card">
+          <a href="https://www.semanticscholar.org/paper/d712280b0d51ff648eb2091c619bc55a2e1164fa" class="web-title">Agentless: Demystifying LLM-Based Software Engineering Agents</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+            <span class="engagement">130 citations</span>
+          </div>
+          <p class="excerpt">A simplified three-phase pipeline (localize, repair, validate) achieves 32% solve rate on SWE-bench at $0.70/run, outperforming complex autonomous agent systems. Challenges the assumption that more agent complexity means better performance.</p>
+          <sup class="bib-ref"><a href="#ref-31">[31]</a></sup>
+        </div>
+        <div class="web-card">
+          <a href="https://arxiv.org/abs/2601.18341" class="web-title">Agentic Much? Adoption of Coding Agents on GitHub</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+            <span class="engagement">16 citations</span>
+          </div>
+          <p class="excerpt">First large-scale study (128K GitHub projects) finds 22-29% coding agent adoption. Agent-assisted commits are larger and skew toward features and bug fixes vs. human-only commits.</p>
+          <sup class="bib-ref"><a href="#ref-32">[32]</a></sup>
+        </div>
+        <div class="web-card">
+          <a href="https://arxiv.org/abs/2511.13646" class="web-title">Live-SWE-agent: Self-Evolving Software Engineering Agents</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+            <span class="engagement">43 citations</span>
+          </div>
+          <p class="excerpt">Agents that rewrite their own scaffolding at runtime achieve 77.4% on SWE-bench Verified, surpassing all manually crafted agents. Starts with only bash tools and autonomously builds its own capabilities.</p>
+          <sup class="bib-ref"><a href="#ref-33">[33]</a></sup>
+        </div>
+        <div class="web-card">
+          <a href="https://www.semanticscholar.org/paper/c9feb7b7f08927817eec49ae56b5b411dfaf86bb" class="web-title">Methods and Techniques of Agentic Software Engineering (Systematic Review)</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+            <span class="engagement">2 citations</span>
+          </div>
+          <p class="excerpt">2026 IEEE ACCESS review of 61 studies identifies coordination, reliability, explainability, and ethics as key challenges blocking deployment of LLM-based agentic engineering systems.</p>
+          <sup class="bib-ref"><a href="#ref-34">[34]</a></sup>
+        </div>
+        <div class="web-card">
+          <a href="https://arxiv.org/abs/2505.19443" class="web-title">Vibe Coding vs. Agentic Coding: Fundamentals and Practical Implications</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+            <span class="engagement">58 citations</span>
+          </div>
+          <p class="excerpt">The definitional taxonomy: vibe coding is prompt-driven and suited for prototyping; agentic coding is goal-driven with autonomous planning, CI/CD integration, and enterprise automation.</p>
+          <sup class="bib-ref"><a href="#ref-35">[35]</a></sup>
+        </div>
+      </details>
+    </section>
+
+    <!-- ==================== TOPIC 3: Durable Skills ==================== -->
+    <section class="topic-section">
+      <h2 style="border-left: 4px solid var(--color-durable); padding-left: 12px;">Durable Skills &amp; Assessment</h2>
+
+      <div class="web-card">
+        <a href="https://learnworkecosystemlibrary.com/initiatives/durableskillsadvantage/" class="web-title">Pathsmith: Durable Skills Advantage Framework Becomes a Platform</a>
+        <div class="card-meta">
+          <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
+        </div>
+        <p class="excerpt">America Succeeds' Durable Skills Framework now operates under Pathsmith, a platform with ten core skill domains, tools for educators and employers, and competency-based assessment resources.</p>
+        <p class="why-matters">Relevant: C2A measures durable skills across similar domains. Pathsmith's framework could serve as a cross-reference for C2A's skill taxonomy.</p>
+        <sup class="bib-ref"><a href="#ref-9">[9]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.linkedin.com/pulse/measuring-durable-skills-sandra-loughlin-phd-6tmde" class="web-title">Measuring Durable Skills (Sandra Loughlin, PhD)</a>
+        <div class="card-meta">
+          <span class="platform-badge" style="background: #0a66c2;">LinkedIn</span>
+        </div>
+        <p class="excerpt">LinkedIn Pulse article exploring the hypothesis that durable skill assessments will enable companies and individuals to identify skill achievement and gaps, with implications for credentialing.</p>
+        <sup class="bib-ref"><a href="#ref-10">[10]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://spacesedu.com/en/blog/measuring-durable-skills/" class="web-title">Top 4 Challenges of Measuring Durable Skills in K-12 Education</a>
+        <div class="card-meta">
+          <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
+        </div>
+        <p class="excerpt">Performance tasks, clear rubrics, and digital portfolios give students meaningful ways to demonstrate durable skill learning. But standardization across districts remains a major challenge.</p>
+        <sup class="bib-ref"><a href="#ref-11">[11]</a></sup>
+      </div>
+
+      <details>
+        <summary>Academic: SDT, SEL Measurement, Durable Skills (7 papers)</summary>
+        <div class="web-card">
+          <a href="https://eric.ed.gov/?id=EJ1502804" class="web-title">Psychometric Validation of Teachers' SEL Belief Scale (TSBS) - Jamaica</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #2e7d32;">ERIC</span>
+            <span class="engagement">2026, peer-reviewed</span>
+          </div>
+          <p class="excerpt">Validated the three-factor TSBS construct with 249 Jamaican primary school teachers, confirming full measurement invariance across grades and experience levels. Supports cross-cultural SEL assessment applicability.</p>
+          <sup class="bib-ref"><a href="#ref-22">[22]</a></sup>
+        </div>
+        <div class="web-card">
+          <a href="https://eric.ed.gov/?id=EJ1495980" class="web-title">Measuring Social-Emotional Teaching Practices in Chinese Preschools (T-SEL Scale)</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #2e7d32;">ERIC</span>
+            <span class="engagement">2026, peer-reviewed</span>
+          </div>
+          <p class="excerpt">Developed and validated a five-factor SEL teaching scale (T-SEL) with 1,677 preschool teachers using the CASEL framework. Established concurrent validity and measurement invariance across teacher variables.</p>
+          <sup class="bib-ref"><a href="#ref-23">[23]</a></sup>
+        </div>
+        <div class="web-card">
+          <a href="https://eric.ed.gov/?id=EJ1481631" class="web-title">Beyond Technical Skills: Durable Competencies through Multi-Level Stakeholder Analysis</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #2e7d32;">ERIC</span>
+            <span class="engagement">2025, peer-reviewed</span>
+          </div>
+          <p class="excerpt">Focus groups identified metacognitive skills (reading the room, learning how to learn, navigating ambiguity) as key durable skills. Technological skills were notably absent from employer responses.</p>
+          <p class="why-matters">Relevant: metacognitive skills map directly to C2A's Executive Function subscale, which measures self-regulation and learning-how-to-learn.</p>
+          <sup class="bib-ref"><a href="#ref-24">[24]</a></sup>
+        </div>
+        <div class="web-card">
+          <a href="https://link.springer.com/content/pdf/10.1186/s40359-025-02412-w.pdf" class="web-title">Perceived Teacher Support and Student Engagement (SDT Review)</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #e64a19;">OpenAlex</span>
+            <span class="engagement">47 citations, 2025</span>
+          </div>
+          <p class="excerpt">Systematic review grounded in SDT examining how perceived autonomy and competence support drive student engagement in higher education. Confirms the autonomy-engagement pathway.</p>
+          <sup class="bib-ref"><a href="#ref-25">[25]</a></sup>
+        </div>
+        <div class="web-card">
+          <a href="https://eric.ed.gov/?id=EJ1476968" class="web-title">High School Educational Outcomes Based on Self-Determination Theory</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #2e7d32;">ERIC</span>
+            <span class="engagement">2025, peer-reviewed</span>
+          </div>
+          <p class="excerpt">Survey of 1,155 Korean students found parental and teacher support predict self-determination, which influences career maturity, self-regulated learning, and school satisfaction.</p>
+          <sup class="bib-ref"><a href="#ref-26">[26]</a></sup>
+        </div>
+        <div class="web-card">
+          <a href="https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2024.1411102/pdf" class="web-title">Introducing Non-Cognitive Load to the Educational Discourse</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #e64a19;">OpenAlex</span>
+            <span class="engagement">8 citations, 2025</span>
+          </div>
+          <p class="excerpt">Proposes "non-cognitive load" as a parallel concept to cognitive load theory, bridging how SEL/non-cognitive skills are operationalized in instruction. A conceptual framing piece relevant to assessment design.</p>
+          <sup class="bib-ref"><a href="#ref-27">[27]</a></sup>
+        </div>
+        <div class="web-card">
+          <a href="https://eric.ed.gov/?id=ED672685" class="web-title">Durable Skills: Enhance CTE in the Age of AI (NSBA Report)</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #2e7d32;">ERIC</span>
+            <span class="engagement">2025, institutional report</span>
+          </div>
+          <p class="excerpt">NSBA advocates strengthening Career &amp; Technical Education with durable skills for an AI-driven economy. Highlights The Tracker as a digital tool for assessing students' durable skills.</p>
+          <sup class="bib-ref"><a href="#ref-36">[36]</a></sup>
+        </div>
+      </details>
+    </section>
+
+    <!-- ==================== TOPIC 4: Document Processing ==================== -->
+    <section class="topic-section">
+      <h2 style="border-left: 4px solid var(--color-docproc); padding-left: 12px;">Document Processing &amp; OCR</h2>
+
+      <div class="web-card">
+        <a href="https://ofox.ai/blog/best-ai-model-for-ocr-2026/" class="web-title">Best LLM for OCR 2026: GLM-OCR Wins with 94.62 Score</a>
+        <div class="card-meta">
+          <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
+        </div>
+        <p class="excerpt">2026 OCR model rankings: GLM-OCR leads (94.62), followed by PaddleOCR-VL and specialized models. Frontier LLMs (Claude, Gemini) win on complex extraction but lose to specialized models on raw OCR accuracy.</p>
+        <p class="why-matters">Relevant: validates DR-048 GLM-OCR decision for the Redactor pipeline. GLM-OCR's lead on raw benchmarks aligns with our architecture.</p>
+        <sup class="bib-ref"><a href="#ref-12">[12]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://arxiv.org/html/2605.18818v1" class="web-title">Operationalizing Document AI: A Microservice Architecture for OCR+LLM Pipelines</a>
+        <div class="card-meta">
+          <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+          <span class="engagement">May 2026, arxiv</span>
+        </div>
+        <p class="excerpt">New arxiv paper introducing a microservice architecture for production OCR and LLM document pipelines. Addresses the operational gap between research-grade document AI and production deployment.</p>
+        <p class="why-matters">Relevant: the Redactor pipeline faces similar production-grade concerns (async polling, table extraction routing). Worth reading for architectural patterns.</p>
+        <sup class="bib-ref"><a href="#ref-13">[13]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://cohorte.co/blog/mistral-ocr-a-deep-dive-into-next-generation-document-understanding" class="web-title">Mistral OCR: Deep Dive Tutorial with Code + Benchmarks</a>
+        <div class="card-meta">
+          <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
+        </div>
+        <p class="excerpt">Hands-on tutorial benchmarking Mistral OCR against alternatives. Demonstrates next-generation document understanding beyond traditional OCR, with code examples for production integration.</p>
+        <sup class="bib-ref"><a href="#ref-14">[14]</a></sup>
+      </div>
+
+      <details>
+        <summary>Academic: Document AI Research (5 papers)</summary>
+        <div class="web-card">
+          <a href="https://www.semanticscholar.org/paper/d712280b0d51ff648eb2091c619bc55a2e1164fa" class="web-title">mPLUG-DocOwl 1.5: Unified Structure Learning for OCR-free Document Understanding</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+            <span class="engagement">245 citations</span>
+          </div>
+          <p class="excerpt">H-Reducer preserves document layout while compressing visual tokens, enabling multimodal LLMs to handle high-resolution documents without a separate OCR step.</p>
+          <sup class="bib-ref"><a href="#ref-37">[37]</a></sup>
+        </div>
+        <div class="web-card">
+          <a href="https://arxiv.org/pdf/2404.05225" class="web-title">LayoutLLM: Layout Instruction Tuning for Document Understanding</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+            <span class="engagement">127 citations</span>
+          </div>
+          <p class="excerpt">Fine-tuning an open-source 7B LLM on layout-aware instructions outperforms prior document understanding methods and adds interpretability for human audit of model reasoning.</p>
+          <sup class="bib-ref"><a href="#ref-38">[38]</a></sup>
+        </div>
+        <div class="web-card">
+          <a href="https://www.semanticscholar.org/paper/86d8d87e79f34c98df079ce502a2f305b8ef4d55" class="web-title">OmniParser V2: Unified Visual Text Parsing</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+            <span class="engagement">21 citations</span>
+          </div>
+          <p class="excerpt">A single model unifies text spotting, table recognition, layout analysis, and key-information extraction via Structured-Points-of-Thought prompting schemas.</p>
+          <sup class="bib-ref"><a href="#ref-39">[39]</a></sup>
+        </div>
+        <div class="web-card">
+          <a href="https://www.nature.com/articles/s41598-025-04971-9" class="web-title">Hybrid Rule-Based NLP + ML for PII Detection in Financial Documents</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+            <span class="engagement">10 citations</span>
+          </div>
+          <p class="excerpt">Combining rule-based NLP with custom NER outperforms either alone for PII detection in regulated financial documents. The hybrid approach mirrors our Redactor architecture.</p>
+          <p class="why-matters">Relevant: directly validates the DEC1TEXTREDACTOR hybrid approach (GLiNER + rules + custom recognizers).</p>
+          <sup class="bib-ref"><a href="#ref-40">[40]</a></sup>
+        </div>
+        <div class="web-card">
+          <a href="https://www.semanticscholar.org/paper/DocBench" class="web-title">DocBench: Benchmark for LLM-Based Document Reading Systems</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #1857b6;">Semantic Scholar</span>
+            <span class="engagement">43 citations</span>
+          </div>
+          <p class="excerpt">Benchmark exposing gaps in LLM document reading, especially on multi-page reasoning tasks. Current systems perform well on single lookups but struggle with cross-page synthesis.</p>
+          <sup class="bib-ref"><a href="#ref-41">[41]</a></sup>
+        </div>
+      </details>
+    </section>
+
+    <!-- ==================== TOPIC 5: AI in Education ==================== -->
+    <section class="topic-section">
+      <h2 style="border-left: 4px solid var(--color-education); padding-left: 12px;">AI in Education &amp; Disability Services</h2>
+
+      <div class="web-card">
+        <a href="https://www.npr.org/2026/05/20/nx-s1-5810192/special-education-teachers-ai-ieps" class="web-title">NPR: Special Educators Use AI to Spend More Time Teaching</a>
+        <div class="card-meta">
+          <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
+          <span class="engagement">May 20, 2026</span>
+        </div>
+        <p class="excerpt">57% of special ed teachers used AI for IEPs/504 plans in 2024-25, up 18% year-over-year. Teachers using AI weekly may save up to six weeks per school year. But advocates warn of "mass IEPs" lacking individualization.</p>
+        <p class="why-matters">Relevant: this is ThriveIEP's core domain. The 57% adoption rate validates market demand. The "mass IEP" concern is exactly what C2A's individualized assessment approach addresses.</p>
+        <sup class="bib-ref"><a href="#ref-15">[15]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://www.disabilityscoop.com/2025/11/18/concerns-raised-as-teachers-increasingly-use-ai-to-write-ieps/31742/" class="web-title">Disability Scoop: Concerns as Teachers Use AI to Write IEPs</a>
+        <div class="card-meta">
+          <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
+        </div>
+        <p class="excerpt">Center for Democracy &amp; Technology report documents rapid AI adoption in special education. 31% use AI to identify trends for goal setting, 30% to summarize plans, 28% to choose accommodations.</p>
+        <sup class="bib-ref"><a href="#ref-16">[16]</a></sup>
+      </div>
+
+      <div class="web-card">
+        <a href="https://corp.kaltura.com/blog/combining-ai-and-special-education-a-comprehensive-guide/" class="web-title">Kaltura: Combining AI and Special Education (Comprehensive Guide)</a>
+        <div class="card-meta">
+          <span class="platform-badge" style="background: var(--text-muted);">Blog</span>
+        </div>
+        <p class="excerpt">Overview of AI applications in special education beyond IEP documentation: adaptive platforms personalize instruction, speech recognition improves communication, and AI-powered assistive tools foster independence.</p>
+        <sup class="bib-ref"><a href="#ref-17">[17]</a></sup>
+      </div>
+
+      <details>
+        <summary>Academic: AI in Disability Services (8 papers)</summary>
+        <div class="web-card">
+          <a href="https://europepmc.org/article/MED/42126947" class="web-title">AI Influence on Accessibility Design for People with Disabilities (Review)</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #326599;">Europe PMC</span>
+            <span class="engagement">2026</span>
+          </div>
+          <p class="excerpt">Bibliometric review reveals a paradigm shift from single-sensory compensation to multimodal cognitive enhancement. Identifies gaps in multiple-disability research and social-ethical engagement.</p>
+          <sup class="bib-ref"><a href="#ref-18">[18]</a></sup>
+        </div>
+        <div class="web-card">
+          <a href="https://europepmc.org/article/MED/41689475" class="web-title">Digital Companions for Students with Learning Disabilities (Review)</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #326599;">Europe PMC</span>
+            <span class="engagement">2026</span>
+          </div>
+          <p class="excerpt">Systematic thematic analysis of technology use for learning difficulties (1992-2025). Technology substantially impacts academic, cognitive, and socio-emotional development, but adult-learner research is lacking.</p>
+          <p class="why-matters">Relevant: the adult-learner gap is exactly where C2A operates (postsecondary students). This validates our niche positioning.</p>
+          <sup class="bib-ref"><a href="#ref-19">[19]</a></sup>
+        </div>
+        <div class="web-card">
+          <a href="https://europepmc.org/articles/PMC12958521?pdf=render" class="web-title">Self-Advocacy, Academic Accommodation, and Career Readiness Among Students with LD</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #326599;">Europe PMC</span>
+            <span class="engagement">2026, OA</span>
+          </div>
+          <p class="excerpt">Self-advocacy and academic accommodations predict career readiness for students with learning disabilities. Faculty attitude is a significant moderating factor in accommodation effectiveness.</p>
+          <p class="why-matters">Relevant: connects self-advocacy (a C2A durable skill) to accommodation outcomes. Faculty attitude as moderator informs how C2A reports should be presented to educators.</p>
+          <sup class="bib-ref"><a href="#ref-20">[20]</a></sup>
+        </div>
+        <div class="web-card">
+          <a href="https://europepmc.org/articles/PMC12980396" class="web-title">AI Testing and Evaluation Framework for Accessibility</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #326599;">Europe PMC</span>
+            <span class="engagement">2026, OA</span>
+          </div>
+          <p class="excerpt">From Virginia State University's Cognitive and Neurodiversity AI Lab: a framework for testing and evaluating AI systems for accessible populations, addressing gaps in how AI tools for disability contexts are validated.</p>
+          <p class="why-matters">Relevant: provides a potential validation framework for C2A as an AI-driven assessment tool serving students with disabilities.</p>
+          <sup class="bib-ref"><a href="#ref-21">[21]</a></sup>
+        </div>
+        <div class="web-card">
+          <a href="https://eric.ed.gov/?id=EJ1490320" class="web-title">Special Ed Pre-Service Teachers' Attitudes Toward AI</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #2e7d32;">ERIC</span>
+            <span class="engagement">2025, peer-reviewed</span>
+          </div>
+          <p class="excerpt">Examines how personality traits, AI literacy, and AI anxiety interact to shape pre-service special education teachers' attitudes toward AI. AI literacy mediates the conscientiousness-to-AI-attitude pathway.</p>
+          <sup class="bib-ref"><a href="#ref-42">[42]</a></sup>
+        </div>
+        <div class="web-card">
+          <a href="https://eric.ed.gov/?id=EJ1483560" class="web-title">AI and Assistive Technology in Autism: Diagnosis, Treatment, Education (Review)</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #2e7d32;">ERIC</span>
+            <span class="engagement">2025, peer-reviewed</span>
+          </div>
+          <p class="excerpt">Systematic review of AI-based diagnostic tools and assistive technologies for autism spectrum disorder, analyzing their role in early detection, treatment, and educational support.</p>
+          <sup class="bib-ref"><a href="#ref-43">[43]</a></sup>
+        </div>
+        <div class="web-card">
+          <a href="https://eric.ed.gov/?id=EJ1493403" class="web-title">AI and Universal Design for Learning in Adult &amp; Continuing Higher Education</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #2e7d32;">ERIC</span>
+            <span class="engagement">2025, peer-reviewed</span>
+          </div>
+          <p class="excerpt">Explores integrating UDL principles with generative AI for adult and continuing higher education. Argues aligning UDL with GenAI enables uniquely flexible and inclusive learning experiences.</p>
+          <sup class="bib-ref"><a href="#ref-44">[44]</a></sup>
+        </div>
+        <div class="web-card">
+          <a href="https://europepmc.org/articles/PMC13050700?pdf=render" class="web-title">Thematic Landscapes of Disability Technology Adoption</a>
+          <div class="card-meta">
+            <span class="platform-badge" style="background: #326599;">Europe PMC</span>
+            <span class="engagement">2026, OA</span>
+          </div>
+          <p class="excerpt">Structural Topic Modelling of 211 articles identified six themes including AI-driven solutions for cognitive/sensory challenges and educational technologies for inclusive learning.</p>
+          <sup class="bib-ref"><a href="#ref-45">[45]</a></sup>
+        </div>
+      </details>
+    </section>
+
+    <!-- ==================== BIBLIOGRAPHY ==================== -->
+    <section class="bibliography">
+      <h2>Bibliography</h2>
+      <ol>
+        <li class="bib-entry" id="ref-1">
+          <span class="ref-num">[1]</span>
+          Cointelegraph. "Anthropic announced Claude Agent SDK credits for paid plans." <em>X</em>, May 2026.
+          <a href="https://x.com/Cointelegraph/status/2054650608045482308">link</a>
+        </li>
+        <li class="bib-entry" id="ref-2">
+          <span class="ref-num">[2]</span>
+          9to5Mac. "Anthropic updates Claude Managed Agents with three new features." <em>9to5Mac</em>, May 7, 2026.
+          <a href="https://9to5mac.com/2026/05/07/anthropic-updates-claude-managed-agents-with-three-new-features/">link</a>
+        </li>
+        <li class="bib-entry" id="ref-3">
+          <span class="ref-num">[3]</span>
+          Releasebot. "Claude Updates by Anthropic - May 2026." <em>Releasebot</em>, May 2026.
+          <a href="https://releasebot.io/updates/anthropic/claude">link</a>
+        </li>
+        <li class="bib-entry" id="ref-4">
+          <span class="ref-num">[4]</span>
+          Riley Brown. "How are people still sleeping on the Claude Agent SDK?" <em>X</em>, May 2026.
+          <a href="https://x.com/rileybrown/status/2047928846960492978">link</a>
+        </li>
+        <li class="bib-entry" id="ref-5">
+          <span class="ref-num">[5]</span>
+          DeepSeek. "DeepSeek-V4: Dedicated optimizations for agent capabilities." <em>X</em>, May 2026.
+          <a href="https://x.com/deepseek_ai/status/2047516941074796676">link</a>
+        </li>
+        <li class="bib-entry" id="ref-6">
+          <span class="ref-num">[6]</span>
+          The New Stack. "5 Key Trends Shaping Agentic Development in 2026." <em>The New Stack</em>, 2026.
+          <a href="https://thenewstack.io/5-key-trends-shaping-agentic-development-in-2026/">link</a>
+        </li>
+        <li class="bib-entry" id="ref-7">
+          <span class="ref-num">[7]</span>
+          Teknium. "Hermes Agent: blending coding and generalist agents." <em>X</em>, May 2026.
+          <a href="https://x.com/Teknium/status/2026760653743206502">link</a>
+        </li>
+        <li class="bib-entry" id="ref-8">
+          <span class="ref-num">[8]</span>
+          Zain Kahn. "Google AI Studio + Gemini 3.1 vibe coding." <em>LinkedIn</em>, May 2026.
+          <a href="https://www.linkedin.com/posts/zainkahn_you-can-literally-vibe-code-full-apps-now-activity-7442182939850883073-dViz">link</a>
+        </li>
+        <li class="bib-entry" id="ref-9">
+          <span class="ref-num">[9]</span>
+          America Succeeds. "Pathsmith: Durable Skills Advantage Framework." <em>Learn Work Ecosystem Library</em>, 2026.
+          <a href="https://learnworkecosystemlibrary.com/initiatives/durableskillsadvantage/">link</a>
+        </li>
+        <li class="bib-entry" id="ref-10">
+          <span class="ref-num">[10]</span>
+          Sandra Loughlin, PhD. "Measuring Durable Skills." <em>LinkedIn Pulse</em>, 2026.
+          <a href="https://www.linkedin.com/pulse/measuring-durable-skills-sandra-loughlin-phd-6tmde">link</a>
+        </li>
+        <li class="bib-entry" id="ref-11">
+          <span class="ref-num">[11]</span>
+          SpacesEDU. "Top 4 Challenges of Measuring Durable Skills in K-12 Education." <em>SpacesEDU</em>, 2026.
+          <a href="https://spacesedu.com/en/blog/measuring-durable-skills/">link</a>
+        </li>
+        <li class="bib-entry" id="ref-12">
+          <span class="ref-num">[12]</span>
+          oFox AI. "Best LLM for OCR 2026: 7 Models Ranked." <em>oFox.ai</em>, 2026.
+          <a href="https://ofox.ai/blog/best-ai-model-for-ocr-2026/">link</a>
+        </li>
+        <li class="bib-entry" id="ref-13">
+          <span class="ref-num">[13]</span>
+          "Operationalizing Document AI: A Microservice Architecture for OCR and LLM Pipelines in Production." <em>arXiv</em>, May 2026.
+          <a href="https://arxiv.org/html/2605.18818v1">link</a>
+        </li>
+        <li class="bib-entry" id="ref-14">
+          <span class="ref-num">[14]</span>
+          Cohorte. "Mistral OCR: Hands-On Tutorial with Code + Benchmarks (2026)." <em>Cohorte.co</em>, 2026.
+          <a href="https://cohorte.co/blog/mistral-ocr-a-deep-dive-into-next-generation-document-understanding">link</a>
+        </li>
+        <li class="bib-entry" id="ref-15">
+          <span class="ref-num">[15]</span>
+          NPR. "Special educators use AI to help them spend more time teaching." <em>NPR</em>, May 20, 2026.
+          <a href="https://www.npr.org/2026/05/20/nx-s1-5810192/special-education-teachers-ai-ieps">link</a>
+        </li>
+        <li class="bib-entry" id="ref-16">
+          <span class="ref-num">[16]</span>
+          Disability Scoop. "Concerns Raised As Teachers Increasingly Use AI To Write IEPs." <em>Disability Scoop</em>, Nov 2025.
+          <a href="https://www.disabilityscoop.com/2025/11/18/concerns-raised-as-teachers-increasingly-use-ai-to-write-ieps/31742/">link</a>
+        </li>
+        <li class="bib-entry" id="ref-17">
+          <span class="ref-num">[17]</span>
+          Kaltura. "Combining AI and Special Education: A Comprehensive Guide." <em>Kaltura</em>, 2026.
+          <a href="https://corp.kaltura.com/blog/combining-ai-and-special-education-a-comprehensive-guide/">link</a>
+        </li>
+        <li class="bib-entry" id="ref-18">
+          <span class="ref-num">[18]</span>
+          Tao, X., Chang, H., Wang, C. (2026). "The influence of global AI on accessibility design for people with disabilities." <em>Disability and Rehabilitation: Assistive Technology</em>. DOI: 10.1080/17483107.2026.2662425
+        </li>
+        <li class="bib-entry" id="ref-19">
+          <span class="ref-num">[19]</span>
+          Bulut, A. (2026). "Digital companions on the learning journey: exploring technological solutions for students with learning disabilities." <em>Disability and Rehabilitation: Assistive Technology</em>. DOI: 10.1080/17483107.2026.2631061
+        </li>
+        <li class="bib-entry" id="ref-20">
+          <span class="ref-num">[20]</span>
+          Amjad, A.I., Irshad, S. (2026). "Role of self-advocacy, academic accommodation, and attitude in career readiness among students with learning disabilities." <em>BMC Psychology</em>. DOI: 10.1186/s40359-026-04003-9
+          <a href="https://europepmc.org/articles/PMC12958521?pdf=render">PDF</a>
+        </li>
+        <li class="bib-entry" id="ref-21">
+          <span class="ref-num">[21]</span>
+          Waters, G. (2026). "AI testing, evaluation, verification and validation for accessibility." <em>Virginia State University</em>.
+          <a href="https://europepmc.org/articles/PMC12980396?pdf=render">PDF</a>
+        </li>
+        <li class="bib-entry" id="ref-22">
+          <span class="ref-num">[22]</span>
+          Sumer-Dodur, H.M. et al. (2026). "Psychometric Validation of the Teachers' Social and Emotional Learning Belief Scale (TSBS)." <em>J. Psychoeducational Assessment</em>. ERIC: EJ1502804
+        </li>
+        <li class="bib-entry" id="ref-23">
+          <span class="ref-num">[23]</span>
+          Li, J., Bai, B. (2026). "Measuring Social-Emotional Teaching Practices in Chinese Preschools: T-SEL Scale." <em>J. Psychoeducational Assessment</em>. ERIC: EJ1495980
+        </li>
+        <li class="bib-entry" id="ref-24">
+          <span class="ref-num">[24]</span>
+          Kim, A.S. et al. (2025). "Beyond Technical Skills: Uncovering Durable Competencies through Multi-Level Stakeholder Analysis." <em>ISCAP J.</em> ERIC: EJ1481631
+        </li>
+        <li class="bib-entry" id="ref-25">
+          <span class="ref-num">[25]</span>
+          Prananto, K. et al. (2025). "Perceived teacher support and student engagement: a systematic literature review." <em>BMC Psychology</em>. DOI: 10.1186/s40359-025-02412-w
+          <a href="https://link.springer.com/content/pdf/10.1186/s40359-025-02412-w.pdf">PDF</a>
+        </li>
+        <li class="bib-entry" id="ref-26">
+          <span class="ref-num">[26]</span>
+          Kim, D. (2025). "Understanding Variables Affecting High Schools' Educational Outcomes Based on Self-Determination Theory." <em>Gifted Child Quarterly</em>. ERIC: EJ1476968
+        </li>
+        <li class="bib-entry" id="ref-27">
+          <span class="ref-num">[27]</span>
+          Sultanova, G. (2025). "Introducing non-cognitive load to the educational discourse." <em>Frontiers in Psychology</em>. DOI: 10.3389/fpsyg.2024.1411102
+          <a href="https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2024.1411102/pdf">PDF</a>
+        </li>
+        <li class="bib-entry" id="ref-28">
+          <span class="ref-num">[28]</span>
+          Kyrychenko, Y. et al. (2025). "C3AI: Crafting Constitutions for Constitutional AI." DOI: 10.1145/3696410.3714705
+          <a href="https://arxiv.org/abs/2502.15861">arXiv</a>
+        </li>
+        <li class="bib-entry" id="ref-29">
+          <span class="ref-num">[29]</span>
+          Miculicich, L. et al. (2025). "VeriGuard: Enhancing LLM Agent Safety via Verified Code Generation." DOI: 10.48550/arXiv.2510.05156
+          <a href="https://arxiv.org/abs/2510.05156">arXiv</a>
+        </li>
+        <li class="bib-entry" id="ref-30">
+          <span class="ref-num">[30]</span>
+          Lu, H. et al. (2025). "Alignment and Safety in Large Language Models (Survey)." DOI: 10.48550/arXiv.2507.19672
+          <a href="https://arxiv.org/abs/2507.19672">arXiv</a>
+        </li>
+        <li class="bib-entry" id="ref-31">
+          <span class="ref-num">[31]</span>
+          Xia, C. et al. (2025). "Demystifying LLM-Based Software Engineering Agents (Agentless)." DOI: 10.1145/3715754
+        </li>
+        <li class="bib-entry" id="ref-32">
+          <span class="ref-num">[32]</span>
+          Robbes, R. et al. (2026). "Agentic Much? Adoption of Coding Agents on GitHub." DOI: 10.48550/arXiv.2601.18341
+          <a href="https://arxiv.org/abs/2601.18341">arXiv</a>
+        </li>
+        <li class="bib-entry" id="ref-33">
+          <span class="ref-num">[33]</span>
+          Xia, C. et al. (2025). "Live-SWE-agent: Can Software Engineering Agents Self-Evolve on the Fly?" DOI: 10.48550/arXiv.2511.13646
+          <a href="https://arxiv.org/abs/2511.13646">arXiv</a>
+        </li>
+        <li class="bib-entry" id="ref-34">
+          <span class="ref-num">[34]</span>
+          Otoum, N.A., Elkhalili, N. (2026). "Methods and Techniques of Agentic Software Engineering: A Systematic Literature Review." <em>IEEE ACCESS</em>. DOI: 10.1109/ACCESS.2026.3652325
+        </li>
+        <li class="bib-entry" id="ref-35">
+          <span class="ref-num">[35]</span>
+          Sapkota, R. et al. (2025). "Vibe Coding vs. Agentic Coding: Fundamentals and Practical Implications." DOI: 10.48550/arXiv.2505.19443
+          <a href="https://arxiv.org/abs/2505.19443">arXiv</a>
+        </li>
+        <li class="bib-entry" id="ref-36">
+          <span class="ref-num">[36]</span>
+          NSBA/Center for Public Education (2025). "Durable Skills: Enhance CTE in the Age of AI." ERIC: ED672685
+          <a href="https://eric.ed.gov/?id=ED672685">ERIC</a>
+        </li>
+        <li class="bib-entry" id="ref-37">
+          <span class="ref-num">[37]</span>
+          Hu, A. et al. (2024). "mPLUG-DocOwl 1.5: Unified Structure Learning for OCR-free Document Understanding." DOI: 10.48550/arXiv.2403.12895
+        </li>
+        <li class="bib-entry" id="ref-38">
+          <span class="ref-num">[38]</span>
+          Luo, C. et al. (2024). "LayoutLLM: Layout Instruction Tuning with LLMs for Document Understanding." <em>CVPR 2024</em>. DOI: 10.1109/CVPR52733.2024.01480
+          <a href="https://arxiv.org/pdf/2404.05225">PDF</a>
+        </li>
+        <li class="bib-entry" id="ref-39">
+          <span class="ref-num">[39]</span>
+          Yu, W. et al. (2025). "OmniParser V2: Structured-Points-of-Thought for Unified Visual Text Parsing." <em>IEEE TPAMI</em>. DOI: 10.1109/TPAMI.2026.3677075
+        </li>
+        <li class="bib-entry" id="ref-40">
+          <span class="ref-num">[40]</span>
+          Mishra, K. et al. (2025). "A hybrid rule-based NLP and ML approach for PII detection in financial documents." <em>Scientific Reports</em>. DOI: 10.1038/s41598-025-04971-9
+        </li>
+        <li class="bib-entry" id="ref-41">
+          <span class="ref-num">[41]</span>
+          Zou, A. et al. (2024). "DocBench: A Benchmark for Evaluating LLM-based Document Reading Systems." DOI: 10.48550/arXiv.2407.10701
+        </li>
+        <li class="bib-entry" id="ref-42">
+          <span class="ref-num">[42]</span>
+          Sumer-Dodur, H.M. (2025). "Special Education Pre-Service Teachers' Conscientiousness and Attitudes towards AI." ERIC: EJ1490320
+          <a href="https://eric.ed.gov/?id=EJ1490320">ERIC</a>
+        </li>
+        <li class="bib-entry" id="ref-43">
+          <span class="ref-num">[43]</span>
+          Beirat, M.A. et al. (2025). "AI and Assistive Technology in Autism: Diagnosis, Treatment, Education." ERIC: EJ1483560
+          <a href="https://eric.ed.gov/?id=EJ1483560">ERIC</a>
+        </li>
+        <li class="bib-entry" id="ref-44">
+          <span class="ref-num">[44]</span>
+          Mallary, K.J. et al. (2025). "AI and Universal Design for Learning in Adult Higher Education." ERIC: EJ1493403
+          <a href="https://eric.ed.gov/?id=EJ1493403">ERIC</a>
+        </li>
+        <li class="bib-entry" id="ref-45">
+          <span class="ref-num">[45]</span>
+          Kiruthiga, M., Vivek Raj, S.N. (2026). "Thematic Landscapes of Disability Technology Adoption." <em>Frontiers in Digital Health</em>. DOI: 10.3389/fdgth.2026.1764516
+          <a href="https://europepmc.org/articles/PMC13050700?pdf=render">PDF</a>
+        </li>
+      </ol>
+    </section>
+
+    <footer class="digest-footer">
+      <div class="source-status">
+        <span class="source warn">Reddit (partial)</span>
+        <span class="source ok">YouTube</span>
+        <span class="source warn">HN (partial)</span>
+        <span class="source ok">X</span>
+        <span class="source ok">LinkedIn</span>
+        <span class="source ok">Web</span>
+        <span class="source ok">Semantic Scholar</span>
+        <span class="source ok">OpenAlex</span>
+        <span class="source ok">ERIC</span>
+        <span class="source ok">Europe PMC</span>
+      </div>
+      <p class="dedup-note">12 items deduplicated from previous digests (matching state.json URLs/DOIs)</p>
+      <p class="meta">Generated by dev-digest skill, 2026-05-27. Window: 2026-04-22 to 2026-05-27 (35 days). 45 findings across 5 topic groups.</p>
+    </footer>
+
+  </main>
+</body>
+</html>
