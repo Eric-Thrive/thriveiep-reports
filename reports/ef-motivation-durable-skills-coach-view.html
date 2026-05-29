@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Executive Function, Motivation, and Durable Skills: The Complete Coach View Evidence</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #1B2A4A; --navy-light: #2A3F6B;
+    --coral: #FF6B6B; --coral-soft: #FF8E8E;
+    --sand: #F5E6CC; --sand-light: #FDF8F0;
+    --teal: #2B8A8A; --gold: #D4A843;
+    --slate: #4A5568; --warm-grey: #8B7E6A;
+  }
+  html, body { height: 100%; overflow: hidden; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--sand-light); color: var(--navy); }
+  .deck { display: flex; height: 100vh; overflow: hidden; }
+  .slide { min-width: 100vw; height: 100vh; overflow-y: auto; padding: 54px 80px 80px; display: none; flex-direction: column; }
+  .slide.active { display: flex; }
+  @media (max-width: 800px) { .slide { padding: 30px 22px 80px; } }
+  .index-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: var(--navy); display: flex; align-items: center; height: 50px; padding: 0 20px; gap: 5px; overflow-x: auto; }
+  .idx-chip { padding: 5px 12px; border-radius: 20px; font-size: 11.5px; font-weight: 600; color: rgba(255,255,255,0.55); background: transparent; border: none; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+  .idx-chip:hover { color: #fff; background: var(--navy-light); }
+  .idx-chip.active { background: var(--coral); color: #fff; }
+  .idx-sep { color: rgba(255,255,255,0.25); font-size: 10px; font-weight: 700; padding: 0 2px; white-space: nowrap; }
+  .idx-progress { position: fixed; bottom: 50px; left: 0; height: 3px; background: var(--coral); transition: width 0.3s; z-index: 101; }
+  .idx-arrows { margin-left: auto; display: flex; gap: 8px; padding-left: 10px; }
+  .idx-arrow { width: 30px; height: 30px; border-radius: 50%; border: none; background: var(--navy-light); color: #fff; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .idx-arrow:hover { background: var(--coral); }
+  .slide-num { font-size: 11.5px; font-weight: 700; color: var(--coral); text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 10px; }
+  .slide-num .part { color: var(--teal); }
+  .slide h2 { font-size: 33px; font-weight: 800; color: var(--navy); line-height: 1.15; margin-bottom: 16px; max-width: 880px; }
+  .slide h3 { font-size: 20px; font-weight: 700; color: var(--navy); margin: 18px 0 8px; }
+  .slide h4 { font-size: 15px; font-weight: 700; color: var(--teal); margin: 14px 0 6px; }
+  .slide p { font-size: 15.5px; line-height: 1.7; margin-bottom: 12px; color: var(--slate); max-width: 840px; }
+  .slide ul, .slide ol { margin: 8px 0 14px 22px; font-size: 15.5px; line-height: 1.6; color: var(--slate); max-width: 840px; }
+  .slide li { margin-bottom: 6px; }
+  .slide strong { color: var(--navy); font-weight: 700; }
+  .slide em { color: var(--coral); font-style: normal; font-weight: 600; }
+  .slide blockquote { background: var(--sand); border-left: 4px solid var(--coral); padding: 16px 22px; border-radius: 0 12px 12px 0; margin: 16px 0; font-size: 14.5px; color: var(--navy); max-width: 840px; }
+  .slide a { color: var(--teal); text-decoration: none; font-weight: 600; }
+  .slide a:hover { text-decoration: underline; }
+  .slide table { width: 100%; max-width: 1000px; border-collapse: separate; border-spacing: 0; margin: 14px 0; border-radius: 12px; overflow: hidden; font-size: 13.5px; }
+  .slide th { background: var(--navy); color: #fff; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; padding: 11px 13px; text-align: left; }
+  .slide td { background: #fff; padding: 11px 13px; color: var(--slate); border-bottom: 1px solid var(--sand); vertical-align: top; }
+  .slide tr:last-child td { border-bottom: none; }
+  .badge { display: inline-block; padding: 3px 9px; border-radius: 6px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap; }
+  .b-crit { background: var(--coral); color: #fff; }
+  .b-high { background: var(--teal); color: #fff; }
+  .b-mod { background: var(--gold); color: #fff; }
+  .b-low { background: var(--warm-grey); color: #fff; }
+  .b-na { background: #cbd5e0; color: var(--navy); }
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 1020px; margin: 10px 0; }
+  @media (max-width: 900px) { .card-grid { grid-template-columns: 1fr; } }
+  .cc { background: #fff; border-radius: 12px; padding: 15px 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .cc h4 { margin-top: 0; color: var(--navy); font-size: 15px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .cc p { font-size: 13.5px; line-height: 1.55; margin-bottom: 6px; max-width: none; }
+  .cc .lab { color: var(--teal); font-weight: 700; }
+  .stat-row { display: flex; gap: 14px; flex-wrap: wrap; margin: 14px 0; max-width: 1020px; }
+  .stat { background: #fff; border-radius: 12px; padding: 16px 20px; flex: 1; min-width: 140px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .stat .num { font-size: 30px; font-weight: 800; color: var(--coral); line-height: 1; }
+  .stat .lbl { font-size: 12.5px; color: var(--slate); margin-top: 7px; line-height: 1.4; }
+  .finding-card { background: #fff; border-radius: 12px; padding: 16px 20px; margin: 12px 0; max-width: 940px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .finding-card h4 { margin-top: 0; }
+  details { margin: 10px 0; max-width: 840px; background:#fff; border-radius:10px; padding: 4px 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  details summary { cursor: pointer; font-weight: 700; color: var(--teal); padding: 10px 0; font-size: 14px; }
+  details[open] summary { margin-bottom: 4px; }
+  details p, details ul { font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="idx-progress" id="progress"></div>
+<div class="deck" id="deck">
+
+<!-- 1 SUMMARY -->
+<div class="slide">
+  <div class="slide-num">Section 01 of 23</div>
+  <h2>Executive Function, Motivation, and Durable Skills</h2>
+  <p style="font-size:17px;color:var(--navy);"><strong>The complete Coach View evidence, in one place.</strong> This master briefing answers three questions: what are the constructs we measure, which of them actually predict durable skills (and why), and what should a coach do about each one. It draws on roughly 285 studies and our own NLU cohort data.</p>
+  <h3>Key Messages</h3>
+  <ul>
+    <li><strong>How a student uses executive function predicts durable skills; raw cognitive capacity barely does.</strong> In our NLU cohort, the everyday/applied side of EF carried almost all the unique prediction of durable skills. The abstract "engine" side added almost nothing once applied EF was in the model.</li>
+    <li><strong>The reason is measurement.</strong> There are two ways to measure EF, lab-style performance tasks and everyday rating scales, and they measure <em>different things</em>. This is called the correspondence problem, and it is the most replicated finding in the field.</li>
+    <li><strong>Motivation decides whether skills stick.</strong> Psychological needs (autonomy, relatedness, competence) and the <em>type</em> of motivation (wanting to vs. having to) determine whether a coached skill is durable or fades under stress.</li>
+    <li><strong>We profile all 16 constructs.</strong> Each gets what it is, how C2A measures it (or doesn't), what a coach can do, and how solid the evidence is, including four EF skills newly upgraded from expert opinion to controlled-trial evidence.</li>
+    <li><strong>We are honest about three holes.</strong> We measure our most important layer most thinly; we have not shown the 16 constructs are truly distinct; and we have not yet proven that coaching these skills actually moves durable skills. Naming these is a strength, not a weakness.</li>
+  </ul>
+  <h4>How this report is organized</h4>
+  <p><span style="color:var(--teal);font-weight:700;">Part 1 (Concepts)</span> defines the building blocks. <span style="color:var(--teal);font-weight:700;">Part 2 (Unique vs. Shared Variance)</span> shows which constructs actually add predictive value, with a close look at performance vs. rating-scale EF. <span style="color:var(--teal);font-weight:700;">Part 3 (The Applied Work)</span> profiles all 16 constructs, maps them to durable skills, and says what to do. Evidence badges: <span class="badge b-high">High</span> = strong/replicated, <span class="badge b-mod">Moderate</span> = real but limited, <span class="badge b-low">Low</span> = consensus or emerging. Heavy statistics are tucked into expandable boxes.</p>
+</div>
+
+<!-- 2 MAP -->
+<div class="slide">
+  <div class="slide-num">Section 02 of 23</div>
+  <h2>The Big Picture: A Student in Four Layers</h2>
+  <p>Picture a student as a vehicle on a road. C2A measures the vehicle in layers, plus the conditions around it.</p>
+  <div class="card-grid">
+    <div class="cc"><h4>The Engine (core EF)</h4><p>Raw thinking power: working memory, inhibition, cognitive flexibility. Necessary, but rarely what separates students on real-world skills.</p></div>
+    <div class="cc"><h4>Daily Operations (applied EF)</h4><p>How the engine runs day to day: time management, organization, planning, task initiation, self-monitoring, sustained attention, emotional regulation. Where coaching lives.</p></div>
+    <div class="cc"><h4>The Fuel (motivation)</h4><p>Psychological needs (autonomy, relatedness, competence) and the type of motivation. Decides whether skills get used and whether they stick.</p></div>
+    <div class="cc"><h4>The Road (context)</h4><p>Strengths-first framing, financial stress, trauma history, culture. These shape how the whole profile should be read and sequenced.</p></div>
+  </div>
+  <blockquote><strong>The result that drives everything:</strong> in our NLU cohort, a model combining all three vehicle layers explained 62.5% of why students differ on durable skills, but the Daily-Operations layer carried almost all the unique weight, the Fuel added a small real amount, and the raw Engine added essentially none. Part 2 explains what "unique weight" means and why this happens.</blockquote>
+  <p><strong>A profile is a snapshot, not destiny.</strong> Much of what looks like low EF is <em>state</em> (stress, financial load, life chaos), not a fixed <em>trait</em>. Most profiles are a mix of the two. Read a first assessment as a starting point for conversation, not a verdict on the person.</p>
+</div>
+
+<!-- 3 PART1 EF CONCEPTS -->
+<div class="slide">
+  <div class="slide-num"><span class="part">Part 1 · Concepts</span> &nbsp;|&nbsp; Section 03 of 23</div>
+  <h2>Concept Review: Two Kinds of Executive Function</h2>
+  <p>Executive function (EF) is the brain's self-management system. It comes in two flavors that matter enormously for prediction.</p>
+  <div class="card-grid">
+    <div class="cc"><h4>Core EF (the engine)</h4>
+      <p>The three raw capacities, measured as cognitive efficiency: <strong>working memory</strong> (holding info in mind), <strong>inhibition</strong> (the brake pedal), and <strong>cognitive flexibility</strong> (switching gears). This is the classic "Miyake triad."</p>
+      <p>Important nuance: even on its own terms, the triad does not replicate cleanly across populations (Karr et al., 2018), so a single "core EF" score is shakier than it sounds.</p>
+    </div>
+    <div class="cc"><h4>Applied EF (daily operations)</h4>
+      <p>The same machinery as it shows up in real life: getting started, planning, organizing, managing time, monitoring yourself, regulating emotion. Built on top of core EF but not the same thing.</p>
+      <p>Adele Diamond's framework puts it well: complex EFs like planning and problem-solving are built on core EFs but carry their own predictive weight for real-world outcomes.</p>
+    </div>
+  </div>
+  <p>The everyday/applied layer is where durable skills (the C2A outcome of interest) actually get expressed, and as Part 2 shows, it is the layer that predicts them.</p>
+  <details><summary>The technical version: the EF hierarchy</summary>
+  <p>Diamond (2012) distinguishes core EFs (inhibition, working-memory updating, shifting) from higher-order EFs (reasoning, planning, problem-solving) that are built on the core but functionally distinct. Miyake &amp; Friedman's unity/diversity model shows the core EFs are correlated yet separable, and the common-EF factor is related to but not identical with general intelligence, which is why EF carries variance beyond IQ. Karr et al. (2018), re-analyzing 46 samples, found the three-factor model frequently failed to converge, suggesting the clean triad is partly an artifact of underpowered, well-fitting published models.</p>
+  </details>
+</div>
+
+<!-- 4 PART1 MOTIVATION CONCEPTS -->
+<div class="slide">
+  <div class="slide-num"><span class="part">Part 1 · Concepts</span> &nbsp;|&nbsp; Section 04 of 23</div>
+  <h2>Concept Review: Motivation Has a Type, Not Just an Amount</h2>
+  <p>From Self-Determination Theory (SDT), the most-validated framework in motivation science, two ideas matter.</p>
+  <div class="card-grid">
+    <div class="cc"><h4>ARC: the three needs (the fuel tank)</h4>
+      <p><strong>Autonomy</strong> (this is my choice), <strong>Relatedness</strong> (I belong and am seen), <strong>Competence</strong> (I can do this). Feed them and people grow; starve them and people get defensive and withdraw.</p>
+      <p>Satisfaction and frustration of needs run on <em>separate tracks</em>, so a coach needs different moves for each. C2A measures ARC with the BMPN-18.</p>
+    </div>
+    <div class="cc"><h4>GMS: the type of motivation (the fuel quality)</h4>
+      <p>A continuum from <strong>intrinsic</strong> ("I want to") through <strong>external regulation</strong> ("I have to / for a reward") down to <strong>amotivation</strong> ("why bother"). The dividing line that counts is <em>autonomous</em> vs. <em>controlled</em>.</p>
+      <p>Quality beats quantity: the same skill is durable under "I want to" and fragile under "I have to." C2A measures this with the GMS-Bookends.</p>
+    </div>
+  </div>
+  <details><summary>The technical version: internalization and why quality matters</summary>
+  <p>SDT's organismic integration theory places regulation on a continuum (external, introjected, identified, integrated, intrinsic). The more internalized the regulation, the more autonomous and durable the behavior. Ryan &amp; Deci (2020) describe controlled motivation as "vitality-draining because it entails conflict, one part of personality overriding another." This is the mechanism behind skill decay: a skill maintained under controlled motivation burns regulatory fuel and collapses under stress, while an internalized one is self-sustaining.</p>
+  </details>
+</div>
+
+<!-- 5 PART1 DURABLE + CONTEXT -->
+<div class="slide">
+  <div class="slide-num"><span class="part">Part 1 · Concepts</span> &nbsp;|&nbsp; Section 05 of 23</div>
+  <h2>Concept Review: Durable Skills and the Four Context Factors</h2>
+  <h4>Durable skills (the outcome)</h4>
+  <p>The transferable human capabilities C2A reports on, things like communication, collaboration, resilience, initiative, adaptability, critical thinking. The workforce field validates these as <em>observable behaviors in real contexts</em> (NACE validated theirs against roughly 60,000 supervisor ratings), the same "measure it as it shows up in real life" logic that runs through this whole report.</p>
+  <h4>The four context factors (the road conditions)</h4>
+  <p>These are not scores; they are lenses that change how a profile should be read.</p>
+  <div class="card-grid">
+    <div class="cc"><h4>Strengths-first framing</h4><p>How a profile is <em>presented</em> (strengths-first vs. deficit-first) measurably changes coach expectations and student performance, more so for marginalized students.</p></div>
+    <div class="cc"><h4>Financial precarity</h4><p>Money stress imposes a temporary "bandwidth tax" on the exact EF skills C2A measures, and it is largely reversible.</p></div>
+    <div class="cc"><h4>Trauma history</h4><p>Chronic adversity shifts the brain toward reactive over planful processing; safety must come before skill-building.</p></div>
+    <div class="cc"><h4>Culture</h4><p>The needs are universal, but the entry point shifts. Relatedness leads, and group-specific adaptation beats generic.</p></div>
+  </div>
+</div>
+
+<!-- 6 PART2 THE QUESTION + PERF VS RATING -->
+<div class="slide">
+  <div class="slide-num"><span class="part">Part 2 · Unique vs. Shared Variance</span> &nbsp;|&nbsp; Section 06 of 23</div>
+  <h2>The Real Question: Does a Construct Add Anything?</h2>
+  <p>Here is the idea the whole evidence base turns on, in plain terms.</p>
+  <div class="card-grid">
+    <div class="cc" style="background:var(--sand);"><h4>Shared variance</h4><p style="color:var(--navy);">When two measures are correlated, they split the credit for predicting an outcome. That overlapping credit is shared variance. Most of our constructs overlap a lot.</p></div>
+    <div class="cc" style="background:var(--sand);"><h4>Unique variance (the real test)</h4><p style="color:var(--navy);">The slice a construct explains that <em>nothing else already did</em>. The honest question is never "does X correlate with the outcome," it is "does X add anything once everything else is in the model." That is called incremental validity.</p></div>
+  </div>
+  <h3>Why this is sharpest for executive function</h3>
+  <p>Because there are two ways to measure EF, and they barely agree:</p>
+  <ul>
+    <li><strong>Performance tasks</strong> (lab puzzles, card-sorting, memory span): measure the <em>efficiency of cognitive machinery</em> in a quiet room.</li>
+    <li><strong>Rating scales</strong> (everyday self-report: "I lose track of steps," "I run late"): measure <em>success at pursuing goals</em> in noisy real life.</li>
+  </ul>
+  <p>You would expect these to agree. They correlate only weakly (about 0.1 to 0.3). The landmark review concluded they assess <em>different constructs</em>, "the efficiency of cognitive abilities" versus "success in goal pursuit" (Toplak, West &amp; Stanovich, 2013). This is the correspondence problem, and it is why the unique-vs-shared question has a clear answer for EF.</p>
+</div>
+
+<!-- 7 PART2 HEAD TO HEAD -->
+<div class="slide">
+  <div class="slide-num"><span class="part">Part 2 · Unique vs. Shared Variance</span> &nbsp;|&nbsp; Section 07 of 23</div>
+  <h2>Performance vs. Rating Scale: When You Pit Them Head to Head</h2>
+  <p>When researchers put both kinds of EF measure in the same model and ask which carries <em>unique</em> predictive weight for real-world outcomes, the everyday/rating measure wins, repeatedly.</p>
+  <table>
+    <thead><tr><th>Study</th><th>Population</th><th>What happened with both in the model</th></tr></thead>
+    <tbody>
+      <tr><td>Barkley &amp; Murphy, 2010 <span class="badge b-high">High</span></td><td>352 adults</td><td>Everyday EF ratings predicted all 11 job-functioning outcomes and dominated the lab tests when entered jointly.</td></tr>
+      <tr><td>Dijkhuis et al., 2020 <span class="badge b-mod">Mod</span></td><td>College students</td><td>Self-reported daily EF lifted academic-progress prediction to 36%; performance-based EF reached only 25%.</td></tr>
+      <tr><td>Bayard et al., 2026 <span class="badge b-mod">Mod</span></td><td>Adults, clinical</td><td>Only the everyday rating and a real-world task predicted daily functioning. Lab tests added <em>zero unique</em> variance.</td></tr>
+      <tr><td>Chaytor et al., 2006 <span class="badge b-high">High</span></td><td>Mixed adults</td><td>Lab EF tests explained only 18 to 20% of everyday EF; real-world context variables added much more.</td></tr>
+      <tr><td>Dekker et al., 2017 <span class="badge b-mod">Mod</span></td><td>Children</td><td>Rating EF and performance EF each added unique variance; neither alone captured the full picture.</td></tr>
+    </tbody>
+  </table>
+  <p>The pattern holds across job performance, school grades, and daily living. The everyday measure is the one connected to the life outcome.</p>
+  <details><summary>The mechanism: why the rooms differ</summary>
+  <p>Lab tasks deliberately strip away context, motivation, stakes, multi-step goals, and emotion, exactly the conditions that make real-world self-management hard. Burgess et al. (2006) argue the classic tests (Stroop, Wisconsin Card Sort) were adapted from laboratory paradigms "far removed" from real concerns, and call for function-led design instead. The metacognition/behavioral-regulation layer (initiation, planning, organization, monitoring) is the EF cluster most tied to academic and occupational outcomes (Cortes Pascual et al., 2019, meta-analysis, r=.365).</p>
+  </details>
+</div>
+
+<!-- 8 PART2 LAYER BY LAYER -->
+<div class="slide">
+  <div class="slide-num"><span class="part">Part 2 · Unique vs. Shared Variance</span> &nbsp;|&nbsp; Section 08 of 23</div>
+  <h2>Layer by Layer: What Actually Adds Unique Value</h2>
+  <p>Putting the layers into one model (as our NLU analysis did) shows how the credit splits once overlap is removed.</p>
+  <div class="stat-row">
+    <div class="stat"><div class="num">17.4%</div><div class="lbl"><strong>Applied EF</strong> unique variance in durable skills</div></div>
+    <div class="stat"><div class="num">4.9%</div><div class="lbl"><strong>ARC needs</strong> unique variance</div></div>
+    <div class="stat"><div class="num">~0%</div><div class="lbl"><strong>Core EF</strong> unique variance (once applied EF is in)</div></div>
+  </div>
+  <ul>
+    <li><strong>Applied EF carries unique weight</strong> over core EF and over IQ. This matches the literature (Barkley &amp; Murphy; Dekker; ADEXI incremental validity).</li>
+    <li><strong>Core EF mostly shares variance</strong> with applied EF rather than adding its own. Once the everyday layer is in the model, the raw capacity contributes almost nothing new, exactly the head-to-head pattern from the prior slide.</li>
+    <li><strong>ARC needs add a modest unique slice.</strong> Consistent with an independent finding that an ARC-style measure explained 33% of first-year GPA, but overlaps with EF, so its <em>unique</em> contribution is smaller (Graham &amp; Vaughan, 2022).</li>
+    <li><strong>Motivation and EF share a lot.</strong> They are tangled, not independent, which is why integrated coaching beats fixing one then the other (Part 3).</li>
+  </ul>
+  <blockquote>Plain takeaway: of everything C2A measures, the everyday/applied EF layer is the one that uniquely predicts durable skills. Core EF is real but redundant for this purpose; motivation matters but overlaps. That is the empirical case for leading the Coach View with applied EF, and the next slide flags why we should still hold that number loosely.</blockquote>
+</div>
+
+<!-- 9 PART2 CAVEATS (expanded) -->
+<div class="slide">
+  <div class="slide-num"><span class="part">Part 2 · Unique vs. Shared Variance</span> &nbsp;|&nbsp; Section 09 of 23</div>
+  <h2>The Caveats We Say Out Loud First</h2>
+  <p>The pattern is real and well-supported. But before we put a hard number like "17%" in front of a funder, there are three honest objections a measurement scientist will raise, so we raise them ourselves.</p>
+  <div class="finding-card"><h4>1. Shared-method overlap inflates the number</h4>
+    <p style="margin-bottom:0;">We measure applied EF and durable skills the <em>same way</em>: self-report, same sitting. When predictor and outcome share a method, some of the apparent link is the method talking to itself, not a true effect (Suchy et al., 2024). Part of our 17% could be inflation. Note too: a measure that <em>resembles</em> real life (verisimilitude) is not automatically better at <em>predicting</em> it (veridicality).</p></div>
+  <div class="finding-card"><h4>2. We measure our most important layer most thinly</h4>
+    <p style="margin-bottom:0;">The layer doing all the predictive work is the one we capture least well. Working memory gets a 9-item validated scale, but task initiation, self-monitoring, and emotional regulation are derived from short, <em>double-duty</em> personality items, and organization and sustained attention are not measured at all. We are leaning hardest on our flimsiest measurement.</p></div>
+  <div class="finding-card"><h4>3. We have not shown the 16 constructs are truly distinct</h4>
+    <p style="margin-bottom:0;">These constructs overlap heavily (that is the shared-variance story), and in our NLU data the four skill "pillars" did <em>not</em> behave as distinct groups, skills inside a pillar were no more related to each other than to skills in other pillars. Fair question: are we reporting 16 labels for maybe 3 or 4 underlying factors? We should test the discriminant validity of our own measures, not just assume it.</p></div>
+  <h4>What would make the case bulletproof</h4>
+  <p>Add one outcome not from the same self-report sitting (a coach rating, behavioral log, or later-timepoint score); run a factor analysis to see how many distinct things we actually measure; and remember n=32 is small (our optimism-corrected estimate already fell from 62.5% to about 53%). Treat the figures as directional until the next cohort.</p>
+</div>
+
+<!-- 10 PART3 ENGINE -->
+<div class="slide">
+  <div class="slide-num"><span class="part">Part 3 · The Applied Work</span> &nbsp;|&nbsp; Section 10 of 23</div>
+  <h2>The Engine: Core Executive Function</h2>
+  <p>The big practical lesson: you mostly <em>work around</em> these, you don't train them up.</p>
+  <div class="card-grid">
+    <div class="cc"><h4>Working Memory <span class="badge b-high">High</span></h4>
+      <p><span class="lab">What it is:</span> Holding information in mind long enough to use it.</p>
+      <p><span class="lab">C2A measure:</span> ADEXI (9 items).</p>
+      <p><span class="lab">Coach move:</span> Compensate only, external tools, simpler environment. Do not try to train it (three meta-analyses, N greater than 3,000, show no far-transfer).</p>
+      <p><span class="lab">Durable-skill link:</span> Critical Thinking, Communication.</p>
+    </div>
+    <div class="cc"><h4>Inhibitory Control <span class="badge b-high">High</span></h4>
+      <p><span class="lab">What it is:</span> The brake pedal, stopping an automatic reaction.</p>
+      <p><span class="lab">C2A measure:</span> ADEXI (5 items).</p>
+      <p><span class="lab">Coach move:</span> Mostly accommodate/compensate; modest direct trainability (d=0.378) via behavioral practice, not brain games.</p>
+      <p><span class="lab">Durable-skill link:</span> Empathy, Collaboration.</p>
+    </div>
+    <div class="cc"><h4>Cognitive Flexibility <span class="badge b-mod">Moderate</span></h4>
+      <p><span class="lab">What it is:</span> Switching gears when the situation changes.</p>
+      <p><span class="lab">C2A measure:</span> C2A-CF (Yoshida CFQ, 4 items).</p>
+      <p><span class="lab">Coach move:</span> Trainable only in context (d=0.37); use real scenarios, not generic computer training.</p>
+      <p><span class="lab">Durable-skill link:</span> Creative Problem Solving, Adaptability, Resilience (predicts it better than inhibition does).</p>
+    </div>
+    <div class="cc" style="background:var(--sand);"><h4>Headline for coaches</h4>
+      <p style="color:var(--navy);">Working memory is <strong>compensate-only</strong>, the single biggest correction to old coach guidance. Offload it to tools, do not try to build it.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 11 PART3 DAILY OPS -->
+<div class="slide">
+  <div class="slide-num"><span class="part">Part 3 · The Applied Work</span> &nbsp;|&nbsp; Section 11 of 23</div>
+  <h2>Daily Operations: The Highest-Leverage Skills</h2>
+  <div class="card-grid">
+    <div class="cc"><h4>Time Management <span class="badge b-high">High</span></h4>
+      <p><span class="lab">What it is:</span> Estimating how long things take and getting them done.</p>
+      <p><span class="lab">C2A measure:</span> Can be dual-scored from 3 existing ADEXI items; no standalone scale yet.</p>
+      <p><span class="lab">Coach move:</span> Full toolkit with RCT support (calendars, time-estimation practice, group coaching, gains held at 3 months). Fixing it cascades into better regulation and initiation.</p>
+      <p><span class="lab">Durable-skill link:</span> Initiative.</p>
+    </div>
+    <div class="cc"><h4>Organization <span class="badge b-mod">Moderate</span></h4>
+      <p><span class="lab">What it is:</span> Keeping things and information in order.</p>
+      <p><span class="lab">C2A measure:</span> <strong>Not measured</strong> (no items). Coaching conversation.</p>
+      <p><span class="lab">Coach move:</span> Systems, templates, tech; usually bundled with time management.</p>
+      <p><span class="lab">Durable-skill link:</span> Daily-Operations cluster.</p>
+    </div>
+    <div class="cc"><h4>Planning / Prioritization <span class="badge b-mod">Moderate</span></h4>
+      <p><span class="lab">What it is:</span> Mapping steps to a goal and deciding what comes first.</p>
+      <p><span class="lab">C2A measure:</span> Partial via ADEXI; otherwise inferred.</p>
+      <p><span class="lab">Coach move:</span> <em>Newly upgraded.</em> Direct instruction works (d=0.64 to 0.87); "if-then" plans are brief and effective. Teach it explicitly.</p>
+      <p><span class="lab">Durable-skill link:</span> Communication (secondary).</p>
+    </div>
+    <div class="cc" style="background:var(--sand);"><h4>Headline for coaches</h4>
+      <p style="color:var(--navy);">Time management and organization are <strong>Priority 1</strong>: strongest evidence, biggest payoff. Note the gap, organization has no items, so it lives in the conversation for now.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 12 PART3 REGULATION -->
+<div class="slide">
+  <div class="slide-num"><span class="part">Part 3 · The Applied Work</span> &nbsp;|&nbsp; Section 12 of 23</div>
+  <h2>Regulation and Activation: Feeling and Getting Started</h2>
+  <div class="card-grid">
+    <div class="cc"><h4>Emotional Regulation <span class="badge b-mod">Moderate</span></h4>
+      <p><span class="lab">What it is:</span> Managing feelings so they don't hijack the task.</p>
+      <p><span class="lab">C2A measure:</span> Applied-EF, via shared personality items (Emotional Control).</p>
+      <p><span class="lab">Coach move:</span> Often improves <em>indirectly</em>, stabilize daily operations first; needs-based coaching helps it as a side effect.</p>
+      <p><span class="lab">Durable-skill link:</span> Resilience (via cognitive flexibility).</p>
+    </div>
+    <div class="cc"><h4>Task Initiation <span class="badge b-mod">Mod (upgraded)</span></h4>
+      <p><span class="lab">What it is:</span> Getting started without putting it off.</p>
+      <p><span class="lab">C2A measure:</span> Applied-EF, via shared items (Initiate).</p>
+      <p><span class="lab">Coach move:</span> <em>Newly upgraded.</em> Behavioral activation works (d=0.49); a 30-minute "if-then" exercise raised goal-directed work 60%.</p>
+      <p><span class="lab">Durable-skill link:</span> Initiative (primary).</p>
+    </div>
+    <div class="cc"><h4>Self-Monitoring <span class="badge b-mod">Mod (upgraded)</span></h4>
+      <p><span class="lab">What it is:</span> Noticing how you're doing and adjusting.</p>
+      <p><span class="lab">C2A measure:</span> Applied-EF, via shared items (Self-Monitor).</p>
+      <p><span class="lab">Coach move:</span> <em>Newly upgraded.</em> "Goal-Plan-Do-Check" generalized to new tasks in a clean trial; build it into the coaching cycle.</p>
+      <p><span class="lab">Durable-skill link:</span> Relationship Building.</p>
+    </div>
+    <div class="cc"><h4>Sustained Attention <span class="badge b-low">Low</span></h4>
+      <p><span class="lab">What it is:</span> Staying focused over time.</p>
+      <p><span class="lab">C2A measure:</span> <strong>Not measured</strong> (no items).</p>
+      <p><span class="lab">Coach move:</span> Weakest evidence. CBT helps the <em>feeling</em> of inattention; capacity training is unproven. Reduce distraction, add physical activity.</p>
+      <p><span class="lab">Durable-skill link:</span> Not directly assigned.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 13 PART3 WHATS NEW -->
+<div class="slide">
+  <div class="slide-num"><span class="part">Part 3 · The Applied Work</span> &nbsp;|&nbsp; Section 13 of 23</div>
+  <h2>What's New: Four Skills Moved From Opinion to Evidence</h2>
+  <p>Until now, four EF skills rested only on the Dawson &amp; Guare clinical framework, which has never itself been tested in a trial. Fresh searching for this report found controlled studies that upgrade three and honestly bound the fourth.</p>
+  <table>
+    <thead><tr><th>Skill</th><th>Before</th><th>Now</th><th>What a coach can cite</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Task Initiation</strong></td><td>Clinical consensus</td><td><span class="badge b-mod">Controlled evidence</span></td><td>Behavioral activation (RCT, d=0.49); a 30-min if-then plan raised goal-directed work 60% (Duckworth 2011).</td></tr>
+      <tr><td><strong>Planning</strong></td><td>Bundled only</td><td><span class="badge b-mod">Directly teachable</span></td><td>Direct instruction of planning works (d=0.64 to 0.87; Zepeda 2015).</td></tr>
+      <tr><td><strong>Self-Monitoring</strong></td><td>Clinical consensus</td><td><span class="badge b-mod">Controlled evidence</span></td><td>Goal-Plan-Do-Check generalized to new tasks (RCT, N=87); strategic-mindset field experiment (N=1,070).</td></tr>
+      <tr><td><strong>Sustained Attention</strong></td><td>Clinical consensus</td><td><span class="badge b-low">Still weak</span></td><td>CBT improves inattention symptoms (Cochrane), but capacity-training trial was null.</td></tr>
+    </tbody>
+  </table>
+  <p>Honest bound: a 2026 review screened 8,237 EF-in-higher-education studies and found only 28 usable, mostly observational. The new evidence is real and usable, but the strongest trials are still in ADHD or brain-injury groups, and keeping gains without ongoing coaching is an open question.</p>
+</div>
+
+<!-- 14 PART3 ARC -->
+<div class="slide">
+  <div class="slide-num"><span class="part">Part 3 · The Applied Work</span> &nbsp;|&nbsp; Section 14 of 23</div>
+  <h2>The Fuel, Part 1: ARC Psychological Needs</h2>
+  <p>Feeding these needs is an active intervention, not a nicety.</p>
+  <div class="card-grid">
+    <div class="cc"><h4>Autonomy <span class="badge b-high">High</span></h4>
+      <p><span class="lab">What it is:</span> Feeling you drive your own choices.</p>
+      <p><span class="lab">C2A measure:</span> BMPN-18.</p>
+      <p><span class="lab">Coach move:</span> Offer real choice and rationale. Choosing to prioritize family <em>is</em> autonomous, not a distraction.</p>
+    </div>
+    <div class="cc"><h4>Relatedness <span class="badge b-high">High</span></h4>
+      <p><span class="lab">What it is:</span> Feeling connected and genuinely seen.</p>
+      <p><span class="lab">C2A measure:</span> BMPN-18.</p>
+      <p><span class="lab">Coach move:</span> For NLU's population this is the <em>gateway</em>: until a student feels connected, other moves don't land. Lead here.</p>
+    </div>
+    <div class="cc"><h4>Competence <span class="badge b-high">High</span></h4>
+      <p><span class="lab">What it is:</span> Feeling capable of the challenge.</p>
+      <p><span class="lab">C2A measure:</span> BMPN-18.</p>
+      <p><span class="lab">Coach move:</span> Build through small real wins. Watch for need <em>frustration</em>, a separate dial needing its own repair.</p>
+    </div>
+    <div class="cc" style="background:var(--sand);"><h4>Why it matters</h4>
+      <p style="color:var(--navy);">Low-income students arrive with higher baseline need <strong>frustration</strong>, less fuel for learning new systems. Needs are universal across cultures, but the entry point shifts.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 15 PART3 MOTIVATION TYPE -->
+<div class="slide">
+  <div class="slide-num"><span class="part">Part 3 · The Applied Work</span> &nbsp;|&nbsp; Section 15 of 23</div>
+  <h2>The Fuel, Part 2: Motivation Type and the EF Tangle</h2>
+  <div class="card-grid">
+    <div class="cc"><h4>Motivation Type (GMS) <span class="badge b-high">High</span></h4>
+      <p><span class="lab">What it is:</span> The kind of motivation, from "I want to" to "why bother."</p>
+      <p><span class="lab">C2A measure:</span> GMS-Bookends (10 items).</p>
+      <p><span class="lab">Coach move:</span> Quality beats quantity. Watch for the language shift from "want to" toward "should", the early warning that effort has turned fragile.</p>
+    </div>
+    <div class="cc"><h4>Amotivation (warning light) <span class="badge b-mod">Moderate</span></h4>
+      <p><span class="lab">What it is:</span> No drive, checked out.</p>
+      <p><span class="lab">C2A measure:</span> GMS-Bookends.</p>
+      <p><span class="lab">Coach move:</span> Breaks attendance and effort before grades. Treat as "fix the fuel," not "add more structure."</p>
+    </div>
+    <div class="cc"><h4>Motivation x EF <span class="badge b-mod">Moderate</span></h4>
+      <p><span class="lab">What it is:</span> Motivation and EF are tangled (they share variance), not separate problems. They also feed each other: repeated failure erodes motivation, and weak motivation makes EF effort exhausting.</p>
+      <p><span class="lab">Coach move:</span> Work on both at once. The largest effect in the EF coaching literature (d=1.10 for self-regulation) blended motivation support with skill-building.</p>
+    </div>
+    <div class="cc" style="background:var(--sand);"><h4>The one exception</h4>
+      <p style="color:var(--navy);">A student in acute need frustration needs a brief <strong>relatedness-first</strong> stabilization before skill work. A defensive brain can't absorb new strategies. (Basis for the triage step.)</p>
+    </div>
+  </div>
+</div>
+
+<!-- 16 PART3 FRAMING + MONEY -->
+<div class="slide">
+  <div class="slide-num"><span class="part">Part 3 · The Applied Work</span> &nbsp;|&nbsp; Section 16 of 23</div>
+  <h2>The Road, Part 1: Framing and Financial Stress</h2>
+  <div class="card-grid">
+    <div class="cc"><h4>Strengths-First Framing <span class="badge b-mod">Moderate</span></h4>
+      <p><span class="lab">What it is:</span> How a profile is presented changes outcomes.</p>
+      <p><span class="lab">C2A measure:</span> Report-design rule, not a score.</p>
+      <p><span class="lab">Coach move:</span> "Strengths first, growth included." Frame growth as "growing edges" tied to a strength, never deficits. A balanced profile beats Pollyanna and beats deficit-first.</p>
+      <p><span class="lab">Why:</span> The effect is <em>larger</em> for racially marginalized students, NLU's cohort.</p>
+    </div>
+    <div class="cc"><h4>Financial Precarity <span class="badge b-high">High</span></h4>
+      <p><span class="lab">What it is:</span> Money stress is a temporary tax on the EF skills C2A measures.</p>
+      <p><span class="lab">C2A measure:</span> Not measured, a context flag worth adding.</p>
+      <p><span class="lab">Coach move:</span> Flag, don't label. A stressed student's low EF is partly stress, not stable capacity. Resource navigation may restore more than memory exercises.</p>
+      <p><span class="lab">Why:</span> Largely reversible (same person scores worse stressed, better when it lifts).</p>
+    </div>
+  </div>
+  <details><summary>The numbers (Shields 2016, 51 studies)</summary>
+  <p>Money stress impairs working memory (g=-0.20), cognitive flexibility (g=-0.30), and cognitive inhibition (g=-0.21), but slightly <em>enhances</em> response inhibition (g=+0.30). The recognizable pattern: working memory and flexibility down, response inhibition normal or up, points to a stress state rather than stable weakness. A first assessment from a stressed student is a snapshot of their situation, not a verdict on their potential.</p>
+  </details>
+</div>
+
+<!-- 17 PART3 TRAUMA + CULTURE -->
+<div class="slide">
+  <div class="slide-num"><span class="part">Part 3 · The Applied Work</span> &nbsp;|&nbsp; Section 17 of 23</div>
+  <h2>The Road, Part 2: Trauma and Culture</h2>
+  <div class="card-grid">
+    <div class="cc"><h4>Trauma-Informed Coaching <span class="badge b-mod">Moderate</span></h4>
+      <p><span class="lab">What it is:</span> Adjusting when history and stress show up as EF struggles.</p>
+      <p><span class="lab">C2A measure:</span> Not assessed, a coach triage judgment.</p>
+      <p><span class="lab">Coach move:</span> "Stabilize first, and know your lane." Build safety before skills (Protect-Connect-Respect-Redirect). Coaching teaches coping and self-regulation; it does not diagnose or treat. Refer on the bright lines (suicidal ideation, acute crisis, persistent impairment, "if you have to ask, refer").</p>
+    </div>
+    <div class="cc"><h4>Cross-Cultural Factors <span class="badge b-high">High</span></h4>
+      <p><span class="lab">What it is:</span> How culture shapes the coaching relationship.</p>
+      <p><span class="lab">C2A measure:</span> Not measured, a coaching posture.</p>
+      <p><span class="lab">Coach move:</span> "Relatedness first, and don't generalize." Honor existing networks; differentiate guidance for Black vs. Latinx learners, not one template.</p>
+      <p><span class="lab">Why:</span> Group-specific adaptation is about 4x more effective than generic; what the <em>student</em> perceives as cultural competence predicts outcomes (r=0.38), the coach's self-rating does not (r=0.06).</p>
+    </div>
+  </div>
+</div>
+
+<!-- 18 PART3 CROSSWALK (NEW) -->
+<div class="slide">
+  <div class="slide-num"><span class="part">Part 3 · The Applied Work</span> &nbsp;|&nbsp; Section 18 of 23</div>
+  <h2>The Payoff Map: Which Construct Drives Which Durable Skill</h2>
+  <p>This is the crosswalk a coach would pin to the wall. For each durable skill, the executive-function or motivation construct that most supports it. Use it to turn a profile pattern into a coaching focus.</p>
+  <table>
+    <thead><tr><th>Durable skill</th><th>Primary driver(s)</th><th>Coaching note</th></tr></thead>
+    <tbody>
+      <tr><td>Critical Thinking</td><td>Working Memory</td><td>Compensate with external memory tools; don't try to train the capacity.</td></tr>
+      <tr><td>Creative Problem Solving</td><td>Cognitive Flexibility</td><td>Practice switching approaches in real scenarios.</td></tr>
+      <tr><td>Adaptability</td><td>Cognitive Flexibility</td><td>Same lever; build tolerance for changed plans.</td></tr>
+      <tr><td>Resilience</td><td>Cognitive Flexibility + Emotional Regulation</td><td><em>Corrected mapping:</em> flexibility, not inhibition, is the proximal driver of bouncing back.</td></tr>
+      <tr><td>Initiative</td><td>Task Initiation + Autonomy (need)</td><td>Behavioral activation plus genuine ownership of the goal.</td></tr>
+      <tr><td>Empathy</td><td>Inhibitory Control</td><td>Managing one's own automatic reaction to take another's view.</td></tr>
+      <tr><td>Collaboration</td><td>Inhibitory Control</td><td>Regulating social responses in group work.</td></tr>
+      <tr><td>Communication</td><td>Working Memory + Planning</td><td>Hold the thread; plan the message.</td></tr>
+      <tr><td>Relationship Building</td><td>Self-Monitoring</td><td>Notice and adjust in the moment; metacognitive check-ins.</td></tr>
+      <tr><td>Social Awareness</td><td>Cognitive Flexibility</td><td>Supports perspective-taking.</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Read this as moderate-confidence, not law.</strong> It assigns one primary driver per skill for clarity, but social skills in particular draw on all three core EFs at once, and these are mappings from the literature, not yet confirmed in our own data. Motivation type sits underneath every row: it decides whether the coached skill sticks.</p>
+</div>
+
+<!-- 19 PART3 STABILIZE -->
+<div class="slide">
+  <div class="slide-num"><span class="part">Part 3 · The Applied Work</span> &nbsp;|&nbsp; Section 19 of 23</div>
+  <h2>The Unifying Principle: Stabilize First, Then Build</h2>
+  <p>The single most important finding is a sequencing rule that emerged <em>independently in all six research streams</em>, which is what makes it trustworthy.</p>
+  <table>
+    <thead><tr><th>Research stream</th><th>Its version of "stabilize first"</th></tr></thead>
+    <tbody>
+      <tr><td>Motivation x EF</td><td>Address need frustration before skill-building</td></tr>
+      <tr><td>Positive psychology</td><td>Lead with strengths before growth areas</td></tr>
+      <tr><td>Financial precarity</td><td>Navigate resources (aid) before training EF</td></tr>
+      <tr><td>EF spectrum</td><td>Accommodate before strengthen</td></tr>
+      <tr><td>Trauma-informed</td><td>Establish safety before coaching</td></tr>
+      <tr><td>Cross-cultural</td><td>Build relatedness before autonomy</td></tr>
+    </tbody>
+  </table>
+  <h4>What it means for the RISE coaching cycle</h4>
+  <p>RISE today jumps straight to Recognize. The recommendation is a quick <strong>triage (context-check) step in front</strong>: Is this student in acute need frustration? Is financial stress distorting the profile? Is it being read through a deficit lens? Does trauma history call for different sequencing? The biology backs it up: a dysregulated stress system cannot support new skill acquisition until baseline safety exists.</p>
+</div>
+
+<!-- 20 PART3 MEASUREMENT MAP -->
+<div class="slide">
+  <div class="slide-num"><span class="part">Part 3 · The Applied Work</span> &nbsp;|&nbsp; Section 20 of 23</div>
+  <h2>What C2A Actually Measures (and the Gaps)</h2>
+  <p>Not every construct is scored. Knowing the difference keeps the Coach View honest, and as the caveats slide warned, our most predictive layer is also our most thinly measured.</p>
+  <table>
+    <thead><tr><th>Construct</th><th>How C2A captures it</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Working Memory, Inhibition</td><td>ADEXI (14 items)</td><td><span class="badge b-high">Measured</span></td></tr>
+      <tr><td>Cognitive Flexibility</td><td>C2A-CF / Yoshida CFQ (4 items)</td><td><span class="badge b-high">Measured</span></td></tr>
+      <tr><td>Task Initiation, Self-Monitoring, Emotional Regulation</td><td>Applied-EF via shared personality (IPIP) items</td><td><span class="badge b-mod">Measured (indirect)</span></td></tr>
+      <tr><td>Time Management</td><td>Dual-scorable from 3 ADEXI items</td><td><span class="badge b-mod">Derivable</span></td></tr>
+      <tr><td>Planning / Prioritization</td><td>Partial via ADEXI; otherwise inferred</td><td><span class="badge b-mod">Partial</span></td></tr>
+      <tr><td>ARC needs</td><td>BMPN-18 (18 items)</td><td><span class="badge b-high">Measured</span></td></tr>
+      <tr><td>Motivation type (GMS)</td><td>GMS-Bookends (10 items)</td><td><span class="badge b-high">Measured</span></td></tr>
+      <tr><td><strong>Organization</strong></td><td>No items; coaching conversation only</td><td><span class="badge b-crit">Gap</span></td></tr>
+      <tr><td><strong>Sustained Attention</strong></td><td>No items</td><td><span class="badge b-crit">Gap</span></td></tr>
+      <tr><td>Framing, Financial stress, Trauma, Culture</td><td>Coaching posture / report design / context flags</td><td><span class="badge b-na">Not a score</span></td></tr>
+    </tbody>
+  </table>
+  <p>The two true gaps (Organization, Sustained Attention) need a decision: add items, derive a proxy, or formally route to the coaching conversation. Time management's dual-score path is the cheapest win.</p>
+</div>
+
+<!-- 21 RECOMMENDATIONS -->
+<div class="slide">
+  <div class="slide-num">Section 21 of 23</div>
+  <h2>What This Means for Us</h2>
+  <div class="finding-card"><h4><span class="badge b-high">High</span> &nbsp;Lead the Coach View with applied EF</h4>
+    <p style="margin-bottom:0;">It is the layer that uniquely predicts durable skills and the one coaches can act on. Time management and organization first; planning, task initiation, and self-monitoring are now evidence-backed enough to surface with confidence.</p></div>
+  <div class="finding-card"><h4><span class="badge b-high">High</span> &nbsp;Compensate for the Engine, don't train it; tell coaches the cross-cutting lever</h4>
+    <p style="margin-bottom:0;">Make "working memory is compensate-only" explicit in coach training. And give every coach the one lever that lifts several EF skills at once: regular physical activity (g=0.56).</p></div>
+  <div class="finding-card"><h4><span class="badge b-high">High</span> &nbsp;Treat motivation type and needs as the durability layer</h4>
+    <p style="margin-bottom:0;">A strong skill under pressured motivation is fragile. Give coaches the ARC and motivation reading as the "will it stick" lens, relatedness first for this population. Add the 60-second triage check before RISE's Recognize step.</p></div>
+  <div class="finding-card"><h4><span class="badge b-crit">Critical</span> &nbsp;Shore up the measurement before publishing the number</h4>
+    <p style="margin-bottom:0;">Add a method-independent outcome (coach rating, behavioral log, or later-timepoint score) so the applied-EF advantage can't be dismissed as shared-method inflation; run a factor analysis to test whether the 16 constructs are distinct; and strengthen how we capture the applied-EF skills (more than double-duty items). Highest-leverage work for the SBIR.</p></div>
+  <div class="finding-card"><h4><span class="badge b-crit">Decision</span> &nbsp;Close the two measurement gaps</h4>
+    <p style="margin-bottom:0;">Decide what to do about Organization and Sustained Attention (add items, proxy, or conversation). Start with the cheap win: dual-score time management from the 3 existing ADEXI items.</p></div>
+  <h4>Open questions for the next cohort</h4>
+  <ul>
+    <li><strong>The big one:</strong> we have shown applied EF <em>predicts</em> durable skills and that these skills are <em>trainable</em>, but not that coaching them actually <em>raises</em> durable skills and real-world outcomes for our population. Proving that full chain is the central thing to test.</li>
+    <li>Does applied EF still predict durable skills against a coach-rated or later-timepoint outcome?</li>
+    <li>Do the 16 constructs hold up as distinct factors in our own data?</li>
+    <li>Should organization and sustained attention get dedicated items, or stay in the conversation?</li>
+  </ul>
+</div>
+
+<!-- 22 EVIDENCE QUALITY -->
+<div class="slide">
+  <div class="slide-num">Section 22 of 23</div>
+  <h2>Evidence Quality Summary</h2>
+  <div class="stat-row">
+    <div class="stat"><div class="num">~285</div><div class="lbl">Studies behind this report</div></div>
+    <div class="stat"><div class="num">16</div><div class="lbl">Constructs profiled</div></div>
+    <div class="stat"><div class="num">3</div><div class="lbl">EF skills upgraded to controlled evidence</div></div>
+    <div class="stat"><div class="num">2</div><div class="lbl">True measurement gaps</div></div>
+  </div>
+  <h4>Strongest evidence</h4>
+  <p>The correspondence problem and ratings-beat-tests for real-world outcomes (multiple high-validity reviews; Toplak 2013; Barkley &amp; Murphy 2010; Chaytor 2006; Cortes Pascual 2019). Working memory is compensate-only (3 meta-analyses). The universal "stabilize first" sequence (6 independent streams). ARC needs and cultural-adaptation effects (large meta-analyses). Financial stress as a reversible tax (51-study meta-analysis). Coaching improves self-regulation (Field 2013 RCT; Anderson &amp; Marino 17-study review).</p>
+  <h4>Weakest / honest gaps</h4>
+  <ul>
+    <li><strong>The causal chain is unproven end to end:</strong> nobody has yet shown that coaching these EF skills raises durable skills and real-world outcomes for our population.</li>
+    <li><strong>Population mismatch:</strong> most of this evidence comes from clinical, ADHD, or brain-injury groups, while NLU's cohort is non-clinical, working-adult, and majority Black and Latinx. Generalization is reasonable but largely untested.</li>
+    <li>Our headline number rests partly on shared-method variance until a method-independent outcome is added, and the 16 constructs are not yet shown to be distinct.</li>
+    <li>Sustained attention as a trainable capacity stays unproven; "durable skill" as a named outcome is mostly inferred from close cousins (GPA, job functioning, daily living).</li>
+    <li>Keeping skill gains without ongoing coaching is an open question.</li>
+  </ul>
+  <p>This master report supersedes the two earlier drafts (applied-EF briefing and the construct compendium) and extends the six underlying NLU research reports, which remain the detailed source material.</p>
+</div>
+
+<!-- 23 BIBLIOGRAPHY -->
+<div class="slide">
+  <div class="slide-num">Section 23 of 23</div>
+  <h2>Bibliography (Selected)</h2>
+  <h4>Measurement: performance vs. rating, unique vs. shared variance</h4>
+  <ul>
+    <li>Toplak, M.E., West, R.F., &amp; Stanovich, K.E. (2013). Do performance-based measures and ratings of EF assess the same construct? <em>JCPP</em>. <a href="https://doi.org/10.1111/jcpp.12001" target="_blank">10.1111/jcpp.12001</a> | High</li>
+    <li>Barkley, R.A., &amp; Murphy, K.R. (2010). Occupational functioning and adult ADHD: EF ratings vs. tests. <em>Arch Clin Neuropsychol</em>. <a href="https://doi.org/10.1093/arclin/acq014" target="_blank">10.1093/arclin/acq014</a> | High</li>
+    <li>Chaytor, N., Schmitter-Edgecombe, M., &amp; Burr, R. (2006). Improving ecological validity of EF assessment. <em>Arch Clin Neuropsychol</em>. <a href="https://doi.org/10.1016/j.acn.2005.12.002" target="_blank">10.1016/j.acn.2005.12.002</a> | High</li>
+    <li>Suchy, Y., et al. (2024). Pitfalls in ecological-validity research on EF tests. <em>Psychol Assess</em>. <a href="https://doi.org/10.1037/pas0001297" target="_blank">10.1037/pas0001297</a> | High</li>
+    <li>Dijkhuis, R., et al. (2020). Autism symptoms, EF and academic progress. <em>JADD</em>. <a href="https://doi.org/10.1007/s10803-019-04267-8" target="_blank">10.1007/s10803-019-04267-8</a> | Moderate</li>
+    <li>Dekker, M.C., et al. (2017). Cognitive vs. rating EF measures and achievement. <em>Front Psychol</em>. <a href="https://doi.org/10.3389/fpsyg.2017.00048" target="_blank">10.3389/fpsyg.2017.00048</a> | Moderate</li>
+    <li>Cortes Pascual, A., et al. (2019). EF and academic performance: meta-analysis. <em>Front Psychol</em>. <a href="https://doi.org/10.3389/fpsyg.2019.01582" target="_blank">10.3389/fpsyg.2019.01582</a> | High</li>
+    <li>Karr, J.E., et al. (2018). Unity and diversity of EF: systematic re-analysis. <em>Psychol Bull</em>. <a href="https://doi.org/10.1037/bul0000160" target="_blank">10.1037/bul0000160</a> | High</li>
+  </ul>
+  <h4>EF interventions and coaching</h4>
+  <ul>
+    <li>Sala, G., &amp; Gobet (2019). Working-memory training far-transfer null. <a href="https://doi.org/10.1016/j.intell.2019.101386" target="_blank">10.1016/j.intell.2019.101386</a> | High</li>
+    <li>Zepeda, C.D., et al. (2015). Direct instruction of metacognition (planning). ERIC <a href="https://eric.ed.gov/?id=EJ1082661" target="_blank">EJ1082661</a> | High</li>
+    <li>Duckworth, A.L., et al. (2011). Mental contrasting + implementation intentions. ERIC <a href="https://eric.ed.gov/?id=EJ911106" target="_blank">EJ911106</a> | High</li>
+    <li>Field, S., et al. (2013). ADHD coaching RCT (LASSI). ERIC <a href="https://eric.ed.gov/?id=EJ1026813" target="_blank">EJ1026813</a> | High</li>
+    <li>Dawson, D.R., et al. (2025). CO-OP vs usual OT (RCT). <a href="https://doi.org/10.3390/brainsci15111195" target="_blank">10.3390/brainsci15111195</a> | Moderate</li>
+    <li>Anderson, K., &amp; Marino, M.T. (2024). EF coaching for college students with disabilities (review). ERIC <a href="https://eric.ed.gov/?id=EJ1445898" target="_blank">EJ1445898</a> | Moderate</li>
+  </ul>
+  <h4>Motivation, needs, and context</h4>
+  <ul>
+    <li>Ryan, R.M., &amp; Deci, E.L. (2020). Self-determination theory. <a href="https://doi.org/10.1016/j.cedpsych.2020.101860" target="_blank">10.1016/j.cedpsych.2020.101860</a> | High</li>
+    <li>Garn, A.C., Morin, A.J.S., &amp; Lonsdale, C. (2019). Need satisfaction longitudinal mediation. ERIC <a href="https://eric.ed.gov/?id=EJ1205226" target="_blank">EJ1205226</a> | High (n=1,789)</li>
+    <li>Graham, M., &amp; Vaughan, A. (2022). Self-determination and first-year achievement. ERIC <a href="https://eric.ed.gov/?id=EJ1345545" target="_blank">EJ1345545</a> | Moderate</li>
+    <li>Field, S., et al. (2013). Integrated EF + motivation coaching, d=1.10. <a href="https://doi.org/10.1177/0748175613491691" target="_blank">10.1177/0748175613491691</a> | Moderate</li>
+    <li>Shields, G.S., et al. (2016). Stress and cognition meta-analysis (51 studies). | High</li>
+    <li>Griner, D., &amp; Smith, T.B. (2006). Culturally adapted interventions meta-analysis. | High</li>
+  </ul>
+  <p style="font-size:13px;color:var(--warm-grey);">Underlying reports (detailed source): NLU Coach View Executive Briefing (142 papers); EF Spectrum x Accommodate/Compensate/Strengthen (21); EF + SDT/ARC Durable-Skills Mapping (28); Motivation x EF Interaction (22); Trauma-Informed Coaching (24); Cross-Cultural Coaching Factors (27); plus this session's applied-EF and gap-search findings.</p>
+</div>
+
+</div>
+<div class="index-bar">
+  <button class="idx-chip" onclick="goTo(0)">Summary</button>
+  <button class="idx-chip" onclick="goTo(1)">The Map</button>
+  <span class="idx-sep">P1</span>
+  <button class="idx-chip" onclick="goTo(2)">EF Concepts</button>
+  <button class="idx-chip" onclick="goTo(3)">Motivation Concepts</button>
+  <button class="idx-chip" onclick="goTo(4)">Durable + Context</button>
+  <span class="idx-sep">P2</span>
+  <button class="idx-chip" onclick="goTo(5)">The Question</button>
+  <button class="idx-chip" onclick="goTo(6)">Perf vs Rating</button>
+  <button class="idx-chip" onclick="goTo(7)">Unique vs Shared</button>
+  <button class="idx-chip" onclick="goTo(8)">Caveats</button>
+  <span class="idx-sep">P3</span>
+  <button class="idx-chip" onclick="goTo(9)">Engine</button>
+  <button class="idx-chip" onclick="goTo(10)">Daily Ops</button>
+  <button class="idx-chip" onclick="goTo(11)">Regulation</button>
+  <button class="idx-chip" onclick="goTo(12)">What's New</button>
+  <button class="idx-chip" onclick="goTo(13)">ARC</button>
+  <button class="idx-chip" onclick="goTo(14)">Motivation</button>
+  <button class="idx-chip" onclick="goTo(15)">Framing + Money</button>
+  <button class="idx-chip" onclick="goTo(16)">Trauma + Culture</button>
+  <button class="idx-chip" onclick="goTo(17)">Crosswalk</button>
+  <button class="idx-chip" onclick="goTo(18)">Stabilize First</button>
+  <button class="idx-chip" onclick="goTo(19)">Measure Map</button>
+  <span class="idx-sep">|</span>
+  <button class="idx-chip" onclick="goTo(20)">What It Means</button>
+  <button class="idx-chip" onclick="goTo(21)">Evidence</button>
+  <button class="idx-chip" onclick="goTo(22)">Bibliography</button>
+  <div class="idx-arrows">
+    <button class="idx-arrow" onclick="prev()">&larr;</button>
+    <button class="idx-arrow" onclick="next()">&rarr;</button>
+  </div>
+</div>
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const chips = document.querySelectorAll('.idx-chip');
+const progress = document.getElementById('progress');
+function goTo(i) {
+  if (i < 0 || i >= slides.length) return;
+  slides[current].classList.remove('active');
+  chips[current].classList.remove('active');
+  current = i;
+  slides[current].classList.add('active');
+  chips[current].classList.add('active');
+  progress.style.width = ((current + 1) / slides.length * 100) + '%';
+}
+function next() { goTo(current + 1); }
+function prev() { goTo(current - 1); }
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+});
+slides[0].classList.add('active');
+chips[0].classList.add('active');
+progress.style.width = (1 / slides.length * 100) + '%';
+</script>
+</body>
+</html>
