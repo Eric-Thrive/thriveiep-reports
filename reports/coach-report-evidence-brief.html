@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Executive Function, Self-Determination, and Durable Skills: The Evidence for the Coach Report</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #1B2A4A; --navy-light: #2A3F6B;
+    --coral: #FF6B6B; --coral-soft: #FF8E8E;
+    --sand: #F5E6CC; --sand-light: #FDF8F0;
+    --teal: #2B8A8A; --gold: #D4A843;
+    --slate: #4A5568; --warm-grey: #8B7E6A;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--sand-light); color: var(--navy); line-height: 1.7; }
+  .layout { display: flex; max-width: 1280px; margin: 0 auto; }
+  /* sidebar nav */
+  .toc { position: sticky; top: 0; align-self: flex-start; width: 280px; height: 100vh; overflow-y: auto; padding: 32px 20px 60px; background: var(--navy); flex-shrink: 0; }
+  .toc h1 { color: #fff; font-size: 15px; font-weight: 800; line-height: 1.3; margin-bottom: 6px; }
+  .toc .sub { color: var(--coral-soft); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 24px; }
+  .toc a { display: block; color: rgba(255,255,255,0.6); font-size: 13px; font-weight: 500; text-decoration: none; padding: 6px 10px; border-radius: 6px; margin-bottom: 2px; }
+  .toc a:hover { color: #fff; background: var(--navy-light); }
+  .toc a.part { color: var(--gold); font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 16px; padding-bottom: 2px; }
+  .content { flex: 1; min-width: 0; padding: 56px 64px 120px; background: var(--sand-light); }
+  @media (max-width: 900px) { .toc { display: none; } .content { padding: 32px 22px 80px; } }
+  .content > header { border-bottom: 3px solid var(--coral); padding-bottom: 28px; margin-bottom: 16px; }
+  .content > header h1 { font-size: 36px; font-weight: 800; line-height: 1.12; margin-bottom: 14px; max-width: 920px; }
+  .content > header p { font-size: 17px; color: var(--slate); max-width: 860px; }
+  .meta-line { font-size: 12px; color: var(--warm-grey); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 16px; }
+  .draft-banner { background: #FCEBEA; border: 1px solid var(--coral); border-left: 5px solid var(--coral); border-radius: 8px; padding: 14px 20px; margin: 20px 0 4px; max-width: 880px; font-size: 14px; color: var(--navy); }
+  .draft-banner strong { color: #B23A48; text-transform: uppercase; letter-spacing: 0.04em; font-size: 12px; }
+  section { padding: 36px 0; border-bottom: 1px solid var(--sand); scroll-margin-top: 20px; }
+  .part-tag { display: inline-block; background: var(--coral); color: #fff; font-size: 12px; font-weight: 700; padding: 5px 14px; border-radius: 20px; letter-spacing: 0.05em; margin-bottom: 16px; text-transform: uppercase; }
+  h2 { font-size: 28px; font-weight: 800; line-height: 1.18; margin-bottom: 16px; max-width: 880px; }
+  h3 { font-size: 20px; font-weight: 700; margin: 26px 0 10px; max-width: 840px; }
+  h4 { font-size: 16px; font-weight: 700; color: var(--teal); margin: 18px 0 8px; }
+  p { font-size: 16px; color: var(--slate); margin-bottom: 14px; max-width: 860px; }
+  ul, ol { margin: 10px 0 16px 24px; font-size: 16px; color: var(--slate); max-width: 860px; }
+  li { margin-bottom: 8px; }
+  strong { color: var(--navy); font-weight: 700; }
+  em { color: var(--coral); font-style: normal; font-weight: 600; }
+  a { color: var(--teal); text-decoration: none; font-weight: 600; }
+  a:hover { text-decoration: underline; }
+  .lead { font-size: 19px; line-height: 1.65; color: var(--navy); font-weight: 500; max-width: 860px; margin-bottom: 18px; }
+  blockquote { background: var(--sand); border-left: 4px solid var(--coral); padding: 16px 22px; border-radius: 0 12px 12px 0; margin: 18px 0; font-size: 15px; color: var(--navy); max-width: 860px; }
+  table, .evidence-table { width: 100%; max-width: 980px; border-collapse: separate; border-spacing: 0; margin: 18px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  th { background: var(--navy); color: #fff; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 12px 14px; text-align: left; }
+  td { background: #fff; padding: 12px 14px; font-size: 14px; color: var(--slate); border-bottom: 1px solid var(--sand); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  .num { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--navy); white-space: nowrap; }
+  /* evidence-tier badges */
+  .tier { display: inline-block; padding: 2px 9px; border-radius: 5px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; background: var(--warm-grey); color: #fff; white-space: nowrap; }
+  .tier-high { background: var(--teal); color: #fff; }
+  .tier-mod { background: var(--gold); color: var(--navy); }
+  .tier-low { background: var(--warm-grey); color: #fff; }
+  /* collapsible stats blocks */
+  details { margin: 12px 0; max-width: 960px; background: #fff; border-radius: 10px; padding: 2px 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  summary { cursor: pointer; font-weight: 600; color: var(--teal); padding: 12px 0; font-size: 15px; }
+  details[open] summary { margin-bottom: 6px; border-bottom: 1px solid var(--sand); }
+  details p, details ul, details li, details td, details th { font-size: 13px; }
+  details table, details .evidence-table { box-shadow: none; }
+  details ul { margin-top: 8px; }
+  .callout { background: #FCEBEA; border-left: 4px solid var(--coral); border-radius: 0 12px 12px 0; padding: 14px 20px; margin: 16px 0; max-width: 860px; }
+  .callout strong { color: #B23A48; }
+  .note { background: #EAF3F3; border-left: 4px solid var(--teal); border-radius: 0 12px 12px 0; padding: 14px 20px; margin: 16px 0; max-width: 860px; font-size: 14px; }
+  .note p { font-size: 14px; margin-bottom: 6px; }
+  .note p:last-child { margin-bottom: 0; }
+  .coda { background: #EAF3F3; border-left: 4px solid var(--teal); border-radius: 0 12px 12px 0; padding: 16px 22px; margin: 22px 0 0; max-width: 880px; }
+  .coda h3 { color: var(--teal); margin-top: 0; font-size: 17px; }
+  .diagram { background: #fff; border-radius: 14px; padding: 26px; margin: 20px 0; max-width: 920px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .layers { display: flex; flex-direction: column; gap: 14px; }
+  .layer { border-radius: 10px; padding: 16px 20px; }
+  .layer-2 { background: #EAF3F3; border: 2px solid var(--teal); }
+  .layer-1 { background: var(--sand-light); border: 2px dashed var(--warm-grey); }
+  .layer .lbl { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .layer-2 .lbl { color: var(--teal); }
+  .layer-1 .lbl { color: var(--warm-grey); }
+  .layer .body { font-size: 14px; color: var(--navy); }
+  .layer-divider { text-align: center; font-size: 12px; color: var(--warm-grey); font-weight: 600; letter-spacing: 0.05em; }
+  .footnote { font-size: 13px; color: var(--warm-grey); max-width: 860px; }
+  .tldr { background: #FCF6E8; border-left: 5px solid var(--gold); border-radius: 0 10px 10px 0; padding: 13px 20px; margin: 6px 0 22px; max-width: 900px; }
+  .tldr .lbl { display: inline-block; background: var(--gold); color: var(--navy); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 9px; border-radius: 5px; margin-right: 10px; vertical-align: middle; }
+  .tldr .txt { font-size: 15px; color: var(--navy); font-weight: 600; line-height: 1.55; }
+  .tldr .txt em { color: var(--coral); font-weight: 700; font-style: normal; }
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="toc">
+  <h1>EF, Self-Determination &amp; Durable Skills</h1>
+  <div class="sub">Evidence for the Coach Report &middot; DRAFT</div>
+  <a href="#orientation">Orientation</a>
+  <a href="#background" class="part">Background</a>
+  <a href="#rq1" class="part">RQ1 &middot; EF x Motivation</a>
+  <a href="#rq3" class="part">RQ3 &middot; Predictors x Durable Skills</a>
+  <a href="#rq2" class="part">RQ2 &middot; Applied-EF Expansion</a>
+  <a href="#limits" class="part">Honest Limits &amp; Evidence Quality</a>
+  <a href="#bibliography" class="part">Bibliography</a>
+</nav>
+
+<main class="content">
+<header>
+  <h1>Executive Function, Self-Determination, and Durable Skills: The Evidence for the Coach Report</h1>
+  <p>A research brief for ThriveIEP leadership on what the published literature does, and does not, support putting into the coach report. It synthesizes three bodies of science (self-determination theory, executive function, and measurement methodology) across three research questions, tiers every empirical claim, and marks every gap honestly.</p>
+  <div class="meta-line">Prepared for ThriveIEP leadership &middot; Drawn from the published literature and the ThriveIEP research archive &middot; Instrument facts verified against C2A data files</div>
+  <div class="draft-banner"><strong>Draft v2 &middot; pending review.</strong> Updated 2026-06-01. Every cited DOI has been resolved against Crossref and every ERIC ID against the ERIC database, and a full bibliography now appears at the end. A handful of in-text citations were corrected to match the authoritative record (the corrections are listed at the foot of the bibliography). Effect sizes and instrument provenance still carry verification flags inline and should be re-confirmed before this brief is treated as final or published.</div>
+</header>
+
+<section id="orientation">
+  <span class="part-tag">Orientation</span>
+  <h2>What the coach report is for, and the two-layer model beneath it</h2>
+  <div class="tldr"><span class="lbl">TL;DR</span><span class="txt">Two reports, not one. The student report (already live) shows a student's level on 12 durable skills; this brief is about the coach view that explains <em>why</em> a skill is constrained. The whole design rests on a two-layer model: the durable skills on top, and a diagnostic "why" layer (EF, needs, motivation) <em>beneath</em> them, not beside them.</span></div>
+
+  <p class="lead">There are two reports, not one. The student report is already built and in production: it tells a student their level on each of the 12 durable skills. This brief is about the coach-facing view that complements it, giving a coach the diagnostic depth and "why" framing the student version does not surface. Part of that coach view already exists in the product: a coach dashboard that already shows some applied-EF detail (see "What ships today" below). The open question this brief informs is what the fuller coach report should contain, and how it should frame what is already there. Nothing here proposes changing the student report.</p>
+
+  <p>The whole design rests on a <strong>two-layer model</strong>, and getting this picture right is the single most important framing in the brief. The two layers are not peers stacked side by side. One sits beneath the other.</p>
+
+  <div class="diagram">
+    <div class="layers">
+      <div class="layer layer-2">
+        <div class="lbl">Layer 2 &middot; The reported outcome</div>
+        <div class="body"><strong>The 12 LE3 durable skills.</strong> Critical thinking, resilience, empathy, communication, collaboration, adaptability, initiative, curiosity, creative problem solving, networking, relationship building, social awareness. Each is a named, rubric-defined deliverable, scored as a reliability-weighted rollup of validated instrument subscales. This is what the student report shows.</div>
+      </div>
+      <div class="layer-divider">explained from beneath by</div>
+      <div class="layer layer-1">
+        <div class="lbl">Layer 1 &middot; The explanatory "why" (the diagnostic layer)</div>
+        <div class="body"><strong>Executive function, ARC needs, motivation dynamics, and environment.</strong> These are scored and categorized but NOT reported as durable skills. They tell a coach <em>why</em> a skill is constrained, not what the student's skill level is. Two engines read this layer: core EF and ARC drive the 10-state DDx (core-EF subscales are literally tagged <code>role: 'constraint', weight: 0</code>, so they do not count toward a durable-skill score and exist only to explain a low one), while the three Deployed Applied EF feed the coaching-recommendation engine, not the DDx.</div>
+      </div>
+    </div>
+    <p class="footnote" style="margin-top:16px;">Read it as outcome (top) and diagnostic engine (bottom), not as a flat chain of five equal layers. EF and ARC are not peers of durable skills. They sit beneath them.</p>
+  </div>
+
+  <div class="note">
+    <p><strong>What ships today (verified against the deployed engine source).</strong> The live T1 v6 battery is the DR-043 redesign: the 12 durable skills are scored from eight in-house IPIP public-domain trait clusters plus retained validated instruments (CAAS-SF, IRI, SFCQ, ADEXI, BMPN, GMS, and two short C2A scales). This was a deliberate redesign, not accidental drift.</p>
+    <p>Two labels the brief uses everywhere from here on, because the seven applied EF are not one set, they are two:</p>
+    <ul>
+      <li><strong>Deployed Applied EF (the BRIEF-2A trio):</strong> <em>Initiate</em> (task initiation), <em>Self-Monitor</em> (self-monitoring), and <em>Emotional Control</em> (emotional regulation). Per DR-042 the engine scores exactly these three under an <code>applied_ef</code> lens, a May 2026 backfill populated them for prior T1 v6 test-takers, and the C2A internal data report rolls up these three and only these three as its "applied EF" layer. They feed the coaching-recommendation engine, they do <em>not</em> feed the 10-state DDx, and they are already surfaced to coaches as an "Applied EF" card on the coach dashboard student-detail page (verified in the current codebase; exact production parity not separately confirmed).</li>
+      <li><strong>Candidate Applied EF (not built):</strong> <em>planning/prioritization</em>, <em>organization</em>, <em>time management</em>, and <em>sustained attention</em>. None of these are measured or rolled up today. DR-042 explicitly excluded the planning and organization family as already covered by core EF.</li>
+    </ul>
+    <p>So RQ2 below is not a clean greenfield "should we add seven" question. For the <strong>Deployed</strong> trio it is a live "we already compute and show these, are they earning their place, and how should the coach report frame them"; for the <strong>Candidate</strong> four it is the original build question. The brief flags this split wherever it matters.</p>
+  </div>
+
+  <h3>The three research questions</h3>
+  <p>This is a research brief. Each section below is a literature synthesis first, with a short "what this could mean for the coach report" coda at the end. The three questions map the correlational web among the three node-types (EF, motivation, durable skills) and then make the one applied decision the web informs:</p>
+  <ul>
+    <li><strong>RQ1 (EF x motivation):</strong> how do all EF dimensions relate to the self-determination and motivation measures (autonomy, relatedness, competence, intrinsic motivation, amotivation)? This owns the EF-to-motivation edge only.</li>
+    <li><strong>RQ3 (predictors x durable skills):</strong> how do EF and the SDT/motivation measures relate to the 12 durable skills, the reported outcome? This owns the predictor-to-outcome edge only.</li>
+    <li><strong>RQ2 (the applied-EF decision):</strong> the engine already scores three of the seven applied EF and shows them to coaches; are they earning their place given they re-read the same items as durable skills already reported, and should the other four be built? Does the evidence say any of this adds real, non-redundant value? This synthesizes RQ1 and RQ3 into a recommendation.</li>
+  </ul>
+
+  <div class="note">
+    <p><strong>Two ground rules that govern every number in this brief.</strong></p>
+    <p><strong>Published literature only.</strong> No internal pilot R-squared, delta-R-squared, or sample-size figure is cited as evidence anywhere. Internal signal is framed only as "consistent with" the published literature or "a hypothesis to test."</p>
+    <p><strong>The part-whole caveat.</strong> The engine reuses each measured Layer 1 signal as an ingredient that rolls up into as many as five durable skills. So any internal finding that a Layer 1 signal "predicts" a durable-skill score is partly predicting a thing from its own parts. That is an upper bound, not clean evidence.</p>
+  </div>
+</section>
+
+<section id="background">
+<span class="part-tag">Background</span>
+<h2>Background literature review: the science under the coach report</h2>
+<div class="tldr"><span class="lbl">TL;DR</span><span class="txt">The coach report sits on three sciences: self-determination theory and executive function (both mature and well-evidenced), and measurement science (the load-bearing one). The headline from measurement: self-report ratings and lab tasks are not the same thing, and any two self-reports from one person at one sitting share a "rater fingerprint." That is why Layer 1 signals belong as explanatory <em>hypotheses</em>, not as independent measurements stacked next to the outcome.</span></div>
+
+<p><strong>The short version.</strong> The coach report sits on three bodies of published science: self-determination theory (why autonomy, relatedness, and competence drive motivation), executive-function theory (the brain's air-traffic control), and the measurement science that tells us how much to trust a self-report rating. The first two are mature and well-evidenced. The third is the load-bearing one for us, because C2A measures everything by rating self-report, never by lab task. The honest headline from the measurement literature is that ratings and lab tasks are not the same thing (they correlate weakly), and that any two self-report scales filled out by the same person at the same sitting will share some overlap that is the rater's fingerprint, not a real connection. That single fact is why the coach report should treat its Layer 1 signals (EF, needs, motivation) as explanatory hypotheses about <em>why</em> a skill is constrained, not as independent measurements stacked next to the outcome.</p>
+
+<p>This section sets up the three research questions that follow. It does not answer them. It establishes the theory, the published effect sizes, the measurement traps, and the gaps that every later section has to respect.</p>
+
+<h3>1. Theory: why these constructs should (or should not) relate</h3>
+
+<h4>Self-determination theory and the three psychological "vitamins"</h4>
+
+<p>The metaphor for leadership: self-determination theory (SDT) says people run on three psychological vitamins, and you need all three. <strong>Autonomy</strong> (feeling the choice is yours), <strong>competence</strong> (feeling effective), and <strong>relatedness</strong> (feeling connected). Starve any one and motivation curdles. This is the foundational claim from Ryan and Deci's 2000 statement of the theory, where the three needs are framed as essential nutrients for intrinsic motivation and well-being. <span class="tier tier-high">High</span></p>
+
+<p>A second theoretical move matters for how C2A is built: <strong>need satisfaction and need frustration are two separate processes, not two ends of one dial.</strong> Satisfaction energizes growth; frustration awakens passivity, self-centeredness, and defensiveness. They can co-occur. This satisfaction-versus-frustration distinction (Vansteenkiste and Ryan 2013; Vansteenkiste, Ryan, and Soenens 2020) is exactly the structure the C2A six-facet needs measure rests on, where each of autonomy, relatedness, and competence is scored for both satisfaction and frustration. <span class="tier tier-high">High</span> as theory backed by a large review base.</p>
+
+<p>The companion idea is the <strong>"bright path / dark path" dual-pathway model</strong>: autonomy-supportive environments feed need satisfaction and self-driven motivation, while controlling environments feed frustration and pressured motivation, and these two paths run in parallel rather than as one continuum (Haerens et al. 2015). <span class="tier tier-mod">Moderate</span>, a single large cross-sectional study, well-cited.</p>
+
+<h4>Executive function: the brain's air-traffic control</h4>
+
+<p>Executive function (EF) is the system that holds a goal in mind, blocks distractions, and switches between tasks. The canonical "unity and diversity" account names three core components: <strong>working memory</strong> (holding and updating), <strong>inhibition</strong> (blocking), and <strong>cognitive flexibility / shifting</strong> (switching). These three are exactly what C2A measures with ADEXI (working memory, inhibition) and a short in-house cognitive-flexibility rating scale (the published Cognitive Flexibility Scale in the design docs is deprecated). <span class="tier tier-high">High</span>, broad consensus.</p>
+
+<p><strong>EF and motivation are theorized to interact, not to live in separate rooms.</strong> In a small lab study, monetary incentives improved inhibition, updating, and shifting, but emotional distractors wiped out the incentive boost on inhibition and shifting (Yeung et al. 2024, N=45). Read this only as a theory illustration that the "hot" emotional boundary and the "cool" cognitive boundary are real and porous, not as an effect size you can carry forward. <span class="tier tier-low">Low</span>, small, lab, young-adult sample.</p>
+
+<h3>2. Meta-analytic and large-study evidence: the actual numbers</h3>
+
+<p>Here are the published effect sizes that anchor the rest of the brief. Each is tiered, and each carries its sample type and N so a later section cannot quietly inflate it. Where the literature gives a per-need or per-dimension breakdown, it is broken out.</p>
+
+<table class="evidence-table">
+<thead>
+<tr><th>Relationship</th><th>Effect size</th><th>Sample / scope</th><th>Tier</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>Autonomy need &rarr; intrinsic motivation</td>
+<td>&rho; &asymp; .57</td>
+<td>SDT antecedents meta-analysis, students (Bureau et al. 2022)</td>
+<td><span class="tier tier-high">High</span></td>
+</tr>
+<tr>
+<td>Competence need &rarr; intrinsic motivation</td>
+<td>&rho; &asymp; .58</td>
+<td>Same (Bureau et al. 2022)</td>
+<td><span class="tier tier-high">High</span></td>
+</tr>
+<tr>
+<td>Relatedness need &rarr; intrinsic motivation</td>
+<td>&rho; &asymp; .44</td>
+<td>Same (Bureau et al. 2022)</td>
+<td><span class="tier tier-high">High</span></td>
+</tr>
+<tr>
+<td>Intrinsic motivation &rarr; performance</td>
+<td>&rho; &asymp; .26 (range .21&ndash;.45)</td>
+<td>k=183, N&asymp;212,000, mixed work + education (Cerasoli, Nicklin, Ford 2014)</td>
+<td><span class="tier tier-high">High</span></td>
+</tr>
+<tr>
+<td>Competence satisfaction &rarr; performance</td>
+<td>&rho; &asymp; .40 <em>(specific value unverified, see flag)</em></td>
+<td>SDT-at-work review, 99 studies (Van den Broeck et al. 2016)</td>
+<td><span class="tier tier-mod">Moderate</span></td>
+</tr>
+<tr>
+<td>EF &rarr; academic achievement</td>
+<td>r &asymp; .365 (WM strongest, r&asymp;.370)</td>
+<td>21 samples, n=7,947, <strong>children ages 6&ndash;12</strong> (Cort&eacute;s-Pascual et al. 2019)</td>
+<td><span class="tier tier-high">High</span> for children / <span class="tier tier-low">Low</span> as adult evidence</td>
+</tr>
+<tr>
+<td>Performance-based EF vs. rating-based EF (same person)</td>
+<td>median r &asymp; .19; only 24% of correlations significant</td>
+<td>20 studies, 286 correlations (Toplak, West, Stanovich 2013)</td>
+<td><span class="tier tier-high">High</span></td>
+</tr>
+<tr>
+<td>Intrinsic motivation &rarr; achievement: objective vs. self-reported</td>
+<td>&rho; &asymp; .13 (objective) vs. &rho; &asymp; .32 (self-report)</td>
+<td>SDT student-motivation meta-analysis (Howard et al. 2021)</td>
+<td><span class="tier tier-high">High</span></td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Two things to read off this table.</strong> First, the needs-to-motivation links (the &rho;&asymp;.44 to .58 row group) are strong and need-specific, which is why a coach report can legitimately tell different stories for an autonomy gap versus a relatedness gap. Second, the EF-to-achievement number that everyone reaches for (r&asymp;.365) is a <strong>children's</strong> meta-analysis. There is no clean adult equivalent, which is a genuine gap, not an oversight, and later sections must label it as such rather than borrow the children's figure for an adult coaching context.</p>
+
+<details>
+<summary>Statistical detail: the Howard self-report inflation gap</summary>
+<p>The Howard et al. 2021 split is the cleanest published demonstration of self-report inflation in this exact literature. The same antecedent (intrinsic motivation) predicts <em>objective</em> academic performance at &rho;&asymp;.13 but <em>self-reported</em> performance at &rho;&asymp;.32. The outcome being self-reported roughly doubles the apparent relationship. The practical reading: when both sides of a correlation are self-reported (as they almost always are in C2A), treat the larger end of that range as the realistic ceiling, not the expected truth. Caution for citation: this is the Howard, Bureau, Guay, Chong, Ryan student-motivation meta-analysis, not the separate Howard, Slemp, and Wang need-support / need-thwarting paper.</p>
+</details>
+
+<h3>3. Method and measurement caveats: the part that matters most for C2A</h3>
+
+<p>This is the load-bearing subsection, because it governs how much weight every later correlation can carry. C2A rates everything. No lab tasks. So we have to be precise about what a rating is and is not.</p>
+
+<h4>Rating-based vs. performance-based EF: a method gap, not a "ratings are wrong" finding</h4>
+
+<p>The single most important background fact: performance-based EF (lab tasks) and rating-based EF (questionnaires) correlate at only a <strong>median r &asymp; .19</strong>, and just 24% of those correlations even reach significance (Toplak, West, and Stanovich 2013). <span class="tier tier-high">High</span>. The authors' own interpretation is that the two methods "assess different underlying mental constructs": lab tasks capture the <em>efficiency of cognitive abilities</em>, while ratings capture <em>success at real-world goal pursuit</em>.</p>
+
+<p><strong>Why this is good news, not a weakness, for a coach report.</strong> A coach does not care how many milliseconds a student needs to switch between trials on a screen. A coach cares whether the student actually manages their time, initiates tasks, and recovers from setbacks in daily life, which is precisely the side ratings capture. So C2A's all-rating design does not need an apology. It does mean one hard rule for this brief: the lab-EF literature (for example the Trail-Making-Test effect sizes seen in some coaching trials) stays strictly in background and is never used as evidence about what C2A measures, because C2A never measures EF that way.</p>
+
+<h4>Common-method variance: the rater's fingerprint</h4>
+
+<p>The metaphor: when one person answers every question on one survey at one sitting, some of the apparent "correlation" between two scales is just the shared fingerprint of that rater and that survey format, not a real connection between the two things being measured. A long-standing methodological estimate puts roughly <strong>26% of the variance</strong> in a typical self-report measure down to method rather than the trait itself (Cote and Buckley 1987, as synthesized in Podsakoff, MacKenzie, Lee, and Podsakoff 2003). <span class="tier tier-high">High</span> as a well-established baseline. The practical move: treat that share as a discount factor on any C2A correlation where two self-report scales are compared, for example a self-rated EF scale against a self-rated needs scale. <em>The Podsakoff et al. 2003 DOI (10.1037/0021-9010.88.5.879) and the Cote &amp; Buckley 1987 source (10.2307/3151642) are now Crossref-verified; the 26% method-variance estimate originates in Cote &amp; Buckley and is synthesized in Podsakoff et al.</em></p>
+
+<h4>Jangle and part-whole: when two names hide one thing</h4>
+
+<p>The "jangle fallacy": giving two things different names does not make them different things. A self-report EF scale and a conscientiousness scale can be largely the same questionnaire wearing two name tags. Published estimates put the overlap between self-report EF and the conscientiousness trait at roughly &rho; &asymp; .20 (Wilmot and Ones 2019; Buchanan 2016). <span class="tier tier-mod">Moderate</span>. <em>Both citations are now Crossref-verified (Wilmot &amp; Ones 2019, PNAS, 10.1073/pnas.1908430116; Buchanan 2016, Psychological Assessment, 10.1037/pas0000192, whose title directly states self-report EF correlates with personality rather than performance-based EF). The exact &rho; &asymp; .20 should still be confirmed against the source tables before load-bearing use.</em></p>
+
+<p>There is a second, sharper version of this problem that is specific to C2A's architecture, and the brief must keep stating it: the <strong>part-whole caveat.</strong> The scoring engine reuses each measured Layer 1 signal as an <em>ingredient</em> that rolls up into as many as five of the twelve durable skills. So if an internal analysis ever shows that a Layer 1 signal "predicts" a durable-skill score, part of that prediction is the signal predicting a thing built partly from itself. That is an upper bound, not clean evidence. Any internal pilot number must be framed only as "consistent with" the published literature or "a hypothesis to test," never as proof.</p>
+
+<h4>A possible bridge between rated EF and motivation</h4>
+
+<p>Because there is no published direct correlation between a standard self-report EF battery and a validated SDT autonomous-motivation scale (see Gaps below), the field leans on bridges. One candidate is the Barkley Deficits in Executive Functioning Scale (BDEFS), which contains a Self-Motivation subscale, studied by Knouse, Feldman, and Blevins 2014 across two samples (N&asymp;250 and N&asymp;229). <span class="tier tier-mod">Moderate</span>. <em>Important framing flag: the paper's registered title and headline focus are "Executive functioning difficulties as predictors of academic performance: examining the role of grade goals," not a Self-Motivation-subscale study per se. The DOI (10.1016/j.lindif.2014.07.001) resolves cleanly and the BDEFS does carry a Self-Motivation subscale, so the bridge is plausible, but verify the subscale-level results in the paper before citing this as the load-bearing EF-to-motivation bridge in RQ1.</em></p>
+
+<h4>Population limits</h4>
+
+<p>Much of the applied-EF and EF-coaching evidence rides on ADHD or disability samples rather than the general population. Findings from clinical samples may not transfer cleanly to a general college-and-career-transition cohort, and later sections should flag where an effect size comes from a clinical sample. This is a recurring limit, not a one-off.</p>
+
+<h3>4. Gaps: what is NOT published, stated plainly</h3>
+
+<ul>
+<li><strong>No direct EF-to-autonomous-motivation correlation exists.</strong> There is no published study correlating a standard self-report EF battery with a validated SDT autonomous-motivation scale. The EF-by-motivation overlap is entirely <em>triangulated</em>: shared conscientiousness and neuroticism variance, the BDEFS Self-Motivation bridge, the procrastination bridge, and the affect bridge. RQ1 must say this plainly rather than imply a direct link exists.</li>
+<li><strong>No clean adult EF-to-achievement meta-analysis.</strong> The strongest EF-to-achievement meta-analysis (r&asymp;.365) is children ages 6 to 12. Adult work-and-career outcomes have no equivalent; labeled adult neighbors (general mental ability, effort regulation) have to stand in, and that substitution must be named.</li>
+<li><strong>No full-chain study.</strong> Nothing in the published literature runs the whole proposed path (needs &rarr; motivation &rarr; EF use &rarr; durable-skill outcomes) in one model. Each edge is studied separately. The coach report's two-layer story is an assembly of separate evidence, not a single validated chain.</li>
+<li><strong>Applied-EF coaching value is thin outside clinical samples.</strong> The case for applied EF (RQ2), both the three Deployed and the four Candidate, leans heavily on ADHD and disability research, so general-population value is largely unproven and must be tiered Low where that is the only evidence. For the Deployed trio the sharper problem is different: item-level redundancy with durable skills the student report already shows.</li>
+</ul>
+
+<div class="coda">
+<h3>What this could mean for the coach report</h3>
+<p>The method, jangle, and common-method trio is the honest backbone of the whole brief. Any EF-to-motivation or EF-to-durable-skill overlap that C2A observes is partly shared-method and partly shared-conscientiousness, so the coach report should frame Layer 1 signals as <em>explanatory hypotheses about why a skill is constrained</em>, not as independent measurements sitting next to the outcome. That is exactly the two-layer architecture. And the rating-versus-performance distinction (Toplak) is the reason the coach report can treat self-reported EF as legitimate "real-world goal pursuit" signal rather than apologizing for the absence of lab tasks.</p>
+</div>
+
+</section>
+
+<section id="rq1">
+  <span class="part-tag">RQ1</span>
+  <h2>RQ1: How EF dimensions relate to self-determination and motivation measures</h2>
+  <div class="tldr"><span class="lbl">TL;DR</span><span class="txt">The EF-to-motivation link is real in theory but has never been measured directly: no published study puts a self-report EF battery next to a validated motivation scale in the same sample. We reach it through four indirect bridges (affect, shared personality, a built-in self-motivation subscale, and procrastination) and mark the missing direct number as a <em>genuine gap</em> rather than inventing one.</span></div>
+
+  <p><strong>The short answer:</strong> the link between executive function and motivation is real in theory and shows up in intervention studies, but in the published correlational literature it is <em>triangulated</em>, not direct. No study has ever put a standard self-report EF battery and a validated self-determination (SDT) motivation scale side by side and reported the correlation between them. So we reach the EF-to-motivation connection through four indirect bridges (shared personality variance, a procrastination bridge, an affect bridge, and the intervention evidence that motivation decides whether EF effort sticks), and we mark the direct coefficient as a genuine gap rather than inventing a number to fill it.</p>
+
+  <p>One framing note before the evidence. This section is strictly about the wiring between EF and motivation. It does NOT cover how either one predicts the 12 durable skills (that is RQ3). If a study correlates an EF measure with, say, communication or resilience, it lives in RQ3, not here.</p>
+
+  <h3>1. Theory: why these constructs should relate (and why the relationship is messy)</h3>
+
+  <p>Think of executive function as the engine and motivation as the fuel. EF is the set of mental control processes (holding things in mind, resisting distraction, switching gears, and, in the broader applied list, managing time, planning, getting started, and regulating emotion) that let a person steer behavior toward a goal. Motivation, in SDT terms, is about <em>why</em> the person is steering at all and how self-endorsed that reason feels. An engine with no fuel does not move, and fuel with no engine does not steer. So on its face EF and motivation should be related: you need both to actually pursue a goal.</p>
+
+  <p>SDT sharpens this into a specific mechanism. Ryan and Deci's account (<span class="tier tier-mod">Moderate</span> as a measured claim, high-authority as a review) holds that <em>controlled</em> motivation (doing something because you feel you have to) is vitality-draining because it sets up internal conflict, while <em>autonomous</em> motivation (doing something you genuinely endorse) protects against self-regulation fatigue. In plain terms: the same act of executive effort is expensive when you are forcing yourself and cheaper when you actually want to. That converges with the older "ego-depletion" idea that self-control is a limited resource: motivation quality is predicted to change how fast the EF tank empties.</p>
+
+  <p>The companion theoretical pillar is the satisfaction-versus-frustration distinction. Vansteenkiste and Ryan (<span class="tier tier-high">High</span> for the SDT distinction itself) argue that need satisfaction <em>energizes</em> growth-oriented, effortful, self-regulated functioning, while need frustration <em>awakens</em> passivity and defensiveness. EF is exactly the effortful, self-regulated functioning that satisfaction is supposed to energize, so the theory predicts that frustrated needs (especially competence and autonomy frustration) would degrade EF deployment. That is the conceptual reason to expect an EF-to-motivation relationship at all.</p>
+
+  <p>But theory also predicts the relationship will be <em>hard to measure cleanly</em>, for two reasons. First, both constructs, when measured by rating self-report (which is how C2A measures everything), share variance with the same affective and dispositional space, so part of any correlation is the same trait measured twice. Second, the SDT prediction is dynamic (motivation quality changes the <em>cost</em> of EF effort over time), which a single cross-sectional survey cannot capture. So the honest theoretical expectation is: a real but modest link, easily confounded, and best seen in within-person or intervention designs rather than one-shot correlations.</p>
+
+  <h3>2. The empirical evidence, tiered</h3>
+
+  <p>Here is every EF-to-motivation claim the published literature actually supports, with effect sizes where they exist and an explicit tier on each. Note how few rows there are and how often the effect-size column is empty: that thinness is itself the finding.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Claim (EF &harr; motivation)</th>
+        <th>Effect size</th>
+        <th>Sample &amp; N</th>
+        <th>Population</th>
+        <th>Measure type</th>
+        <th>Tier</th>
+        <th>Citation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td><strong>Affect bridge.</strong> Monetary incentives improved inhibition, updating, and shifting; emotional distractors abolished the incentive effect on inhibition and shifting. Motivation and emotion interact at the level of specific EFs.</td>
+        <td>Within-subjects effects on no-go accuracy and switch cost, significant; no single r</td>
+        <td>Lab experiment, N=45</td>
+        <td>General (young adults)</td>
+        <td>Performance-based EF + experimental incentive</td>
+        <td><span class="tier tier-low">Low</span></td>
+        <td>Yeung et al. 2024, 10.1186/s40359-024-01695-9</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td><strong>Closest direct co-occurrence.</strong> Students with specific learning disabilities showed lower EFs AND lower identified/intrinsic motivation but higher introjected motivation: a within-SDT motivational profile that tracks EF level.</td>
+        <td>None reported (descriptive group difference)</td>
+        <td>Cross-sectional, N not reported</td>
+        <td>SpLD (disability) vs peers</td>
+        <td>Rating EF + SDT academic-motivation self-report</td>
+        <td><span class="tier tier-low">Low</span></td>
+        <td>Alesi et al. 2024 (ERIC EJ1440966, no DOI)</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td><strong>Theoretical mechanism.</strong> Controlled motivation depletes self-regulation (EF effort) via internal conflict; autonomous motivation protects against fatigue. SDT converges with ego-depletion.</td>
+        <td>Review, no effect size</td>
+        <td>Review</td>
+        <td>General (theory)</td>
+        <td>Conceptual</td>
+        <td><span class="tier tier-mod">Moderate</span></td>
+        <td>Ryan &amp; Deci 2020, 10.1016/j.cedpsych.2020.101860</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td><strong>Satisfaction vs frustration.</strong> Satisfaction energizes effortful, self-regulated functioning; frustration awakens passivity. Grounds WHY need frustration would degrade EF, but does not measure EF.</td>
+        <td>Review, no EF correlation</td>
+        <td>Review</td>
+        <td>General (theory)</td>
+        <td>SDT self-report only</td>
+        <td><span class="tier tier-high">High</span> for the SDT distinction; gap for the EF link</td>
+        <td>Vansteenkiste &amp; Ryan 2013, 10.1037/A0032359</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td><strong>Affect/personality bridge.</strong> Rating EF (BRIEF-A) correlates strongly with mood and personality and only minimally with performance-based EF; it "only minimally taps objective EF."</td>
+        <td>"minimal" vs performance EF; "strong" vs mood/personality (no r quoted)</td>
+        <td>Cross-sectional, community older adults</td>
+        <td>General (older adults)</td>
+        <td>Rating EF vs performance EF + mood/personality</td>
+        <td><span class="tier tier-mod">Moderate</span></td>
+        <td>Meltzer et al. 2017, 10.1080/23279095.2016.1185428</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td><strong>Foundational method caveat.</strong> Performance-based and rating EF assess different constructs and correlate only weakly, so a rating-EF-to-motivation link cannot be read off the larger performance-EF literature.</td>
+        <td>r &asymp; .1&ndash;.3 (median r approx .19; range roughly .1 to .3) (performance vs rating EF)</td>
+        <td>Practitioner/latent-variable synthesis</td>
+        <td>General</td>
+        <td>Performance vs rating EF</td>
+        <td><span class="tier tier-high">High</span></td>
+        <td>Toplak, West &amp; Stanovich 2013, 10.1111/jcpp.12001</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td><strong>Procrastination bridge.</strong> Academic procrastination is predicted by self-reported EF. Procrastination is the canonical overlap between an EF failure (task initiation, self-monitoring) and an avoidance/amotivation state.</td>
+        <td>Significant association; no exact r in array</td>
+        <td>Cross-sectional, college students</td>
+        <td>General (college)</td>
+        <td>Rating EF (self-report)</td>
+        <td><span class="tier tier-mod">Moderate</span></td>
+        <td>Rabin, Fogel &amp; Nutter-Upham 2011, 10.1080/13803395.2010.518597</td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td><strong>BDEFS Self-Motivation bridge.</strong> The BDEFS rating EF battery embeds a "Self-Motivation" subscale, so self-motivation is operationalized inside the applied-EF instrument itself.</td>
+        <td>Two validation samples, N=250 and N=229</td>
+        <td>Scale validation</td>
+        <td>General adults</td>
+        <td>Rating EF (BDEFS)</td>
+        <td><span class="tier tier-mod">Moderate</span> (bridge by construction)</td>
+        <td>Knouse, Feldman &amp; Blevins 2014, 10.1016/j.lindif.2014.07.001</td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td><strong>Shared-variance bridge.</strong> Rating EF tracks conscientiousness (&rho; &asymp; .20) and loads on neuroticism; SDT autonomous motivation also correlates with conscientiousness and inversely with neuroticism. Part of any overlap is the same Big-Five variance measured twice.</td>
+        <td>&rho; &asymp; .20 (EF rating vs conscientiousness)</td>
+        <td>Meta-analytic / large-sample</td>
+        <td>General</td>
+        <td>Rating EF vs personality self-report</td>
+        <td><span class="tier tier-mod">Moderate</span></td>
+        <td>Wilmot &amp; Ones 2019; Buchanan 2016</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+    <summary>Heavy stats and the four-bridge logic in full</summary>
+
+    <p><strong>Why "triangulated" and not "direct."</strong> A direct test would administer a rating EF battery (BRIEF-A, BDEFS, or ADEXI) and a validated SDT scale (the BPNSFS for autonomy, relatedness, and competence satisfaction and frustration, or an autonomous-versus-controlled motivation scale) to the same sample and report the EF-by-SDT correlation matrix. No such study appears in the evidence set. The single closest co-occurrence is Alesi et al. 2024 (row 2): cross-sectional, disability-only, no effect size, no DOI. So the strongest honest statement is that the direct rating-EF-by-validated-SDT-scale correlation is a published gap.</p>
+
+    <p><strong>Bridge 1: affect / emotional regulation (rows 1, 4).</strong> Emotional state moderates EF (Yeung 2024: emotional distractors wiped out the incentive boost to inhibition and shifting), and need frustration versus satisfaction is the SDT engine of affect (Vansteenkiste &amp; Ryan 2013). Emotional regulation, one of the three Deployed Applied EF, is therefore where EF and motivation physically meet. Tier: <span class="tier tier-low">Low</span> for the lab link (N=45, performance-based, not C2A's rating method), <span class="tier tier-high">High</span> for the SDT distinction, but the <em>join</em> between them is inferred, not measured.</p>
+
+    <p><strong>Bridge 2: personality / shared variance (rows 5, 9).</strong> Rating EF correlates with mood, conscientiousness (&rho; &asymp; .20, Wilmot &amp; Ones 2019), and neuroticism; SDT autonomous motivation lives in that same dispositional space. So part of any EF-to-motivation overlap is the same Big-Five variance measured twice, a "jangle" risk (two different names for one underlying thing). Even if a direct correlation were published, it would be partly common-trait and common-method variance rather than a pure functional link.</p>
+
+    <p><strong>Bridge 3: BDEFS Self-Motivation (row 8).</strong> A rating EF instrument literally contains a self-motivation subscale (Knouse, Feldman &amp; Blevins 2014, samples of 250 and 229). This is the most direct rating-EF-to-motivation tie that exists, but it is overlap <em>by construction</em>: the instrument defines self-motivation as part of EF, so it cannot serve as independent evidence that EF and SDT-motivation correlate. It is good for face validity, not for a clean coefficient. (the Self-Motivation-subscale framing of this paper is unverified at the subscale level; see Background. Treat it as a face-validity bridge, not a confirmed coefficient.)</p>
+
+    <p><strong>Bridge 4: procrastination (row 7).</strong> Procrastination is simultaneously an applied-EF failure (task initiation, self-monitoring) and a motivational/avoidance phenomenon, and self-report EF predicts it (Rabin et al. 2011). This is the cleanest behavioral overlap, <span class="tier tier-mod">Moderate</span> tier, but it is a shared <em>symptom</em>, not a measured EF-by-SDT-scale correlation.</p>
+
+    <p><strong>The theoretical spine (rows 3, 4).</strong> SDT predicts that EF effort under controlled motivation depletes while autonomous motivation makes it sustainable (Ryan &amp; Deci 2020), and that need frustration degrades the growth-oriented functioning EF supports (Vansteenkiste &amp; Ryan 2013). This is <em>why</em> we expect an EF-to-motivation relationship. But theory plus four indirect bridges is not the same as a direct coefficient.</p>
+
+    <p><strong>A note on what was deliberately excluded.</strong> Several high-strength findings in the source files are NOT in this table because they are EF-to-outcome or SDT-to-outcome relationships (RQ3) or coaching-intervention efficacy rather than an EF-to-motivation correlation. Excluded: all EF-to-academic-achievement and EF-to-quality-of-life claims; all SDT-to-achievement, persistence, and dropout claims; and all coaching-intervention trials (which show coaching <em>changes</em> EF and motivation, not the cross-sectional link RQ1 asks for). Those belong to RQ3 and RQ2.</p>
+  </details>
+
+  <h3>Per-need breakdown: what the literature can and cannot resolve</h3>
+
+  <p>The reference context asks for a need-by-need table (autonomy, relatedness, competence satisfaction and frustration, intrinsic motivation, amotivation, each crossed against EF dimensions). The honest result is that the published arrays do <em>not</em> support that resolution. No finding reports anything like "competence frustration correlates r=X with working-memory self-report" or "amotivation correlates r=Y with task-initiation rating." The literature resolves SDT needs against <em>outcomes</em> (RQ3 territory), not against EF dimensions. Here is the per-need status, marked honestly:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>SDT need / motivation construct</th>
+        <th>Direct EF correlation published?</th>
+        <th>Closest triangulated evidence</th>
+        <th>Tier of what exists</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Autonomy satisfaction</td>
+        <td>No</td>
+        <td>Theory only (autonomous motivation protects EF from depletion, Ryan &amp; Deci 2020)</td>
+        <td><span class="tier tier-mod">Moderate</span> (theory), gap (measured)</td>
+      </tr>
+      <tr>
+        <td>Autonomy frustration</td>
+        <td>No</td>
+        <td>Frustration "awakens passivity" vs energized self-regulation (Vansteenkiste &amp; Ryan 2013)</td>
+        <td><span class="tier tier-high">High</span> (distinction), gap (EF link)</td>
+      </tr>
+      <tr>
+        <td>Competence satisfaction</td>
+        <td>No</td>
+        <td>Same energization theory; no EF coefficient</td>
+        <td>Gap (measured)</td>
+      </tr>
+      <tr>
+        <td>Competence frustration</td>
+        <td>No</td>
+        <td>Theory predicts degraded effortful functioning; not measured against EF</td>
+        <td>Gap (measured)</td>
+      </tr>
+      <tr>
+        <td>Relatedness (satisfaction / frustration)</td>
+        <td>No</td>
+        <td>None EF-specific in the evidence set</td>
+        <td>Gap</td>
+      </tr>
+      <tr>
+        <td>Intrinsic motivation</td>
+        <td>No</td>
+        <td>Lower intrinsic motivation co-occurs with lower EF in SpLD students (Alesi 2024); incentive-EF interaction (Yeung 2024)</td>
+        <td><span class="tier tier-low">Low</span></td>
+      </tr>
+      <tr>
+        <td>Amotivation</td>
+        <td>No</td>
+        <td>Procrastination bridge: rating EF predicts procrastination, an avoidance/amotivation proxy (Rabin 2011)</td>
+        <td><span class="tier tier-mod">Moderate</span> (proxy)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>The takeaway: the need-level resolution RQ1's depth floor asks for is a <strong>gap at the EF-by-need granularity</strong>. We mark it empty rather than borrowing an RQ3 number.</p>
+
+  <h3>3. Method and measurement caveats: what bounds every number above</h3>
+
+  <ul>
+    <li><strong>Rating, not performance.</strong> C2A measures all EF by rating self-report (a person scoring their own working memory or planning), with no lab tasks. The large performance-based EF literature does not transfer, because performance and rating EF correlate only r &asymp; .1 to .3 (median r approx .19; range roughly .1 to .3) (row 6, Toplak 2013). They are effectively different measurement worlds. RQ1 evidence must come from rating-EF studies, which are scarcer, so the table is thin partly because we are honestly excluding the bigger lab literature.</li>
+    <li><strong>Common-method variance inflates everything.</strong> Where a rating-EF-to-motivation correlation does eventually get measured on a single survey, both sides are self-report at the same timepoint, so shared-method variance (the standard estimate is around 26%) inflates the coefficient. Treat any future single-survey number as an upper bound, not a clean estimate.</li>
+    <li><strong>Jangle / part-whole risk.</strong> Rating EF and SDT motivation share personality variance (bridge 2) and, in the BDEFS case, share an actual subscale (bridge 3). So a measured EF-to-motivation correlation can be partly two labels for one thing rather than two things relating. This matters doubly for the internal pilot, where the engine reuses each measured signal as an ingredient that rolls up into as many as five durable skills, so any internal predictive advantage is partly predicting a thing from its own parts: an upper bound, not clean evidence.</li>
+    <li><strong>Self-report inflation.</strong> People who rate their own EF poorly also tend to rate their mood and dispositions negatively (row 5, Meltzer 2017), so the correlation can ride on a general negative-self-view halo rather than a true functional tie.</li>
+    <li><strong>Population limits.</strong> The one cross-sectional EF-and-motivation co-occurrence (row 2) is in a disability sample (specific learning disabilities), and the procrastination bridge is in college students. There is no clean general-adult rating-EF-by-validated-SDT-scale correlation in this evidence set. So even the triangulated edges generalize cautiously.</li>
+  </ul>
+
+  <h3>4. Gaps: stated plainly</h3>
+
+  <ul>
+    <li><strong>No direct coefficient exists.</strong> No published study reports a rating-EF battery against a validated SDT autonomous-motivation scale in the same sample. This is the central gap, and it is genuine, not a search artifact.</li>
+    <li><strong>No need-by-need EF table exists.</strong> The literature does not resolve any SDT need (autonomy, relatedness, competence, satisfaction or frustration) against any EF dimension with a coefficient. The per-need table above is mostly empty by necessity.</li>
+    <li><strong>No general-adult, rating-based, non-clinical study.</strong> What little direct co-occurrence exists is in disability or student samples.</li>
+    <li><strong>No within-person test of the depletion prediction.</strong> The strongest theoretical claim (controlled motivation depletes EF, autonomous motivation protects it) is dynamic, and the evidence set contains no longitudinal or diary study testing it on rating-based EF.</li>
+  </ul>
+
+  <div class="coda">
+  <h3>What this could mean for the coach report</h3>
+  <p>Because the EF-to-motivation link is triangulated rather than directly measured, the coach report should present EF and motivation as <em>two related lenses on the same student, not as one causing the other</em>. A coach can be told "this student rates low on task initiation and also shows signs of amotivation, and these often travel together," which the procrastination and affect bridges support, but the report should not assert a precise EF-causes-motivation (or vice versa) magnitude, because no such number is published. The honest framing (related, co-occurring, theoretically linked, but not directly quantified) is itself the responsible thing to surface to coaches.</p>
+  </div>
+</section>
+
+<section id="rq3">
+<span class="part-tag">RQ3</span>
+<h2>RQ3: How EF and SDT/motivation measures relate to the 12 durable skills (the reported outcome)</h2>
+<div class="tldr"><span class="lbl">TL;DR</span><span class="txt">Strong evidence linking a predictor to a durable-skill outcome lives in two places: proxy outcomes (grades, GPA, job performance) and a few named-skill literatures (critical thinking, creative problem solving, empathy, adaptability, resilience). Nobody has ever studied "the 12 durable skills" as a labeled set. So the picture is robust at the proxy level, thinner at the named-skill level, and <em>empty</em> at the bundle level.</span></div>
+
+<p><strong>The short answer:</strong> the strong, trustworthy published evidence linking a predictor to a durable-skill outcome lives almost entirely in two places. First, in <em>proxy outcomes</em> (grades, GPA, job performance, persistence) where a real-world result stands in for the unmeasured skill. Second, in a handful of <em>named-skill literatures</em> where a single durable skill (critical thinking, creative problem solving, empathy, adaptability, resilience) has been studied on its own. Nobody has ever published a study that uses "the 12 LE3 durable skills" as a labeled outcome bundle and related EF or motivation to it. So the honest picture is: robust at the proxy level, thinner and more scattered at the named-skill level, and empty at the "durable skills as a set" level.</p>
+
+<p>Think of it like trying to predict whether someone is a good cook. We have solid data on whether they finish culinary school (the proxy), patchy data on individual dishes they can make (the named skills), and no study at all that scores "the 12 signature dishes this specific restaurant calls durable." That is exactly the shape of the evidence here.</p>
+
+<h3>1. Theory: why these constructs should relate</h3>
+
+<p>The two-layer logic of the C2A design predicts these links, and the theory behind each is sound. Executive function is the brain's air-traffic-control system: holding goals in mind (working memory), filtering out distractions (inhibition), and switching strategies when the situation changes (cognitive flexibility). Every one of the 12 durable skills is a complex, goal-directed behavior, and complex goal-directed behavior is precisely what EF is theorized to enable. Critical thinking needs you to hold a claim in mind while you check it against counter-evidence (working memory plus inhibition). Adaptability is, almost by definition, cognitive flexibility expressed in the wild. Empathy and social awareness require holding another person's mental state in mind while suppressing your own default reading (working memory plus inhibition). So the theory says EF should sit beneath the durable skills as an enabling engine, which is exactly where the construct map places it.</p>
+
+<p>On the motivation side, Self-Determination Theory (SDT) predicts that when the three basic needs are met (autonomy = "I choose this," relatedness = "I belong here," competence = "I can do this"), people engage more deeply and persist longer, which over time builds skill. Met needs feed autonomous motivation, autonomous motivation drives sustained engagement, and sustained engagement is how a durable skill gets durable. The theory is directional and well-specified. The catch, which we return to in the gaps section, is that "engagement builds skill over time" is a longitudinal claim, and most of the evidence we have is a single snapshot in time.</p>
+
+<h3>2. Meta-analytic and large-study evidence (with effect sizes, Ns, and tiers)</h3>
+
+<p>Two tables follow. Table A covers the motivation and SDT predictors. Table B covers EF predictors. In both, "proxy outcome" means a labeled real-world result (grade, GPA, job performance, persistence, quality of life) standing in for an unmeasured durable skill, and I flag it in every row where that substitution is happening. The heavy statistics are summarized in plain language here and held in full in the collapsible blocks below each table.</p>
+
+<h4>Table A: SDT / motivation predictors &rarr; durable-skill outcomes (and labeled proxies)</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Predictor</th>
+      <th>Durable skill / proxy outcome</th>
+      <th>Effect size</th>
+      <th>Sample &amp; N</th>
+      <th>Population</th>
+      <th>Tier</th>
+      <th>Citation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Intrinsic motivation</td>
+      <td>Performance (proxy for skill enactment)</td>
+      <td>&rho; &asymp; .26</td>
+      <td>Meta-analysis</td>
+      <td>Working adults / mixed</td>
+      <td><span class="tier tier-high">High</span></td>
+      <td>Cerasoli, Nicklin &amp; Ford 2014 (10.1037/a0035661)</td>
+    </tr>
+    <tr>
+      <td>Competence satisfaction</td>
+      <td>Job performance (proxy)</td>
+      <td>&rho; &asymp; .40 (specific value unverified; confirm against Van den Broeck Table before load-bearing)</td>
+      <td>SDT work meta-analysis</td>
+      <td>Working adults</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>Van den Broeck et al. 2016 (10.1177/0149206316632058)</td>
+    </tr>
+    <tr>
+      <td>Intrinsic motivation</td>
+      <td><strong>Objective</strong> achievement (proxy)</td>
+      <td>&asymp; .13</td>
+      <td>Meta-analytic</td>
+      <td>Students</td>
+      <td><span class="tier tier-high">High</span></td>
+      <td>Howard et al. 2021 (10.1177/1745691620966789)</td>
+    </tr>
+    <tr>
+      <td>Intrinsic motivation</td>
+      <td><strong>Self-reported</strong> achievement (proxy)</td>
+      <td>&asymp; .32</td>
+      <td>Meta-analytic</td>
+      <td>Students</td>
+      <td><span class="tier tier-high">High</span> (read with inflation caveat)</td>
+      <td>Howard et al. 2021 (10.1177/1745691620966789)</td>
+    </tr>
+    <tr>
+      <td>Basic need satisfaction (ARC) &rarr; autonomous motivation &rarr; outcome</td>
+      <td>Behavioral outcomes (mediated chain)</td>
+      <td>Significant longitudinal mediation</td>
+      <td>n = 1,789</td>
+      <td>Students (longitudinal)</td>
+      <td><span class="tier tier-high">High</span></td>
+      <td>Garn, Morin &amp; Lonsdale 2019 (ERIC EJ1205226)</td>
+    </tr>
+    <tr>
+      <td>Self-determination (ARC composite)</td>
+      <td>First-year GPA (proxy)</td>
+      <td>33% of variance explained</td>
+      <td>College freshmen</td>
+      <td>College adults</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>Graham &amp; Vaughan 2022 (ERIC EJ1345545)</td>
+    </tr>
+    <tr>
+      <td>Self-determination (ARC composite)</td>
+      <td>Life satisfaction (well-being proxy)</td>
+      <td>61% of variance explained</td>
+      <td>College freshmen</td>
+      <td>College adults</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>Graham &amp; Vaughan 2022 (ERIC EJ1345545)</td>
+    </tr>
+    <tr>
+      <td>Autonomous (autonomy/competence) reasons</td>
+      <td>GPA + persistence (proxy)</td>
+      <td>Positive; controlled reasons added nothing</td>
+      <td>n = 2,520</td>
+      <td>College students</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>Guiffrida et al. 2013 (ERIC EJ1008026)</td>
+    </tr>
+    <tr>
+      <td>Autonomous motivation (quality)</td>
+      <td>GPA + metacognition (proxy for <strong>Critical Thinking</strong>)</td>
+      <td>"Good-quality" profile superior (group difference)</td>
+      <td>Person-oriented profiles</td>
+      <td>HS + college students</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>Vansteenkiste et al. 2009 (ERIC EJ861178)</td>
+    </tr>
+    <tr>
+      <td>Amotivation</td>
+      <td>Dropout intention (negative persistence proxy)</td>
+      <td>Direct + indirect effects (via achievement, absenteeism)</td>
+      <td>Cross-sectional</td>
+      <td>Students</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>Balkis 2018 (ERIC EJ1182670)</td>
+    </tr>
+    <tr>
+      <td>Autonomous motivation-to-transfer</td>
+      <td>Skill retention + maintained performance (proxy for durability of a coached skill)</td>
+      <td>Predicted at 8 wks; controlled motivation did not</td>
+      <td>Longitudinal, 4 timepoints</td>
+      <td>Trainees / adults</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>Gegenfurtner 2013 (ERIC EJ1005228)</td>
+    </tr>
+    <tr>
+      <td>Autonomous motivation + opportunity-to-use</td>
+      <td>Training transfer (skill enactment proxy)</td>
+      <td>Both required; autonomous motivation alone insufficient</td>
+      <td>Leadership trainees</td>
+      <td>Working adults</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>Tafvelin &amp; Stenling 2025 (ERIC EJ1488424)</td>
+    </tr>
+    <tr>
+      <td>Competence satisfaction (need)</td>
+      <td>Skill development / mastery (durable-skill-general)</td>
+      <td>Framework-grade; competence frustration &rarr; fragility</td>
+      <td>Review</td>
+      <td>Mixed</td>
+      <td><span class="tier tier-high">High</span> (theory only, not effect-sized)</td>
+      <td>Vansteenkiste &amp; Ryan 2013 (10.1037/a0032359)</td>
+    </tr>
+    <tr>
+      <td>Autonomy support</td>
+      <td>Proactive behaviors: <strong>Initiative</strong>, career self-development</td>
+      <td>Directional (review)</td>
+      <td>Synthesis review</td>
+      <td>Working adults</td>
+      <td><span class="tier tier-mod">Moderate</span> (review, no pooled r)</td>
+      <td>Deci, Olafsen &amp; Ryan 2017 (10.1146/annurev-orgpsych-032516-113108)</td>
+    </tr>
+    <tr>
+      <td>Relatedness support</td>
+      <td>Teamwork / citizenship (proxy for <strong>Collaboration</strong>)</td>
+      <td>Directional (review)</td>
+      <td>Synthesis review</td>
+      <td>Working adults</td>
+      <td><span class="tier tier-mod">Moderate</span> (review)</td>
+      <td>Deci, Olafsen &amp; Ryan 2017 (10.1146/annurev-orgpsych-032516-113108)</td>
+    </tr>
+    <tr>
+      <td>Relatedness satisfaction</td>
+      <td><strong>Collaboration</strong> engagement + <strong>Communication</strong> depth</td>
+      <td>Process-level association</td>
+      <td>Cross-sectional, collaborative-learning</td>
+      <td>Students</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>van Leeuwen, Hornstra &amp; Janssen 2025 (ERIC EJ1474813)</td>
+    </tr>
+    <tr>
+      <td>Autonomy satisfaction</td>
+      <td>Task <strong>Initiative</strong> + creative contributions</td>
+      <td>Process-level association</td>
+      <td>Cross-sectional</td>
+      <td>Students</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>van Leeuwen et al. 2025 (ERIC EJ1474813)</td>
+    </tr>
+    <tr>
+      <td>Competence satisfaction &rarr; self-efficacy</td>
+      <td><strong>Resilience</strong> / grit</td>
+      <td>SEM chain confirmed</td>
+      <td>Cross-sectional SEM</td>
+      <td>College students</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>Cinar-Tanriverdi &amp; Karabacak-Celik 2023 (ERIC EJ1364094)</td>
+    </tr>
+    <tr>
+      <td>Autonomy + competence needs</td>
+      <td>Initiative-type outcomes (entrepreneurial intention)</td>
+      <td>Stronger than relatedness</td>
+      <td>Cross-sectional</td>
+      <td>Students</td>
+      <td><span class="tier tier-low">Low</span></td>
+      <td>Al-Jubari 2019 (ERIC EJ1221300)</td>
+    </tr>
+    <tr>
+      <td>ARC need frustration</td>
+      <td>Burnout / reduced persistence (negative proxy)</td>
+      <td>Competence + autonomy frustration primary</td>
+      <td>Cross-sectional</td>
+      <td>Undergraduates</td>
+      <td><span class="tier tier-low">Low</span></td>
+      <td>Crick 2022 (ERIC ED647303)</td>
+    </tr>
+  </tbody>
+</table>
+
+<details>
+  <summary>Heavy stats and reading notes for Table A</summary>
+  <ul>
+    <li><strong>The three anchor meta-analyses</strong> (Cerasoli 2014, Van den Broeck 2016, Howard 2021) are the only population-general, high-tier numbers in the table, and all three measure proxies (performance, job performance, achievement), not named durable skills.</li>
+    <li><strong>Howard et al. 2021</strong> is the load-bearing caveat row: intrinsic motivation correlates about .13 with <em>objective</em> achievement but about .32 with <em>self-reported</em> achievement. Same predictor, more than double the correlation, purely because the outcome was self-rated. This is the self-report inflation problem in one line, and it is treated in full in section 3 below.</li>
+    <li><strong>Variance-explained figures</strong> (Graham &amp; Vaughan: 33% GPA, 61% life satisfaction) are from a single college-freshman cohort, single timepoint. They are striking but should be read as one study, not a settled estimate, hence Moderate.</li>
+    <li><strong>The named-skill SDT rows</strong> (Resilience via competence-to-self-efficacy, Collaboration/Communication via relatedness, Initiative via autonomy) are almost all single, cross-sectional studies, frequently in students. They establish a directional association, not a magnitude you can bank on.</li>
+    <li><strong>Transfer studies</strong> (Gegenfurtner 2013, Tafvelin &amp; Stenling 2025) are the closest the literature gets to "does motivation make a coached skill <em>stick</em>," and both say autonomous motivation matters but is not sufficient on its own; opportunity-to-use is also required. This is a useful, honest nuance for a coaching product.</li>
+    <li><strong>DOI note:</strong> Cerasoli et al. 2014 (10.1037/a0035661), Van den Broeck et al. 2016 (10.1177/0149206316632058), and Deci, Olafsen &amp; Ryan 2017 (10.1146/annurev-orgpsych-032516-113108) now carry Crossref-verified DOIs. The Deci paper was previously mis-cited as "2022"; the verified article is the 2017 Annual Review.</li>
+  </ul>
+</details>
+
+<h4>Table B: EF predictors &rarr; durable-skill outcomes (and labeled proxies)</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Predictor</th>
+      <th>Durable skill / proxy outcome</th>
+      <th>Effect size</th>
+      <th>Sample &amp; N</th>
+      <th>Population</th>
+      <th>Tier</th>
+      <th>Citation (DOI)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>EF (composite)</td>
+      <td>Academic achievement (proxy)</td>
+      <td><strong>r &asymp; .365</strong> (pooled)</td>
+      <td>Meta-analysis, 21 samples, n = 7,947</td>
+      <td><strong>Children 6&ndash;12</strong> (no adult equivalent)</td>
+      <td><span class="tier tier-high">High</span> (children) / <span class="tier tier-low">gap</span> (adults)</td>
+      <td>Cortes-Pascual, Moyano &amp; Quilez-Robres 2019 (10.3389/fpsyg.2019.01582)</td>
+    </tr>
+    <tr>
+      <td>Self-reported daily EF</td>
+      <td>Academic progress (proxy)</td>
+      <td>Raised R&sup2; to 36% (vs 25% for performance EF)</td>
+      <td>Higher-ed students</td>
+      <td>College adults (autism sample)</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>Dijkhuis et al. 2020 (10.1007/s10803-019-04267-8)</td>
+    </tr>
+    <tr>
+      <td>EF self-ratings (BRIEF-A)</td>
+      <td>Occupational functioning (proxy)</td>
+      <td>Predicted all 11 measures; out-predicted EF tests</td>
+      <td>Adult ADHD</td>
+      <td>Adults (ADHD)</td>
+      <td><span class="tier tier-mod">Moderate</span>&ndash;<span class="tier tier-high">High</span></td>
+      <td>Barkley &amp; Murphy 2010 (10.1093/arclin/acq014)</td>
+    </tr>
+    <tr>
+      <td>BRIEF-A Metacognition Index (applied EF)</td>
+      <td>Quality of life (proxy)</td>
+      <td>+15.1% unique variance beyond diagnosis</td>
+      <td>Adult ADHD</td>
+      <td>Adults (ADHD)</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>Grinblat &amp; Rosenblum 2025 (10.3390/brainsci15121262)</td>
+    </tr>
+    <tr>
+      <td>BRIEF Planning/Organization (applied EF)</td>
+      <td>School grades (proxy)</td>
+      <td>Predicted grades beyond ADHD symptoms, IQ, achievement</td>
+      <td>Youth with ADHD</td>
+      <td>Children (ADHD)</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>Langberg, Dvorsky &amp; Evans 2013 (10.1007/s10802-013-9750-z)</td>
+    </tr>
+    <tr>
+      <td>Working memory</td>
+      <td><strong>Creative Problem Solving</strong></td>
+      <td>Significant positive; inhibition not significant</td>
+      <td>n = 150</td>
+      <td>Adults</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>Cancer et al. 2023 (10.1007/s00426-022-01678-8)</td>
+    </tr>
+    <tr>
+      <td>WM + cognitive flexibility</td>
+      <td><strong>Creative Problem Solving</strong> (science)</td>
+      <td>Both predicted; inhibition did not (SEM)</td>
+      <td>n = 478</td>
+      <td><strong>Children</strong></td>
+      <td><span class="tier tier-mod">Moderate</span> (child)</td>
+      <td>Sch&auml;fer et al. 2024 (10.1016/j.jecp.2024.105962)</td>
+    </tr>
+    <tr>
+      <td>Inhibitory control</td>
+      <td><strong>Critical Thinking</strong> (misconception correction)</td>
+      <td>Largest EF predictor, &Delta;R&sup2; = .114</td>
+      <td>n = 153</td>
+      <td>College students</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>Murti 2021 (10.14710/JP.20.1.10-21)</td>
+    </tr>
+    <tr>
+      <td>WM + inhibition</td>
+      <td><strong>Critical Thinking</strong> (rational thinking)</td>
+      <td>Both distinct contributors</td>
+      <td>Cross-sectional</td>
+      <td>Adults</td>
+      <td><span class="tier tier-high">High</span> (construct), no single r</td>
+      <td>Toplak, West &amp; Stanovich 2014 (10.1037/a0034910)</td>
+    </tr>
+    <tr>
+      <td>WM, CF, inhibition</td>
+      <td><strong>Adaptability</strong> / <strong>Resilience</strong> (cognitive reappraisal)</td>
+      <td>rs = .13&ndash;.19 (each)</td>
+      <td>Meta-analysis, 59 samples, n = 4,703</td>
+      <td>Adults</td>
+      <td><span class="tier tier-high">High</span></td>
+      <td>Toh et al. 2024 (10.1037/emo0001373)</td>
+    </tr>
+    <tr>
+      <td>Inhibitory control</td>
+      <td><strong>Resilience</strong></td>
+      <td>r = .24</td>
+      <td>n = 138</td>
+      <td>Adults (military stress)</td>
+      <td><span class="tier tier-high">High</span></td>
+      <td>Afek et al. 2021 (10.3389/fpsyt.2020.608588)</td>
+    </tr>
+    <tr>
+      <td>WM updating + CF</td>
+      <td><strong>Empathy</strong> (Theory of Mind)</td>
+      <td>Both predicted; inhibition did not</td>
+      <td>n = 96</td>
+      <td>Adults</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>Merlini et al. 2026 (10.1080/0361073X.2025.2586970)</td>
+    </tr>
+    <tr>
+      <td>WM updating</td>
+      <td><strong>Empathy</strong> (later ToM)</td>
+      <td>Strongest longitudinal predictor (SEM)</td>
+      <td>n = 1,657</td>
+      <td><strong>Children</strong></td>
+      <td><span class="tier tier-high">High</span> (child)</td>
+      <td>Austin, Groppe &amp; Elsner 2014 (10.3389/fpsyg.2014.00655)</td>
+    </tr>
+    <tr>
+      <td>CF (primary) + WM (partial)</td>
+      <td><strong>Social Awareness</strong> (emotion recognition)</td>
+      <td>CF &beta; = .399; WM &beta; = &minus;.297</td>
+      <td>n = 127</td>
+      <td>Adults (healthy)</td>
+      <td><span class="tier tier-high">High</span></td>
+      <td>Pua &amp; Yu 2024 (10.1016/j.socscimed.2024.117392)</td>
+    </tr>
+    <tr>
+      <td>WM (primary), CF, inhibition (secondary)</td>
+      <td><strong>Communication</strong></td>
+      <td>WM confirmed primary (systematic review)</td>
+      <td>Systematic review</td>
+      <td>Adults (acquired comm. disorders)</td>
+      <td><span class="tier tier-high">High</span></td>
+      <td>Bresolin Goncalves et al. 2018 (10.1590/1980-57642018dn12-030008)</td>
+    </tr>
+    <tr>
+      <td>CF (set-shifting)</td>
+      <td><strong>Relationship Building</strong> (reappraisal in relationships)</td>
+      <td>Only CF associated; WM not</td>
+      <td>n = 90</td>
+      <td>Older adults</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>King Johnson et al. 2023 (10.1080/13825585.2022.2027331)</td>
+    </tr>
+    <tr>
+      <td>Initiate (applied EF) + WM</td>
+      <td><strong>Networking</strong> (social/work functioning)</td>
+      <td>Both implicated</td>
+      <td>n = 62</td>
+      <td>Adults (autistic)</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>Woolard et al. 2021 (10.1177/13623613211013664)</td>
+    </tr>
+    <tr>
+      <td>WM (causal)</td>
+      <td><strong>Curiosity</strong> (directed inquiry)</td>
+      <td>WM load shifts curiosity to undifferentiated novelty-seeking</td>
+      <td>3 dual-task experiments</td>
+      <td>Adults</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>Wan &amp; Sloutsky 2026 (10.1037/xge0001848)</td>
+    </tr>
+    <tr>
+      <td>CF (set-shifting)</td>
+      <td><strong>Adaptability</strong> (multitasking, vocational)</td>
+      <td>CF most impaired; strongest predictor of adaptive skill</td>
+      <td>n = 73 / n = 281</td>
+      <td>Adults (ASD)</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>Yon-Hernandez et al. 2023 (10.3389/fpsyg.2023.1109561); Lee et al. 2024 (10.1007/s10803-022-05804-8)</td>
+    </tr>
+    <tr>
+      <td>Cognitive EF (reasoning + set-shifting)</td>
+      <td>Employment duration (proxy for <strong>Initiative/Networking</strong>)</td>
+      <td>R&sup2; = 26.5%</td>
+      <td>n = 50</td>
+      <td>Adults (TBI)</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>Clark, Seewald &amp; Wu 2020 (10.1016/j.apmr.2020.04.008)</td>
+    </tr>
+  </tbody>
+</table>
+
+<details>
+  <summary>Heavy stats and reading notes for Table B</summary>
+  <ul>
+    <li><strong>The cleanest EF-to-outcome number we have, r &asymp; .365, is from children aged 6&ndash;12</strong> (Cortes-Pascual 2019). There is no equivalent pooled meta-analysis for working-age or college-age adults. This is the single most important caveat in the EF half of RQ3 and is treated in section 3.</li>
+    <li><strong>A consistent pattern across the named-skill studies:</strong> working memory and cognitive flexibility tend to be the active EF ingredients, while inhibition often drops out. Creative problem solving (Cancer et al. 2023, Sch&auml;fer et al. 2024), empathy/ToM (Merlini et al. 2026), and social awareness (Pua &amp; Yu 2024) all show this. The exceptions are critical thinking and resilience, where inhibition <em>is</em> the lead predictor (Murti 2021; Afek 2021). This matters for the coach report because the 3 core EF are not interchangeable; which one drives a skill depends on the skill.</li>
+    <li><strong>The Toh et al. 2024 meta-analysis</strong> (59 samples, n = 4,703, adults) is the strongest adult anchor for the EF-to-emotion-regulation/reappraisal link that underpins Adaptability and Resilience, but the per-EF correlations are modest (.13&ndash;.19). Real and replicated, not large.</li>
+    <li><strong>The adult evidence is disproportionately clinical.</strong> Barkley &amp; Murphy (occupational), Grinblat &amp; Rosenblum (QoL), Langberg (grades), Woolard (networking), Clark (employment), Yon-Hernandez and Lee et al. (adaptability) are all ADHD, autism, or TBI samples. EF deficits are larger and more visible in these groups, so the correlations may not transfer cleanly to the general college-age population C2A serves.</li>
+    <li><strong>Dijkhuis 2020 is a useful rating-vs-task data point inside RQ3:</strong> self-reported daily EF out-predicted performance-based EF for academic progress (36% vs 25% variance). This is consistent with C2A's choice to rate rather than test EF, though the sample was autistic higher-ed students.</li>
+  </ul>
+</details>
+
+<h4>Per-skill coverage map (where the evidence actually lands)</h4>
+
+<p>Reading the two tables by skill rather than by predictor, the 12 durable skills fall into three confidence bands:</p>
+
+<ul>
+  <li><strong>Better-covered (named-skill studies in adults, often with a meta-analytic neighbor):</strong> Critical Thinking, Creative Problem Solving, Adaptability, Resilience, Social Awareness, Communication. These are mostly the cognitive skills, and they have the most direct EF evidence.</li>
+  <li><strong>Thinly covered (single studies, often child, older-adult, or clinical samples):</strong> Empathy, Curiosity, Relationship Building, Networking, Initiative. These lean heavily on neurodivergent or non-typical-adult samples or on broad SDT reviews.</li>
+  <li><strong>Covered only by proxy or by SDT review, not by a named-skill EF study:</strong> Collaboration. It rides on relatedness-satisfaction studies (van Leeuwen et al. 2025) and the Deci, Olafsen &amp; Ryan 2017 teamwork review, not on a labeled "EF-to-collaboration" finding.</li>
+</ul>
+
+<h3>3. Method and measurement caveats</h3>
+
+<p>Three problems sit underneath every number above. A coach report that quotes these correlations without carrying these caveats would be overselling.</p>
+
+<p><strong>The adult EF-to-work gap.</strong> The strongest, highest-tier EF-to-outcome figure (r &asymp; .365) is from children. There is no general-adult meta-analysis to match it. The adult evidence that does exist comes mostly from ADHD, autism, and TBI samples, where EF problems are larger and easier to detect. So when anyone says "EF predicts durable-skill outcomes in adults," they are stitching together a children's meta-analysis and a set of clinical-adult studies. That stitch is reasonable, but it is an inference, not a measured general-adult fact, and the coach report should say so.</p>
+
+<p><strong>Self-report inflation and shared-method variance.</strong> Howard et al. 2021 is the cleanest demonstration: the same predictor correlates about .13 with objective achievement but about .32 with self-reported achievement, more than double, just because the outcome was self-rated. C2A measures everything by rating self-report, with no lab tasks anywhere, and the durable-skill scores are themselves built from self-report instruments. When the predictor and the outcome are both rated by the same person at the same sitting, a chunk of the correlation is just the person's general self-view leaking into both answers (the "mono-method bias" the source files flag). The honest implication: any EF-to-durable-skill or motivation-to-durable-skill association observed inside C2A should be read toward the <em>objective</em> end of Howard's range, not the self-reported end.</p>
+
+<p><strong>The part-whole caveat, and why the internal pilot numbers cannot be cited as evidence here.</strong> The C2A engine reuses each measured signal as an ingredient that rolls up into as many as five durable skills. The deployed construct map is explicit: each of the three Deployed Applied EF reads the same IPIP subscale that feeds a durable-skill outcome (task initiation and the Initiative durable skill share <code>ipip_cluster_1</code>; self-monitoring and Critical Thinking share <code>ipip_cluster_2</code>; emotional control and Adaptability share <code>ipip_cluster_4</code>, at the item level; kinship with Collaboration and Resilience is conceptual, not item-level). So if an internal signal looks like it "predicts" a durable-skill score, part of that is predicting a thing from its own parts. That is an upper bound, not clean evidence. This is exactly why RQ3 stands only on the external published studies in Tables A and B, and why any internal pilot result may be framed only as "consistent with" or "a hypothesis to test."</p>
+
+<details>
+  <summary>One more measurement note: jangle and "looks like real life" is not "predicts real life"</summary>
+  <p>Several of the named-skill measures are self-perception scales (for example, self-perceived communication competence). A self-perception of a skill and the skill itself are not the same thing even when they share a name (the "jangle" problem: two differently-named things that are actually the same, or one name covering two different things). Relatedly, the veridicality-versus-verisimilitude guardrail says a measure that looks like real life is not automatically a measure that predicts real life. Both point the same direction: discount, do not inflate, when predictor and outcome are both self-reports of similar-sounding constructs.</p>
+</details>
+
+<h3>4. Gaps: what is not published, stated plainly</h3>
+
+<ul>
+  <li><strong>No "12 durable skills" outcome bundle exists in the literature.</strong> The 12-skill rubric is a ThriveIEP/NLU construct. The published literature speaks to the named skills one at a time, or to proxies, never to the bundle. There is no number to put in this cell, and none should be invented.</li>
+  <li><strong>No general-adult EF-to-real-world-outcome meta-analysis.</strong> The clean meta-analytic anchor (Cortes-Pascual) is children. The adult anchors are clinical (ADHD/autism/TBI). The typical college-age adult is the population we most want and have the least clean evidence for.</li>
+  <li><strong>Several interpersonal skills rest on non-typical samples.</strong> Collaboration, Curiosity, Networking, and Relationship Building draw their EF/SDT evidence from neurodivergent, older-adult, or child samples, or from broad SDT reviews, rather than labeled-outcome studies in typical adults. Tier these <span class="tier tier-low">Low</span> to <span class="tier tier-mod">Moderate</span> with a population-limit flag.</li>
+  <li><strong>Most named-skill links are single, cross-sectional studies.</strong> A single snapshot cannot tell us whether the predictor builds the skill over time (the SDT theory's actual claim) or just co-occurs with it. The longitudinal exceptions (Garn 2019, Austin 2014, the transfer studies) are the trustworthy minority.</li>
+</ul>
+
+<div class="coda">
+<h3>What this could mean for the coach report</h3>
+<p>The high-tier, population-general evidence clusters on two edges: the motivation-to-proxy edge (Cerasoli, Van den Broeck, the longitudinal ARC-mediation chain) and the EF-to-cognitive-skill edge (working memory and cognitive flexibility into creative problem solving, critical thinking, social awareness, and adaptability). A coach report could present those links with confidence. The interpersonal skills (Networking, Relationship Building, Collaboration) and Curiosity ride on neurodivergent, older-adult, or review-level evidence, so they should carry lower-confidence flags. And because every C2A measure is a same-sitting self-report, the report should frame any EF-to-skill or motivation-to-skill story as an explanatory hypothesis a coach can probe with the student, not as a measured predictive fact, with the self-report-inflation and part-whole caveats stated rather than buried.</p>
+</div>
+</section>
+
+<section id="rq2">
+<span class="part-tag">RQ2</span>
+<h2>RQ2: The applied-EF question: the three you already ship, and the four you do not</h2>
+<div class="tldr"><span class="lbl">TL;DR</span><span class="txt">The product already ships three of the seven applied EF (task initiation, self-monitoring, emotional regulation), and those three are exactly the ones that overlap most with durable skills the student report already shows. The cleanest <em>new</em> signal would come from the four not built (planning first). So the live question is not "what to add" but "how to frame what is already there," with explicit anti-double-counting language.</span></div>
+
+<div class="note">
+<p><strong>Read this first: the product has already made part of this decision, and it made the opposite bet from where the literature points.</strong> The three applied EF already deployed (task initiation, self-monitoring, emotional regulation) are exactly the three this section flags as highest-overlap with durable skills the student report already shows. The four still on the table (planning/prioritization, organization, time management, sustained attention) include the ones the literature likes best, but DR-042 deliberately skipped the planning and organization family as already covered by core EF. So this section does two jobs: it stress-tests the three already in production (are they earning their place, and how should the coach report frame them), and it weighs the evidence for the four not built. See "What ships today" in the orientation for the deployment facts.</p>
+</div>
+
+<p><strong>The short answer, on the published evidence alone: a qualified yes, but only for part of the list, and only with guardrails.</strong> Coaches would gain the cleanest <em>new</em> diagnostic signal from planning/prioritization and the organization/time-management cluster. But the three Deployed dimensions sit dangerously close to durable skills the student report already shows, so surfacing them risks telling a coach the same thing twice under two different labels. Among the Candidate four, sustained attention has thin standalone evidence and is the weakest case. The honest evidence verdict is not "keep and build all seven" and not "drop everything," but this: of the four Candidate dimensions the non-overlapping ones (planning, then the organization/time-management cluster) are the cleanest <em>adds</em>; the three Deployed dimensions are already live and need anti-double-counting framing rather than an add-or-drop decision; and sustained attention is a maybe. The uncomfortable wrinkle is that the three already shipped are the overlapping ones, so the live priority is not "what to add" but "how to frame what is already there." The reconciliation is in the coda.</p>
+
+<p>A quick orientation on what this question even is. The student report already runs on the three <em>core</em> EF, which this brief calls the <strong>EF triad</strong>: working memory (holding goals in mind), inhibition (filtering out distractions), and cognitive flexibility (switching strategies when the situation changes). The <em>applied</em> EF name more specific, everyday capacities such as task initiation, planning, and time management. The crucial thing to get right, because an earlier version of this brief got it wrong, is that the difference between the EF triad and the applied EF is <em>not</em> abstract-capacity-in-the-lab versus used-on-real-tasks. In C2A both are measured the exact same way: self-report ratings about how a person's everyday functioning actually goes. ADEXI and the cognitive-flexibility scale are everyday-functioning rating scales, not lab tests. So the EF triad and the applied EF differ in <em>which dimensions</em> they capture, not in whether one is "abstract" and the other "real." And the applied EF are not one set, they are two (see "What ships today" in the orientation for the labels used throughout):</p>
+<ul>
+  <li><strong>Deployed Applied EF (the BRIEF-2A trio, also called the self-regulation domains):</strong> task initiation, self-monitoring, emotional regulation. Already scored, already shown to coaches.</li>
+  <li><strong>Candidate Applied EF (not built):</strong> planning/prioritization, organization, time management, sustained attention. Not measured today.</li>
+</ul>
+<p>RQ2 therefore asks two distinct questions: for the Deployed trio, does keeping and surfacing them add information a coach does not already have from the core-EF readouts, the motivation layer, or the 12 durable-skill scores; and for the Candidate four, is there evidence strong enough to justify building them. The analysis below walks all seven so the two questions share one evidence base, but it tags each dimension Deployed or Candidate so the two never blur.</p>
+
+<p>Two framing reminders that constrain every claim below. First, this sits in <strong>Layer 1</strong>, the explanatory "why" layer beneath the reported durable skills, not as a peer of them. We are asking whether applied EF helps a coach explain <em>why</em> a durable skill is constrained, not whether it is a new outcome to report. Second, C2A measures every EF by self-report rating. There are no lab or performance tasks anywhere in the system. That single fact, as we will see, quietly defuses the most famous argument for the expansion.</p>
+
+<h3>1. Theory: why applied EF should, or should not, add value over core EF</h3>
+
+<p>The theoretical case for the expansion rests on one robust, well-cited finding: rating-based "everyday" EF and performance-based "lab" EF measure genuinely different things and correlate only weakly, somewhere around r = .1 to .3 (median r approx .19; range roughly .1 to .3).</p>
+
+<p>Lab tasks measure the efficiency of a cognitive ability under tidy, structured conditions (can you hold seven digits, can you stop a button-press on cue). Ratings measure how well goal pursuit actually goes in the messy, open-ended contexts of real life (do you start your assignments, do you lose your keys, do you blow deadlines). The classic statement of this divergence is Toplak, West and Stanovich 2013 <span class="tier tier-high">High</span>, and several studies show that the rating side out-predicts the lab side for real-world academic and occupational outcomes (Barkley and Murphy 2010 <span class="tier tier-high">High</span>; Dijkhuis et al. 2020 <span class="tier tier-mod">Moderate</span>). On its face, this says: the contextualized, applied facets carry the real-world signal, so give coaches the applied facets.</p>
+
+<p><strong>But there is a sharp catch, and it is the single most important theoretical point in this section.</strong> That literature compares <em>ratings to lab tasks</em>. C2A has no lab tasks. It measures its three core EF by rating (ADEXI, a cognitive-flexibility rating scale), and the three applied EF it already deploys are IPIP rating items too (any added ones would be as well). So the "applied beats core" headline cannot be the reason C2A applied EF would beat C2A core EF, because both C2A layers are ratings of the same person at the same sitting. The lab-versus-rating gap simply does not transfer to a rating-versus-rating comparison.</p>
+
+<p>What survives is a narrower, weaker, but still defensible claim: <em>within rating scales, the more contextualized and applied facets (planning, organization, metacognition) tend to carry more unique predictive weight for everyday outcomes than the broad EF-triad facets (working memory, inhibition, flexibility) do.</em> That narrower claim is what the per-dimension evidence below actually supports. It is worth keeping the distinction crisp, because an unwary brief would borrow the strength of the famous lab-versus-rating result for a C2A claim it cannot actually back.</p>
+
+<p>The theoretical case <em>against</em> a blanket expansion is the non-redundancy problem. If an applied EF is just core EF wearing everyday clothes, or worse, if it re-measures a durable skill the student report already shows, then adding it inflates the dashboard without adding information. Theory predicts exactly this for the three Deployed dimensions: task initiation shares items with the Initiative durable skill, self-monitoring shares items with Critical Thinking (and is conceptually upstream of Collaboration), and emotional regulation shares items with Adaptability (and is conceptually bound up with Resilience). The theory, in other words, predicts a mixed result, and that is what the evidence delivers.</p>
+
+<h3>2. Evidence per applied EF: validity, incremental value, and overlap</h3>
+
+<p>For each of the seven, three questions matter. <strong>Validity:</strong> is the construct real and separately predictive? <strong>Incremental value:</strong> does it add signal beyond core EF (and is it a movable, coachable target)? <strong>Overlap risk:</strong> which core EF and, critically, which <em>already-reported durable skill</em> it may re-measure. Effect sizes and study details live in the collapsible blocks; the prose carries the verdict.</p>
+
+<h4>2a. Planning / Prioritization (not deployed): the strongest, cleanest add on the evidence</h4>
+
+<p>Validity is <span class="tier tier-high">High</span> and incremental value is <span class="tier tier-mod">Moderate</span>. The planning and organization facets, more than the broad inhibition facet, are the EF components most tied to academic outcomes, and planning is separately <em>teachable</em>, which is the clearest evidence that it is its own lever rather than a relabeling of the EF triad.</p>
+
+<details>
+  <summary>Planning/prioritization evidence detail</summary>
+  <ul>
+    <li>The BRIEF Plan/Organize subscale (rated) predicted school grades above and beyond ADHD symptoms, IQ, and prior achievement. Source: Langberg, Dvorsky and Evans 2013, DOI 10.1007/s10802-013-9750-z. <span class="tier tier-mod">Moderate</span> (the finding is high-confidence, but the sample is youth ADHD).</li>
+    <li>Meta-analysis (21 samples, n = 7,947): metacognition/behavioral-regulation subscales and cognitive flexibility were the EF components most associated with academic performance (overall EF r = .365). Source: Cortes-Pascual et al. 2019, DOI 10.3389/fpsyg.2019.01582. <span class="tier tier-high">High</span>, but children aged 6 to 12, not adults.</li>
+    <li>Direct instruction of metacognition (plan, monitor, evaluate) produced large learning and transfer gains versus extended practice (d = 0.64 to 0.87). Source: Zepeda et al. 2015, ERIC EJ1082661. <span class="tier tier-high">High</span> design quality, but adolescent science learning, not coaching.</li>
+    <li>Brief if-then planning (Mental Contrasting with Implementation Intentions) raised goal-directed practice by more than 60%. Sources: Duckworth et al. 2011, ERIC EJ911106 <span class="tier tier-high">High</span>; Clark et al. 2021, ERIC EJ1304548 <span class="tier tier-mod">Moderate</span>.</li>
+  </ul>
+</details>
+
+<p><strong>Overlap risk: lowest of the seven.</strong> Planning/prioritization does not map cleanly onto any single one of the 12 durable skills, which is precisely what makes it a good expansion candidate: it is plausibly genuinely new diagnostic signal. It has mild conceptual overlap with Critical Thinking and Creative Problem Solving (planning is an input to both) and a built-in dependence on core working memory (you cannot hold a plan without it), but it does not re-measure a reported outcome. This is the dimension to add first.</p>
+
+<h4>2b. Organization and 2c. Time Management (not deployed): a cluster, not two dials</h4>
+
+<p>Both have <span class="tier tier-mod">Moderate</span> validity and <span class="tier tier-mod">Moderate</span> incremental value, and both are demonstrably movable by coaching. The important nuance is that organization, time management, and planning travel together in nearly every intervention study, which is a double-edged finding: it shows they respond to coaching, but it also suggests they may be hard to separate statistically. They may be one factor wearing three names.</p>
+
+<details>
+  <summary>Organization and time-management evidence detail</summary>
+  <ul>
+    <li>Organizational-skills interventions (OTMP: organization, time management, planning) improved planning, time management, and study behaviors in college students with ADHD. Source: LaCount et al. 2018, DOI 10.1177/1087054715594423. <span class="tier tier-mod">Moderate</span> (RCT).</li>
+    <li>A 17-study systematic review of EF coaching for college students with disabilities reported improved GPA, time management, organization, study skills, behavioral regulation, and metacognition. Source: Anderson and Marino 2024, ERIC EJ1445898. <span class="tier tier-mod">Moderate</span>.</li>
+    <li>"Organization-in-time" added 10.8% unique variance to quality of life beyond diagnosis in adult ADHD (alongside the BRIEF-A Metacognition Index at 15.1%). Source: Grinblat and Rosenblum 2025, DOI 10.3390/brainsci15121262. <span class="tier tier-mod">Moderate</span>.</li>
+    <li>Time management is repeatedly the most-cited hurdle to college completion for neurodivergent students and among the most frequently taught study-skills constructs (58.3% of programs). Sources: Earnest and Crowley 2025, DOI 10.1080/07370008.2025.2463652 <span class="tier tier-mod">Moderate</span>; Kittelman et al. 2025, DOI 10.1177/21651434251364748 <span class="tier tier-low">Low</span>.</li>
+    <li>The cleanest "time management is a movable target" evidence: a pragmatic RCT (N = 75) of a group time-management intervention for adults with ADHD/autism/mental disorders produced significant, 3-month-durable gains in time management, organization, planning, and (as a side effect) emotional regulation. Source: Lidstrom Holmqvist et al. 2026, DOI 10.1080/09638288.2026.2614218. <span class="tier tier-mod">Moderate</span>.</li>
+  </ul>
+</details>
+
+<p><strong>Overlap risk: low against durable skills, moderate within the applied-EF set.</strong> Neither organization nor time management re-measures any of the 12 durable skills. Their redundancy risk is internal: heavy bundling with each other and with planning. The recommendation that falls out of this is to treat planning, organization, and time management as a single candidate <em>cluster</em>, not three independent dials, until evidence for their separability exists. Showing a coach three near-identical bars would manufacture false precision.</p>
+
+<h4>2d. Task Initiation (deployed today): valid, but a high overlap trap with the "Initiative" durable skill</h4>
+
+<p>Validity is <span class="tier tier-mod">Moderate</span> and incremental value is <span class="tier tier-mod">Moderate</span> (recently upgraded from clinical consensus to controlled evidence). The single best published hint that task initiation is <em>not</em> already captured by the three core EF is that the BRIEF-A Initiation scale predicted academic procrastination over and above working memory and inhibition.</p>
+
+<details>
+  <summary>Task-initiation evidence detail</summary>
+  <ul>
+    <li>BRIEF-A Initiation was a significant independent predictor of academic procrastination, above and beyond working memory and inhibition. Source: Rabin, Fogel and Nutter-Upham 2011, DOI 10.1080/13803395.2010.518597. <span class="tier tier-mod">Moderate</span>. This "over and above core EF" result is the key non-redundancy evidence against core EF.</li>
+    <li>A multicenter RCT (N = 108) showed CBT targeting behavioral activation (CADDI) outperformed standard CBT on the activation outcome (d = 0.49), upgrading task initiation from consensus to controlled evidence. Source: Stralin et al. 2025, DOI 10.3389/fpsyt.2025.1564506. <span class="tier tier-mod">Moderate</span>.</li>
+    <li>A movement-and-mentorship EF coaching program (no therapy frame) showed significant pre-post gains in task initiation, planning/organization, and working memory. Source: Wilcox et al. 2026, DOI 10.3389/fpsyg.2026.1761762. <span class="tier tier-low">Low</span> (quality-improvement study, no control group).</li>
+  </ul>
+</details>
+
+<p><strong>Overlap risk: high, and it is the marquee example of the non-redundancy trap.</strong> "Initiative" is one of the 12 reported durable skills (Pillar 2, Leaders with Purpose and Agency). "Task initiation" is the candidate applied EF. In theory these are not the same: the durable-skill <em>Initiative</em> is self-starting, proactivity, and agency in pursuit of goals, while EF <em>task initiation</em> is the narrower neurocognitive capacity to begin a task without undue procrastination. But to a coach skimming a report, "low on Initiative" and "low on Task Initiation" will read as the same sentence. The deeper problem is internal and now verified in the deployed construct map: the live <code>initiate</code> dimension reads <code>ipip_cluster_1</code> (subscale <code>initiative_initiate</code>), the very same subscale that feeds the Initiative durable-skill score. The applied-EF dimension uses that subscale raw, while the durable skill blends it with other sources (Initiative weights the cluster at roughly 0.46 alongside a CAAS-SF subscale), so they are not identical numbers, but they ride on the identical items. Any apparent "task initiation explains Initiative" relationship is therefore partly an artifact of shared items, predicting a thing from its own parts. <strong>Decision flag:</strong> because this dimension is already live and shown to coaches, the coach report must explicitly separate "the <em>capacity</em> to start (EF, the why)" from "the <em>disposition</em> to take initiative (durable skill, the what)," or it risks showing the coach the same number twice with two labels.</p>
+
+<h4>2e. Self-Monitoring (deployed today): strong "why" candidate, high overlap with Critical Thinking and Collaboration</h4>
+
+<p>Validity is <span class="tier tier-mod">Moderate</span> and incremental value is <span class="tier tier-mod">Moderate</span> (also recently upgraded by controlled trials). Like task initiation, self-monitoring predicted procrastination over and above working memory and inhibition, and the broader metacognition index uniquely predicted quality of life. As an <em>explanatory</em> layer it is one of the most appealing candidates: watching your own output is conceptually upstream of evaluating your reasoning and reading your effect on a group.</p>
+
+<details>
+  <summary>Self-monitoring evidence detail</summary>
+  <ul>
+    <li>BRIEF-A Self-Monitor predicted academic procrastination over and above working memory and inhibition. Source: Rabin et al. 2011, DOI 10.1080/13803395.2010.518597. <span class="tier tier-mod">Moderate</span>.</li>
+    <li>Metacognitive (self-monitoring) deficits are a distinct contributor to functional impairment in adult ADHD, separable from core attention/hyperactivity symptoms. Source: "Training of awareness in ADHD: Leveraging metacognition," Journal of Psychiatry and Brain Science 2024, DOI 10.20900/jpbs.20240006. <span class="tier tier-low">Low</span> (minireview; Crossref lists no author for this record, so the earlier "Lenartowicz et al." attribution is unverified).</li>
+    <li>The BRIEF-A Metacognition Index uniquely predicted quality of life (+15.1% variance beyond diagnosis). Source: Grinblat and Rosenblum 2025, DOI 10.3390/brainsci15121262. <span class="tier tier-mod">Moderate</span>.</li>
+    <li>CO-OP metacognitive strategy training (Goal-Plan-Do-Check) beat usual occupational therapy on both trained and untrained everyday goals (generalization), though gains faded by 3 months without boosters. Source: Dawson et al. 2025, DOI 10.3390/brainsci15111195. <span class="tier tier-mod">Moderate</span> (RCT, N = 87).</li>
+    <li>A "strategic mindset" field experiment (N = 1,070) raised strategy use and exam scores via metacognitive prompting. Source: Chen et al. 2025, DOI 10.1038/s41539-025-00367-6. <span class="tier tier-mod">Moderate</span>.</li>
+  </ul>
+</details>
+
+<p><strong>Overlap risk: high.</strong> Per the deployed construct map, the live <code>self_monitor</code> dimension reads <code>ipip_cluster_2</code> (subscale <code>critical_thinking_sm</code>), the very same subscale that feeds the <strong>Critical Thinking</strong> durable skill, so at the item level it re-measures Critical Thinking outright. Its kinship with <strong>Collaboration</strong> is conceptual (self-monitoring as the upstream "why" of reading your effect on a group), not item-level. (Worth noting for anyone cross-checking the decision records: DR-042's design-intent table mapped self-monitoring to Collaboration and Social Awareness, but the deployed construct map wires it to the Critical Thinking subscale; this brief follows the deployed source, which is the authority.) Because the Critical Thinking items are literally shared, any "self-monitoring predicts Critical Thinking" pattern observed internally is partly a shared-item artifact, not independent evidence. <strong>Decision flag:</strong> self-monitoring is a strong diagnostic-why candidate worth surfacing to coaches, but it must not be presented as independent corroboration of the Critical Thinking score it helped produce.</p>
+
+<h4>2f. Emotional Regulation (deployed today): high overlap plus a scope-of-practice flag</h4>
+
+<p>Validity is <span class="tier tier-mod">Moderate</span> and incremental value is <span class="tier tier-mod">Moderate but largely indirect</span>: in the strongest evidence, emotional regulation improves as a <em>secondary cascade</em> of time-management and SDT-based coaching, not as a directly targeted dimension. It can be moved directly in non-clinical samples by structured non-therapy programs, but the cleanest signal here is a side-effect signal.</p>
+
+<details>
+  <summary>Emotional-regulation evidence detail</summary>
+  <ul>
+    <li>Emotional dysregulation is named a core feature of adult ADHD in the field's major consensus paper. Source: Cortese et al. 2025, World Psychiatry, DOI 10.1002/wps.21374. <span class="tier tier-mod">Moderate</span>.</li>
+    <li>Adults with ADHD consistently self-identify emotional dysregulation among their most impairing challenges. Sources: Rosenthal et al. 2025, DOI 10.1177/10870547251352589 <span class="tier tier-mod">Moderate</span>; Grinblat and Rosenblum 2025, DOI 10.1192/j.eurpsy.2025.2169 <span class="tier tier-low">Low</span> (qualitative).</li>
+    <li>Strongest signal is indirect: emotional regulation improved as a secondary outcome of time-management and SDT-based coaching. Source: Lidstrom Holmqvist et al. 2026, DOI 10.1080/09638288.2026.2614218. <span class="tier tier-mod">Moderate</span>.</li>
+    <li>It can be moved directly: a mindfulness RCT (N = 114) improved emotion regulation versus active control (p = 0.03, d = 0.41). Source: Mendola et al. 2026, DOI 10.1177/13591045251377898. <span class="tier tier-mod">Moderate</span>.</li>
+    <li><strong>Negative-trial caution:</strong> the Haugan 2022 RCT (DOI 10.1186/s12888-022-04019-6) is a verified <em>negative</em> result; group CBT added no incremental effect on BRIEF EF (effect sizes near zero). An earlier version of this finding carried fabricated effect sizes (d = 0.58, d = 0.44) that do not appear in the paper. Do not cite Haugan as evidence that BRIEF subscales are intervention-sensitive.</li>
+  </ul>
+</details>
+
+<p><strong>Overlap risk: high, plus a product-risk flag.</strong> Per the deployed construct map, the live <code>emotional_control</code> dimension reads <code>ipip_cluster_4</code> (subscale <code>adaptability_ec</code>), the very same subscale that feeds the <strong>Adaptability</strong> durable skill, so at the item level it re-measures Adaptability outright. Its kinship with <strong>Resilience</strong> is conceptual rather than item-level. Either way it risks re-measuring a reported outcome the student report already shows. On top of redundancy there is a scope-of-practice boundary: the coaching field is split on whether emotional regulation is even coaching territory, with several 2026 practitioner sources framing it as the boundary domain that may trigger a therapy referral (shame spirals, shutdown) and a minority treating it as integral to coaching (practitioner blogs, <span class="tier tier-low">Low</span>). Surfacing emotional regulation to coaches therefore carries a product-risk dimension beyond pure statistical redundancy.</p>
+
+<h4>2g. Sustained Attention (not deployed): the weakest case for a standalone dial</h4>
+
+<p>Validity as a construct is <span class="tier tier-mod">Moderate</span>, but incremental value as a separate, trainable target is <span class="tier tier-low">Low</span>. Sustained attention is reliably named as a core EF challenge, and CBT reliably improves <em>inattention symptoms</em>, but "sustained attention as a trainable capacity" is the dimension with the least clean support: the best vigilance-training RCT was null, and there is no adult dimension-specific RCT showing it is a separable, coachable lever.</p>
+
+<details>
+  <summary>Sustained-attention evidence detail</summary>
+  <ul>
+    <li>Listed consistently as a core EF challenge by adults with ADHD. Sources: Grinblat and Rosenblum 2025 (qualitative) <span class="tier tier-low">Low</span>; Dawson and Guare practitioner framework <span class="tier tier-low">Low</span>.</li>
+    <li>CBT for adult ADHD reliably improves inattention symptoms (Cochrane meta-analysis, Lopez et al. 2018, DOI 10.1002/14651858.cd010840.pub2 <span class="tier tier-high">High</span>), but the cleanest sustained-attention lab-vigilance-training RCT was null. So inattention <em>symptoms</em> respond while sustained attention <em>as a capacity</em> remains weakly supported. Source: claim GC1, nlu-coach-view-construct-compendium. <span class="tier tier-high">High</span> confidence on the null/mixed picture.</li>
+    <li>The compendium's own gap-search summary states sustained attention "remains weakest."</li>
+  </ul>
+</details>
+
+<p><strong>Overlap risk: low against durable skills</strong>, but the binding problem here is not overlap, it is weak standalone evidence. There is no adult RCT showing sustained attention is a separable, coachable dimension. It is the applied EF with the least support for inclusion as a distinct dial.</p>
+
+<h3>Summary table: the seven at a glance</h3>
+
+<p>The <strong>Status</strong> column carries the distinction this brief leans on: <strong>Deployed</strong> = the BRIEF-2A trio already scored and shown to coaches; <strong>Candidate</strong> = the four not built. The mismatch the table makes visible: the three already in production are the high-redundancy ones, while the lowest-redundancy options are the ones not built.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Applied EF</th>
+      <th>Status</th>
+      <th>Validity</th>
+      <th>Incremental value</th>
+      <th>Overlap with a reported durable skill</th>
+      <th>Net redundancy risk</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Task Initiation</td>
+      <td><strong>Deployed</strong></td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>HIGH vs <strong>Initiative</strong> (same IPIP subscale, item-level)</td>
+      <td><strong>High</strong></td>
+    </tr>
+    <tr>
+      <td>Self-Monitoring</td>
+      <td><strong>Deployed</strong></td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>HIGH vs <strong>Critical Thinking</strong> (same IPIP subscale, item-level); Collaboration conceptual</td>
+      <td><strong>High</strong></td>
+    </tr>
+    <tr>
+      <td>Emotional Regulation</td>
+      <td><strong>Deployed</strong></td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td><span class="tier tier-mod">Moderate</span> (indirect)</td>
+      <td>HIGH vs <strong>Adaptability</strong> (same IPIP subscale, item-level); Resilience conceptual; plus scope-of-practice flag</td>
+      <td><strong>High</strong></td>
+    </tr>
+    <tr>
+      <td>Planning / Prioritization</td>
+      <td>Candidate</td>
+      <td><span class="tier tier-high">High</span></td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>Low (diffuse, none direct)</td>
+      <td><strong>Lowest</strong></td>
+    </tr>
+    <tr>
+      <td>Organization</td>
+      <td>Candidate</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>None vs durable skills (bundles with TM + planning)</td>
+      <td>Low</td>
+    </tr>
+    <tr>
+      <td>Time Management</td>
+      <td>Candidate</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td>None vs durable skills (bundles)</td>
+      <td>Low</td>
+    </tr>
+    <tr>
+      <td>Sustained Attention</td>
+      <td>Candidate</td>
+      <td><span class="tier tier-mod">Moderate</span></td>
+      <td><span class="tier tier-low">Low</span></td>
+      <td>Low</td>
+      <td>Weak standalone evidence</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>3. Non-redundancy, assessed three ways</h3>
+
+<p>The reference frame demands that "non-redundant" be tested against three things, not one. Here is the verdict on each axis.</p>
+
+<p><strong>Against the 3 core EF.</strong> This is the axis the expansion clears most cleanly for the right dimensions. The two cleanest results, that task initiation and self-monitoring each predicted procrastination <em>over and above working memory and inhibition</em> (Rabin et al. 2011), are the published evidence that at least some applied EF carry signal the core three do not. Planning/organization being the EF components most tied to academic outcomes (rather than the inhibition facet) points the same way. So against core EF, the applied facets are not redundant, with the caveat that this evidence is rating-based and mostly clinical.</p>
+
+<p><strong>Against the ARC / motivation layer.</strong> This is the axis where the evidence is thinnest, and it is handled in detail in RQ1, so we cross-reference rather than reproduce. RQ1's finding is that the EF-to-motivation link is real in theory but triangulated, not directly measured, reached through the affect, shared-personality-variance, BDEFS Self-Motivation, and procrastination bridges. The practical implication for RQ2 is that applied EF and the motivation layer are <em>not</em> clean substitutes for each other: they share variance (especially through procrastination and self-motivation), but no published study puts a rating EF battery beside a validated SDT scale, so we cannot say applied EF is redundant with ARC. The honest stance is that the overlap is partial and unmeasured, which argues for keeping them as distinct lenses rather than collapsing them.</p>
+
+<p><strong>Against the 12 durable skills already reported.</strong> This is the axis with the sharpest, most actionable findings, and it is where three of the seven fail the clean-add test. Those three are exactly the Deployed trio. Task initiation overlaps <strong>Initiative</strong>, self-monitoring overlaps <strong>Critical Thinking</strong>, and emotional regulation overlaps <strong>Adaptability</strong>, each at the item level (their kinship with Collaboration and Resilience is conceptual). The mechanism is not merely conceptual: per the deployed construct map, each Deployed Applied EF reads the very same IPIP subscale that feeds its durable-skill score (clusters 1, 2, and 4 respectively). RQ3 documents the EF-to-durable-skill relationships in full; we cross-reference it here rather than reproduce its tables. The RQ2-specific point is that for these three dimensions, an internal "applied EF predicts durable skill" relationship is partly predicting a thing from its own parts, which is an upper bound, not clean evidence.</p>
+
+<h3>4. Method and measurement caveats</h3>
+
+<p>Four caveats sit underneath every claim above and must travel with any coach-report decision.</p>
+
+<p><strong>Rating-versus-lab does not save the C2A case.</strong> Repeating the load-bearing point from the theory section: the famous "applied EF beats core EF" literature compares ratings to lab tasks, and C2A rates everything, so that result does not directly justify C2A applied EF over C2A core EF. The defensible narrower claim is that within ratings, contextualized facets tend to carry more unique everyday-outcome variance than abstract facets.</p>
+
+<p><strong>Common-method variance and self-report inflation.</strong> Because predictor and outcome are both self-reports from the same person at the same sitting, a chunk of any observed correlation is the person's general self-view leaking into both answers rather than a true construct relationship. The published twin of this concern is the verisimilitude-versus-veridicality guardrail: a measure that <em>looks like</em> real life (Suchy et al. 2024, DOI 10.1037/pas0001297 <span class="tier tier-high">High</span>) is not automatically a measure that <em>predicts</em> real life.</p>
+
+<p><strong>The part-whole / dual-scoring artifact (the published twin of Hard Rule 2).</strong> The engine reuses each measured signal as an ingredient that rolls up into as many as five durable skills. So any internal "applied EF predicts durable skill" result is partly mechanical. This is exactly why the internal pilot's predictive numbers cannot stand as evidence here, and why internal signal may be framed only as "consistent with" or "a hypothesis to test against an item-independent outcome" such as a coach rating or a later timepoint.</p>
+
+<p><strong>Population limits.</strong> Nearly all applied-EF <em>coaching</em> evidence rides on ADHD, learning-disability, autism, or other neurodivergent/disability samples (Langberg, Solanto, LaCount, Lidstrom Holmqvist, Stralin, and others). EF deficits are larger and easier to detect in these groups, so the correlations may not transfer cleanly to the general college population C2A serves. The scarcity is not a search artifact: one scoping review found only 28 usable EF-in-higher-education studies out of 8,237 screened (Pretorius and Heyns 2026, DOI 10.3389/fpsyg.2026.1636067 <span class="tier tier-mod">Moderate</span>). Controlled EF intervention research in general college populations is genuinely sparse.</p>
+
+<h3>5. Gaps: what is not published, stated plainly</h3>
+
+<ul>
+  <li><strong>No head-to-head rating-versus-rating test.</strong> No published study compares a rating core-EF battery against a rating applied-EF battery for predicting the same real-world outcome, which is the exact comparison C2A's design would need to justify the expansion on its own terms. The lab-versus-rating literature is a neighbor, not a substitute.</li>
+  <li><strong>No general-population applied-EF coaching evidence.</strong> The coaching evidence is overwhelmingly clinical/neurodivergent. Whether applied EF is a movable, coachable lever in typical college students is untested.</li>
+  <li><strong>No separability evidence for the planning/organization/time-management cluster.</strong> They co-move in every intervention; no study cleanly factors them apart, so we cannot say they are three independent dials.</li>
+  <li><strong>Sustained attention has no adult, dimension-specific, separable-lever RCT.</strong> The capacity (as opposed to the symptom) remains the weakest-supported of the seven.</li>
+  <li><strong>The internal advantage, if any, is unmeasurable from current data without an item-independent outcome.</strong> Until an applied-EF signal is tested against something it did not help build (a coach rating, a later timepoint), every internal "it predicts the durable skill" number is an upper bound, not evidence.</li>
+</ul>
+
+<div class="coda">
+<h3>What this could mean for the coach report</h3>
+<p><strong>Reconciling the evidence with what shipped.</strong> On the published evidence alone, the cleanest, lowest-redundancy adds would be <strong>Planning/Prioritization</strong> and the <strong>Organization/Time-Management</strong> cluster (presented as one lens, not three dials). But those are exactly the four <em>not</em> built, and DR-042 had a defensible reason: it judged the planning and organization family already covered by the core-EF readouts. Meanwhile the three already shipped, <strong>Task Initiation, Self-Monitoring, and Emotional Regulation</strong>, are the high-overlap ones, each reading the same IPIP subscale that feeds a reported durable skill (Initiative; Critical Thinking; Adaptability). So the live question is not "what to add" but "how to frame what is already in front of coaches."</p>
+<p><strong>For the three already deployed and on the coach dashboard:</strong> they are valid and genuinely useful as <em>explanatory</em> signal, but the coach report must carry explicit anti-double-counting framing, separating "the capacity to start, monitor, or regulate (EF, the why)" from "the durable skill it shadows (the what)," with emotional regulation also carrying a coaching-versus-therapy boundary note. They must not be shown as independent corroboration of the durable-skill scores they helped produce. <strong>For the four not built:</strong> if the team revisits the expansion, planning/prioritization is the best-supported next candidate, followed by the organization/time-management cluster, with sustained attention the weakest case and reasonable to defer. Either way, because every C2A signal is a same-sitting self-report and the engine reuses each signal across up to five durable skills, the applied EF belong in the coach report as <em>explanatory hypotheses a coach can probe with the student</em>, not as measured predictive facts.</p>
+</div>
+</section>
+
+<section id="limits">
+<span class="part-tag">Honest limits</span>
+<h2>Honest limits and evidence-quality summary</h2>
+<div class="tldr"><span class="lbl">TL;DR</span><span class="txt">The two-layer theory is sound and each edge is backed by real evidence, but four limits must be said out loud: nobody has tested the whole chain end to end, the cleanest adult numbers do not exist, the applied-EF case leans on clinical samples, and our engine's reuse of each signal makes any internal "it predicts the outcome" number an <em>upper bound</em>. None are fatal; stating them is what makes the coach report trustworthy.</span></div>
+
+<p class="lead">The short version: the two-layer architecture is well-grounded in theory, and the individual edges of the web are each backed by real published evidence. But nobody has ever tested the whole chain end to end, the cleanest adult numbers we want do not exist, the applied-EF case leans on clinical samples, and our own engine's design makes internal "it predicts the outcome" numbers an upper bound rather than proof. None of these is fatal. All of them have to be stated out loud so the coach report does not overclaim.</p>
+
+<p>Here are the four load-bearing limits, each tiered by how confident we are that the limit itself is real.</p>
+
+<table>
+<thead>
+<tr><th>Limit</th><th>What it means in plain terms</th><th>Confidence the limit is real</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>No full-chain study</strong></td>
+<td>Nothing in the literature runs the whole path (needs &rarr; motivation &rarr; EF use &rarr; durable-skill outcomes) in one model. Each edge is studied separately, so the two-layer story is an assembly of separate evidence, not one validated chain. The coach report should present it as a coherent theory supported edge-by-edge, never as a single proven pipeline.</td>
+<td><span class="tier tier-high">High</span></td>
+</tr>
+<tr>
+<td><strong>The adult EF-to-work gap</strong></td>
+<td>The strongest, cleanest EF-to-outcome number (r &asymp; .365) is from children aged 6 to 12. There is no matching general-adult meta-analysis. The adult evidence that exists is mostly ADHD, autism, and TBI. So any "EF predicts adult outcomes" claim is a reasonable inference stitched from a children's meta-analysis plus clinical-adult studies, not a measured general-adult fact.</td>
+<td><span class="tier tier-high">High</span></td>
+</tr>
+<tr>
+<td><strong>Applied-EF evidence rides on clinical samples</strong></td>
+<td>Nearly all applied-EF coaching evidence comes from ADHD, learning-disability, or autism samples, where EF problems are larger and easier to detect. One scoping review found only 28 usable EF-in-higher-education studies out of 8,237 screened. Whether applied EF is a movable, coachable lever in typical college students is largely untested, so general-population value must be tiered Low where that is the only evidence.</td>
+<td><span class="tier tier-high">High</span></td>
+</tr>
+<tr>
+<td><strong>The part-whole caveat</strong></td>
+<td>The engine reuses each measured Layer 1 signal as an ingredient that rolls up into as many as five durable skills. So any internal finding that a signal "predicts" a durable-skill score is partly predicting a thing from its own parts. That is an upper bound, not clean evidence. Internal pilot numbers may be framed only as "consistent with" the published literature or "a hypothesis to test against an item-independent outcome" (a coach rating, a later timepoint).</td>
+<td><span class="tier tier-high">High</span></td>
+</tr>
+</tbody>
+</table>
+
+<h3>Two more measurement limits that bound every correlation in the brief</h3>
+
+<ul>
+<li><strong>No direct rating-EF-to-SDT correlation exists (RQ1's central gap).</strong> No published study puts a rating-based EF battery beside a validated SDT autonomous-motivation scale in the same sample. The EF-by-motivation link is entirely triangulated through four bridges. <span class="tier tier-high">High</span> confidence this is a genuine gap, not a search artifact.</li>
+<li><strong>Self-report inflation and common-method variance.</strong> When predictor and outcome are both self-reported by the same person at the same sitting, the correlation inflates (Howard's .13 objective vs .32 self-reported is the cleanest demonstration; the standard common-method estimate is around 26% of variance). Every C2A-internal correlation should be read toward the lower, objective end. <span class="tier tier-high">High</span>.</li>
+</ul>
+
+<h3>Evidence-quality summary: what each section can actually carry</h3>
+
+<table>
+<thead>
+<tr><th>Section</th><th>Strongest evidence in it</th><th>Weakest / gap</th><th>Net confidence</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>Background</td>
+<td>SDT needs-to-motivation links (&rho; &asymp; .44 to .58) and the Toplak rating-vs-performance method gap are both High.</td>
+<td>The 26% common-method figure and the conscientiousness-overlap &rho; carry verification flags.</td>
+<td><span class="tier tier-high">High</span></td>
+</tr>
+<tr>
+<td>RQ1 (EF x motivation)</td>
+<td>The four-bridge triangulation is honestly mapped and the theory is High-authority.</td>
+<td>No direct coefficient exists; the need-by-need table is mostly empty by necessity.</td>
+<td><span class="tier tier-mod">Moderate</span> (triangulated, not direct)</td>
+</tr>
+<tr>
+<td>RQ3 (predictors x durable skills)</td>
+<td>Motivation-to-proxy and EF-to-cognitive-skill edges have High-tier, population-general anchors.</td>
+<td>No "12 durable skills" bundle study; interpersonal skills and adult EF lean on clinical/child samples.</td>
+<td><span class="tier tier-mod">Moderate</span> to <span class="tier tier-high">High</span> by skill</td>
+</tr>
+<tr>
+<td>RQ2 (applied-EF expansion)</td>
+<td>Planning/organization carry the cleanest incremental-value and movability evidence.</td>
+<td>No rating-vs-rating head-to-head; coaching evidence is clinical; three of seven overlap reported skills.</td>
+<td><span class="tier tier-mod">Moderate</span></td>
+</tr>
+</tbody>
+</table>
+
+<div class="coda">
+<h3>What this could mean for the coach report</h3>
+<p>The responsible posture is consistent across all four sections: present Layer 1 signals (EF, needs, motivation) as <em>explanatory hypotheses a coach can probe with the student</em>, not as independent measured predictions of the durable-skill scores. The theory is sound and each edge is evidenced, so the coach report can confidently offer a coach a "here is a likely reason this skill is constrained" story. It should not offer a "this signal predicts this skill by X" number, because the full chain is unproven, the adult evidence is partial, and our own engine's part-whole design makes any internal predictive number an upper bound. Honesty about these limits is not a weakness of the brief; it is what makes the coach report trustworthy.</p>
+</div>
+</section>
+
+<section id="bibliography">
+<span class="part-tag">Bibliography</span>
+<h2>Bibliography</h2>
+<div class="tldr"><span class="lbl">TL;DR</span><span class="txt">72 references, every one resolved against Crossref or ERIC on 2026-06-01. Author lists, titles, journals, and years are the registry's record, not the citing draft's; in-text citations that disagreed were corrected, and those changes are itemized at the end of the list.</span></div>
+
+<style>
+  .biblist .ref { font-size: 14px; color: var(--slate); max-width: 920px; padding-left: 30px; text-indent: -30px; margin-bottom: 12px; line-height: 1.55; }
+  .biblist .ref em { color: var(--navy); font-style: italic; font-weight: 400; }
+  .biblist .ref a { word-break: break-word; }
+  .biblist .ref .src { color: var(--warm-grey); font-size: 12px; font-weight: 600; }
+</style>
+
+<p>Every reference below was resolved on 2026-06-01 against an authoritative registry: journal articles via <strong>Crossref</strong> (the official DOI registry) and education reports via the <strong>ERIC</strong> database. Author lists, titles, journals, and years reflect the registry record, not the citing draft. Where the draft's in-text citation differed from the registry, the registry was treated as correct and the in-text citation was updated; those corrections are itemized at the end of this list. Style is APA 7th edition, alphabetical by first author.</p>
+
+<div class="biblist">
+<p class="ref">Afek, A., Ben-Avraham, R., Davidov, A., Berezin Cohen, N., Ben Yehuda, A., Gilboa, Y., &amp; Nahum, M. (2021). Psychological resilience, mental health, and inhibitory control among youth and young adults under stress. <em>Frontiers in Psychiatry, 11</em>. <a href="https://doi.org/10.3389/fpsyt.2020.608588">https://doi.org/10.3389/fpsyt.2020.608588</a></p>
+<p class="ref">Al-Jubari, I. (2019). College students' entrepreneurial intention: Testing an integrated model of SDT and TPB. <em>SAGE Open, 9</em>(2), 1&ndash;14. <a href="https://eric.ed.gov/?id=EJ1221300">https://eric.ed.gov/?id=EJ1221300</a></p>
+<p class="ref">Alesi, M., Giordano, G., Ingoglia, S., &amp; Inguglia, C. (2024). The association among executive functions, academic motivation, anxiety and depression: A comparison between students with specific learning disabilities and undiagnosed peers. <em>European Journal of Special Needs Education, 39</em>(1), 1&ndash;16. <a href="https://eric.ed.gov/?id=EJ1440966">https://eric.ed.gov/?id=EJ1440966</a></p>
+<p class="ref">Anderson, K., &amp; Marino, M. T. (2024). Executive function coaching for college students with disabilities: A systematic literature review. <em>Journal of Postsecondary Education and Disability, 37</em>(1), 5&ndash;20. <a href="https://eric.ed.gov/?id=EJ1445898">https://eric.ed.gov/?id=EJ1445898</a></p>
+<p class="ref">Austin, G., Groppe, K., &amp; Elsner, B. (2014). The reciprocal relationship between executive function and theory of mind in middle childhood: A 1-year longitudinal perspective. <em>Frontiers in Psychology, 5</em>. <a href="https://doi.org/10.3389/fpsyg.2014.00655">https://doi.org/10.3389/fpsyg.2014.00655</a></p>
+<p class="ref">Balkis, M. (2018). Academic amotivation and intention to school dropout: The mediation role of academic achievement and absenteeism. <em>Asia Pacific Journal of Education, 38</em>(2), 257&ndash;270. <a href="https://eric.ed.gov/?id=EJ1182670">https://eric.ed.gov/?id=EJ1182670</a></p>
+<p class="ref">Barkley, R. A., &amp; Murphy, K. R. (2010). Impairment in occupational functioning and adult ADHD: The predictive utility of executive function (EF) ratings versus EF tests. <em>Archives of Clinical Neuropsychology, 25</em>(3), 157&ndash;173. <a href="https://doi.org/10.1093/arclin/acq014">https://doi.org/10.1093/arclin/acq014</a></p>
+<p class="ref">Buchanan, T. (2016). Self-report measures of executive function problems correlate with personality, not performance-based executive function measures, in nonclinical samples. <em>Psychological Assessment, 28</em>(4), 372&ndash;385. <a href="https://doi.org/10.1037/pas0000192">https://doi.org/10.1037/pas0000192</a></p>
+<p class="ref">Bureau, J. S., Howard, J. L., Chong, J. X. Y., &amp; Guay, F. (2022). Pathways to student motivation: A meta-analysis of antecedents of autonomous and controlled motivations. <em>Review of Educational Research, 92</em>(1), 46&ndash;72. <a href="https://doi.org/10.3102/00346543211042426">https://doi.org/10.3102/00346543211042426</a></p>
+<p class="ref">Cancer, A., Iannello, P., Salvi, C., &amp; Antonietti, A. (2023). Executive functioning and divergent thinking predict creative problem-solving in young adults and elderlies. <em>Psychological Research, 87</em>(2), 388&ndash;396. <a href="https://doi.org/10.1007/s00426-022-01678-8">https://doi.org/10.1007/s00426-022-01678-8</a></p>
+<p class="ref">Cerasoli, C. P., Nicklin, J. M., &amp; Ford, M. T. (2014). Intrinsic motivation and extrinsic incentives jointly predict performance: A 40-year meta-analysis. <em>Psychological Bulletin, 140</em>(4), 980&ndash;1008. <a href="https://doi.org/10.1037/a0035661">https://doi.org/10.1037/a0035661</a></p>
+<p class="ref">Chen, P., Teo, Q. K., Foo, D. X. Y., Jiang, Y., Sun, L., Ong, X. L., Neo, D., Pereira, D. J. H., Tan, B., Chua, K. Q., Gan, J. X. F., &amp; Ong, D. C. (2025). A strategic mindset predicts and promotes effective learning and academic performance. <em>npj Science of Learning, 10</em>(1). <a href="https://doi.org/10.1038/s41539-025-00367-6">https://doi.org/10.1038/s41539-025-00367-6</a></p>
+<p class="ref">&Ccedil;inar-Tanriverdi, E., &amp; Karabacak-&Ccedil;elik, A. (2023). Psychological need satisfaction and academic stress in college students: Mediator role of grit and academic self-efficacy. <em>European Journal of Psychology of Education, 38</em>(2), 629&ndash;651. <a href="https://eric.ed.gov/?id=EJ1364094">https://eric.ed.gov/?id=EJ1364094</a></p>
+<p class="ref">Clark, J. M. R., Seewald, P. M., Wu, K., Jak, A. J., &amp; Twamley, E. W. (2020). Aspects of executive dysfunction and racial/ethnic minority status are associated with unemployment duration in veterans with a history of mild-to-moderate traumatic brain injury. <em>Archives of Physical Medicine and Rehabilitation, 101</em>(8), 1383&ndash;1388. <a href="https://doi.org/10.1016/j.apmr.2020.04.008">https://doi.org/10.1016/j.apmr.2020.04.008</a></p>
+<p class="ref">Clark, M., Miller, A., Berry, J., &amp; Cheng, K. (2021). Mental contrasting with implementation intentions increases study time for university students. <em>British Journal of Educational Psychology, 91</em>(4), 1257&ndash;1272. <a href="https://eric.ed.gov/?id=EJ1304548">https://eric.ed.gov/?id=EJ1304548</a></p>
+<p class="ref">Cort&eacute;s Pascual, A., Moyano Mu&ntilde;oz, N., &amp; Qu&iacute;lez Robres, A. (2019). The relationship between executive functions and academic performance in primary education: Review and meta-analysis. <em>Frontiers in Psychology, 10</em>. <a href="https://doi.org/10.3389/fpsyg.2019.01582">https://doi.org/10.3389/fpsyg.2019.01582</a></p>
+<p class="ref">Cortese, S., Bellgrove, M. A., Brikell, I., Franke, B., Goodman, D. W., Hartman, C. A., Larsson, H., Levin, F. R., Ostinelli, E. G., Parlatini, V., Ramos-Quiroga, J. A., Sibley, M. H., Tomlinson, A., Wilens, T. E., Wong, I. C. K., &amp; Faraone, S. V. (2025). Attention-deficit/hyperactivity disorder (ADHD) in adults: Evidence base, uncertainties and controversies. <em>World Psychiatry, 24</em>(3), 347&ndash;371. <a href="https://doi.org/10.1002/wps.21374">https://doi.org/10.1002/wps.21374</a></p>
+<p class="ref">Cote, J. A., &amp; Buckley, M. R. (1987). Estimating trait, method, and error variance: Generalizing across 70 construct validation studies. <em>Journal of Marketing Research, 24</em>(3), 315&ndash;318. <a href="https://doi.org/10.2307/3151642">https://doi.org/10.2307/3151642</a></p>
+<p class="ref">Crick, K. A. (2022). <em>Toward a resilience model of student well-being: A self-determination approach to thriving and burnout among college students</em> [Doctoral dissertation, ProQuest LLC]. <a href="https://eric.ed.gov/?id=ED647303">https://eric.ed.gov/?id=ED647303</a></p>
+<p class="ref">Dawson, D. R., Anderson, N. D., Bar, Y., Binns, M. A., Chui, A., Hunt, A. W., Nalder, E., &amp; Zwarenstein, M. (2025). Comparing the CO-OP Approach to usual occupational therapy for adults with executive dysfunction following acquired brain injury: A randomized controlled trial. <em>Brain Sciences, 15</em>(11), 1195. <a href="https://doi.org/10.3390/brainsci15111195">https://doi.org/10.3390/brainsci15111195</a></p>
+<p class="ref">Deci, E. L., Olafsen, A. H., &amp; Ryan, R. M. (2017). Self-determination theory in work organizations: The state of a science. <em>Annual Review of Organizational Psychology and Organizational Behavior, 4</em>, 19&ndash;43. <a href="https://doi.org/10.1146/annurev-orgpsych-032516-113108">https://doi.org/10.1146/annurev-orgpsych-032516-113108</a></p>
+<p class="ref">Dijkhuis, R., de Sonneville, L., Ziermans, T., Staal, W., &amp; Swaab, H. (2020). Autism symptoms, executive functioning and academic progress in higher education students. <em>Journal of Autism and Developmental Disorders, 50</em>(4), 1353&ndash;1363. <a href="https://doi.org/10.1007/s10803-019-04267-8">https://doi.org/10.1007/s10803-019-04267-8</a></p>
+<p class="ref">Duckworth, A. L., Grant, H., Loew, B., Oettingen, G., &amp; Gollwitzer, P. M. (2011). Self-regulation strategies improve self-discipline in adolescents: Benefits of mental contrasting and implementation intentions. <em>Educational Psychology, 31</em>(1), 17&ndash;26. <a href="https://eric.ed.gov/?id=EJ911106">https://eric.ed.gov/?id=EJ911106</a></p>
+<p class="ref">Earnest, D., &amp; Crowley, Z. (2025). Time literacy: Academic support for neurodivergent students in higher education. <em>Cognition and Instruction, 43</em>(1&ndash;2), 98&ndash;133. <a href="https://doi.org/10.1080/07370008.2025.2463652">https://doi.org/10.1080/07370008.2025.2463652</a></p>
+<p class="ref">Garn, A. C., Morin, A. J. S., &amp; Lonsdale, C. (2019). Basic psychological need satisfaction toward learning: A longitudinal test of mediation using bifactor exploratory structural equation modeling. <em>Journal of Educational Psychology, 111</em>(2), 354&ndash;372. <a href="https://eric.ed.gov/?id=EJ1205226">https://eric.ed.gov/?id=EJ1205226</a></p>
+<p class="ref">Gegenfurtner, A. (2013). Dimensions of motivation to transfer: A longitudinal analysis of their influence on retention, transfer, and attitude change. <em>Vocations and Learning, 6</em>(2), 187&ndash;205. <a href="https://eric.ed.gov/?id=EJ1005228">https://eric.ed.gov/?id=EJ1005228</a></p>
+<p class="ref">Gon&ccedil;alves, A. P. B., Mello, C., Pereira, A. H., Ferr&eacute;, P., Fonseca, R. P., &amp; Joanette, Y. (2018). Executive functions assessment in patients with language impairment: A systematic review. <em>Dementia &amp; Neuropsychologia, 12</em>(3), 272&ndash;283. <a href="https://doi.org/10.1590/1980-57642018dn12-030008">https://doi.org/10.1590/1980-57642018dn12-030008</a></p>
+<p class="ref">Graham, M., &amp; Vaughan, A. (2022). An adapted self-determination measure and college student first-year achievement. <em>International Journal of Teaching and Learning in Higher Education, 34</em>(1), 1&ndash;10. <a href="https://eric.ed.gov/?id=EJ1345545">https://eric.ed.gov/?id=EJ1345545</a></p>
+<p class="ref">Grinblat, N., &amp; Rosenblum, S. (2025a). The relationship between organization in time, executive functions, and quality of life in adult ADHD. <em>Brain Sciences, 15</em>(12), 1262. <a href="https://doi.org/10.3390/brainsci15121262">https://doi.org/10.3390/brainsci15121262</a></p>
+<p class="ref">Grinblat, N., &amp; Rosenblum, S. (2025b). Work performance challenges and needs of adults with ADHD: Exploring lived experiences. <em>European Psychiatry, 68</em>(S1), S1072. <a href="https://doi.org/10.1192/j.eurpsy.2025.2169">https://doi.org/10.1192/j.eurpsy.2025.2169</a></p>
+<p class="ref">Guiffrida, D. A., Lynch, M. F., Wall, A. F., &amp; Abel, D. S. (2013). Do reasons for attending college affect academic outcomes? A test of a motivational model from a self-determination theory perspective. <em>Journal of College Student Development, 54</em>(2), 121&ndash;139. <a href="https://eric.ed.gov/?id=EJ1008026">https://eric.ed.gov/?id=EJ1008026</a></p>
+<p class="ref">Haerens, L., Aelterman, N., Vansteenkiste, M., Soenens, B., &amp; Van Petegem, S. (2015). Do perceived autonomy-supportive and controlling teaching relate to physical education students' motivational experiences through unique pathways? Distinguishing between the bright and dark side of motivation. <em>Psychology of Sport and Exercise, 16</em>, 26&ndash;36. <a href="https://doi.org/10.1016/j.psychsport.2014.08.013">https://doi.org/10.1016/j.psychsport.2014.08.013</a></p>
+<p class="ref">Haugan, A. J., Sund, A. M., Young, S., Thomsen, P. H., Lydersen, S., &amp; N&oslash;vik, T. S. (2022). Cognitive behavioural group therapy as addition to psychoeducation and pharmacological treatment for adolescents with ADHD symptoms and related impairments: A randomised controlled trial. <em>BMC Psychiatry, 22</em>(1). <a href="https://doi.org/10.1186/s12888-022-04019-6">https://doi.org/10.1186/s12888-022-04019-6</a></p>
+<p class="ref">Howard, J. L., Bureau, J., Guay, F., Chong, J. X. Y., &amp; Ryan, R. M. (2021). Student motivation and associated outcomes: A meta-analysis from self-determination theory. <em>Perspectives on Psychological Science, 16</em>(6), 1300&ndash;1323. <a href="https://doi.org/10.1177/1745691620966789">https://doi.org/10.1177/1745691620966789</a></p>
+<p class="ref">King Johnson, M. L., Roche, A. I., Markon, K., &amp; Denburg, N. L. (2023). Emotion regulation in older adulthood: Roles of executive functioning and social relationships. <em>Aging, Neuropsychology, and Cognition, 30</em>(3), 336&ndash;353. <a href="https://doi.org/10.1080/13825585.2022.2027331">https://doi.org/10.1080/13825585.2022.2027331</a></p>
+<p class="ref">Kittelman, A., Olsen, A. A., Day, J., Augustine, J. J., Hirni, M., Light, N., Stephen, T., &amp; Alexander, R. L. (2025). A scoping review of study skills programs implemented in secondary and postsecondary settings. <em>Career Development and Transition for Exceptional Individuals</em>. <a href="https://doi.org/10.1177/21651434251364748">https://doi.org/10.1177/21651434251364748</a></p>
+<p class="ref">Knouse, L. E., Feldman, G., &amp; Blevins, E. J. (2014). Executive functioning difficulties as predictors of academic performance: Examining the role of grade goals. <em>Learning and Individual Differences, 36</em>, 19&ndash;26. <a href="https://doi.org/10.1016/j.lindif.2014.07.001">https://doi.org/10.1016/j.lindif.2014.07.001</a></p>
+<p class="ref">LaCount, P. A., Hartung, C. M., Shelton, C. R., &amp; Stevens, A. E. (2018). Efficacy of an organizational skills intervention for college students with ADHD symptomatology and academic difficulties. <em>Journal of Attention Disorders, 22</em>(4), 356&ndash;367. <a href="https://doi.org/10.1177/1087054715594423">https://doi.org/10.1177/1087054715594423</a></p>
+<p class="ref">Langberg, J. M., Dvorsky, M. R., &amp; Evans, S. W. (2013). What specific facets of executive function are associated with academic functioning in youth with attention-deficit/hyperactivity disorder? <em>Journal of Abnormal Child Psychology, 41</em>(7), 1145&ndash;1159. <a href="https://doi.org/10.1007/s10802-013-9750-z">https://doi.org/10.1007/s10802-013-9750-z</a></p>
+<p class="ref">Lee, N. R., McQuaid, G. A., Grosman, H. E., Jayaram, S., &amp; Wallace, G. L. (2024). Vocational outcomes in ASD: An examination of work readiness skills as well as barriers and facilitators to employment identified by autistic adults. <em>Journal of Autism and Developmental Disorders, 54</em>(2), 477&ndash;490. <a href="https://doi.org/10.1007/s10803-022-05804-8">https://doi.org/10.1007/s10803-022-05804-8</a></p>
+<p class="ref">Lidstr&ouml;m Holmqvist, K., Wingren, M., Udumyran, R., &amp; Holmefur, M. (2026). Effectiveness of a group-based time-management intervention: A pragmatic randomised controlled trial. <em>Disability and Rehabilitation</em>, 1&ndash;17. <a href="https://doi.org/10.1080/09638288.2026.2614218">https://doi.org/10.1080/09638288.2026.2614218</a></p>
+<p class="ref">Lopez, P. L., Torrente, F. M., Ciapponi, A., Lischinsky, A. G., Cetkovich-Bakmas, M., Rojas, J. I., Romano, M., &amp; Manes, F. F. (2018). Cognitive-behavioural interventions for attention deficit hyperactivity disorder (ADHD) in adults. <em>Cochrane Database of Systematic Reviews, 2018</em>(3). <a href="https://doi.org/10.1002/14651858.cd010840.pub2">https://doi.org/10.1002/14651858.cd010840.pub2</a></p>
+<p class="ref">Meltzer, E. P., Kapoor, A., Fogel, J., Elbulok-Charcape, M. M., Roth, R. M., Katz, M. J., Lipton, R. B., &amp; Rabin, L. A. (2017). Association of psychological, cognitive, and functional variables with self-reported executive functioning in a sample of nondemented community-dwelling older adults. <em>Applied Neuropsychology: Adult, 24</em>(4), 364&ndash;375. <a href="https://doi.org/10.1080/23279095.2016.1185428">https://doi.org/10.1080/23279095.2016.1185428</a></p>
+<p class="ref">Mendola, E., Meuleman, B., Magnus Smith, M., Ivanova, V., Pham, E., Savary, V., Cernadas, P., Celen, Z., Saccaro, L. F., Samson, A., Klauser, P., Merglen, A., &amp; Piguet, C. M. (2026). Mindfulness shapes emotion regulation in non-clinical adolescents: Secondary outcomes of a randomized controlled trial. <em>Clinical Child Psychology and Psychiatry, 31</em>(1), 195&ndash;211. <a href="https://doi.org/10.1177/13591045251377898">https://doi.org/10.1177/13591045251377898</a></p>
+<p class="ref">Merlini, A., Gabbatore, I., Marini, A., &amp; Bosco, F. M. (2026). Affective and cognitive theory of mind in aging: What's the role of executive functions and cognitive reserve on the decline? <em>Experimental Aging Research, 52</em>(3), 377&ndash;405. <a href="https://doi.org/10.1080/0361073X.2025.2586970">https://doi.org/10.1080/0361073X.2025.2586970</a></p>
+<p class="ref">Murti, H. A. S., Hastjarjo, T. D., &amp; Patria, B. (2021). The role of critical thinking and executive function in misconceptions in psychology. <em>Jurnal Psikologi, 20</em>(1), 10&ndash;21. <a href="https://doi.org/10.14710/JP.20.1.10-21">https://doi.org/10.14710/JP.20.1.10-21</a></p>
+<p class="ref">Podsakoff, P. M., MacKenzie, S. B., Lee, J.-Y., &amp; Podsakoff, N. P. (2003). Common method biases in behavioral research: A critical review of the literature and recommended remedies. <em>Journal of Applied Psychology, 88</em>(5), 879&ndash;903. <a href="https://doi.org/10.1037/0021-9010.88.5.879">https://doi.org/10.1037/0021-9010.88.5.879</a></p>
+<p class="ref">Pretorius, L., &amp; Heyns, M. M. (2026). The global condition of higher education students' executive function research: A scoping review. <em>Frontiers in Psychology, 17</em>. <a href="https://doi.org/10.3389/fpsyg.2026.1636067">https://doi.org/10.3389/fpsyg.2026.1636067</a></p>
+<p class="ref">Pua, S.-Y., &amp; Yu, R.-L. (2024). Effects of executive function on age-related emotion recognition decline varied by sex. <em>Social Science &amp; Medicine, 361</em>, 117392. <a href="https://doi.org/10.1016/j.socscimed.2024.117392">https://doi.org/10.1016/j.socscimed.2024.117392</a></p>
+<p class="ref">Rabin, L. A., Fogel, J., &amp; Nutter-Upham, K. E. (2011). Academic procrastination in college students: The role of self-reported executive function. <em>Journal of Clinical and Experimental Neuropsychology, 33</em>(3), 344&ndash;357. <a href="https://doi.org/10.1080/13803395.2010.518597">https://doi.org/10.1080/13803395.2010.518597</a></p>
+<p class="ref">Rosenthal, E. A., Mitchell, J. T., Weisner, T. S., Silverstein, N., Yi, C., Arnold, L. E., Hechtman, L. T., Hinshaw, S. P., &amp; Jensen, P. S. (2025). What can adults with ADHD tell us about their experiences? A review of qualitative methods to map a new research agenda. <em>Journal of Attention Disorders, 29</em>(13), 1190&ndash;1212. <a href="https://doi.org/10.1177/10870547251352589">https://doi.org/10.1177/10870547251352589</a></p>
+<p class="ref">Ryan, R. M., &amp; Deci, E. L. (2000). Self-determination theory and the facilitation of intrinsic motivation, social development, and well-being. <em>American Psychologist, 55</em>(1), 68&ndash;78. <a href="https://doi.org/10.1037/0003-066x.55.1.68">https://doi.org/10.1037/0003-066x.55.1.68</a></p>
+<p class="ref">Ryan, R. M., &amp; Deci, E. L. (2020). Intrinsic and extrinsic motivation from a self-determination theory perspective: Definitions, theory, practices, and future directions. <em>Contemporary Educational Psychology, 61</em>, 101860. <a href="https://doi.org/10.1016/j.cedpsych.2020.101860">https://doi.org/10.1016/j.cedpsych.2020.101860</a></p>
+<p class="ref">Sch&auml;fer, J., Reuter, T., Leuchter, M., &amp; Karbach, J. (2024). Executive functions and problem-solving: The contribution of inhibition, working memory, and cognitive flexibility to science problem-solving performance in elementary school students. <em>Journal of Experimental Child Psychology, 244</em>, 105962. <a href="https://doi.org/10.1016/j.jecp.2024.105962">https://doi.org/10.1016/j.jecp.2024.105962</a></p>
+<p class="ref">Str&aring;lin, E. E., Thorell, L. B., Lundgren, T., B&ouml;lte, S., &amp; Bohman, B. (2025). Cognitive behavioral therapy for ADHD predominantly inattentive presentation: Randomized controlled trial of two psychological treatments. <em>Frontiers in Psychiatry, 16</em>. <a href="https://doi.org/10.3389/fpsyt.2025.1564506">https://doi.org/10.3389/fpsyt.2025.1564506</a></p>
+<p class="ref">Suchy, Y., Mora, M. G., DesRuisseaux, L. A., Niermeyer, M. A., &amp; Brothers, S. L. (2024). Pitfalls in research on ecological validity of novel executive function tests: A systematic review and a call to action. <em>Psychological Assessment, 36</em>(4), 243&ndash;261. <a href="https://doi.org/10.1037/pas0001297">https://doi.org/10.1037/pas0001297</a></p>
+<p class="ref">Tafvelin, S., &amp; Stenling, A. (2025). How do individual and work environment factors combine in their influence on transfer of leadership training? A configural approach. <em>International Journal of Training and Development, 29</em>(1), 1&ndash;18. <a href="https://eric.ed.gov/?id=EJ1488424">https://eric.ed.gov/?id=EJ1488424</a></p>
+<p class="ref">Toh, W. X., Keh, J. S., Gross, J. J., &amp; Carstensen, L. L. (2024). The role of executive function in cognitive reappraisal: A meta-analytic review. <em>Emotion, 24</em>(7), 1563&ndash;1581. <a href="https://doi.org/10.1037/emo0001373">https://doi.org/10.1037/emo0001373</a></p>
+<p class="ref">Toplak, M. E., West, R. F., &amp; Stanovich, K. E. (2013). Practitioner review: Do performance-based measures and ratings of executive function assess the same construct? <em>Journal of Child Psychology and Psychiatry, 54</em>(2), 131&ndash;143. <a href="https://doi.org/10.1111/jcpp.12001">https://doi.org/10.1111/jcpp.12001</a></p>
+<p class="ref">Toplak, M. E., West, R. F., &amp; Stanovich, K. E. (2014). Rational thinking and cognitive sophistication: Development, cognitive abilities, and thinking dispositions. <em>Developmental Psychology, 50</em>(4), 1037&ndash;1048. <a href="https://doi.org/10.1037/a0034910">https://doi.org/10.1037/a0034910</a></p>
+<p class="ref">Van den Broeck, A., Ferris, D. L., Chang, C.-H., &amp; Rosen, C. C. (2016). A review of self-determination theory's basic psychological needs at work. <em>Journal of Management, 42</em>(5), 1195&ndash;1229. <a href="https://doi.org/10.1177/0149206316632058">https://doi.org/10.1177/0149206316632058</a></p>
+<p class="ref">van Leeuwen, A., Hornstra, L., Janssen, J., &amp; Leow, E. N. (2025). Peer interactions during computer-supported collaborative learning: A self-determination perspective. <em>Journal of Computer Assisted Learning, 41</em>(1), e13117. <a href="https://eric.ed.gov/?id=EJ1474813">https://eric.ed.gov/?id=EJ1474813</a></p>
+<p class="ref">Vansteenkiste, M., Sierens, E., Soenens, B., Luyckx, K., &amp; Lens, W. (2009). Motivational profiles from a self-determination perspective: The quality of motivation matters. <em>Journal of Educational Psychology, 101</em>(3), 671&ndash;688. <a href="https://eric.ed.gov/?id=EJ861178">https://eric.ed.gov/?id=EJ861178</a></p>
+<p class="ref">Vansteenkiste, M., &amp; Ryan, R. M. (2013). On psychological growth and vulnerability: Basic psychological need satisfaction and need frustration as a unifying principle. <em>Journal of Psychotherapy Integration, 23</em>(3), 263&ndash;280. <a href="https://doi.org/10.1037/a0032359">https://doi.org/10.1037/a0032359</a></p>
+<p class="ref">Vansteenkiste, M., Ryan, R. M., &amp; Soenens, B. (2020). Basic psychological need theory: Advancements, critical themes, and future directions. <em>Motivation and Emotion, 44</em>(1), 1&ndash;31. <a href="https://doi.org/10.1007/s11031-019-09818-1">https://doi.org/10.1007/s11031-019-09818-1</a></p>
+<p class="ref">Wan, Q., &amp; Sloutsky, V. M. (2026). Working memory shapes information sampling and attention allocation across development. <em>Journal of Experimental Psychology: General, 155</em>(2), 479&ndash;498. <a href="https://doi.org/10.1037/xge0001848">https://doi.org/10.1037/xge0001848</a></p>
+<p class="ref">Wilcox, N. C., Bautista, G. A., Webb, M. A., Hoyle, A. K., Taccardi, D., Gowdy, H. G. M., Patterson, E. E., Fredricksmeyer, S. E., Slade, T. G., Silva, J. R., Carlson, J. M., &amp; Slade, B. P. (2026). The development and assessment of a movement-based coaching program on executive function skills: An exploratory quality improvement study. <em>Frontiers in Psychology, 17</em>. <a href="https://doi.org/10.3389/fpsyg.2026.1761762">https://doi.org/10.3389/fpsyg.2026.1761762</a></p>
+<p class="ref">Wilmot, M. P., &amp; Ones, D. S. (2019). A century of research on conscientiousness at work. <em>Proceedings of the National Academy of Sciences, 116</em>(46), 23004&ndash;23010. <a href="https://doi.org/10.1073/pnas.1908430116">https://doi.org/10.1073/pnas.1908430116</a></p>
+<p class="ref">Woolard, A., Stratton, E., Demetriou, E. A., Boulton, K. A., Pellicano, E., Glozier, N., Gibbs, V., Rogerson, N., Quinn, P., Hickie, I. B., &amp; Guastella, A. J. (2021). Perceptions of social and work functioning are related to social anxiety and executive function in autistic adults. <em>Autism, 25</em>(7), 2124&ndash;2134. <a href="https://doi.org/10.1177/13623613211013664">https://doi.org/10.1177/13623613211013664</a></p>
+<p class="ref">Yeung, M. K., Wan, J. C., Chan, M. M., Cheung, S. H., Sze, S. C., &amp; Siu, W. W. (2024). Motivation and emotional distraction interact and affect executive functions. <em>BMC Psychology, 12</em>(1). <a href="https://doi.org/10.1186/s40359-024-01695-9">https://doi.org/10.1186/s40359-024-01695-9</a></p>
+<p class="ref">Yon-Hern&aacute;ndez, J. A., Canal-Bedia, R., Wojcik, D. Z., Garc&iacute;a-Garc&iacute;a, L., Fern&aacute;ndez-&Aacute;lvarez, C., Palacio-Duque, S., &amp; Franco-Mart&iacute;n, M. A. (2023). Executive functions in daily living skills: A study in adults with autism spectrum disorder. <em>Frontiers in Psychology, 14</em>. <a href="https://doi.org/10.3389/fpsyg.2023.1109561">https://doi.org/10.3389/fpsyg.2023.1109561</a></p>
+<p class="ref">Zepeda, C. D., Richey, J. E., Ronevich, P., &amp; Nokes-Malach, T. J. (2015). Direct instruction of metacognition benefits adolescent science learning, transfer, and motivation: An in vivo study. <em>Journal of Educational Psychology, 107</em>(4), 954&ndash;970. <a href="https://eric.ed.gov/?id=EJ1082661">https://eric.ed.gov/?id=EJ1082661</a></p>
+</div>
+
+<div class="note">
+<p><strong>Citation corrections made from registry verification.</strong> The following in-text citations were changed to match the Crossref/ERIC record:</p>
+<ul>
+<li><strong>"Schafer &amp; Bochmann 2024" &rarr; Sch&auml;fer et al. 2024.</strong> The second author is Reuter, not Bochmann (Sch&auml;fer, Reuter, Leuchter, &amp; Karbach).</li>
+<li><strong>"Ryan, Weinstein &amp; Reeve 2013" &rarr; Vansteenkiste &amp; Ryan 2013.</strong> DOI 10.1037/a0032359 belongs to Vansteenkiste &amp; Ryan (need satisfaction and frustration as a unifying principle), which is the claim the row actually rests on.</li>
+<li><strong>"Deci, Olafsen &amp; Ryan 2022" &rarr; 2017.</strong> No 2022 article exists; the verified paper is the 2017 Annual Review (10.1146/annurev-orgpsych-032516-113108).</li>
+<li><strong>Year corrections</strong> (online-first vs. print): Cancer et al. 2022 &rarr; 2023; (King) Johnson et al. 2022 &rarr; 2023; Merlini et al. 2025 &rarr; 2026; Lee &amp; Wallace 2022 &rarr; Lee et al. 2024; Wan &amp; Sloutsky 2025 &rarr; 2026.</li>
+<li><strong>Metacognition mini-review (10.20900/jpbs.20240006):</strong> Crossref lists no author for this record, so the earlier "Lenartowicz et al." attribution is marked unverified.</li>
+</ul>
+<p><strong>Sources cited in-text without a formal published identifier</strong> (and therefore not in the list above): the Dawson &amp; Guare practitioner executive-skills framework (a practitioner book series, no DOI); several coaching-practitioner blog posts referenced in RQ2 and tiered Low; and one internal ThriveIEP working document ("nlu-coach-view-construct-compendium," claim GC1), which is not a published work. These are flagged inline where used.</p>
+</div>
+</section>
+
+<p class="footnote" style="margin-top:32px;">Draft v2, 2026-06-01. All empirical claims are tiered. Every reference in the bibliography was resolved against Crossref or ERIC. Internal pilot numbers are deliberately excluded as evidence per the brief's published-literature-only rule. Pending review before publication.</p>
+
+</main>
+</div>
+</body>
+</html>
