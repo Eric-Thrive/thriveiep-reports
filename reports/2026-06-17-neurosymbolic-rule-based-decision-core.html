@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>A Rule-Based Decision Core as the Symbolic Half of a Neuro-Symbolic Pipeline</title>
+<style>
+  :root{
+    --navy:#1f3a5f; --navy-deep:#15293f; --coral:#e8765a; --coral-deep:#c95a40;
+    --sand:#f7f3ec; --sand-2:#efe8db; --ink:#22272e; --muted:#5d6b7a; --line:#e0d8c9;
+    --ok:#2f7d54; --warn:#b07d2b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--sand);color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  .wrap{max-width:860px;margin:0 auto;padding:0 22px 80px}
+  header.hero{background:linear-gradient(135deg,var(--navy),var(--navy-deep));color:#fff;
+    padding:54px 22px 40px;margin-bottom:34px}
+  header.hero .inner{max-width:860px;margin:0 auto}
+  .kicker{text-transform:uppercase;letter-spacing:.14em;font-size:12px;font-weight:700;
+    color:var(--coral);margin:0 0 12px}
+  h1{font-size:30px;line-height:1.2;margin:0 0 14px;font-weight:750}
+  .sub{font-size:17px;color:#d8e0ea;margin:0;max-width:680px}
+  .meta-row{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .badge{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.25);
+    border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600;letter-spacing:.02em}
+  .meta-date{color:#aebccd;font-size:13px;margin-left:4px}
+  h2{font-size:22px;margin:42px 0 10px;color:var(--navy);font-weight:720;
+    border-bottom:2px solid var(--line);padding-bottom:8px}
+  h3{font-size:17px;margin:26px 0 6px;color:var(--navy-deep);font-weight:700}
+  p{margin:12px 0}
+  strong{color:var(--navy-deep)}
+  ul{margin:12px 0;padding-left:22px}
+  li{margin:7px 0}
+  a{color:var(--coral-deep);text-decoration:none;border-bottom:1px solid rgba(201,90,64,.3)}
+  a:hover{border-bottom-color:var(--coral-deep)}
+  .lede{font-size:18px;background:var(--sand-2);border-left:4px solid var(--coral);
+    padding:18px 20px;border-radius:0 10px 10px 0;margin:8px 0 6px}
+  .callout{background:#fff;border:1px solid var(--line);border-radius:12px;padding:6px 22px;margin:18px 0;
+    box-shadow:0 1px 3px rgba(31,58,95,.06)}
+  .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    padding:2px 8px;border-radius:6px;margin-right:6px}
+  .tag.high{background:#e4f0e9;color:var(--ok)}
+  .tag.mod{background:#f6ecd7;color:var(--warn)}
+  ol.bib{padding-left:22px}
+  ol.bib li{margin:10px 0;font-size:14.5px;color:var(--muted)}
+  ol.bib li a{color:var(--coral-deep)}
+  .foot{margin-top:46px;padding-top:18px;border-top:1px solid var(--line);
+    font-size:13px;color:var(--muted)}
+  .pillrow{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
+  .pill{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 14px;
+    font-size:13.5px;flex:1 1 240px}
+  .pill b{display:block;color:var(--navy);font-size:13px;margin-bottom:2px}
+  em{color:var(--coral-deep);font-style:normal;font-weight:600}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="inner">
+    <p class="kicker">ThriveIEP &middot; BC Report Engine &middot; Research</p>
+    <h1>A Rule-Based Decision Core as the Symbolic Half of a Neuro-Symbolic Pipeline</h1>
+    <p class="sub">Where the BC Section&nbsp;9 functional-lane rule system sits in five research traditions, and why perception, not rule discovery, is the work that matters now.</p>
+    <div class="meta-row">
+      <span class="badge">Research</span>
+      <span class="badge">BC</span>
+      <span class="badge">Architecture</span>
+      <span class="meta-date">June 17, 2026 &middot; 86 papers reviewed across 4 source agents</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <p class="lede">The BC Section&nbsp;9 "functional-lane" decision core is not novel or orphaned. It sits at the intersection of five mature literatures, and every one of them endorses the two strategic calls already made: <strong>build the symbolic decision core as rules, and spend this period's effort on perception/grounding rather than on discovering rules from data.</strong></p>
+
+  <h2>The lineage, in one paragraph</h2>
+  <p>Moving from matching named patterns to evaluating evidence-criteria rules is the textbook shift from <strong>case-based reasoning to a rule-based expert system</strong> (Slade, 1991; Liang, 1992). The modern, standardized form of that rule-based system is <strong>decision management / DMN</strong>, whose decision tables and decision-requirements graphs are formally verifiable for completeness and consistency (Calvanese et al., 2016; OMG DMN). The "proof tuple plus contrary-evidence-blocks-a-positive" design is, in formal terms, a <strong>justification graph with rebutting defeaters</strong>, studied since the 1980s (de Kleer, 1986; Dung, 1995; Garcia &amp; Simari, 2004; Prakken, 2010). And the whole pipeline, neural extraction feeding a symbolic decision core feeding fenced-off neural narrative, is a <strong>neuro-symbolic architecture</strong> of the kind the literature now considers correct for high-stakes regulated domains (Harnad, 1990; Colelough et al., 2025).</p>
+
+  <div class="callout">
+    <p><strong>The single most useful through-line.</strong> In neuro-symbolic systems, <em>symbol grounding is the persistent bottleneck, not rule discovery</em> (Colelough et al., 2025). Our "pending source-safe handle" problem is a textbook grounding problem, and the literature says that is exactly where the hard, valuable work is. The case against statistically discovering rules from a 95-case corpus is independently supported: knowledge acquisition is cheap in a narrow domain with in-house expertise (Liang, 1992), statistical learners are biased-by-construction on long-tail singletons, and the right reliability argument for a small-corpus symbolic system is coverage plus isomorphic source-traceability, not held-out accuracy (Bench-Capon &amp; Coenen, 1992; OECD Rules as Code; Calvanese et al., 2016).</p>
+  </div>
+
+  <h2>Key findings</h2>
+
+  <h3>1. The architecture is rule-based, and that is the right call for this domain</h3>
+  <ul>
+    <li>Case-based reasoning is flexible but brittle outside its case space and maintenance-heavy; weakest precisely in narrow, well-specified domains (Slade, 1991; 299 cites). That is the formal reason named-pattern matching was the wrong tool here.</li>
+    <li>The classic constraint on rule-based expert systems is the <strong>knowledge-acquisition bottleneck</strong>; in narrow domains with available expertise, hand-authoring rules is the correct route (Liang, 1992). Our domain is that favorable case, which is why we are not bottlenecked on rules.</li>
+  </ul>
+
+  <h3>2. The modern name and standard for the core is DMN / decision management</h3>
+  <ul>
+    <li>DMN (an OMG standard) is the business-readable, executable descendant of production-rule expert systems; decisions can be governed and audited independently of execution. Our request &rarr; admissible lane &rarr; evidence criteria &rarr; supported limitation &rarr; proof chain is a Decision Requirements Graph.</li>
+    <li>DMN's <strong>Authority requirement</strong> edge is literally how the standard points a decision at its governing source. <strong>Conflict resolution has a named, principled form</strong> (hit policies), the auditable alternative to a tuned tiebreak.</li>
+    <li><strong>Completeness and consistency are provable, not stylistic</strong>: Calvanese et al. (2016) give algorithms to detect missing and overlapping rules. On 95 cases this matters enormously, correctness over the input space is provable independent of how many cases we have seen.</li>
+  </ul>
+
+  <h3>3. The proof-tuple + contrary-evidence design is justified, defeasible reasoning</h3>
+  <ul>
+    <li>Abstract argumentation is the unifying theory for non-monotonic decisions; most such formalisms are special cases of it (Dung, 1995; 4,288 cites). "Contrary evidence blocks a positive" is a <strong>rebutting defeater</strong>.</li>
+    <li>An assumption-based truth-maintenance system labels each conclusion with the minimal evidence supporting it, enabling <strong>clean retraction</strong> (de Kleer, 1986). Each proof tuple is essentially that label.</li>
+    <li>DeLP (Garcia &amp; Simari, 2004) is the closest deployed analogue: it warrants a conclusion only if every defeater is itself defeated, producing a full audit trail.</li>
+    <li>Structured argumentation (ASPIC+; Prakken, 2010) names three attack types: <strong>rebutting</strong> (we do this), <strong>undercutting</strong> ("this rule does not apply here"), and <strong>undermining</strong>. If we ever need "this evidence type does not count for this student category," that is an undercutter and needs a distinct path.</li>
+    <li><strong>Update hazard, named:</strong> adding one defeater rule can non-locally flip previously-positive conclusions (Cayrol et al., 2010), the formal argument for re-evaluating when the rule set changes and versioning the lane registry.</li>
+  </ul>
+
+  <h3>4. The pipeline is neuro-symbolic, and perception/grounding is the bottleneck</h3>
+  <ul>
+    <li>The symbol grounding problem (Harnad, 1990; 3,779 cites): symbols must be grounded bottom-up in perception. Our redactor extraction is exactly that step.</li>
+    <li>The 2024 neuro-symbolic systematic review finds <strong>grounding is the persistent bottleneck</strong> (Colelough et al., 2025), direct external confirmation that the extraction problem, not the rule problem, is where the difficulty lives.</li>
+    <li>Grounding and reasoning <strong>do not automatically co-occur</strong> and must be engineered separately (2026). Foundation models can absorb the grounding cost, making neural-perceives / symbolic-reasons scalable.</li>
+    <li><strong>Veto authority is the strongest pattern</strong> (prior PM-Hub EBM coverage, 51 papers): in high-stakes clinical neuro-symbolic work, the best results come where the symbolic layer can reject, not merely flag, neural output. Our fail-closed proof gate is that veto.</li>
+  </ul>
+
+  <h3>5. The over-support risk is clinical decision support's alert fatigue</h3>
+  <ul>
+    <li>Five computer-interpretable guideline formalisms (Arden Syntax, GLIF, PROforma, Asbru, EON) are the canonical family; PROforma's task/decision/enquiry model maps onto our supported / not-supported / review-required structure (De Clercq et al., 2008; Fox et al., 2020).</li>
+    <li><strong>Alert fatigue is the empirical over-support failure mode.</strong> Across 43,413 patients, drug-interaction alerts changed behavior but did not improve outcomes (Holbrook et al., 2025). A Mayo analysis of ~1,500 live alerts showed environment changes silently turn correct rules into high-volume malfunctions (Al Wahsh et al., 2025): <strong>rules decay as the environment shifts.</strong></li>
+    <li>A review-required bucket is architecturally necessary, not a weakness: rule-based encoding covered 14 of 19 stroke contraindications, 5 needed human review (Anani et al., 2014). Across 30 reviews / 721 studies, trust and workflow integration are the dominant adoption barriers (Bohm-Hustede et al., 2026): reviewers ignore determinations they do not trust, so outputs must carry traceable reasoning.</li>
+  </ul>
+
+  <h3>6. The small-corpus, discovery-deferred strategy is supported</h3>
+  <ul>
+    <li><strong>Isomorphism</strong> (Bench-Capon &amp; Coenen, 1992): a one-to-one correspondence between each encoded rule and its authoritative source text, introduced for legal knowledge-based systems precisely to ease validation. On a small corpus you validate a rule by traceability to its source, not statistically.</li>
+    <li>The OECD's Rules as Code program recommends co-drafting human and machine rule versions, and warns that <strong>over-rigid coding of deliberately-ambiguous rules is the central risk</strong>, mitigated by routing ambiguous cases to humans. Our review-only boundary is the recommended mitigation, not a limitation.</li>
+    <li>Long-tailed data biases purely statistical learners toward head classes and leaves tail classes few-shot; human-in-the-loop on rare cases is the established pattern, the evidence base for keeping singleton lanes symbolic + review rather than learned.</li>
+  </ul>
+
+  <h2>Consensus and debate</h2>
+  <p><strong>Consensus.</strong> Across all five literatures the convergent picture is a layered architecture: neural components perceive and suggest; a symbolic, auditable layer decides and can veto; rare or ambiguous cases route to humans.</p>
+  <p><strong>Debate.</strong> The liveliest tension is how much to automate. Rules-as-code critics warn that coding ambiguous rules locks in one interpretation; the clinical literature warns of alert fatigue. Both point the same way for us: keep the automated core narrow and confident, and fail closed to human review elsewhere. A second open question is whether a formal argumentation layer is worth the complexity over a plain rule engine; the one head-to-head comparison finds comparable accuracy with better explanation and retraction (Rizzo &amp; Longo, 2020), so it is a judgment call, not a requirement.</p>
+
+  <h2>Evidence quality</h2>
+  <p><span class="tag high">High &times;18</span> high-citation canonical works, an OMG standard, a peer-reviewed DMN verification result, and systematic reviews. <span class="tag mod">Moderate &times;8</span> recent peer-reviewed neuro-symbolic and CDS papers with lower citation counts. <span class="tag mod">Low &times;6</span> 2025-2026 preprints and practitioner sources, read at abstract level. 30 of 86 reviewed papers were cited in the synthesis.</p>
+  <p>The foundational and architectural claims are strong; the "neuro-symbolic beats physicians" and "LLM-proposes/solver-verifies" results are recent and emerging; the small-corpus "evaluate by coverage and isomorphism, not accuracy" argument is a well-supported synthesis across individually-grounded sources rather than a single paper's claim.</p>
+
+  <h2>What to apply (concrete and citable)</h2>
+  <div class="pillrow">
+    <div class="pill"><b>Describe the core as a DMN decision service</b>Model it as a Decision Requirements Graph; make every lane/criterion an Authority edge to its clinical/eligibility source (isomorphism).</div>
+    <div class="pill"><b>Make completeness and overlap build-time checks</b>Provable input-space coverage substitutes for held-out accuracy on a small corpus.</div>
+    <div class="pill"><b>Name the conflict policy</b>Adopt a DMN hit-policy vocabulary for lane selection instead of a bespoke tiebreak.</div>
+    <div class="pill"><b>Keep the justification graph; re-evaluate on rule change</b>Adding a defeater can flip prior conclusions; version the lane registry.</div>
+    <div class="pill"><b>Treat over-support as alert fatigue</b>Monitor lane firing rates over time; keep a mandatory review-required bucket.</div>
+    <div class="pill"><b>Spend this period on grounding</b>The redactor recognizer/provenance work, with the symbolic layer holding veto authority, not a rule-learning apparatus.</div>
+    <div class="pill"><b>Park the learning loop, with a name</b>Neural-proposes / symbolic-verifies is real and externally instantiated; defer until grounding is solved and the corpus grows past singletons.</div>
+  </div>
+
+  <h2>Gaps and limitations</h2>
+  <ul>
+    <li>Per-paper full-text verification and the full critical-appraisal checklist were abbreviated for this synthesis; confidence is assigned from source authority and citation counts.</li>
+    <li>Foundational GRADE evidence-grading papers and the original Arden/GLIF specifications were not directly retrieved; the canonical survey stands in. The Kautz neuro-symbolic taxonomy is a keynote, cited as grey literature.</li>
+    <li>The cautionary automated-eligibility-harms literature was not searched; a worthwhile follow-up for the strongest argument for the conservative fail-closed default.</li>
+  </ul>
+
+  <h2>Selected bibliography</h2>
+  <ol class="bib">
+    <li>Harnad, S. (1990). The Symbol Grounding Problem. <em>Physica D</em>. <a href="https://doi.org/10.1016/0167-2789(90)90087-6">10.1016/0167-2789(90)90087-6</a> &middot; 3,779 cites</li>
+    <li>Dung, P. M. (1995). On the acceptability of arguments and its fundamental role in nonmonotonic reasoning. <em>Artificial Intelligence</em>. <a href="https://doi.org/10.1016/0004-3702(94)00041-x">10.1016/0004-3702(94)00041-x</a> &middot; 4,288 cites</li>
+    <li>de Kleer, J. (1986). An assumption-based TMS. <em>Artificial Intelligence</em>. <a href="https://doi.org/10.1016/0004-3702(86)90080-9">10.1016/0004-3702(86)90080-9</a></li>
+    <li>Garcia, A. J., &amp; Simari, G. R. (2004). Defeasible logic programming: an argumentative approach. <em>TPLP</em>. <a href="https://doi.org/10.1017/s1471068403001674">10.1017/s1471068403001674</a></li>
+    <li>Prakken, H. (2010). An abstract framework for argumentation with structured arguments (ASPIC+). <em>Argument &amp; Computation</em>. <a href="https://doi.org/10.1080/19462160903564592">10.1080/19462160903564592</a></li>
+    <li>Gordon, T. F., Prakken, H., &amp; Walton, D. (2007). The Carneades model of argument and burden of proof. <em>Artificial Intelligence</em>. <a href="https://doi.org/10.1016/j.artint.2007.04.010">10.1016/j.artint.2007.04.010</a></li>
+    <li>Slade, S. (1991). Case-based reasoning: a research paradigm. <em>AI Magazine</em>. <a href="https://doi.org/10.1609/aimag.v12i1.883">10.1609/aimag.v12i1.883</a></li>
+    <li>Liang, T.-P. (1992). A Composite Approach to Inducing Knowledge for Expert Systems Design. <em>Management Science</em>. <a href="https://doi.org/10.1287/mnsc.38.1.1">10.1287/mnsc.38.1.1</a></li>
+    <li>Cayrol, C., et al. (2010). Change in Abstract Argumentation Frameworks: Adding an Argument. <em>JAIR</em>. <a href="https://doi.org/10.1613/jair.2965">10.1613/jair.2965</a></li>
+    <li>Bench-Capon, T. J. M., &amp; Coenen, F. P. (1992). Isomorphism and legal knowledge based systems. <em>AI and Law</em>. <a href="https://doi.org/10.1007/BF00118479">10.1007/BF00118479</a></li>
+    <li>Calvanese, D., et al. (2016). Semantics and Analysis of DMN Decision Tables. <em>BPM 2016</em>. <a href="https://doi.org/10.48550/arXiv.1603.07466">arXiv:1603.07466</a></li>
+    <li>Object Management Group (2021). Decision Model and Notation (DMN) Specification. <a href="https://www.omg.org/spec/DMN/">omg.org/spec/DMN</a></li>
+    <li>OECD OPSI (2020). Cracking the Code: Rulemaking for Humans and Machines. <a href="https://oecd-opsi.org/publications/cracking-the-code/">oecd-opsi.org</a></li>
+    <li>De Clercq, P., Kaiser, K., &amp; Hasman, A. (2008). Computer-Interpretable Guideline formalisms. PMID <a href="https://europepmc.org/article/MED/18806319">18806319</a></li>
+    <li>Fox, J., et al. (2020). OpenClinical.net (PROforma). <em>BMJ Health &amp; Care Informatics</em>. <a href="https://doi.org/10.1136/bmjhci-2020-100141">10.1136/bmjhci-2020-100141</a></li>
+    <li>Holbrook, A. M., et al. (2025). Effect of electronic drug-drug interaction alerts on outcomes: a systematic review. <em>JAMIA</em>. <a href="https://doi.org/10.1093/jamia/ocaf139">10.1093/jamia/ocaf139</a> &middot; N=43,413</li>
+    <li>Al Wahsh, E., et al. (2025). Screening and Correcting Malfunctioning Interruptive Alerts. <em>Applied Clinical Informatics</em>. <a href="https://doi.org/10.1055/a-2646-6297">10.1055/a-2646-6297</a></li>
+    <li>Anani, N., et al. (2014). Retrospective compliance checking for acute stroke care (openEHR GDL). <em>BMC MIDM</em>. <a href="https://doi.org/10.1186/1472-6947-14-39">10.1186/1472-6947-14-39</a></li>
+    <li>Bohm-Hustede, A. K., et al. (2026). Barriers and facilitators to CDSS adoption: an overview of reviews. <em>Systematic Reviews</em>. <a href="https://doi.org/10.1186/s13643-026-03200-2">10.1186/s13643-026-03200-2</a></li>
+    <li>Colelough, B., et al. (2025). Neuro-Symbolic AI in 2024: A Systematic Review. <a href="https://doi.org/10.48550/arXiv.2501.05435">arXiv:2501.05435</a> &middot; 71 cites</li>
+    <li>Rizzo, L., &amp; Longo, L. (2020). Empirical evaluation of defeasible argumentation, non-monotonic fuzzy reasoning and expert systems. <em>ESWA</em>. <a href="https://doi.org/10.1016/j.eswa.2020.113220">10.1016/j.eswa.2020.113220</a></li>
+  </ol>
+
+  <div class="foot">
+    <p>ThriveIEP internal research report. Applies to the BC Section&nbsp;9 functional-lane rule system (branch <code>codex/bc-png-request-extraction-slice-20260614</code>). Full session log, findings JSON, and complete bibliography are in PM-Hub <code>research/sessions/</code>. 86 papers reviewed across Semantic Scholar, OpenAlex, Europe PMC, and web sources; 32 persisted to the knowledge graph. Generated June 17, 2026.</p>
+  </div>
+
+</div>
+</body>
+</html>
