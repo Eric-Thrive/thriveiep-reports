@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Agentic Coding Loop Engineering</title>
+<style>
+  :root{
+    --navy:#1f3a5f; --navy-deep:#15293f; --coral:#e8765a; --coral-deep:#c95a40;
+    --sand:#f7f3ec; --sand-2:#efe8db; --ink:#22272e; --muted:#5d6b7a; --line:#e0d8c9;
+    --ok:#2f7d54; --warn:#b07d2b; --code-bg:#1d2b3a; --code-ink:#e7eef6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--sand);color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  .wrap{max-width:860px;margin:0 auto;padding:0 22px 80px}
+  header.hero{background:linear-gradient(135deg,var(--navy),var(--navy-deep));color:#fff;
+    padding:54px 22px 40px;margin-bottom:34px}
+  header.hero .inner{max-width:860px;margin:0 auto}
+  .kicker{text-transform:uppercase;letter-spacing:.14em;font-size:12px;font-weight:700;
+    color:var(--coral);margin:0 0 12px}
+  h1{font-size:30px;line-height:1.2;margin:0 0 14px;font-weight:750}
+  .sub{font-size:17px;color:#d8e0ea;margin:0;max-width:680px}
+  .meta-row{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .badge{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.25);
+    border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600;letter-spacing:.02em}
+  .meta-date{color:#aebccd;font-size:13px;margin-left:4px}
+  h2{font-size:22px;margin:42px 0 10px;color:var(--navy);font-weight:720;
+    border-bottom:2px solid var(--line);padding-bottom:8px}
+  h3{font-size:17px;margin:26px 0 6px;color:var(--navy-deep);font-weight:700}
+  h4{font-size:15px;margin:20px 0 4px;color:var(--navy-deep);font-weight:700}
+  p{margin:12px 0}
+  strong{color:var(--navy-deep)}
+  ul,ol{margin:12px 0;padding-left:22px}
+  li{margin:7px 0}
+  a{color:var(--coral-deep);text-decoration:none;border-bottom:1px solid rgba(201,90,64,.3)}
+  a:hover{border-bottom-color:var(--coral-deep)}
+  .lede{font-size:18px;background:var(--sand-2);border-left:4px solid var(--coral);
+    padding:18px 20px;border-radius:0 10px 10px 0;margin:8px 0 6px}
+  .callout{background:#fff;border:1px solid var(--line);border-radius:12px;padding:6px 22px;margin:18px 0;
+    box-shadow:0 1px 3px rgba(31,58,95,.06)}
+  code{font:13.5px/1.5 "SF Mono",SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+    background:var(--sand-2);color:var(--coral-deep);border:1px solid var(--line);
+    border-radius:5px;padding:1px 5px}
+  pre{background:var(--code-bg);color:var(--code-ink);border-radius:10px;padding:16px 18px;
+    margin:14px 0;overflow-x:auto;font:13px/1.6 "SF Mono",SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+    box-shadow:0 1px 3px rgba(21,41,63,.18)}
+  pre code{background:none;border:none;color:inherit;padding:0;border-radius:0}
+  table{border-collapse:collapse;width:100%;margin:16px 0;font-size:14px;
+    background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  th{background:var(--navy);color:#fff;text-align:left;padding:9px 12px;font-weight:650;font-size:13px}
+  td{padding:9px 12px;border-top:1px solid var(--line);vertical-align:top}
+  tr:nth-child(even) td{background:var(--sand-2)}
+  td code{font-size:12.5px}
+  .foot{margin-top:46px;padding-top:18px;border-top:1px solid var(--line);
+    font-size:13px;color:var(--muted)}
+  em{color:var(--coral-deep);font-style:normal;font-weight:600}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="inner">
+    <p class="kicker">ThriveIEP &middot; Tooling &middot; Process</p>
+    <h1>Agentic Coding Loop Engineering</h1>
+    <p class="sub">Last-three-month research on agentic coding loops, with a loop-card playbook for DEC1TEXTREDACTOR, Accommodation Engine, and PM-Hub.</p>
+    <div class="meta-row">
+      <span class="badge">Process</span>
+      <span class="badge">Reference</span>
+      <span class="meta-date">June 26, 2026 &middot; Research dive &amp; implementation guide</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <h2>Scope</h2>
+  <p>This report covers community resources, official docs, and publications surfaced between 2026-03-26 and 2026-06-26, with prior PM-Hub research used as baseline context. The focus is not generic "AI agents"; it is the practical concept of <strong>loops</strong> in agentic coding: repeated work cycles where an agent acts, evidence is checked, state is persisted, and the next action is chosen from the measured result.</p>
+  <p>The recommendations are tailored to the repeated work patterns already visible in DEC1TEXTREDACTOR, Accommodation Engine, Bloom, BC/Post-Secondary report work, C2A/DDx content work, and PM-Hub's own research harness.</p>
+
+  <h2>Bottom Line</h2>
+  <p class="lede">The strongest pattern across the last three months is that <strong>loop quality matters more than agent autonomy</strong>. The best loops are small, evidence-bound systems.</p>
+  <ol>
+    <li>Define the objective as a measurable contract.</li>
+    <li>Isolate each attempt in a safe work surface.</li>
+    <li>Run one focused change.</li>
+    <li>Verify with a trusted signal.</li>
+    <li>Persist the trace, result, and decision.</li>
+    <li>Promote reusable lessons only when they clear a governance rule.</li>
+    <li>Stop when the evidence says success, saturation, or unsafe ambiguity.</li>
+  </ol>
+  <p>For your work, the practical opportunity is to standardize a family of <strong>loop cards</strong> across DEC1TEXTREDACTOR and Accommodation Engine instead of treating each loop as bespoke chat craft. You already have the right raw ingredients: Karpathy-style F2 optimization in Redactor, bounded report pipelines in Bloom, multi-surface planning rules in PM-Hub, and skills such as <code>local-review</code>, <code>plan-harden</code>, <code>autonomous-plan-implementer</code>, <code>arch-checkpoint</code>, and <code>multi-surface-agent-harness</code>. The missing layer is a shared loop contract: trigger, metric, state file, verifier, memory promotion rule, stop condition, and replay command.</p>
+
+  <h2>Source Base</h2>
+
+  <h3>Current Official and Community Sources</h3>
+  <ul>
+    <li><a href="https://developers.openai.com/cookbook/examples/codex/build_iterative_repair_loops_with_codex">OpenAI Cookbook: Build iterative repair loops with Codex</a>, 2026-05-11. Defines closed-loop workflows as output, validation, feedback, and next pass. Its explicit phases are Review, Repair, Validate.</li>
+    <li><a href="https://developers.openai.com/cookbook/examples/agents_sdk/agent_improvement_loop">OpenAI Cookbook: Build an Agent Improvement Loop with Traces, Evals, and Codex</a>, May 2026. Treats the harness as the full contract around the model: instructions, tools, routing, output requirements, and validation checks. Uses traces, feedback, evals, HALO diagnosis, and Codex handoff.</li>
+    <li><a href="https://developers.openai.com/cookbook/examples/codex/using_goals_in_codex">OpenAI Cookbook: Using Goals in Codex</a>, May 2026. Frames a goal as a scoped completion contract with outcome, verification surface, constraints, boundaries, iteration policy, and blocked stop condition.</li>
+    <li><a href="https://developers.openai.com/codex/guides/agents-sdk">OpenAI Developers: Use Codex with the Agents SDK</a>, current docs. Positions Codex CLI as an MCP server for deterministic, reviewable workflows with handoffs, guardrails, and traces.</li>
+    <li><a href="https://developers.openai.com/blog/mastering-codex-remote-for-engineering">OpenAI Developers: Mastering Codex Remote for engineering</a>, current 2026 field guide. Useful operational guidance: choose worktree/context first, use queue vs steer deliberately, use plan for path and goal for outcome, keep review in the loop, treat permissions as workflow design.</li>
+    <li><a href="https://docs.anthropic.com/en/docs/claude-code/memory">Anthropic Claude Code docs: memory</a>, current docs. Distinguishes persistent instructions from auto memory and says CLAUDE.md is for facts/rules while skills are better for procedures.</li>
+    <li><a href="https://docs.anthropic.com/en/docs/claude-code/skills">Anthropic Claude Code docs: skills</a>, current docs. Skills are on-demand procedural artifacts and are appropriate when repeated pasted instructions or procedures outgrow CLAUDE.md.</li>
+    <li><a href="https://docs.anthropic.com/en/docs/claude-code/hooks-guide">Anthropic Claude Code docs: hooks</a>, current docs. Hooks expose event boundaries such as post-tool-use, file changes, subagent lifecycle, worktree creation, compaction, and session end.</li>
+    <li><a href="https://stackoverflow.blog/2026/03/26/coding-guidelines-for-ai-agents-and-people-too/">Stack Overflow: Building shared coding guidelines for AI and people too</a>, 2026-03-26. Community/practitioner signal: agent coding standards need explicit patterns, examples, errors-as-feedback, AGENTS.md/skills, and deterministic linters/formatters.</li>
+    <li><a href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieving-secrets-ai-agents.html">AWS Secrets Manager: Use secrets safely with AI Coding Agents</a>, 2026-06-18. Current security example of using hooks/plugins to prevent secret exposure to agent context.</li>
+  </ul>
+
+  <h3>Current Publications</h3>
+  <ul>
+    <li><a href="https://arxiv.org/abs/2605.06717">Agentic Coding Needs Proactivity, Not Just Autonomy</a>, submitted 2026-05-07. Key idea: proactive agents should be evaluated by an insight policy: what matters next, what evidence supports it, whether to interrupt, and how to adapt after feedback.</li>
+    <li><a href="https://arxiv.org/abs/2605.06125">Breaking, Stale, or Missing? Benchmarking Coding Agents on Project-Level Test Evolution</a>, submitted 2026-05-07. TEBench shows coding agents share an identification ceiling around 45.7-49.4 F1 and are especially weak on stale and missing tests because execute-fail-fix loops do not proactively reason about semantic test drift.</li>
+    <li><a href="https://arxiv.org/abs/2605.14415">SWE-Chain: Benchmarking Coding Agents on Chained Release-Level Package Upgrades</a>, submitted 2026-05-14. Long-horizon maintenance benchmark: agents still struggle across chained releases, with average Build+Fix F1 around 50.2 across nine configurations.</li>
+    <li><a href="https://arxiv.org/abs/2605.25430">CODESKILL: Learning Self-Evolving Skills for Coding Agents</a>, submitted 2026-05-25. Distills coding-agent trajectories into reusable procedural skills and reports improved pass rate over no-skill and memory baselines.</li>
+    <li><a href="https://arxiv.org/abs/2606.01139">SkillRevise: Improving LLM-Authored Agent Skills via Trace-Conditioned Skill Revision</a>, submitted 2026-05-31. Uses execution evidence to revise weak initial skills, then re-executes and retains the empirically best version.</li>
+    <li><a href="https://arxiv.org/abs/2606.07412">Socratic-SWE: Self-Evolving Coding Agents via Trace-Derived Agent Skills</a>, submitted 2026-06-05. Uses historical solving traces to derive skills and generate targeted repair tasks, improving over self-evolving baselines.</li>
+    <li><a href="https://arxiv.org/abs/2604.11088">Do Agent Rules Shape or Distort? Guardrails Beat Guidance in Coding Agents</a>, submitted 2026-04-13. Large-scale rule-file study: rules improve performance overall, but negative constraints are the only individually beneficial rule type; positive directives can hurt.</li>
+    <li><a href="https://arxiv.org/abs/2605.19576">Library Drift: Diagnosing and Fixing a Silent Failure Mode in Self-Evolving LLM Skill Libraries</a>, submitted 2026-05-19, revised 2026-06-25. Warns that unbounded skill accumulation causes retrieval degradation, false-positive injections, and stagnation; recommends outcome-driven retirement, bounded active caps, and trace-level diagnostics.</li>
+    <li><a href="https://arxiv.org/abs/2505.22954">Darwin Godel Machine: Open-Ended Evolution of Self-Improving Agents</a>, outside the strict three-month publication window but important baseline. The archive/genealogy pattern is relevant, but the right lesson for regulated work is not open-ended self-modification; it is archive, validate, and preserve diverse successful variants under sandboxing and human oversight.</li>
+  </ul>
+
+  <h3>PM-Hub Prior Coverage Used</h3>
+  <ul>
+    <li><code>research/reports/historical/agent-harnesses-for-document-products.md</code></li>
+    <li><code>research/wiki/_archive/concepts/self-improving-loop.md</code></li>
+    <li><code>research/reports/historical/local-agentic-coding.md</code></li>
+    <li><code>pi-redactor/architecture.md</code></li>
+    <li><code>accommodation-engine/specs/2026-04-29-report-architecture-framework-narrative.md</code></li>
+    <li><code>context/priorities.md</code></li>
+  </ul>
+
+  <h2>What A Loop Is In Agentic Coding</h2>
+  <p>A loop is not "let the agent keep going." A loop is a controlled system:</p>
+  <pre><code>objective -&gt; attempt -&gt; verification -&gt; decision -&gt; memory -&gt; next attempt or stop</code></pre>
+  <p>The key distinction is that a loop has a <strong>measurable decision point</strong>. Without that, you only have repeated prompting.</p>
+  <p>The current literature and docs converge on six necessary parts:</p>
+  <table>
+    <thead><tr><th>Part</th><th>Required Question</th><th>Why It Matters</th></tr></thead>
+    <tbody>
+      <tr><td>Objective</td><td>What must be true at the end?</td><td>Prevents drift and premature completion.</td></tr>
+      <tr><td>Verification surface</td><td>What evidence proves progress or failure?</td><td>Turns subjective agent confidence into a check.</td></tr>
+      <tr><td>Attempt boundary</td><td>What can change this iteration?</td><td>Keeps blast radius small and diffs reviewable.</td></tr>
+      <tr><td>State artifact</td><td>What gets persisted after each pass?</td><td>Allows resume, audit, learning, and replay.</td></tr>
+      <tr><td>Memory rule</td><td>What becomes future guidance, and when?</td><td>Prevents both forgetting and skill-library drift.</td></tr>
+      <tr><td>Stop condition</td><td>When should the loop complete, pause, or escalate?</td><td>Prevents wasted iterations and unsafe autonomy.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Best Practices</h2>
+
+  <h3>1. Start With A Goal Contract, Not A Prompt</h3>
+  <p>Use this shape for any loop you expect to repeat:</p>
+  <pre><code>Achieve &lt;desired end state&gt;, verified by &lt;specific evidence&gt;,
+while preserving &lt;constraints&gt;. Use &lt;allowed inputs/tools/files&gt;.
+Between iterations, choose the next action by &lt;selection rule&gt;.
+Stop if &lt;blocked/saturation/unsafe condition&gt; and report &lt;evidence needed&gt;.</code></pre>
+  <p>For DEC1TEXTREDACTOR:</p>
+  <pre><code>Improve composite PII F2 by at least 0.002, verified by the frozen benchmark
+suite, while preserving recall &gt;= 0.990 and no new high-risk FN class. Use only
+T1-T4 recognizer/post-filter/config changes unless a holdout fixture exists.
+Between iterations, prioritize the failure cluster with highest weighted F2
+headroom. Stop after three non-improving valid attempts or any recall-floor
+breach.</code></pre>
+  <p>For Accommodation Engine report work:</p>
+  <pre><code>Raise evidence-grounding pass rate for BC/Post-Secondary reports, verified by
+claim-to-source checks and fixture snapshots, while preserving existing report
+schema and customer overlay boundaries. Use only the bounded pipeline stages,
+authority docs, and approved fixture set. Between iterations, fix the highest
+severity verifier failure class first. Stop if authority sources conflict or a
+surface lacks an owner.</code></pre>
+
+  <h3>2. Prefer Small Loops With Strong Checks Over Large Autonomous Loops</h3>
+  <p>OpenAI's repair-loop cookbook uses Review, Repair, Validate. That pattern is useful because each phase has a different job. Review observes without editing. Repair changes a copied artifact. Validate produces structured feedback.</p>
+  <p>For your work, preserve that separation:</p>
+  <ul>
+    <li><strong>Redactor:</strong> diagnose failure cluster &rarr; apply one bounded detector/post-filter/config change &rarr; benchmark &rarr; keep/reject.</li>
+    <li><strong>Bloom/BC reports:</strong> diagnose unsupported claim or renderer mismatch &rarr; patch one stage/contract &rarr; run fixture/verifier &rarr; keep/reject.</li>
+    <li><strong>DDx content:</strong> diagnose banned phrase or voice collapse &rarr; edit rule/template &rarr; run lint/sample audit &rarr; keep/reject.</li>
+    <li><strong>PM-Hub process:</strong> diagnose repeated agent failure &rarr; update AGENTS/skill/plan template &rarr; test on next live task &rarr; promote or revert.</li>
+  </ul>
+
+  <h3>3. Build Loops Around Proactivity Carefully</h3>
+  <p>The proactivity paper's useful distinction is that proactive agents are judged by an <strong>insight policy</strong>, not by activity volume. For your workflows, a proactive loop should answer:</p>
+  <ul>
+    <li>What changed?</li>
+    <li>Why does it matter now?</li>
+    <li>What evidence supports interrupting Eric?</li>
+    <li>What is the smallest useful next action?</li>
+    <li>What feedback updates the policy?</li>
+  </ul>
+  <p><strong>Good proactive loops:</strong></p>
+  <ul>
+    <li>detect stale BC authority docs before implementation;</li>
+    <li>detect Redactor benchmark drift after a new ground-truth update;</li>
+    <li>detect report-engine fixture regression after schema or renderer changes;</li>
+    <li>detect Linear drift when commits lack issue references;</li>
+    <li>detect skill-library drift when an often-invoked skill causes repeated fixes.</li>
+  </ul>
+  <p><strong>Bad proactive loops:</strong></p>
+  <ul>
+    <li>scan everything daily and produce unactionable summaries;</li>
+    <li>open issues without a severity threshold;</li>
+    <li>write to source-of-truth systems without a separate implementation plan;</li>
+    <li>keep repeating "review this" without new evidence.</li>
+  </ul>
+
+  <h3>4. Do Not Rely On Execute-Fail-Fix Alone</h3>
+  <p>TEBench's warning maps directly to your environment. Standard coding agents are decent at fixing tests that already fail. They are poor at <strong>stale tests</strong> that pass but no longer assert the right behavior, and <strong>missing tests</strong> for new behavior.</p>
+  <p>Implementation consequence:</p>
+  <ul>
+    <li>Every loop needs an "absence of failing tests is insufficient" check.</li>
+    <li>For Redactor, a benchmark pass must still ask whether a hidden FN category was not represented in the corpus.</li>
+    <li>For AE, a green unit suite must still ask whether customer authority, source attribution, and renderer/export boundaries are covered.</li>
+    <li>For BC/Post-Secondary, claim grounding must check missing evidence and stale authority, not just parser failures.</li>
+  </ul>
+
+  <h3>5. Treat Skills, AGENTS.md, And Rules As Runtime Artifacts</h3>
+  <p>The last-three-month research makes this sharper:</p>
+  <ul>
+    <li>Rules help, but <strong>guardrails beat guidance</strong>. Negative constraints are safer than positive style directives.</li>
+    <li>Skills are better than bloated global instruction files for procedures.</li>
+    <li>Trace-derived skills can help, but ungoverned accumulation causes library drift.</li>
+  </ul>
+  <p>Recommended local policy:</p>
+  <ul>
+    <li>Put short, stable, negative constraints in AGENTS.md.</li>
+    <li>Put multi-step procedures in skills.</li>
+    <li>Put per-loop runtime findings in loop state files first, not directly in AGENTS.md.</li>
+    <li>Promote a lesson to a skill only after it appears in at least two distinct loop traces or one P0/P1 review finding.</li>
+    <li>Retire or quarantine skills/rules that have not helped in the last N uses or that correlate with repeated misfires.</li>
+  </ul>
+
+  <h3>6. Use Deterministic Guardrails For Load-Bearing Boundaries</h3>
+  <p>Do not ask an agent to "be careful" with secrets, PII, authority docs, or export contracts. Use hooks, scripts, schema validators, golden fixtures, and negative permissions.</p>
+  <p>Examples:</p>
+  <ul>
+    <li>A Redactor loop should not be allowed to print raw student data or private document contents in logs.</li>
+    <li>A PM-Hub/Google Workspace loop should use <code>gws</code> with file-backed credentials, never browser scraping.</li>
+    <li>An AE report loop should not modify renderer output strings to hide upstream schema gaps.</li>
+    <li>A multi-surface loop should not implement against missing or conflicting authority docs; it should mark the card <code>NEEDS-CLARIFICATION</code>.</li>
+    <li>A secret-access hook should block plaintext secret retrieval into the context, following the same design logic as the AWS Secrets Manager agent guidance.</li>
+  </ul>
+
+  <h3>7. Preserve Fresh Review Context</h3>
+  <p>For risky work, the reviewer should not be the same context that authored the change. This is already embedded in your <code>local-review</code>, <code>plan-harden</code>, and multi-surface harness practice. Keep it.</p>
+  <p>Use same-thread self-checks for cheap syntax and mechanical errors. Use fresh review for:</p>
+  <ul>
+    <li>security/privacy changes;</li>
+    <li>schema migrations;</li>
+    <li>report/renderer/export boundary changes;</li>
+    <li>benchmark-driven tuning where overfitting risk is real;</li>
+    <li>agent skill/rule changes that affect future sessions;</li>
+    <li>any change that crosses authority surfaces.</li>
+  </ul>
+
+  <h2>Loop Types To Standardize</h2>
+
+  <h3>Type 1: Repair Loop</h3>
+  <p>Use for broken tests, validation failures, stale docs, export errors, and schema mismatch.</p>
+  <pre><code>review -&gt; repair -&gt; validate -&gt; repeat until pass or blocker</code></pre>
+  <p>Minimum artifacts: <code>loop-card.md</code>, <code>attempts.jsonl</code>, validation command, changed-file summary, final keep/reject decision.</p>
+
+  <h3>Type 2: Optimization Loop</h3>
+  <p>Use for Redactor F2 tuning, latency, cost, cache hit rate, evaluator accuracy, or report grounding rate.</p>
+  <pre><code>hypothesis -&gt; bounded edit -&gt; metric run -&gt; keep/reject -&gt; memory update</code></pre>
+  <p>Minimum artifacts: baseline metrics, metric weights and floors, allowed edit tiers, holdout rule, rejection memory keyed by structural target (not just hypothesis ID), rollback command.</p>
+
+  <h3>Type 3: Review Loop</h3>
+  <p>Use for human/agent review cycles.</p>
+  <pre><code>diff -&gt; review comments -&gt; targeted follow-up -&gt; smaller diff -&gt; approval</code></pre>
+  <p>Minimum artifacts: review scope, severity taxonomy, comments anchored to lines or sections, follow-up validation, unresolved risk list.</p>
+
+  <h3>Type 4: Proactive Monitor Loop</h3>
+  <p>Use for recurring health signals: stale authority docs, benchmark drift, Linear drift, docs/KG staleness, CRM hygiene, report index gaps.</p>
+  <pre><code>watch signal -&gt; classify importance -&gt; gather evidence -&gt; interrupt or log -&gt; learn from feedback</code></pre>
+  <p>Minimum artifacts: watch query/command, threshold, evidence packet, interrupt policy, "do not alert if" rules, feedback field.</p>
+
+  <h3>Type 5: Skill/Memory Promotion Loop</h3>
+  <p>Use when repeated corrections indicate a reusable instruction or procedure.</p>
+  <pre><code>trace -&gt; cluster failures -&gt; propose rule/skill edit -&gt; test on fixture/live case -&gt; promote/retire</code></pre>
+  <p>Minimum artifacts: source traces, proposed memory text, expected behavior change, evaluation case, expiry/review date, retirement trigger.</p>
+
+  <h3>Type 6: Multi-Surface Implementation Loop</h3>
+  <p>Use for report-engine, BC, assessment-bank, KG, source-attribution, and deployment-contract changes.</p>
+  <pre><code>control artifact -&gt; surface cards -&gt; authority check -&gt; implementation slices -&gt; verification -&gt; index/update</code></pre>
+  <p>Minimum artifacts: one source-controlled control artifact, card per affected surface, authority status per card, out-of-scope notes, verification per slice, done-when criteria. This should continue to route through <code>multi-surface-agent-harness</code>.</p>
+
+  <h2>Specific Opportunities</h2>
+
+  <h3>DEC1TEXTREDACTOR</h3>
+  <p><strong>Current pattern:</strong> seven-stage pipeline with GLM-OCR, Qwen LLM passes, Presidio, post-filter, user review, export; F2-weighted benchmark with recall pressure; Karpathy-style optimization history; architecture state/changelog; correction memory and failure clusters; recent Wave-C autonomous launch surfaced live loop-framework bugs.</p>
+  <p><strong>Highest-ROI loop upgrades:</strong></p>
+  <ol>
+    <li>Replace raw unified-diff planner output with <strong>structured edit operations</strong>. The Wave-C failure mode showed that planner-generated diffs are brittle. A safer edit schema is:
+      <pre><code>{
+  "target_file": "server/config/detection-config.json",
+  "operation": "replace_json_value",
+  "path": ["ner_config", "thresholds", "PERSON"],
+  "old_value": 0.72,
+  "new_value": 0.74,
+  "rationale": "Suppress low-confidence PERSON FPs in score-term contexts"
+}</code></pre>
+    </li>
+    <li>Deduplicate rejection memory by <strong>structural key</strong>, not by hypothesis ID:
+      <pre><code>target_file + operation_type + affected_entity_type + normalized_diff_hash + failure_cluster</code></pre>
+      This prevents <code>T2-01-v2</code>, <code>T2-01-v3</code>, and similar variants from burning iteration budget.
+    </li>
+    <li>Make tier selection part of the loop contract. Do not let the planner choose Tier 5 unless there is a holdout set and a user-approved prompt/model experiment window. Default to T1-T4 for routine accuracy tuning.</li>
+    <li>Use dual metrics: primary composite F2; hard floors on recall by entity type and no new high-risk FN class; ratchet so precision improves only if recall floor is stable.</li>
+    <li>Add proactive stale/missing-test checks. After every accepted change, ask: which class of FPs did this suppress? what class of FNs might it introduce? is that class represented in the benchmark? If not, create a pending ground-truth fixture request instead of trusting the metric.</li>
+    <li>Maintain two memories: rejection memory (failed edits and why) and success memory (accepted edits with the smallest generalizable rule).</li>
+    <li>Keep human gates at: any change touching OCR model behavior; any prompt/model change; any change that lowers recall floor; any ground-truth relabeling; any production data handling change.</li>
+  </ol>
+  <p>Recommended Redactor loop card:</p>
+  <pre><code>loop_id: redactor-f2-optimization
+owner: Eric
+objective: Improve composite PII F2 without recall-floor regression.
+trigger:
+  - manual tuning session
+  - benchmark drift
+  - repeated reviewer correction cluster
+verification:
+  command: "python scripts/experiment_harness.py --run-benchmark"
+  primary_metric: composite_f2
+  floors:
+    recall: 0.990
+    high_risk_fn_new_classes: 0
+allowed_tiers_default: [T1, T2, T3, T4]
+requires_approval: [T5, prompt_change, model_change, ground_truth_change]
+attempt_state: experiments/attempts.jsonl
+rejection_memory: experiments/rejections.jsonl
+success_memory: experiments/successes.jsonl
+stop:
+  - three valid non-improving attempts
+  - recall floor breach
+  - missing holdout for proposed tier
+  - benchmark unavailable</code></pre>
+
+  <h3>Accommodation Engine / Bloom / BC Post-Secondary</h3>
+  <p><strong>Current pattern:</strong> Bloom already has a bounded staged report pipeline; BC/Post-Secondary is moving toward evidence-row and source-grounded review; report architecture framework already names durable execution, agent registry, citation verification, and learning evaluator; PM-Hub global rules require multi-surface control artifacts for authority surfaces.</p>
+  <p><strong>Highest-ROI loop upgrades:</strong></p>
+  <ol>
+    <li>Build the report loop around <strong>authority</strong>, not model output. The loop should start from authoritative artifacts: customer overlay; accommodation catalog; evidence row schema; limitation/accommodation routing rules; renderer/export contract; fixture set.</li>
+    <li>Use a three-verifier model: schema verifier (is the data contract valid?); source verifier (does every claim row map to source evidence?); renderer verifier (does the final output faithfully represent upstream data?).</li>
+    <li>Keep bounded pipelines. Do not add a top-level free-form planner agent to the production report generator. Use planners for plans and implementation control artifacts; use deterministic workflows for production report runs.</li>
+    <li>Make the evaluator metric <strong>reviewer-confidence calibration</strong>, not time saved. In regulated clinical/education settings, reviewer time may not drop, but reviewer confidence and defect rate can improve.</li>
+    <li>Add stale/missing-test checks: does the fixture cover unsupported evaluator recommendations? K-12 history-only accommodations? service/referral rows separately from formal accommodations? weak objective data and student self-report-only cases?</li>
+    <li>Promote customer-specific learnings carefully. Customer overlays belong in overlay artifacts, not global rules, unless the pattern generalizes across customers.</li>
+  </ol>
+  <p>Recommended AE report loop card:</p>
+  <pre><code>loop_id: ae-report-grounding-loop
+owner: Eric
+objective: Increase evidence-grounding and renderer fidelity for report outputs.
+trigger:
+  - fixture failure
+  - customer authority update
+  - local-review finding
+  - renderer/export mismatch
+authorities:
+  - customer_overlay
+  - report_schema
+  - accommodation_catalog
+  - source_citation_contract
+  - renderer_contract
+verification:
+  commands:
+    - "npm test -- report-engine"
+    - "npm run verify:fixtures"
+    - "npm run verify:citations"
+metrics:
+  source_grounding_rate: "&gt;= target"
+  schema_validity: "100%"
+  unsupported_claims: 0
+  renderer_mismatch: 0
+stop:
+  - authority conflict
+  - missing customer source artifact
+  - fixture cannot represent claimed behavior
+  - privacy boundary unclear
+human_gate:
+  - customer-facing output change
+  - source attribution policy change
+  - accommodation approval/support-status semantics</code></pre>
+
+  <h3>C2A / DDx / Coach Text</h3>
+  <p><strong>Current pattern:</strong> content generation uses voice, banned-phrase, and consistency rules; session 353 found rule-mode collapse where many outputs opened similarly; there is recurring value in lintable constraints over prose-only guidance.</p>
+  <p><strong>Highest-ROI loop upgrades:</strong></p>
+  <ol>
+    <li>Convert voice guidance into executable lint where possible.</li>
+    <li>Track diversity metrics, not just banned-phrase pass/fail.</li>
+    <li>Use sample-level review loops before bulk regeneration.</li>
+    <li>Promote recurring content failures to skill/rule files only after they show up across multiple constructs.</li>
+    <li>Use a "gold standard" artifact per content family, echoing the Stack Overflow guidance that examples are the strongest agent pattern.</li>
+  </ol>
+  <p>Recommended DDx loop:</p>
+  <pre><code>sample 3 outputs -&gt; lint + diversity audit -&gt; revise rule/template -&gt;
+regenerate sample -&gt; review -&gt; bulk run only after sample passes</code></pre>
+
+  <h3>PM-Hub Itself</h3>
+  <p>PM-Hub is already a loop substrate: deep-research has planner, verifier, appraisal, persistence, compliance, and learning evaluators; session handoffs preserve state; KG/chromadb indexes make prior work retrievable; skills encode repeatable procedures.</p>
+  <p><strong>Highest-ROI PM-Hub upgrade:</strong> create a shared <code>loop-card</code> template and require it for Redactor optimization sessions; report-engine multi-surface work; recurring Google Workspace / CRM automation; KG/research archive maintenance; long-running goals.</p>
+
+  <h2>Implementation Guide</h2>
+
+  <h3>Step 1: Inventory Existing Loops</h3>
+  <table>
+    <thead><tr><th>Loop</th><th>Product</th><th>Trigger</th><th>Metric</th><th>State File</th><th>Verifier</th><th>Memory</th><th>Stop Condition</th><th>Owner</th></tr></thead>
+    <tbody>
+      <tr><td>Redactor F2 tuning</td><td>PI Redactor</td><td>manual / drift</td><td>F2 + recall floors</td><td>experiments/*.jsonl</td><td>benchmark</td><td>rejection/success</td><td>saturation / recall breach</td><td>Eric</td></tr>
+      <tr><td>Report grounding</td><td>AE/Bloom/BC</td><td>fixture / review</td><td>grounding rate</td><td>report runs</td><td>schema/source/renderer</td><td>report-effectiveness</td><td>authority conflict</td><td>Eric</td></tr>
+      <tr><td>DDx voice/content</td><td>C2A</td><td>regen / audit</td><td>lint + diversity</td><td>batch output</td><td>lint/review</td><td>content rules</td><td>sample failure</td><td>Eric</td></tr>
+      <tr><td>Research harness</td><td>PM-Hub</td><td>deep research</td><td>verified yield</td><td>findings JSON</td><td>verifier/appraisal</td><td>source effectiveness</td><td>verification failure</td><td>Eric</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Step 2: Add A Loop Card Template</h3>
+  <p>Suggested path: <code>docs/templates/loop-card-template.md</code>. Suggested template:</p>
+  <pre><code>loop_id:
+product:
+owner:
+status: draft|active|paused|retired
+objective:
+trigger:
+  -
+authorities:
+  -
+allowed_surfaces:
+  -
+forbidden_surfaces:
+  -
+verification:
+  commands:
+    -
+  metrics:
+    primary:
+    floors:
+state:
+  attempt_log:
+  decision_log:
+  artifacts_dir:
+memory:
+  rejection:
+  success:
+  promotion_rule:
+human_gates:
+  -
+stop_conditions:
+  -
+rollback:
+  command:
+done_when:
+  - </code></pre>
+
+  <h3>Step 3: Use Structured Attempt Logs</h3>
+  <p>For every loop attempt:</p>
+  <pre><code>{
+  "attempt_id": "2026-06-26T14:22:01Z-redactor-T2-003",
+  "loop_id": "redactor-f2-optimization",
+  "hypothesis": "Suppress single-token PERSON FPs in score-term context",
+  "target_surface": "server/python/post_filter.py",
+  "structural_key": "post_filter|PERSON|score_context|single_token",
+  "edit_summary": "Added score-term context suppression guard",
+  "verification_command": "python scripts/experiment_harness.py --run-benchmark",
+  "metrics_before": {"f2": 0.9562, "recall": 0.9918, "precision": 0.836},
+  "metrics_after": {"f2": 0.9570, "recall": 0.9918, "precision": 0.839},
+  "decision": "keep",
+  "decision_rationale": "F2 improved without recall-floor breach",
+  "memory_candidate": "Score-term context can safely suppress single-token PERSON spans when no title/name pattern is present",
+  "human_gate_required": false
+}</code></pre>
+
+  <h3>Step 4: Promote Memory Conservatively</h3>
+  <p>Use a three-tier memory path: (1) attempt log: every attempt; (2) candidate memory: lessons from accepted or instructive rejected attempts; (3) promoted skill/rule: only after recurrence or high-severity review.</p>
+  <pre><code>Promote if:
+- lesson appears in &gt;=2 accepted attempts across distinct fixtures, OR
+- lesson prevents a P0/P1 review finding, OR
+- Eric explicitly asks to make it a reusable rule.
+
+Do not promote if:
+- it only fits one customer overlay;
+- it contradicts repo-local AGENTS.md;
+- it is a positive style preference with no examples;
+- it has no expiry/review condition;
+- it touches privacy/security behavior without deterministic enforcement.</code></pre>
+
+  <h3>Step 5: Add Retirement Rules</h3>
+  <p>Skill/rule libraries need retirement or they will drift. Suggested fields:</p>
+  <pre><code>memory_id:
+introduced:
+source_attempts:
+last_helped:
+times_retrieved:
+times_helped:
+times_harmed:
+owner:
+review_after:
+retire_if:
+  - no positive attribution in 90 days
+  - associated with 2 harmful attempts
+  - superseded by deterministic validator</code></pre>
+
+  <h3>Step 6: Add Fresh Review Where It Changes Outcomes</h3>
+  <p>Use fresh review when any of the following are true: the authoring loop touched more than one authority surface; the change affects privacy, PII, secrets, or production data; the metric can be overfit; the change modifies a skill, AGENTS.md, or future-agent instruction; the output is customer-facing; the loop was autonomous for more than one iteration.</p>
+
+  <h3>Step 7: Make Proactive Loops Interrupt Sparse</h3>
+  <p>Every proactive loop should have a written interrupt policy:</p>
+  <pre><code>alert_if:
+  - severity: P0|P1
+  - confidence: high
+  - evidence_count: "&gt;=2"
+  - user_action_required: true
+do_not_alert_if:
+  - already logged in active thread
+  - no new evidence since last check
+  - only cosmetic drift
+  - blocked by known missing artifact</code></pre>
+  <p>For Eric's work, high-value proactive monitors are: BC authority docs stale or conflicting; Redactor benchmark drift after GT changes; Linear drift between commits and issues; report-engine fixture coverage gap; PM-Hub research/source-effectiveness degradation; skill/rule files growing without attribution.</p>
+
+  <h2>Failure Modes And Countermeasures</h2>
+  <table>
+    <thead><tr><th>Failure Mode</th><th>Seen Locally?</th><th>Countermeasure</th></tr></thead>
+    <tbody>
+      <tr><td>Planner burns iterations on disallowed tier</td><td>Yes, Redactor Wave-C</td><td>Tier policy in loop card; structural rejection memory.</td></tr>
+      <tr><td>Planner cannot produce valid diff</td><td>Yes, Redactor Wave-C</td><td>Structured edits + apply checker + retry budget.</td></tr>
+      <tr><td>Same rejected idea returns under new ID</td><td>Yes</td><td>Dedup by structural key and normalized diff hash.</td></tr>
+      <tr><td>Green tests miss stale/missing behavior</td><td>Likely in AE/report work</td><td>Add semantic fixture coverage checklist.</td></tr>
+      <tr><td>Agent self-review defends prior work</td><td>Known pattern</td><td>Fresh-context review for risky work.</td></tr>
+      <tr><td>Instruction file becomes bloated</td><td>Ongoing risk</td><td>Move procedures to skills; keep AGENTS negative and concise.</td></tr>
+      <tr><td>Skill library accumulates stale advice</td><td>Ongoing risk</td><td>Attribution, cap, retirement, review date.</td></tr>
+      <tr><td>Proactive agent becomes noisy</td><td>Ongoing risk</td><td>Insight policy with interrupt thresholds.</td></tr>
+      <tr><td>Privacy/secrets leak into context</td><td>High risk</td><td>Hooks/plugins/deterministic blockers; no raw records in chat.</td></tr>
+      <tr><td>Renderer hides upstream contract gap</td><td>AE risk</td><td>Source/schema verifier before renderer patch.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Recommended Near-Term Build</h2>
+
+  <h3>Slice 1: PM-Hub Loop Card Template</h3>
+  <p>Create <code>docs/templates/loop-card-template.md</code>, then instantiate <code>pi-redactor/loop-cards/redactor-f2-optimization.md</code>, <code>accommodation-engine/loop-cards/report-grounding-loop.md</code>, and <code>c2a/loop-cards/ddx-content-quality-loop.md</code>.</p>
+  <p><em>Verification:</em> frontmatter present; tags from taxonomy; loop cards name verifier, state file, stop condition, human gate.</p>
+
+  <h3>Slice 2: Redactor Loop Hardening</h3>
+  <p>Implement or specify: structural rejection key; attempt JSONL schema; structured edit schema; tier policy; holdout-required guard for prompt/model changes.</p>
+  <p><em>Verification:</em> one dry-run attempt logs a complete attempt row; duplicate rejected hypothesis is blocked by structural key; T5 attempt fails closed without holdout.</p>
+
+  <h3>Slice 3: AE Report Loop Card + Fixture Coverage Gate</h3>
+  <p>Implement or specify: source/schema/renderer verifier split; coverage checklist for stale/missing behavior; customer authority conflict stop condition; reviewer-confidence metric placeholder.</p>
+  <p><em>Verification:</em> fixture failure produces a card update, not a renderer-only patch; unsupported claim fixture fails source verifier; customer overlay conflict stops with <code>NEEDS-CLARIFICATION</code>.</p>
+
+  <h3>Slice 4: Memory Governance</h3>
+  <p>Implement a shared rule: attempt logs are not memory; memory candidates require promotion; promoted skills/rules require attribution and review dates.</p>
+  <p><em>Verification:</em> no new AGENTS.md or skill edit without source attempts; old rules can be retired or quarantined.</p>
+
+  <h2>Practical Guidance For Future Prompts</h2>
+  <p>Use this when starting an agentic coding loop:</p>
+  <pre><code>Use the loop-card pattern. First identify the loop type, objective,
+verification surface, allowed surfaces, memory rule, and stop conditions.
+If the task touches multiple authority surfaces, use multi-surface-agent-harness
+before implementation. Do not implement from distributed docs alone.</code></pre>
+  <p>Use this when launching Redactor optimization:</p>
+  <pre><code>Run one bounded Redactor optimization attempt. Use the current benchmark as the
+verification surface, preserve recall floors, log the attempt and structural
+key, and keep/reject based on measured F2 plus entity-type floor checks. Do not
+change prompt/model behavior without holdout and explicit approval.</code></pre>
+  <p>Use this when launching AE report work:</p>
+  <pre><code>Use the report-grounding loop. Load the authority docs, map affected surfaces,
+make one implementation slice, verify schema/source/renderer separately, and
+stop on authority conflict or missing source artifact. Do not patch final
+rendered strings to hide upstream data-contract gaps.</code></pre>
+
+  <h2>Final Recommendations</h2>
+  <ol>
+    <li>Standardize loop cards now. You already run loops; the cost is coming from inconsistent state, unclear stop rules, and ad hoc memory promotion.</li>
+    <li>Treat Redactor as the optimization-loop reference implementation.</li>
+    <li>Treat AE/Bloom/BC as the regulated-document-loop reference implementation.</li>
+    <li>Treat PM-Hub deep-research as the evidence-loop reference implementation.</li>
+    <li>Make every loop answer: what changed, what evidence checked it, what was kept or rejected, what memory was created, and why the loop stopped.</li>
+    <li>Keep autonomy bounded. The best current evidence supports evidence-driven continuation, not open-ended self-direction.</li>
+    <li>Shift from positive guidance to negative guardrails plus examples.</li>
+    <li>Govern skill libraries like code: attribution, tests, ownership, review dates, and retirement.</li>
+  </ol>
+
+  <div class="foot">
+    <p>ThriveIEP internal research report. Covers community resources, official docs, and publications surfaced between March 26 and June 26, 2026, with prior PM-Hub research as baseline context. Source markdown lives in PM-Hub <code>research/reports/2026-06-26-agentic-coding-loop-engineering.md</code>. Generated June 26, 2026.</p>
+  </div>
+
+</div>
+</body>
+</html>
