@@ -1,0 +1,1122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="color-scheme" content="light">
+  <title>BC V3 Assessment Pathway — CEO Briefing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Red+Hat+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>document.documentElement.classList.add("js");</script>
+  <style>
+    :root {
+      --ivory: #f6f0e6;
+      --paper: #fffaf2;
+      --paper-strong: #fffdf8;
+      --ink: #272220;
+      --muted: #675e59;
+      --maroon: #722839;
+      --maroon-deep: #3e1820;
+      --maroon-soft: #ead7d8;
+      --teal: #2f6d68;
+      --teal-soft: #dcebe6;
+      --gold: #a86f2f;
+      --gold-soft: #f0dfc4;
+      --line: rgba(62, 24, 32, 0.2);
+      --line-strong: rgba(62, 24, 32, 0.42);
+      --shadow: 0 18px 50px rgba(48, 30, 25, 0.11);
+      --serif: "Source Serif 4", Georgia, serif;
+      --sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+      --content: min(1180px, calc(100vw - 7rem));
+      --nav-height: 4.5rem;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: var(--ivory); }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(114, 40, 57, 0.045) 1px, transparent 1px) 0 0 / 4.5rem 100%,
+        var(--ivory);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.55;
+    }
+    button, summary { font: inherit; }
+    button { color: inherit; }
+    a { color: inherit; }
+    :focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
+
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      height: var(--nav-height);
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      padding: 0 2rem;
+      color: #fffaf2;
+      background: rgba(62, 24, 32, 0.97);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    }
+    .brand {
+      min-width: max-content;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .progress-track {
+      flex: 1;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .progress-fill {
+      width: 8.333%;
+      height: 100%;
+      background: #d7ab6b;
+      transition: width 320ms ease;
+    }
+    .nav-button {
+      border: 1px solid currentColor;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    main { min-height: calc(100svh - var(--nav-height)); }
+    .scene {
+      position: relative;
+      min-height: calc(100svh - var(--nav-height));
+      padding: clamp(3.5rem, 7vh, 6rem) 3.5rem 7rem;
+      overflow: hidden;
+      border-bottom: 1px solid var(--line);
+    }
+    .js .scene:not(.is-active) { display: none; }
+    .scene::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 0.55rem;
+      background: var(--maroon);
+    }
+    .scene:nth-child(3n + 2)::before { background: var(--teal); }
+    .scene:nth-child(3n)::before { background: var(--gold); }
+    .scene-inner {
+      width: var(--content);
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .scene-kicker {
+      margin: 0 0 0.8rem;
+      color: var(--maroon);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    h2 {
+      max-width: 1030px;
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(2.25rem, 4.3vw, 4.75rem);
+      font-weight: 650;
+      line-height: 0.98;
+      letter-spacing: -0.045em;
+      text-wrap: balance;
+    }
+    .lede {
+      max-width: 850px;
+      margin: 1.4rem 0 0;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 1.65vw, 1.42rem);
+      line-height: 1.52;
+      text-wrap: pretty;
+    }
+    .emphasis { color: var(--maroon); }
+    .small-note { color: var(--muted); font-size: 0.84rem; }
+    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+    .rule { width: 5rem; margin: 1.8rem 0; border: 0; border-top: 3px solid var(--maroon); }
+
+    .term-guide {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      margin-top: 2.4rem;
+      border-top: 1px solid var(--line-strong);
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .term-item { padding: 1rem 1.15rem; border-right: 1px solid var(--line); }
+    .term-item:first-child { padding-left: 0; }
+    .term-item:last-child { padding-right: 0; border-right: 0; }
+    .term-item strong { display: block; font-family: var(--serif); font-size: 1.25rem; }
+    .term-question { display: block; margin-top: 0.35rem; font-size: 0.8rem; font-weight: 700; }
+    .term-example { display: block; margin-top: 0.45rem; color: var(--muted); font-size: 0.74rem; line-height: 1.4; }
+    .hero-route {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      margin-top: 2.5rem;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+    .route-dot { width: 0.55rem; height: 0.55rem; border-radius: 50%; background: var(--teal); }
+    .route-line { width: clamp(2rem, 7vw, 7rem); height: 1px; background: var(--line-strong); }
+
+    .evidence-spectrum {
+      display: grid;
+      grid-template-columns: 1.15fr 1.45fr 0.85fr;
+      margin-top: 3.4rem;
+      border-top: 1px solid var(--line-strong);
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .evidence-form {
+      min-height: 12rem;
+      padding: 1.4rem 1.5rem;
+      border-right: 1px solid var(--line);
+    }
+    .evidence-form:last-child { border-right: 0; }
+    .evidence-form strong { display: block; margin-bottom: 0.7rem; font-family: var(--serif); font-size: 1.65rem; }
+    .evidence-form p { max-width: 28rem; margin: 0; color: var(--muted); }
+    .context-ribbon {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-top: 1.8rem;
+    }
+    .context-ribbon span,
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 1.8rem;
+      padding: 0.25rem 0.65rem;
+      border: 1px solid var(--line-strong);
+      border-radius: 99rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .field-map {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 1.6rem;
+    }
+    .field-column { border-top: 4px solid var(--teal); }
+    .field-column:last-child { border-color: var(--maroon); }
+    .field-column h3 { margin: 0.75rem 0 0; font-family: var(--serif); font-size: 1.35rem; }
+    .field-owner { margin: 0.15rem 0 0.45rem; color: var(--muted); font-size: 0.72rem; }
+    .field-row {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 0.85rem;
+      padding: 0.48rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .field-row code { color: var(--maroon); font: 700 0.67rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
+    .field-row span { color: var(--muted); font-size: 0.73rem; line-height: 1.38; }
+    .field-example { margin-top: 0.85rem; padding: 0.7rem 0 0.7rem 1rem; border-left: 4px solid var(--gold); font-size: 0.78rem; }
+    .field-example strong { color: var(--maroon); }
+
+    .disclosures { margin-top: 2rem; }
+    details {
+      border-top: 1px solid var(--line-strong);
+      border-bottom: 1px solid var(--line-strong);
+      background: rgba(255, 253, 248, 0.42);
+    }
+    details + details { border-top: 0; }
+    summary {
+      position: relative;
+      padding: 0.95rem 3rem 0.95rem 0;
+      cursor: pointer;
+      font-weight: 700;
+      list-style: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; position: absolute; right: 0.4rem; top: 0.7rem; color: var(--maroon); font-size: 1.35rem; }
+    details[open] summary::after { content: "−"; }
+    .detail-body { padding: 0.35rem 0 1.4rem; }
+    pre {
+      max-height: 24rem;
+      margin: 0.8rem 0 0;
+      padding: 1.1rem;
+      overflow: auto;
+      color: #f9eee9;
+      background: #2d2324;
+      border-left: 4px solid #c89455;
+      font: 0.78rem/1.55 ui-monospace, SFMono-Regular, Menlo, monospace;
+      white-space: pre-wrap;
+    }
+
+    .ownership-flow {
+      display: grid;
+      grid-template-columns: 1fr 2.2rem 1fr 2.2rem 1fr 2.2rem 1fr;
+      align-items: stretch;
+      margin-top: 3rem;
+    }
+    [data-scene="4"] .ownership-flow { margin-top: 2rem; }
+    .flow-node { min-height: 11rem; padding: 1.2rem; border: 1px solid var(--line-strong); background: rgba(255, 253, 248, 0.55); }
+    .flow-node small { display: block; margin-bottom: 0.6rem; color: var(--muted); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+    .flow-node strong { display: block; font-family: var(--serif); font-size: 1.35rem; line-height: 1.15; }
+    .flow-node p { margin: 0.7rem 0 0; color: var(--muted); font-size: 0.84rem; }
+    .flow-arrow { align-self: center; color: var(--maroon); font-size: 1.45rem; text-align: center; }
+    .branch-status { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.8rem; }
+
+    .process-map {
+      display: grid;
+      grid-template-columns: 1.05fr 1.7rem 1.05fr 1.7rem 1.05fr 1.7rem 1.12fr 1.7rem 0.9fr;
+      align-items: stretch;
+      margin-top: 1.7rem;
+    }
+    .process-sources { display: grid; grid-template-rows: 1fr 1fr; gap: 0.65rem; }
+    .process-node { min-height: 9.8rem; padding: 1rem; border: 1px solid var(--line-strong); background: rgba(255, 253, 248, 0.62); }
+    .process-node.source { min-height: 0; padding: 0.72rem 0.9rem; }
+    .process-node small { display: block; margin-bottom: 0.48rem; color: var(--maroon); font-size: 0.66rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+    .process-node strong { display: block; font-family: var(--serif); font-size: 1.25rem; line-height: 1.14; }
+    .process-node p { margin: 0.55rem 0 0; color: var(--muted); font-size: 0.8rem; line-height: 1.4; }
+    .process-arrow { align-self: center; color: var(--maroon); font-size: 1.5rem; text-align: center; }
+    .process-note { display: flex; align-items: center; gap: 0.65rem; margin-top: 0.75rem; color: var(--muted); font-size: 0.78rem; }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      padding: 0.3rem 0.58rem;
+      border: 1px solid currentColor;
+      border-radius: 99rem;
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+    .status.accepted { color: #fff; background: var(--teal); border-color: var(--teal); }
+    .status.active { color: #fff; background: var(--maroon); border-color: var(--maroon); }
+    .status.queued { color: var(--teal); background: transparent; }
+    .status.blocked { color: var(--muted); border-style: dashed; }
+    .status.unbuilt { color: var(--muted); background: rgba(103, 94, 89, 0.08); border-style: dashed; }
+    .status.donor { color: #684411; background: var(--gold-soft); border-color: #a86f2f; }
+
+    .policy-path {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      margin-top: 2rem;
+      border-top: 1px solid var(--line-strong);
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .policy-step { position: relative; padding: 1.1rem 1rem; border-right: 1px solid var(--line); color: var(--muted); font-size: 0.82rem; }
+    .policy-step:last-child { border-right: 0; }
+    .policy-step b { display: block; margin-bottom: 0.35rem; color: var(--ink); }
+    .policy-example { display: block; margin-top: 0.7rem; padding-top: 0.65rem; color: var(--ink); border-top: 1px solid var(--line); font-size: 0.76rem; line-height: 1.35; }
+    .policy-example em { display: block; margin-bottom: 0.18rem; color: var(--maroon); font-style: normal; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+    .regime-notes { display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 1.5rem; margin-top: 1.6rem; }
+    .regime { padding-top: 1rem; border-top: 4px solid var(--maroon); }
+    .regime:nth-child(2) { border-color: var(--teal); }
+    .regime:nth-child(3) { border-color: var(--gold); }
+    .regime strong { display: block; margin-bottom: 0.45rem; font-family: var(--serif); font-size: 1.28rem; }
+    .regime p { margin: 0; color: var(--muted); font-size: 0.87rem; }
+
+    .certainty-axes { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 3rem; margin-top: 2.7rem; }
+    .axis-list { border-top: 1px solid var(--line-strong); }
+    .axis { display: grid; grid-template-columns: 0.65fr 1fr; gap: 1rem; padding: 0.7rem 0; border-bottom: 1px solid var(--line); }
+    .axis b { color: var(--maroon); }
+    .review-callout { padding: 1.5rem; color: #fffaf2; background: var(--maroon-deep); }
+    .review-callout strong { display: block; font-family: var(--serif); font-size: 1.55rem; }
+    .review-callout ul { margin: 0.9rem 0 0; padding-left: 1.1rem; }
+    .review-callout li + li { margin-top: 0.55rem; }
+
+    .comparison { margin-top: 2.7rem; border-top: 1px solid var(--line-strong); }
+    .compare-row { display: grid; grid-template-columns: 0.7fr 1fr 1fr; gap: 1.2rem; padding: 0.85rem 0; border-bottom: 1px solid var(--line); }
+    .compare-row b { color: var(--maroon); }
+    .compare-row span { color: var(--muted); }
+    .compare-head { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+
+    .status-stage {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 3rem;
+      margin-top: 2.6rem;
+    }
+    .milestone { padding: 1.2rem 0; border-top: 1px solid var(--line-strong); }
+    .milestone h3 { margin: 0.55rem 0 0.35rem; font-family: var(--serif); font-size: 1.55rem; }
+    .milestone p { margin: 0; color: var(--muted); }
+    .capability-ledger .detail-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1.5rem; }
+    .capability-item { display: flex; justify-content: space-between; gap: 1rem; padding: 0.65rem 0; border-bottom: 1px solid var(--line); font-size: 0.78rem; }
+
+    .future-output { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 3rem; margin-top: 2.4rem; }
+    .output-order { counter-reset: output; border-top: 1px solid var(--line-strong); }
+    .output-order div { counter-increment: output; display: grid; grid-template-columns: 2rem 1fr; gap: 0.7rem; padding: 0.72rem 0; border-bottom: 1px solid var(--line); }
+    .output-order div::before { content: counter(output, decimal-leading-zero); color: var(--maroon); font-size: 0.72rem; font-weight: 700; }
+    .hold-note { padding: 1.4rem; border-left: 4px solid var(--gold); background: rgba(240, 223, 196, 0.48); }
+    .hold-note strong { display: block; font-family: var(--serif); font-size: 1.45rem; }
+
+    .ownership-ledger { margin-top: 2.5rem; border-top: 1px solid var(--line-strong); }
+    .owner-row { display: grid; grid-template-columns: 0.72fr 1fr 0.9fr; gap: 1.5rem; padding: 0.8rem 0; border-bottom: 1px solid var(--line); }
+    .owner-row strong { color: var(--maroon); }
+    .owner-row span { color: var(--muted); }
+    .engineering-ribbon { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; }
+    [data-scene="10"] .ownership-ledger { margin-top: 1.5rem; }
+    [data-scene="10"] .owner-row { padding: 0.58rem 0; }
+    [data-scene="10"] .engineering-ribbon { margin-top: 1rem; }
+
+    .horizons { display: grid; grid-template-columns: 1fr 4rem 1fr; align-items: stretch; margin-top: 2.7rem; }
+    .horizon { padding: 1.6rem; border: 1px solid var(--line-strong); background: rgba(255, 253, 248, 0.55); }
+    .horizon-number { color: var(--maroon); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+    .horizon h3 { margin: 0.55rem 0 1rem; font-family: var(--serif); font-size: 1.75rem; }
+    .horizon ul { margin: 0; padding-left: 1.15rem; }
+    .horizon li + li { margin-top: 0.58rem; }
+    .dependency-arrow { align-self: center; color: var(--maroon); font-size: 2rem; text-align: center; }
+
+    .roadmap-flow { display: grid; grid-template-columns: 1fr 2.5rem 1fr 2.5rem 1fr; align-items: stretch; margin-top: 2rem; }
+    .roadmap-stage { min-height: 16rem; padding: 1.35rem; border: 1px solid var(--line-strong); border-top: 5px solid var(--maroon); background: rgba(255, 253, 248, 0.58); }
+    .roadmap-stage:nth-child(3) { border-top-color: var(--teal); }
+    .roadmap-stage:nth-child(5) { border-top-color: var(--gold); }
+    .roadmap-label { display: inline-flex; padding: 0.28rem 0.55rem; border: 1px solid currentColor; border-radius: 99rem; color: var(--maroon); font-size: 0.67rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+    .roadmap-stage h3 { margin: 0.75rem 0 0.8rem; font-family: var(--serif); font-size: 1.42rem; line-height: 1.18; }
+    .roadmap-stage ul { margin: 0; padding-left: 1.05rem; }
+    .roadmap-stage li { font-size: 0.86rem; line-height: 1.42; }
+    .roadmap-stage li + li { margin-top: 0.52rem; }
+    .roadmap-arrow { align-self: center; color: var(--maroon); font-size: 1.8rem; text-align: center; }
+
+    .final-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 2.8rem; }
+    .final-point { padding: 1.2rem 0; border-top: 4px solid var(--maroon); }
+    .final-point:nth-child(2) { border-color: var(--teal); }
+    .final-point:nth-child(3) { border-color: var(--gold); }
+    .final-point:nth-child(4) { border-color: var(--maroon-deep); }
+    .final-point strong { display: block; font-family: var(--serif); font-size: 1.45rem; }
+    .final-point p { margin: 0.4rem 0 0; color: var(--muted); }
+
+    .scene-nav {
+      position: fixed;
+      z-index: 25;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      min-height: 4.2rem;
+      padding: 0.7rem 1.2rem;
+      background: linear-gradient(180deg, rgba(246, 240, 230, 0), rgba(246, 240, 230, 0.96) 28%);
+    }
+    .js .scene-nav { display: flex; }
+    .nav-button { min-width: 7.4rem; min-height: 2.5rem; padding: 0.45rem 0.8rem; color: var(--maroon-deep); background: var(--paper-strong); }
+    .scene-count { min-width: 5rem; font-size: 0.75rem; font-weight: 700; text-align: center; letter-spacing: 0.08em; }
+    .mobile-jump { display: none; }
+    .mobile-jump select {
+      min-height: 2.5rem;
+      padding: 0.4rem 1.8rem 0.4rem 0.55rem;
+      color: var(--ink);
+      background: var(--paper-strong);
+      border: 1px solid var(--maroon-deep);
+      font: 700 0.75rem/1 var(--sans);
+    }
+    .dot-nav { position: fixed; z-index: 20; top: 50%; right: 1rem; display: none; transform: translateY(-50%); }
+    .js .dot-nav { display: grid; gap: 0.4rem; }
+    .dot-nav button { width: 0.58rem; height: 0.58rem; padding: 0; border: 1px solid var(--maroon); border-radius: 50%; background: transparent; cursor: pointer; }
+    .dot-nav button[aria-current="true"] { background: var(--maroon); }
+
+    @media (max-width: 1024px) {
+      :root { --content: min(900px, calc(100vw - 5rem)); }
+      .field-map, .certainty-axes, .status-stage, .future-output { gap: 1.8rem; }
+      .term-guide { grid-template-columns: 1fr 1fr; }
+      .term-item:nth-child(2) { border-right: 0; }
+      .term-item:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
+      .ownership-flow { grid-template-columns: 1fr; gap: 0.6rem; }
+      .process-map, .roadmap-flow { grid-template-columns: 1fr; gap: 0.6rem; }
+      .flow-arrow { transform: rotate(90deg); }
+      .process-arrow, .roadmap-arrow { transform: rotate(90deg); }
+      .flow-node { min-height: 0; }
+      .regime-notes { grid-template-columns: 1fr; }
+      .policy-path { grid-template-columns: repeat(3, 1fr); margin-top: 1.5rem; }
+      .policy-step { border-bottom: 1px solid var(--line); }
+    }
+    @media (min-width: 769px) and (max-height: 950px) {
+      .scene { padding-top: 4rem; padding-bottom: 5.4rem; }
+      h2 { font-size: clamp(2.2rem, 3.75vw, 3.8rem); }
+      .lede { margin-top: 1rem; font-size: 1.18rem; line-height: 1.45; }
+      .status-stage, .future-output, .horizons { margin-top: 2rem; }
+      .scene[data-scene="8"] h2 { font-size: 3.35rem; }
+      .scene[data-scene="9"] { padding-top: 3rem; }
+      .scene[data-scene="9"] h2 { font-size: 3rem; }
+      .scene[data-scene="9"] .lede { font-size: 1.04rem; }
+      .scene[data-scene="8"] .status-stage { gap: 2rem; }
+      .scene[data-scene="8"] .milestone { padding: 0.72rem 0; }
+      .scene[data-scene="8"] .milestone h3 { margin-top: 0.4rem; font-size: 1.22rem; }
+      .scene[data-scene="8"] .milestone p { font-size: 0.8rem; }
+      .scene[data-scene="6"] .certainty-axes { gap: 2rem; margin-top: 1.55rem; }
+      .scene[data-scene="6"] .axis { padding: 0.52rem 0; }
+      .scene[data-scene="6"] .review-callout { padding: 1rem; }
+      .scene[data-scene="6"] .review-callout li + li { margin-top: 0.35rem; }
+      .scene[data-scene="6"] .hold-note { padding: 0.85rem 1rem; }
+      .scene[data-scene="7"] .comparison { margin-top: 1.7rem; }
+      .scene[data-scene="7"] .compare-row { padding: 0.68rem 0; }
+      .scene[data-scene="9"] .future-output { grid-template-columns: 0.88fr 1.12fr; gap: 2.4rem; margin-top: 1.6rem; }
+      .scene[data-scene="9"] .output-order div { padding: 0.42rem 0; }
+      .scene[data-scene="9"] .hold-note { padding: 0.65rem 1rem; }
+      .scene[data-scene="9"] .hold-note strong { font-size: 1.08rem; }
+      .scene[data-scene="9"] .hold-note p { margin: 0.3rem 0 0; font-size: 0.75rem; }
+      .scene[data-scene="9"] .milestone { padding: 0.32rem 0; }
+      .scene[data-scene="9"] .milestone h3 { margin: 0.18rem 0 0.12rem; font-size: 1.04rem; }
+      .scene[data-scene="9"] .milestone p { margin: 0; font-size: 0.74rem; line-height: 1.28; }
+      .scene[data-scene="9"] .status { padding: 0.22rem 0.48rem; font-size: 0.62rem; }
+      .scene[data-scene="1"] .term-guide { margin-top: 1.4rem; }
+      .scene[data-scene="1"] .term-item { padding-top: 0.72rem; padding-bottom: 0.72rem; }
+      .scene[data-scene="1"] .hero-route { margin-top: 1.2rem; }
+      .scene[data-scene="3"] h2 { max-width: 1100px; font-size: 3.2rem; }
+      .scene[data-scene="3"] .lede { max-width: 1000px; font-size: 1rem; }
+      .scene[data-scene="3"] .field-map { margin-top: 1rem; gap: 2.2rem; }
+      .scene[data-scene="3"] .field-column h3 { margin-top: 0.5rem; font-size: 1.12rem; }
+      .scene[data-scene="3"] .field-owner { margin-bottom: 0.25rem; }
+      .scene[data-scene="3"] .field-row { padding: 0.18rem 0; }
+      .scene[data-scene="3"] .field-row code { font-size: 0.62rem; line-height: 1.25; }
+      .scene[data-scene="3"] .field-row span { font-size: 0.66rem; line-height: 1.22; }
+      .scene[data-scene="3"] .field-example { margin-top: 0.4rem; padding-block: 0.35rem; font-size: 0.68rem; line-height: 1.3; }
+    }
+    @media (max-width: 768px) {
+      :root { --content: calc(100vw - 2.5rem); --nav-height: 4rem; }
+      body { background: var(--ivory); }
+      .app-header { padding: 0 0.8rem; }
+      .brand { font-size: 0.63rem; }
+      .progress-track { display: none; }
+      .scene { min-height: auto; padding: 5.5rem 1.25rem 6.5rem; overflow: visible; }
+      .js .scene:not(.is-active) { display: none; }
+      h2 { font-size: clamp(2rem, 10vw, 3.2rem); }
+      .evidence-spectrum, .field-map, .certainty-axes, .status-stage, .future-output, .final-grid, .term-guide { grid-template-columns: 1fr; }
+      .term-item { padding-inline: 0; border-right: 0; border-bottom: 1px solid var(--line); }
+      .field-row { grid-template-columns: 1fr; gap: 0.25rem; }
+      .evidence-form { min-height: 0; border-right: 0; border-bottom: 1px solid var(--line); }
+      .compare-row { grid-template-columns: 1fr; gap: 0.35rem; }
+      .compare-head { display: none; }
+      .owner-row { grid-template-columns: 1fr; gap: 0.35rem; }
+      .horizons { grid-template-columns: 1fr; gap: 0.7rem; }
+      .dependency-arrow { transform: rotate(90deg); }
+      .capability-ledger .detail-body { grid-template-columns: 1fr; }
+      .dot-nav { display: none !important; }
+      .nav-button { min-width: 5.5rem; }
+      .scene-nav { gap: 0.45rem; }
+      .scene-count { display: none; }
+      .mobile-jump { display: block; min-width: 0; }
+      .mobile-jump select { width: min(8rem, 31vw); }
+      pre { font-size: 0.68rem; }
+    }
+    @media (max-width: 900px) {
+      .progress-track { display: none; }
+    }
+    @media (max-width: 600px) {
+      .brand { font-size: clamp(1rem, 3.8vw, 2rem); letter-spacing: 0.05em; }
+    }
+    @media (max-width: 375px) {
+      .app-header { gap: 0.4rem; }
+      .scene-count { min-width: 3.2rem; }
+      .nav-button { min-width: 4.7rem; font-size: 0.74rem; }
+      .policy-path { grid-template-columns: 1fr; }
+      .hero-route { gap: 0.45rem; }
+    }
+    @media (min-width: 1440px) {
+      :root { --content: 1240px; }
+      .scene { padding-top: 7rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --ivory: #211d1b; --paper: #2a2421; --paper-strong: #302824; --ink: #f7eee5; --muted: #c6b9af; --line: rgba(250, 238, 225, 0.18); --line-strong: rgba(250, 238, 225, 0.35); --maroon-soft: #5f343b; --teal-soft: #254b48; --gold-soft: #5f482a; }
+      .scene-nav { background: linear-gradient(180deg, rgba(33, 29, 27, 0), rgba(33, 29, 27, 0.96) 28%); }
+      .status.accepted, .status.active, .review-callout { color: #fffaf2; }
+      .nav-button { color: var(--ink); }
+    }
+
+    /* C2A coach-report design system */
+    :root {
+      --brand-navy: #2e4472;
+      --brand-teal: #4ca3a3;
+      --brand-coral: #f28c77;
+      --brand-cream: #fcfbf8;
+      --brand-white: #ffffff;
+      --primary: #3a7c7c;
+      --primary-dark: #285f5f;
+      --primary-soft: #e7f3f1;
+      --secondary-soft: #eef2f8;
+      --surface: #f5e8d6;
+      --caution: #9a4c1c;
+      --caution-soft: #fff2dc;
+      --success: #16803f;
+      --success-soft: #e6f6eb;
+      --danger: #b42318;
+      --danger-soft: #fde8e4;
+      --ivory: var(--brand-cream);
+      --paper: var(--brand-white);
+      --paper-strong: var(--brand-white);
+      --ink: #3c3c3c;
+      --muted: #666666;
+      --maroon: var(--primary);
+      --maroon-deep: var(--brand-navy);
+      --maroon-soft: var(--primary-soft);
+      --teal: var(--primary);
+      --teal-soft: var(--primary-soft);
+      --gold: var(--brand-coral);
+      --gold-soft: var(--caution-soft);
+      --line: #d9dedc;
+      --line-strong: #c2cdca;
+      --shadow: 0 18px 48px rgb(46 68 114 / 10%);
+      --shadow-soft: 0 10px 28px rgb(46 68 114 / 6%);
+      --serif: "Montserrat", Arial, Helvetica, sans-serif;
+      --sans: "Red Hat Display", Arial, Helvetica, sans-serif;
+    }
+
+    html,
+    body {
+      color: var(--ink);
+      background: var(--brand-cream);
+    }
+    body {
+      background:
+        linear-gradient(180deg, rgb(255 255 255 / 82%), transparent 26rem),
+        var(--brand-cream);
+      font-size: 18px;
+    }
+    :focus-visible { outline-color: var(--primary); }
+
+    .app-header {
+      height: var(--nav-height);
+      color: var(--brand-navy);
+      background: rgb(252 251 248 / 94%);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 2px 8px rgb(46 68 114 / 8%);
+      backdrop-filter: blur(12px);
+    }
+    .brand {
+      color: var(--brand-navy);
+      font-family: var(--serif);
+      font-size: clamp(1.05rem, 1.45vw, 1.45rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-transform: none;
+    }
+    .progress-track {
+      height: 5px;
+      overflow: hidden;
+      background: var(--secondary-soft);
+      border-radius: 999px;
+    }
+    .progress-fill { background: linear-gradient(90deg, var(--brand-teal), var(--brand-coral)); }
+
+    .scene { border-bottom-color: var(--line); }
+    .scene::before {
+      width: 0.38rem;
+      background: var(--brand-navy);
+    }
+    .scene:nth-child(3n + 2)::before { background: var(--brand-teal); }
+    .scene:nth-child(3n)::before { background: var(--brand-coral); }
+    .scene-kicker,
+    .process-node small,
+    .policy-example em,
+    .roadmap-label,
+    .horizon-number {
+      color: var(--primary);
+      font-family: var(--sans);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+    h2 {
+      color: var(--brand-navy);
+      font-family: var(--serif);
+      font-weight: 700;
+      line-height: 1.02;
+      letter-spacing: -0.035em;
+    }
+    .lede { color: var(--muted); }
+    .emphasis,
+    .field-row code,
+    .output-order div::before,
+    .owner-row strong,
+    .compare-row b,
+    .axis b { color: var(--primary-dark); }
+
+    .term-guide,
+    .evidence-spectrum,
+    .policy-path,
+    .comparison,
+    .ownership-ledger,
+    .output-order,
+    .axis-list {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--brand-white);
+      box-shadow: var(--shadow-soft);
+    }
+    .term-item,
+    .evidence-form,
+    .policy-step,
+    .compare-row,
+    .owner-row,
+    .output-order div,
+    .axis { border-color: var(--line); }
+    .term-item strong,
+    .evidence-form strong,
+    .field-column h3,
+    .flow-node strong,
+    .process-node strong,
+    .regime strong,
+    .review-callout strong,
+    .milestone h3,
+    .hold-note strong,
+    .horizon h3,
+    .roadmap-stage h3,
+    .final-point strong {
+      color: var(--brand-navy);
+      font-family: var(--serif);
+      letter-spacing: -0.02em;
+    }
+    .context-ribbon span,
+    .pill,
+    .status,
+    .roadmap-label {
+      border-radius: 999px;
+      font-weight: 800;
+    }
+    .context-ribbon span,
+    .pill {
+      color: var(--primary-dark);
+      background: var(--primary-soft);
+      border-color: rgb(58 124 124 / 24%);
+    }
+    .route-dot { background: var(--brand-coral); }
+
+    .field-column,
+    .regime,
+    .final-point { border-top-color: var(--brand-teal); }
+    .field-column:last-child,
+    .regime:nth-child(2),
+    .final-point:nth-child(2) { border-top-color: var(--brand-navy); }
+    .regime:nth-child(3),
+    .final-point:nth-child(3) { border-top-color: var(--brand-coral); }
+    .final-point:nth-child(4) { border-top-color: var(--primary); }
+
+    .flow-node,
+    .process-node,
+    .horizon,
+    .roadmap-stage,
+    details {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--brand-white);
+      box-shadow: var(--shadow-soft);
+    }
+    .process-node,
+    .roadmap-stage { border-top: 5px solid var(--brand-teal); }
+    .process-node:nth-of-type(5),
+    .roadmap-stage:nth-child(3) { border-top-color: var(--brand-navy); }
+    .process-node:nth-of-type(7),
+    .roadmap-stage:nth-child(5) { border-top-color: var(--brand-coral); }
+    .process-arrow,
+    .roadmap-arrow,
+    .flow-arrow,
+    .dependency-arrow { color: var(--primary); }
+    details + details { margin-top: 0.65rem; border-top: 1px solid var(--line); }
+    summary { padding-inline: 1rem 3rem; }
+    summary::after { right: 1rem; color: var(--primary); }
+    .detail-body { padding-inline: 1rem; }
+
+    .review-callout {
+      color: var(--ink);
+      background: var(--secondary-soft);
+      border: 1px solid #d7e0ee;
+      border-radius: 20px;
+      box-shadow: var(--shadow-soft);
+    }
+    .hold-note {
+      border: 1px solid #eadfca;
+      border-left: 5px solid var(--brand-coral);
+      border-radius: 16px;
+      background: linear-gradient(180deg, #fffaf0, var(--brand-white));
+      box-shadow: var(--shadow-soft);
+    }
+    .milestone,
+    .final-point { padding: 1.2rem; border: 1px solid var(--line); border-top-width: 5px; border-radius: 16px; background: var(--brand-white); box-shadow: var(--shadow-soft); }
+    .milestone + .milestone { margin-top: 1rem; }
+    .status.accepted { color: var(--success); background: var(--success-soft); border-color: rgb(22 128 63 / 25%); }
+    .status.active,
+    .status.queued { color: var(--primary-dark); background: var(--primary-soft); border-color: rgb(58 124 124 / 25%); }
+    .status.blocked,
+    .status.unbuilt { color: var(--brand-navy); background: var(--secondary-soft); border-color: #cbd6e6; border-style: solid; }
+
+    .scene-nav {
+      background: linear-gradient(180deg, rgb(252 251 248 / 0%), rgb(252 251 248 / 96%) 28%);
+    }
+    .nav-button {
+      min-height: 2.7rem;
+      color: var(--primary-dark);
+      background: var(--brand-white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgb(46 68 114 / 8%);
+      font-weight: 750;
+    }
+    #nextScene { color: var(--brand-white); background: var(--primary); border-color: var(--primary); }
+    .mobile-jump select { color: var(--ink); background: var(--brand-white); border-color: var(--line); border-radius: 8px; }
+    .dot-nav button { border-color: var(--primary); }
+    .dot-nav button[aria-current="true"] { background: var(--primary); }
+
+    @media (max-width: 768px) {
+      body { background: var(--brand-cream); }
+      .brand { font-size: 1rem; }
+    }
+    @media print {
+      @page { size: landscape; margin: 0.45in; }
+      html, body { background: #fff; color: #221f1d; }
+      .app-header, .scene-nav, .dot-nav { display: none !important; }
+      main { display: block; }
+      .scene, .js .scene:not(.is-active) {
+        display: block !important;
+        min-height: 0;
+        height: 6.55in;
+        padding: 0.35in 0.45in;
+        overflow: hidden;
+        page-break-after: always;
+        break-after: page;
+        background: #fff;
+      }
+      .scene:last-child { page-break-after: auto; }
+      .scene-inner { width: 100%; }
+      h2 { font-size: 30pt; }
+      .lede { font-size: 12.5pt; }
+      details { break-inside: avoid; }
+      details > .detail-body { display: block !important; }
+      details > summary::after { display: none; }
+      pre { max-height: none; font-size: 6.5pt; }
+    }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">BC Assessment Pathway · V3</div>
+    <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
+  </header>
+
+  <main id="presentation">
+    <section class="scene is-active" data-scene="1" data-scene-title="How V3 turns assessment evidence into report decisions">
+      <div class="scene-inner">
+        <p class="scene-kicker">CEO briefing · first principles</p>
+        <h2>How V3 turns assessment evidence into report decisions</h2>
+        <p class="lede" data-pretext contenteditable="false">How it works, what is built, and what comes next.</p>
+        <div class="term-guide" aria-label="Plain-language guide to the V3 evidence model">
+          <div class="term-item"><strong>Source</strong><span class="term-question">Where did this result appear?</span><span class="term-example">Example: a score printed in a table row on page 4.</span></div>
+          <div class="term-item"><strong>Identity</strong><span class="term-question">What test, measure, date, and rater does it belong to?</span><span class="term-example">Example: the Parent form, Anxiety scale, from one administration.</span></div>
+          <div class="term-item"><strong>Policy decision</strong><span class="term-question">What should the system do with it?</span><span class="term-example">Example: display it, hold it for review, or record why it is not shown.</span></div>
+          <div class="term-item"><strong>Focused human question</strong><span class="term-question">What one missing fact needs a person?</span><span class="term-example">Example: Was this the parent or teacher rating?</span></div>
+        </div>
+        <div class="hero-route" aria-label="Source to report pathway">
+          <span>Source evidence</span><span class="route-line"></span><span class="route-dot"></span><span>Governed decision</span><span class="route-line"></span><span>Section 5</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="2" data-scene-title="Important assessment results do not arrive in one clean format">
+      <div class="scene-inner">
+        <p class="scene-kicker">The product problem</p>
+        <h2>Important assessment results do not arrive in one clean format</h2>
+        <p class="lede" data-pretext contenteditable="false">A report may mix structured tables, narrative findings, figures, and repeated administrations. Each carries different evidence and context.</p>
+        <div class="evidence-spectrum">
+          <div class="evidence-form"><strong>Tables</strong><p>Dense, structured rows may hold a standard score, percentile, classification, and confidence interval together.</p></div>
+          <div class="evidence-form"><strong>Narrative prose</strong><p>Clinically important results are often written into paragraphs, especially for behavioral and executive-function measures.</p></div>
+          <div class="evidence-form"><strong>Figures</strong><p>Charts can be noticed and cited for review without turning geometry into an inferred score.</p></div>
+        </div>
+        <div class="context-ribbon" aria-label="Context that keeps administrations distinct">
+          <span>Different dates</span><span>Parent and teacher raters</span><span>Multiple metric systems</span><span>Imperfect scans</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="3" data-scene-title="V3 stores source facts and decisions in separate fields">
+      <div class="scene-inner">
+        <p class="scene-kicker">The core data model</p>
+        <h2>V3 stores source facts and decisions in separate fields</h2>
+        <p class="lede" data-pretext contenteditable="false">A JSON object is a machine-readable list of named fields. The Redactor creates structured JSON, removes identifying information, and records what the source said and where it appeared. The BC report generator adds identity, policy, destination, review, and accounting.</p>
+        <div class="field-map">
+          <div class="field-column" data-testid="dec1-field-map">
+            <h3>What the Redactor records</h3>
+            <p class="field-owner">Source facts and deterministic grounding</p>
+            <div class="field-row"><code>evidenceId · sourceOccurrenceId</code><span>Stable links keep each metric attached to one observed administration.</span></div>
+            <div class="field-row"><code>rawAssessmentLabel · formOrVersion · testDateObserved · rater.resolutionBasis · raterRole · raterDisplayLabel</code><span>Preserves the assessment and rater context exactly as it was observed.</span></div>
+            <div class="field-row"><code>sourceModality · captureStatus</code><span>Records whether the fact came from table, prose, or mixed evidence and whether capture succeeded.</span></div>
+            <div class="field-row"><code>lineage: sourceDocumentId · page · sourceRegionId · tableId · rowId · cellIds · columnLabels · sourceAnchorIds</code><span>Preserves the exact source location so the value can be checked again.</span></div>
+            <div class="field-row"><code>measure.sourceMeasureLabel · metric.metricKind · metricKindBasis · rawDisplay · value · classification.sourceClassificationLabel</code><span>Keeps the printed measure and classification, the metric type and how it was identified, and both displayed and numeric values.</span></div>
+            <div class="field-row"><code>reviewReasonCodes · assessmentInventory · assessmentScoreRows · assessmentBankCandidateRows · assessmentNotices · expectedStreamStatuses · contractProvenance</code><span>Carries uncertainties, extraction gaps, candidate identities, notices, stream status, and contract versions instead of dropping them.</span></div>
+          </div>
+          <div class="field-column" data-testid="ae-field-map">
+            <h3>What the BC report generator adds</h3>
+            <p class="field-owner">Governed identity, policy, review, and accounting</p>
+            <div class="field-row"><code>administrationId · assessmentId · subscaleId</code><span>Resolves the governed identity without rewriting the source record.</span></div>
+            <div class="field-row"><code>interpretationResult · bankDecision</code><span>States whether interpretation is authoritative, needs review, or is not applicable.</span></div>
+            <div class="field-row"><code>evaluationAuthority · policyId · concernDirection · classificationTier · basis</code><span>Names the authority and exact reasoning used for the metric decision.</span></div>
+            <div class="field-row"><code>disposition · displayPlacements · nonDisplayDisposition</code><span>Records display, focused review, or explicit non-display and its report destination.</span></div>
+            <div class="field-row"><code>reviewItems: reviewDimension · reasonCode · blockingScope · decisionKind · responseSchema · requestedDecision · lifecycle</code><span>Creates an item-level, answerable question when authority is missing.</span></div>
+            <div class="field-row"><code>primaryCognitiveSelection · authorityVersions · conservation: inputEvidenceIds · renderedEvidenceIds · reviewEvidenceIds · intentionallyExcludedEvidenceIds</code><span>Makes report-level selection and policy versions explicit. Every input remains accounted for as rendered, reviewed, or intentionally excluded.</span></div>
+          </div>
+        </div>
+        <div class="field-example"><strong>Example: Standard score 92.</strong> The Redactor records the printed value, metric type, context, and exact source location. The BC report generator resolves the identity, applies the matching rule, and records display, focused review, or explicit non-display. Related percentile or confidence-interval records stay linked but independent.</div>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="4" data-scene-title="The Redactor prepares assessment evidence; the BC report generator decides what it means">
+      <div class="scene-inner">
+        <p class="scene-kicker">End-to-end ownership</p>
+        <h2>The Redactor prepares assessment evidence; the BC report generator decides what it means</h2>
+        <p class="lede" data-pretext contenteditable="false">Inside the Redactor, OpenAI GPT-5.6 turns tables and narrative prose into structured JSON. The Redactor removes identifying information and prepares the handoff; the BC report generator decides how each result should be used.</p>
+        <div class="process-map" role="img" aria-label="Tables and narrative prose pass through Redactor JSON extraction, identifying-information removal and handoff preparation, then move to BC report generator decisions and Section 5">
+          <div class="process-sources">
+            <div class="process-node source"><small>Input</small><strong>Tables</strong></div>
+            <div class="process-node source"><small>Input</small><strong>Narrative prose</strong></div>
+          </div>
+          <div class="process-arrow" aria-hidden="true">→</div>
+          <div class="process-node"><small>Redactor · extract</small><strong>Structured JSON</strong><p>GPT-5.6 finds labels, values, metric types, and context.</p></div>
+          <div class="process-arrow" aria-hidden="true">→</div>
+          <div class="process-node"><small>Redactor · prepare</small><strong>Safe handoff</strong><p>Removes identifying information and packages each result with its source context.</p></div>
+          <div class="process-arrow" aria-hidden="true">→</div>
+          <div class="process-node"><small>Decide</small><strong>BC report generator</strong><p>Matches the test and rule, then displays, reviews, or avoids a duplicate.</p></div>
+          <div class="process-arrow" aria-hidden="true">→</div>
+          <div class="process-node"><small>Report</small><strong>Section 5</strong><p>Approved results and clear review items.</p></div>
+        </div>
+        <div class="process-note" data-testid="prose-branch-status"><span class="status queued">Prose pathway designed</span><span>Implementation waits for the stable V3 foundation.</span></div>
+        <details><summary>Why separate preparation from report decisions?</summary><div class="detail-body"><p>The Redactor creates structured, de-identified evidence and prepares the handoff. It does not decide which assessment rule applies or whether a result belongs in Section 5. Those decisions stay with the BC report generator.</p></div></details>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="5" data-scene-title="Inclusion is an explicit policy decision for each metric">
+      <div class="scene-inner">
+        <p class="scene-kicker">Metric-based inclusion</p>
+        <h2>Inclusion is an explicit policy decision for each metric</h2>
+        <p class="lede" data-pretext contenteditable="false">The existing AE assessment bank is the single policy authority. It connects a recognized instrument and subscale to permitted metrics, direction of concern, classification authority, and Section 5 placement.</p>
+        <div class="policy-path" aria-label="Five assessment-bank decisions illustrated with a WISC-V Working Memory Index standard score of 92">
+          <div class="policy-step"><b>01 · Source</b>What the report says<span class="policy-example"><em>Example</em>“Working Memory Index · 92”</span></div>
+          <div class="policy-step"><b>02 · Identity</b>Which test and measure<span class="policy-example"><em>Example</em>WISC-V · Working Memory Index</span></div>
+          <div class="policy-step"><b>03 · Metric</b>Which score rule applies<span class="policy-example"><em>Example</em>Standard score · mean 100, SD 15</span></div>
+          <div class="policy-step"><b>04 · Meaning</b>Whether the value qualifies<span class="policy-example"><em>Example</em>92 is 8 points below the mean, so it qualifies under the planned 7-point rule</span></div>
+          <div class="policy-step"><b>05 · Disposition</b>What happens in the report<span class="policy-example"><em>Example</em>Include in General Cognitive Results</span></div>
+        </div>
+        <div class="regime-notes">
+          <div class="regime"><strong>Cognitive and performance metrics</strong><p>The 7/15-SD reporting boundary means <b>93 or lower</b> on a common mean-100, SD-15 scale. This is broader than the separate 2/3-SD core/proof benchmark.</p></div>
+          <div class="regime"><strong>Behavioral rating scales</strong><p>Direction-aware policy follows the instrument’s publisher-defined clinical tier or governed instrument-specific cutoff. Parent and teacher administrations stay separate.</p></div>
+          <div class="regime"><strong>Unfamiliar or incomplete tests</strong><p>If the test or scale is unknown, V3 keeps the score and source location but withholds the result. It asks: “Which test and scale is this?” The answer selects the right rule.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="6" data-scene-title="When a result is unclear, V3 shows what needs review">
+      <div class="scene-inner">
+        <p class="scene-kicker">Human review where it matters</p>
+        <h2>When a result is unclear, V3 shows what needs review</h2>
+        <p class="lede" data-pretext contenteditable="false">Most results can continue through the process. When a detail is missing or two sources disagree, V3 keeps the evidence, identifies the problem, and sends it to a reviewer.</p>
+        <div class="certainty-axes">
+          <div class="axis-list">
+            <div class="axis"><b>Where it came from</b><span>table, paragraph, figure, or more than one place</span></div>
+            <div class="axis"><b>What was found</b><span>a usable value or an extraction problem</span></div>
+            <div class="axis"><b>What it belongs to</b><span>the test, scale, date, and rater</span></div>
+            <div class="axis"><b>What it means</b><span>a clear reporting rule or a question for review</span></div>
+            <div class="axis"><b>What happens next</b><span>show it, review it, withhold it, or avoid counting it twice</span></div>
+          </div>
+          <div class="review-callout"><strong>Examples of questions a reviewer may see</strong><ul><li>Which test date and rater does this score belong to?</li><li>Does this printed label apply to this exact scale?</li><li>Are the table and prose values the same result or a real conflict?</li></ul></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="7" data-scene-title="V3 handles each score more clearly while V2 keeps operating">
+      <div class="scene-inner">
+        <p class="scene-kicker">What changes from V2</p>
+        <h2>V3 handles each score more clearly while V2 keeps operating</h2>
+        <p class="lede" data-pretext contenteditable="false">V2 remains the working system. V3 keeps the useful behavior while making each score easier to trace, review, and report independently.</p>
+        <div class="comparison" role="table" aria-label="V2 and V3 comparison">
+          <div class="compare-row compare-head" role="row"><b>Area</b><span>V2 today</span><span>V3 direction</span></div>
+          <div class="compare-row" role="row"><b>Scores</b><span>Several values can travel together as one row.</span><span>Each score is handled independently while related values stay connected.</span></div>
+          <div class="compare-row" role="row"><b>Context</b><span>Date, form, or rater may be tied to the row.</span><span>Each result keeps its own date, form, and rater.</span></div>
+          <div class="compare-row" role="row"><b>Problems</b><span>A problem in one field can affect the whole row.</span><span>Only the unclear result is sent for review.</span></div>
+          <div class="compare-row" role="row"><b>Tables and prose</b><span>Table handling is mature; prose coverage is incomplete.</span><span>Both formats become the same kind of structured evidence.</span></div>
+          <div class="compare-row" role="row"><b>Final report</b><span>The last step may still need to infer how results should be shown.</span><span>The decision is made earlier, so the report simply follows it.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="8" data-scene-title="The core pathway works; the complete report experience is not finished">
+      <div class="scene-inner">
+        <p class="scene-kicker">Where the work stands · July 21, 2026</p>
+        <h2>The core pathway works; the complete report experience is not finished</h2>
+        <p class="lede" data-pretext contenteditable="false">V3 can now carry a result from the source without losing what it is or where it came from. The remaining work turns those verified results into a complete Section 5.</p>
+        <div class="status-stage">
+          <div>
+            <div class="milestone" data-capability-id="v3_lane_compatibility_authority"><span class="status accepted">Built and accepted</span><h3>The foundation is working.</h3><p>V3 can receive assessment results, keep administrations separate, and preserve a link back to the source.</p></div>
+            <div class="milestone" data-capability-id="ae_per_metric_interpretation"><span class="status active">Implementation in progress</span><h3>The system is learning what each score means.</h3><p>The current work applies the right rule to each metric and decides whether it belongs in the report or needs review.</p></div>
+          </div>
+          <div>
+            <div class="milestone" data-capability-id="downstream_v3_pathway"><span class="status unbuilt">Next</span><h3>Build the report-producing steps.</h3><p>Approved decisions still need to become the final Section 5 structure and a complete local demonstration.</p></div>
+            <div class="milestone" data-capability-id="complete_production_v3_report"><span class="status blocked">Later</span><h3>Production use follows proof of the full pathway.</h3><p>Private documents and external publication remain outside this milestone and require separate approval.</p></div>
+          </div>
+        </div>
+        <div hidden aria-hidden="true"><span data-capability-id="dec1_v3_producer"></span><span data-capability-id="dec1_terminal_bundle_binding"></span><span data-capability-id="ae_v3_typed_ingestion"></span><span data-capability-id="ae_v3_bundle_admission"></span><span data-capability-id="ae_occurrence_binding"></span><span data-capability-id="v3_runtime_assurance_interface"></span></div>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="9" data-scene-title="The next step is to capture results that appear only in prose">
+      <div class="scene-inner">
+        <p class="scene-kicker">The next product improvement</p>
+        <h2>The next step is to capture results that appear only in prose</h2>
+        <p class="lede" data-pretext contenteditable="false">BASC and BRIEF reports often place important scores in paragraphs instead of tables. The design is complete; implementation begins after the core V3 pathway is stable.</p>
+        <div class="future-output">
+          <div class="output-order" aria-label="Expected Section 5 order">
+            <div><b>Assessment Inventory</b></div>
+            <div><b>General Cognitive Results</b></div>
+            <div><b>Table-Reported Results</b></div>
+            <div><b>Prose-Reported Results</b></div>
+            <div><b>Review Items</b></div>
+          </div>
+          <div>
+            <div class="hold-note" data-capability-id="grouped_prose_extraction"><span class="status queued">Designed</span><strong>The product decision is made.</strong><p>Table and prose results will follow the same reporting rules while remaining clearly labeled by source.</p><span hidden data-capability-id="mature_openai_orchestration"></span><span hidden data-capability-id="private_document_authorization"></span></div>
+            <div class="milestone" data-capability-id="table_prose_section5_groups"><span class="status queued">Expected result</span><h3>A more complete Section 5.</h3><p>The report can show the assessment inventory, cognitive results, table results, prose results, and items needing review.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="10" data-scene-title="Clear responsibilities reduce mistakes and rework">
+      <div class="scene-inner">
+        <p class="scene-kicker">How the work is organized</p>
+        <h2>Clear responsibilities reduce mistakes and rework</h2>
+        <p class="lede" data-pretext contenteditable="false">Each part of the process has one clear job. That makes problems easier to find and prevents one step from quietly changing another step's decision.</p>
+        <div class="ownership-ledger">
+          <div class="owner-row"><strong>Redactor</strong><span>creates structured JSON, removes identifying information, and prepares the BC handoff</span><span>does not decide report content</span></div>
+          <div class="owner-row"><strong>BC report generator</strong><span>matches each result to the right assessment and rule</span><span>decides whether to show it or ask for review</span></div>
+        </div>
+        <div class="engineering-ribbon" aria-label="Benefits of the approach">
+          <span class="pill">One decision per score</span><span class="pill">Clear source trail</span><span class="pill">Specific review questions</span><span class="pill">One path for tables and prose</span><span class="pill">Checks before release</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="11" data-scene-title="First complete the core report pathway, then expand what it can capture">
+      <div class="scene-inner">
+        <p class="scene-kicker">What happens next</p>
+        <h2>First complete the core report pathway, then expand what it can capture</h2>
+        <p class="lede" data-pretext contenteditable="false">The order protects the work already done: prove the complete path with safe test data, then add prose, figures, and additional report sections.</p>
+        <div class="roadmap-flow" role="img" aria-label="Roadmap from completing the core report pathway, to broader evidence, to controlled evaluation">
+          <div class="roadmap-stage" data-capability-id="ae_per_metric_interpretation"><span class="roadmap-label">Now</span><h3>Complete the core report pathway</h3><ul><li>Finish the rules that decide which results appear.<span hidden data-capability-id="v3_metric_inclusion_policy"></span></li><li>Generate a complete local Section 5 from safe test data.<span hidden data-capability-id="downstream_v3_pathway"></span></li><li>Account for every result.</li></ul></div>
+          <div class="roadmap-arrow" aria-hidden="true">→</div>
+          <div class="roadmap-stage" data-capability-id="grouped_prose_extraction"><span class="roadmap-label">Next</span><h3>Broaden the evidence</h3><ul><li>Add scores found in narrative prose.<span hidden data-capability-id="mature_openai_orchestration"></span></li><li data-capability-id="table_prose_section5_groups">Combine table and prose results without double counting.</li></ul></div>
+          <div class="roadmap-arrow" aria-hidden="true">→</div>
+          <div class="roadmap-stage" data-capability-id="figure_citations"><span class="roadmap-label">Later</span><h3>Expand to figures and additional report sections</h3><ul><li>Work with information from figures without guessing unsupported values.</li><li>Extend the same evidence approach to additional sections of the BC report.<span hidden data-capability-id="complete_production_v3_report"></span></li><li>Keep source references and human-review questions visible as coverage grows.</li></ul></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="12" data-scene-title="V3 is designed to produce more complete reports with less guesswork">
+      <div class="scene-inner">
+        <p class="scene-kicker">Why this work matters</p>
+        <h2>V3 is designed to produce more complete reports with less guesswork</h2>
+        <p class="lede" data-pretext contenteditable="false">The purpose is simple: capture more of the assessment evidence that matters, apply consistent rules to every score, and show reviewers exactly where human judgment is needed.</p>
+        <div class="final-grid">
+          <div class="final-point"><strong>More complete evidence</strong><p>Important results from tables and prose can reach Section 5 instead of being missed.</p></div>
+          <div class="final-point"><strong>More consistent decisions</strong><p>Each score is evaluated using the right test, scale, and reporting rule.</p></div>
+          <div class="final-point"><strong>More useful human review</strong><p>Reviewers see the source and examples of the exact questions that need answers.</p></div>
+          <div class="final-point"><strong>What comes next</strong><p>Complete the end-to-end Section 5 pathway, then add the already-designed prose capability.</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="scene-nav" aria-label="Presentation controls">
+    <button class="nav-button" id="previousScene" aria-label="Previous scene">← Previous</button>
+    <span class="scene-count" id="sceneCount" aria-live="polite">01 / 12</span>
+    <label class="mobile-jump"><span class="visually-hidden">Jump to scene</span><select id="mobileSceneJump" aria-label="Jump to scene"></select></label>
+    <button class="nav-button" id="nextScene" aria-label="Next scene">Next →</button>
+  </nav>
+  <nav class="dot-nav" id="dotNav" aria-label="Direct scene navigation"></nav>
+
+  <noscript><p style="padding:1rem">JavaScript is off. All twelve scenes remain available in document order; disclosure controls still work natively.</p></noscript>
+
+  <script>
+    (() => {
+      const scenes = [...document.querySelectorAll(".scene")];
+      const progress = document.getElementById("progressFill");
+      const count = document.getElementById("sceneCount");
+      const dots = document.getElementById("dotNav");
+      const mobileJump = document.getElementById("mobileSceneJump");
+      let current = Math.max(0, Math.min(scenes.length - 1, Number(location.hash.replace("#scene-", "")) - 1 || 0));
+
+      scenes.forEach((scene, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.setAttribute("aria-label", `Go to scene ${index + 1}: ${scene.dataset.sceneTitle}`);
+        button.addEventListener("click", () => show(index));
+        dots.appendChild(button);
+        const option = document.createElement("option");
+        option.value = String(index + 1);
+        option.textContent = `${String(index + 1).padStart(2, "0")} · ${scene.dataset.sceneTitle}`;
+        mobileJump.appendChild(option);
+      });
+
+      function show(index) {
+        current = Math.max(0, Math.min(scenes.length - 1, index));
+        scenes.forEach((scene, sceneIndex) => {
+          const active = sceneIndex === current;
+          scene.classList.toggle("is-active", active);
+          scene.setAttribute("aria-hidden", String(!active));
+        });
+        [...dots.children].forEach((dot, dotIndex) => dot.setAttribute("aria-current", String(dotIndex === current)));
+        count.textContent = `${String(current + 1).padStart(2, "0")} / ${String(scenes.length).padStart(2, "0")}`;
+        progress.style.width = `${((current + 1) / scenes.length) * 100}%`;
+        mobileJump.value = String(current + 1);
+        history.replaceState(null, "", `#scene-${current + 1}`);
+        window.scrollTo({ top: 0, behavior: "instant" });
+      }
+
+      document.getElementById("previousScene").addEventListener("click", () => show(current - 1));
+      document.getElementById("nextScene").addEventListener("click", () => show(current + 1));
+      mobileJump.addEventListener("change", () => show(Number(mobileJump.value) - 1));
+      document.addEventListener("keydown", (event) => {
+        if (event.target.closest("summary, button, pre, code") && event.key === " ") return;
+        if (["ArrowRight", "PageDown", " "].includes(event.key)) { event.preventDefault(); show(current + 1); }
+        if (["ArrowLeft", "PageUp"].includes(event.key)) { event.preventDefault(); show(current - 1); }
+        if (event.key === "Home") { event.preventDefault(); show(0); }
+        if (event.key === "End") { event.preventDefault(); show(scenes.length - 1); }
+      });
+
+      scenes.forEach((scene) => scene.querySelectorAll("details").forEach((detail) => {
+        detail.addEventListener("toggle", () => {
+          if (!detail.open) return;
+          scene.querySelectorAll("details[open]").forEach((other) => { if (other !== detail) other.open = false; });
+        });
+      }));
+      show(current);
+    })();
+  </script>
+
+  <!-- FALLBACK: vendor/pretext.js missing, using CDN -->
+  <script type="module">
+    import { prepare, layout, prepareWithSegments, walkLineRanges, layoutNextLine, layoutWithLines } from "https://esm.sh/@chenglou/pretext";
+    await document.fonts.ready;
+    const prepared = new Map();
+    const elements = document.querySelectorAll("[data-pretext]");
+    const prime = (element) => prepared.set(element, prepare(element.textContent, getComputedStyle(element).font));
+    elements.forEach(prime);
+    const relayout = () => elements.forEach((element) => {
+      const lineHeight = parseFloat(getComputedStyle(element).lineHeight);
+      const result = layout(prepared.get(element), element.clientWidth, lineHeight);
+      element.style.setProperty("--pretext-height", `${result.height}px`);
+      element.style.minHeight = "var(--pretext-height)";
+    });
+    new ResizeObserver(relayout).observe(document.body);
+    elements.forEach((element) => {
+      if (element.contentEditable === "true") new MutationObserver(() => { prime(element); relayout(); }).observe(element, { characterData: true, subtree: true, childList: true });
+    });
+    relayout();
+    void prepareWithSegments; void walkLineRanges; void layoutNextLine; void layoutWithLines;
+  </script>
+</body>
+</html>
