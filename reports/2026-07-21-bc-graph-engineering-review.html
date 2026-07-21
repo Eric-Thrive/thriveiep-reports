@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>BC V3 Graph Engineering: Review and Required Revisions</title>
+<style>
+  :root{
+    --navy:#1f3a5f; --navy-deep:#15293f; --coral:#e8765a; --coral-deep:#c95a40;
+    --sand:#f7f3ec; --sand-2:#efe8db; --ink:#22272e; --muted:#5d6b7a; --line:#e0d8c9;
+    --ok:#2f7d54; --warn:#b07d2b; --crit:#b3402f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--sand);color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 22px 80px}
+  header.hero{background:linear-gradient(135deg,var(--navy),var(--navy-deep));color:#fff;
+    padding:54px 22px 40px;margin-bottom:34px}
+  header.hero .inner{max-width:880px;margin:0 auto}
+  .kicker{text-transform:uppercase;letter-spacing:.14em;font-size:12px;font-weight:700;
+    color:var(--coral);margin:0 0 12px}
+  h1{font-size:30px;line-height:1.2;margin:0 0 14px;font-weight:750}
+  .sub{font-size:17px;color:#d8e0ea;margin:0;max-width:700px}
+  .meta-row{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .badge{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.25);
+    border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600;letter-spacing:.02em}
+  .meta-date{color:#aebccd;font-size:13px;margin-left:4px}
+  h2{font-size:22px;margin:44px 0 10px;color:var(--navy);font-weight:720;
+    border-bottom:2px solid var(--line);padding-bottom:8px}
+  h3{font-size:17px;margin:28px 0 6px;color:var(--navy-deep);font-weight:700}
+  p{margin:12px 0}
+  strong{color:var(--navy-deep)}
+  ul,ol{margin:12px 0;padding-left:22px}
+  li{margin:7px 0}
+  a{color:var(--coral-deep);text-decoration:none;border-bottom:1px solid rgba(201,90,64,.3)}
+  a:hover{border-bottom-color:var(--coral-deep)}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;
+    background:var(--sand-2);border:1px solid var(--line);border-radius:5px;padding:1px 5px;
+    word-break:break-word}
+  .lede{font-size:18px;background:var(--sand-2);border-left:4px solid var(--coral);
+    padding:18px 20px;border-radius:0 10px 10px 0;margin:8px 0 6px}
+  .callout{background:#fff;border:1px solid var(--line);border-radius:12px;padding:6px 22px;margin:18px 0;
+    box-shadow:0 1px 3px rgba(31,58,95,.06)}
+  .callout.flag{border-left:4px solid var(--coral)}
+  .verdict{display:flex;flex-wrap:wrap;gap:12px;margin:22px 0 6px}
+  .vcard{flex:1 1 240px;background:#fff;border:1px solid var(--line);border-radius:12px;
+    padding:14px 18px;box-shadow:0 1px 3px rgba(31,58,95,.06)}
+  .vcard b{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:4px;font-weight:700}
+  .vcard span{font-size:19px;font-weight:750;color:var(--navy)}
+  .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    padding:2px 8px;border-radius:6px;margin-right:8px;vertical-align:2px}
+  .tag.p1{background:#f7dedb;color:var(--crit)}
+  .tag.p2{background:#f6ecd7;color:var(--warn)}
+  .tag.p3{background:#e6ebf1;color:var(--muted)}
+  .tag.ok{background:#e4f0e9;color:var(--ok)}
+  .finding{background:#fff;border:1px solid var(--line);border-radius:12px;padding:4px 22px 14px;
+    margin:18px 0;box-shadow:0 1px 3px rgba(31,58,95,.06)}
+  .finding h3{margin-top:18px}
+  .finding p{font-size:15px}
+  .tbl{overflow-x:auto;margin:18px 0;border:1px solid var(--line);border-radius:10px;background:#fff}
+  table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+  th{background:var(--sand-2);color:var(--navy-deep);text-align:left;font-weight:700;
+    padding:10px 14px;border-bottom:2px solid var(--line);white-space:nowrap}
+  td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  .yes{color:var(--ok);font-weight:700}
+  .partial{color:var(--warn);font-weight:700}
+  .no{color:var(--crit);font-weight:700}
+  .foot{margin-top:46px;padding-top:18px;border-top:1px solid var(--line);
+    font-size:13px;color:var(--muted)}
+  em{color:var(--coral-deep);font-style:normal;font-weight:600}
+  @media (max-width:640px){h1{font-size:25px}.wrap{padding:0 16px 60px}header.hero{padding:40px 16px 32px}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="inner">
+    <p class="kicker">ThriveIEP &middot; BC Report Engine &middot; Architecture Review</p>
+    <h1>BC V3 Graph Engineering: Review and Required Revisions</h1>
+    <p class="sub">A read-only review of the proposed graph-engineering strategy for Boston College V3 reports, verified line by line against the live isolated-V3 branch. The strategy is sound. Two parts of it must change before anyone writes code.</p>
+    <div class="meta-row">
+      <span class="badge">BC</span>
+      <span class="badge">Architecture</span>
+      <span class="badge">Review</span>
+      <span class="meta-date">July 21, 2026 &middot; verified against AE <code style="background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2);color:#e8eef5">69790f83c</code> and successor <code style="background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2);color:#e8eef5">94640e55f</code></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <p class="lede">The research is right about the big thing: <strong>BC V3 is already a graph system</strong>, and the correct next move is to formalize what exists rather than adopt a graph database or a workflow framework. Every factual claim in the packet held up under direct verification. The disposition is <strong>ACCEPT_WITH_CHANGES</strong>, and the changes are specific: two of the three proposed graph projections need rescoping before implementation.</p>
+
+  <div class="verdict">
+    <div class="vcard"><b>Disposition</b><span>ACCEPT_WITH_CHANGES</span></div>
+    <div class="vcard"><b>Findings</b><span>0 P0 &middot; 2 P1 &middot; 5 P2 &middot; 4 P3</span></div>
+    <div class="vcard"><b>Packet facts verified</b><span>8 of 8 confirmed</span></div>
+  </div>
+
+  <h2>The two required revisions</h2>
+
+  <p>These are the changes that must land before implementation starts. Neither one overturns the research conclusion; both narrow the plan.</p>
+
+  <div class="finding">
+    <h3><span class="tag p1">P1</span>The bank validation graph would rebuild a checker you already own</h3>
+    <p>The proposal is to project the assessment bank into a build-time graph and validate it for dangling IDs, conflicting aliases, duplicate final policies, and stale version pins. Two files in the bank already do most of that work: <code>bank-audit/section5-policy-decision-units.ts</code> checks id uniqueness, orphan bands, orphan subscales, unknown permissions, and interpretation-to-band mismatches (lines 93 to 188), and <code>bank-audit/section5-policy-coverage-audit.ts</code> computes pair coverage, conflicted decision units, and an <code>authority_drift</code> digest gate (lines 62 to 112).</p>
+    <p><strong>Why it matters.</strong> A parallel validator becomes a second referee over the same authority bundle. The existing one is digest-pinned to that bundle; the new one would not be, and the two would drift. Two of the proposed mutation tests would then exist twice with different semantics.</p>
+    <p><strong>The fix.</strong> Extend the existing bank-audit modules in place rather than building alongside them, and add only checks with demonstrated live yield. There is real payoff waiting: the audit turned up a scoring-threshold row, <code>bc-standard-score-100-10-equivalent-at-or-below-93-33</code> at <code>score-metric-policy.ts:96</code>, that nothing references and that can never fire. The existing checks catch dangling <em>references</em> but not unreferenced <em>rows</em>, so this one is invisible to them. That is one proposed graph check with non-zero yield against current head.</p>
+  </div>
+
+  <div class="finding">
+    <h3><span class="tag p1">P1</span>Part of the proposed bank graph has no governed data behind it</h3>
+    <p>The target model draws edges from subscale to construct to evidence rule to report placement. But <code>measuredConstructPrimitiveIds</code> is an empty array for <em>every single subscale</em> in the registry (<code>assessment-subscale-registry.ts:302</code>), and the cognitive reporting-domain grouping is a runtime artifact type, not stored bank rows.</p>
+    <p><strong>Why it matters.</strong> Built as drawn, those edges are either silently empty, meaning a validator that always passes and proves nothing, or they get fabricated. Fabrication is precisely the hazard the research itself names: an inferred edge quietly becoming an unsupported conclusion.</p>
+    <p><strong>The fix.</strong> Mark the construct, evidence-rule, and placement edges as absent pending governed bank data plus review. Restrict version one of the bank graph to node types that have real data today: instrument, alias, subscale, metric policy, band, and authority version.</p>
+  </div>
+
+  <h2>What was verified, and what held</h2>
+
+  <p>Nothing in the packet was accepted on the strength of the report saying it. The topology claims were recomputed from the source constants with a script; the contract claims were traced to type declarations and enforcement sites.</p>
+
+  <div class="tbl">
+  <table>
+    <thead><tr><th>Claim</th><th>Verdict</th><th>How it was checked</th></tr></thead>
+    <tbody>
+      <tr><td>17 cards, 22 edges, 4 review barriers, one root, one terminal, no cycle</td><td class="yes">CONFIRMED</td><td>Recomputed from <code>ORCHESTRATION_CARD_IDS</code>, <code>ORCHESTRATION_EDGES</code>, and <code>ORCHESTRATION_REVIEW_IDS</code>. Single root <code>ORCHA</code>, single terminal <code>ISO11</code>, acyclic, zero unreachable, zero dangling</td></tr>
+      <tr><td>Longest dependency path is 15 cards</td><td class="yes">CONFIRMED</td><td>Longest-path computation over the 22 edges returns exactly 15 nodes</td></tr>
+      <tr><td>One metric per evidence record, with stable identities throughout</td><td class="yes">CONFIRMED</td><td>Singular <code>metric</code> on the carrier contract; evidence, occurrence, administration, assessment, subscale, policy, and review IDs all present in the interpreter types</td></tr>
+      <tr><td>Lifecycle partitions all evidence with no silent loss</td><td class="partial">CONFIRMED, with caveat</td><td>The partition is emitted and holds by control flow, but no executable check verifies it yet. See P2 below</td></tr>
+      <tr><td>Runtime events, assurance artifacts, and golden traces are distinct</td><td class="yes">CONFIRMED</td><td>Control spec section 12.3 states passing one implies nothing about the others; separate versioned types exist for each</td></tr>
+      <tr><td>AE is sole authority for identity, policy, placement, interpretation</td><td class="yes">CONFIRMED</td><td>Ownership table plus the runner-ownership rule; the interpreter resolves identity and policy itself and actively refuses producer-supplied exclusion authority</td></tr>
+      <tr><td>Table and prose share one pathway, modality preserved as an attribute</td><td class="yes">CONFIRMED</td><td>One captured-score type carrying <code>sourceModality</code>; shared interpreter loop; modality-specific review reasons routed, subsection split deferred by design</td></tr>
+      <tr><td>Section 5 placement grants no Section 6 or 8 proof authority</td><td class="partial">CONFIRMED, with caveat</td><td>Explicit rule plus a prohibited proof-promotion fixture, and no Section 6/8 consumer is wired to V3 at all. Enforcement today is rule and absence of wiring, not a positive runtime guard</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>Supporting findings</h2>
+
+  <div class="finding">
+    <h3><span class="tag p2">P2</span>The workflow topology is pinned, not validated</h3>
+    <p>The manifest validator compares a state document against hard-coded constants by exact string equality. Nothing anywhere computes roots, terminals, cycles, reachability, or review dominance over those constants. They happen to be correct right now, which I verified. But a future control revision could introduce a cycle, a second root, or an unreachable card, and every existing check would still pass. Review dominance is enforced only through hand-maintained equality, not derived from the graph. This is the gap the research correctly targets, and it is the reason the P0 slice below is worth doing first.</p>
+  </div>
+
+  <div class="finding">
+    <h3><span class="tag p2">P2</span>A malformed receipt crashes instead of reporting a bounded failure</h3>
+    <p>In <code>bc-isolated-v3-orchestration-manifest.ts</code>, the review-receipt validator calls <code>value.checks.some(...)</code> at line 278, before the <code>Array.isArray(value.checks)</code> shape check at line 296. A receipt whose <code>checks</code> field is a string or null throws a raw TypeError inside the gate rather than returning a stable issue code. It still fails closed, since a crashed self-test is red, but an unbounded stack trace is exactly the defect class the proposed mutation suite is supposed to eliminate. The fix belongs in the P0 card.</p>
+  </div>
+
+  <div class="finding">
+    <h3><span class="tag p2">P2</span>Conservation is structural today, not executably verified</h3>
+    <p>The report presents the rendered / review / excluded partition as an existing property. It is emitted, and it holds by control flow because every score either produces a decision or throws. But there is no executable check: the decision-contract validator and the projection-conservation gate are both unbuilt, and the <code>V3_CONSERVATION_FAILED</code> error code is reserved and unused. Separately, the <code>intentionally_excluded</code> branch is defined in the types but no code path ever emits it, because exclusion authority is deliberately refused at runtime.</p>
+    <p>This raises the value of the proposed evidence-graph receipt, since it would be the <em>first</em> executable cross-artifact conservation check. It also means the receipt must be sequenced with or after the decision-contract validator, so the system ends up with one conservation checker rather than two.</p>
+  </div>
+
+  <div class="finding">
+    <h3><span class="tag p2">P2</span>"Printed classifications" conflates two different things</h3>
+    <p>Governed printed publisher labels genuinely exist now, for exactly nine adverse bands across eight instruments: "Very Elevated", "Clinically Elevated", "Very High", "Atypical", "Clinically Significant", "Markedly atypical". That is the recent classification-band work. But "Low Average" and "Below Average" are <em>not</em> governed printed labels anywhere. They exist only as an internal band id, a descriptor regex, and a descriptor union type.</p>
+    <p>That distinction is by design: roughly a hundred cognitive and achievement instruments use anchor-derived numeric thresholds instead of publisher labels. A band node with only one type would generate false "missing instrument-to-band path" findings across all of them, and would misstate the intended precedence rule, which is that exact governed source labels win and absent labels fall through to the numeric evaluator. The graph needs two band subtypes: printed classification band, and numeric anchor band.</p>
+  </div>
+
+  <div class="finding">
+    <h3><span class="tag p3">P3</span>Three redundant edges, and a lifecycle state that must not be misread</h3>
+    <p>Three orchestration edges into the promotion card are transitively implied by other paths. Harmless today, but the graph compiler has to declare a policy (flag them as intentional, or reduce them), or the "missing dependency edge" mutation test is ambiguous, since removing a redundant edge changes nothing observable.</p>
+    <p>Separately, on lifecycle state: the branch advanced twice during this review with in-scope remediation commits. The classification-band gate files have an empty diff across the entire range since freeze, with zero touching commits, and the frozen gate now passes six of six. The control document still records the card as GATE_RED with no receipt and no independent review. That is a card legitimately mid-lifecycle, not a regression and not an acceptance. It should not be described as accepted, and any bank-graph work that consumes the new band subtypes should wait for its receipt.</p>
+  </div>
+
+  <h2>Ratings for the three proposed projections</h2>
+
+  <div class="tbl">
+  <table>
+    <thead><tr><th>Projection</th><th>Rating</th><th>Rationale</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Workflow / execution graph</strong><br>Compile and structurally validate the existing orchestration DAG</td><td class="yes">ADOPT</td><td>The DAG is real and already authoritative. The missing piece is structural validation of the constants themselves plus bounded-failure hardening. All state stays in committed receipts; no orchestration framework holds private state</td></tr>
+      <tr><td><strong>Per-report evidence and provenance graph</strong><br>Opaque IDs and versions only</td><td class="partial">ADOPT with conditions</td><td>Every required stable ID already exists. But it would be the first executable conservation check, so it must sequence with the decision-contract validator, and it needs a control-card decision placing it inside an existing artifact class rather than creating a new uncontrolled one. Source-anchor availability must be confirmed before the schema freezes</td></tr>
+      <tr><td><strong>Assessment-bank validation graph</strong></td><td class="no">REVISE</td><td>Correct in principle, wrong in scope. Extend the existing bank-audit authority in place, drop the construct and placement edges until governed data exists, split band nodes into printed and numeric subtypes, and encode intentional exceptions explicitly</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>Framework and storage: the research calls are correct</h2>
+
+  <ul>
+    <li><strong>Native TypeScript now.</strong> Correct. Zero new dependencies, exact fit to existing gate semantics, mutation-testable, and generating the diagram and control tables from one model closes a real doc-drift surface. The renderer function already exists; nothing currently pins the document to it.</li>
+    <li><strong>LangGraph: correctly excluded from report-content decisions, and premature even for the proposed non-authoritative uses.</strong> The active control states that orchestration is native delegation with no API scheduler, second state database, or model-authored readiness service for this milestone. Any experiment belongs outside the controlled lane.</li>
+    <li><strong>Temporal: correctly deferred.</strong> The trigger conditions the report names, meaning distributed runs, surviving process death, and day-scale human pauses, are genuinely not present yet. Freezing node and edge contracts in TypeScript first is the reusable step either way.</li>
+    <li><strong>Neo4j: correct as disposable, sanitized, analytics-only, never in the generation path.</strong> One added constraint: the forbidden-field list applies to any graph store, and no student evidence enters PM-Hub, the research knowledge graph, or any shared store even when described as sanitized. Run-scoped opaque-ID projections only, deleted with the run directory.</li>
+  </ul>
+
+  <div class="callout flag">
+    <p><strong>No new dependency is approved by this review.</strong></p>
+  </div>
+
+  <h2>The smallest first step</h2>
+
+  <p>One card, AE only, roughly one new self-test file plus a bounded edit to the manifest module. It fits inside the repository's three-file and two-hundred-line card rule, and it uses the full receipt tier because it gates a control artifact.</p>
+
+  <div class="callout">
+    <h3>Card GR-1: structural validation of the orchestration graph constants</h3>
+    <p><strong>Gate, written and frozen before any implementation code:</strong> a new self-test asserting, over the card, edge, and review constants and over any parsed manifest: exactly one root; exactly one terminal; acyclic; every card reachable from the root; no dangling card or review IDs; every review dependency dominated by its review's predecessor closure; an explicit transitive-redundancy policy; and bounded-failure behavior on malformed receipts, so a non-array <code>checks</code> field yields a stable issue code rather than a TypeError.</p>
+    <p><strong>Expected red:</strong> the structural assertions will pass, because the constants are currently correct. The red must therefore come from the bounded-failure and derived-view assertions. If everything passes before implementation, the gate is invalid under the card state machine and must be revised before freeze.</p>
+    <p><strong>Mutation fixtures in the same gate:</strong> removed edge, added cycle, unreachable card, review-barrier bypass, duplicate terminal, malformed receipt.</p>
+    <p><strong>Deliberately not in this slice:</strong> the evidence-graph receipt, which sequences behind the decision-contract validator and needs an artifact-class decision, and the bank graph, which sequences behind the classification-band receipt and extends the existing audit modules.</p>
+  </div>
+
+  <h2>Mutation tests: keep, drop, add</h2>
+
+  <div class="tbl">
+  <table>
+    <thead><tr><th>Proposed mutation</th><th>Verdict</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td>Missing dependency edge</td><td class="yes">Require</td><td>Define against the redundancy policy first</td></tr>
+      <tr><td>Introduced cycle</td><td class="yes">Require</td><td>Currently undetectable</td></tr>
+      <tr><td>Unreachable card or policy</td><td class="yes">Require</td><td>Live yield exists today</td></tr>
+      <tr><td>Review-barrier bypass</td><td class="yes">Require</td><td>Enforced only by hand-pinned equality now</td></tr>
+      <tr><td>Duplicate terminal</td><td class="yes">Require</td><td>Cheap and structural</td></tr>
+      <tr><td>Missing source locator</td><td class="yes">Require</td><td>Pending the source-anchor availability answer</td></tr>
+      <tr><td>Conflicting final policy routes</td><td class="no">Reject as new</td><td>Already covered by duplicate-permission and conflicted-decision-unit detection; reuse it</td></tr>
+      <tr><td>Stale version without changed digest</td><td class="no">Reject as new</td><td>Already covered by the authority-drift digest gate; reuse it</td></tr>
+      <tr><td>One bad metric contaminating siblings</td><td class="yes">Require</td><td>Matches an existing gate's named negative fixture</td></tr>
+      <tr><td>Table and prose modality collapse</td><td class="yes">Require</td><td>Guards the single-pathway-with-attribute design</td></tr>
+      <tr><td>Improper Section 5 to Section 6/8 proof edge</td><td class="yes">Require</td><td>Would be the first positive guard for this rule</td></tr>
+      <tr><td>Graph projection becoming a second authority</td><td class="partial">Redefine</td><td>Not testable as a graph mutation. Operationalize as an import-isolation scan proving no generation-path import, plus a digest-provenance assertion binding every graph artifact to its source authorities</td></tr>
+      <tr><td><em>Added:</em> malformed receipt yields a bounded code</td><td class="yes">Require</td><td>From the crash finding above</td></tr>
+      <tr><td><em>Added:</em> intentional-exception marker respected</td><td class="yes">Require</td><td>One instrument legitimately owns a band with no proof-metric policy; a naive check would false-positive</td></tr>
+      <tr><td><em>Added:</em> printed versus numeric band subtype confusion</td><td class="yes">Require</td><td>From the classification finding above</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>Do-not rules</h2>
+
+  <ol>
+    <li>Do not create a second assessment dictionary, alias table, registry, canonicalizer, or a second <em>validator</em> over the Section 5 authority bundle.</li>
+    <li>Do not emit construct, evidence-rule, or placement edges until governed bank data exists and has been reviewed.</li>
+    <li>Do not let any graph projection into the report-generation path. Graphs are derived, versioned, digest-bound to their sources, and disposable.</li>
+    <li>Do not use language models or embeddings to establish instrument identity, metric ownership, thresholds, or policy edges. Candidate links route to review.</li>
+    <li>Do not put student evidence, including sanitized per-report graphs, into PM-Hub, the research knowledge graph, Neo4j, or any shared store.</li>
+    <li>Do not reclassify a green-but-unreceipted card as accepted, and do not read a deliberately frozen red gate as a regression.</li>
+    <li>Do not parallelize metric interpretation through shared mutable state. Metric nodes stay independent and pure.</li>
+    <li>Do not adopt LangGraph, Temporal, Neo4j, RDF, or SHACL for this milestone.</li>
+    <li>Do not let an evidence-graph receipt become a new uncontrolled artifact class.</li>
+    <li>Do not merge donor branches wholesale. Donor facts remain evidence, reconstructed under target-local gates.</li>
+  </ol>
+
+  <h2>Open questions and stop conditions</h2>
+
+  <ol>
+    <li><strong>Source-anchor availability.</strong> Does the producer bundle expose opaque region identifiers sufficient for document-to-region-to-occurrence edges, without adding source-sensitive locators to a consumer-side receipt? Stop if the edge would require new source-sensitive fields.</li>
+    <li><strong>Artifact class.</strong> Which existing artifact family owns the evidence-graph receipt: the decision artifact, or the assurance artifact? This needs a root control-card decision. Stop if it would create a new uncontrolled artifact class.</li>
+    <li><strong>Classification-band closure.</strong> The receipt and independent review are in flight in a separate task. Bank-graph work consuming band subtypes should wait.</li>
+    <li><strong>Control authority.</strong> The proposed card touches the control-surface manifest module, and only the root orchestrator may write the control ledger. The card must be claimed there before implementation.</li>
+  </ol>
+
+  <h2>Residual risks</h2>
+
+  <p>Even with every revision applied, four things stay open. The conservation invariant remains unverified by any executable check until the decision-contract validator lands. Section 5 to Section 6/8 proof promotion has no positive runtime guard until the graph check exists. The <code>intentionally_excluded</code> lifecycle branch is currently unpopulated, so its first real use will need its own gate. And the bank's construct layer is entirely empty, which bounds what any evidence-to-limitation reasoning can honestly claim until governed data is added.</p>
+
+  <div class="foot">
+    <p><strong>Review provenance.</strong> Read-only review performed 2026-07-21 against the packet-pinned isolated V3 branch and its clean successor, with all packet checksums verified. No file in either repository was created, modified, or deleted. Test execution was limited to a single read-only run of one already-frozen gate command. Every finding cites a file and line in the review document of record.</p>
+    <p>Disposition: <strong>ACCEPT_WITH_CHANGES</strong>. The research conclusion stands; the implementation plan narrows.</p>
+  </div>
+
+</div>
+</body>
+</html>
