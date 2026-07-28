@@ -1,338 +1,536 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ThriveIEP Dashboard -- May 27, 2026</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>ThriveIEP Dashboard</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#0f172a;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6;padding:1.5rem;max-width:1100px;margin:0 auto}
-h1{font-size:1.6rem;font-weight:700;color:#f8fafc;margin-bottom:.25rem}
-h2{font-size:1.15rem;font-weight:600;color:#f1f5f9;margin-bottom:.75rem;padding-bottom:.4rem;border-bottom:1px solid #334155}
-h3{font-size:.95rem;font-weight:600;color:#cbd5e1;margin-bottom:.5rem}
-.subtitle{color:#94a3b8;font-size:.85rem;margin-bottom:1.5rem}
-.panel{background:#1e293b;border:1px solid #334155;border-radius:.75rem;padding:1.25rem;margin-bottom:1.25rem}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
-@media(max-width:700px){.grid-2{grid-template-columns:1fr}}
+  :root {
+    --bg: #0f172a;
+    --panel: #1e293b;
+    --panel-2: #172033;
+    --border: #334155;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --dim: #64748b;
+    --red: #ef4444;
+    --amber: #f59e0b;
+    --blue: #3b82f6;
+    --green: #10b981;
+    --purple: #8b5cf6;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 20px 16px 60px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; }
 
-/* Milestone bar */
-.ms-bar{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.25rem}
-.ms-chip{padding:.4rem .75rem;border-radius:.5rem;font-size:.8rem;font-weight:600;display:flex;align-items:center;gap:.35rem}
-.ms-done{background:#064e3b;color:#6ee7b7;border:1px solid #065f46}
-.ms-progress{background:#422006;color:#fbbf24;border:1px solid #713f12}
-.ms-overdue{background:#450a0a;color:#fca5a5;border:1px solid #7f1d1d}
-.ms-future{background:#1e293b;color:#94a3b8;border:1px solid #334155}
+  header { margin-bottom: 24px; }
+  h1 { font-size: 26px; margin: 0 0 4px; letter-spacing: -0.02em; }
+  .sub { color: var(--muted); font-size: 15px; margin: 0 0 2px; }
+  .stamp { color: var(--dim); font-size: 13px; margin: 0; }
 
-/* Focus picks */
-.focus{border-left:3px solid #f59e0b;padding-left:1rem;margin-bottom:1rem}
-.focus.slot1{border-left-color:#ef4444}
-.focus.slot2{border-left-color:#f59e0b}
-.focus.slot3{border-left-color:#3b82f6}
-.focus-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.2rem}
-.focus-label.red{color:#fca5a5}
-.focus-label.amber{color:#fcd34d}
-.focus-label.blue{color:#93c5fd}
-.focus-title{font-weight:600;color:#f1f5f9;margin-bottom:.3rem}
-.focus-body{font-size:.85rem;color:#cbd5e1}
+  h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin: 32px 0 12px;
+    font-weight: 600;
+  }
 
-/* Calendar */
-.cal-event{display:flex;gap:.75rem;padding:.45rem 0;border-bottom:1px solid #1e293b;font-size:.85rem}
-.cal-event:last-child{border-bottom:none}
-.cal-time{color:#94a3b8;min-width:5.5rem;font-variant-numeric:tabular-nums}
-.cal-title{color:#e2e8f0}
-.cal-type{font-size:.7rem;padding:.1rem .4rem;border-radius:.25rem;font-weight:600;margin-left:.5rem;vertical-align:middle}
-.type-team{background:#1e3a5f;color:#93c5fd}
-.type-client{background:#422006;color:#fcd34d}
-.type-tutoring{background:#1a2e05;color:#bef264}
-.type-personal{background:#2d1b4e;color:#c4b5fd}
-.type-work{background:#1e293b;color:#94a3b8}
-.cal-day-header{font-weight:600;color:#f59e0b;font-size:.85rem;padding:.6rem 0 .3rem;border-bottom:1px solid #334155;margin-bottom:.25rem}
+  /* Milestones */
+  .milestones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .ms {
+    flex: 1 1 180px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .ms-name { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+  .ms-days { font-size: 17px; font-weight: 600; }
+  .ms-date { font-size: 12px; color: var(--dim); margin-top: 2px; }
+  .ms.red { border-left: 3px solid var(--red); }
+  .ms.red .ms-days { color: var(--red); }
+  .ms.amber { border-left: 3px solid var(--amber); }
+  .ms.amber .ms-days { color: var(--amber); }
+  .ms.blue { border-left: 3px solid var(--blue); }
+  .ms.blue .ms-days { color: var(--blue); }
+  .issue-summary {
+    color: var(--muted);
+    font-size: 13px;
+    padding: 8px 2px 0;
+  }
 
-/* Issues */
-.issue-row{display:flex;justify-content:space-between;align-items:center;padding:.4rem 0;border-bottom:1px solid #1e293b;font-size:.85rem}
-.issue-row:last-child{border-bottom:none}
-.issue-id{color:#94a3b8;font-family:monospace;font-size:.8rem;min-width:5rem}
-.issue-title{flex:1;color:#e2e8f0;margin:0 .5rem}
-.issue-owner{color:#94a3b8;font-size:.75rem}
-a{color:#60a5fa;text-decoration:none}
-a:hover{text-decoration:underline}
+  /* Focus picks */
+  .picks { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .pick {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    border-left: 4px solid var(--dim);
+    position: relative;
+  }
+  .pick.c2a { border-left-color: var(--blue); }
+  .pick.ae { border-left-color: var(--amber); }
+  .pick.gtm { border-left-color: var(--green); }
+  .pick-num {
+    display: inline-block;
+    width: 22px; height: 22px;
+    line-height: 22px;
+    text-align: center;
+    border-radius: 50%;
+    background: var(--border);
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .pick-title { font-weight: 600; margin-bottom: 6px; font-size: 15px; }
+  .pick-why { color: var(--muted); font-size: 13.5px; margin-bottom: 10px; }
+  .pick-meta { font-size: 11.5px; color: var(--dim); display: flex; gap: 8px; flex-wrap: wrap; }
+  .tag {
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 7px;
+  }
+  .tag.due { color: var(--amber); border-color: var(--amber); }
 
-/* Stats row */
-.stats{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.25rem}
-.stat{text-align:center;flex:1;min-width:6rem}
-.stat-num{font-size:1.8rem;font-weight:700}
-.stat-num.green{color:#6ee7b7}
-.stat-num.amber{color:#fbbf24}
-.stat-num.red{color:#fca5a5}
-.stat-num.blue{color:#93c5fd}
-.stat-label{font-size:.7rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em}
+  /* Calendar */
+  .events { display: flex; flex-direction: column; gap: 1px; }
+  .ev {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 9px 12px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .ev-time { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 13px; min-width: 92px; }
+  .ev-name { flex: 1 1 140px; }
+  .ev.dim { opacity: 0.55; }
+  .badge {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 2px 7px;
+    border-radius: 4px;
+    border: 1px solid;
+    white-space: nowrap;
+  }
+  .b-team { color: #5ba8c8; border-color: #5ba8c8; }
+  .b-client { color: #e8a33a; border-color: #e8a33a; }
+  .b-tutoring { color: #a78bfa; border-color: #a78bfa; }
+  .b-work { color: #64748b; border-color: #64748b; }
+  .b-gtm { color: #34d399; border-color: #34d399; }
+  .b-personal { color: #f472b6; border-color: #f472b6; }
+  .ev-loc { font-size: 12px; color: var(--dim); flex-basis: 100%; }
+  .callout {
+    background: rgba(239,68,68,0.08);
+    border: 1px solid var(--red);
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+  .callout strong { color: var(--red); }
 
-/* Git */
-.commit{font-size:.82rem;padding:.35rem 0;border-bottom:1px solid #1e293b;display:flex;gap:.5rem}
-.commit:last-child{border-bottom:none}
-.commit-sha{color:#94a3b8;font-family:monospace;font-size:.75rem;min-width:4.5rem}
-.commit-msg{color:#cbd5e1;flex:1}
-.commit-repo{font-size:.7rem;color:#64748b;min-width:2.5rem}
-.commit-date{color:#64748b;font-size:.75rem;min-width:5rem;text-align:right}
+  /* Accordions */
+  details {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+  details > summary {
+    cursor: pointer;
+    padding: 11px 14px;
+    font-weight: 600;
+    font-size: 14px;
+    list-style: none;
+    user-select: none;
+  }
+  details > summary::-webkit-details-marker { display: none; }
+  details > summary::before { content: "\25B8  "; color: var(--dim); }
+  details[open] > summary::before { content: "\25BE  "; }
+  details.overdue { border-left: 3px solid var(--red); }
+  details.week { border-left: 3px solid var(--amber); }
+  details.upcoming { border-left: 3px solid var(--blue); }
+  details.backlog { border-left: 3px solid var(--dim); }
+  .det-body { padding: 0 14px 12px; }
+  .count { color: var(--dim); font-weight: 400; }
 
-/* Accordion */
-details{margin-bottom:.5rem}
-details summary{cursor:pointer;font-weight:600;color:#cbd5e1;font-size:.9rem;padding:.4rem 0;list-style:none}
-details summary::-webkit-details-marker{display:none}
-details summary::before{content:'▸ ';color:#64748b}
-details[open] summary::before{content:'▾ '}
-details .inner{padding:.25rem 0 .5rem 1rem}
+  .issue {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    padding: 8px 0;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .iid { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; color: var(--muted); min-width: 66px; }
+  .ititle { flex: 1 1 200px; font-size: 14px; }
+  .inote { flex-basis: 100%; font-size: 12.5px; color: var(--dim); padding-left: 76px; }
+  .p-urgent { color: #ef4444; border-color: #ef4444; }
+  .p-high { color: #f59e0b; border-color: #f59e0b; }
+  .p-med { color: #3b82f6; border-color: #3b82f6; }
+  .p-normal { color: #64748b; border-color: #64748b; }
+  .p-low { color: #94a3b8; border-color: #94a3b8; }
 
-/* Footer */
-.footer{text-align:center;padding:1.5rem 0 .5rem;color:#475569;font-size:.75rem}
+  .day-group { margin-bottom: 14px; }
+  .day-name { font-size: 13px; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
 
-/* Decision badge */
-.decision{background:#1e3a5f;border:1px solid #2563eb;border-radius:.5rem;padding:.6rem .8rem;margin-bottom:.5rem;font-size:.82rem}
-.decision-label{font-size:.65rem;color:#60a5fa;text-transform:uppercase;font-weight:700;letter-spacing:.04em}
+  /* Tables */
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; min-width: 420px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  td.num { font-variant-numeric: tabular-nums; }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .note { color: var(--muted); font-size: 13.5px; }
+  .note + .note { margin-top: 8px; }
+
+  footer {
+    margin-top: 36px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    color: var(--dim);
+    font-size: 13px;
+  }
+  footer a { color: var(--blue); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  .warn { color: var(--amber); }
+  .ok { color: var(--green); }
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<h1>ThriveIEP Dashboard</h1>
-<div class="subtitle">Tuesday, May 27, 2026 &mdash; Week of May 25&ndash;31</div>
+<header>
+  <h1>ThriveIEP Dashboard</h1>
+  <p class="sub">Week of July 27 to August 2, 2026</p>
+  <p class="stamp">Generated Tuesday, July 28, 2026 at 8:35am ET</p>
+</header>
 
-<!-- Stats -->
-<div class="stats">
-  <div class="stat"><div class="stat-num amber">4</div><div class="stat-label">In Progress</div></div>
-  <div class="stat"><div class="stat-num green">20</div><div class="stat-label">Closed Today</div></div>
-  <div class="stat"><div class="stat-num red">12d</div><div class="stat-label">M5 Overdue</div></div>
-  <div class="stat"><div class="stat-num blue">16d</div><div class="stat-label">To June 12 Demo</div></div>
-</div>
-
-<!-- Milestones -->
-<div class="panel">
-  <h2>Contract Milestones</h2>
-  <div class="ms-bar">
-    <div class="ms-chip ms-done">&#10003; M1 Phase 1</div>
-    <div class="ms-chip ms-done">&#10003; M2 Assessment MVP</div>
-    <div class="ms-chip ms-done">&#10003; M3 Pilot Profiles &mdash; CM2 paid</div>
-    <div class="ms-chip ms-done">&#10003; M4 Phase 2</div>
-    <div class="ms-chip ms-overdue">&#9888; M5 Phase 3 &mdash; 12d overdue, 3 deliverables in progress</div>
-    <div class="ms-chip ms-future">M6 Scale &amp; Licensing</div>
+<h2>Milestones</h2>
+<div class="milestones">
+  <div class="ms red">
+    <div class="ms-name">C2A &middot; M5 Phase 3 Ready</div>
+    <div class="ms-days">74 days overdue</div>
+    <div class="ms-date">Target May 15</div>
   </div>
-  <div style="font-size:.85rem;color:#cbd5e1">
-    <strong>M5 deliverables:</strong> Admin dashboard (Soham building, needs review) &bull; Technical white paper (internal analysis report under construction) &bull; Coach view v2 (prototype reviewed by coaches today)
-    <br><strong>CM3 ($10K)</strong> requires NLU acceptance of all three.
-    <br><strong>Next hard milestone:</strong> June 12 polished demo for Chicago presentations.
+  <div class="ms red">
+    <div class="ms-name">Bloom &middot; M1 Speed &amp; Quality</div>
+    <div class="ms-days">28 days overdue</div>
+    <div class="ms-date">Target Jun 30</div>
+  </div>
+  <div class="ms red">
+    <div class="ms-name">PI Redactor &middot; M1 Accuracy</div>
+    <div class="ms-days">28 days overdue</div>
+    <div class="ms-date">Target Jun 30</div>
+  </div>
+  <div class="ms red">
+    <div class="ms-name">Accom. Engine &middot; M1 Infra</div>
+    <div class="ms-days">28 days overdue</div>
+    <div class="ms-date">Target Jun 30</div>
+  </div>
+  <div class="ms amber">
+    <div class="ms-name">Bloom &middot; M2 UX &amp; Observability</div>
+    <div class="ms-days">34 days left</div>
+    <div class="ms-date">Target Aug 31</div>
   </div>
 </div>
+<div class="issue-summary">4 issues active &middot; 3 in Todo &middot; 5 new issues filed today &middot; 0 completed in last 48h</div>
 
-<!-- Focus Picks -->
-<div class="panel">
-  <h2>Focus Picks</h2>
+<h2>Focus Picks</h2>
+<div class="picks">
 
-  <div class="focus slot1">
-    <div class="focus-label red">Slot 1 &mdash; Tomorrow</div>
-    <div class="focus-title">BC Meeting Prep (Wed, 1:00&ndash;2:30pm at CFLC)</div>
-    <div class="focus-body">
-      Run 3 student reports and clean up visuals today. BC deal closed and paid. Tomorrow is on-site at Boston College CFLC.
-      Elizabeth reviewed the coach report prototype with coaches this morning &mdash; positive feedback, several design decisions made (see below). Assign Soham to admin screen cleanup.
+  <div class="pick c2a">
+    <div class="pick-num">1</div>
+    <div class="pick-title">Send Elizabeth the NLU heat maps</div>
+    <div class="pick-why">She asked last night, is presenting at 12:30 today, and has a training the hour before. You pointed her at a chat search and she has not confirmed finding them. Smallest task on the board and the only one with a hard expiry.</div>
+    <div class="pick-meta">
+      <span class="tag">Slack DM</span>
+      <span class="tag">C2A / NLU</span>
+      <span class="tag due">Before 12:30 today</span>
     </div>
   </div>
 
-  <div class="focus slot2">
-    <div class="focus-label amber">Slot 2 &mdash; M5 Timeline</div>
-    <div class="focus-title">M5 Deliverables &rarr; NLU Sign-off &rarr; CM3 ($10K)</div>
-    <div class="focus-body">
-      All 3 deliverables in progress. White paper: data export and exploration done, internal analysis report under construction.
-      Coach view: prototype reviewed, iterating. Admin dashboard: Soham building. Target: when can NLU accept and release CM3?
+  <div class="pick gtm">
+    <div class="pick-num">2</div>
+    <div class="pick-title">Restart outreach: 14 days with nothing logged</div>
+    <div class="pick-why">Zero HubSpot engagements in the last two weeks and no deal movement since July 16. Five pilots sit at "Outreach Sent" and have not moved: Klamath CC, Urban College of Boston, Clackamas CC, LSU Shreveport, Endicott. Cash position is tight and this is the pipeline going quiet.</div>
+    <div class="pick-meta">
+      <span class="tag">HubSpot</span>
+      <span class="tag">GTM</span>
+      <span class="tag due">Escalated from slot 3</span>
     </div>
   </div>
 
-  <div class="focus slot3">
-    <div class="focus-label blue">Slot 3 &mdash; Operational</div>
-    <div class="focus-title">Aptible Endpoint + Linear Hygiene</div>
-    <div class="focus-body">
-      Triage Aptible ELB email for min.thriveiep.com. Today's dashboard session closed 20 stale issues and reconciled Linear &mdash; major cleanup done.
-      Commit discipline (THR refs) still needs improvement: 31 commits since May 22 with 0 THR references.
+  <div class="pick ae">
+    <div class="pick-num">3</div>
+    <div class="pick-title">BC review loop: rows 93 to 95 plus the graduate report</div>
+    <div class="pick-why">Posted to the review channel at 7:57am and Craig acknowledged ten minutes later, so the ball is in our court. Six unread Google Drive comments on row 97 are queued behind it from July 24.</div>
+    <div class="pick-meta">
+      <span class="tag">Slack #bc-report-review-proces</span>
+      <span class="tag">Boston College</span>
+      <span class="tag">Live customer loop</span>
     </div>
   </div>
-</div>
-
-<!-- Decisions from Today -->
-<div class="panel">
-  <h2>Decisions from Elizabeth Meeting (Today)</h2>
-  <div class="decision">
-    <div class="decision-label">Report Format</div>
-    Interactive HTML document with PDF download. Not Google Doc.
-  </div>
-  <div class="decision">
-    <div class="decision-label">Coaching Section</div>
-    Moved to end of report (or dropdown). Coaches liked the "what you'll see and what to do" framing.
-  </div>
-  <div class="decision">
-    <div class="decision-label">Radar Chart</div>
-    Remove red. Use "strengthening / growing / starting" labels with circle shading.
-  </div>
-  <div class="decision">
-    <div class="decision-label">Pillar View</div>
-    Removed. Coaches prefer skill-by-skill, not pillar grouping.
-  </div>
-  <div class="decision">
-    <div class="decision-label">Terminology</div>
-    "Applied EF" renamed to "emotional regulation."
-  </div>
-  <div style="font-size:.82rem;color:#94a3b8;margin-top:.5rem">
-    Tufts pushed to fall (internal review). No new C2A client yet; contract expected in coming weeks.
-  </div>
-</div>
-
-<!-- Calendar -->
-<div class="panel">
-  <h2>Calendar</h2>
-
-  <div class="cal-day-header">Today &mdash; Tuesday, May 27</div>
-  <div class="cal-event"><span class="cal-time">10:00&ndash;10:15a</span><span class="cal-title">ThriveIEP Standup <span class="cal-type type-team">team</span></span></div>
-  <div class="cal-event"><span class="cal-time">6:00&ndash;7:00p</span><span class="cal-title">Vera <span class="cal-type type-tutoring">tutoring</span></span></div>
-
-  <div class="cal-day-header">Tomorrow &mdash; Wednesday, May 28</div>
-  <div class="cal-event"><span class="cal-time">9:30a&ndash;2:30p</span><span class="cal-title">ThriveIEP In Person Work Block <span class="cal-type type-work">work</span></span></div>
-  <div class="cal-event"><span class="cal-time">1:00&ndash;2:30p</span><span class="cal-title">BC (at CFLC) <span class="cal-type type-client">client</span></span></div>
-  <div class="cal-event"><span class="cal-time">4:30&ndash;5:00p</span><span class="cal-title">Jack <span class="cal-type type-tutoring">tutoring</span></span></div>
-
-  <div class="cal-day-header">Thursday, May 29</div>
-  <div class="cal-event"><span class="cal-time">9:30&ndash;10:15a</span><span class="cal-title">ThriveIEP GTM <span class="cal-type type-team">team</span></span></div>
-  <div class="cal-event"><span class="cal-time">10:30&ndash;10:45a</span><span class="cal-title">ThriveIEP Standup <span class="cal-type type-team">team</span></span></div>
-  <div class="cal-event"><span class="cal-time">2:30&ndash;3:30p</span><span class="cal-title">Nehmet <span class="cal-type type-tutoring">tutoring</span></span></div>
-
-  <div class="cal-day-header">Saturday, May 31</div>
-  <div class="cal-event"><span class="cal-time">7:30&ndash;8:30a</span><span class="cal-title">ThriveIEP Team Meeting <span class="cal-type type-team">team</span></span></div>
-</div>
-
-<!-- Linear Issues -->
-<div class="grid-2">
-
-<div class="panel">
-  <h2>In Progress (4)</h2>
-  <div class="issue-row"><span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-298">THR-298</a></span><span class="issue-title">BC post-secondary document review generator</span><span class="issue-owner">Eric</span></div>
-  <div class="issue-row"><span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-254">THR-254</a></span><span class="issue-title">Technical white paper for NLU</span><span class="issue-owner">Eric</span></div>
-  <div class="issue-row"><span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-255">THR-255</a></span><span class="issue-title">Coach/admin view (role-scoped)</span><span class="issue-owner">Eric</span></div>
-  <div class="issue-row"><span class="issue-id"><a href="https://linear.app/thriveiep/issue/THR-299">THR-299</a></span><span class="issue-title">Linear reconciliation + commit discipline</span><span class="issue-owner">Eric</span></div>
-</div>
-
-<div class="panel">
-  <h2>Closed Today (20)</h2>
-  <div style="font-size:.82rem;color:#cbd5e1">
-    <details>
-      <summary>Product issues (12)</summary>
-      <div class="inner">
-        <div class="issue-row"><span class="issue-id">THR-199</span><span class="issue-title">DDx pattern matching engine</span></div>
-        <div class="issue-row"><span class="issue-id">THR-291</span><span class="issue-title">Bloom Stage 2 cache fix</span></div>
-        <div class="issue-row"><span class="issue-id">THR-270</span><span class="issue-title">Security review findings</span></div>
-        <div class="issue-row"><span class="issue-id">THR-187</span><span class="issue-title">Property tests &mdash; Student API</span></div>
-        <div class="issue-row"><span class="issue-id">THR-182</span><span class="issue-title">Property tests &mdash; Registry &amp; admin</span></div>
-        <div class="issue-row"><span class="issue-id">THR-180</span><span class="issue-title">Admin UI (timepoint management)</span></div>
-        <div class="issue-row"><span class="issue-id">THR-262</span><span class="issue-title">DDx Tier 2: Initiative regen</span></div>
-        <div class="issue-row"><span class="issue-id">THR-263</span><span class="issue-title">DDx Tier 2: Resilience regen</span></div>
-        <div class="issue-row"><span class="issue-id">THR-261</span><span class="issue-title">DDx Tier 2: Curiosity regen</span></div>
-        <div class="issue-row"><span class="issue-id">THR-248</span><span class="issue-title">NLU case study framework</span></div>
-        <div class="issue-row"><span class="issue-id">THR-224</span><span class="issue-title">Student TLDR rollup summary</span></div>
-        <div class="issue-row"><span class="issue-id">THR-106</span><span class="issue-title">C2A data analysis + pilot findings</span></div>
-      </div>
-    </details>
-    <details>
-      <summary>Operations &amp; infra (8)</summary>
-      <div class="inner">
-        <div class="issue-row"><span class="issue-id">THR-300</span><span class="issue-title">Slack commit notifications</span></div>
-        <div class="issue-row"><span class="issue-id">THR-301</span><span class="issue-title">Knowledge graph refresh</span></div>
-        <div class="issue-row"><span class="issue-id">THR-302</span><span class="issue-title">PM-Hub filesystem QC</span></div>
-        <div class="issue-row"><span class="issue-id">THR-239</span><span class="issue-title">DAG pipeline prompt skill</span></div>
-        <div class="issue-row"><span class="issue-id">THR-221</span><span class="issue-title">AI pipeline novel approaches review</span></div>
-        <div class="issue-row"><span class="issue-id">THR-62</span><span class="issue-title">Deploy dev enhancements to prod</span></div>
-        <div class="issue-row"><span class="issue-id">THR-14</span><span class="issue-title">Fix sample report link drop-off</span></div>
-        <div class="issue-row"><span class="issue-id">THR-13</span><span class="issue-title">Claude vibe coding research</span></div>
-      </div>
-    </details>
-    <div style="margin-top:.4rem;font-size:.78rem;color:#94a3b8">+ THR-251 deleted &bull; THR-118 moved to Backlog</div>
-  </div>
-</div>
 
 </div>
 
-<!-- Git Activity -->
-<div class="panel">
-  <h2>Git Activity (since May 22)</h2>
-  <div style="font-size:.82rem;color:#fca5a5;margin-bottom:.75rem">&#9888; 31 commits across 3 repos with 0 THR references</div>
+<h2>Today &middot; Tuesday July 28</h2>
 
-  <details>
-    <summary>Accommodation Engine (17 commits)</summary>
-    <div class="inner">
-      <div class="commit"><span class="commit-sha">d286050</span><span class="commit-msg">chore: centralize thrive brand assets</span><span class="commit-date">May 26</span></div>
-      <div class="commit"><span class="commit-sha">f629933</span><span class="commit-msg">test: lock c2a design conformance fixes</span><span class="commit-date">May 26</span></div>
-      <div class="commit"><span class="commit-sha">dfee511</span><span class="commit-msg">fix: clear c2a report mobile footer content</span><span class="commit-date">May 26</span></div>
-      <div class="commit"><span class="commit-sha">aba5def</span><span class="commit-msg">docs: anchor c2a resilience design conformance</span><span class="commit-date">May 26</span></div>
-      <div class="commit"><span class="commit-sha">8fd2de5</span><span class="commit-msg">docs: align c2a visual identity map references</span><span class="commit-date">May 26</span></div>
-      <div class="commit"><span class="commit-sha">89baa1c</span><span class="commit-msg">test: cover c2a landing token scans</span><span class="commit-date">May 26</span></div>
-      <div class="commit"><span class="commit-sha">4719bcf</span><span class="commit-msg">test: pin c2a visual identity registries</span><span class="commit-date">May 26</span></div>
-      <div class="commit"><span class="commit-sha">578ddb7</span><span class="commit-msg">fix: preserve c2a brand asset alias keys</span><span class="commit-date">May 26</span></div>
-      <div class="commit"><span class="commit-sha">6f4e313</span><span class="commit-msg">test: harden c2a visual identity guards</span><span class="commit-date">May 26</span></div>
-      <div class="commit"><span class="commit-sha">0b495fb</span><span class="commit-msg">docs: align c2a visual identity references</span><span class="commit-date">May 26</span></div>
-      <div class="commit"><span class="commit-sha">852af1d</span><span class="commit-msg">feat: add c2a texture and shape aliases</span><span class="commit-date">May 26</span></div>
-      <div class="commit"><span class="commit-sha">30759f3</span><span class="commit-msg">feat: centralize c2a report icons</span><span class="commit-date">May 26</span></div>
-      <div class="commit"><span class="commit-sha">4498dd2</span><span class="commit-msg">feat: add c2a thrive palette tokens</span><span class="commit-date">May 26</span></div>
-      <div class="commit"><span class="commit-sha">b9f5995</span><span class="commit-msg">feat: centralize c2a brand logo assets</span><span class="commit-date">May 26</span></div>
-      <div class="commit"><span class="commit-sha">22d1075</span><span class="commit-msg">chore: govern c2a brand identity assets</span><span class="commit-date">May 26</span></div>
-      <div class="commit"><span class="commit-sha">9094d1e</span><span class="commit-msg">docs: harden c2a visual identity rollout plan</span><span class="commit-date">May 26</span></div>
-      <div class="commit"><span class="commit-sha">068cba6</span><span class="commit-msg">fix(server): add customer access to data export routes</span><span class="commit-date">May 13</span></div>
+<div class="callout">
+  <strong>Not on your calendar:</strong> Elizabeth is giving a talk at 12:30 and needs the NLU heat maps. Source is a Slack DM from last night, not an invite, so nothing will remind you.
+</div>
+
+<div class="events">
+  <div class="ev dim">
+    <div class="ev-time">All Day</div>
+    <div class="ev-name">W ACE Java Minecraft PM</div>
+    <span class="badge b-personal">Personal</span>
+  </div>
+  <div class="ev">
+    <div class="ev-time">9:30 to 10:30</div>
+    <div class="ev-name">Jen</div>
+    <span class="badge b-tutoring">Tutoring</span>
+  </div>
+  <div class="ev">
+    <div class="ev-time">12:30</div>
+    <div class="ev-name">Elizabeth's talk (needs heat maps from you)</div>
+    <span class="badge b-team">Team</span>
+  </div>
+  <div class="ev">
+    <div class="ev-time">2:00 to 2:45</div>
+    <div class="ev-name">ThriveIEP GTM</div>
+    <span class="badge b-gtm">GTM</span>
+    <div class="ev-loc">Zoom</div>
+  </div>
+  <div class="ev dim">
+    <div class="ev-time">3:00 to 4:00</div>
+    <div class="ev-name">Isaiah</div>
+    <span class="badge b-personal">Personal</span>
+  </div>
+  <div class="ev">
+    <div class="ev-time">4:30 to 5:00</div>
+    <div class="ev-name">Jack</div>
+    <span class="badge b-tutoring">Tutoring</span>
+    <div class="ev-loc">Google Meet</div>
+  </div>
+  <div class="ev dim">
+    <div class="ev-time">Various</div>
+    <div class="ev-name">Emily has six client blocks today (10am, 12pm, 1pm, 2pm, 3:30pm, 5:30pm)</div>
+    <span class="badge b-personal">Personal</span>
+  </div>
+</div>
+
+<details class="week">
+  <summary>Rest of the week <span class="count">(Wed to Fri)</span></summary>
+  <div class="det-body">
+    <div class="day-group">
+      <div class="day-name">Wednesday July 29</div>
+      <div class="ev"><div class="ev-time">10:00 to 10:15</div><div class="ev-name">ThriveIEP Standup</div><span class="badge b-team">Team</span></div>
+      <div class="ev dim"><div class="ev-time">11:30 to 12:30</div><div class="ev-name">Nat dr</div><span class="badge b-personal">Personal</span></div>
+      <div class="ev dim"><div class="ev-time">12:15 to 12:45</div><div class="ev-name">CD appt</div><span class="badge b-personal">Personal</span></div>
+      <div class="ev dim"><div class="ev-time">4:30 to 6:00</div><div class="ev-name">N Rowing</div><span class="badge b-personal">Personal</span></div>
+      <div class="ev"><div class="ev-time">7:00 to 8:00</div><div class="ev-name">Internships: Building Your Resume and Your Career</div><span class="badge b-work">Work</span></div>
     </div>
-  </details>
-
-  <details>
-    <summary>PM-Hub (6 commits)</summary>
-    <div class="inner">
-      <div class="commit"><span class="commit-sha">1af0399</span><span class="commit-msg">digest: dev digest 2026-05-27</span><span class="commit-date">May 27</span></div>
-      <div class="commit"><span class="commit-sha">1b178a6</span><span class="commit-msg">Add May 26 Gemini ingestion rerun note</span><span class="commit-date">May 26</span></div>
-      <div class="commit"><span class="commit-sha">9b5ee33</span><span class="commit-msg">docs: add Yellow Dining Chairs Lookbook to reports index</span><span class="commit-date">May 24</span></div>
-      <div class="commit"><span class="commit-sha">c77ce48</span><span class="commit-msg">Document CRM tunnel port default</span><span class="commit-date">May 24</span></div>
-      <div class="commit"><span class="commit-sha">6d158a9</span><span class="commit-msg">chore: refresh research report index</span><span class="commit-date">May 24</span></div>
-      <div class="commit"><span class="commit-sha">1642063</span><span class="commit-msg">Harden Gemini ingestion gbrain rerun</span><span class="commit-date">May 24</span></div>
+    <div class="day-group">
+      <div class="day-name">Thursday July 30</div>
+      <div class="ev dim"><div class="ev-time">8:00 to 9:30</div><div class="ev-name">Couch delivery, time to be confirmed</div><span class="badge b-personal">Personal</span></div>
+      <div class="ev"><div class="ev-time">4:30 to 5:00</div><div class="ev-name">Jack</div><span class="badge b-tutoring">Tutoring</span></div>
+      <div class="ev dim"><div class="ev-time">4:30 to 6:00</div><div class="ev-name">N Rowing</div><span class="badge b-personal">Personal</span></div>
     </div>
-  </details>
-
-  <details>
-    <summary>DEC1TEXTREDACTOR (6 commits)</summary>
-    <div class="inner">
-      <div class="commit"><span class="commit-sha">f54d3c5</span><span class="commit-msg">Tune GLM table extraction contract</span><span class="commit-date">May 27</span></div>
-      <div class="commit"><span class="commit-sha">ef3227b</span><span class="commit-msg">Tune GLM table extraction pipeline</span><span class="commit-date">May 27</span></div>
-      <div class="commit"><span class="commit-sha">8dc2928</span><span class="commit-msg">Document redactor agent workflow</span><span class="commit-date">May 24</span></div>
-      <div class="commit"><span class="commit-sha">9463116</span><span class="commit-msg">Improve table rendering QC signals</span><span class="commit-date">May 24</span></div>
-      <div class="commit"><span class="commit-sha">f066b39</span><span class="commit-msg">Harden async document extraction polling</span><span class="commit-date">May 23</span></div>
-      <div class="commit"><span class="commit-sha">6743018</span><span class="commit-msg">Harden table extraction routing</span><span class="commit-date">May 22</span></div>
+    <div class="day-group">
+      <div class="day-name">Friday July 31</div>
+      <div class="ev"><div class="ev-time">10:30 to 10:45</div><div class="ev-name">ThriveIEP Standup</div><span class="badge b-team">Team</span></div>
     </div>
-  </details>
-</div>
-
-<!-- HubSpot / Networking -->
-<div class="panel">
-  <h2>Pipeline &amp; Networking</h2>
-  <div style="font-size:.85rem;color:#cbd5e1">
-    <strong>Boston College:</strong> Deal closed, paid. On-site meeting tomorrow at CFLC.
-    <br><strong>NLU:</strong> M3 done, CM2 paid ($15K). M5 deliverables in progress for CM3 ($10K).
-    <br><strong>Tufts:</strong> Pushed to fall (internal review). Contract expected in coming weeks.
-    <br><strong>Networking status:</strong> Unknown (HubSpot engagements tool disabled). Elizabeth has Chicago trip coming up: EdTech networking, co-design event, fireside chat.
   </div>
-</div>
+</details>
 
-<!-- Blockers -->
-<div class="panel">
-  <h2>Blockers &amp; Flags</h2>
-  <div style="font-size:.85rem;color:#cbd5e1">
-    <div style="margin-bottom:.5rem">&#128308; <strong>M5 overdue (12 days)</strong> &mdash; All 3 deliverables in progress but no NLU acceptance date set. CM3 ($10K) blocked until sign-off.</div>
-    <div style="margin-bottom:.5rem">&#128992; <strong>Aptible ELB email</strong> &mdash; min.thriveiep.com endpoint needs triage. Could be routine or infrastructure issue.</div>
-    <div style="margin-bottom:.5rem">&#128992; <strong>Commit discipline</strong> &mdash; 31 more commits with 0 THR refs. Linear is now current after today's cleanup, but going forward commits need THR references.</div>
-    <div>&#128994; <strong>Remy account locking</strong> &mdash; Recurring student lock issue. Investigate root cause when bandwidth allows.</div>
+<h2>Issues</h2>
+
+<details class="overdue" open>
+  <summary>Overdue and blocking <span class="count">(4)</span></summary>
+  <div class="det-body">
+    <div class="issue">
+      <div class="iid">THR-324</div>
+      <div class="ititle">Three D-KEFS comparison scores can wrongly mark a student as low-performing</div>
+      <span class="badge p-high">High</span>
+      <span class="badge b-work">Accom. Engine</span>
+      <div class="inote">Can place an unsupported claim in a clinical document used for accommodation decisions. Blocked by THR-323. Filed today.</div>
+    </div>
+    <div class="issue">
+      <div class="iid">THR-323</div>
+      <div class="ititle">Let each assessment score carry its own inclusion cutoff</div>
+      <span class="badge p-high">High</span>
+      <span class="badge b-work">Accom. Engine</span>
+      <div class="inote">Moved to In Progress today. 1,587 of 1,696 score lines (94%) inherit a cutoff nobody chose. Blocks THR-324 and THR-325.</div>
+    </div>
+    <div class="issue">
+      <div class="iid">THR-255</div>
+      <div class="ititle">Role-scoped coach and admin view</div>
+      <span class="badge p-high">High</span>
+      <span class="badge b-client">C2A / NLU</span>
+      <div class="inote">C2A half of M5, which is 74 days overdue. No commits touching it in two months. Needs a schedule-or-park decision.</div>
+    </div>
+    <div class="issue">
+      <div class="iid">THR-298</div>
+      <div class="ititle">BC CFLC post-secondary document review generator MVP</div>
+      <span class="badge p-high">High</span>
+      <span class="badge b-work">Accom. Engine</span>
+      <div class="inote">Untouched 58 days. The work moved on to Section 5, V3 and the manual report loop. Needs closing or rescoping.</div>
+    </div>
   </div>
+</details>
+
+<details class="week">
+  <summary>This week <span class="count">(2)</span></summary>
+  <div class="det-body">
+    <div class="issue">
+      <div class="iid">THR-325</div>
+      <div class="ititle">Clinical review of the assessment inclusion register with Kathy</div>
+      <span class="badge p-med">Medium</span>
+      <span class="badge b-work">Accom. Engine</span>
+      <div class="inote">The reading can start now; only acting on it is blocked by THR-323. This is the first point where scores start appearing in or vanishing from a student's report.</div>
+    </div>
+    <div class="issue">
+      <div class="iid">THR-299</div>
+      <div class="ititle">Add THR references to commits and map untracked work</div>
+      <span class="badge p-normal">Normal</span>
+      <span class="badge b-work">Team / Admin</span>
+      <div class="inote">Drift measurement refreshed today: 680 commits since May 27, four of them referencing an issue.</div>
+    </div>
+  </div>
+</details>
+
+<details class="upcoming">
+  <summary>Upcoming <span class="count">(3)</span></summary>
+  <div class="det-body">
+    <div class="issue">
+      <div class="iid">THR-254</div>
+      <div class="ititle">Technical white paper for NLU (CM3 payment trigger)</div>
+      <span class="badge p-high">High</span>
+      <span class="badge b-client">C2A / NLU</span>
+      <div class="inote">Moved back to Todo today. Not started since May 15. One half of the $10K CM3 trigger.</div>
+    </div>
+    <div class="issue">
+      <div class="iid">THR-326</div>
+      <div class="ititle">56 assessments sit in the bank but cannot yet contribute to reports</div>
+      <span class="badge p-med">Medium</span>
+      <span class="badge b-work">Accom. Engine</span>
+      <div class="inote">660 score lines, about four in every ten. Deliberately parked, not broken, but now measured for the first time.</div>
+    </div>
+    <div class="issue">
+      <div class="iid">THR-327</div>
+      <div class="ititle">Decide how we obtain rating-scale cutoffs that sit behind paid manuals</div>
+      <span class="badge p-med">Medium</span>
+      <span class="badge b-work">Accom. Engine</span>
+      <div class="inote">Blocks at least nine assessments. Confirmed three times against different publishers. Needs a buy, borrow, or accept-the-gap decision from you.</div>
+    </div>
+  </div>
+</details>
+
+<details class="backlog">
+  <summary>Backlog <span class="count">(3)</span></summary>
+  <div class="det-body">
+    <div class="issue">
+      <div class="iid">THR-321</div>
+      <div class="ititle">Repair the resilience-demo scoring endpoint</div>
+      <span class="badge p-low">Low</span>
+      <span class="badge b-client">C2A</span>
+      <div class="inote">Prerequisite for the demo coach view. Two latent defects: a filename mismatch returning 503, and three battery items silently dropped from scoring.</div>
+    </div>
+    <div class="issue">
+      <div class="iid">THR-320</div>
+      <div class="ititle">Improve table reading for score grids (GLM-OCR table mode)</div>
+      <span class="badge p-normal">Normal</span>
+      <span class="badge b-work">PI Redactor</span>
+      <div class="inote">Baseline implemented and verified, 201 targeted tests passing. Remaining: real SDK output shape, sparse grids, runbook.</div>
+    </div>
+    <div class="issue">
+      <div class="iid">THR-224</div>
+      <div class="ititle">Student TLDR rollup summary view</div>
+      <span class="badge p-low">Low</span>
+      <span class="badge b-client">C2A / NLU</span>
+      <div class="inote">Elizabeth's February request for a two to four sentence narrative at the top of the student report.</div>
+    </div>
+  </div>
+</details>
+
+<details class="backlog">
+  <summary>Recently completed <span class="count">(shipped Jul 27)</span></summary>
+  <div class="det-body">
+    <div class="issue"><div class="iid">PR #34</div><div class="ititle">BC relay cutover deployed to Aptible: five health URLs at 200, clean browser end-to-end transfer</div></div>
+    <div class="issue"><div class="iid">PR #32</div><div class="ititle">BC Redactor relay acknowledgment contract fixed (8 of 8 tests, frozen gate unchanged)</div></div>
+    <div class="issue"><div class="iid">PR #30</div><div class="ititle">Bloom origin cutover preflight sequencing fixed (46 origin and probe tests)</div></div>
+    <div class="issue"><div class="iid">PR #28</div><div class="ititle">Timeline section hidden from customer-facing Bloom reports</div></div>
+    <div class="issue"><div class="iid">PR #27</div><div class="ititle">False "Transfer Unavailable" error after Bloom document upload fixed</div></div>
+    <div class="issue"><div class="iid">BC V3</div><div class="ititle">Write-and-seal step built, frozen, reviewed and signed off</div></div>
+  </div>
+</details>
+
+<h2>Git activity</h2>
+<div class="panel">
+  <p class="note">The reconciliation cursor had been stuck since May 27, so this window is two months wide rather than one day. Read it as a backlog measure, not a daily rate.</p>
+  <div class="scroll">
+    <table>
+      <thead>
+        <tr><th>Repository</th><th class="num">Commits since May 27</th><th class="num">Carrying a THR reference</th><th class="num">Last 7 days, all branches</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Accommodation Engine</td><td class="num">179</td><td class="num">1</td><td class="num">2,737</td></tr>
+        <tr><td>PM-Hub</td><td class="num">56</td><td class="num">3</td><td class="num">4</td></tr>
+        <tr><td>DEC1TEXTREDACTOR</td><td class="num">445</td><td class="num">2</td><td class="num">478</td></tr>
+        <tr><td><strong>Total</strong></td><td class="num"><strong>680</strong></td><td class="num"><strong>4</strong></td><td class="num"><strong>3,219</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">All commits attributed to Eric. No proposed state transitions could be derived automatically, because roughly one commit in 170 names an issue. Two improvements worth noting: the <code>THR-NONE</code> convention is now in regular use, which is a deliberate "maps to no issue" rather than silence, and the five issues filed this morning are the first in months to be created while the work is still in flight.</p>
 </div>
 
-<div class="footer">
-  Generated May 27, 2026 at ~11:00am EDT &bull; Dashboard run by Claude &bull; <a href="https://linear.app/thriveiep">Linear</a>
-  <br>20 issues closed, 4 in progress, 1 backlogged, 1 deleted
+<h2>Signals</h2>
+<div class="panel">
+  <p class="note"><strong>Boston College review loop is live.</strong> Rows 93 to 95 and the graduate report went out for review at 7:57am; Craig acknowledged at 8:07am. Six unread Google Drive comments on row 97 are queued from July 24.</p>
+  <p class="note"><strong>Five issues filed this morning</strong> covering the Section 5 inclusion register: THR-323 through THR-327. Two of them (THR-325, THR-327) need decisions from you rather than engineering.</p>
+  <p class="note"><strong class="warn">Networking has gone quiet.</strong> Zero HubSpot engagements logged in 14 days. Boston College, National Louis, Prepare 2 Bloom and TriTogether are all Closed Won and stable; the five open pilots have not moved since mid-July.</p>
+  <p class="note"><strong class="ok">Aptible endpoint blocker looks resolved.</strong> The BC relay cutover deployed successfully yesterday, operation 107449544, with five health URLs returning 200.</p>
 </div>
 
+<footer>
+  <p><strong>Networking:</strong> <span class="warn">nudge needed</span>, 14 days since last logged outreach. &nbsp;&middot;&nbsp; <strong>Slack:</strong> 4 priority signals. &nbsp;&middot;&nbsp; <strong>Linear:</strong> 5 updates applied.</p>
+  <p><strong>Data gaps:</strong> Notion to-dos not queried. No Google Meet transcripts or Gemini notes in the last 7 days. Gmail unread is entirely GitHub CI and billing notifications, no human mail awaiting reply.</p>
+  <p><a href="/">Back to reports index</a></p>
+</footer>
+
+</div>
 </body>
 </html>
