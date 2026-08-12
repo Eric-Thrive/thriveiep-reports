@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Progressive Context Shaping for Long-Running Coding Agents</title>
+  <style>
+    :root {
+      --navy:#0b1930; --navy2:#132a46; --paper:#f5f3ed; --card:#fffefa;
+      --ink:#14243a; --muted:#5d6c7b; --line:#d8dcd7; --cyan:#15989a;
+      --cyan2:#d8f2ed; --gold:#d79a28; --gold2:#fff0cc; --coral:#cc5f45;
+      --coral2:#f9e4dd; --blue:#2b67ae; --blue2:#e4eef9; --green:#247a5a;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif}
+    a{color:var(--blue)} .wrap{max-width:1160px;margin:auto;padding:0 28px}
+    header{position:relative;overflow:hidden;background:linear-gradient(140deg,var(--navy),#102b48 70%,#124e59);color:#fff;padding:78px 0 60px}
+    header:before,header:after{content:"";position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.13)}
+    header:before{width:630px;height:630px;right:-230px;top:-320px;box-shadow:0 0 0 70px rgba(255,255,255,.035),0 0 0 140px rgba(255,255,255,.02)}
+    header:after{width:210px;height:210px;left:-110px;bottom:-120px}
+    .eyebrow{font:600 12px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.12em;color:#80d8d1}
+    h1{font:750 clamp(42px,6vw,76px)/1.02 Georgia,"Times New Roman",serif;letter-spacing:-.045em;max-width:1000px;margin:16px 0 23px;position:relative;z-index:1}
+    .lede{font-size:20px;line-height:1.55;max-width:880px;color:#d7e3ee;position:relative;z-index:1}
+    .meta{display:flex;flex-wrap:wrap;gap:9px;margin-top:28px;position:relative;z-index:1}
+    .chip{border:1px solid rgba(255,255,255,.25);border-radius:99px;padding:6px 11px;font-size:12px;color:#d9e7ef;background:rgba(255,255,255,.04)}
+    nav{position:sticky;top:0;z-index:5;background:rgba(255,254,250,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+    nav .wrap{display:flex;gap:20px;overflow:auto} nav a{padding:14px 0;text-decoration:none;color:var(--muted);font-size:13px;white-space:nowrap} nav a:hover{color:var(--cyan)}
+    section{padding:68px 0;border-bottom:1px solid var(--line)}
+    h2{font:750 clamp(30px,4vw,49px)/1.12 Georgia,"Times New Roman",serif;letter-spacing:-.035em;margin:9px 0 20px}
+    h3{font-size:19px;line-height:1.3;margin:0 0 7px}
+    p{margin:.7em 0}.intro{font-size:18px;max-width:940px;color:#34475a}
+    .verdict{background:var(--cyan2);border-left:5px solid var(--cyan);padding:23px 26px;border-radius:0 14px 14px 0;margin:28px 0;font-size:18px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px;margin-top:28px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+    .card p{font-size:14px;color:var(--muted);margin:.35em 0 0}
+    .keep{border-top:5px solid var(--green)} .modify{border-top:5px solid var(--gold)} .reject{border-top:5px solid var(--coral)}
+    .label{font:600 11px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.08em;color:var(--cyan)}
+    .layer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:26px 0}
+    .layer{min-height:170px;padding:20px;border-radius:13px;background:var(--card);border:1px solid var(--line);position:relative}
+    .layer .num{font:700 13px ui-monospace,monospace;color:var(--cyan);margin-bottom:12px}.layer p{font-size:14px;color:var(--muted)}
+    table{width:100%;border-collapse:separate;border-spacing:0;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:25px 0;font-size:14px}
+    th{background:#e8f0ee;text-align:left;padding:13px 14px;text-transform:uppercase;letter-spacing:.04em;font-size:11px;color:#3d5964}
+    td{padding:14px;border-top:1px solid var(--line);vertical-align:top}
+    tbody tr:hover{background:#fbfaf5}.confirmed{color:var(--green);font-weight:700}.qualified{color:#a16b05;font-weight:700}.rejected{color:var(--coral);font-weight:700}
+    .evidence-row{display:grid;grid-template-columns:130px 1fr;gap:22px;margin:15px 0;padding:19px 21px;background:var(--card);border:1px solid var(--line);border-radius:12px}
+    .evidence-row strong{color:var(--navy)}.evidence-row p{margin:0;color:var(--muted);font-size:14px}
+    .repo{display:grid;grid-template-columns:180px 1fr;gap:24px;margin:20px 0;padding:24px;background:var(--card);border:1px solid var(--line);border-radius:14px}
+    .repo-name{font:750 22px/1.15 Georgia,serif}.repo .state{color:var(--muted);font-size:14px;margin:4px 0 12px}.repo ul{margin:8px 0;padding-left:20px}.repo li{margin:7px 0}
+    .warning{background:var(--coral2);border-left:5px solid var(--coral);padding:20px 24px;border-radius:0 12px 12px 0;margin:24px 0}
+    .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:25px;counter-reset:step}
+    .step{counter-increment:step;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:20px;min-height:165px}
+    .step:before{content:counter(step);display:grid;place-items:center;width:29px;height:29px;border-radius:50%;background:var(--navy);color:#fff;font-weight:700;font-size:13px;margin-bottom:13px}
+    .step p{font-size:13px;color:var(--muted)}
+    .quality{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:25px 0}.quality div{padding:20px;border-radius:12px;text-align:center;background:var(--card);border:1px solid var(--line)}.quality strong{display:block;font-size:28px}.quality span{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+    .refs{columns:2;column-gap:42px;padding-left:20px;font-size:13px}.refs li{break-inside:avoid;margin:0 0 12px}
+    footer{background:var(--navy);color:#cfdae5;padding:46px 0}footer p{max-width:880px}footer a{color:#91d8d2}
+    @media(max-width:900px){.grid,.layer-grid,.flow,.quality{grid-template-columns:1fr 1fr}.repo{grid-template-columns:1fr}.refs{columns:1}}
+    @media(max-width:600px){.wrap{padding:0 18px}header{padding:54px 0 42px}.grid,.layer-grid,.flow,.quality{grid-template-columns:1fr}.evidence-row{grid-template-columns:1fr}section{padding:50px 0}table{display:block;overflow-x:auto}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="eyebrow">Verified research synthesis · August 12, 2026</div>
+      <h1>Progressive Context Shaping for Long-Running Coding Agents</h1>
+      <p class="lede">What the viral “million lines” video gets right, where its claims need qualification, and how to apply the underlying approach to Accommodation Engine, DEC1TEXTREDACTOR, and PM-Hub without creating another layer of stale documentation.</p>
+      <div class="meta">
+        <span class="chip">15 sources</span><span class="chip">16 claims verified</span><span class="chip">12 confirmed · 4 narrowed</span><span class="chip">0 contradicted</span><span class="chip">Repository audit included</span>
+      </div>
+    </div>
+  </header>
+  <nav><div class="wrap"><a href="#answer">Answer</a><a href="#video">Video</a><a href="#factcheck">Fact-check</a><a href="#evidence">Beyond the video</a><a href="#repos">Repositories</a><a href="#loop">Operating loop</a><a href="#quality">Evidence</a></div></nav>
+  <main>
+    <section id="answer">
+      <div class="wrap">
+        <div class="eyebrow">Executive answer</div>
+        <h2>Adopt the layering principle. Do not copy the four-file template.</h2>
+        <p class="intro">The video is directionally right: long-running agents need stable rules, fresh working state, selective resource maps, and durable history. But Accommodation Engine, DEC1, and PM-Hub already have those layers. Their shared failure is lifecycle control—stale handoffs, ambiguous active worktrees, completed artifacts still marked active, and temporary project status embedded in durable instruction files.</p>
+        <div class="verdict"><strong>The implementation target is freshness, routing, and proof—not more prose.</strong> Keep stable instructions as routers. Use one task-specific living control artifact. Record worktree identity and deterministic evidence in an existing dynamic-state surface. Preserve history without letting it govern the next action.</div>
+        <div class="grid">
+          <div class="card keep"><div class="label">Keep</div><h3>Progressive disclosure</h3><p>Start small and retrieve deeper code, plans, schemas, and decisions only when the active task requires them.</p></div>
+          <div class="card modify"><div class="label" style="color:#9a6a0c">Modify</div><h3>One living task control</h3><p>Use an existing plan, runbook, control artifact, or architecture snapshot—not a generic current.md in every repository.</p></div>
+          <div class="card reject"><div class="label" style="color:var(--coral)">Reject</div><h3>Four automatic root files</h3><p>Duplicate context surfaces add inference cost, competing authority, and another maintenance obligation.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="video">
+      <div class="wrap">
+        <div class="eyebrow">The video’s model</div>
+        <h2>Current state should outrank accumulated history.</h2>
+        <p class="intro">The 23-minute video, <em>Three OpenAI Engineers Shipped A Million Lines</em>, uses OpenAI, Anthropic, and Arize examples to argue that agent failures often arise from poorly shaped context rather than raw reasoning limits. The presenter calls the continual maintenance of context layers “progressive context shaping.” The label is his synthesis; primary sources more often use <em>progressive disclosure</em>, <em>context engineering</em>, <em>living plans</em>, and <em>structured handoff</em>.</p>
+        <div class="layer-grid">
+          <div class="layer"><div class="num">01 / STABLE</div><h3>Instructions</h3><p>Enduring rules, boundaries, architecture invariants, safety constraints, and source precedence.</p></div>
+          <div class="layer"><div class="num">02 / VOLATILE</div><h3>Current state</h3><p>Active outcome, decisions, questions, next action, blockers, stop conditions, and approval limits.</p></div>
+          <div class="layer"><div class="num">03 / RETRIEVAL</div><h3>Context map</h3><p>Routes to relevant code, design, schemas, plans, tests, evidence, and decision records.</p></div>
+          <div class="layer"><div class="num">04 / DURABLE</div><h3>History</h3><p>Completed work, superseded assumptions, failed approaches, rationale, commits, and evidence receipts.</p></div>
+        </div>
+        <p>The video’s practical sequence is sound: provide the intended outcome, relevant sources, action boundaries, first useful checkpoint, quality bar, and approval limits; then update a compact current-state record when discoveries change the work. Superseded assumptions move to history rather than remaining as active guidance.</p>
+      </div>
+    </section>
+
+    <section id="factcheck">
+      <div class="wrap">
+        <div class="eyebrow">Claim ledger</div>
+        <h2>The examples are real. The productivity headlines are not causal evidence.</h2>
+        <table>
+          <thead><tr><th>Video claim</th><th>Verdict</th><th>What the source establishes</th><th>Required qualification</th></tr></thead>
+          <tbody>
+            <tr><td>Three OpenAI engineers shipped roughly one million lines and 1,500 PRs with no manually written code.</td><td class="confirmed">Confirmed</td><td>OpenAI reports these figures over five months, including application logic, infrastructure, tooling, documentation, and utilities.</td><td>First-party reporting; volume and PR count are not quality measures.</td></tr>
+            <tr><td>The project took one tenth the normal time.</td><td class="qualified">Narrowed</td><td>OpenAI says it believes manual implementation would have taken about ten times longer.</td><td>A counterfactual estimate, not a controlled productivity measurement.</td></tr>
+            <tr><td>Individual Codex runs exceeded six hours.</td><td class="confirmed">Confirmed</td><td>OpenAI reports runs lasting upward of six hours, often overnight.</td><td>No distribution of tasks, failures, or successful outcomes was published.</td></tr>
+            <tr><td>OpenAI used a short AGENTS.md as a map to deeper repository knowledge.</td><td class="confirmed">Confirmed</td><td>The article describes an approximately 100-line root map pointing to plans, design, architecture, quality, progress, and decisions.</td><td>A useful precedent, not evidence for identical filenames everywhere.</td></tr>
+            <tr><td>Arize stored and reinjected a plan during a 27-call Alyx run.</td><td class="confirmed">Confirmed</td><td>Arize describes the incident, on-disk plan, per-call plan message, and code-enforced completion gate.</td><td>One practitioner case; it does not prove full-plan reinjection is optimal for Codex.</td></tr>
+            <tr><td>Anthropic removed sprint scaffolding but retained the same cross-session handoff.</td><td class="qualified">Narrowed</td><td>The later harness removed sprints and retained planner/evaluator and generator/QA transitions.</td><td>The revised run was continuous; it does not clearly retain the earlier cross-session mechanism.</td></tr>
+            <tr><td>Across roughly 400,000 sessions, humans made about 70% of planning decisions and Claude about 80% of execution decisions.</td><td class="confirmed">Confirmed</td><td>Anthropic reports these classifier-derived averages across approximately 235,000 people.</td><td>Descriptive behavior, not the proven optimal division of labor.</td></tr>
+            <tr><td>People can supervise only three to five concurrent sessions.</td><td class="confirmed">Confirmed observation</td><td>OpenAI reports this internal range before context switching becomes difficult.</td><td>Not a general human-capacity experiment.</td></tr>
+            <tr><td>Some Symphony teams increased landed PRs by more than 500% in three weeks.</td><td class="qualified">Narrowed</td><td>OpenAI reports the before/after increase among some teams.</td><td>No denominator, control group, quality adjustment, or causal identification.</td></tr>
+            <tr><td>A focused context package wins in almost every case.</td><td class="rejected">Universal claim rejected</td><td>Primary guidance supports high-signal context and progressive disclosure.</td><td>Controlled evidence shows context files can raise cost, generated files can reduce success, and stale memory can be worse than no memory.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="evidence">
+      <div class="wrap">
+        <div class="eyebrow">Evidence beyond the video</div>
+        <h2>Four research lines change how the idea should be implemented.</h2>
+        <div class="evidence-row"><strong>Context files</strong><p><em>Evaluating AGENTS.md</em> directly challenges “more guidance is better.” Developer-authored files produced only small average gains; generated files could reduce success; both increased inference cost. The practical implication is to repair concise human-owned authority rather than generate new summaries.</p></div>
+        <div class="evidence-row"><strong>Position effects</strong><p><em>Lost in the Middle</em> shows that long context does not guarantee reliable use: relevant evidence can be handled worse when buried in the middle. Strong routing and selective retrieval matter even with large context windows.</p></div>
+        <div class="evidence-row"><strong>Active retrieval</strong><p><em>Coding Agents are Effective Long-Context Processors</em> provides the counterweight. Coding agents can search and act over large repositories, so the goal is not a tiny static prompt—it is accurate entry routing, available source files, and task-directed retrieval.</p></div>
+        <div class="evidence-row"><strong>Context rot</strong><p>Repository instruction files are maintained software artifacts. They can refer to moved files, old status, and superseded architecture. Automated freshness checks are justified; ownership and lifecycle metadata are a practical governance inference.</p></div>
+        <div class="evidence-row"><strong>Prior PM-Hub work</strong><p>The existing research archive independently favors structure-preserving eviction over lossy compression, relevance-gated memory retrieval, executable contracts over prompt-only authority, fresh-agent tests, and validators instead of additional prose-heavy orchestration.</p></div>
+        <div class="warning"><strong>Combined conclusion:</strong> context shaping is repository governance, not prompt decoration. A context artifact must have an authority role, an owner, a freshness expectation, a supersession path, and a way to prove it still points to reality.</div>
+      </div>
+    </section>
+
+    <section id="repos">
+      <div class="wrap">
+        <div class="eyebrow">Repository application</div>
+        <h2>The layers exist. The active-state lifecycle is weak.</h2>
+        <div class="repo">
+          <div><div class="repo-name">Accommodation Engine</div><div class="state">Good task routing · weak “continue current work” pickup</div></div>
+          <div>
+            <p><strong>Already present:</strong> root instructions, scoped rules, C2A resource maps, code/PM-Hub knowledge routing, task plans/specs/runbooks, changelog, git history, and cross-product decision records.</p>
+            <ul>
+              <li>Add a short entry route to the existing AGENTS.md: inspect branch/worktree/status and recent commits → identify the active task control → load its architecture anchor.</li>
+              <li>Mark the stale root plan and completed task plans superseded or complete.</li>
+              <li>Refresh or deprecate the stale three-layer KG guide.</li>
+              <li>Keep AGENTS.md as the Codex router and reduce duplicated durable guidance.</li>
+            </ul>
+            <p><strong>Do not add:</strong> CURRENT.md, another root map, a second decision log, or another Codex instruction file.</p>
+          </div>
+        </div>
+        <div class="repo">
+          <div><div class="repo-name">DEC1TEXTREDACTOR</div><div class="state">Best compact snapshot · stale identity and contradictory status</div></div>
+          <div>
+            <p><strong>Already present:</strong> root and scoped instructions, workflow playbook, architecture-state.json, architecture-changelog.jsonl, live-contract maps, control artifacts, plans, runbooks, and git history.</p>
+            <ul>
+              <li>Extend architecture-state.json with branch, head SHA, worktree path, active controls, blockers, owner, last real-path proof, status, and supersededBy.</li>
+              <li>Run the existing architecture checkpoint on the actual active integration worktree.</li>
+              <li>Move obsolete “still blocking” project status out of AGENTS.md and record its resolution in state/changelog/control artifacts.</li>
+              <li>Add a lifecycle validator that flags multiple active controls for the same surface.</li>
+            </ul>
+            <p><strong>Do not add:</strong> CURRENT.md or another narrative index. Do not clean or consolidate divergent/dirty worktrees without owner review.</p>
+          </div>
+        </div>
+        <div class="repo">
+          <div><div class="repo-name">PM-Hub</div><div class="state">Strongest router and decisions · stale handoff and priorities</div></div>
+          <div>
+            <p><strong>Already present:</strong> AGENTS.md, _MANIFEST.md loading profiles, priorities, session handoff, decision records, changelog, session archive, structural KG, and semantic search.</p>
+            <ul>
+              <li>Resume updates to the existing handoff and priorities instead of introducing another current-state file.</li>
+              <li>Reconcile and index current C2A artifacts.</li>
+              <li>Preserve _MANIFEST.md as the loading router and decisions as the rationale layer.</li>
+            </ul>
+            <p><strong>Do not add:</strong> a second current-state surface, project map, decision log, or search layer.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="loop">
+      <div class="wrap">
+        <div class="eyebrow">Recommended operating pattern</div>
+        <h2>A living control loop for substantial AE and DEC1 work</h2>
+        <div class="flow">
+          <div class="step"><h3>Entry identity</h3><p>Record repository, worktree path, branch, base/head SHA, and dirty-state summary.</p></div>
+          <div class="step"><h3>Authority</h3><p>Name governing instructions, task control, schema/spec precedence, approval boundaries, and explicit exclusions.</p></div>
+          <div class="step"><h3>Frozen gate</h3><p>Define the deterministic gate before code, record the failing result, and freeze it during implementation.</p></div>
+          <div class="step"><h3>Early evidence</h3><p>Produce the smallest real result capable of invalidating the plan before expanding scope.</p></div>
+          <div class="step"><h3>Active slice</h3><p>Keep outcome, current card/slice, next action, open questions, blockers, and stop conditions explicit.</p></div>
+          <div class="step"><h3>Event update</h3><p>Revise state only when a decision, authority, blocker, worktree, gate, or next action changes.</p></div>
+          <div class="step"><h3>Finish proof</h3><p>Require a passing deterministic gate plus execution through the last safe real boundary with positive evidence.</p></div>
+          <div class="step"><h3>Closeout</h3><p>Mark the active control complete or superseded, refresh the snapshot, and leave one unambiguous next action.</p></div>
+        </div>
+        <div class="verdict"><strong>For a six- or ten-hour run:</strong> require recoverable changes, correct worktree isolation, frozen tests, explicit protected-data rules, no unapproved external writes, and stop conditions for repeated gate failure, authority conflict, or unexpected scope expansion. Duration is not the safety mechanism; bounded authority and observable evidence are.</div>
+      </div>
+    </section>
+
+    <section id="quality">
+      <div class="wrap">
+        <div class="eyebrow">Evidence quality</div>
+        <h2>Strong for design precedent; limited for causal productivity.</h2>
+        <div class="quality">
+          <div><strong>15</strong><span>sources reviewed</span></div>
+          <div><strong>16</strong><span>claims checked</span></div>
+          <div><strong>12</strong><span>confirmed</span></div>
+          <div><strong>4</strong><span>modified</span></div>
+        </div>
+        <p class="intro">The operational examples are predominantly vendor-authored 2025–2026 reports. They are authoritative about what the vendors built and observed, but weak evidence for causal productivity or transfer to ThriveIEP. The strongest independent challenge is the controlled AGENTS.md study, supported by peer-reviewed long-context evidence. Repository findings are high-confidence point-in-time observations, but active branches and worktrees can change rapidly.</p>
+        <p><strong>Appraised distribution:</strong> 0 HIGH, 3 MODERATE, 4 LOW, and 8 VERY LOW under the research archive’s causal-evidence rubric. “Very low” does not mean an official document is unreliable about its own design; it means it is not a controlled study capable of supporting generalized causal claims.</p>
+        <h3 style="margin-top:34px">Load-bearing sources</h3>
+        <ol class="refs">
+          <li>Jones, N. B. (2026). <a href="https://www.youtube.com/watch?v=HZLPhPbw3fM">Three OpenAI Engineers Shipped A Million Lines</a>.</li>
+          <li>Lopopolo, R. (2026). <a href="https://openai.com/index/harness-engineering/">Harness engineering: leveraging Codex in an agent-first world</a>.</li>
+          <li>Kotliarskyi, A., Zhu, V., &amp; Brock, Z. (2026). <a href="https://openai.com/index/open-source-codex-orchestration-symphony/">Open-source Codex orchestration with Symphony</a>.</li>
+          <li>OpenAI (2026). <a href="https://github.com/openai/openai-cookbook/blob/main/articles/codex_exec_plans.md">Codex Exec Plans</a>.</li>
+          <li>Anthropic (2025). <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents</a>.</li>
+          <li>Young, J. (2025). <a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a>.</li>
+          <li>Rajasekaran, P. (2026). <a href="https://www.anthropic.com/engineering/harness-design-long-running-apps">Harness design for long-running application development</a>.</li>
+          <li>Anthropic (2026). <a href="https://www.anthropic.com/research/long-running-Claude">Long-running Claude for scientific computing</a>.</li>
+          <li>Anthropic Economic Research (2026). <a href="https://www.anthropic.com/research/claude-code-expertise">Agentic coding and persistent returns to expertise</a>.</li>
+          <li>Arize AI (2026). <a href="https://arize.com/blog/ai-agent-debugging-four-lessons-from-shipping-alyx-to-production/">AI Agent Debugging: Four Lessons from Shipping Alyx to Production</a>.</li>
+          <li>Arize AI (2026). <a href="https://arize.com/blog/how-to-build-planning-into-your-agent/">How to Build Planning Into Your Agent</a>.</li>
+          <li>Gloaguen, T., et al. (2026). <a href="https://arxiv.org/abs/2602.11988">Evaluating AGENTS.md</a>. arXiv:2602.11988.</li>
+          <li>Liu, N. F., et al. (2024). <a href="https://direct.mit.edu/tacl/article/doi/10.1162/tacl_a_00638/119630/Lost-in-the-Middle-How-Language-Models-Use-Long">Lost in the Middle</a>. DOI: 10.1162/tacl_a_00638.</li>
+          <li>Cao, W., et al. (2026). <a href="https://arxiv.org/abs/2603.20432">Coding Agents are Effective Long-Context Processors</a>. arXiv:2603.20432.</li>
+          <li>Treude, C., &amp; Baltes, S. (2026). <a href="https://arxiv.org/abs/2606.09090">Context Rot in AI-Assisted Software Development: Repurposing Documentation Consistency for AI Configuration Artifacts</a>. arXiv:2606.09090.</li>
+        </ol>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      <strong>Progressive Context Shaping for Long-Running Coding Agents</strong>
+      <p>Integrated research synthesis and literature review for ThriveIEP. This report recommends repository-governance changes; it does not implement changes in Accommodation Engine or DEC1TEXTREDACTOR and does not treat vendor productivity claims as capacity forecasts.</p>
+      <p>Research completed August 12, 2026 · Deep-research verification: all critical and important gates passed.</p>
+    </div>
+  </footer>
+</body>
+</html>
