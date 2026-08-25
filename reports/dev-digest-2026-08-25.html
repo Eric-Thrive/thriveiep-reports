@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Dev Digest - 2026-08-25</title>
+<style>
+:root{--bg-body:#0f172a;--bg-panel:#1e293b;--bg-card:#1e293b;--border-default:#334155;
+--text-primary:#f1f5f9;--text-secondary:#94a3b8;--text-muted:#64748b;
+--font-stack:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+--font-mono:"SF Mono","Fira Code","Cascadia Code",monospace;
+--color-agentic:#3b82f6;--color-durable:#8b5cf6;--color-docproc:#10b981;
+--color-education:#f59e0b;--color-claude:#e8a33a;
+--color-success:#10b981;--color-warning:#f59e0b;--color-error:#ef4444;
+--content-max-width:800px;--card-radius:8px;--card-padding:16px;--section-gap:32px;}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg-body);color:var(--text-primary);font-family:var(--font-stack);
+line-height:1.6;-webkit-font-smoothing:antialiased;}
+.digest{max-width:var(--content-max-width);margin:0 auto;padding:32px 24px 64px;}
+.digest-header{border-bottom:1px solid var(--border-default);padding-bottom:20px;margin-bottom:var(--section-gap);}
+h1{font-size:2rem;margin:0 0 8px;letter-spacing:-0.02em;}
+.date-range{color:var(--text-secondary);margin:0 0 4px;font-size:0.95rem;}
+.sources,.generated{color:var(--text-muted);margin:0;font-size:0.8rem;}
+h2{font-size:1.2rem;margin:0 0 16px;letter-spacing:-0.01em;}
+.tldr{background:var(--bg-panel);border:1px solid var(--border-default);border-radius:var(--card-radius);
+padding:20px;margin-bottom:var(--section-gap);}
+.tldr h2{margin-bottom:12px;}
+.tldr ul{margin:0;padding-left:0;list-style:none;}
+.tldr li{margin-bottom:14px;font-size:0.92rem;position:relative;padding-left:20px;}
+.tldr li:last-child{margin-bottom:0;}
+.dot{position:absolute;left:0;top:8px;width:9px;height:9px;border-radius:50%;display:inline-block;}
+.topic-section{margin-bottom:var(--section-gap);}
+.topic-section > h2{padding-left:12px;}
+.web-card{background:var(--bg-card);border:1px solid var(--border-default);border-radius:var(--card-radius);
+padding:var(--card-padding);margin-bottom:12px;}
+.web-title{color:var(--text-primary);font-weight:600;text-decoration:none;font-size:0.98rem;}
+.web-title:hover{text-decoration:underline;}
+.card-meta{margin-top:6px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+.platform-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.7rem;
+font-weight:600;text-transform:uppercase;color:white;}
+.engagement{color:var(--text-muted);font-size:0.75rem;font-family:var(--font-mono);}
+.excerpt{color:var(--text-secondary);font-size:0.87rem;margin:10px 0 0;}
+.why-matters{color:var(--text-muted);font-size:0.8rem;font-style:italic;margin-top:8px;
+padding-left:8px;border-left:2px solid var(--border-default);}
+.bib-ref a{color:var(--text-muted);text-decoration:none;font-size:0.7rem;}
+.bib-ref a:hover{color:var(--text-primary);}
+a{color:#7dd3fc;}
+.bibliography ol{padding-left:0;list-style:none;counter-reset:none;}
+.bib-entry{color:var(--text-secondary);font-size:0.8rem;margin-bottom:10px;padding-left:44px;
+position:relative;scroll-margin-top:16px;}
+.ref-num{position:absolute;left:0;color:var(--text-muted);font-family:var(--font-mono);}
+.bib-entry:target{background:rgba(125,211,252,0.08);border-radius:4px;}
+.digest-footer{border-top:1px solid var(--border-default);padding-top:20px;margin-top:var(--section-gap);}
+.source-status{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+.source{font-size:0.72rem;padding:3px 9px;border-radius:4px;border:1px solid var(--border-default);
+color:var(--text-secondary);}
+.source.ok{border-color:var(--color-success);color:var(--color-success);}
+.source.down{border-color:var(--color-error);color:var(--color-error);}
+.source.na{border-color:var(--color-warning);color:var(--color-warning);}
+.dedup-note,.meta{color:var(--text-muted);font-size:0.78rem;margin:4px 0;}
+details{margin-top:12px;}
+summary{cursor:pointer;color:var(--text-secondary);font-size:0.85rem;}
+@media (max-width:600px){.digest{padding:16px;}h1{font-size:1.5rem;}}
+</style>
+</head>
+<body>
+<main class="digest">
+
+<header class="digest-header">
+<h1>Dev Digest</h1>
+<p class="date-range">Covering 2026-07-28 to 2026-08-25 (28 days)</p>
+<p class="sources">Sources: Web and news search, Semantic Scholar, OpenAlex, ERIC, Europe PMC. Reddit, YouTube and Hacker News native coverage unavailable this run.</p>
+<p class="generated">Generated 2026-08-25</p>
+</header>
+
+<section class="tldr"><h2>TL;DR</h2><ul>
+<li><span class="dot" style="background: var(--color-durable)"></span>Psychological Assessment 38(8) ran two papers back to back this month, Suhr et al. at pages 562-570 and Harrison et al. at 571-582, both concluding that adult and postsecondary executive-function self-report scales track psychological distress and negative response bias rather than measured executive function. Harrison&#x27;s sample is 826 assessment-seeking postsecondary students, which is the C2A population exactly. <sup class="bib-ref"><a href="#ref-22">[22]</a></sup> <sup class="bib-ref"><a href="#ref-23">[23]</a></sup></li>
+<li><span class="dot" style="background: var(--color-claude)"></span>The MCP 2026-07-28 spec shipped a stateless core, dropped the initialize handshake and Mcp-Session-Id, deprecated Dynamic Client Registration, and moved Tasks and Apps into versioned extensions. Nine days later Agent Plugins 1.0.0 arrived to package skills plus MCP servers into one folder, with no permission model, no sandboxing, no signature checks and no secrets mechanism in v1. <sup class="bib-ref"><a href="#ref-10">[10]</a></sup> <sup class="bib-ref"><a href="#ref-12">[12]</a></sup></li>
+<li><span class="dot" style="background: var(--color-agentic)"></span>JetBrains surveyed more than 15,000 professional developers: 90% now use AI coding agents at work weekly and 68% daily, with Claude Code at 39% globally and 47% in the US, doubled since January. On Terminal-Bench 2.1 the top two agents sit within half a point of each other, so harness design and cost now separate them more than raw capability. <sup class="bib-ref"><a href="#ref-3">[3]</a></sup> <sup class="bib-ref"><a href="#ref-4">[4]</a></sup></li>
+<li><span class="dot" style="background: var(--color-agentic)"></span>Two papers converge on the same claim: generation is cheap and governance is the bill. A 12-week single-engineer case study produced 420 KLOC plus 1.16 MLOC of tests and had to convert each recurring failure class into a durable governance mechanism, while a 1,867-repository study found agentic instruction files grow 226% over their lifetime because nobody dares delete a rule whose rationale is forgotten. Adding rationale comments removed 99.3% of that excess growth. <sup class="bib-ref"><a href="#ref-1">[1]</a></sup> <sup class="bib-ref"><a href="#ref-2">[2]</a></sup></li>
+<li><span class="dot" style="background: var(--color-education)"></span>The peer-reviewed study behind this month&#x27;s UVA coverage found no statistically significant quality difference between ChatGPT-written and teacher-written IEP goals at p=0.67, while survey data puts more than half of licensed special education teachers using AI somewhere in the IEP process and 15% writing a full IEP or 504 plan with it. <sup class="bib-ref"><a href="#ref-35">[35]</a></sup> <sup class="bib-ref"><a href="#ref-36">[36]</a></sup></li>
+<li><span class="dot" style="background: var(--color-docproc)"></span>Document extraction moved on confidence rather than accuracy this month. ConfBench is the first calibration-specific benchmark for vision-language key-information extraction and finds that feeding OCR text alongside the image produces better-calibrated confidence than image-only. Separately, a widely repeated claim of a 94% frontier score on the CC-OCR board does not survive checking the board, which lists three open-weight Qwen models topping out at 81.9%. <sup class="bib-ref"><a href="#ref-16">[16]</a></sup> <sup class="bib-ref"><a href="#ref-19">[19]</a></sup></li>
+</ul></section>
+<section class="topic-section"><h2 style="border-left: 4px solid var(--color-agentic);">Agentic Coding</h2>
+<div class="web-card">
+<a href="https://arxiv.org/abs/2607.01087" class="web-title">Cheap Code, Costly Judgment: A Case Study on Governable Agentic Software Engineering</a>
+<div class="card-meta"><span class="platform-badge" style="background: #b31b1b;">ARXIV</span><span class="engagement">2026-07-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">James C. Davis, Paschal C. Amusuo et al. &middot; arXiv preprint</p>
+<p class="excerpt">A 12-week case study in which one expert engineer used frontier coding agents to build a document accessibility system, producing 420 KLOC of code plus 1.16 MLOC of tests and supporting material. The authors develop a governance conversion model: recurring structural failure classes emerge under high-velocity agentic implementation, and engineers stay afloat by converting each failure class into a durable governance mechanism. Generation gets cheap; review and governance become the binding cost.</p>
+<p class="why-matters">The Accommodation Engine took 1,646 non-merge commits in this same 28-day window. Governance conversion is the shape our own repo rules, gates and skill-learnings files already have.</p>
+<sup class="bib-ref"><a href="#ref-1">[1]</a></sup></div>
+<div class="web-card">
+<a href="https://arxiv.org/abs/2608.11095" class="web-title">Why Does CLAUDE.md Keep Growing? Catastrophic Remembering in Agentic Coding</a>
+<div class="card-meta"><span class="platform-badge" style="background: #b31b1b;">ARXIV</span><span class="engagement">2026-08-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Chakrabarti &middot; arXiv preprint</p>
+<p class="excerpt">Traced 247,694 instruction lifetimes across 1,867 repositories and found agentic-coding instruction files grow without bound: +226% over their lifetime and +4.9 net instructions per commit. The mechanism named is catastrophic remembering, where deleting an instruction risks a correctness regression once its rationale is forgotten, so nothing is ever removed. Attaching rationale comments to instructions removed 99.3% of excess growth in a controlled inversion and improved real-world instruction-following by up to 23.1%.</p>
+<p class="why-matters">This repo carries a root CLAUDE.md plus six global rules files and several .claude/rules entries. The rationale-comment fix is directly testable here.</p>
+<sup class="bib-ref"><a href="#ref-2">[2]</a></sup></div>
+<div class="web-card">
+<a href="https://blog.jetbrains.com/research/2026/08/ai-coding-agent-adoption-2026/" class="web-title">AI Coding Agents: Adoption Trends (Developer Ecosystem Survey 2026)</a>
+<div class="card-meta"><span class="platform-badge" style="background: #64748b;">BLOG</span><span class="engagement">2026-08-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">JetBrains Research</p>
+<p class="excerpt">Across 15,000+ professional developers surveyed in eight languages with regional quotas and reweighting, 90% used AI coding agents at work at least weekly and 68% daily. Claude Code reached 39% global adoption (47% US), up from 18% in January 2026; Codex grew from 3% to 16%; GitHub Copilot fell from 29% to 21% and Cursor from 18% to 12%. Claude Code converts to primary tool at roughly an 80% rate.</p>
+<sup class="bib-ref"><a href="#ref-3">[3]</a></sup></div>
+<div class="web-card">
+<a href="https://www.morphllm.com/best-ai-coding-agents-2026" class="web-title">Best AI Coding Agents (August 2026): Terminal-Bench 2.1 scored leaderboard</a>
+<div class="card-meta"><span class="platform-badge" style="background: #64748b;">BLOG</span><span class="engagement">2026-08-02</span></div>
+<p class="engagement" style="margin:6px 0 0;">Morph</p>
+<p class="excerpt">On Terminal-Bench 2.1 as of the 2026-08-02 update, GPT-5.6 Sol at extra-high effort leads at 89.5%, Claude Opus 5 at max effort follows at 89.1%, and Grok 4.6 at high effort sits at 88.4%. The two default models of the two most-used agents are within half a point of each other, so agent harness and cost now separate them more than raw capability does.</p>
+<sup class="bib-ref"><a href="#ref-4">[4]</a></sup></div>
+<div class="web-card">
+<a href="https://arxiv.org/abs/2608.00101" class="web-title">Agentic Coding in the Wild: Characterizing GitHub Copilot Traces at Production Scale</a>
+<div class="card-meta"><span class="platform-badge" style="background: #b31b1b;">ARXIV</span><span class="engagement">2026-08-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Liu, Qiu et al. &middot; arXiv preprint</p>
+<p class="excerpt">First production-scale characterization of agentic coding workloads: 3.2M users, 13M sessions, 761M LLM calls and 95T tokens. KV-cache hit rates run around 90% within a single turn but fall to 55% across turn boundaries, and an idle-time predictor captured 86-90% of user idle periods, both pointing at where agent-serving cost actually goes.</p>
+<p class="why-matters">The AI Costs tile and the OpenAI/Anthropic usage recorders landed this window. Cross-turn KV-cache collapse from 90% to 55% is exactly the cost line those recorders now surface.</p>
+<sup class="bib-ref"><a href="#ref-5">[5]</a></sup></div>
+<div class="web-card">
+<a href="https://arxiv.org/abs/2608.08311" class="web-title">Ouroboros: A Self-Developing Frontier Coding Agent with Reviewed Core Evolution</a>
+<div class="card-meta"><span class="platform-badge" style="background: #b31b1b;">ARXIV</span><span class="engagement">2026-08-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Razzhigaev, Gritsaev et al. &middot; arXiv preprint</p>
+<p class="excerpt">A self-improving agent harness whose reviewed commits to its own tools, prompts and core code become the runtime for later work. Reports 86.74% on Terminal-Bench 2.1 and 90.69% on OSWorld-Verified, plus a 161-day live deployment operating under human review of each self-modification.</p>
+<sup class="bib-ref"><a href="#ref-6">[6]</a></sup></div>
+<div class="web-card">
+<a href="https://arxiv.org/abs/2608.04661" class="web-title">An Exploratory Study of Agent Plans for Agentic AI Coding Tools in Open-Source Software</a>
+<div class="card-meta"><span class="platform-badge" style="background: #b31b1b;">ARXIV</span><span class="engagement">2026-08-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Abubakar, Mohsenimofidi et al. &middot; arXiv preprint</p>
+<p class="excerpt">Screened 36,710 GitHub repositories and found only 85 preserved agent plan Markdown files across 10 repositories, a much rarer artifact than AGENTS.md-style context files. Where plans existed they encoded implementation steps, concrete file and location references, and testing or validation guidance, concentrated on maintenance, design and quality work.</p>
+<sup class="bib-ref"><a href="#ref-7">[7]</a></sup></div>
+<div class="web-card">
+<a href="https://arxiv.org/abs/2608.22638" class="web-title">Do Not Copy/Paste: Soft Barriers for Copying in AI-Assisted Programming</a>
+<div class="card-meta"><span class="platform-badge" style="background: #b31b1b;">ARXIV</span><span class="engagement">2026-08-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Olatunji, Djire et al. &middot; arXiv preprint</p>
+<p class="excerpt">Frames copy-paste as an AI code handoff problem and tests soft barriers, Unicode output perturbations that stay readable but break naive copy-paste execution, scored with a new Copy-Paste Resistance metric. Effectiveness was strongly model and task dependent across HumanEval and MBPP with four LLMs; an 18-participant pilot showed the barriers shifted users from direct transfer toward editing and reconstruction.</p>
+<sup class="bib-ref"><a href="#ref-8">[8]</a></sup></div>
+<div class="web-card">
+<a href="https://hyper.ai/en/news/42900" class="web-title">Papers With Code shuts down; Hugging Face Trending Papers is the partial successor</a>
+<div class="card-meta"><span class="platform-badge" style="background: #64748b;">WEB</span><span class="engagement">2026-08-25</span></div>
+<p class="engagement" style="margin:6px 0 0;">HyperAI</p>
+<p class="excerpt">Verified live on 2026-08-25: every paperswithcode.com/api/v1 endpoint now returns a 302 to huggingface.co/papers/trending, and api.paperswithcode.com does not resolve. Meta sunset the service without notice and Hugging Face&#x27;s Trending Papers covers curated trending papers but not the task-by-task state-of-the-art tracking PWC provided. Archived data lives under the pwc-archive Hugging Face organization.</p>
+<sup class="bib-ref"><a href="#ref-9">[9]</a></sup></div>
+</section>
+<section class="topic-section"><h2 style="border-left: 4px solid var(--color-claude);">Claude and Anthropic Ecosystem</h2>
+<div class="web-card">
+<a href="https://blog.modelcontextprotocol.io/posts/2026-07-28/" class="web-title">The 2026-07-28 MCP Specification</a>
+<div class="card-meta"><span class="platform-badge" style="background: #64748b;">BLOG</span><span class="engagement">2026-07-28</span></div>
+<p class="engagement" style="margin:6px 0 0;">Model Context Protocol maintainers</p>
+<p class="excerpt">The fifth MCP spec drops the initialize/initialized handshake and the Mcp-Session-Id header, moving the core to plain request/response so servers can run serverless and behind ordinary load balancers. Roots, Sampling and Logging leave core, legacy HTTP+SSE gets a 12-month offramp, Dynamic Client Registration is deprecated in favor of Client ID Metadata Documents, and Tasks, Apps and Enterprise-Managed Authorization become versioned extensions. New Mcp-Method and Mcp-Name routing headers let gateways meter calls without parsing JSON bodies, and list/read responses gain ttlMs and cacheScope. TypeScript, Python, Go and C# SDKs shipped support on release day; Rust is beta.</p>
+<p class="why-matters">Every MCP server this workspace depends on is affected. Dynamic Client Registration deprecation and the loss of Mcp-Session-Id are the two that touch authenticated servers first.</p>
+<sup class="bib-ref"><a href="#ref-10">[10]</a></sup></div>
+<div class="web-card">
+<a href="https://claude.com/blog/bringing-mcp-2026-07-28-to-claude" class="web-title">MCP 2026-07-28 spec: stateless core, coming to Claude</a>
+<div class="card-meta"><span class="platform-badge" style="background: #64748b;">BLOG</span><span class="engagement">2026-07-28</span></div>
+<p class="engagement" style="margin:6px 0 0;">Anthropic</p>
+<p class="excerpt">Anthropic&#x27;s companion announcement confirms Claude products will roll out the stateless spec, plus MCP Apps for interactive UI in conversations, enterprise-managed auth against Entra and Okta, developer observability dashboards, and MCP tunnels for private-network connections. The post gives no formal deprecation schedule or backward-compatibility timeline.</p>
+<sup class="bib-ref"><a href="#ref-11">[11]</a></sup></div>
+<div class="web-card">
+<a href="https://github.blog/changelog/2026-08-12-agent-plugins-1-0-in-vs-code-copilot-cli-and-the-copilot-app/" class="web-title">Agent Plugins 1.0 in VS Code, Copilot CLI, and the Copilot app</a>
+<div class="card-meta"><span class="platform-badge" style="background: #64748b;">BLOG</span><span class="engagement">2026-08-12</span></div>
+<p class="engagement" style="margin:6px 0 0;">GitHub</p>
+<p class="excerpt">Agent Plugins 1.0.0 landed 2026-08-06 as a vendor-neutral packaging format: a directory with a plugin.json manifest, an optional skills/ folder of Agent Skills, and an optional mcp.json configuring MCP servers. Core maintainers are Amazon, Cursor (Anysphere), Microsoft, OpenAI, Vercel and Google, with a charter barring any single vendor from a seat majority. Launch clients are ChatGPT, Codex, Cursor, GitHub Copilot, Kiro and VS Code. Version 1.0.0 defines no permission model, no sandboxing, no signature checks and no secrets mechanism; all are listed as future work.</p>
+<p class="why-matters">We run a large skill and MCP surface across Claude Code and Codex. A packaging standard with no permission model, sandboxing or signature checks is a supply-chain question for that surface, not a convenience.</p>
+<sup class="bib-ref"><a href="#ref-12">[12]</a></sup></div>
+<div class="web-card">
+<a href="https://doi.org/10.3390/app16167915" class="web-title">Design of a Security Framework for Multi-Agent Systems Based on Model Context Protocol in SOC Environments</a>
+<div class="card-meta"><span class="platform-badge" style="background: #1857b6;">JOURNAL</span><span class="engagement">2026-08-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Tavares de Pina Simoes, Larriva-Novo et al. &middot; Applied Sciences 16(16)</p>
+<p class="excerpt">Builds a middleware security layer for MCP multi-agent pipelines covering access control, rate limiting, input and output validation, and audit logging, against tool poisoning, indirect prompt injection and confused-deputy exploitation. Of 35 modeled attack vectors derived from OWASP, MITRE ATLAS and ATFAA, 29 were addressable at the middleware layer and all were blocked across 600 test executions with zero false rejections, though obfuscated variants slipped past lexical content inspection.</p>
+<p class="why-matters">Pairs with the Agent Plugins gap: the controls that standard omits are the ones this paper implements at middleware level.</p>
+<sup class="bib-ref"><a href="#ref-13">[13]</a></sup></div>
+<div class="web-card">
+<a href="https://arxiv.org/abs/2607.25297" class="web-title">Hybrid Analysis for Secure MCP Tool Use in LLM Agents</a>
+<div class="card-meta"><span class="platform-badge" style="background: #b31b1b;">ARXIV</span><span class="engagement">2026-07-31</span></div>
+<p class="engagement" style="margin:6px 0 0;">He, Xie et al. &middot; arXiv preprint</p>
+<p class="excerpt">Proposes MTGuard, a lifecycle-aware static plus dynamic co-analysis defense for MCP tool use, on the argument that defenses relying only on static prompt and output inspection are not robust. Reports mitigation across several harmful-tool-use categories on different LLM agents while preserving benign-task performance.</p>
+<sup class="bib-ref"><a href="#ref-14">[14]</a></sup></div>
+<div class="web-card">
+<a href="https://arxiv.org/abs/2608.22339" class="web-title">When Not to Imitate: Boundary-Aware Skill Memory for Reliable Tool-Use LLM Agents</a>
+<div class="card-meta"><span class="platform-badge" style="background: #b31b1b;">ARXIV</span><span class="engagement">2026-08-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Lin, Chen et al. &middot; arXiv preprint</p>
+<p class="excerpt">Names a skill imitation trap: retrieving skill memories built only from past successes raises wrong-tool-call confidence by 47% on tasks that resemble but differ from those successes. Adding explicit applicability conditions, risk cues and avoidance rules improved AppWorld task success by up to 23.8% and cut AgentDojo attack success rate by 4.6%.</p>
+<sup class="bib-ref"><a href="#ref-15">[15]</a></sup></div>
+</section>
+<section class="topic-section"><h2 style="border-left: 4px solid var(--color-docproc);">Document Processing and OCR</h2>
+<div class="web-card">
+<a href="https://arxiv.org/abs/2608.01792" class="web-title">Can You Trust the Confidence? ConfBench for Vision-Language Models on Document Extraction</a>
+<div class="card-meta"><span class="platform-badge" style="background: #b31b1b;">ARXIV</span><span class="engagement">2026-08-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Roy, Martin et al. &middot; arXiv preprint</p>
+<p class="excerpt">The first calibration-specific benchmark for VLM key-information extraction, built from 20 controlled degradation pipelines producing 1,346 document variants and over 70,000 entity-level evaluations. Feeding OCR text alongside the image yields better-calibrated confidence than image-only input, and within the Claude family confidence quality scales monotonically with capability, while raw parameter count predicts poorly across families.</p>
+<p class="why-matters">The redactor pipeline decides what to auto-accept versus route to human review. Calibrated confidence, and the finding that OCR text plus image beats image-only, bears directly on that threshold.</p>
+<sup class="bib-ref"><a href="#ref-16">[16]</a></sup></div>
+<div class="web-card">
+<a href="https://arxiv.org/abs/2608.14693" class="web-title">Domain Agnostic Text Redaction from Natural Language Rules using Instruction Tuning</a>
+<div class="card-meta"><span class="platform-badge" style="background: #b31b1b;">ARXIV</span><span class="engagement">2026-08-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Arunagiri, Khan et al. &middot; arXiv preprint</p>
+<p class="excerpt">An explainable redaction system where a general-purpose LLM turns a user&#x27;s plain-language definition of sensitive content into explicit natural-language redaction rules, then instruction-tunes a smaller model to apply them step by step with an auditable justification per decision. Reports high reconstruction error against redacted content alongside high redaction precision, aimed at legal discovery, medical documentation and corporate governance.</p>
+<p class="why-matters">Closest published work to the PI Redactor&#x27;s problem statement, with an auditable per-decision justification model. DEC1TEXTREDACTOR took no commits this window, so this is queue material rather than urgent.</p>
+<sup class="bib-ref"><a href="#ref-17">[17]</a></sup></div>
+<div class="web-card">
+<a href="https://mistral.ai/news/ocr-4/" class="web-title">Mistral OCR 4: SOTA OCR for Document Intelligence</a>
+<div class="card-meta"><span class="platform-badge" style="background: #64748b;">BLOG</span><span class="engagement">2026-06-23</span></div>
+<p class="engagement" style="margin:6px 0 0;">Mistral AI</p>
+<p class="excerpt">OCR 4 returns a structured document representation rather than flat text: bounding boxes, typed block classification (titles, tables, equations, signatures) and inline per-page and per-word confidence scores. It reports 85.20 on OlmOCRBench, 93.07 on OmniDocBench and a 72% average human-preference win rate, covers 170 languages across 10 language groups, and self-hosts in a single container for enterprise data-sovereignty needs. API pricing is $4 per 1,000 pages, or $2 with the Batch API.</p>
+<sup class="bib-ref"><a href="#ref-18">[18]</a></sup></div>
+<div class="web-card">
+<a href="https://benchlm.ai/benchmarks/ccocr" class="web-title">CC-OCR leaderboard (BenchLM)</a>
+<div class="card-meta"><span class="platform-badge" style="background: #64748b;">BLOG</span><span class="engagement">2026-08-25</span></div>
+<p class="engagement" style="margin:6px 0 0;">BenchLM</p>
+<p class="excerpt">The public CC-OCR snapshot carries only three evaluated models, all open-weight Qwen: Qwen3.6-35B-A3B at 81.9%, Qwen3.6-27B at 81.2% and Qwen3.8 Max at 79.6%, a 2.3-point spread. Claude, Gemini, GPT and Mistral OCR do not appear, and the board is flagged display-only rather than contributing to overall rankings. Secondary write-ups circulating this month claiming 31 tested models and a 94.0% frontier score are not supported by the page itself.</p>
+<sup class="bib-ref"><a href="#ref-19">[19]</a></sup></div>
+<div class="web-card">
+<a href="https://www.extend.ai/resources/ocr-and-ai-vision-language-models-replacing-text-recognition" class="web-title">OCR and AI: Vision Models Replace OCR (August 2026)</a>
+<div class="card-meta"><span class="platform-badge" style="background: #64748b;">BLOG</span><span class="engagement">2026-08-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Extend</p>
+<p class="excerpt">Argues the two-stage OCR-then-parse pipeline is being displaced by vision-language models that read layout and semantics simultaneously, the way a trained human reviewer does. The practical claim is that layout-blind text extraction is the architectural flaw, not recognition accuracy.</p>
+<sup class="bib-ref"><a href="#ref-20">[20]</a></sup></div>
+<div class="web-card">
+<a href="https://arxiv.org/abs/2608.03884" class="web-title">BanglaWild: An In-the-Wild Bengali Scene Text Recognition Benchmark for OCR and Vision-Language Models</a>
+<div class="card-meta"><span class="platform-badge" style="background: #b31b1b;">ARXIV</span><span class="engagement">2026-08-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Shiper, Dipto et al. &middot; arXiv preprint</p>
+<p class="excerpt">A 2,535-image in-the-wild Bengali OCR benchmark evaluated against 15 VLMs and 3 conventional OCR systems. Larger models within a family did not reliably beat smaller ones, and visual mis-recognition rather than the long-assumed conjunct-character complexity accounted for roughly 60% of errors in the strongest systems.</p>
+<sup class="bib-ref"><a href="#ref-21">[21]</a></sup></div>
+</section>
+<section class="topic-section"><h2 style="border-left: 4px solid var(--color-durable);">Durable Skills and Assessment</h2>
+<div class="web-card">
+<a href="https://doi.org/10.1037/pas0001460" class="web-title">Does noncredible reporting moderate the relationship of executive functioning ratings to executive functioning tests, psychological symptoms, or functional impairment in adults seeking assessment for attention-deficit/hyperactivity disorder?</a>
+<div class="card-meta"><span class="platform-badge" style="background: #1857b6;">JOURNAL</span><span class="engagement">2026-08-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Julie A. Suhr, Adrienne Jankowski et al. &middot; Psychological Assessment 38(8), 562-570</p>
+<p class="excerpt">In an archival sample of 99 adults evaluated for ADHD, executive-function rating-scale scores were largely unrelated to objective EF test scores regardless of symptom-validity group. Noncredible reporters scored higher on EF ratings, and higher ratings tracked psychological distress (especially depression) and self-reported functional impairment rather than measured executive function.</p>
+<p class="why-matters">C2A is a self-report durable-skills battery for college-age students. This is the population and the instrument class.</p>
+<sup class="bib-ref"><a href="#ref-22">[22]</a></sup></div>
+<div class="web-card">
+<a href="https://doi.org/10.1037/pas0001433" class="web-title">Emotional distress or executive dysfunction? What is the Behavior Rating Inventory of Executive Function-Adult self-report scale actually assessing in an assessment-seeking postsecondary sample?</a>
+<div class="card-meta"><span class="platform-badge" style="background: #1857b6;">JOURNAL</span><span class="engagement">2026-08-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Allyson G. Harrison, Irene Armstrong et al. &middot; Psychological Assessment 38(8), 571-582</p>
+<p class="excerpt">Across 826 assessment-seeking postsecondary students with archival BRIEF-A, Personality Assessment Inventory and objective EF test data, negative response bias significantly elevated every BRIEF-A scale and index. Once NRB was controlled, all BRIEF-A indices were unrelated to objective EF performance and were instead predicted by general psychological distress. The authors conclude that in a postsecondary population the BRIEF-A reflects psychological symptoms and response bias, not measured executive function.</p>
+<p class="why-matters">826 assessment-seeking postsecondary students, the exact C2A population. Read alongside the Suhr paper in the same issue before the next scoring-layer review.</p>
+<sup class="bib-ref"><a href="#ref-23">[23]</a></sup></div>
+<div class="web-card">
+<a href="https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2026.1902833/full" class="web-title">The regulation paradox: agentic AI, bounded autonomy, and self-regulated learning in higher education</a>
+<div class="card-meta"><span class="platform-badge" style="background: #1857b6;">JOURNAL</span><span class="engagement">2026-08-12</span></div>
+<p class="engagement" style="margin:6px 0 0;">Mohammed Salah, Rudaina Al-Busaidi et al. &middot; Frontiers in Education (perspective article)</p>
+<p class="excerpt">Argues that AI systems meant to support self-regulation can instead perform the regulatory work students need to develop themselves. Names four risks: regulatory displacement, metacognitive laziness, reduced productive struggle, and epistemic over-trust. Proposes bounded autonomy as a governance principle that limits the scope and duration of AI intervention so learner capability still has to form. This is a perspective synthesis, not an empirical study.</p>
+<p class="why-matters">C2A coaching is built on SDT autonomy support. Regulatory displacement is the failure mode a coach-facing AI surface would produce if it does the regulating for the student.</p>
+<sup class="bib-ref"><a href="#ref-24">[24]</a></sup></div>
+<div class="web-card">
+<a href="http://dx.doi.org/10.1177/01650254251358185" class="web-title">Childhood Self-Regulation and Life Outcomes in a 50-Year Follow-Up Study</a>
+<div class="card-meta"><span class="platform-badge" style="background: #2e7d32;">ERIC</span><span class="engagement">2026-01-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Brittany Erlissa Evans, Joakim Berglund et al. &middot; International Journal of Behavioral Development (ERIC EJ1510826)</p>
+<p class="excerpt">Swedish registry-linked cohort of 251 people followed to ages 58 to 66. Childhood self-regulation predicted lower risk of criminal conviction, psychiatric diagnosis and premature mortality decades later, a rare very-long-horizon outcome study for a non-cognitive construct.</p>
+<sup class="bib-ref"><a href="#ref-25">[25]</a></sup></div>
+<div class="web-card">
+<a href="http://dx.doi.org/10.1002/pits.70111" class="web-title">Preliminary Development and Validation of the Students&#x27; Basic Psychological Needs Frustration at School Scale</a>
+<div class="card-meta"><span class="platform-badge" style="background: #2e7d32;">ERIC</span><span class="engagement">2026-01-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Jun Li, Shan Shao et al. &middot; Psychology in the Schools (ERIC EJ1496592)</p>
+<p class="excerpt">Three-study validation across 1,186, 1,614 and 1,441 Chinese students aged 7 to 19 of an SDT-grounded scale measuring autonomy, relatedness and competence frustration at school. Reports a correlated three-factor structure with strong CFA fit, scalar invariance across gender, age and SES, and predictive validity for engagement and school affect.</p>
+<sup class="bib-ref"><a href="#ref-26">[26]</a></sup></div>
+<div class="web-card">
+<a href="http://dx.doi.org/10.1177/07342829261437242" class="web-title">Multi-Informant Assessment of Social-Emotional Learning: Examining Convergence and Divergence among Students, Parents, and Teachers</a>
+<div class="card-meta"><span class="platform-badge" style="background: #2e7d32;">ERIC</span><span class="engagement">2026-01-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Luis Anunciacao, Christopher Murray et al. &middot; Journal of Psychoeducational Assessment (ERIC EJ1512045)</p>
+<p class="excerpt">Across 2,253 students, 2,156 parents and 151 teachers in Brazil, SEL scores show a systematic informant gradient: parents rate highest, teachers in between, students lowest. Scalar measurement invariance held, supporting cross-informant comparison but confirming that who reports moves the score.</p>
+<sup class="bib-ref"><a href="#ref-27">[27]</a></sup></div>
+<div class="web-card">
+<a href="http://dx.doi.org/10.1111/bjep.12780" class="web-title">The Academic Threat Appraisal Ratio Scale (ATARS): Insights into Attainment, Academic Progression, and Retention in Higher Education</a>
+<div class="card-meta"><span class="platform-badge" style="background: #2e7d32;">ERIC</span><span class="engagement">2026-01-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Simon Cassidy &middot; British Journal of Educational Psychology (ERIC EJ1496079)</p>
+<p class="excerpt">Validates a new self-report non-cognitive screening tool across 186 first-year undergraduates. Threat-state appraisal significantly predicted first-attempt academic progression, with self-efficacy predicting threat appraisal, positioned as a scalable early-screening instrument.</p>
+<sup class="bib-ref"><a href="#ref-28">[28]</a></sup></div>
+<div class="web-card">
+<a href="https://doi.org/10.1016/j.pec.2026.109829" class="web-title">Detecting change in clinical communication skills: Responsiveness of the Gap-Kalamazoo assessment scored by experts and ChatGPT</a>
+<div class="card-meta"><span class="platform-badge" style="background: #1857b6;">JOURNAL</span><span class="engagement">2026-08-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Wang, Lee et al. &middot; Patient Education and Counseling</p>
+<p class="excerpt">Across 80 occupational therapy students scored pre and post communication training, ChatGPT-rated scoring detected change with responsiveness statistically indistinguishable from expert raters (d=0.47 vs 0.45, overlapping bootstrap CIs), suggesting LLM scoring can stand in for expensive expert rating in durable-skills change measurement.</p>
+<sup class="bib-ref"><a href="#ref-29">[29]</a></sup></div>
+<div class="web-card">
+<a href="https://doi.org/10.1177/07342829261459256" class="web-title">Measuring Teachers&#x27; Motivational Styles: Development and Validation of a Self-Determination Theory-Based Questionnaire in a Dual-Country Study</a>
+<div class="card-meta"><span class="platform-badge" style="background: #1857b6;">JOURNAL</span><span class="engagement">2026-06-10</span></div>
+<p class="engagement" style="margin:6px 0 0;">Sara Germani, Giulia Raimondi et al. &middot; Journal of Psychoeducational Assessment</p>
+<p class="excerpt">Validates a Teachers&#x27; Motivational Styles questionnaire across 2,454 secondary students in Italy and the UK. A bifactor structure separating need support from need frustration, with autonomy, competence and relatedness facets, showed measurement invariance across countries; need-supportive teaching predicted higher wellbeing and lower dropout intention.</p>
+<sup class="bib-ref"><a href="#ref-30">[30]</a></sup></div>
+<div class="web-card">
+<a href="http://dx.doi.org/10.1108/HESWBL-12-2025-0577" class="web-title">Soft Skills as Durable-Adaptive Capital: Industry Insights for Career Construction across the Lifespan</a>
+<div class="card-meta"><span class="platform-badge" style="background: #2e7d32;">ERIC</span><span class="engagement">2026-01-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Natali Basilico, Paula Pedro-Aznar et al. &middot; Higher Education, Skills and Work-based Learning (ERIC EJ1506686)</p>
+<p class="excerpt">Qualitative study of 42 industry interviews in Catalonia framing soft skills as durable-adaptive capital. Intrapersonal self-management skills were described as mitigating capital depreciation under technological change, while interpersonal skills reduce coordination friction.</p>
+<sup class="bib-ref"><a href="#ref-31">[31]</a></sup></div>
+<div class="web-card">
+<a href="https://link.springer.com/content/pdf/10.1007/s11218-026-10250-w.pdf" class="web-title">Adolescent school absenteeism profiles and basic psychological needs: a self-determination theory perspective</a>
+<div class="card-meta"><span class="platform-badge" style="background: #1857b6;">JOURNAL</span><span class="engagement">2026-06-22</span></div>
+<p class="engagement" style="margin:6px 0 0;">Maria Perez-Marco, Glenn Melvin et al. &middot; Social Psychology of Education</p>
+<p class="excerpt">Latent profile analysis of 1,130 Spanish adolescents identified three absenteeism profiles. The high-absenteeism group showed significantly lower perceived autonomy and competence across life domains, with the largest gaps in academic and leisure contexts.</p>
+<sup class="bib-ref"><a href="#ref-32">[32]</a></sup></div>
+<div class="web-card">
+<a href="https://www.novasciencepress.com/index.php/jpe/article/download/52/35" class="web-title">Psychological Withdrawal (&quot;Lying Flat&quot;) Among University Students from the Perspective of Self-Determination Theory</a>
+<div class="card-meta"><span class="platform-badge" style="background: #1857b6;">JOURNAL</span><span class="engagement">2026-08-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Zhang &middot; Journal of Psychology &amp; Education</p>
+<p class="excerpt">Reframes student motivational withdrawal as cumulative frustration of the three SDT basic needs (competence, autonomy, relatedness) rather than laziness or pathology, and proposes a counselor-led framework of graded mastery experiences, process-focused feedback and meaningful choice.</p>
+<sup class="bib-ref"><a href="#ref-33">[33]</a></sup></div>
+<div class="web-card">
+<a href="https://ceridjournal.org/jcerid/index.php/jcerid/article/download/102/103" class="web-title">21st-century Skills Frameworks and Skills in ELT: A Systematic Literature Review</a>
+<div class="card-meta"><span class="platform-badge" style="background: #1857b6;">JOURNAL</span><span class="engagement">2026-07-15</span></div>
+<p class="engagement" style="margin:6px 0 0;">Kumar Narayan Shrestha &middot; Education and Development 35(2)</p>
+<p class="excerpt">PRISMA-guided review of 61 articles, 6 dissertations and 4 conference proceedings from 2013 to 2024. The Partnership for 21st Century Skills framework dominates, though many studies blend it with ATC21S and OECD frameworks; the 4Cs of critical thinking, communication, collaboration and creativity are the most-researched skills, followed by ICT literacy and self-direction.</p>
+<sup class="bib-ref"><a href="#ref-34">[34]</a></sup></div>
+</section>
+<section class="topic-section"><h2 style="border-left: 4px solid var(--color-education);">AI in Education and Disability Services</h2>
+<div class="web-card">
+<a href="http://dx.doi.org/10.1177/01626434251324592" class="web-title">IEPs in the Age of AI: Examining IEP Goals Written with and without ChatGPT</a>
+<div class="card-meta"><span class="platform-badge" style="background: #2e7d32;">ERIC</span><span class="engagement">2026-01-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Danielle A. Waterfield, Olivia F. Coleman et al. &middot; Journal of Special Education Technology (ERIC EJ1496954)</p>
+<p class="excerpt">The peer-reviewed study behind this month&#x27;s UVA press coverage. A convergent mixed-methods design found no statistically significant quality difference between AI-generated and teacher-written IEP goals (p=0.67), with teachers reporting positive perceptions of AI&#x27;s role in reducing workload. ERIC records carry year only, so the exact publication month is not verifiable from the index.</p>
+<p class="why-matters">The peer-reviewed source behind this month&#x27;s UVA coverage, and the closest published comparison to what the K-12 and Post-Secondary report pipelines generate.</p>
+<sup class="bib-ref"><a href="#ref-35">[35]</a></sup></div>
+<div class="web-card">
+<a href="https://www.29news.com/2026/08/19/uva-study-explores-role-ai-special-education/" class="web-title">UVA study explores the role of AI in special education</a>
+<div class="card-meta"><span class="platform-badge" style="background: #64748b;">WEB</span><span class="engagement">2026-08-19</span></div>
+<p class="engagement" style="margin:6px 0 0;">Danielle Waterfield (UVA School of Education and Human Development)</p>
+<p class="excerpt">Waterfield compared ChatGPT-generated IEP goals against goals written by experienced special education teachers and found no statistically significant difference in quality. The underlying data was collected in 2023, and the article does not report sample size. Waterfield&#x27;s stated caution is that the binding skill is critical evaluation of AI output, not generation.</p>
+<sup class="bib-ref"><a href="#ref-36">[36]</a></sup></div>
+<div class="web-card">
+<a href="https://sonomos.ai/blog/ferpa-ai-chatgpt-claude-schools-edtech-2026/" class="web-title">FERPA and AI: Can Schools and EdTech Use ChatGPT With Student Data? (2026 Guide)</a>
+<div class="card-meta"><span class="platform-badge" style="background: #64748b;">BLOG</span><span class="engagement">2026-08-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Sonomos</p>
+<p class="excerpt">Lays out the three compliant paths for AI on education records in 2026: a contracted enterprise tier with FERPA terms, redaction at source so no education record leaves the device, or a dedicated EdTech platform with FERPA/COPPA/state-law agreements. To use the school official exception the vendor must perform a function the institution would otherwise staff, sit under institutional control for record use and maintenance, and carry the same redisclosure restrictions. It argues training on student PII violates FERPA purpose limitation and the amended COPPA Rule, and that RAG at runtime is the architecture that avoids absorbing records into weights.</p>
+<p class="why-matters">Redaction at source and RAG-at-runtime are the two architectures named as compliant. Both describe choices already made in the redactor and Bloom paths.</p>
+<sup class="bib-ref"><a href="#ref-37">[37]</a></sup></div>
+<div class="web-card">
+<a href="https://eric.ed.gov/?id=EJ1495814" class="web-title">Giving Voice to Stakeholders on Fair and Valid Use of Accommodations and Universal Tools in Digital Standardized Tests</a>
+<div class="card-meta"><span class="platform-badge" style="background: #2e7d32;">ERIC</span><span class="engagement">2026-01-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Sabine Dierick, Fauve De Backer et al. &middot; Practical Assessment, Research &amp; Evaluation (ERIC EJ1495814, open access)</p>
+<p class="excerpt">Twenty focus groups totaling 182 participants (educators, policy staff, parents, psychometricians, legal experts) surface persistent tensions between fairness, construct validity and comparability in digital test accommodations, and offer policy recommendations for inclusive large-scale testing.</p>
+<p class="why-matters">Fairness versus construct validity in accommodated digital testing is the same tension the C2A battery has to hold.</p>
+<sup class="bib-ref"><a href="#ref-38">[38]</a></sup></div>
+<div class="web-card">
+<a href="https://doi.org/10.1177/21651434261469079" class="web-title">Exploring Experiences of Students With Disabilities During Postsecondary Transition: A Scoping Review</a>
+<div class="card-meta"><span class="platform-badge" style="background: #1857b6;">JOURNAL</span><span class="engagement">2026-07-28</span></div>
+<p class="engagement" style="margin:6px 0 0;">Jaepyo Sim, Nathan M. Scott et al. &middot; Career Development and Transition for Exceptional Individuals</p>
+<p class="excerpt">PRISMA-ScR review of 26 empirical studies capturing postsecondary transition from the perspective of students with disabilities themselves. Across education, employment and independent living the recurring themes are self-determination, the prevalence of generic and late-starting transition plans, and the value of person-centered planning.</p>
+<sup class="bib-ref"><a href="#ref-39">[39]</a></sup></div>
+<div class="web-card">
+<a href="https://doi.org/10.1111/aphw.70208" class="web-title">Emotional support or problem-solving? A randomized controlled trial of function-specific AI Chatbots for digital stress in college students</a>
+<div class="card-meta"><span class="platform-badge" style="background: #1857b6;">JOURNAL</span><span class="engagement">2026-08-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Qing Yang, H. Wu et al. &middot; Applied Psychology: Health and Well-Being 18(4)</p>
+<p class="excerpt">RCT with 99 university students carrying elevated digital stress, randomized across a 14-day self-guided intervention to an emotional-support chatbot, a problem-solving chatbot, or waitlist. Both reduced anxiety, but effects were function-specific: the emotional-support bot reduced availability stress, approval anxiety and FOMO, while the problem-solving bot better reduced online vigilance.</p>
+<p class="why-matters">Function-specific effects mean a single coaching voice is the wrong default. Relevant to the coach report surface built this window.</p>
+<sup class="bib-ref"><a href="#ref-40">[40]</a></sup></div>
+<div class="web-card">
+<a href="https://doi.org/10.1177/07319487261450954" class="web-title">Evaluating the Use of ChatGPT in Preservice Special Education Courses for Creating Instructional Handouts on Disabilities</a>
+<div class="card-meta"><span class="platform-badge" style="background: #1857b6;">JOURNAL</span><span class="engagement">2026-06-16</span></div>
+<p class="engagement" style="margin:6px 0 0;">Samantha R. Goldman, Sean J. Smith et al. &middot; Learning Disability Quarterly</p>
+<p class="excerpt">Pilot with 30 preservice general and special educators comparing ChatGPT-generated disability reference handouts against traditionally researched ones. ChatGPT outputs scored at least as accurate on the study rubric and participants reported positive experiences.</p>
+<sup class="bib-ref"><a href="#ref-41">[41]</a></sup></div>
+<div class="web-card">
+<a href="https://doi.org/10.1002/dhe.70141" class="web-title">Advice on accommodation decision-making</a>
+<div class="card-meta"><span class="platform-badge" style="background: #1857b6;">JOURNAL</span><span class="engagement">2026-06-16</span></div>
+<p class="engagement" style="margin:6px 0 0;">Elizabeth C. Hamblet &middot; Disability Compliance for Higher Education</p>
+<p class="excerpt">Practitioner piece synthesizing AHEAD presentations and a Weis and Bittner study, cautioning postsecondary disability-services staff against reflexively approving every accommodation request and offering criteria for reviewing them.</p>
+<sup class="bib-ref"><a href="#ref-42">[42]</a></sup></div>
+<div class="web-card">
+<a href="http://dx.doi.org/10.1177/10442073261435095" class="web-title">Universal Design for Learning Research: Where Policy, Implementation, and Evidence Collide</a>
+<div class="card-meta"><span class="platform-badge" style="background: #2e7d32;">ERIC</span><span class="engagement">2026-01-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Aleksandra Hollingshead, K. Alisa Lowrey et al. &middot; Journal of Disability Policy Studies (ERIC EJ1505281)</p>
+<p class="excerpt">Qualitative keyword analysis across 19 UDL experts identifying five themes spanning policy gaps, implementation barriers and measurement challenges, offered as a field-level synthesis of where UDL evidence actually stands.</p>
+<sup class="bib-ref"><a href="#ref-43">[43]</a></sup></div>
+<div class="web-card">
+<a href="http://dx.doi.org/10.1177/01626434251379811" class="web-title">Assistive Technology Multi-Tiered System of Supports (AT-MTSS): Improving AT Delivery</a>
+<div class="card-meta"><span class="platform-badge" style="background: #2e7d32;">ERIC</span><span class="engagement">2026-01-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Don McMahon, Lauren Tucker &middot; Journal of Special Education Technology (ERIC EJ1501652)</p>
+<p class="excerpt">Proposes an MTSS-based framework for assistive technology implementation aligned with IDEA and 2024 Department of Education guidance, clarifying tiered roles for general educators, special educators and AT specialists and linking universal-tier AT supports to UDL.</p>
+<sup class="bib-ref"><a href="#ref-44">[44]</a></sup></div>
+<div class="web-card">
+<a href="https://www.mdpi.com/2227-7102/16/8/1232/pdf?version=1785833414" class="web-title">Instructional Strategies for Postsecondary Science Teaching with Deaf Students with Disabilities: An Autoethnographic Approach</a>
+<div class="card-meta"><span class="platform-badge" style="background: #1857b6;">JOURNAL</span><span class="engagement">2026-08-04</span></div>
+<p class="engagement" style="margin:6px 0 0;">Thomastine Sarchet, Sarah E. Sarchet et al. &middot; Education Sciences 16(8)</p>
+<p class="excerpt">Collaborative autoethnography of postsecondary STEAM instructors at RIT documenting instructional strategies for Deaf students with additional disabilities, organized as environmental/physical access, linguistic/cognitive access, and formative/summative assessment access.</p>
+<sup class="bib-ref"><a href="#ref-45">[45]</a></sup></div>
+<div class="web-card">
+<a href="https://doi.org/10.2196/90041" class="web-title">Neurobiosensory and Visual Patterns of Attentional and Emotional Functioning in Children Using Machine Learning: Cross-Sectional Study</a>
+<div class="card-meta"><span class="platform-badge" style="background: #1857b6;">JOURNAL</span><span class="engagement">2026-08-10</span></div>
+<p class="engagement" style="margin:6px 0 0;">A. P. Azevedo, A. Sousa et al. &middot; JMIR Pediatrics and Parenting 9</p>
+<p class="excerpt">Multimodal machine-learning study of 260 children aged 7 to 15 combining eye-tracking, automated facial-emotion recognition and neuropsychological tests. A random-forest classifier separated low from normative attentional performance at AUC 0.953, with nested cross-validation at 0.951; lower-attention children showed greater gaze instability and stronger emotional reactivity to anger and fear stimuli.</p>
+<sup class="bib-ref"><a href="#ref-46">[46]</a></sup></div>
+<div class="web-card">
+<a href="https://doi.org/10.1080/13811118.2026.2713052" class="web-title">Supporting Technology Engagement for Suicide Prevention: An Open Trial with College Students At-Risk for Suicide</a>
+<div class="card-meta"><span class="platform-badge" style="background: #1857b6;">JOURNAL</span><span class="engagement">2026-08-22</span></div>
+<p class="engagement" style="margin:6px 0 0;">J. A. Reyes-Portillo, A. So et al. &middot; Archives of Suicide Research</p>
+<p class="excerpt">Open trial of STEP+TAO, a digital-mental-health engagement add-on, with 30 ethnoracially diverse college students aged 18 to 29 reporting active suicidal ideation. 93% completed at least one session and 63% at least half, with significant reductions in depression, anxiety and suicidal ideation over seven weeks.</p>
+<sup class="bib-ref"><a href="#ref-47">[47]</a></sup></div>
+<div class="web-card">
+<a href="https://europepmc.org/articles/PMC13287311?pdf=render" class="web-title">Implicit Sequence Learning in Children With Reading Difficulties: Dyslexia Versus Low Intellectual Functioning</a>
+<div class="card-meta"><span class="platform-badge" style="background: #326599;">EUROPE PMC</span><span class="engagement">2026-08-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">J. M. M. Vaquero, I. C. Simpson et al. &middot; Dyslexia 32(3)</p>
+<p class="excerpt">Compared implicit sequence learning in 8 to 9 year olds with dyslexia, poor readers with low intellectual functioning, and typically developing controls. Both clinical groups learned significantly less than controls, supporting an implicit-learning-deficit account of dyslexia while undercutting the necessity of an IQ-discrepancy definition.</p>
+<sup class="bib-ref"><a href="#ref-48">[48]</a></sup></div>
+<div class="web-card">
+<a href="https://europepmc.org/articles/PMC13318360?pdf=render" class="web-title">An Evaluation of AI-Generated Clinical Notes in the OpenNotes Era: A Thematic Analysis of Clinician Discourse</a>
+<div class="card-meta"><span class="platform-badge" style="background: #326599;">EUROPE PMC</span><span class="engagement">2026-08-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">S. Atiku, O. Olakotan &middot; Journal of Evaluation in Clinical Practice 32(5)</p>
+<p class="excerpt">Netnographic thematic analysis of 484 clinician comments across 120 Reddit threads between October 2020 and February 2026 on AI-scribe-generated, patient-visible clinical notes. Identifies five governance gaps: an accountability vacuum, hallucination as inherent rather than incidental risk, dual-audience documentation tension, inadequate privacy frameworks, and over-documentation or upcoding risk.</p>
+<sup class="bib-ref"><a href="#ref-49">[49]</a></sup></div>
+<div class="web-card">
+<a href="https://eric.ed.gov/?id=ED679687" class="web-title">Students with Disabilities at Maryland Colleges and Universities</a>
+<div class="card-meta"><span class="platform-badge" style="background: #2e7d32;">ERIC</span><span class="engagement">2026-01-01</span></div>
+<p class="engagement" style="margin:6px 0 0;">Maryland Higher Education Commission &middot; State report (ERIC ED679687, open access, not peer reviewed)</p>
+<p class="excerpt">Annual state-level data on postsecondary disability-services enrollment, retention and graduation across Maryland institutions using FY2024 data, reporting that students with disabilities persist and perform on par with peers where institutional support exists. Non-peer-reviewed institutional report.</p>
+<sup class="bib-ref"><a href="#ref-50">[50]</a></sup></div>
+</section>
+<section class="bibliography"><h2>Bibliography</h2><ol>
+<li class="bib-entry" id="ref-1"><span class="ref-num">[1]</span> James C. Davis, Paschal C. Amusuo, Tanmay Singla et al. (2026). "Cheap Code, Costly Judgment: A Case Study on Governable Agentic Software Engineering." <em>arXiv preprint</em>. arXiv:2607.01087. <a href="https://arxiv.org/abs/2607.01087">link</a></li>
+<li class="bib-entry" id="ref-2"><span class="ref-num">[2]</span> Chakrabarti (2026). "Why Does CLAUDE.md Keep Growing? Catastrophic Remembering in Agentic Coding." <em>arXiv preprint</em>. arXiv:2608.11095. <a href="https://arxiv.org/abs/2608.11095">link</a></li>
+<li class="bib-entry" id="ref-3"><span class="ref-num">[3]</span> JetBrains Research. "AI Coding Agents: Adoption Trends (Developer Ecosystem Survey 2026)." <em>Blog</em>, 2026-08-01. <a href="https://blog.jetbrains.com/research/2026/08/ai-coding-agent-adoption-2026/">link</a></li>
+<li class="bib-entry" id="ref-4"><span class="ref-num">[4]</span> Morph. "Best AI Coding Agents (August 2026): Terminal-Bench 2.1 scored leaderboard." <em>Blog</em>, 2026-08-02. <a href="https://www.morphllm.com/best-ai-coding-agents-2026">link</a></li>
+<li class="bib-entry" id="ref-5"><span class="ref-num">[5]</span> Liu, Qiu, Goiri et al. (2026). "Agentic Coding in the Wild: Characterizing GitHub Copilot Traces at Production Scale." <em>arXiv preprint</em>. arXiv:2608.00101. <a href="https://arxiv.org/abs/2608.00101">link</a></li>
+<li class="bib-entry" id="ref-6"><span class="ref-num">[6]</span> Razzhigaev, Gritsaev, Kaznacheev et al. (2026). "Ouroboros: A Self-Developing Frontier Coding Agent with Reviewed Core Evolution." <em>arXiv preprint</em>. arXiv:2608.08311. <a href="https://arxiv.org/abs/2608.08311">link</a></li>
+<li class="bib-entry" id="ref-7"><span class="ref-num">[7]</span> Abubakar, Mohsenimofidi, Lulla et al. (2026). "An Exploratory Study of Agent Plans for Agentic AI Coding Tools in Open-Source Software." <em>arXiv preprint</em>. arXiv:2608.04661. <a href="https://arxiv.org/abs/2608.04661">link</a></li>
+<li class="bib-entry" id="ref-8"><span class="ref-num">[8]</span> Olatunji, Djire, Klein et al. (2026). "Do Not Copy/Paste: Soft Barriers for Copying in AI-Assisted Programming." <em>arXiv preprint</em>. 10.1145/3832783.3834554. <a href="https://arxiv.org/abs/2608.22638">link</a></li>
+<li class="bib-entry" id="ref-9"><span class="ref-num">[9]</span> HyperAI. "Papers With Code shuts down; Hugging Face Trending Papers is the partial successor." <em>Other</em>, 2026-08-25. <a href="https://hyper.ai/en/news/42900">link</a></li>
+<li class="bib-entry" id="ref-10"><span class="ref-num">[10]</span> Model Context Protocol maintainers. "The 2026-07-28 MCP Specification." <em>Blog</em>, 2026-07-28. <a href="https://blog.modelcontextprotocol.io/posts/2026-07-28/">link</a></li>
+<li class="bib-entry" id="ref-11"><span class="ref-num">[11]</span> Anthropic. "MCP 2026-07-28 spec: stateless core, coming to Claude." <em>Blog</em>, 2026-07-28. <a href="https://claude.com/blog/bringing-mcp-2026-07-28-to-claude">link</a></li>
+<li class="bib-entry" id="ref-12"><span class="ref-num">[12]</span> GitHub. "Agent Plugins 1.0 in VS Code, Copilot CLI, and the Copilot app." <em>Blog</em>, 2026-08-12. <a href="https://github.blog/changelog/2026-08-12-agent-plugins-1-0-in-vs-code-copilot-cli-and-the-copilot-app/">link</a></li>
+<li class="bib-entry" id="ref-13"><span class="ref-num">[13]</span> Tavares de Pina Simoes, Larriva-Novo, Sanchez-Zas et al. (2026). "Design of a Security Framework for Multi-Agent Systems Based on Model Context Protocol in SOC Environments." <em>Applied Sciences 16(16)</em>. 10.3390/app16167915. <a href="https://doi.org/10.3390/app16167915">link</a></li>
+<li class="bib-entry" id="ref-14"><span class="ref-num">[14]</span> He, Xie, Li et al. (2026). "Hybrid Analysis for Secure MCP Tool Use in LLM Agents." <em>arXiv preprint</em>. arXiv:2607.25297. <a href="https://arxiv.org/abs/2607.25297">link</a></li>
+<li class="bib-entry" id="ref-15"><span class="ref-num">[15]</span> Lin, Chen, Wei et al. (2026). "When Not to Imitate: Boundary-Aware Skill Memory for Reliable Tool-Use LLM Agents." <em>arXiv preprint</em>. arXiv:2608.22339. <a href="https://arxiv.org/abs/2608.22339">link</a></li>
+<li class="bib-entry" id="ref-16"><span class="ref-num">[16]</span> Roy, Martin, Rostami et al. (2026). "Can You Trust the Confidence? ConfBench for Vision-Language Models on Document Extraction." <em>arXiv preprint</em>. arXiv:2608.01792. <a href="https://arxiv.org/abs/2608.01792">link</a></li>
+<li class="bib-entry" id="ref-17"><span class="ref-num">[17]</span> Arunagiri, Khan, Avadhanam et al. (2026). "Domain Agnostic Text Redaction from Natural Language Rules using Instruction Tuning." <em>arXiv preprint</em>. arXiv:2608.14693. <a href="https://arxiv.org/abs/2608.14693">link</a></li>
+<li class="bib-entry" id="ref-18"><span class="ref-num">[18]</span> Mistral AI. "Mistral OCR 4: SOTA OCR for Document Intelligence." <em>Blog</em>, 2026-06-23. <a href="https://mistral.ai/news/ocr-4/">link</a></li>
+<li class="bib-entry" id="ref-19"><span class="ref-num">[19]</span> BenchLM. "CC-OCR leaderboard (BenchLM)." <em>Blog</em>, 2026-08-25. <a href="https://benchlm.ai/benchmarks/ccocr">link</a></li>
+<li class="bib-entry" id="ref-20"><span class="ref-num">[20]</span> Extend. "OCR and AI: Vision Models Replace OCR (August 2026)." <em>Blog</em>, 2026-08-01. <a href="https://www.extend.ai/resources/ocr-and-ai-vision-language-models-replacing-text-recognition">link</a></li>
+<li class="bib-entry" id="ref-21"><span class="ref-num">[21]</span> Shiper, Dipto, Inzamam et al. (2026). "BanglaWild: An In-the-Wild Bengali Scene Text Recognition Benchmark for OCR and Vision-Language Models." <em>arXiv preprint</em>. arXiv:2608.03884. <a href="https://arxiv.org/abs/2608.03884">link</a></li>
+<li class="bib-entry" id="ref-22"><span class="ref-num">[22]</span> Julie A. Suhr, Adrienne Jankowski, Taylor Lambertus et al. (2026). "Does noncredible reporting moderate the relationship of executive functioning ratings to executive functioning tests, psychological symptoms, or functional impairment in adults seeking assessment for attention-deficit/hyperactivity disorder?." <em>Psychological Assessment 38(8), 562-570</em>. 10.1037/pas0001460. <a href="https://doi.org/10.1037/pas0001460">link</a></li>
+<li class="bib-entry" id="ref-23"><span class="ref-num">[23]</span> Allyson G. Harrison, Irene Armstrong, Beth Pollock (2026). "Emotional distress or executive dysfunction? What is the Behavior Rating Inventory of Executive Function-Adult self-report scale actually assessing in an assessment-seeking postsecondary sample?." <em>Psychological Assessment 38(8), 571-582</em>. 10.1037/pas0001433. <a href="https://doi.org/10.1037/pas0001433">link</a></li>
+<li class="bib-entry" id="ref-24"><span class="ref-num">[24]</span> Mohammed Salah, Rudaina Al-Busaidi, Amna Al-Ghawi et al. (2026). "The regulation paradox: agentic AI, bounded autonomy, and self-regulated learning in higher education." <em>Frontiers in Education (perspective article)</em>. 10.3389/feduc.2026.1902833. <a href="https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2026.1902833/full">link</a></li>
+<li class="bib-entry" id="ref-25"><span class="ref-num">[25]</span> Brittany Erlissa Evans, Joakim Berglund, Jerzy Sarnecki et al. (2026). "Childhood Self-Regulation and Life Outcomes in a 50-Year Follow-Up Study." <em>International Journal of Behavioral Development (ERIC EJ1510826)</em>. 10.1177/01650254251358185. <a href="http://dx.doi.org/10.1177/01650254251358185">link</a></li>
+<li class="bib-entry" id="ref-26"><span class="ref-num">[26]</span> Jun Li, Shan Shao, E. Scott Huebner et al. (2026). "Preliminary Development and Validation of the Students&#x27; Basic Psychological Needs Frustration at School Scale." <em>Psychology in the Schools (ERIC EJ1496592)</em>. 10.1002/pits.70111. <a href="http://dx.doi.org/10.1002/pits.70111">link</a></li>
+<li class="bib-entry" id="ref-27"><span class="ref-num">[27]</span> Luis Anunciacao, Christopher Murray, Bruno Oliveira (2026). "Multi-Informant Assessment of Social-Emotional Learning: Examining Convergence and Divergence among Students, Parents, and Teachers." <em>Journal of Psychoeducational Assessment (ERIC EJ1512045)</em>. 10.1177/07342829261437242. <a href="http://dx.doi.org/10.1177/07342829261437242">link</a></li>
+<li class="bib-entry" id="ref-28"><span class="ref-num">[28]</span> Simon Cassidy (2026). "The Academic Threat Appraisal Ratio Scale (ATARS): Insights into Attainment, Academic Progression, and Retention in Higher Education." <em>British Journal of Educational Psychology (ERIC EJ1496079)</em>. 10.1111/bjep.12780. <a href="http://dx.doi.org/10.1111/bjep.12780">link</a></li>
+<li class="bib-entry" id="ref-29"><span class="ref-num">[29]</span> Wang, Lee, Ju et al. (2026). "Detecting change in clinical communication skills: Responsiveness of the Gap-Kalamazoo assessment scored by experts and ChatGPT." <em>Patient Education and Counseling</em>. 10.1016/j.pec.2026.109829. <a href="https://doi.org/10.1016/j.pec.2026.109829">link</a></li>
+<li class="bib-entry" id="ref-30"><span class="ref-num">[30]</span> Sara Germani, Giulia Raimondi, Michele Zacchilli et al. (2026). "Measuring Teachers&#x27; Motivational Styles: Development and Validation of a Self-Determination Theory-Based Questionnaire in a Dual-Country Study." <em>Journal of Psychoeducational Assessment</em>. 10.1177/07342829261459256. <a href="https://doi.org/10.1177/07342829261459256">link</a></li>
+<li class="bib-entry" id="ref-31"><span class="ref-num">[31]</span> Natali Basilico, Paula Pedro-Aznar, Mitchell Peters (2026). "Soft Skills as Durable-Adaptive Capital: Industry Insights for Career Construction across the Lifespan." <em>Higher Education, Skills and Work-based Learning (ERIC EJ1506686)</em>. 10.1108/HESWBL-12-2025-0577. <a href="http://dx.doi.org/10.1108/HESWBL-12-2025-0577">link</a></li>
+<li class="bib-entry" id="ref-32"><span class="ref-num">[32]</span> Maria Perez-Marco, Glenn Melvin, Carolina Gonzalvez et al. (2026). "Adolescent school absenteeism profiles and basic psychological needs: a self-determination theory perspective." <em>Social Psychology of Education</em>. 10.1007/s11218-026-10250-w. <a href="https://link.springer.com/content/pdf/10.1007/s11218-026-10250-w.pdf">link</a></li>
+<li class="bib-entry" id="ref-33"><span class="ref-num">[33]</span> Zhang (2026). "Psychological Withdrawal (&quot;Lying Flat&quot;) Among University Students from the Perspective of Self-Determination Theory." <em>Journal of Psychology &amp; Education</em>. 10.66581/w17kh960. <a href="https://www.novasciencepress.com/index.php/jpe/article/download/52/35">link</a></li>
+<li class="bib-entry" id="ref-34"><span class="ref-num">[34]</span> Kumar Narayan Shrestha (2026). "21st-century Skills Frameworks and Skills in ELT: A Systematic Literature Review." <em>Education and Development 35(2)</em>. 10.66412/ed.v35i2.102. <a href="https://ceridjournal.org/jcerid/index.php/jcerid/article/download/102/103">link</a></li>
+<li class="bib-entry" id="ref-35"><span class="ref-num">[35]</span> Danielle A. Waterfield, Olivia F. Coleman, Nathan P. Welker et al. (2026). "IEPs in the Age of AI: Examining IEP Goals Written with and without ChatGPT." <em>Journal of Special Education Technology (ERIC EJ1496954)</em>. 10.1177/01626434251324592. <a href="http://dx.doi.org/10.1177/01626434251324592">link</a></li>
+<li class="bib-entry" id="ref-36"><span class="ref-num">[36]</span> Danielle Waterfield (UVA School of Education and Human Development). "UVA study explores the role of AI in special education." <em>Other</em>, 2026-08-19. <a href="https://www.29news.com/2026/08/19/uva-study-explores-role-ai-special-education/">link</a></li>
+<li class="bib-entry" id="ref-37"><span class="ref-num">[37]</span> Sonomos. "FERPA and AI: Can Schools and EdTech Use ChatGPT With Student Data? (2026 Guide)." <em>Blog</em>, 2026-08-01. <a href="https://sonomos.ai/blog/ferpa-ai-chatgpt-claude-schools-edtech-2026/">link</a></li>
+<li class="bib-entry" id="ref-38"><span class="ref-num">[38]</span> Sabine Dierick, Fauve De Backer, Katrien Struyven (2026). "Giving Voice to Stakeholders on Fair and Valid Use of Accommodations and Universal Tools in Digital Standardized Tests." <em>Practical Assessment, Research &amp; Evaluation (ERIC EJ1495814, open access)</em>. <a href="https://eric.ed.gov/?id=EJ1495814">link</a></li>
+<li class="bib-entry" id="ref-39"><span class="ref-num">[39]</span> Jaepyo Sim, Nathan M. Scott, T. N. Kirk (2026). "Exploring Experiences of Students With Disabilities During Postsecondary Transition: A Scoping Review." <em>Career Development and Transition for Exceptional Individuals</em>. 10.1177/21651434261469079. <a href="https://doi.org/10.1177/21651434261469079">link</a></li>
+<li class="bib-entry" id="ref-40"><span class="ref-num">[40]</span> Qing Yang, H. Wu, X. Du et al. (2026). "Emotional support or problem-solving? A randomized controlled trial of function-specific AI Chatbots for digital stress in college students." <em>Applied Psychology: Health and Well-Being 18(4)</em>. 10.1111/aphw.70208. <a href="https://doi.org/10.1111/aphw.70208">link</a></li>
+<li class="bib-entry" id="ref-41"><span class="ref-num">[41]</span> Samantha R. Goldman, Sean J. Smith, Vicki Peyton et al. (2026). "Evaluating the Use of ChatGPT in Preservice Special Education Courses for Creating Instructional Handouts on Disabilities." <em>Learning Disability Quarterly</em>. 10.1177/07319487261450954. <a href="https://doi.org/10.1177/07319487261450954">link</a></li>
+<li class="bib-entry" id="ref-42"><span class="ref-num">[42]</span> Elizabeth C. Hamblet (2026). "Advice on accommodation decision-making." <em>Disability Compliance for Higher Education</em>. 10.1002/dhe.70141. <a href="https://doi.org/10.1002/dhe.70141">link</a></li>
+<li class="bib-entry" id="ref-43"><span class="ref-num">[43]</span> Aleksandra Hollingshead, K. Alisa Lowrey, Kathy Howery (2026). "Universal Design for Learning Research: Where Policy, Implementation, and Evidence Collide." <em>Journal of Disability Policy Studies (ERIC EJ1505281)</em>. 10.1177/10442073261435095. <a href="http://dx.doi.org/10.1177/10442073261435095">link</a></li>
+<li class="bib-entry" id="ref-44"><span class="ref-num">[44]</span> Don McMahon, Lauren Tucker (2026). "Assistive Technology Multi-Tiered System of Supports (AT-MTSS): Improving AT Delivery." <em>Journal of Special Education Technology (ERIC EJ1501652)</em>. 10.1177/01626434251379811. <a href="http://dx.doi.org/10.1177/01626434251379811">link</a></li>
+<li class="bib-entry" id="ref-45"><span class="ref-num">[45]</span> Thomastine Sarchet, Sarah E. Sarchet, Karen M. Tobin et al. (2026). "Instructional Strategies for Postsecondary Science Teaching with Deaf Students with Disabilities: An Autoethnographic Approach." <em>Education Sciences 16(8)</em>. 10.3390/educsci16081232. <a href="https://www.mdpi.com/2227-7102/16/8/1232/pdf?version=1785833414">link</a></li>
+<li class="bib-entry" id="ref-46"><span class="ref-num">[46]</span> A. P. Azevedo, A. Sousa, M. Evangelista et al. (2026). "Neurobiosensory and Visual Patterns of Attentional and Emotional Functioning in Children Using Machine Learning: Cross-Sectional Study." <em>JMIR Pediatrics and Parenting 9</em>. 10.2196/90041. <a href="https://doi.org/10.2196/90041">link</a></li>
+<li class="bib-entry" id="ref-47"><span class="ref-num">[47]</span> J. A. Reyes-Portillo, A. So, E. Judd et al. (2026). "Supporting Technology Engagement for Suicide Prevention: An Open Trial with College Students At-Risk for Suicide." <em>Archives of Suicide Research</em>. 10.1080/13811118.2026.2713052. <a href="https://doi.org/10.1080/13811118.2026.2713052">link</a></li>
+<li class="bib-entry" id="ref-48"><span class="ref-num">[48]</span> J. M. M. Vaquero, I. C. Simpson, S. Defior et al. (2026). "Implicit Sequence Learning in Children With Reading Difficulties: Dyslexia Versus Low Intellectual Functioning." <em>Dyslexia 32(3)</em>. 10.1002/dys.70038. <a href="https://europepmc.org/articles/PMC13287311?pdf=render">link</a></li>
+<li class="bib-entry" id="ref-49"><span class="ref-num">[49]</span> S. Atiku, O. Olakotan (2026). "An Evaluation of AI-Generated Clinical Notes in the OpenNotes Era: A Thematic Analysis of Clinician Discourse." <em>Journal of Evaluation in Clinical Practice 32(5)</em>. 10.1111/jep.70516. <a href="https://europepmc.org/articles/PMC13318360?pdf=render">link</a></li>
+<li class="bib-entry" id="ref-50"><span class="ref-num">[50]</span> Maryland Higher Education Commission (2026). "Students with Disabilities at Maryland Colleges and Universities." <em>State report (ERIC ED679687, open access, not peer reviewed)</em>. <a href="https://eric.ed.gov/?id=ED679687">link</a></li>
+</ol></section>
+<footer class="digest-footer">
+<div class="source-status">
+<span class="source ok">Web search</span>
+<span class="source ok">Semantic Scholar</span>
+<span class="source ok">OpenAlex</span>
+<span class="source ok">ERIC</span>
+<span class="source ok">Europe PMC</span>
+<span class="source na">Reddit / YouTube / HN</span>
+<span class="source down">Papers With Code</span>
+</div>
+<p class="dedup-note">50 findings after deduplication. 0 dropped as duplicates within this run; 0 collided with the 227 URLs and 96 DOIs already reported in prior digests or the 1,616 DOIs in the research archive.</p>
+<p class="dedup-note">Reddit, YouTube and Hacker News native coverage is unavailable this run: the last30days engine has no API keys configured on this machine, so community sentiment was approximated through web search only. Papers With Code is permanently down; every api endpoint now 302s to Hugging Face Trending Papers, verified 2026-08-25.</p>
+<p class="dedup-note">ERIC exposes publication year only, so the eight ERIC-sourced records are confirmed 2026 but not confirmed inside the 28-day window. Mistral OCR 4 (2026-06-23) and four OpenAlex records from June 2026 predate the window but had not appeared in any prior digest.</p>
+<p class="meta">Generated by the dev-digest skill on 2026-08-25.</p>
+</footer>
+</main>
+</body>
+</html>
