@@ -6,145 +6,154 @@
 <meta name="robots" content="noindex, nofollow">
 <title>ThriveIEP Dashboard</title>
 <style>
-  :root{--bg:#0f172a;--panel:#1e293b;--panel2:#243449;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;
-    --c2a:#3b82f6;--ae:#f59e0b;--pi:#10b981;--team:#8b5cf6;--bloom:#ec4899;
-    --urgent:#ef4444;--high:#f59e0b;--med:#3b82f6;--normal:#64748b;--low:#94a3b8;}
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.5;padding:24px;}
-  .wrap{max-width:1100px;margin:0 auto;}
-  h1{margin:0 0 4px;font-size:26px;}
-  .sub{color:var(--muted);font-size:14px;margin-bottom:2px;}
-  .gen{color:var(--muted);font-size:12px;margin-bottom:22px;}
-  h2{font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:28px 0 12px;border-bottom:1px solid var(--border);padding-bottom:6px;}
-  .milestones{display:flex;flex-wrap:wrap;gap:12px;}
-  .ms{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 14px;flex:1 1 150px;min-width:150px;}
-  .ms .n{font-weight:600;font-size:13px;}
-  .ms .d{font-size:22px;font-weight:700;margin:4px 0;}
-  .ms .t{color:var(--muted);font-size:12px;}
-  .red{color:var(--urgent);} .amber{color:var(--high);} .blue{color:var(--med);} .green{color:var(--pi);}
-  .picks{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;}
-  .pick{background:var(--panel);border:1px solid var(--border);border-left-width:5px;border-radius:10px;padding:14px 16px;position:relative;}
-  .pick .num{position:absolute;top:12px;right:14px;font-size:26px;font-weight:800;color:var(--border);}
-  .pick .title{font-weight:700;font-size:16px;margin:0 40px 8px 0;}
-  .pick .why{font-size:13px;color:var(--muted);margin-bottom:10px;}
-  .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;background:var(--panel2);color:var(--text);margin-right:6px;}
-  details{background:var(--panel);border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden;}
-  details summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;}
-  details summary::-webkit-details-marker{display:none}
-  details[data-accent=overdue]{border-left:4px solid var(--urgent);}
-  details[data-accent=week]{border-left:4px solid var(--high);}
-  details[data-accent=up]{border-left:4px solid var(--med);}
-  details[data-accent=backlog]{border-left:4px solid var(--normal);}
-  details[data-accent=done]{border-left:4px solid var(--pi);}
-  .issue{padding:10px 16px;border-top:1px solid var(--border);font-size:14px;}
-  .issue code{background:var(--panel2);padding:1px 6px;border-radius:4px;font-size:12px;color:#cbd5e1;}
-  .badge{display:inline-block;font-size:10px;font-weight:700;padding:1px 7px;border-radius:20px;margin-left:6px;color:#0f172a;}
-  .b-urgent{background:var(--urgent);color:#fff} .b-high{background:var(--high);color:#0f172a} .b-med{background:var(--med);color:#fff} .b-normal{background:var(--normal);color:#fff}
-  .evrow{display:flex;gap:10px;padding:8px 16px;border-top:1px solid var(--border);font-size:14px;align-items:baseline;}
-  .evrow .time{color:var(--muted);font-size:12px;min-width:120px;}
-  .evbadge{font-size:10px;padding:1px 7px;border-radius:20px;color:#0f172a;}
-  .cal-team{background:#5ba8c8} .cal-client{background:#e8a33a} .cal-tutoring{background:#a78bfa} .cal-work{background:#64748b;color:#fff} .cal-gtm{background:#34d399} .cal-personal{background:#f472b6}
-  table{width:100%;border-collapse:collapse;font-size:13px;}
-  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);}
-  th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;}
-  .card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:6px 4px;}
-  .footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;}
-  .flag{background:#3b1d1d;border:1px solid var(--urgent);color:#fca5a5;padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:10px;}
-  .ok{color:var(--pi);} a{color:#60a5fa;}
+*{box-sizing:border-box}
+body{margin:0;background:#0f172a;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.5}
+.wrap{max-width:1100px;margin:0 auto;padding:24px 16px 48px}
+h1{margin:0;font-size:1.7rem}
+h2{font-size:1.1rem;margin:28px 0 12px;color:#cbd5e1;text-transform:uppercase;letter-spacing:.05em}
+.sub{color:#94a3b8;margin:4px 0}.muted{color:#64748b;font-size:.85rem}
+.panel{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:14px 16px}
+.ms{display:flex;flex-wrap:wrap;gap:10px}
+.ms .panel{flex:1 1 200px;border-top:4px solid #3b82f6}
+.ms .red{border-top-color:#ef4444}.ms .amber{border-top-color:#f59e0b}.ms .blue{border-top-color:#3b82f6}
+.ms .n{font-size:1.4rem;font-weight:700}
+.picks{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.pick{border-left:5px solid #3b82f6;position:relative}
+.pick .num{display:inline-block;width:26px;height:26px;border-radius:50%;background:#334155;text-align:center;font-weight:700;margin-right:8px}
+.pick h3{margin:0 0 6px;font-size:1rem;display:flex;align-items:center}
+.pick p{margin:4px 0;font-size:.9rem;color:#cbd5e1}
+.tag{display:inline-block;font-size:.72rem;padding:2px 8px;border-radius:99px;background:#334155;color:#e2e8f0;margin-right:4px}
+.c2a{border-left-color:#3b82f6}.ae{border-left-color:#f59e0b}.pi{border-left-color:#10b981}.team{border-left-color:#8b5cf6}
+.ev{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid #334155;flex-wrap:wrap}
+.ev:last-child{border-bottom:0}.ev .t{min-width:120px;color:#94a3b8;font-variant-numeric:tabular-nums}
+.b-team{background:#5ba8c8}.b-client{background:#e8a33a}.b-tutoring{background:#a78bfa}.b-work{background:#64748b}.b-gtm{background:#34d399;color:#0f172a}.b-personal{background:#f472b6;color:#0f172a}
+details{background:#1e293b;border:1px solid #334155;border-radius:10px;margin-bottom:10px;border-left:5px solid #64748b}
+details>summary{cursor:pointer;padding:12px 16px;font-weight:600}
+details>div{padding:0 16px 12px}
+details.overdue{border-left-color:#ef4444}details.week{border-left-color:#f59e0b}details.up{border-left-color:#3b82f6}details.back{border-left-color:#64748b}
+.iss{display:flex;gap:10px;flex-wrap:wrap;padding:7px 0;border-bottom:1px solid #334155;align-items:baseline}
+.iss:last-child{border-bottom:0}
+.id{font-family:ui-monospace,Menlo,monospace;color:#93c5fd;min-width:72px}
+.p1{background:#ef4444}.p2{background:#f59e0b;color:#0f172a}.p3{background:#3b82f6}.p4{background:#94a3b8;color:#0f172a}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid #334155;vertical-align:top}
+th{color:#94a3b8;font-weight:600}
+.scroll{overflow-x:auto}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.stats .n{font-size:1.5rem;font-weight:700}
+.pending{color:#fbbf24;font-size:.78rem;font-weight:600}
+footer{margin-top:32px;color:#94a3b8;font-size:.85rem}
+a{color:#93c5fd}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>ThriveIEP Dashboard</h1>
-  <div class="sub">Week of Sep 7 – Sep 13, 2026 · Tuesday</div>
-  <div class="gen">Generated Sep 8, 2026 at 9:02 AM EDT</div>
+<header>
+<h1>ThriveIEP Dashboard</h1>
+<p class="sub">Week of Oct 12 – Oct 18, 2026</p>
+<p class="muted">Generated Saturday, October 17, 2026 at 7:35 AM ET · Slack unavailable this run · Proposed changes marked <span class="pending">PENDING</span> await Eric's approval</p>
+</header>
 
-  <div class="flag">⚠️ Linear workspace is at the free-tier issue limit — no new issues can be created until upgrade. Two proposed tickets (BC triage, GitHub/Slack) could not be filed; BC triage captured as a comment on THR-340.</div>
+<h2>Milestones</h2>
+<div class="ms">
+<div class="panel red"><div class="muted">C2A · M6 Scale &amp; Licensing</div><div class="n">Overdue 17d</div><div class="muted">Target Sep 30 · M3 (May 31) and M5 (May 15) also not marked Done · NLU term ends Dec 31 (75d)</div></div>
+<div class="panel amber"><div class="muted">Bloom · M3 Module Pack Infra</div><div class="n">14 days</div><div class="muted">Target Oct 31 · M1 (Jun 30) and M2 (Aug 31) still open</div></div>
+<div class="panel red"><div class="muted">PI Redactor · M2 UI + Aptible</div><div class="n">Overdue 17d</div><div class="muted">Target Sep 30 · M1 (Jun 30) still open</div></div>
+<div class="panel blue"><div class="muted">AE · M2 Report Engine Convergence</div><div class="n">75 days</div><div class="muted">Target Dec 31 · M1 (Jun 30) still open</div></div>
+</div>
+<p class="muted">Issues: 3 in progress · 2 todo · 0 done last 48h. The milestone table in priorities.md has not been refreshed since May — a refresh is proposed below.</p>
 
-  <h2>Milestones &amp; Issues</h2>
-  <div class="milestones">
-    <div class="ms"><div class="n">BC V2.5 readiness</div><div class="d red">-4d</div><div class="t">THR-340 · target Sep 4 (overdue)</div></div>
-    <div class="ms"><div class="n">C2A coach stability</div><div class="d red">Today</div><div class="t">THR-255 · target Sep 8</div></div>
-    <div class="ms"><div class="n">C2A M6 Scale</div><div class="d amber">+22d</div><div class="t">Sep 30</div></div>
-    <div class="ms"><div class="n">Redactor M2 Aptible</div><div class="d amber">+22d</div><div class="t">Sep 30</div></div>
-    <div class="ms"><div class="n">Issues</div><div class="d blue">2 / 3</div><div class="t">in progress / todo · 0 done 48h</div></div>
-  </div>
+<h2>Focus Picks</h2>
+<div class="picks">
+<div class="panel pick team"><h3><span class="num">1</span>Answer Aptible on the "thrive" dedicated-stack wind-down</h3>
+<p><b>Why now:</b> Aptible support replied Fri 10:15 PM on the deprovision request (certificates and DNS are fine); the endpoint-provisioning ticket on that stack also closed Friday. Security Scanning also failed on AE main Fri 7:07 PM.</p>
+<p><span class="tag">Source: Gmail</span><span class="tag">Infra</span><span class="tag">Prep: Intro to Aptible, Mon 2:00 PM</span></p></div>
+<div class="panel pick ae"><h3><span class="num">2</span>Prep Monday's Road Map Walk Through</h3>
+<p><b>Why now:</b> Meeting Mon 9:30 AM. Key open calls: THR-345 (BC V2.5 vs V3, due Oct 14), THR-343 (IEP JSON evidence, due Oct 14), THR-346 (local-Mac vs web delivery, due Oct 15). A roadmap AppSheet app was generated Fri. Focus list and milestones in priorities.md are five weeks stale.</p>
+<p><span class="tag">Source: Calendar + Linear THR-345</span><span class="tag">Accommodation Engine</span><span class="tag">Due Mon Oct 19</span></p></div>
+<div class="panel pick c2a"><h3><span class="num">3</span>Rebaseline C2A coach-facing stability (THR-255)</h3>
+<p><b>Why now:</b> In Progress since Sep 8 target with no referencing commits since — 39 days. Highest-weight product; NLU term ends Dec 31. Networking is healthy (last HubSpot activity Oct 12), so this slot goes to the next deadline item.</p>
+<p><span class="tag">Source: Linear THR-255</span><span class="tag">C2A</span><span class="tag">Due Sep 8 (overdue)</span></p></div>
+</div>
 
-  <h2>Focus Picks</h2>
-  <div class="picks">
-    <div class="pick" style="border-left-color:var(--ae)">
-      <div class="num">1</div>
-      <div class="title">Work the BC reviewer comment queue</div>
-      <div class="why">~20 Google Doc comments from Elsa &amp; Elizabeth across five batch-run reports (Sep 5–8), splitting into missed scores and over-reported in-range values. Gates THR-340, which blew its Sep 4 target. Your work calendar is clear today — highest-leverage use of it.</div>
-      <span class="tag">Accommodation Engine</span><span class="tag">THR-340</span>
-    </div>
-    <div class="pick" style="border-left-color:var(--team)">
-      <div class="num">2</div>
-      <div class="title">Restart networking</div>
-      <div class="why">14 business days since any logged HubSpot outreach (Craig Horning, Aug 19) — past the 10+ day escalation line. priorities.md is explicit: cash is tight, need 2–3 more contracts. Pick one warm contact and reach out.</div>
-      <span class="tag">HubSpot</span><span class="tag">GTM</span>
-    </div>
-    <div class="pick" style="border-left-color:var(--c2a)">
-      <div class="num">3</div>
-      <div class="title">C2A coach-facing stability (THR-255)</div>
-      <div class="why">Sep 8 stability target is today; issue was touched at 4:40am. THR-338 verification just closed Done, so this is the last open coach-report item on the near-term line.</div>
-      <span class="tag">C2A / NLU</span><span class="tag">THR-255</span>
-    </div>
-  </div>
+<h2>Calendar</h2>
+<div class="panel">
+<div class="muted" style="margin-bottom:6px">Today — Saturday, Oct 17</div>
+<div class="ev"><span class="t">12:15–2:15 PM</span><span>Soccer (away)</span><span class="tag b-personal">personal</span><span class="muted">Foss Park, Somerville</span></div>
+</div>
+<details style="margin-top:10px"><summary>This Week (Sun Oct 18 – Fri Oct 23) — work events</summary><div>
+<div class="muted" style="margin-top:6px">Sunday, Oct 18</div>
+<div class="ev"><span class="t">All Day</span><span>Head of the Charles</span><span class="tag b-personal">personal</span></div>
+<div class="muted" style="margin-top:6px">Monday, Oct 19</div>
+<div class="ev"><span class="t">9:30–10:15 AM</span><span>Road Map Walk Through</span><span class="tag b-work">work</span></div>
+<div class="ev"><span class="t">1:30–2:15 PM</span><span>ThriveIEP GTM</span><span class="tag b-gtm">gtm</span><span class="muted">Zoom</span></div>
+<div class="ev"><span class="t">2:00–2:30 PM</span><span>Intro to Aptible with Gabriella Valdes</span><span class="tag b-work">work</span><span class="muted">overlaps GTM</span></div>
+<div class="muted" style="margin-top:6px">Thursday, Oct 22</div>
+<div class="ev"><span class="t">4:00–5:00 PM</span><span>Jack</span><span class="tag b-tutoring">tutoring</span></div>
+<div class="muted" style="margin-top:6px">Friday, Oct 23</div>
+<div class="ev"><span class="t">9:30–10:15 AM</span><span>ThriveIEP GTM</span><span class="tag b-gtm">gtm</span><span class="muted">Zoom</span></div>
+<div class="ev"><span class="t">Fri–Sun</span><span>Head of the Fish (Saratoga)</span><span class="tag b-personal">personal</span></div>
+<p class="muted">No standups on the calendar this week. No Gemini notes or Meet transcripts in the last 7 days.</p>
+</div></details>
 
-  <h2>Calendar</h2>
-  <div class="card">
-    <div class="evrow"><span class="time">All day</span><span>Work calendar clear — no ThriveIEP meetings or tutoring today <span class="evbadge cal-work">build day</span></span></div>
-    <div class="evrow"><span class="time">9:00–6:00</span><span>Emily's clients / therapy blocks <span class="evbadge cal-personal">personal</span></span></div>
-    <div class="evrow"><span class="time">6:00 PM</span><span>W soccer — Medford HS <span class="evbadge cal-personal">personal</span></span></div>
-    <div class="evrow"><span class="time">6:00 PM</span><span>N Isaiah — Brookline <span class="evbadge cal-personal">personal</span></span></div>
-  </div>
-  <details data-accent="up" style="margin-top:10px">
-    <summary><span>Rest of the week</span><span class="tag">6 work items</span></summary>
-    <div class="evrow"><span class="time">Wed 10:00 AM</span><span>ThriveIEP Standup <span class="evbadge cal-team">team</span></span></div>
-    <div class="evrow"><span class="time">Wed 4:00 PM</span><span>N Rowing — Gentle Giant <span class="evbadge cal-personal">personal</span></span></div>
-    <div class="evrow"><span class="time">Thu 4:00 PM</span><span>Jack (tutoring, Meet) <span class="evbadge cal-tutoring">tutoring</span></span></div>
-    <div class="evrow"><span class="time">Thu 6:00 PM</span><span>W soccer — Medford HS <span class="evbadge cal-personal">personal</span></span></div>
-    <div class="evrow"><span class="time">Fri 9:30 AM</span><span>ThriveIEP GTM (Zoom) <span class="evbadge cal-gtm">gtm</span></span></div>
-    <div class="evrow"><span class="time">Fri 10:30 AM</span><span>ThriveIEP Standup <span class="evbadge cal-team">team</span></span></div>
-  </details>
+<h2>Issues</h2>
+<details class="overdue" open><summary>Overdue (10)</summary><div>
+<div class="iss"><span class="id">THR-340</span><span>Reach BC V2.5 internal-use readiness</span><span class="tag p2">High</span><span class="tag">AE</span><span class="muted">In Progress · due Sep 4</span></div>
+<div class="iss"><span class="id">THR-255</span><span>Deliver role-scoped NLU coach report and reach coach-facing stability</span><span class="tag p2">High</span><span class="tag">C2A</span><span class="muted">In Progress · due Sep 8 · stale</span></div>
+<div class="iss"><span class="id">THR-357</span><span>Port the current UI updates into the admin screen</span><span class="tag p2">High</span><span class="tag">C2A</span><span class="muted">Todo · due Sep 1</span></div>
+<div class="iss"><span class="id">THR-345</span><span>Choose BC V2.5 or V3 for the next delivery</span><span class="tag p2">High</span><span class="tag">AE</span><span class="muted">Backlog · due Oct 14</span></div>
+<div class="iss"><span class="id">THR-343</span><span>Develop reliable IEP JSON extraction evidence for the BC delivery choice</span><span class="tag p2">High</span><span class="tag">AE</span><span class="muted">Backlog · due Oct 14</span></div>
+<div class="iss"><span class="id">THR-344</span><span>Render BC V3 Sections 1, 2, 4, and 5 accurately</span><span class="tag p2">High</span><span class="tag">AE</span><span class="muted">Backlog · due Oct 1</span></div>
+<div class="iss"><span class="id">THR-329</span><span>[C2A] Prepare progress-monitoring questions for review</span><span class="tag p2">High</span><span class="tag">C2A</span><span class="muted">Backlog · due Oct 1</span></div>
+<div class="iss"><span class="id">THR-105</span><span>[C2A] Prepare observer-assessment questions for review</span><span class="tag p2">High</span><span class="tag">C2A</span><span class="muted">Backlog · due Sep 20</span></div>
+<div class="iss"><span class="id">THR-346</span><span>Recommend the BC and NLU local-Mac or web delivery direction</span><span class="tag p3">Medium</span><span class="tag">AE</span><span class="muted">Backlog · due Oct 15</span></div>
+<div class="iss"><span class="id">THR-311</span><span>Decide whether to begin a scoped security, CI, privacy, and HECVAT review</span><span class="tag p3">Medium</span><span class="tag">AE</span><span class="muted">Backlog · due Oct 15 · unassigned</span></div>
+</div></details>
+<details class="week"><summary>This Week (2)</summary><div>
+<div class="iss"><span class="id">THR-299</span><span>Update Linear to reflect recent work and add THR refs to future commits</span><span class="tag p2">High</span><span class="tag">Team</span><span class="muted">In Progress · no due date</span></div>
+<div class="iss"><span class="id">THR-359</span><span>[C2A] Enforce four-digit PINs and retire password authentication</span><span class="tag p2">High</span><span class="tag">C2A</span><span class="muted">Backlog · 158 referencing commits</span></div>
+</div></details>
+<details class="up"><summary>Upcoming (2)</summary><div>
+<div class="iss"><span class="id">THR-349</span><span>Enable selected BC staff to run the approved workflow without Eric</span><span class="tag p2">High</span><span class="tag">AE</span><span class="muted">Backlog · due Nov 1</span></div>
+<div class="iss"><span class="id">THR-341</span><span>Run the BC V2.5 internal pilot and improve reviewer guidance</span><span class="tag p3">Medium</span><span class="tag">AE</span><span class="muted">Backlog · due Nov 1</span></div>
+</div></details>
+<details class="back"><summary>Backlog (5)</summary><div>
+<div class="iss"><span class="id">THR-363</span><span>Measure Bloom report quality before and after the Claude Sonnet 5 migration</span><span class="tag p3">Medium</span><span class="tag">Bloom</span><span class="muted">Todo</span></div>
+<div class="iss"><span class="id">THR-335</span><span>[C2A] Fix dead /c2a/choose-path link after the assessment</span><span class="tag p2">High</span><span class="tag">C2A</span><span class="muted">Backlog · 41 commits</span></div>
+<div class="iss"><span class="id">THR-365</span><span>Unblock merges to DEC1TEXTREDACTOR main: required release check has no workflow</span><span class="tag p3">Medium</span><span class="tag">PI</span><span class="muted">Backlog</span></div>
+<div class="iss"><span class="id">THR-342</span><span>Evaluate figure and image processing with representative inputs</span><span class="tag p3">Medium</span><span class="tag">AE</span><span class="muted">Backlog · due Oct 13</span></div>
+<div class="iss"><span class="id">THR-219</span><span>Address deprecated npm dependencies and 41 audit vulnerabilities</span><span class="tag p3">Medium</span><span class="tag">AE</span><span class="muted">Backlog</span></div>
+</div></details>
+<details><summary>Recently completed (0 in last 48h)</summary><div><p class="muted">Nothing closed in Linear in the last 48 hours. Last closures: THR-338, THR-201, THR-226, THR-227 (Sep 8).</p></div></details>
 
-  <h2>Issues</h2>
-  <details data-accent="overdue" open>
-    <summary><span>Overdue / Today</span><span class="tag">2</span></summary>
-    <div class="issue"><code>THR-340</code> Reach BC V2.5 internal-use readiness <span class="badge b-high">High</span> · Accommodation Engine · target Sep 4 (−4d) · now In Progress</div>
-    <div class="issue"><code>THR-255</code> Deliver role-scoped NLU coach report + coach-facing stability <span class="badge b-high">High</span> · C2A/NLU · stability target Sep 8 (today)</div>
-  </details>
-  <details data-accent="week">
-    <summary><span>This Week</span><span class="tag">2</span></summary>
-    <div class="issue"><code>THR-357</code> Port the current UI updates into the admin screen <span class="badge b-high">High</span> · C2A/NLU · Todo</div>
-    <div class="issue"><code>THR-299</code> Update Linear to reflect recent work + add THR refs <span class="badge b-high">High</span> · Team/Admin · In Progress · drift-decision comment added</div>
-  </details>
-  <details data-accent="done">
-    <summary><span>Recently completed</span><span class="tag">1 this session</span></summary>
-    <div class="issue"><code>THR-338</code> Verify the NLU coach-report major release and record remaining gaps <span class="badge b-med">→ Done</span> · closed by Eric this session</div>
-  </details>
+<h2>Git Activity <span class="muted">(since Sep 8 cursor)</span></h2>
+<div class="stats">
+<div class="panel"><div class="muted">Accommodation Engine</div><div class="n">1,200</div><div class="muted">local checkout tip dated Sep 28</div></div>
+<div class="panel"><div class="muted">PM-Hub</div><div class="n">68</div><div class="muted">latest Oct 13</div></div>
+<div class="panel"><div class="muted">Redactor</div><div class="n">0</div><div class="muted">no new commits</div></div>
+<div class="panel"><div class="muted">Eric</div><div class="n">1,268</div><div class="muted">7 THR refs · 156 untracked</div></div>
+</div>
+<div class="panel scroll" style="margin-top:10px">
+<table>
+<tr><th>Issue</th><th>Linear state</th><th>Commits</th><th>Flag</th><th>Proposed</th></tr>
+<tr><td class="id">THR-363</td><td>Todo</td><td>2 (Sep 24)</td><td>git-evidence</td><td><span class="pending">PENDING</span> Todo → In Progress</td></tr>
+<tr><td class="id">THR-255</td><td>In Progress</td><td>8 (last Sep 8)</td><td>stale 39d</td><td><span class="pending">PENDING</span> Review</td></tr>
+<tr><td class="id">THR-340</td><td>In Progress</td><td>0</td><td>stale (updated Sep 30)</td><td><span class="pending">PENDING</span> Review</td></tr>
+<tr><td class="id">THR-299</td><td>In Progress</td><td>0</td><td>stale (updated Sep 8)</td><td><span class="pending">PENDING</span> Review</td></tr>
+<tr><td class="id">THR-359</td><td>Backlog</td><td>158 (last Sep 9)</td><td>untracked state</td><td><span class="pending">PENDING</span> Review → Done or In Progress</td></tr>
+<tr><td class="id">THR-335</td><td>Backlog</td><td>41 (last Sep 5)</td><td>untracked state</td><td><span class="pending">PENDING</span> Review → Done?</td></tr>
+</table>
+<p class="muted">Most commits use the THR-NONE no-ticket marker by design. 156 commits carry no reference at all (mostly C2A runtime-separation and release docs). Note: AE activity after Sep 28 on other branches or PRs (e.g., PR #143 hotfix, Oct 14) is not counted from the local checkout.</p>
+</div>
 
-  <h2>Git Activity</h2>
-  <div class="card" style="padding:14px 16px">
-    <p style="margin:0 0 10px;font-size:13px;color:var(--muted)">Since last dashboard cursor (Jul 28) — <strong style="color:var(--text)">2,214 commits, 6 with a real THR ref</strong></p>
-    <table>
-      <tr><th>Repo</th><th>Commits</th><th>THR refs</th><th>Last commit</th></tr>
-      <tr><td>Accommodation Engine</td><td>2,158 (1,902 Soham / 224 Eric)</td><td>THR-299 ×4</td><td>Sep 4</td></tr>
-      <tr><td>PM-Hub</td><td>56 (Eric)</td><td>THR-299 ×2, THR-340/336/335/332</td><td>Aug 25</td></tr>
-      <tr><td>DEC1TEXTREDACTOR</td><td>0</td><td>—</td><td>Jul 17 (idle 53d)</td></tr>
-    </table>
-    <p style="margin:10px 0 0;font-size:13px;color:var(--muted)">Commits now use an explicit <code style="background:var(--panel2);padding:1px 5px;border-radius:4px">THR-NONE</code> prefix. Decision pending on THR-299: sanction the convention &amp; close, or require real refs on mapped work.</p>
-  </div>
-
-  <div class="footer">
-    <p><strong>Networking:</strong> <span class="red">14 business days cold</span> — last logged outreach Aug 19 (Craig Horning). Past escalation threshold.</p>
-    <p><strong>Slack signals:</strong> GitHub → Slack subscription disabled Sep 5 (lost repo access, likely tied to the GitHub Team trade-screening billing block). BC review loop active in #bc-report-review-proces.</p>
-    <p><strong>Gmail:</strong> 6 Rho reimbursement approvals pending (yours to action); Railway patching CVE-2025-49844 +7 (Redactor still on Railway); GitHub Support ticket open on the Team-upgrade block.</p>
-    <p><strong>Linear:</strong> 3 updates applied (THR-338 Done, THR-340 → In Progress+High, drift comment on THR-299). New-issue creation blocked by free-tier limit.</p>
-    <p><strong>Data gaps:</strong> none this run — Calendar &amp; Gmail recovered after reauth.</p>
-    <p><a href="/">← Reports index</a></p>
-  </div>
+<footer>
+<div class="panel">
+<p><b>Data gaps:</b> Slack failed to connect this run — channels, DMs, and Slack priority signals were not checked; Dev Sync post not sent.</p>
+<p><b>Networking:</b> Healthy — last HubSpot activity Mon Oct 12 (incoming reply on the Not Dorks proposal, 4 business days ago). Last outbound Oct 6. Not Dorks has no HubSpot deal. No deal changes in the last 30 days (BC, NLU, Prepare 2 Bloom Closed Won; Tufts has no deal).</p>
+<p><b>Inbox signals:</b> Aptible deprovision reply (action) · Security Scanning failed on AE main Oct 16 · Google Cloud BC Vertex budget at 50% · new GitHub classic token "bc-web GHCR pull" added Oct 16 (confirm it was you).</p>
+<p><a href="/">← All reports</a></p>
+</div>
+</footer>
 </div>
 </body>
 </html>
